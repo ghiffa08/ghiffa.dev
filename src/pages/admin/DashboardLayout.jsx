@@ -10,7 +10,8 @@ import {
   User,
   History,
   GraduationCap,
-  Mail
+  Mail,
+  Link as LinkIcon
 } from 'lucide-react';
 
 export default function DashboardLayout() {
@@ -61,6 +62,7 @@ export default function DashboardLayout() {
     { name: 'Projects', path: '/admin/panel/projects', icon: Briefcase },
     { name: 'Education & Honors', path: '/admin/panel/qualifications', icon: GraduationCap },
     { name: 'Articles', path: '/admin/panel/articles', icon: FileText },
+    { name: 'Bio Links', path: '/admin/panel/links', icon: LinkIcon },
     { name: 'Contact', path: '/admin/panel/contact', icon: Mail },
   ];
 

@@ -11,6 +11,7 @@ import ProjectsManager from './pages/admin/ProjectsManager';
 import EducationManager from './pages/admin/EducationManager';
 import ArticlesManager from './pages/admin/ArticlesManager';
 import ContactManager from './pages/admin/ContactManager';
+import BioLinksManager from './pages/admin/BioLinksManager';
 
 export default function App() {
   return (
@@ -34,6 +35,7 @@ export default function App() {
         <Route path="qualifications" element={<EducationManager />} />
         <Route path="articles" element={<ArticlesManager />} />
         <Route path="contact" element={<ContactManager />} />
+        <Route path="links" element={<BioLinksManager />} />
       </Route>
     </Routes>
   );

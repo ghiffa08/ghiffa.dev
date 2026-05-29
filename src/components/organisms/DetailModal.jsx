@@ -73,7 +73,7 @@ export function DetailModal({ activeDetail, setActiveDetail }) {
         {/* Title & Meta Data Block */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-start mb-12 md:mb-20">
           <div className="md:col-span-8 lg:col-span-9">
-            <h1 className="text-5xl md:text-8xl lg:text-[8vw] font-black tracking-tighter uppercase leading-[0.85]">
+            <h1 className="text-4xl md:text-8xl lg:text-[8vw] font-black tracking-tighter uppercase leading-[0.85]">
               {activeDetail.title}
             </h1>
           </div>
@@ -109,7 +109,7 @@ export function DetailModal({ activeDetail, setActiveDetail }) {
         </div>
 
         {/* Hero Image Block */}
-        <div className="w-full h-[50vh] md:h-[75vh] bg-gray-200 mb-16 overflow-hidden relative group">
+        <div className="w-full h-[35vh] md:h-[75vh] bg-gray-200 mb-16 overflow-hidden relative group">
           <img 
             src={activeDetail.img} 
             alt={activeDetail.title} 
@@ -121,7 +121,7 @@ export function DetailModal({ activeDetail, setActiveDetail }) {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 border-t border-[#111111] pt-12">
           {/* Left Pull-Quote / Abstract */}
           <div className="md:col-span-4 lg:col-span-3">
-            <p className="text-xl md:text-2xl font-serif-editorial font-medium italic leading-snug text-gray-900 border-l-4 border-[#3B82F6] pl-6">
+            <p className="text-lg md:text-2xl font-serif-editorial font-medium italic leading-snug text-gray-900 border-l-4 border-[#3B82F6] pl-6">
               "{activeDetail.desc}"
             </p>
             {activeDetail.link && (
@@ -136,7 +136,7 @@ export function DetailModal({ activeDetail, setActiveDetail }) {
           {/* Right Body Text */}
           <div className="md:col-span-8 lg:col-span-9">
             {/* Magazine Layout for both Projects & Articles */}
-            <div className="columns-1 md:columns-2 gap-12 text-base md:text-lg text-gray-800 leading-relaxed drop-cap text-justify prose prose-lg max-w-none prose-p:font-sans prose-headings:font-sans prose-a:text-[#3B82F6] hover:prose-a:text-[#111111] transition-colors">
+            <div className="columns-1 md:columns-2 gap-12 text-sm md:text-lg text-gray-800 leading-relaxed drop-cap text-justify prose md:prose-lg max-w-none prose-p:font-sans prose-headings:font-sans prose-a:text-[#3B82F6] hover:prose-a:text-[#111111] transition-colors">
               <ReactMarkdown>{activeDetail.content}</ReactMarkdown>
             </div>
             

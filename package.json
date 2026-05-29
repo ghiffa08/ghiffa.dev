@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "prebuild": "node --env-file=.env.local scripts/generate-seo.js",
+    "prebuild": "node -e \"const fs = require('fs'); const { execSync } = require('child_process'); const cmd = fs.existsSync('.env.local') ? 'node --env-file=.env.local scripts/generate-seo.js' : 'node scripts/generate-seo.js'; execSync(cmd, { stdio: 'inherit' });\"",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"

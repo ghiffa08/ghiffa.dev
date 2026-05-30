@@ -1,10 +1,29 @@
+import React, { useState } from 'react';
 import { useSupabaseList } from '../../hooks/useSupabaseData';
 import { slugify } from '../../utils/slugify';
+import { SectionHeader } from '../atoms/SectionHeader';
 
 export function WorksSection({ setActiveDetail }) {
-  const { data: rawProjects, isLoading } = useSupabaseList('projects', {
+  const [hoveredProject, setHoveredProject] = useState(null);
+  const { data: rawProjects, isLoading, error } = useSupabaseList('projects', {
     order: { column: 'created_at', ascending: false }
   });
+
+  if (isLoading) {
+    return (
+      <section id="works" className="py-16 md:py-24 hairline-t scroll-fade bg-[#FAFAFA] px-6 md:px-12">
+        <div className="w-full h-32 bg-gray-200 animate-pulse mb-8"></div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="h-64 bg-gray-200 animate-pulse"></div>
+          <div className="h-64 bg-gray-200 animate-pulse"></div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error || !rawProjects || rawProjects.length === 0) {
+    return null;
+  }
 
   const projects = rawProjects.map((p, index) => ({
     ...p,
@@ -17,69 +36,42 @@ export function WorksSection({ setActiveDetail }) {
     desc: p.description
   }));
 
-  if (isLoading) {
-    return (
-      <section className="hairline-t fade-up bg-[#FAFAFA] min-h-[50vh]">
-        <div className="px-4 md:px-8 py-12 hairline-b">
-            <div className="w-24 h-16 md:w-32 md:h-24 bg-gray-200 animate-pulse mb-4"></div>
-            <div className="w-64 h-6 bg-gray-200 animate-pulse"></div>
-        </div>
-        {[1, 2].map((i) => (
-          <div key={i} className="grid grid-cols-1 md:grid-cols-12 hairline-b">
-            <div className={`md:col-span-8 overflow-hidden h-[50vh] md:h-[80vh] relative bg-gray-200 animate-pulse ${i % 2 === 1 ? 'hairline-r order-1' : 'hairline-l order-1 md:order-2'}`}>
-            </div>
-            <div className={`md:col-span-4 p-8 md:p-12 flex flex-col justify-between bg-[#FAFAFA] ${i % 2 === 1 ? 'order-2' : 'order-2 md:order-1'}`}>
-              <div>
-                <div className="w-32 h-4 bg-gray-200 animate-pulse mb-6"></div>
-                <div className="w-64 h-10 bg-gray-200 animate-pulse mb-6"></div>
-                <div className="w-full h-24 bg-gray-200 animate-pulse mb-8"></div>
+  return (
+    <section id="works" className="py-16 md:py-24 hairline-t scroll-fade bg-[#FAFAFA]">
+      <SectionHeader number="02" title="Selected Works" />
+      
+      <div className="flex flex-col hairline-t">
+        {projects.map((project, idx) => (
+          <div 
+            onMouseEnter={() => setHoveredProject(project.title)}
+            onMouseLeave={() => setHoveredProject(null)}
+            onClick={() => setActiveDetail(project)}
+            className="group flex flex-col md:flex-row md:items-center justify-between hairline-b py-10 md:py-16 cursor-pointer relative hover:bg-[#111111] transition-colors duration-500 px-6 md:px-12"
+          >
+            {/* Project Title */}
+            <h3 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-[#111111] group-hover:text-white transition-colors duration-500 z-10 relative uppercase">
+              {project.title}
+            </h3>
+            
+            {/* Project Category & Hover Reveal Image */}
+            <div className="flex items-center justify-end mt-6 md:mt-0 z-10 relative">
+              {/* Image Reveal on Hover (Desktop) */}
+              <div className={`hidden md:block absolute right-[280px] top-1/2 transform -translate-y-1/2 w-72 h-48 overflow-hidden transition-all duration-500 ease-out pointer-events-none origin-right border border-[#E5E5E5] p-1 bg-white ${hoveredProject === project.title ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
+                <img src={project.img} alt={project.title} loading="lazy" className="w-full h-full object-cover grayscale brightness-90 group-hover:grayscale-0" />
               </div>
-              <div className="flex justify-between items-end">
-                <div className="w-48 h-4 bg-gray-200 animate-pulse"></div>
-                <div className="w-16 h-16 bg-gray-200 animate-pulse"></div>
+
+              <span className="font-mono text-gray-500 text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold group-hover:text-gray-300 transition-colors duration-300 mr-8">
+                {project.category || 'PROJECT'}
+              </span>
+              
+              {/* Circular Arrow Button */}
+              <div className="w-12 h-12 rounded-full border border-[#E5E5E5] group-hover:border-white text-[#111111] group-hover:text-white flex items-center justify-center transition-all duration-300 transform group-hover:rotate-45 font-mono">
+                ↗
               </div>
             </div>
           </div>
         ))}
-      </section>
-    );
-  }
-
-  return (
-    <section className="hairline-t fade-up bg-[#FAFAFA]">
-      <div className="px-4 md:px-8 py-12 hairline-b">
-          <h2 className="text-5xl md:text-7xl font-black tracking-tighter">03.</h2>
-          <h3 className="text-xl font-bold mt-4 uppercase tracking-widest">Selected Works</h3>
       </div>
-      
-      {projects.map((project, index) => (
-        <div key={project.id} className="grid grid-cols-1 md:grid-cols-12 hairline-b group cursor-pointer" onClick={() => setActiveDetail(project)}>
-          <div className={`md:col-span-8 overflow-hidden h-[50vh] md:h-[80vh] relative bg-gray-200 ${index % 2 === 0 ? 'hairline-r order-1' : 'hairline-l order-1 md:order-2'}`}>
-            <img 
-              src={project.img} 
-              className="parallax-img absolute top-[-20%] left-0 w-full h-[140%] object-cover object-center grayscale group-hover:grayscale-0 transition-all duration-700"
-              alt={project.title} 
-            />
-          </div>
-          <div className={`md:col-span-4 p-8 md:p-12 flex flex-col justify-between bg-[#FAFAFA] group-hover:bg-[#111111] group-hover:text-[#FAFAFA] transition-colors duration-500 ${index % 2 === 0 ? 'order-2' : 'order-2 md:order-1'}`}>
-            <div>
-              <div className="font-mono text-xs text-gray-500 mb-4">[ {project.category} ]</div>
-              <h4 className="text-3xl md:text-4xl font-bold tracking-tight mb-6 uppercase">{project.title}</h4>
-              <p className="text-sm md:text-base text-gray-500 mb-8 font-serif-editorial italic">
-                {project.description}
-              </p>
-            </div>
-            <div className="flex justify-between items-end">
-              <div className="font-mono text-xs space-x-2 text-[#3B82F6]">
-                {project.stack.slice(0, 3).map((s, i) => <span key={i}>[ {s.toUpperCase()} ]</span>)}
-              </div>
-              <div className="font-mono text-4xl md:text-6xl font-black opacity-20">
-                {project.id}
-              </div>
-            </div>
-          </div>
-        </div>
-      ))}
     </section>
   );
 }

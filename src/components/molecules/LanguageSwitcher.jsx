@@ -92,14 +92,14 @@ export function LanguageSwitcher() {
       <div className="flex space-x-2 items-center text-[10px] md:text-xs tracking-widest uppercase notranslate" translate="no">
         <button 
           onClick={() => changeLanguage('id')}
-          className={`hover:text-[#3B82F6] transition-colors ${currentLang === 'id' ? 'font-black text-[#3B82F6]' : 'text-gray-500'}`}
+          className={`hover:text-[#111111] transition-colors ${currentLang === 'id' ? 'font-black text-[#111111]' : 'text-gray-400'}`}
         >
           ID
         </button>
         <span className="text-gray-300">/</span>
         <button 
           onClick={() => changeLanguage('en')}
-          className={`hover:text-[#3B82F6] transition-colors ${currentLang === 'en' ? 'font-black text-[#3B82F6]' : 'text-gray-500'}`}
+          className={`hover:text-[#111111] transition-colors ${currentLang === 'en' ? 'font-black text-[#111111]' : 'text-gray-400'}`}
         >
           EN
         </button>

@@ -94,7 +94,7 @@ export function BusinessCard3D({ email, phone, github, linkedin, instagram, hero
             <div className="w-full h-px bg-gray-800 my-4"></div>
             <div className="flex justify-between items-center font-mono text-[9px] md:text-[10px] text-gray-400 uppercase">
               <span className="tracking-widest truncate mr-2">{hero?.role || 'SYS. ARCHITECT / FULL-STACK'}</span>
-              <span className="text-[#3B82F6] font-bold flex-shrink-0">[ OPEN TO HIRE ]</span>
+              <span className="text-[#666666] font-bold flex-shrink-0">[ OPEN TO HIRE ]</span>
             </div>
           </div>
         </div>
@@ -106,13 +106,13 @@ export function BusinessCard3D({ email, phone, github, linkedin, instagram, hero
               
               <div className="space-y-4 md:space-y-5 text-xs">
                 <div className="flex items-center space-x-4 group">
-                  <span className="w-8 md:w-10 text-gray-400 group-hover:text-[#3B82F6] transition-colors"><Mail size={16} /></span>
-                  <a href={`mailto:${email}`} className="font-bold hover:text-[#3B82F6] transition-colors truncate">{email}</a>
+                  <span className="w-8 md:w-10 text-gray-400 group-hover:text-[#666666] transition-colors"><Mail size={16} /></span>
+                  <a href={`mailto:${email}`} className="font-bold hover:text-[#666666] transition-colors truncate">{email}</a>
                 </div>
                 {phone && (
                 <div className="flex items-center space-x-4 group">
-                  <span className="w-8 md:w-10 text-gray-400 group-hover:text-[#3B82F6] transition-colors"><Phone size={16} /></span>
-                  <a href={`tel:${phone}`} className="font-bold hover:text-[#3B82F6] transition-colors truncate">{phone}</a>
+                  <span className="w-8 md:w-10 text-gray-400 group-hover:text-[#666666] transition-colors"><Phone size={16} /></span>
+                  <a href={`tel:${phone}`} className="font-bold hover:text-[#666666] transition-colors truncate">{phone}</a>
                 </div>
                 )}
                 <div className="flex items-center space-x-4 pt-3 md:pt-4 border-t border-gray-200 mt-3 md:mt-4">

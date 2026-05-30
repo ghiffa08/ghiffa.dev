@@ -1,65 +1,58 @@
 import { useSupabaseSingle } from '../../hooks/useSupabaseData';
+import { SectionHeader } from '../atoms/SectionHeader';
 
 export function AboutSection() {
-  const { data: about, isLoading } = useSupabaseSingle('about_section');
+  const { data: info, isLoading, error } = useSupabaseSingle('personal_info');
 
-  if (isLoading || !about) {
+  if (isLoading) {
     return (
-      <section className="hairline-t px-4 md:px-8 py-24 fade-up bg-[#FAFAFA]/90 backdrop-blur-sm">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
-          <div className="md:col-span-4">
-            <div className="w-24 h-16 md:w-32 md:h-24 bg-gray-200 animate-pulse mb-4"></div>
-            <div className="w-48 h-6 bg-gray-200 animate-pulse"></div>
-          </div>
-          <div className="md:col-span-8 lg:col-span-7">
-            <div className="w-full h-8 bg-gray-200 animate-pulse mb-4"></div>
-            <div className="w-5/6 h-8 bg-gray-200 animate-pulse mb-12"></div>
-            <div className="w-full h-32 bg-gray-200 animate-pulse mb-6"></div>
-            <div className="w-48 h-12 bg-gray-200 animate-pulse"></div>
-          </div>
-        </div>
+      <section id="about" className="py-24 md:py-32 hairline-t scroll-fade bg-white px-6 md:px-12">
+        <div className="w-full h-32 bg-gray-200 animate-pulse mb-12"></div>
       </section>
     );
   }
 
-  // Memisahkan teks berdasarkan newline ganda (jika ada) untuk memisahkan teks utama dan sub-teks
-  const paragraphs = (about.content || '').split('\n').filter(p => p.trim() !== '');
-  const mainText = paragraphs.length > 0 ? paragraphs[0] : '';
+  if (error || !info) {
+    return null;
+  }
+
+  const paragraphs = (info.about_content || '').split('\n').filter(p => p.trim() !== '');
+  const mainText = paragraphs.length > 0 ? paragraphs[0] : 'Transforming your digital ideas into scalable reality.';
+  // Jika paragraf lebih dari 1, gabungkan sisanya jadi subText. Jika hanya 1, biarkan kosong agar tidak duplikat.
   const subText = paragraphs.length > 1 ? paragraphs.slice(1).join('\n') : '';
 
   return (
-    <section className="hairline-t px-4 md:px-8 py-24 fade-up bg-[#FAFAFA]/90 backdrop-blur-sm">
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
-        <div className="md:col-span-4">
-          <h2 className="text-5xl md:text-7xl font-black tracking-tighter">01.</h2>
-          <h3 className="text-xl font-bold mt-4 uppercase tracking-widest">About & Expertise</h3>
+    <section id="about" className="py-16 md:py-24 hairline-t scroll-fade bg-white">
+      <SectionHeader number="01" title="About & Expertise" />
+      
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 px-6 md:px-12 items-start">
+        <div className="md:col-span-6 lg:col-span-5">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight leading-[1.2] mb-8 text-[#111111]">
+            {mainText}
+          </h2>
+          {/* Profile Capsule Badge */}
+          <div className="inline-flex items-center gap-3 bg-[#FAFAFA] rounded-full px-4 py-2 border border-[#E5E5E5]">
+            <span className="font-mono text-sm text-gray-400">+</span>
+            <div className="w-8 h-8 rounded-full bg-[#111111] flex items-center justify-center text-white font-serif-editorial italic text-sm">
+              {info.full_name ? info.full_name.charAt(0) : 'H'}
+            </div>
+            <span className="font-mono text-sm text-gray-400">*</span>
+          </div>
         </div>
         
-        <div className="md:col-span-8 lg:col-span-7">
-          {/* Teks utama yang diperbesar posisinya */}
-          <p className="text-xl md:text-3xl font-medium leading-relaxed max-w-4xl mb-6 text-gray-900 tracking-tight">
-            {mainText}
+        <div className="md:col-span-6 lg:col-span-7 lg:pl-12">
+          <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-10 text-justify md:text-left whitespace-pre-line">
+            {subText}
           </p>
           
-          {subText && (
-            <p className="text-base md:text-lg text-gray-600 leading-relaxed max-w-3xl mb-12 text-justify">
-              {subText}
-            </p>
-          )}
-
-          {/* Tombol Download CV - Swiss Minimalist Style */}
           <a 
-            href={about.cv_url || '#'} 
-            target={about.cv_url ? '_blank' : '_self'}
+            href={info.cv_url || '#'} 
+            target={info.cv_url ? '_blank' : '_self'}
             rel="noreferrer"
-            className="inline-flex items-center space-x-4 bg-[#111111] text-[#FAFAFA] px-8 py-5 hover:bg-[#3B82F6] transition-colors duration-500 group"
+            className="inline-flex items-center gap-3 border-b-2 border-[#111111] pb-1 font-mono text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] hover:text-[#666666] hover:border-[#666666] transition-colors"
           >
-            <span className="font-mono text-xs font-bold tracking-widest uppercase">
-              [ Download CV / Resume ]
-            </span>
-            <span className="font-mono text-lg transform group-hover:translate-y-1 transition-transform duration-300 leading-none">
-              ↓
-            </span>
+            <span>Download Resume</span>
+            <span className="text-sm leading-none">↓</span>
           </a>
         </div>
       </div>

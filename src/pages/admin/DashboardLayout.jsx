@@ -11,7 +11,8 @@ import {
   History,
   GraduationCap,
   Mail,
-  Link as LinkIcon
+  Link as LinkIcon,
+  Settings
 } from 'lucide-react';
 
 export default function DashboardLayout() {
@@ -56,14 +57,13 @@ export default function DashboardLayout() {
 
   const navItems = [
     { name: 'Dashboard', path: '/admin/panel/dashboard', icon: LayoutDashboard },
-    { name: 'Hero Section', path: '/admin/panel/hero', icon: Type },
-    { name: 'About Section', path: '/admin/panel/about', icon: User },
+    { name: 'General Settings', path: '/admin/panel/settings', icon: Settings },
+    { name: 'Personal Info', path: '/admin/panel/personal', icon: User },
     { name: 'Experiences', path: '/admin/panel/experiences', icon: History },
     { name: 'Projects', path: '/admin/panel/projects', icon: Briefcase },
     { name: 'Education & Honors', path: '/admin/panel/qualifications', icon: GraduationCap },
     { name: 'Articles', path: '/admin/panel/articles', icon: FileText },
     { name: 'Bio Links', path: '/admin/panel/links', icon: LinkIcon },
-    { name: 'Contact', path: '/admin/panel/contact', icon: Mail },
   ];
 
   return (

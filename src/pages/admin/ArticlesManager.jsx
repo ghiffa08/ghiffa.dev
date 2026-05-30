@@ -151,7 +151,7 @@ export default function ArticlesManager() {
         </div>
 
         <div className="mt-6 flex gap-4">
-          <button type="submit" className="bg-[#111111] text-white px-6 py-2 font-bold hover:bg-[#3B82F6] transition-colors">
+          <button type="submit" className="bg-[#111111] text-white px-6 py-2 font-bold hover:bg-[#666666] transition-colors">
             {editingId ? 'UPDATE ARTICLE' : 'PUBLISH ARTICLE'}
           </button>
           {editingId && (

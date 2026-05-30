@@ -32,3 +32,28 @@ body {
 .skiptranslate {
   display: none !important;
 }
+
+/* Swiss Design / Brutalist Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FAFAFA;
+  border-left: 1px solid #E5E5E5;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #111111;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #666666;
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #111111 #FAFAFA;
+}

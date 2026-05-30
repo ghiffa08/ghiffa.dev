@@ -5,7 +5,7 @@ import { slugify } from '../utils/slugify';
 
 // Hooks
 import { useSmoothScroll } from '../hooks/useSmoothScroll';
-import { useMousePosition } from '../hooks/useMousePosition';
+import { useSupabaseSingle } from '../hooks/useSupabaseData';
 
 // Components
 const ThreeBackground = lazy(() => import('../components/organisms/ThreeBackground').then(m => ({ default: m.ThreeBackground })));
@@ -14,6 +14,7 @@ import { DetailModal } from '../components/organisms/DetailModal';
 import { Header } from '../components/organisms/Header';
 import { HeroSection } from '../components/organisms/HeroSection';
 import { AboutSection } from '../components/organisms/AboutSection';
+import { SkillsSection } from '../components/organisms/SkillsSection';
 import { ExperienceSection } from '../components/organisms/ExperienceSection';
 import { WorksSection } from '../components/organisms/WorksSection';
 import { EducationSection } from '../components/organisms/EducationSection';
@@ -25,7 +26,10 @@ import { SEO } from '../components/atoms/SEO';
 export default function Portfolio() {
   // Custom hooks initialization
   useSmoothScroll();
-  const mousePos = useMousePosition();
+
+  // Data
+  const { data: settings } = useSupabaseSingle('general_settings');
+  const { data: info } = useSupabaseSingle('personal_info');
 
   // State
   const [hoveredArticleImg, setHoveredArticleImg] = useState(null);
@@ -89,63 +93,82 @@ export default function Portfolio() {
   const personSchema = {
     "@context": "https://schema.org",
     "@type": "Person",
-    "name": "Haikal Jibran Al Ghiffarry",
+    "name": info?.full_name || "Haikal Jibran Al Ghiffarry",
     "url": "https://ghiffa.dev",
     "image": "https://ghiffa.dev/og-image.jpg",
-    "sameAs": [
-      "https://github.com/ghiffa",
-      "https://linkedin.com/in/haikal-jibran-al-ghiffarry",
-      "https://instagram.com/haikaljibrn__"
-    ],
-    "jobTitle": "Systems Architect & Full-stack Developer",
+    "sameAs": info?.social_links ? [
+      info.social_links.github,
+      info.social_links.linkedin,
+      info.social_links.instagram
+    ].filter(Boolean) : [],
+    "jobTitle": info?.role || "Systems Architect & Full-stack Developer",
     "worksFor": {
       "@type": "Organization",
       "name": "Freelance"
     }
   };
 
+  const baseTitle = settings?.seo_title || "Portfolio & Resume";
+  const appName = settings?.app_name || "Haikal Jibran";
+  
+  const pageTitle = activeDetail 
+    ? `${activeDetail.title} — ${appName}` 
+    : `${baseTitle} | ${appName}`;
+    
+  const pageDesc = activeDetail?.desc || settings?.seo_description || "Creative Software Engineer specializing in scalable web systems, intuitive interfaces, and AI implementations.";
+
   return (
     <>
       <SEO 
-        title="Portfolio & Resume" 
-        description="Creative Software Engineer specializing in scalable web systems, intuitive interfaces, and AI implementations. Based in Kuningan, Indonesia."
+        title={pageTitle} 
+        description={pageDesc}
         jsonLd={personSchema}
       />
       <style dangerouslySetInnerHTML={{__html: `
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800;900&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
         
         :root {
-          --bg: #FAFAFA;
-          --text: #111111;
-          --grid-line: #E5E5E5;
-          --accent: #3B82F6;
+          --bg-light: #FAFAFA;
+          --bg-card: #FFFFFF;
+          --text-dark: #111111;
+          --border: #E5E5E5;
+          --accent: #666666;
         }
 
         body {
-          background-color: var(--bg);
-          color: var(--text);
+          background-color: var(--bg-light);
+          color: var(--text-dark);
           font-family: 'Inter', sans-serif;
+          -webkit-font-smoothing: antialiased;
           overflow-x: hidden;
         }
 
         .font-mono { font-family: 'JetBrains Mono', monospace; }
         .font-serif-editorial { font-family: 'Playfair Display', serif; }
         
-        .hairline-b { border-bottom: 1px solid var(--grid-line); }
-        .hairline-t { border-top: 1px solid var(--grid-line); }
-        .hairline-r { border-right: 1px solid var(--grid-line); }
-        .hairline-l { border-left: 1px solid var(--grid-line); }
+        .hairline-b { border-bottom: 1px solid var(--border); }
+        .hairline-t { border-top: 1px solid var(--border); }
+        .hairline-l { border-left: 1px solid var(--border); }
         
-        .clip-text { clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); }
-        ::selection { background: var(--text); color: var(--bg); }
+        ::selection { background: var(--text-dark); color: var(--bg-light); }
 
         .animate-fade-in { animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Magazine Drop Cap Styling */
+        @keyframes scroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+          display: flex;
+          width: max-content;
+          animation: scroll 60s linear infinite;
+        }
+
         .drop-cap::first-letter {
-          font-size: 5rem;
-          font-weight: 900;
+          font-family: 'Playfair Display', serif;
+          font-size: 5.5rem;
+          font-weight: 700;
           float: left;
           line-height: 0.8;
           padding-right: 0.75rem;
@@ -159,7 +182,6 @@ export default function Portfolio() {
         <CustomCursor 
           hoveredArticleImg={hoveredArticleImg} 
           activeDetail={activeDetail} 
-          mousePos={mousePos} 
         />
       </Suspense>
 
@@ -169,21 +191,20 @@ export default function Portfolio() {
       />
 
       {/* --- MAIN PAGE CONTENT --- */}
-      <div className="relative z-10 w-full max-w-screen-2xl mx-auto hairline-l hairline-r bg-transparent">
+      <div className="w-full relative z-10 selection:bg-[#111111] selection:text-[#FAFAFA]">
         <Header />
         
         <HeroSection />
         <AboutSection />
-        <ExperienceSection />
+        <SkillsSection />
         <WorksSection setActiveDetail={handleSetActiveDetail} />
+        <ExperienceSection />
         <EducationSection />
         <ArticlesSection 
           setActiveDetail={handleSetActiveDetail} 
           setHoveredArticleImg={setHoveredArticleImg} 
         />
         <ContactSection />
-        
-        <Footer />
       </div>
     </>
   );

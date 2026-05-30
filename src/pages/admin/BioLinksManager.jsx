@@ -127,7 +127,7 @@ export default function BioLinksManager() {
             <input
               type="text"
               required
-              className="w-full px-4 py-3 border border-[#E5E5E5] bg-[#FAFAFA] focus:outline-none focus:border-[#3B82F6] transition-colors rounded-sm"
+              className="w-full px-4 py-3 border border-[#E5E5E5] bg-[#FAFAFA] focus:outline-none focus:border-[#666666] transition-colors rounded-sm"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
               placeholder="e.g. My Portfolio"
@@ -138,7 +138,7 @@ export default function BioLinksManager() {
             <label className="block text-xs font-bold font-mono tracking-wider text-gray-700 mb-2">SUBTITLE (Optional)</label>
             <input
               type="text"
-              className="w-full px-4 py-3 border border-[#E5E5E5] bg-[#FAFAFA] focus:outline-none focus:border-[#3B82F6] transition-colors rounded-sm"
+              className="w-full px-4 py-3 border border-[#E5E5E5] bg-[#FAFAFA] focus:outline-none focus:border-[#666666] transition-colors rounded-sm"
               value={formData.subtitle}
               onChange={(e) => setFormData({ ...formData, subtitle: e.target.value })}
               placeholder="e.g. Check out my latest work"
@@ -150,7 +150,7 @@ export default function BioLinksManager() {
             <input
               type="url"
               required
-              className="w-full px-4 py-3 border border-[#E5E5E5] bg-[#FAFAFA] focus:outline-none focus:border-[#3B82F6] transition-colors rounded-sm"
+              className="w-full px-4 py-3 border border-[#E5E5E5] bg-[#FAFAFA] focus:outline-none focus:border-[#666666] transition-colors rounded-sm"
               value={formData.url}
               onChange={(e) => setFormData({ ...formData, url: e.target.value })}
               placeholder="https://..."
@@ -161,7 +161,7 @@ export default function BioLinksManager() {
             <label className="block text-xs font-bold font-mono tracking-wider text-gray-700 mb-2">ORDER INDEX</label>
             <input
               type="number"
-              className="w-full px-4 py-3 border border-[#E5E5E5] bg-[#FAFAFA] focus:outline-none focus:border-[#3B82F6] transition-colors rounded-sm"
+              className="w-full px-4 py-3 border border-[#E5E5E5] bg-[#FAFAFA] focus:outline-none focus:border-[#666666] transition-colors rounded-sm"
               value={formData.order_index}
               onChange={(e) => setFormData({ ...formData, order_index: parseInt(e.target.value) || 0 })}
             />
@@ -194,7 +194,7 @@ export default function BioLinksManager() {
           <button
             type="submit"
             disabled={saving}
-            className="bg-[#111111] text-[#FAFAFA] font-bold font-mono text-sm px-8 py-3 hover:bg-[#3B82F6] transition-colors disabled:opacity-50"
+            className="bg-[#111111] text-[#FAFAFA] font-bold font-mono text-sm px-8 py-3 hover:bg-[#666666] transition-colors disabled:opacity-50"
           >
             {saving ? 'SAVING...' : (editingId ? 'UPDATE LINK' : 'ADD LINK')}
           </button>

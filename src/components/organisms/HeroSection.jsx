@@ -1,46 +1,54 @@
 import { useSupabaseSingle } from '../../hooks/useSupabaseData';
 
 export function HeroSection() {
-  const { data: hero, isLoading } = useSupabaseSingle('hero_section');
+  const { data: info, isLoading, error } = useSupabaseSingle('personal_info');
 
-  if (isLoading || !hero) {
+  if (isLoading) {
     return (
-      <section className="min-h-screen w-full flex flex-col justify-end pb-12 pt-32 px-4 md:px-8 relative">
-        <div className="w-[80vw] h-[12vw] md:h-[9.5vw] bg-gray-200 animate-pulse mb-4"></div>
-        <div className="w-[60vw] h-[12vw] md:h-[9.5vw] bg-gray-200 animate-pulse"></div>
-        <div className="grid grid-cols-1 md:grid-cols-12 mt-12 md:mt-24">
-          <div className="md:col-span-8"></div>
-          <div className="md:col-span-4 border-t border-gray-200 pt-4">
-            <div className="w-full h-6 bg-gray-200 animate-pulse mb-2"></div>
-            <div className="w-2/3 h-4 bg-gray-200 animate-pulse"></div>
+      <section className="min-h-screen w-full flex flex-col justify-center pb-12 pt-32 px-6 md:px-12 relative">
+        <div className="max-w-screen-2xl w-full mx-auto">
+          <div className="w-full max-w-3xl h-[10vw] md:h-[7.5vw] lg:h-[120px] bg-gray-200 animate-pulse mb-4"></div>
+          <div className="w-[85%] max-w-2xl h-[10vw] md:h-[7.5vw] lg:h-[120px] bg-gray-200 animate-pulse"></div>
+          <div className="mt-16 md:mt-24 grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
+            <div className="md:col-span-5 lg:col-span-4 flex items-center gap-4">
+              <div className="w-48 h-12 rounded-full bg-gray-200 animate-pulse"></div>
+              <div className="w-12 h-12 rounded-full bg-gray-200 animate-pulse"></div>
+            </div>
+            <div className="md:col-span-7 lg:col-span-8 md:pl-12 lg:border-l border-[#E5E5E5]">
+              <div className="w-full max-w-lg h-16 bg-gray-200 animate-pulse"></div>
+            </div>
           </div>
         </div>
       </section>
     );
   }
 
-  return (
-    <section className="min-h-screen w-full flex flex-col justify-end pb-12 pt-32 px-4 md:px-8 relative">
-      <div className="clip-text">
-        <h1 className="hero-text-line text-[12vw] md:text-[9.5vw] font-black leading-[0.85] tracking-tighter uppercase text-[#111111]">
-          {hero.headline_1}
-        </h1>
-      </div>
-      <div className="clip-text">
-        <h1 className="hero-text-line text-[12vw] md:text-[9.5vw] font-black leading-[0.85] tracking-tighter uppercase text-[#111111]">
-          {hero.headline_2}
-        </h1>
-      </div>
+  if (error || !info) {
+    return <section className="min-h-[100svh] flex items-center justify-center text-gray-400 font-mono text-sm uppercase tracking-widest px-6 pt-32 pb-16">{error ? 'Error loading data' : 'Please configure Personal Info in Admin'}</section>;
+  }
 
-      <div className="grid grid-cols-1 md:grid-cols-12 mt-12 md:mt-24 font-mono text-xs md:text-sm fade-up">
-        <div className="md:col-span-8"></div>
-        <div className="md:col-span-4 border-t border-[#111111] pt-4">
-          <p className="max-w-md leading-relaxed uppercase font-bold text-base md:text-lg">
-            {hero.subtitle}
-          </p>
-          <p className="mt-2 text-gray-500 tracking-wider">
-            {hero.role}
-          </p>
+  return (
+    <section className="min-h-[100svh] flex flex-col justify-center px-6 md:px-12 pt-32 pb-16 md:pb-24 relative">
+      <div className="max-w-screen-2xl w-full mx-auto">
+        <h1 className="text-[12vw] md:text-[9vw] lg:text-[140px] font-black leading-[0.85] tracking-tighter uppercase anim-fade-up text-[#111111] mb-2 max-w-6xl break-words">
+          {info.headline}
+        </h1>
+        
+        <div className="mt-16 md:mt-24 grid grid-cols-1 md:grid-cols-12 gap-8 items-end anim-fade-up">
+          <div className="md:col-span-5 lg:col-span-4 flex items-center gap-4">
+            <a href="#contact" className="inline-flex items-center gap-3 rounded-full border border-[#E5E5E5] bg-white px-6 md:px-8 py-4 text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold hover:border-[#111111] shadow-sm transition-all duration-300">
+              <span>Let's Connect With Me</span>
+            </a>
+            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-[#111111] text-[#111111] flex items-center justify-center transform -rotate-45 font-mono text-sm hover:bg-[#111111] hover:text-white transition-colors cursor-pointer">
+              →
+            </div>
+          </div>
+          <div className="md:col-span-7 lg:col-span-8 md:pl-12 lg:border-l border-[#E5E5E5]">
+            <p className="text-gray-500 font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] leading-relaxed max-w-lg">
+              <strong className="text-[#111111]">{info.full_name}</strong><br/>
+              {info.role}<br/>
+            </p>
+          </div>
         </div>
       </div>
     </section>

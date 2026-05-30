@@ -111,7 +111,7 @@ export default function EducationManager() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-xs font-bold font-mono tracking-wider text-gray-700 mb-2">TYPE</label>
-              <select required className="w-full px-4 py-2 border border-[#E5E5E5] bg-[#FAFAFA] focus:outline-none focus:border-[#3B82F6]" value={formData.type} onChange={(e) => setFormData({...formData, type: e.target.value})}>
+              <select required className="w-full px-4 py-2 border border-[#E5E5E5] bg-[#FAFAFA] focus:outline-none focus:border-[#666666]" value={formData.type} onChange={(e) => setFormData({...formData, type: e.target.value})}>
                 <option value="education">Education</option>
                 <option value="honor">Honor / Award</option>
                 <option value="certification">Certification</option>
@@ -119,31 +119,31 @@ export default function EducationManager() {
             </div>
             <div>
               <label className="block text-xs font-bold font-mono tracking-wider text-gray-700 mb-2">PERIOD / YEAR</label>
-              <input type="text" required className="w-full px-4 py-2 border border-[#E5E5E5] bg-[#FAFAFA] focus:outline-none focus:border-[#3B82F6]" value={formData.period} onChange={(e) => setFormData({...formData, period: e.target.value})} placeholder="e.g. 2024" />
+              <input type="text" required className="w-full px-4 py-2 border border-[#E5E5E5] bg-[#FAFAFA] focus:outline-none focus:border-[#666666]" value={formData.period} onChange={(e) => setFormData({...formData, period: e.target.value})} placeholder="e.g. 2024" />
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-xs font-bold font-mono tracking-wider text-gray-700 mb-2">ORDER INDEX</label>
-              <input type="number" required className="w-full px-4 py-2 border border-[#E5E5E5] bg-[#FAFAFA] focus:outline-none focus:border-[#3B82F6]" value={formData.order_index} onChange={(e) => setFormData({...formData, order_index: parseInt(e.target.value)})} />
+              <input type="number" required className="w-full px-4 py-2 border border-[#E5E5E5] bg-[#FAFAFA] focus:outline-none focus:border-[#666666]" value={formData.order_index} onChange={(e) => setFormData({...formData, order_index: parseInt(e.target.value)})} />
             </div>
             <div>
               <label className="block text-xs font-bold font-mono tracking-wider text-gray-700 mb-2">TITLE</label>
-              <input type="text" required className="w-full px-4 py-2 border border-[#E5E5E5] bg-[#FAFAFA] focus:outline-none focus:border-[#3B82F6]" value={formData.title} onChange={(e) => setFormData({...formData, title: e.target.value})} placeholder="e.g. S1 Teknik Informatika" />
+              <input type="text" required className="w-full px-4 py-2 border border-[#E5E5E5] bg-[#FAFAFA] focus:outline-none focus:border-[#666666]" value={formData.title} onChange={(e) => setFormData({...formData, title: e.target.value})} placeholder="e.g. S1 Teknik Informatika" />
             </div>
           </div>
           <div>
             <label className="block text-xs font-bold font-mono tracking-wider text-gray-700 mb-2">INSTITUTION</label>
-            <input type="text" required className="w-full px-4 py-2 border border-[#E5E5E5] bg-[#FAFAFA] focus:outline-none focus:border-[#3B82F6]" value={formData.institution} onChange={(e) => setFormData({...formData, institution: e.target.value})} />
+            <input type="text" required className="w-full px-4 py-2 border border-[#E5E5E5] bg-[#FAFAFA] focus:outline-none focus:border-[#666666]" value={formData.institution} onChange={(e) => setFormData({...formData, institution: e.target.value})} />
           </div>
           <div>
             <label className="block text-xs font-bold font-mono tracking-wider text-gray-700 mb-2">DESCRIPTION (Optional)</label>
-            <textarea rows={3} className="w-full px-4 py-2 border border-[#E5E5E5] bg-[#FAFAFA] focus:outline-none focus:border-[#3B82F6]" value={formData.description || ''} onChange={(e) => setFormData({...formData, description: e.target.value})} />
+            <textarea rows={3} className="w-full px-4 py-2 border border-[#E5E5E5] bg-[#FAFAFA] focus:outline-none focus:border-[#666666]" value={formData.description || ''} onChange={(e) => setFormData({...formData, description: e.target.value})} />
           </div>
 
           <div className="flex space-x-4 pt-4 border-t border-[#E5E5E5]">
             <button type="button" onClick={() => setIsEditing(false)} className="px-6 py-2 border border-gray-300 text-gray-600 font-mono text-sm hover:bg-gray-50 transition-colors">CANCEL</button>
-            <button type="submit" disabled={saving} className="bg-[#111111] text-[#FAFAFA] font-bold font-mono text-sm px-8 py-2 hover:bg-[#3B82F6] transition-colors disabled:opacity-50">
+            <button type="submit" disabled={saving} className="bg-[#111111] text-[#FAFAFA] font-bold font-mono text-sm px-8 py-2 hover:bg-[#666666] transition-colors disabled:opacity-50">
               {saving ? 'SAVING...' : 'SAVE'}
             </button>
           </div>
@@ -156,7 +156,7 @@ export default function EducationManager() {
     <div>
       <div className="flex justify-between items-center mb-6 border-b border-[#E5E5E5] pb-4">
         <h2 className="text-2xl font-black uppercase">Education & Honors Manager</h2>
-        <button onClick={handleAddNew} className="flex items-center gap-2 bg-[#111111] text-[#FAFAFA] px-4 py-2 font-mono text-xs hover:bg-[#3B82F6] transition-colors">
+        <button onClick={handleAddNew} className="flex items-center gap-2 bg-[#111111] text-[#FAFAFA] px-4 py-2 font-mono text-xs hover:bg-[#666666] transition-colors">
           <Plus size={16} /> ADD NEW
         </button>
       </div>

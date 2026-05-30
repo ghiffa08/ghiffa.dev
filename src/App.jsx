@@ -1,17 +1,27 @@
+import React, { Suspense, lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
-// Pages
+// Public Pages (Loaded synchronously for SEO/Performance)
 import Portfolio from './pages/Portfolio';
-import Login from './pages/admin/Login';
-import DashboardLayout from './pages/admin/DashboardLayout';
-import HeroManager from './pages/admin/HeroManager';
-import AboutManager from './pages/admin/AboutManager';
-import ExperienceManager from './pages/admin/ExperienceManager';
-import ProjectsManager from './pages/admin/ProjectsManager';
-import EducationManager from './pages/admin/EducationManager';
-import ArticlesManager from './pages/admin/ArticlesManager';
-import ContactManager from './pages/admin/ContactManager';
-import BioLinksManager from './pages/admin/BioLinksManager';
+
+// Admin Pages (Lazy loaded to reduce main bundle size)
+const Login = lazy(() => import('./pages/admin/Login'));
+const DashboardLayout = lazy(() => import('./pages/admin/DashboardLayout'));
+const DashboardHome = lazy(() => import('./pages/admin/DashboardHome'));
+const SettingsManager = lazy(() => import('./pages/admin/SettingsManager'));
+const PersonalInfoManager = lazy(() => import('./pages/admin/PersonalInfoManager'));
+const ExperienceManager = lazy(() => import('./pages/admin/ExperienceManager'));
+const ProjectsManager = lazy(() => import('./pages/admin/ProjectsManager'));
+const EducationManager = lazy(() => import('./pages/admin/EducationManager'));
+const ArticlesManager = lazy(() => import('./pages/admin/ArticlesManager'));
+const BioLinksManager = lazy(() => import('./pages/admin/BioLinksManager'));
+
+// Admin Loading Fallback
+const AdminLoader = () => (
+  <div className="min-h-screen flex items-center justify-center bg-[#FAFAFA]">
+    <div className="w-8 h-8 border-4 border-[#111111] border-t-transparent rounded-full animate-spin"></div>
+  </div>
+);
 
 export default function App() {
   return (
@@ -21,20 +31,26 @@ export default function App() {
       <Route path="/article/:slug" element={<Portfolio />} />
       <Route path="/project/:slug" element={<Portfolio />} />
 
-      {/* Admin Auth */}
-      <Route path="/admin" element={<Login />} />
+      {/* Admin Routes with Suspense Boundary */}
+      <Route path="/admin" element={
+        <Suspense fallback={<AdminLoader />}>
+          <Login />
+        </Suspense>
+      } />
 
-      {/* Protected Admin Routes */}
-      <Route path="/admin/panel" element={<DashboardLayout />}>
+      <Route path="/admin/panel" element={
+        <Suspense fallback={<AdminLoader />}>
+          <DashboardLayout />
+        </Suspense>
+      }>
         <Route index element={<Navigate to="dashboard" replace />} />
-        <Route path="dashboard" element={<div>Welcome to CMS Dashboard. Please select an option from the sidebar.</div>} />
-        <Route path="hero" element={<HeroManager />} />
-        <Route path="about" element={<AboutManager />} />
+        <Route path="dashboard" element={<DashboardHome />} />
+        <Route path="settings" element={<SettingsManager />} />
+        <Route path="personal" element={<PersonalInfoManager />} />
         <Route path="experiences" element={<ExperienceManager />} />
         <Route path="projects" element={<ProjectsManager />} />
         <Route path="qualifications" element={<EducationManager />} />
         <Route path="articles" element={<ArticlesManager />} />
-        <Route path="contact" element={<ContactManager />} />
         <Route path="links" element={<BioLinksManager />} />
       </Route>
     </Routes>

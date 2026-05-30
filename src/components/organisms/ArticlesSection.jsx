@@ -1,12 +1,21 @@
 import { useSupabaseList } from '../../hooks/useSupabaseData';
+import { SectionHeader } from '../atoms/SectionHeader';
 
 export function ArticlesSection({ setActiveDetail, setHoveredArticleImg }) {
-  const { data: rawArticles, isLoading } = useSupabaseList('articles', {
+  const { data: rawArticles, isLoading, error } = useSupabaseList('articles', {
     eq: { column: 'status', value: 'published' },
     order: { column: 'published_at', ascending: false }
   });
 
-  const articles = rawArticles.map((a, index) => ({
+  if (isLoading) {
+    return (
+      <section id="journal" className="py-16 md:py-24 hairline-t scroll-fade bg-[#FAFAFA] px-6 md:px-12">
+        <div className="w-full h-32 bg-gray-200 animate-pulse mb-12"></div>
+      </section>
+    );
+  }
+
+  const articles = (rawArticles || []).map((a, index) => ({
     ...a,
     id: String(index + 1).padStart(2, '0'),
     db_id: a.id,
@@ -17,55 +26,48 @@ export function ArticlesSection({ setActiveDetail, setHoveredArticleImg }) {
     desc: a.description
   }));
 
-  if (isLoading) {
-    return (
-      <section className="hairline-t fade-up bg-[#FAFAFA] min-h-[50vh]">
-        <div className="px-4 md:px-8 py-12 hairline-b">
-            <div className="w-24 h-16 md:w-32 md:h-24 bg-gray-200 animate-pulse mb-4"></div>
-            <div className="w-64 h-6 bg-gray-200 animate-pulse"></div>
-        </div>
-        <div className="w-full">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="hairline-b flex flex-col md:flex-row md:items-center justify-between p-4 md:p-8">
-              <div className="flex items-center space-x-6 md:space-x-12 w-full md:w-2/3">
-                <div className="w-8 h-8 bg-gray-200 animate-pulse"></div>
-                <div className="w-full h-8 bg-gray-200 animate-pulse"></div>
-              </div>
-              <div className="mt-4 md:mt-0 w-32 h-4 bg-gray-200 animate-pulse hidden md:block"></div>
-            </div>
-          ))}
-        </div>
-      </section>
-    );
-  }
-
   return (
-    <section className="hairline-t fade-up bg-[#FAFAFA]">
-      <div className="px-4 md:px-8 py-12 hairline-b">
-          <h2 className="text-5xl md:text-7xl font-black tracking-tighter">05.</h2>
-          <h3 className="text-xl font-bold mt-4 uppercase tracking-widest">Articles & Thoughts</h3>
-      </div>
+    <section id="journal" className="py-16 md:py-24 hairline-t scroll-fade bg-[#FAFAFA]">
+      <SectionHeader number="05" title="Articles & Journal" />
       
-      <div className="font-mono text-xs md:text-base w-full">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-6 md:px-12">
         {articles.map((article) => (
           <div 
-            key={article.id}
+            key={article.db_id}
             onClick={() => setActiveDetail(article)}
-            className="hairline-b flex flex-col md:flex-row md:items-center justify-between p-4 md:p-8 hover:bg-[#111111] hover:text-[#FAFAFA] transition-colors duration-300 cursor-pointer group relative overflow-hidden"
-            onMouseEnter={() => setHoveredArticleImg(article.img)}
-            onMouseLeave={() => setHoveredArticleImg(null)}
+            onMouseEnter={() => setHoveredArticleImg && setHoveredArticleImg(article.img)}
+            onMouseLeave={() => setHoveredArticleImg && setHoveredArticleImg(null)}
+            className="group cursor-pointer flex flex-col bg-[#FFFFFF] border border-[#E5E5E5] hover:border-[#111111] transition-all duration-300 p-4 md:p-6 shadow-sm hover:shadow-xl"
           >
-            <div className="flex items-center space-x-6 md:space-x-12 relative z-10">
-              <span className="text-gray-400 group-hover:text-[#3B82F6] transition-colors">{article.id}.</span>
-              <span className="font-sans font-bold text-lg md:text-2xl tracking-tight uppercase">{article.title}</span>
+            <div className="w-full h-48 md:h-60 overflow-hidden mb-8 bg-[#E5E5E5] border border-[#E5E5E5]">
+              <img 
+                src={article.img} 
+                alt={article.title} 
+                loading="lazy"
+                className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" 
+              />
             </div>
-            <div className="mt-4 md:mt-0 text-gray-400 group-hover:text-[#FAFAFA] tracking-widest hidden md:block relative z-10">
-              ...... [ READ ARTICLE ]
+            <div className="flex flex-col flex-1">
+              <div className="flex justify-between items-center mb-6">
+                <span className="font-mono text-[10px] font-bold tracking-[0.2em] text-[#666666]">{article.date}</span>
+                <span className="font-mono text-[10px] text-gray-400 font-bold uppercase tracking-[0.2em] border border-[#E5E5E5] px-2 py-1">{article.readTime}</span>
+              </div>
+              {/* Menggunakan font Serif untuk judul Artikel agar berasa seperti Koran/Majalah */}
+              <h4 className="text-xl md:text-2xl font-serif-editorial font-bold tracking-tight mb-4 leading-snug text-[#111111] group-hover:text-[#666666] transition-colors">
+                {article.title}
+              </h4>
+              <p className="text-sm text-gray-600 leading-relaxed line-clamp-3 mb-8">
+                {article.desc}
+              </p>
+              
+              <div className="mt-auto pt-4 hairline-t flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#111111]">
+                Read Article <span className="transform group-hover:translate-x-2 transition-transform text-sm leading-none">→</span>
+              </div>
             </div>
           </div>
         ))}
         {articles.length === 0 && (
-          <div className="p-8 text-center text-gray-500 uppercase tracking-widest">No articles published yet.</div>
+          <div className="col-span-1 md:col-span-3 p-8 text-center text-gray-500 uppercase tracking-widest font-mono">No articles published yet.</div>
         )}
       </div>
     </section>

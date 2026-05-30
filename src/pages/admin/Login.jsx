@@ -56,7 +56,7 @@ export default function Login() {
             <input
               type="email"
               required
-              className="w-full px-4 py-3 border border-[#E5E5E5] bg-[#FAFAFA] focus:outline-none focus:border-[#3B82F6] transition-colors rounded-sm"
+              className="w-full px-4 py-3 border border-[#E5E5E5] bg-[#FAFAFA] focus:outline-none focus:border-[#666666] transition-colors rounded-sm"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -67,7 +67,7 @@ export default function Login() {
             <input
               type="password"
               required
-              className="w-full px-4 py-3 border border-[#E5E5E5] bg-[#FAFAFA] focus:outline-none focus:border-[#3B82F6] transition-colors rounded-sm"
+              className="w-full px-4 py-3 border border-[#E5E5E5] bg-[#FAFAFA] focus:outline-none focus:border-[#666666] transition-colors rounded-sm"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -76,7 +76,7 @@ export default function Login() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#111111] text-[#FAFAFA] font-bold font-mono text-sm py-4 hover:bg-[#3B82F6] transition-colors disabled:opacity-50"
+            className="w-full bg-[#111111] text-[#FAFAFA] font-bold font-mono text-sm py-4 hover:bg-[#666666] transition-colors disabled:opacity-50"
           >
             {loading ? 'AUTHENTICATING...' : 'LOGIN'}
           </button>

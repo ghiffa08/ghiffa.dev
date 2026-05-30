@@ -8,7 +8,13 @@ export function useThreeBackground(canvasId = 'three-canvas') {
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    let renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    } catch (error) {
+      console.warn("WebGL tidak didukung atau terjadi penumpukan konteks. Melewati render 3D.", error);
+      return; 
+    }
     
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
@@ -18,7 +24,7 @@ export function useThreeBackground(canvasId = 'three-canvas') {
       color: 0x3B82F6, 
       wireframe: true,
       transparent: true,
-      opacity: 0.15
+      opacity: 0.08
     });
     
     const sphere = new THREE.Mesh(geometry, material);
@@ -37,7 +43,7 @@ export function useThreeBackground(canvasId = 'three-canvas') {
       size: 0.02,
       color: 0x111111,
       transparent: true,
-      opacity: 0.3
+      opacity: 0.15
     });
     
     const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
@@ -58,8 +64,10 @@ export function useThreeBackground(canvasId = 'three-canvas') {
     };
     document.addEventListener('mousemove', onDocumentMouseMove);
 
+    let animationFrameId;
+
     const animate = () => {
-      requestAnimationFrame(animate);
+      animationFrameId = requestAnimationFrame(animate);
       
       targetX = mouseX * 0.001;
       targetY = mouseY * 0.001;
@@ -87,7 +95,12 @@ export function useThreeBackground(canvasId = 'three-canvas') {
     return () => {
       document.removeEventListener('mousemove', onDocumentMouseMove);
       window.removeEventListener('resize', handleResize);
-      renderer.dispose();
+      cancelAnimationFrame(animationFrameId);
+      
+      if (renderer) {
+        renderer.forceContextLoss();
+        renderer.dispose();
+      }
     };
   }, [canvasId]);
 }

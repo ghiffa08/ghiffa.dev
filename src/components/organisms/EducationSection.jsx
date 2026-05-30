@@ -1,66 +1,55 @@
+import { useState } from 'react';
 import { useSupabaseList } from '../../hooks/useSupabaseData';
+import { SectionHeader } from '../atoms/SectionHeader';
 
 export function EducationSection() {
-  const { data: qualifications, isLoading } = useSupabaseList('qualifications', {
+  const { data: qualifications, isLoading, error } = useSupabaseList('qualifications', {
     order: { column: 'order_index', ascending: true }
   });
 
   if (isLoading) {
     return (
-      <section className="hairline-t fade-up bg-[#FAFAFA] min-h-[50vh]">
-        <div className="px-4 md:px-8 py-12 hairline-b">
-            <div className="w-24 h-16 md:w-32 md:h-24 bg-gray-200 animate-pulse mb-4"></div>
-            <div className="w-64 h-6 bg-gray-200 animate-pulse"></div>
-        </div>
-        <div className="w-full">
-          <div className="grid grid-cols-1 md:grid-cols-12 hairline-b">
-            <div className="md:col-span-3 p-4 md:p-8 md:hairline-r">
-              <div className="w-32 h-4 bg-gray-200 animate-pulse"></div>
-            </div>
-            <div className="md:col-span-9 p-4 md:p-8 space-y-12">
-              {[1, 2].map((i) => (
-                <div key={i} className="grid grid-cols-1 md:grid-cols-12 gap-4 items-start">
-                  <div className="md:col-span-3 pt-1"><div className="w-24 h-4 bg-gray-200 animate-pulse"></div></div>
-                  <div className="md:col-span-9">
-                    <div className="w-64 h-6 bg-gray-200 animate-pulse mb-4"></div>
-                    <div className="w-48 h-4 bg-gray-200 animate-pulse mb-4"></div>
-                    <div className="w-full h-12 bg-gray-200 animate-pulse"></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+      <section className="py-16 md:py-24 hairline-t scroll-fade bg-white px-6 md:px-12">
+        <div className="w-full h-32 bg-gray-200 animate-pulse mb-12"></div>
       </section>
     );
+  }
+
+  if (error || !qualifications || qualifications.length === 0) {
+    return null;
   }
 
   const educations = qualifications.filter(q => q.type === 'education');
   const honors = qualifications.filter(q => q.type === 'honor');
   const certs = qualifications.filter(q => q.type === 'certification');
+  const hakis = qualifications.filter(q => q.type === 'haki');
+  const jurnals = qualifications.filter(q => q.type === 'jurnal' || q.type === 'journal');
+  const patens = qualifications.filter(q => q.type === 'paten' || q.type === 'patent');
 
   return (
-    <section className="hairline-t fade-up bg-[#FAFAFA]">
-      <div className="px-4 md:px-8 py-12 hairline-b">
-          <h2 className="text-5xl md:text-7xl font-black tracking-tighter">04.</h2>
-          <h3 className="text-xl font-bold mt-4 uppercase tracking-widest">Education & Honors</h3>
-      </div>
+    <section id="achievements" className="py-16 md:py-24 hairline-t scroll-fade bg-white">
+      <SectionHeader number="04" title="Credentials & Achievements" />
       
-      <div className="w-full">
-        {/* EDUCATION ROW */}
+      <div className="w-full px-6 md:px-12 mt-8">
+        
+        {/* 1. EDUCATION: Classic Editorial Linear Flow */}
         {educations.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-12 hairline-b hover:bg-gray-50 transition-colors">
-            <div className="md:col-span-3 p-4 md:p-8 font-mono text-sm text-gray-500 md:hairline-r tracking-widest uppercase">
+          <div className="grid grid-cols-1 md:grid-cols-12 hairline-t py-16">
+            <div className="md:col-span-3 font-mono text-[10px] md:text-xs text-gray-400 font-bold tracking-[0.2em] uppercase mb-8 md:mb-0">
               [ Education ]
             </div>
-            <div className="md:col-span-9 p-4 md:p-8 space-y-12">
+            <div className="md:col-span-9 space-y-16">
               {educations.map((item) => (
-                <div key={item.id} className="grid grid-cols-1 md:grid-cols-12 gap-4 items-start">
-                  <div className="md:col-span-3 font-mono text-xs text-[#3B82F6] pt-1">{item.period}</div>
+                <div key={item.id} className="grid grid-cols-1 md:grid-cols-12 gap-4 items-start relative group">
+                  <div className="md:col-span-3 font-mono text-[10px] md:text-xs text-[#111111] font-bold tracking-widest pt-2 uppercase">
+                    {item.period}
+                  </div>
                   <div className="md:col-span-9">
-                    <h5 className="text-xl md:text-2xl font-bold uppercase mb-2">{item.institution}</h5>
-                    <div className="font-bold mb-2 text-gray-800">{item.title}</div>
-                    {item.description && <p className="text-base text-gray-600">{item.description}</p>}
+                    <h5 className="text-[2rem] md:text-[3rem] font-black uppercase leading-[0.9] tracking-tighter text-[#111111] group-hover:text-[#666666] transition-colors duration-500">{item.institution}</h5>
+                    <p className="text-sm md:text-base text-gray-600 leading-relaxed mt-4 max-w-xl font-medium">
+                      {item.title}
+                      {item.description && <span className="block mt-2 text-gray-500 font-normal">{item.description}</span>}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -68,20 +57,69 @@ export function EducationSection() {
           </div>
         )}
 
-        {/* HONORS ROW */}
+        {/* 2. PUBLICATIONS & PATENTS: Split 50/50 Grid (Magazine Feature) */}
+        {(jurnals.length > 0 || patens.length > 0) && (
+          <div className="grid grid-cols-1 md:grid-cols-2 hairline-t">
+            {jurnals.length > 0 && (
+              <div className="py-16 md:pr-12 md:hairline-r">
+                <div className="font-mono text-[10px] md:text-xs text-gray-400 font-bold tracking-[0.2em] uppercase mb-12">
+                  [ Academic Journals ]
+                </div>
+                <div className="space-y-12">
+                  {jurnals.map((item, i) => (
+                    <div key={item.id} className="relative pl-6 md:pl-8 border-l border-[#111111]">
+                      <div className="absolute left-0 top-0 -translate-x-1/2 w-2 h-2 rounded-full bg-[#666666]"></div>
+                      <h5 className="text-lg md:text-xl font-bold leading-tight tracking-tight text-[#111111] mb-2">{item.title}</h5>
+                      <p className="text-xs font-mono uppercase tracking-widest text-gray-400 mb-2">{item.institution} — {item.period}</p>
+                      {item.description && <p className="text-sm text-gray-600 line-clamp-2">{item.description}</p>}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            {patens.length > 0 && (
+              <div className="py-16 md:pl-12 hairline-t md:border-t-0">
+                <div className="font-mono text-[10px] md:text-xs text-gray-400 font-bold tracking-[0.2em] uppercase mb-12">
+                  [ Patents & Inventions ]
+                </div>
+                <div className="space-y-12">
+                  {patens.map((item, i) => (
+                    <div key={item.id} className="group cursor-pointer">
+                      <div className="flex items-baseline gap-4 mb-2">
+                        <span className="font-serif-editorial italic text-3xl text-[#E5E5E5] group-hover:text-[#666666] transition-colors">0{i+1}</span>
+                        <h5 className="text-xl md:text-2xl font-bold uppercase tracking-tighter text-[#111111]">{item.title}</h5>
+                      </div>
+                      <p className="text-xs font-mono uppercase tracking-widest text-gray-400 pl-12 mb-2">{item.institution} — {item.period}</p>
+                      {item.description && <p className="text-sm text-gray-600 pl-12">{item.description}</p>}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* 3. HONORS & AWARDS: Large Serif Typography in Swiss Grid */}
         {honors.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-12 hairline-b hover:bg-gray-50 transition-colors">
-            <div className="md:col-span-3 p-4 md:p-8 font-mono text-sm text-gray-500 md:hairline-r tracking-widest uppercase">
-              [ Honors ]
+          <div className="grid grid-cols-1 md:grid-cols-12 hairline-t py-16">
+            <div className="md:col-span-3 font-mono text-[10px] md:text-xs text-gray-400 font-bold tracking-[0.2em] uppercase mb-8 md:mb-0">
+              [ Honors & Awards ]
             </div>
-            <div className="md:col-span-9 p-4 md:p-8 space-y-8">
-              {honors.map(item => (
-                <div key={item.id} className="grid grid-cols-1 md:grid-cols-12 gap-4 items-start">
-                  <div className="md:col-span-3 font-mono text-xs text-[#3B82F6] pt-1">{item.period}</div>
-                  <div className="md:col-span-9">
-                    <h5 className="text-lg font-bold uppercase mb-1">{item.title}</h5>
-                    <div className="font-bold text-gray-800 mb-1">{item.institution}</div>
-                    {item.description && <p className="text-sm text-gray-600">{item.description}</p>}
+            <div className="md:col-span-9 flex flex-col">
+              {honors.map((item, idx) => (
+                <div key={item.id} className={`flex flex-col md:flex-row md:items-end justify-between py-10 ${idx !== 0 ? 'hairline-t' : 'pt-0'}`}>
+                  <div className="md:pr-8">
+                    <h5 className="text-[2rem] md:text-[3rem] lg:text-[4rem] font-serif-editorial italic leading-[0.9] tracking-tight text-[#111111]">
+                      {item.title}
+                    </h5>
+                    <div className="mt-4 flex items-center gap-4">
+                      <span className="font-mono text-[10px] font-bold tracking-widest uppercase text-gray-500 bg-gray-200 px-3 py-1 rounded-full">{item.institution}</span>
+                      {item.description && <span className="text-sm text-gray-600 line-clamp-1">{item.description}</span>}
+                    </div>
+                  </div>
+                  <div className="font-mono text-[10px] md:text-xs text-[#111111] font-bold tracking-[0.2em] uppercase mt-6 md:mt-0 text-left md:text-right shrink-0">
+                    {item.period}
                   </div>
                 </div>
               ))}
@@ -89,23 +127,37 @@ export function EducationSection() {
           </div>
         )}
 
-        {/* CERTIFICATIONS ROW */}
-        {certs.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-12 hover:bg-gray-50 transition-colors">
-            <div className="md:col-span-3 p-4 md:p-8 font-mono text-sm text-gray-500 md:hairline-r tracking-widest uppercase">
-              [ Certifications ]
+        {/* 4. INTELLECTUAL PROPERTY & CERTIFICATIONS: Dense Grid */}
+        {(hakis.length > 0 || certs.length > 0) && (
+          <div className="grid grid-cols-1 md:grid-cols-12 hairline-t py-16 gap-y-12">
+            <div className="md:col-span-3 font-mono text-[10px] md:text-xs text-gray-400 font-bold tracking-[0.2em] uppercase">
+              [ HAKI & Certifications ]
             </div>
-            <div className="md:col-span-9 p-4 md:p-8 space-y-4 font-mono text-sm">
-              {certs.map(item => (
-                <div key={item.id} className="grid grid-cols-1 md:grid-cols-12 gap-4 border-b border-gray-200 pb-4">
-                  <div className="md:col-span-8 font-bold text-gray-800">{item.title}</div>
-                  <div className="md:col-span-4 text-gray-500 md:text-right">{item.institution} ({item.period})</div>
+            
+            <div className="md:col-span-9 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {/* Hakis */}
+              {hakis.map((item) => (
+                <div key={item.id} className="p-6 border border-[#E5E5E5] hover:border-[#111111] transition-colors bg-white group">
+                  <div className="w-8 h-8 rounded-full bg-[#FAFAFA] flex items-center justify-center text-[10px] font-mono font-bold mb-4 group-hover:bg-[#111111] group-hover:text-white transition-colors">IP</div>
+                  <h5 className="text-sm font-bold uppercase tracking-tight text-[#111111] mb-2">{item.title}</h5>
+                  <p className="text-xs text-gray-500">{item.institution}</p>
+                  <p className="text-[10px] font-mono mt-4 text-gray-400 uppercase tracking-widest">{item.period}</p>
+                </div>
+              ))}
+              
+              {/* Certifications */}
+              {certs.map((item) => (
+                <div key={item.id} className="p-6 bg-[#FAFAFA] hover:bg-[#111111] hover:text-white transition-colors group">
+                  <div className="w-8 h-8 rounded-full border border-gray-200 group-hover:border-white/20 flex items-center justify-center text-[10px] font-mono font-bold mb-4">CRT</div>
+                  <h5 className="text-sm font-bold uppercase tracking-tight mb-2">{item.title}</h5>
+                  <p className="text-xs text-gray-500 group-hover:text-gray-400">{item.institution}</p>
+                  <p className="text-[10px] font-mono mt-4 text-gray-400 uppercase tracking-widest">{item.period}</p>
                 </div>
               ))}
             </div>
           </div>
         )}
-        
+
       </div>
     </section>
   );

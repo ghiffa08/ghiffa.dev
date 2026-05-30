@@ -56,6 +56,7 @@ export function useSupabaseList(table, options = {}) {
       revalidateIfStale: false,
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
+      dedupingInterval: 10000,
     }
   );
 

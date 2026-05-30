@@ -1,57 +1,73 @@
+import React, { useState } from 'react';
 import { useSupabaseList } from '../../hooks/useSupabaseData';
+import { SectionHeader } from '../atoms/SectionHeader';
 
 export function ExperienceSection() {
-  const { data: experiences, isLoading } = useSupabaseList('experiences', {
+  const [activeExp, setActiveExp] = useState(0);
+  const { data: experiences, isLoading, error } = useSupabaseList('experiences', {
     order: { column: 'order_index', ascending: true }
   });
 
   if (isLoading) {
     return (
-      <section className="hairline-t fade-up bg-[#FAFAFA] min-h-[50vh]">
-        <div className="px-4 md:px-8 py-12 hairline-b">
-            <div className="w-24 h-16 md:w-32 md:h-24 bg-gray-200 animate-pulse mb-4"></div>
-            <div className="w-64 h-6 bg-gray-200 animate-pulse"></div>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-12">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="md:col-span-12 grid grid-cols-1 md:grid-cols-12 hairline-b">
-              <div className="md:col-span-3 p-4 md:p-8 md:hairline-r">
-                 <div className="w-32 h-4 bg-gray-200 animate-pulse"></div>
-              </div>
-              <div className="md:col-span-9 p-4 md:p-8">
-                <div className="w-64 h-8 bg-gray-200 animate-pulse mb-4"></div>
-                <div className="w-48 h-4 bg-gray-200 animate-pulse mb-6"></div>
-                <div className="w-full h-24 bg-gray-200 animate-pulse"></div>
-              </div>
-            </div>
-          ))}
-        </div>
+      <section id="experience" className="py-16 md:py-24 hairline-t scroll-fade bg-white px-6 md:px-12">
+        <div className="w-full h-32 bg-gray-200 animate-pulse mb-8"></div>
       </section>
     );
   }
 
+  if (error || !experiences || experiences.length === 0) {
+    return null;
+  }
+
+  const activeExperience = experiences[activeExp] || experiences[0];
+
   return (
-    <section className="hairline-t fade-up bg-[#FAFAFA]">
-      <div className="px-4 md:px-8 py-12 hairline-b">
-          <h2 className="text-5xl md:text-7xl font-black tracking-tighter">02.</h2>
-          <h3 className="text-xl font-bold mt-4 uppercase tracking-widest">Professional Experience</h3>
-      </div>
-      
-      <div className="grid grid-cols-1 md:grid-cols-12">
-        {experiences.map((exp) => (
-          <div key={exp.id} className="md:col-span-12 grid grid-cols-1 md:grid-cols-12 hairline-b hover:bg-gray-50 transition-colors">
-            <div className="md:col-span-3 p-4 md:p-8 font-mono text-sm text-gray-500 md:hairline-r">
-              [ {exp.period} ]
-            </div>
-            <div className="md:col-span-9 p-4 md:p-8">
-              <h4 className="text-2xl font-bold uppercase mb-2">{exp.role}</h4>
-              <div className="font-mono text-sm text-[#3B82F6] mb-4">{exp.company}</div>
-              <p className="text-gray-700 max-w-3xl">
-                {exp.description}
+    <section id="process" className="py-24 md:py-32 hairline-t scroll-fade bg-[#FAFAFA]">
+      <SectionHeader number="03" title="Professional Journey" />
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 px-6 md:px-12">
+        <div className="lg:col-span-4">
+          {/* Dynamic Number Indicator */}
+          <div className="text-[8rem] md:text-[12rem] font-light text-[#E5E5E5] tracking-tighter leading-none transition-all duration-500 select-none">
+            0{activeExp + 1}/
+          </div>
+        </div>
+
+        <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
+          {/* Vertical Navigation Tab */}
+          <div className="flex flex-col space-y-6 md:space-y-10 hairline-l pl-6 md:pl-10">
+            {experiences.map((exp, idx) => (
+              <button 
+                key={exp.id || idx}
+                onClick={() => setActiveExp(idx)}
+                className={`text-left text-2xl md:text-3xl font-medium tracking-tight transition-all duration-300 ${activeExp === idx ? 'text-[#111111]' : 'text-gray-400 hover:text-gray-600'}`}
+              >
+                {exp.company}
+              </button>
+            ))}
+          </div>
+
+          {/* Dynamic Content Detail */}
+          <div className="pt-2 md:pt-0">
+            <h4 className="text-xl md:text-2xl font-bold mb-2 text-[#111111] uppercase tracking-tight">
+              {activeExperience.role}
+            </h4>
+            <p className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-[#666666] mb-6 font-mono font-bold">
+              {activeExperience.period}
+            </p>
+            <p className="text-gray-600 text-sm md:text-base leading-relaxed mb-8 whitespace-pre-line">
+              {activeExperience.description}
+            </p>
+            
+            <div className="pt-6 hairline-t">
+              <p className="text-[10px] text-gray-400 uppercase tracking-[0.2em] mb-3 font-mono font-bold">Tech Stack</p>
+              <p className="text-[10px] md:text-xs font-bold text-[#111111] font-mono tracking-widest uppercase">
+                {activeExperience.tech_stack || activeExperience.tech || 'Various Technologies'}
               </p>
             </div>
           </div>
-        ))}
+        </div>
       </div>
     </section>
   );

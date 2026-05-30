@@ -60,9 +60,6 @@ export function Header() {
 
         <div className="flex items-center gap-6">
           <LanguageSwitcher />
-          <a href="#contact" onClick={(e) => handleScrollTo(e, '#contact')} className="font-mono text-[10px] md:text-xs tracking-[0.2em] uppercase font-bold hover:text-[#666666] transition-colors flex items-center gap-2">
-            LET'S CONNECT <span className="text-base leading-none">↗</span>
-          </a>
         </div>
       </div>
     </nav>

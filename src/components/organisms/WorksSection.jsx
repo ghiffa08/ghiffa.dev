@@ -54,18 +54,18 @@ export function WorksSection({ setActiveDetail }) {
             </h3>
             
             {/* Project Category & Hover Reveal Image */}
-            <div className="flex items-center justify-end mt-6 md:mt-0 z-10 relative">
+            <div className="flex items-center justify-between md:justify-end mt-8 md:mt-0 z-10 relative w-full md:w-auto">
               {/* Image Reveal on Hover (Desktop) */}
               <div className={`hidden md:block absolute right-[280px] top-1/2 transform -translate-y-1/2 w-72 h-48 overflow-hidden transition-all duration-500 ease-out pointer-events-none origin-right border border-[#E5E5E5] p-1 bg-white ${hoveredProject === project.title ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
                 <img src={project.img} alt={project.title} loading="lazy" className="w-full h-full object-cover grayscale brightness-90 group-hover:grayscale-0" />
               </div>
 
-              <span className="font-mono text-gray-500 text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold group-hover:text-gray-300 transition-colors duration-300 mr-8">
+              <span className="font-mono text-gray-500 text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold border border-[#E5E5E5] px-3 py-1.5 group-hover:border-gray-500 group-hover:text-gray-300 transition-colors duration-300 md:mr-8">
                 {project.category || 'PROJECT'}
               </span>
               
               {/* Circular Arrow Button */}
-              <div className="w-12 h-12 rounded-full border border-[#E5E5E5] group-hover:border-white text-[#111111] group-hover:text-white flex items-center justify-center transition-all duration-300 transform group-hover:rotate-45 font-mono">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-[#E5E5E5] group-hover:border-white text-[#111111] group-hover:text-white flex items-center justify-center transition-all duration-300 transform group-hover:rotate-45 font-mono text-sm">
                 ↗
               </div>
             </div>

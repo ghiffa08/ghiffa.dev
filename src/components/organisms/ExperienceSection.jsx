@@ -27,14 +27,14 @@ export function ExperienceSection() {
       <SectionHeader number="03" title="Professional Journey" />
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 px-6 md:px-12">
-        <div className="lg:col-span-4">
+        <div className="lg:col-span-4 hidden md:block">
           {/* Dynamic Number Indicator */}
-          <div className="text-[8rem] md:text-[12rem] font-light text-[#E5E5E5] tracking-tighter leading-none transition-all duration-500 select-none">
+          <div className="text-[6rem] md:text-[10rem] lg:text-[12rem] font-light text-[#E5E5E5] tracking-tighter leading-none transition-all duration-500 select-none">
             0{activeExp + 1}/
           </div>
         </div>
 
-        <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
+        <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16">
           {/* Vertical Navigation Tab */}
           <div className="flex flex-col space-y-6 md:space-y-10 hairline-l pl-6 md:pl-10">
             {experiences.map((exp, idx) => (

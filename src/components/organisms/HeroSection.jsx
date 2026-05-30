@@ -30,13 +30,13 @@ export function HeroSection() {
   return (
     <section className="min-h-[100svh] flex flex-col justify-center px-6 md:px-12 pt-32 pb-16 md:pb-24 relative">
       <div className="max-w-screen-2xl w-full mx-auto">
-        <h1 className="text-[12vw] md:text-[9vw] lg:text-[140px] font-black leading-[0.85] tracking-tighter uppercase anim-fade-up text-[#111111] mb-2 max-w-6xl break-words">
+        <h1 className="text-6xl sm:text-[10vw] md:text-[9vw] lg:text-[140px] font-black leading-[0.85] tracking-tighter uppercase anim-fade-up text-[#111111] mb-2 max-w-6xl break-words">
           {info.headline}
         </h1>
         
         <div className="mt-16 md:mt-24 grid grid-cols-1 md:grid-cols-12 gap-8 items-end anim-fade-up">
           <div className="md:col-span-5 lg:col-span-4 flex items-center gap-4">
-            <a href="#contact" className="inline-flex items-center gap-3 rounded-full border border-[#E5E5E5] bg-white px-6 md:px-8 py-4 text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold hover:border-[#111111] shadow-sm transition-all duration-300">
+            <a href="#contact" className="inline-flex items-center gap-3 rounded-full border border-[#E5E5E5] bg-white px-5 py-3 md:px-8 md:py-4 text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold hover:border-[#111111] shadow-sm transition-all duration-300">
               <span>Let's Connect With Me</span>
             </a>
             <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-[#111111] text-[#111111] flex items-center justify-center transform -rotate-45 font-mono text-sm hover:bg-[#111111] hover:text-white transition-colors cursor-pointer">

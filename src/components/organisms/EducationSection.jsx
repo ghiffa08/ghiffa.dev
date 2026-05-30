@@ -45,9 +45,9 @@ export function EducationSection() {
                     {item.period}
                   </div>
                   <div className="md:col-span-9">
-                    <h5 className="text-[2rem] md:text-[3rem] font-black uppercase leading-[0.9] tracking-tighter text-[#111111] group-hover:text-[#666666] transition-colors duration-500">{item.institution}</h5>
+                    <h5 className="text-[2rem] md:text-[3rem] font-black uppercase leading-[0.9] tracking-tighter text-[#111111] group-hover:text-[#666666] transition-colors duration-500">{item.title}</h5>
                     <p className="text-sm md:text-base text-gray-600 leading-relaxed mt-4 max-w-xl font-medium">
-                      {item.title}
+                      {item.institution}
                       {item.description && <span className="block mt-2 text-gray-500 font-normal">{item.description}</span>}
                     </p>
                   </div>

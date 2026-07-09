@@ -1,7 +1,6 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import { supabase } from '../lib/supabaseClient';
-import { slugify } from '../utils/slugify';
+import { ProjectRepository } from '../repositories/ProjectRepository';
 
 // Hooks
 import { useSmoothScroll } from '../hooks/useSmoothScroll';
@@ -18,7 +17,7 @@ import { SkillsSection } from '../components/organisms/SkillsSection';
 import { ExperienceSection } from '../components/organisms/ExperienceSection';
 import { WorksSection } from '../components/organisms/WorksSection';
 import { EducationSection } from '../components/organisms/EducationSection';
-import { ArticlesSection } from '../components/organisms/ArticlesSection';
+import { InstagramFeed } from '../components/organisms/InstagramFeed';
 import { ContactSection } from '../components/organisms/ContactSection';
 import { Footer } from '../components/organisms/Footer';
 import { SEO } from '../components/atoms/SEO';
@@ -40,34 +39,22 @@ export default function Portfolio() {
 
   useEffect(() => {
     const isProject = location.pathname.startsWith('/project/');
-    const isArticle = location.pathname.startsWith('/article/');
 
     async function fetchDetail() {
       if (isProject && slug) {
-        const { data } = await supabase.from('projects').select('*');
-        if (data && !activeDetail) {
-          const matchedProject = data.find(p => slugify(p.title) === slug);
-          if (matchedProject) {
+        try {
+          const matchedProject = await ProjectRepository.getProjectBySlug(slug);
+          if (matchedProject && !activeDetail) {
             setActiveDetail({ 
               ...matchedProject, 
               type: 'project', 
-              img: matchedProject.image_url, 
+              img: matchedProject.image_urls?.[0] || matchedProject.image_url, 
               stack: Array.isArray(matchedProject.tech_stack) ? matchedProject.tech_stack : [], 
               desc: matchedProject.description 
             });
           }
-        }
-      } else if (isArticle && slug) {
-        const { data } = await supabase.from('articles').select('*').eq('slug', slug).single();
-        if (data && !activeDetail) {
-          setActiveDetail({ 
-            ...data, 
-            type: 'article', 
-            img: data.cover_image, 
-            date: data.published_at ? new Date(data.published_at).toLocaleDateString() : '', 
-            readTime: data.read_time, 
-            desc: data.description 
-          });
+        } catch (err) {
+          console.error("Error fetching project detail:", err);
         }
       }
     }
@@ -82,8 +69,6 @@ export default function Portfolio() {
     if (detail) {
       if (detail.type === 'project') {
         window.history.pushState(null, '', `/project/${detail.slug}`);
-      } else if (detail.type === 'article') {
-        window.history.pushState(null, '', `/article/${detail.slug}`);
       }
     } else {
       window.history.pushState(null, '', `/`);
@@ -200,8 +185,7 @@ export default function Portfolio() {
         <WorksSection setActiveDetail={handleSetActiveDetail} />
         <ExperienceSection />
         <EducationSection />
-        <ArticlesSection 
-          setActiveDetail={handleSetActiveDetail} 
+        <InstagramFeed 
           setHoveredArticleImg={setHoveredArticleImg} 
         />
         <ContactSection />

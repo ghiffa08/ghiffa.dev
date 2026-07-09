@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSupabaseList } from '../../hooks/useSupabaseData';
 import { SectionHeader } from '../atoms/SectionHeader';
+import { slugify } from '../../utils/slugify';
 
 export function ExperienceSection() {
+  const { t } = useTranslation();
   const [activeExp, setActiveExp] = useState(0);
   const { data: experiences, isLoading, error } = useSupabaseList('experiences', {
     order: { column: 'order_index', ascending: true }
@@ -22,9 +25,12 @@ export function ExperienceSection() {
 
   const activeExperience = experiences[activeExp] || experiences[0];
 
+  const roleKey = activeExperience ? `experience.${slugify(activeExperience.company)}.${slugify(activeExperience.role)}.role` : '';
+  const descKey = activeExperience ? `experience.${slugify(activeExperience.company)}.${slugify(activeExperience.role)}.description` : '';
+
   return (
     <section id="process" className="py-24 md:py-32 hairline-t scroll-fade bg-[#FAFAFA]">
-      <SectionHeader number="03" title="Professional Journey" />
+      <SectionHeader number="03" title={t('experience.title')} />
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 px-6 md:px-12">
         <div className="lg:col-span-4 hidden md:block">
@@ -51,19 +57,19 @@ export function ExperienceSection() {
           {/* Dynamic Content Detail */}
           <div className="pt-2 md:pt-0">
             <h4 className="text-xl md:text-2xl font-bold mb-2 text-[#111111] uppercase tracking-tight">
-              {activeExperience.role}
+              {t(roleKey, activeExperience.role)}
             </h4>
             <p className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-[#666666] mb-6 font-mono font-bold">
               {activeExperience.period}
             </p>
             <p className="text-gray-600 text-sm md:text-base leading-relaxed mb-8 whitespace-pre-line">
-              {activeExperience.description}
+              {t(descKey, activeExperience.description)}
             </p>
             
             <div className="pt-6 hairline-t">
-              <p className="text-[10px] text-gray-400 uppercase tracking-[0.2em] mb-3 font-mono font-bold">Tech Stack</p>
+              <p className="text-[10px] text-gray-400 uppercase tracking-[0.2em] mb-3 font-mono font-bold">{t('experience.techStack')}</p>
               <p className="text-[10px] md:text-xs font-bold text-[#111111] font-mono tracking-widest uppercase">
-                {activeExperience.tech_stack || activeExperience.tech || 'Various Technologies'}
+                {activeExperience.tech_stack || activeExperience.tech || t('experience.variousTech')}
               </p>
             </div>
           </div>

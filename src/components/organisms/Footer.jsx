@@ -1,6 +1,8 @@
+import { useTranslation } from 'react-i18next';
 import { useSupabaseSingle } from '../../hooks/useSupabaseData';
 
 export function Footer() {
+  const { t } = useTranslation();
   const { data: contact, isLoading } = useSupabaseSingle('contact_section');
 
   if (isLoading || !contact) {
@@ -10,7 +12,7 @@ export function Footer() {
   return (
     <footer className="hairline-t px-4 md:px-8 py-12 bg-[#111111] text-[#FAFAFA] flex flex-col md:flex-row justify-between items-center font-mono text-xs relative z-10">
       <div className="mb-6 md:mb-0 text-center md:text-left">
-        <p className="text-gray-400 mb-1">EMAIL ME DIRECTLY</p>
+        <p className="text-gray-400 mb-1">{t('footer.emailMe')}</p>
         <p className="text-sm md:text-lg">{contact.email}</p>
       </div>
       <div className="flex flex-col items-center md:items-end space-y-4">
@@ -26,7 +28,7 @@ export function Footer() {
           )}
         </div>
         <div className="text-gray-600">
-          © {new Date().getFullYear()} GHIFFFA.DEV. KUNINGAN, ID.
+          © {new Date().getFullYear()} GHIFFFA.DEV. {t('footer.kuningan')}
         </div>
       </div>
     </footer>

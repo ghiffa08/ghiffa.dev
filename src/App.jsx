@@ -6,14 +6,13 @@ import Portfolio from './pages/Portfolio';
 
 // Admin Pages (Lazy loaded to reduce main bundle size)
 const Login = lazy(() => import('./pages/admin/Login'));
-const DashboardLayout = lazy(() => import('./pages/admin/DashboardLayout'));
+const AppLayout = lazy(() => import('./components/admin-ui/AppLayout'));
 const DashboardHome = lazy(() => import('./pages/admin/DashboardHome'));
 const SettingsManager = lazy(() => import('./pages/admin/SettingsManager'));
 const PersonalInfoManager = lazy(() => import('./pages/admin/PersonalInfoManager'));
 const ExperienceManager = lazy(() => import('./pages/admin/ExperienceManager'));
 const ProjectsManager = lazy(() => import('./pages/admin/ProjectsManager'));
 const EducationManager = lazy(() => import('./pages/admin/EducationManager'));
-const ArticlesManager = lazy(() => import('./pages/admin/ArticlesManager'));
 const BioLinksManager = lazy(() => import('./pages/admin/BioLinksManager'));
 
 // Admin Loading Fallback
@@ -40,7 +39,7 @@ export default function App() {
 
       <Route path="/admin/panel" element={
         <Suspense fallback={<AdminLoader />}>
-          <DashboardLayout />
+          <AppLayout />
         </Suspense>
       }>
         <Route index element={<Navigate to="dashboard" replace />} />
@@ -50,7 +49,6 @@ export default function App() {
         <Route path="experiences" element={<ExperienceManager />} />
         <Route path="projects" element={<ProjectsManager />} />
         <Route path="qualifications" element={<EducationManager />} />
-        <Route path="articles" element={<ArticlesManager />} />
         <Route path="links" element={<BioLinksManager />} />
       </Route>
     </Routes>

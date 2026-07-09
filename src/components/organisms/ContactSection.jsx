@@ -1,6 +1,8 @@
+import { useTranslation } from 'react-i18next';
 import { useSupabaseSingle } from '../../hooks/useSupabaseData';
 
 export function ContactSection() {
+  const { t } = useTranslation();
   const { data: info, isLoading, error } = useSupabaseSingle('personal_info');
 
   if (isLoading) {
@@ -21,16 +23,16 @@ export function ContactSection() {
     <section id="contact" className="bg-[#111111] text-[#FAFAFA] pt-32 pb-12 mt-12 scroll-fade">
       <div className="max-w-screen-2xl mx-auto px-6 md:px-12 flex flex-col items-center text-center">
         
-        <h2 className="text-[11vw] md:text-[8vw] font-black leading-[0.8] tracking-tighter mb-12 text-white uppercase">
-          Communication matters<br/>to start good things/
+        <h2 className="text-[11vw] md:text-[8vw] font-black leading-[0.8] tracking-tighter mb-12 text-white uppercase whitespace-pre-line">
+          {t('contact.title')}
         </h2>
         
         <p className="text-sm md:text-base text-gray-400 font-medium mb-16 max-w-md">
-          {info.availability_status || "I'm currently available for freelance worldwide. Feel free to contact me if you want to collaborate on future projects or have a little chat."}
+          {t(info.availability_status) || t("I'm currently available for freelance worldwide. Feel free to contact me if you want to collaborate on future projects or have a little chat.")}
         </p>
 
         <a href={`mailto:${info.email}`} className="w-full max-w-xl rounded-full border border-white/20 bg-white/5 py-5 text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-black transition-all duration-500 flex justify-center items-center gap-3">
-          <span>Let's Connect With Me</span>
+          <span>{t('contact.connect')}</span>
           <span className="text-base leading-none">↗</span>
         </a>
 

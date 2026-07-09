@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { supabase } from '../../lib/supabaseClient';
+import { SettingsRepository } from '../../repositories/SettingsRepository';
 import { Settings, Save, AlertCircle } from 'lucide-react';
+import Button from '../../components/admin-ui/Button';
+import { Input, TextArea } from '../../components/admin-ui/Input';
+import Label from '../../components/admin-ui/Label';
 
 export default function SettingsManager() {
   const [formData, setFormData] = useState({
@@ -18,11 +21,16 @@ export default function SettingsManager() {
   }, []);
 
   const fetchSettings = async () => {
-    const { data, error } = await supabase.from('general_settings').select('*').limit(1).single();
-    if (data) {
-      setFormData(data);
+    try {
+      const data = await SettingsRepository.getSettings();
+      if (data) {
+        setFormData(data);
+      }
+    } catch (err) {
+      setMessage('Error loading settings: ' + err.message);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const handleChange = (e) => {
@@ -35,76 +43,63 @@ export default function SettingsManager() {
     setSaving(true);
     setMessage('');
     
-    // Check if row exists
-    const { data: existing } = await supabase.from('general_settings').select('id').limit(1).single();
-    
-    let error;
-    if (existing) {
-      const { error: updateError } = await supabase.from('general_settings').update(formData).eq('id', existing.id);
-      error = updateError;
-    } else {
-      const { error: insertError } = await supabase.from('general_settings').insert([formData]);
-      error = insertError;
-    }
-
-    setSaving(false);
-    if (error) {
-      setMessage(`Error: ${error.message}`);
-    } else {
+    try {
+      await SettingsRepository.updateSettings(formData);
       setMessage('Settings saved successfully!');
       setTimeout(() => setMessage(''), 3000);
+    } catch (err) {
+      setMessage(`Error: ${err.message}`);
+    } finally {
+      setSaving(false);
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className="p-8 text-center font-mono">Loading...</div>;
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-[#E5E5E5] p-6">
-      <div className="flex items-center space-x-3 mb-6 pb-6 border-b border-[#E5E5E5]">
-        <Settings size={24} className="text-[#111111]" />
-        <h2 className="text-xl font-bold tracking-tight text-[#111111]">General Settings</h2>
+    <div className="bg-white rounded-none border border-black/10 p-6 font-mono text-[#111111]">
+      <div className="flex items-center space-x-3 mb-6 pb-6 border-b border-black/10">
+        <Settings size={20} />
+        <h2 className="text-xl font-black uppercase">General Settings</h2>
       </div>
 
       {message && (
-        <div className={`p-4 mb-6 rounded-md flex items-center gap-3 ${message.includes('Error') ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'}`}>
-          <AlertCircle size={18} />
-          <span className="text-sm font-medium">{message}</span>
+        <div className={`p-4 mb-6 rounded-none flex items-center gap-3 ${message.includes('Error') ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'}`}>
+          <AlertCircle size={16} />
+          <span className="text-xs font-bold uppercase">{message}</span>
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">App/Brand Name</label>
-          <input
+          <Label>App/Brand Name</Label>
+          <Input
             type="text"
             name="app_name"
             value={formData.app_name || ''}
             onChange={handleChange}
-            className="w-full border border-[#E5E5E5] rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#111111] transition-all"
             required
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Global SEO Title</label>
-          <input
+          <Label>Global SEO Title</Label>
+          <Input
             type="text"
             name="seo_title"
             value={formData.seo_title || ''}
             onChange={handleChange}
-            className="w-full border border-[#E5E5E5] rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#111111] transition-all"
             required
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Global SEO Description</label>
-          <textarea
+          <Label>Global SEO Description</Label>
+          <TextArea
             name="seo_description"
             value={formData.seo_description || ''}
-            onChange={handleChange}
-            rows="3"
-            className="w-full border border-[#E5E5E5] rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#111111] transition-all resize-none"
+            onChange={(val) => setFormData(prev => ({ ...prev, seo_description: val }))}
+            rows={3}
             required
           />
         </div>
@@ -116,22 +111,17 @@ export default function SettingsManager() {
             id="maintenance_mode"
             checked={formData.maintenance_mode || false}
             onChange={handleChange}
-            className="w-4 h-4 text-[#111111] focus:ring-[#111111] border-gray-300 rounded cursor-pointer"
+            className="w-4 h-4 text-[#111111] focus:ring-black border-gray-300 rounded cursor-pointer accent-[#111111]"
           />
-          <label htmlFor="maintenance_mode" className="text-sm font-medium text-gray-700 cursor-pointer">
+          <label htmlFor="maintenance_mode" className="text-xs font-bold uppercase tracking-wider cursor-pointer">
             Enable Maintenance Mode
           </label>
         </div>
 
-        <div className="pt-6 border-t border-[#E5E5E5]">
-          <button
-            type="submit"
-            disabled={saving}
-            className="flex items-center space-x-2 bg-[#111111] text-white px-6 py-2.5 rounded-md hover:bg-gray-800 transition-colors disabled:opacity-50 font-medium text-sm"
-          >
-            <Save size={16} />
-            <span>{saving ? 'Saving...' : 'Save Settings'}</span>
-          </button>
+        <div className="pt-6 border-t border-black/10">
+          <Button type="submit" disabled={saving} startIcon={<Save size={16} />}>
+            {saving ? 'Saving...' : 'Save Settings'}
+          </Button>
         </div>
       </form>
     </div>

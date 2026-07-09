@@ -1,7 +1,10 @@
+import { useTranslation } from 'react-i18next';
 import { useSupabaseSingle } from '../../hooks/useSupabaseData';
 import { SectionHeader } from '../atoms/SectionHeader';
+import ReactMarkdown from 'react-markdown';
 
 export function AboutSection() {
+  const { t } = useTranslation();
   const { data: info, isLoading, error } = useSupabaseSingle('personal_info');
 
   if (isLoading) {
@@ -16,14 +19,22 @@ export function AboutSection() {
     return null;
   }
 
-  const paragraphs = (info.about_content || '').split('\n').filter(p => p.trim() !== '');
-  const mainText = paragraphs.length > 0 ? paragraphs[0] : 'Transforming your digital ideas into scalable reality.';
-  // Jika paragraf lebih dari 1, gabungkan sisanya jadi subText. Jika hanya 1, biarkan kosong agar tidak duplikat.
-  const subText = paragraphs.length > 1 ? paragraphs.slice(1).join('\n') : '';
+  const translatedAboutContent = t('personal.about_content', info.about_content);
+  
+  let mainText = 'Transforming your digital ideas into scalable reality.';
+  let subText = '';
+
+  const paragraphs = (translatedAboutContent || '').split(/\n\n+/).filter(p => p.trim() !== '');
+  if (paragraphs.length > 0) {
+    // Left side: first paragraph without any markdown symbols (like bold/asterisks)
+    mainText = paragraphs[0].replace(/[*_#`~\-]/g, '').trim();
+    // Right side: the remaining paragraphs as markdown content
+    subText = paragraphs.slice(1).join('\n\n');
+  }
 
   return (
     <section id="about" className="py-16 md:py-24 hairline-t scroll-fade bg-white">
-      <SectionHeader number="01" title="About & Expertise" />
+      <SectionHeader number="01" title={t('about.title')} />
       
       <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 px-6 md:px-12 items-start">
         <div className="md:col-span-6 lg:col-span-5">
@@ -41,9 +52,12 @@ export function AboutSection() {
         </div>
         
         <div className="md:col-span-6 lg:col-span-7 lg:pl-12">
-          <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-10 text-justify md:text-left whitespace-pre-line">
-            {subText}
-          </p>
+          <div className="text-base md:text-lg text-gray-600 leading-relaxed mb-10 text-justify md:text-left prose prose-neutral max-w-none 
+            [&>ul]:list-disc [&>ul]:ml-5 [&>ul]:mb-6 [&>ul>li]:mb-3 [&>ul>li]:pl-1 
+            [&>strong]:font-bold [&>strong]:text-[#111111] 
+            [&>ol]:list-decimal [&>ol]:ml-5 [&>ol]:mb-6 [&>ol>li]:mb-3 [&>p]:mb-6">
+            <ReactMarkdown>{subText}</ReactMarkdown>
+          </div>
           
           <a 
             href={info.cv_url || '#'} 
@@ -51,7 +65,7 @@ export function AboutSection() {
             rel="noreferrer"
             className="inline-flex items-center gap-3 border-b-2 border-[#111111] pb-1 font-mono text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] hover:text-[#666666] hover:border-[#666666] transition-colors"
           >
-            <span>Download Resume</span>
+            <span>{t('about.downloadResume')}</span>
             <span className="text-sm leading-none">↓</span>
           </a>
         </div>

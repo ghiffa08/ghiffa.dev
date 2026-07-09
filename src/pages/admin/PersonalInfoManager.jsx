@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { supabase } from '../../lib/supabaseClient';
+import { SettingsRepository } from '../../repositories/SettingsRepository';
 import { User, Save, AlertCircle } from 'lucide-react';
+import Button from '../../components/admin-ui/Button';
+import { Input } from '../../components/admin-ui/Input';
+import Label from '../../components/admin-ui/Label';
+import SimpleMDE from 'react-simplemde-editor';
+import 'easymde/dist/easymde.min.css';
 
 export default function PersonalInfoManager() {
   const [formData, setFormData] = useState({
@@ -28,15 +33,20 @@ export default function PersonalInfoManager() {
   }, []);
 
   const fetchInfo = async () => {
-    const { data, error } = await supabase.from('personal_info').select('*').limit(1).single();
-    if (data) {
-      setFormData({
-        ...data,
-        social_links: data.social_links || { github: '', linkedin: '', instagram: '' }
-      });
-      setSkillsText(data.skills ? data.skills.join(', ') : '');
+    try {
+      const data = await SettingsRepository.getPersonalInfo();
+      if (data) {
+        setFormData({
+          ...data,
+          social_links: data.social_links || { github: '', linkedin: '', instagram: '' }
+        });
+        setSkillsText(data.skills ? data.skills.join(', ') : '');
+      }
+    } catch (err) {
+      setMessage('Error loading personal info: ' + err.message);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const handleChange = (e) => {
@@ -59,207 +69,181 @@ export default function PersonalInfoManager() {
     setSaving(true);
     setMessage('');
     
-    const parsedSkills = skillsText.split(',').map(s => s.trim()).filter(Boolean);
-    const payload = { ...formData, skills: parsedSkills };
-    
-    // Check if row exists
-    const { data: existing } = await supabase.from('personal_info').select('id').limit(1).single();
-    
-    let error;
-    if (existing) {
-      const { error: updateError } = await supabase.from('personal_info').update(payload).eq('id', existing.id);
-      error = updateError;
-    } else {
-      const { error: insertError } = await supabase.from('personal_info').insert([payload]);
-      error = insertError;
-    }
-
-    setSaving(false);
-    if (error) {
-      setMessage(`Error: ${error.message}`);
-    } else {
+    try {
+      const parsedSkills = skillsText.split(',').map(s => s.trim()).filter(Boolean);
+      const payload = { ...formData, skills: parsedSkills };
+      
+      await SettingsRepository.updatePersonalInfo(payload);
       setMessage('Personal information saved successfully!');
       setTimeout(() => setMessage(''), 3000);
+    } catch (err) {
+      setMessage(`Error: ${err.message}`);
+    } finally {
+      setSaving(false);
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className="p-8 text-center font-mono">Loading...</div>;
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-[#E5E5E5] p-6">
-      <div className="flex items-center space-x-3 mb-6 pb-6 border-b border-[#E5E5E5]">
-        <User size={24} className="text-[#111111]" />
-        <h2 className="text-xl font-bold tracking-tight text-[#111111]">Personal Info</h2>
+    <div className="bg-white rounded-none border border-black/10 p-6 font-mono text-[#111111]">
+      <div className="flex items-center space-x-3 mb-6 pb-6 border-b border-black/10">
+        <User size={20} />
+        <h2 className="text-xl font-black uppercase">Personal Info</h2>
       </div>
 
       {message && (
-        <div className={`p-4 mb-6 rounded-md flex items-center gap-3 ${message.includes('Error') ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'}`}>
-          <AlertCircle size={18} />
-          <span className="text-sm font-medium">{message}</span>
+        <div className={`p-4 mb-6 rounded-none flex items-center gap-3 ${message.includes('Error') ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'}`}>
+          <AlertCircle size={16} />
+          <span className="text-xs font-bold uppercase">{message}</span>
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-            <input
+            <Label>Full Name</Label>
+            <Input
               type="text"
               name="full_name"
               value={formData.full_name || ''}
               onChange={handleChange}
-              className="w-full border border-[#E5E5E5] rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#111111] transition-all"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Role/Title</label>
-            <input
+            <Label>Role/Title</Label>
+            <Input
               type="text"
               name="role"
               value={formData.role || ''}
               onChange={handleChange}
-              className="w-full border border-[#E5E5E5] rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#111111] transition-all"
               required
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Hero Headline</label>
-          <input
+          <Label>Hero Headline</Label>
+          <Input
             type="text"
             name="headline"
             value={formData.headline || ''}
             onChange={handleChange}
-            className="w-full border border-[#E5E5E5] rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#111111] transition-all"
             required
           />
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">About Content</label>
-          <textarea
-            name="about_content"
-            value={formData.about_content || ''}
-            onChange={handleChange}
-            rows="5"
-            className="w-full border border-[#E5E5E5] rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#111111] transition-all resize-none"
-            required
-          />
+        <div className="prose max-w-none">
+          <Label>About Content (Markdown)</Label>
+          <div className="mt-2">
+            <SimpleMDE
+              value={formData.about_content || ''}
+              onChange={(val) => setFormData(prev => ({ ...prev, about_content: val }))}
+              options={{ spellChecker: false }}
+            />
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-            <input
+            <Label>Email Address</Label>
+            <Input
               type="email"
               name="email"
               value={formData.email || ''}
               onChange={handleChange}
-              className="w-full border border-[#E5E5E5] rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#111111] transition-all"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-            <input
+            <Label>Phone Number</Label>
+            <Input
               type="text"
               name="phone_number"
               value={formData.phone_number || ''}
               onChange={handleChange}
-              className="w-full border border-[#E5E5E5] rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#111111] transition-all"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Availability Status</label>
-            <input
+            <Label>Availability Status</Label>
+            <Input
               type="text"
               name="availability_status"
               value={formData.availability_status || ''}
               onChange={handleChange}
               placeholder="e.g. I'm currently available for freelance worldwide."
-              className="w-full border border-[#E5E5E5] rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#111111] transition-all"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Resume (CV) URL</label>
-            <input
+            <Label>Resume (CV) URL</Label>
+            <Input
               type="url"
               name="cv_url"
               value={formData.cv_url || ''}
               onChange={handleChange}
-              className="w-full border border-[#E5E5E5] rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#111111] transition-all"
             />
           </div>
         </div>
 
-        <div className="pt-6 border-t border-[#E5E5E5]">
-          <h3 className="text-sm font-bold tracking-tight text-[#111111] uppercase mb-4">Skills & Tech Stack (Marquee Carousel)</h3>
+        <div className="pt-6 border-t border-black/10">
+          <h3 className="text-xs font-bold uppercase tracking-widest text-[#111111] mb-4">Skills & Tech Stack (Marquee Carousel)</h3>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Comma-separated Skills</label>
+            <Label>Comma-separated Skills</Label>
             <textarea
               name="skills"
               value={skillsText}
               onChange={(e) => setSkillsText(e.target.value)}
               rows="3"
               placeholder="e.g. REACT, NEXT.JS, EMBEDDED SYSTEM, LORA CONNECTION"
-              className="w-full border border-[#E5E5E5] rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#111111] transition-all resize-none"
+              className="w-full border border-black/10 rounded-none bg-[#FAFAFA] text-[#111111] px-4 py-2 focus:outline-none focus:border-black font-mono text-sm resize-none"
             />
-            <p className="text-xs text-gray-500 mt-2">Separate each skill with a comma. These will be displayed in the infinite scrolling marquee section.</p>
+            <p className="text-[10px] text-gray-500 mt-2">Separate each skill with a comma. These will be displayed in the infinite scrolling marquee section.</p>
           </div>
         </div>
 
-        <div className="pt-6 border-t border-[#E5E5E5]">
-          <h3 className="text-sm font-bold tracking-tight text-[#111111] uppercase mb-4">Social Links</h3>
+        <div className="pt-6 border-t border-black/10">
+          <h3 className="text-xs font-bold uppercase tracking-widest text-[#111111] mb-4">Social Links</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">LinkedIn URL</label>
-              <input
+              <Label>LinkedIn URL</Label>
+              <Input
                 type="url"
                 name="linkedin"
                 value={formData.social_links.linkedin || ''}
                 onChange={handleChange}
-                className="w-full border border-[#E5E5E5] rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#111111] transition-all"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">GitHub URL</label>
-              <input
+              <Label>GitHub URL</Label>
+              <Input
                 type="url"
                 name="github"
                 value={formData.social_links.github || ''}
                 onChange={handleChange}
-                className="w-full border border-[#E5E5E5] rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#111111] transition-all"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Instagram URL</label>
-              <input
+              <Label>Instagram URL</Label>
+              <Input
                 type="url"
                 name="instagram"
                 value={formData.social_links.instagram || ''}
                 onChange={handleChange}
-                className="w-full border border-[#E5E5E5] rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#111111] transition-all"
               />
             </div>
           </div>
         </div>
 
-        <div className="pt-6 border-t border-[#E5E5E5]">
-          <button
-            type="submit"
-            disabled={saving}
-            className="flex items-center space-x-2 bg-[#111111] text-white px-6 py-2.5 rounded-md hover:bg-gray-800 transition-colors disabled:opacity-50 font-medium text-sm"
-          >
-            <Save size={16} />
-            <span>{saving ? 'Saving...' : 'Save Personal Info'}</span>
-          </button>
+        <div className="pt-6 border-t border-black/10">
+          <Button type="submit" disabled={saving} startIcon={<Save size={16} />}>
+            {saving ? 'Saving...' : 'Save Personal Info'}
+          </Button>
         </div>
       </form>
     </div>

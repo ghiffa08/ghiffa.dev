@@ -1,0 +1,98 @@
+{
+  "nav.about": "Tentang",
+  "nav.works": "Karya",
+  "nav.experience": "Pengalaman",
+  "nav.journal": "Jurnal",
+  "about.title": "Tentang & Keahlian",
+  "about.downloadResume": "Unduh Resume",
+  "skills.title": "Keahlian & Stack Teknologi",
+  "works.title": "Proyek Pilihan",
+  "works.category.commercial": "PROYEK KOMERSIAL",
+  "works.category.personal": "PROYEK PERSONAL",
+  "experience.title": "Perjalanan Profesional",
+  "experience.techStack": "Stack Teknologi",
+  "experience.variousTech": "Berbagai Teknologi",
+  "education.title": "Kredensial & Penghargaan",
+  "education.section.education": "Pendidikan",
+  "education.section.journals": "Jurnal Akademik",
+  "education.section.patents": "Paten & Penemuan",
+  "education.section.honors": "Penghargaan",
+  "education.section.ipCertifications": "HAKI & Sertifikasi",
+  "instagram.title": "Jurnal Instagram",
+  "contact.title": "Komunikasi penting\nuntuk memulai hal baik/",
+  "contact.connect": "Hubungi Saya",
+  "footer.emailMe": "KIRIM EMAIL LANGSUNG",
+  "footer.kuningan": "KUNINGAN, ID.",
+  "detail.featuredProject": "Proyek Unggulan",
+  "detail.editorialArticle": "Artikel Editorial",
+  "detail.close": "Tutup",
+  "detail.client": "KLIEN",
+  "detail.year": "TAHUN",
+  "detail.techStack": "STACK TEKNOLOGI",
+  "detail.published": "DITERBITKAN",
+  "detail.readTime": "WAKTU BACA",
+  "detail.visitLive": "Kunjungi Tautan",
+
+  "personal.role": "IoT Engineer & Full-stack Developer",
+  "personal.headline": "Building the bridge between bits and atoms.",
+  "personal.about_content": "Saya adalah mahasiswa program studi Informatika di Universitas Kuningan yang baru-baru ini dinobatkan sebagai Juara 1 Mahasiswa Berprestasi tingkat universitas. \n\nMemiliki minat besar pada penciptaan solusi teknologi end-to-end, saya aktif bekerja mengintegrasikan rekayasa perangkat lunak dan perangkat keras sebagai Fullstack Web Developer dan IoT/Hardware Engineer.\n\nKeahlian teknis saya mencakup pengembangan website (sisi frontend dan backend) serta pemahaman mendalam di bidang hardware, meliputi embedded systems, edge computing, jaringan LoRa, kelistrikan, dan perancangan PCB. Saat ini, saya juga mengemban amanah sebagai Ketua Divisi IoT dan Robotika di fakultas untuk mendorong inovasi kolaboratif.\n\nPencapaian & Proyek Utama:\n* Hibah Nasional (DPPM Kemendiktisaintek 2025): Mengimplementasikan 'Smart Drip Irrigation' untuk riset dan 'Smart Biofloc Monitoring' untuk pengabdian masyarakat.\n* IoT untuk Dampak Sosial: Turut mengembangkan 'Smart Coffee Monitoring' yang terbukti meningkatkan produktivitas petani kopi.\n* Kepemimpinan Wirausaha: Menjadi Co-founder 'REThreee' (marketplace produk daur ulang), memenangkan Juara 1 UBC Business Plan Competition, dan menjadi finalis Astra Vocapreneur Program.\n\nDidukung oleh sertifikasi kompetensi Web Developer dan rekam jejak dalam membangun sistem yang scalable, saya siap memberikan kontribusi teknis dan manajerial terbaik untuk menciptakan teknologi yang berdampak nyata.",
+
+  "experience.pt-bengkel-aplikasi-nusantara.web-developer.role": "Web Developer",
+  "experience.pt-bengkel-aplikasi-nusantara.web-developer.description": "Mengembangkan modul aplikasi web dinamis sesuai kebutuhan spesifik klien perusahaan. Merancang dan mengoptimalkan API internal serta melakukan pemeliharaan database.",
+  
+  "experience.lsp-p1-smkn-2-kuningan.web-developer-system-designer.role": "Web Developer & System Designer",
+  "experience.lsp-p1-smkn-2-kuningan.web-developer-system-designer.description": "Merancang dan membangun aplikasi manajemen sertifikasi profesi online. Mengintegrasikan alur registrasi asesi, form pengisian asesmen mandiri, dan evaluasi portofolio.",
+  
+  "experience.pt-bpr-raksa-wacana-agri-purnama.web-developer-intern.role": "Web Developer Intern",
+  "experience.pt-bpr-raksa-wacana-agri-purnama.web-developer-intern.description": "Berkontribusi dalam digitalisasi sistem perbankan internal. Membangun fitur penanganan pengaduan nasabah, pengajuan kredit online, dan dasbor kelayakan kredit.",
+
+  "education.teknik-informatika.title": "Teknik Informatika",
+  "education.teknik-informatika.institution": "Universitas kuningan",
+  "education.teknik-informatika.description": "Fokus pada struktur data, algoritma tingkat lanjut, rekayasa komputasi, dan riset pengembangan sistem terpadu.",
+  
+  "education.rekayasa-perangkat-lunak.title": "Rekayasa Perangkat Lunak",
+  "education.rekayasa-perangkat-lunak.institution": "SMKN 2 Kuningan",
+  "education.rekayasa-perangkat-lunak.description": "Fokus pada dasar analisis sistem, manajemen basis data relasional (RDBMS), dan pemrograman modular.",
+  
+  "education.juara-1-pilmapres-universitas-kuningan.title": "Juara 1 PILMAPRES Universitas Kuningan",
+  "education.juara-1-pilmapres-universitas-kuningan.institution": "Universitas Kuningan",
+  "education.juara-1-pilmapres-universitas-kuningan.description": "",
+  
+  "education.juara-1-business-plan-competition.title": "Juara 1 Business Plan Competition",
+  "education.juara-1-business-plan-competition.institution": "Uniku Business Community",
+  "education.juara-1-business-plan-competition.description": "Penyusunan rencana bisnis platform \"RETHREEE\" dengan analisis keberlanjutan ekologis komprehensif.",
+  
+  "education.nilai-tertinggi-pertama-uji-kompetensi.title": "Nilai Tertinggi Pertama Uji Kompetensi",
+  "education.nilai-tertinggi-pertama-uji-kompetensi.institution": "SMKN 2 Kuningan",
+  "education.nilai-tertinggi-pertama-uji-kompetensi.description": "Pencapaian akademis dan praktis tertinggi pada evaluasi rekayasa perangkat lunak akhir.",
+  
+  "education.juara-3-lomba-web-design-it-festival.title": "Juara 3 Lomba Web Design IT Festival",
+  "education.juara-3-lomba-web-design-it-festival.institution": "Fakultas Ilmu Komputer UNIKU",
+  "education.juara-3-lomba-web-design-it-festival.description": "Penghargaan atas kualitas estetika UI/UX, arsitektur kode modular, dan optimasi performa web.",
+  
+  "education.junior-web-developer.title": "Junior Web Developer",
+  "education.junior-web-developer.institution": "BNSP & Kominfo",
+  "education.junior-web-developer.description": "",
+  
+  "education.vocational-school-graduate-academy.title": "Vocational School Graduate Academy",
+  "education.vocational-school-graduate-academy.institution": "Kemenkominfo",
+  "education.vocational-school-graduate-academy.description": "",
+  
+  "education.junior-web-programmer.title": "Junior Web Programmer",
+  "education.junior-web-programmer.institution": "PT. Cakrawala Global Yaksa",
+  "education.junior-web-programmer.description": "",
+
+  "project.kredit-raksa-analytica.title": "Kredit Raksa Analytica",
+  "project.kredit-raksa-analytica.category": "PROYEK KOMERSIAL",
+  "project.kredit-raksa-analytica.description": "Otomatisasi Analisis Kelayakan Kredit yang Presisi dan Objektif",
+  "project.kredit-raksa-analytica.content": "Sebagai pengembang di balik platform ini, saya menyadari bahwa hambatan terbesar dalam proses pengajuan kredit konsumtif tradisional terletak pada lamanya waktu yang dihabiskan untuk melakukan validasi berkas secara manual. Oleh karena itu, saya merancang Kredit Raksa Analytica sebagai mesin pintar berbasis web yang berfungsi menyederhanakan, mempercepat, dan meningkatkan akurasi penilaian kelayakan setiap calon nasabah. Aplikasi ini tidak sekadar menyimpan data, melainkan bekerja aktif memproses indikator keuangan krusial untuk menghasilkan keputusan kredit yang jauh lebih terukur, cepat, dan bebas dari bias penilaian manusia.  \n\nFokus utama yang saya bangun dalam sistem ini adalah kemampuan komputasi untuk menganalisis kapasitas bayar (repayment capacity) calon nasabah secara mendalam. Kredit Raksa Analytica secara otomatis mengalkulasi rasio utang terhadap pendapatan, melacak riwayat finansial, hingga mengukur nilai likuiditas dari agunan yang dijaminkan. Melalui pendekatan berbasis data ini, sistem dapat langsung memetakan profil risiko nasabah dan memberikan rekomendasi keputusan yang objektif, sehingga risiko terjadinya kredit bermasalah (NPL) dapat ditekan sejak tahap awal pengajuan.  \n\nTidak hanya menilai aspek kelayakan dasar, saya juga menyuntikkan algoritma khusus untuk menentukan batas nominal kredit (plafon) yang ideal bagi setiap individu. Berdasarkan kalkulasi silang antara nilai pasar agunan yang disesuaikan (haircut) dengan sisa pendapatan bersih nasabah, aplikasi ini akan merekomendasikan angka nominal pengajuan yang paling aman dan rasional. Fitur penentuan kelayakan nominal ini memastikan bahwa fasilitas kredit konsumtif yang diberikan benar-benar sesuai dengan kapasitas riil nasabah, menjaga keseimbangan likuiditas bank, sekaligus melindungi nasabah dari risiko gagal bayar di kemudian hari.  \n\nDengan mengintegrasikan seluruh alur kerja ini ke dalam satu dasbor yang dinamis, saya berhasil memangkas birokrasi peninjauan kredit yang tadinya memakan waktu berhari-hari menjadi jauh lebih ringkas. Kredit Raksa Analytica adalah solusi teknologi yang saya bangun untuk mentransformasi sistem analisis konvensional menjadi sebuah ekosistem digital yang cerdas. Melalui aplikasi ini, saya ingin memastikan bahwa PT. BPR Raksa Wacana Agri Purnama memiliki keunggulan kompetitif dalam menyalurkan kredit konsumtif secara aman, efisien, dan tepat sasaran.",
+  
+  "project.digital-bank-raksa.title": "Digital Bank Raksa",
+  "project.digital-bank-raksa.category": "PROYEK KOMERSIAL",
+  "project.digital-bank-raksa.description": "Sistem perbankan online untuk penanganan pengaduan nasabah, pengajuan kredit secara digital, serta pembukaan rekening.",
+  "project.digital-bank-raksa.content": "Di era di mana waktu menjadi aset paling berharga, efisiensi dalam mengelola keuangan bukan lagi sekadar pilihan, melainkan sebuah kebutuhan. Selama ini, kita terbiasa meluangkan waktu khusus di tengah kesibukan hanya untuk datang ke kantor cabang, mengantre, dan mengisi tumpukan formulir fisik demi membuka rekening tabungan atau mengajukan kredit. Tidak jarang pula, aktivitas harian kita terhenti sejenak ketika tim marketing kami datang melakukan kunjungan door-to-door untuk membantu proses administrasi Anda secara manual. Kami sangat meyakini setiap jabat tangan dan interaksi personal tersebut, namun kami juga memahami bahwa mobilitas Anda begitu tinggi dan berharga.  \n\nSebagai bentuk komitmen nyata untuk tumbuh bersama kesejahteraan masyarakat, PT. BPR Raksa Wacana Agri Purnama mengambil langkah strategis yang adaptif. Melalui kehadiran platform Digital Bank Raksa, kami merancang ulang seluruh ekosistem layanan perbankan tradisional menjadi lebih modern, responsif, dan mudah diakses. Langkah digitalisasi ini bukan berarti kami mengurangi esensi kedekatan dengan nasabah, melainkan cara kami untuk selalu hadir 24/7 di sisi Anda. Kami ingin memastikan bahwa kehangatan dan keamanan layanan yang biasa Anda rasakan di kantor cabang kini dapat bermigrasi dengan sempurna ke dalam layar ponsel Anda.\n\nKini, kenyamanan finansial mutlak ada di tangan Anda tanpa batas jarak dan waktu. Mulai dari pembukaan rekening tabungan baru, pengajuan deposito, hingga layanan pengaduan nasabah dapat diselesaikan hanya dalam beberapa ketukan jari secara online. Anda tidak perlu lagi cemas memikirkan berkas fisik yang tertinggal atau mencocokkan waktu dengan jam kerja kantor. Format platform yang intuitif dan aman ini memastikan seluruh data administratif diproses secara instan, transparan, dan rahasia, memberikan Anda kendali penuh atas keputusan finansial harian secara mandiri.\n\nSebaliknya, bagi Anda yang sedang merencanakan ekspansi usaha atau pemenuhan kebutuhan personal, platform ini terintegrasi langsung dengan sistem Kredit Raksa Analytica. Melalui backend analitis yang pintar, proses pengajuan kredit konsumtif kini menjadi jauh lebih praktis and objektif. Tim marketing kami tidak lagi harus mendatangi rumah Anda secara manual hanya untuk mengumpulkan berkas; Anda cukup mengunggah dokumen persyaratan langsung ke sistem, dan tim analis kami akan segera melakukan tindak lanjut dengan cepat. Bersama Digital Bank Raksa, mari kita tinggalkan kerumitan cara lama dan melangkah pasti menuju masa depan perbankan yang lebih cerdas, ringkas, dan tepercaya.",
+  "view_certificate": "LIHAT SERTIFIKAT",
+  "see_all_journal": "LIHAT SEMUA JURNAL",
+  "show_less": "TAMPILKAN LEBIH SEDIKIT",
+  "view_on_instagram": "LIHAT DI INSTAGRAM"
+}

@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { LanguageSwitcher } from '../molecules/LanguageSwitcher';
 import { useSupabaseSingle } from '../../hooks/useSupabaseData';
 
 export function Header() {
+  const { t } = useTranslation();
   const { data: settings } = useSupabaseSingle('general_settings');
   const appName = settings?.app_name || 'ghiffa.dev';
   const [activeSection, setActiveSection] = useState('');
@@ -52,10 +54,10 @@ export function Header() {
         </div>
         
         <div className="hidden md:flex space-x-12 font-mono text-[10px] tracking-[0.2em] uppercase font-bold text-gray-400">
-          <a href="#about" onClick={(e) => handleScrollTo(e, '#about')} className={`transition-colors ${activeSection === 'about' ? 'text-[#111111]' : 'hover:text-[#111111]'}`}>About</a>
-          <a href="#works" onClick={(e) => handleScrollTo(e, '#works')} className={`transition-colors ${activeSection === 'works' ? 'text-[#111111]' : 'hover:text-[#111111]'}`}>Works</a>
-          <a href="#process" onClick={(e) => handleScrollTo(e, '#process')} className={`transition-colors ${activeSection === 'process' ? 'text-[#111111]' : 'hover:text-[#111111]'}`}>Experience</a>
-          <a href="#journal" onClick={(e) => handleScrollTo(e, '#journal')} className={`transition-colors ${activeSection === 'journal' ? 'text-[#111111]' : 'hover:text-[#111111]'}`}>Journal</a>
+          <a href="#about" onClick={(e) => handleScrollTo(e, '#about')} className={`transition-colors ${activeSection === 'about' ? 'text-[#111111]' : 'hover:text-[#111111]'}`}>{t('nav.about')}</a>
+          <a href="#works" onClick={(e) => handleScrollTo(e, '#works')} className={`transition-colors ${activeSection === 'works' ? 'text-[#111111]' : 'hover:text-[#111111]'}`}>{t('nav.works')}</a>
+          <a href="#process" onClick={(e) => handleScrollTo(e, '#process')} className={`transition-colors ${activeSection === 'process' ? 'text-[#111111]' : 'hover:text-[#111111]'}`}>{t('nav.experience')}</a>
+          <a href="#journal" onClick={(e) => handleScrollTo(e, '#journal')} className={`transition-colors ${activeSection === 'journal' ? 'text-[#111111]' : 'hover:text-[#111111]'}`}>{t('nav.journal')}</a>
         </div>
 
         <div className="flex items-center gap-6">

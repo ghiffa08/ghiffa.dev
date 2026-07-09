@@ -1,48 +1,55 @@
 import useSWR from 'swr';
-import { supabase } from '../lib/supabaseClient';
+import { ProjectRepository } from '../repositories/ProjectRepository';
+import { ExperienceRepository } from '../repositories/ExperienceRepository';
+import { EducationRepository } from '../repositories/EducationRepository';
+import { SettingsRepository } from '../repositories/SettingsRepository';
 
-// Generic fetcher function for SWR
-const fetcher = async ({ table, order, eq }) => {
-  let query = supabase.from(table).select('*');
-  
-  if (eq) {
-    query = query.eq(eq.column, eq.value);
+// Fetcher routing the query through the respective Repository pattern methods
+const repositoryFetcher = async ({ table }) => {
+  switch (table) {
+    case 'projects':
+      return ProjectRepository.getAllProjects();
+    case 'experiences':
+      return ExperienceRepository.getAllExperiences();
+    case 'qualifications':
+      return EducationRepository.getAllEducation();
+    case 'general_settings':
+      return SettingsRepository.getSettings();
+    case 'personal_info':
+      return SettingsRepository.getPersonalInfo();
+    default:
+      throw new Error(`Repository mapping not found for table/domain: ${table}`);
   }
-  
-  if (order) {
-    query = query.order(order.column, { ascending: order.ascending });
-  }
-
-  const { data, error } = await query;
-  
-  if (error) {
-    throw new Error(error.message);
-  }
-  
-  return data;
 };
 
-// Hook for fetching a single record (like Hero, About, Contact)
+/**
+ * Hook for fetching a single record (like Settings, Biography) via Repositories
+ */
 export function useSupabaseSingle(table) {
   const { data, error, isLoading } = useSWR(
     { table }, 
-    fetcher,
+    repositoryFetcher,
     {
       revalidateIfStale: false,
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
+      dedupingInterval: 300000, // 5 minutes cache deduping
     }
   );
 
   return {
-    data: data ? data[0] : null,
+    data: Array.isArray(data) ? data[0] : (data || null),
     isLoading,
     error
   };
 }
 
-// Hook for fetching multiple records (like Experiences, Projects, Education, Articles)
+/**
+ * Hook for fetching multiple records (like Experiences, Projects, Education) via Repositories
+ */
 export function useSupabaseList(table, options = {}) {
+  // SWR key format is kept same to match cache signatures if any, 
+  // but under the hood it routes through the repositories
   const key = {
     table,
     order: options.order,
@@ -51,12 +58,12 @@ export function useSupabaseList(table, options = {}) {
 
   const { data, error, isLoading } = useSWR(
     key, 
-    fetcher,
+    repositoryFetcher,
     {
       revalidateIfStale: false,
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
-      dedupingInterval: 10000,
+      dedupingInterval: 300000, // 5 minutes cache deduping
     }
   );
 

@@ -1,0 +1,98 @@
+{
+  "nav.about": "About",
+  "nav.works": "Works",
+  "nav.experience": "Experience",
+  "nav.journal": "Journal",
+  "about.title": "About & Expertise",
+  "about.downloadResume": "Download Resume",
+  "skills.title": "Skills & Tech Stack",
+  "works.title": "Selected Works",
+  "works.category.commercial": "COMMERCIAL PROJECT",
+  "works.category.personal": "PERSONAL PROJECT",
+  "experience.title": "Professional Journey",
+  "experience.techStack": "Tech Stack",
+  "experience.variousTech": "Various Technologies",
+  "education.title": "Credentials & Achievements",
+  "education.section.education": "Education",
+  "education.section.journals": "Academic Journals",
+  "education.section.patents": "Patents & Inventions",
+  "education.section.honors": "Honors & Awards",
+  "education.section.ipCertifications": "HAKI & Certifications",
+  "instagram.title": "Instagram Journal",
+  "contact.title": "Communication matters\nto start good things/",
+  "contact.connect": "Let's Connect With Me",
+  "footer.emailMe": "EMAIL ME DIRECTLY",
+  "footer.kuningan": "KUNINGAN, ID.",
+  "detail.featuredProject": "Featured Project",
+  "detail.editorialArticle": "Editorial Article",
+  "detail.close": "Close",
+  "detail.client": "CLIENT",
+  "detail.year": "YEAR",
+  "detail.techStack": "TECH STACK",
+  "detail.published": "PUBLISHED",
+  "detail.readTime": "READ TIME",
+  "detail.visitLive": "Visit Live Link",
+
+  "personal.role": "IoT Engineer & Full-stack Developer",
+  "personal.headline": "Building the bridge between bits and atoms.",
+  "personal.about_content": "I am an undergraduate student majoring in Informatics Engineering at Universitas Kuningan, recently awarded 1st Place in the University-Level Outstanding Student Award (Pilmapres).\n\nWith a strong interest in creating end-to-end technological solutions, I actively work on integrating software and hardware engineering as a Fullstack Web Developer and IoT/Hardware Engineer.\n\nMy technical expertise includes web development (frontend and backend) as well as a deep understanding of hardware, covering embedded systems, edge computing, LoRa networks, electronics, and PCB design. Currently, I also serve as the Head of the IoT and Robotics Division at the faculty to foster collaborative innovation.\n\nKey Achievements & Projects:\n* National Grant (DPPM Kemendiktisaintek 2025): Implementing 'Smart Drip Irrigation' for research and 'Smart Biofloc Monitoring' for community service.\n* IoT for Social Impact: Contributed to developing 'Smart Coffee Monitoring' which is proven to increase coffee farmers' productivity.\n* Entrepreneurial Leadership: Co-founder of 'REThreee' (recycling product marketplace), won 1st Place in UBC Business Plan Competition, and became a finalist in the Astra Vocapreneur Program.\n\nSupported by Web Developer competency certifications and a track record of building scalable systems, I am ready to provide the best technical and managerial contributions to create technology that makes a real impact.",
+
+  "experience.pt-bengkel-aplikasi-nusantara.web-developer.role": "Web Developer",
+  "experience.pt-bengkel-aplikasi-nusantara.web-developer.description": "Developing dynamic web application modules according to clients' specific business needs. Designing and optimizing internal APIs as well as maintaining databases.",
+  
+  "experience.lsp-p1-smkn-2-kuningan.web-developer-system-designer.role": "Web Developer & System Designer",
+  "experience.lsp-p1-smkn-2-kuningan.web-developer-system-designer.description": "Designing and building an online professional certification management application. Integrating test-taker registration flows, self-assessment forms, and portfolio evaluation.",
+  
+  "experience.pt-bpr-raksa-wacana-agri-purnama.web-developer-intern.role": "Web Developer Intern",
+  "experience.pt-bpr-raksa-wacana-agri-purnama.web-developer-intern.description": "Contributing to the digitization of the internal banking system. Built features for customer complaint handling, online credit submission, and credit eligibility dashboard.",
+
+  "education.teknik-informatika.title": "Informatics Engineering",
+  "education.teknik-informatika.institution": "Universitas Kuningan",
+  "education.teknik-informatika.description": "Focus on data structures, advanced algorithms, computational engineering, and integrated system development research.",
+  
+  "education.rekayasa-perangkat-lunak.title": "Software Engineering",
+  "education.rekayasa-perangkat-lunak.institution": "SMKN 2 Kuningan",
+  "education.rekayasa-perangkat-lunak.description": "Focus on systems analysis fundamentals, relational database management systems (RDBMS), and modular programming.",
+  
+  "education.juara-1-pilmapres-universitas-kuningan.title": "1st Place in the University-Level Outstanding Student Award (Pilmapres)",
+  "education.juara-1-pilmapres-universitas-kuningan.institution": "Universitas Kuningan",
+  "education.juara-1-pilmapres-universitas-kuningan.description": "",
+  
+  "education.juara-1-business-plan-competition.title": "1st Place in Business Plan Competition",
+  "education.juara-1-business-plan-competition.institution": "Uniku Business Community",
+  "education.juara-1-business-plan-competition.description": "Business plan formulation for 'RETHREEE' platform with comprehensive ecological sustainability analysis.",
+  
+  "education.nilai-tertinggi-pertama-uji-kompetensi.title": "First Highest Score in Vocational Competency Test",
+  "education.nilai-tertinggi-pertama-uji-kompetensi.institution": "SMKN 2 Kuningan",
+  "education.nilai-tertinggi-pertama-uji-kompetensi.description": "Highest academic and practical achievement in the final software engineering evaluation.",
+  
+  "education.juara-3-lomba-web-design-it-festival.title": "3rd Place in IT Festival Web Design Competition",
+  "education.juara-3-lomba-web-design-it-festival.institution": "Fakultas Ilmu Komputer UNIKU",
+  "education.juara-3-lomba-web-design-it-festival.description": "Award for UI/UX aesthetic quality, modular code architecture, and web performance optimization.",
+  
+  "education.junior-web-developer.title": "Junior Web Developer",
+  "education.junior-web-developer.institution": "BNSP & Kominfo",
+  "education.junior-web-developer.description": "",
+  
+  "education.vocational-school-graduate-academy.title": "Vocational School Graduate Academy",
+  "education.vocational-school-graduate-academy.institution": "Kemenkominfo",
+  "education.vocational-school-graduate-academy.description": "",
+  
+  "education.junior-web-programmer.title": "Junior Web Programmer",
+  "education.junior-web-programmer.institution": "PT. Cakrawala Global Yaksa",
+  "education.junior-web-programmer.description": "",
+
+  "project.kredit-raksa-analytica.title": "Kredit Raksa Analytica",
+  "project.kredit-raksa-analytica.category": "COMMERCIAL PROJECT",
+  "project.kredit-raksa-analytica.description": "Precision and Objective Automated Credit Eligibility Analysis",
+  "project.kredit-raksa-analytica.content": "As the developer behind this platform, I realized that the biggest bottleneck in the traditional consumer credit application process lies in the time-consuming manual document validation. Therefore, I designed Kredit Raksa Analytica as a web-based smart engine that simplifies, accelerates, and improves the accuracy of assessment for each prospective customer. This application doesn't just store data; it actively processes crucial financial indicators to produce credit decisions that are far more measurable, fast, and free from human bias.\n\nThe main focus I built into this system is the computational capability to analyze the repayment capacity of prospective customers in depth. Kredit Raksa Analytica automatically calculates debt-to-income ratios, tracks financial history, and measures the liquidity value of collateral. Through this data-driven approach, the system can instantly map the customer's risk profile and provide objective decision recommendations, thereby suppressing the risk of Non-Performing Loans (NPL) from the early application stage.\n\nNot only assessing basic eligibility aspects, I also injected a special algorithm to determine the ideal credit limit (plafond) for each individual. Based on cross-calculation between the adjusted market value of the collateral (haircut) and the customer's remaining net income, the application will recommend the safest and most rational application nominal figure. This feature ensures that the consumer credit facilities provided are truly aligned with the customer's real capacity, maintaining the bank's liquidity balance while protecting the customer from default risks in the future.\n\nBy integrating this entire workflow into a dynamic dashboard, I successfully cut down credit review bureaucracy that used to take days into a much simpler process. Kredit Raksa Analytica is the technological solution I built to transform conventional analysis systems into a smart digital ecosystem. Through this application, I wanted to ensure that PT. BPR Raksa Wacana Agri Purnama has a competitive advantage in distributing consumer credit safely, efficiently, and precisely.",
+  
+  "project.digital-bank-raksa.title": "Digital Bank Raksa",
+  "project.digital-bank-raksa.category": "COMMERCIAL PROJECT",
+  "project.digital-bank-raksa.description": "Online banking system for customer complaint handling, digital credit applications, and account opening.",
+  "project.digital-bank-raksa.content": "In an era where time is the most valuable asset, efficiency in managing finance is no longer just an option, but a necessity. For a long time, we have been used to setting aside special time amidst busyness just to come to branch offices, queuing, and filling out physical forms to open savings accounts or apply for credit. Not infrequently, our daily activities stop for a moment when our marketing team comes to do door-to-door visits to help with your administration process manually. We highly value every handshake and personal interaction, but we also understand that your mobility is very high and valuable.\n\nAs a form of real commitment to grow with community welfare, PT. BPR Raksa Wacana Agri Purnama takes adaptive strategic steps. Through the presence of the Digital Bank Raksa platform, we redesign the entire traditional banking service ecosystem to be more modern, responsive, and easily accessible. This digitization step doesn't mean we reduce the essence of closeness with customers, but rather our way of always being present 24/7 by your side. We want to ensure that the warmth and security of the services you usually feel at branch offices can now migrate perfectly into your phone screen.\n\nNow, financial convenience is absolutely in your hands without boundaries of distance and time. Starting from opening new savings accounts, depositing, to customer complaint services can be solved in just a few taps online. You no longer need to worry about left-behind physical documents or matching time with office hours. This intuitive and secure platform format ensures all administrative data is processed instantly, transparently, and confidentially, giving you full control over daily financial decisions independently.\n\nFurthermore, for those of you planning business expansion or fulfilling personal needs, this platform is integrated directly with the Kredit Raksa Analytica system. Through a smart backend, the consumer credit application process is now much more practical and objective. Our marketing team no longer has to visit your home manually just to collect documents; you simply upload requirements documents directly to the system, and our analyst team will immediately follow up quickly. Together with Digital Bank Raksa, let's leave the complexity of the old way and step confidently towards a banking future that is smarter, simpler, and more trusted.",
+  "view_certificate": "VIEW CERTIFICATE",
+  "see_all_journal": "SEE ALL JOURNAL",
+  "show_less": "SHOW LESS",
+  "view_on_instagram": "VIEW ON INSTAGRAM"
+}

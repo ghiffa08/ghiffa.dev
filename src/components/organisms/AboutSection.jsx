@@ -36,7 +36,7 @@ export function AboutSection({ onDownloadCV }) {
   }
 
   return (
-    <section id="about" className="relative z-10 w-full h-auto bg-white border-t border-gray-200 flex flex-col overflow-hidden">
+    <section id="about" className="relative z-10 w-full h-auto bg-white border-t border-gray-200 flex flex-col overflow-hidden scroll-fade">
       
       {/* 1. CONTENT AREA: Breathes naturally, pushes marquee down */}
       <div className="container mx-auto px-4 md:px-8 pt-12 md:pt-16 pb-16 md:pb-20 flex-grow flex flex-col justify-start relative z-20 bg-white">

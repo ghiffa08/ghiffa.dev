@@ -65,10 +65,15 @@ export function useSmoothScroll() {
       if (fadeSections.length > 0) {
         fadeSections.forEach(section => {
           section.classList.add('gsap-anim-done');
-          gsap.fromTo(section, 
+          
+          // Animate children instead of the section itself to prevent background transparency
+          // which would cause the sticky hero section underneath to show through ("nerawang").
+          const targets = section.children.length > 0 ? section.children : section;
+          
+          gsap.fromTo(targets, 
             { y: 50, opacity: 0 },
             { 
-              y: 0, opacity: 1, duration: 1, ease: 'power3.out',
+              y: 0, opacity: 1, duration: 1, ease: 'power3.out', stagger: 0.1,
               scrollTrigger: {
                 trigger: section,
                 start: "top 85%",

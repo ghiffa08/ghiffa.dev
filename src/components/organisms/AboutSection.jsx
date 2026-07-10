@@ -38,10 +38,10 @@ export function AboutSection({ onDownloadCV }) {
   return (
     <section id="about" className="relative z-10 w-full h-[250vh] md:h-[300vh] bg-white border-t-4 border-black">
       {/* Sticky Viewport Container */}
-      <div className="sticky top-0 w-full h-screen flex flex-col justify-between overflow-hidden shadow-[0px_-10px_30px_rgba(0,0,0,0.1)] pt-20 md:pt-24">
+      <div className="sticky top-0 w-full h-screen flex flex-col justify-between overflow-hidden shadow-[0px_-10px_30px_rgba(0,0,0,0.1)] pt-24 md:pt-32">
         
         {/* 1. Main About Content (Top/Middle) */}
-        <div className="container mx-auto px-4 md:px-8 pb-8 flex-grow flex flex-col justify-center overflow-hidden">
+        <div className="container mx-auto px-4 md:px-8 pt-4 md:pt-10 pb-8 flex-grow flex flex-col justify-start">
           <SectionHeader number="01" title={t('about.title')} />
           
           <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 px-6 md:px-12 items-start">

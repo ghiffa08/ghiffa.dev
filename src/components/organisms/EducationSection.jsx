@@ -4,39 +4,12 @@ import { useSupabaseList } from '../../hooks/useSupabaseData';
 import { SectionHeader } from '../atoms/SectionHeader';
 import { slugify } from '../../utils/slugify';
 
-const dynamicTranslations = {
-  "Juara 1 PILMAPRES Universitas Kuningan": {
-    en: "1st Place Winner PILMAPRES Universitas Kuningan",
-    id: "Juara 1 PILMAPRES Universitas Kuningan"
-  },
-  "2nd Place Winner – International Digital Mathematics Game Competition 2025": {
-    en: "2nd Place Winner – International Digital Mathematics Game Competition 2025",
-    id: "Juara 2 – Kompetisi Game Matematika Digital Internasional 2025"
-  },
-  "Nilai Tertinggi Pertama Uji Kompetensi": {
-    en: "Highest Score in Competency Test",
-    id: "Nilai Tertinggi Pertama Uji Kompetensi"
-  },
-  "Juara 1 Business Plan Competition": {
-    en: "1st Place Winner Business Plan Competition",
-    id: "Juara 1 Business Plan Competition"
-  }
-};
-
 export function EducationSection() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { data: qualifications, isLoading, error } = useSupabaseList('qualifications', {
     order: { column: 'order_index', ascending: true }
   });
   const [isExpanded, setIsExpanded] = useState(false);
-
-  const currentLang = i18n.language || 'id';
-  const getTranslatedText = (originalText) => {
-    if (dynamicTranslations[originalText]) {
-      return dynamicTranslations[originalText][currentLang] || originalText;
-    }
-    return originalText;
-  };
 
   if (isLoading) {
     return (
@@ -196,7 +169,7 @@ export function EducationSection() {
                   <div key={item.id} className={`flex flex-col md:flex-row md:items-end justify-between py-10 ${idx !== 0 ? 'hairline-t' : 'pt-0'}`}>
                     <div className="md:pr-8">
                       <h5 className="text-[2rem] md:text-[3rem] lg:text-[4rem] font-serif-editorial italic leading-[0.9] tracking-tight text-[#111111]">
-                        {getTranslatedText(t(titleKey, item.title))}
+                        {t(item.title)}
                       </h5>
                       <div className="mt-4 flex items-center gap-4">
                         <span className="font-mono text-[10px] font-bold tracking-widest uppercase text-gray-500 bg-gray-200 px-3 py-1 rounded-full">

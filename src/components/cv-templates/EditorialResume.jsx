@@ -1,4 +1,214 @@
 import React from 'react';
+import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
+
+const styles = StyleSheet.create({
+  page: {
+    padding: 25,
+    fontFamily: 'Helvetica',
+    fontSize: 9,
+    lineHeight: 1.4,
+    color: '#111111',
+    backgroundColor: '#fafafa',
+    borderWidth: 8,
+    borderColor: '#111111',
+    borderStyle: 'solid',
+  },
+  topBanner: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    borderBottomWidth: 4,
+    borderBottomColor: '#111111',
+    paddingBottom: 12,
+    marginBottom: 16,
+  },
+  bannerLeft: {
+    width: '65%',
+  },
+  bannerRight: {
+    width: '35%',
+    textAlign: 'right',
+  },
+  name: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    letterSpacing: -0.5,
+    marginBottom: 2,
+    color: '#111111',
+  },
+  role: {
+    fontSize: 9,
+    fontWeight: 'bold',
+    color: '#6b7280',
+    textTransform: 'uppercase',
+    fontFamily: 'Courier',
+    letterSpacing: 1,
+  },
+  contactText: {
+    fontSize: 8,
+    color: '#374151',
+    fontFamily: 'Courier',
+    marginBottom: 2,
+    textAlign: 'right',
+  },
+  mainSection: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  leftCol: {
+    width: '63%',
+  },
+  rightCol: {
+    width: '32%',
+    borderLeftWidth: 1,
+    borderLeftColor: '#e5e5e5',
+    paddingLeft: 12,
+  },
+  sectionHeader: {
+    fontSize: 8,
+    fontWeight: 'bold',
+    color: '#9ca3af',
+    fontFamily: 'Courier',
+    marginBottom: 8,
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+  },
+  profileText: {
+    fontSize: 9.5,
+    color: '#374151',
+    textAlign: 'justify',
+    marginBottom: 16,
+    paddingRight: 8,
+  },
+  experienceItem: {
+    borderLeftWidth: 2,
+    borderLeftColor: '#111111',
+    paddingLeft: 10,
+    marginBottom: 14,
+  },
+  rowJustify: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'baseline',
+    marginBottom: 2,
+  },
+  expTitle: {
+    fontSize: 9.5,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    color: '#111111',
+  },
+  expDate: {
+    fontSize: 8,
+    fontWeight: 'bold',
+    color: '#6b7280',
+    fontFamily: 'Courier',
+  },
+  expCompany: {
+    fontSize: 8.5,
+    fontWeight: 'bold',
+    color: '#9ca3af',
+    fontFamily: 'Courier',
+    textTransform: 'uppercase',
+    marginBottom: 4,
+  },
+  expDesc: {
+    fontSize: 9,
+    color: '#4b5563',
+    textAlign: 'justify',
+    paddingRight: 8,
+  },
+  techBadgeContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: 4,
+  },
+  techBadge: {
+    fontSize: 7,
+    backgroundColor: '#ffffff',
+    borderWidth: 1,
+    borderColor: '#e5e5e5',
+    color: '#4b5563',
+    paddingHorizontal: 4,
+    paddingVertical: 1,
+    marginRight: 4,
+    marginBottom: 4,
+    textTransform: 'uppercase',
+    fontFamily: 'Courier',
+  },
+  skillContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginBottom: 16,
+  },
+  skillBadge: {
+    fontSize: 8,
+    fontWeight: 'bold',
+    backgroundColor: '#111111',
+    color: '#ffffff',
+    paddingHorizontal: 5,
+    paddingVertical: 2,
+    marginRight: 4,
+    marginBottom: 4,
+    textTransform: 'uppercase',
+    fontFamily: 'Courier',
+  },
+  educationItem: {
+    marginBottom: 10,
+  },
+  eduTitle: {
+    fontSize: 9.5,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    color: '#111111',
+  },
+  eduInst: {
+    fontSize: 9,
+    color: '#9ca3af',
+    marginTop: 1,
+  },
+  honorItem: {
+    padding: 6,
+    borderWidth: 1,
+    borderColor: '#e5e5e5',
+    backgroundColor: '#ffffff',
+    marginBottom: 6,
+  },
+  honorTitle: {
+    fontSize: 9,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    color: '#111111',
+    marginBottom: 1,
+  },
+  honorMeta: {
+    fontSize: 7.5,
+    color: '#9ca3af',
+    fontFamily: 'Courier',
+  },
+  certItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'baseline',
+    borderBottomWidth: 1,
+    borderBottomColor: '#f3f4f6',
+    paddingBottom: 3,
+    marginBottom: 5,
+  },
+  certTitle: {
+    fontSize: 9,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    color: '#111111',
+    width: '75%',
+  },
+  certDate: {
+    fontSize: 8,
+    color: '#9ca3af',
+    fontFamily: 'Courier',
+  }
+});
 
 export function EditorialResume({ data }) {
   if (!data) return null;
@@ -8,125 +218,139 @@ export function EditorialResume({ data }) {
   const honors = qualifications.filter(q => q.type === 'honor');
   const certs = qualifications.filter(q => q.type === 'certification');
 
+  const skillsList = Array.isArray(info?.skills)
+    ? info.skills
+    : JSON.parse(info?.skills || '[]');
+
   return (
-    <div className="w-[210mm] min-h-[297mm] p-[16mm] bg-[#fafafa] text-[#111111] font-sans text-xs leading-relaxed border-8 border-[#111111]" style={{ boxSizing: 'border-box' }}>
-      {/* Top Banner */}
-      <div className="grid grid-cols-12 gap-6 items-end pb-8 border-b-4 border-[#111111] mb-8">
-        <div className="col-span-8">
-          <h1 className="text-4xl font-black uppercase tracking-tighter leading-none mb-2">{info?.full_name || 'Haikal Jibran Al Ghiffarry'}</h1>
-          <p className="text-sm font-bold uppercase tracking-widest text-[#6b7280] font-mono">{info?.role || 'Systems Architect & Full-stack Developer'}</p>
-        </div>
-        <div className="col-span-4 text-right font-mono text-[9px] uppercase tracking-wider space-y-1 text-[#374151]">
-          <p>{info?.email || 'hello@ghiffa.dev'}</p>
-          {info?.phone_number && <p>{info.phone_number}</p>}
-          {info?.social_links?.linkedin && <p>{info.social_links.linkedin.replace('https://', '')}</p>}
-          {info?.social_links?.github && <p>{info.social_links.github.replace('https://', '')}</p>}
-        </div>
-      </div>
+    <Document>
+      <Page size="A4" style={styles.page}>
+        {/* Top Banner */}
+        <View style={styles.topBanner}>
+          <View style={styles.bannerLeft}>
+            <Text style={styles.name}>{info?.full_name || 'Haikal Jibran Al Ghiffarry'}</Text>
+            <Text style={styles.role}>{info?.role || 'Systems Architect & Full-stack Developer'}</Text>
+          </View>
+          <View style={styles.bannerRight}>
+            <Text style={styles.contactText}>{info?.email || 'hello@ghiffa.dev'}</Text>
+            {info?.phone_number && <Text style={styles.contactText}>{info.phone_number}</Text>}
+            {info?.social_links?.linkedin && (
+              <Text style={styles.contactText}>
+                {info.social_links.linkedin.replace('https://', '')}
+              </Text>
+            )}
+            {info?.social_links?.github && (
+              <Text style={styles.contactText}>
+                {info.social_links.github.replace('https://', '')}
+              </Text>
+            )}
+          </View>
+        </View>
 
-      {/* Main Grid split */}
-      <div className="grid grid-cols-12 gap-8">
-        {/* Left Column: Summary and Experience */}
-        <div className="col-span-8 space-y-8">
-          {/* Summary */}
-          <div>
-            <h2 className="font-mono text-[10px] font-bold tracking-[0.2em] uppercase text-[#9ca3af] mb-3">[ 01/ PROFILE ]</h2>
-            <p className="text-sm text-[#374151] font-medium leading-relaxed text-justify pr-4">{info?.about_content || ''}</p>
-          </div>
+        {/* Main Section */}
+        <View style={styles.mainSection}>
+          {/* Left Column */}
+          <View style={styles.leftCol}>
+            {/* Profile */}
+            <View>
+              <Text style={styles.sectionHeader}>[ 01/ PROFILE ]</Text>
+              <Text style={styles.profileText}>{info?.about_content || ''}</Text>
+            </View>
 
-          {/* Experience */}
-          {experiences.length > 0 && (
-            <div>
-              <h2 className="font-mono text-[10px] font-bold tracking-[0.2em] uppercase text-[#9ca3af] mb-4">[ 02/ EXPERIENCE ]</h2>
-              <div className="space-y-6">
-                {experiences.map((exp, idx) => (
-                  <div key={exp.id || idx} className="relative pl-6 border-l-2 border-[#111111]">
-                    <div className="absolute left-0 top-0.5 -translate-x-1/2 w-2.5 h-2.5 bg-[#111111]"></div>
-                    <div className="flex justify-between items-baseline mb-2">
-                      <h3 className="text-sm font-black uppercase tracking-tight text-[#111111]">{exp.role}</h3>
-                      <span className="font-mono text-[9px] font-bold text-[#6b7280]">{exp.period}</span>
-                    </div>
-                    <h4 className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#9ca3af] mb-2">{exp.company}</h4>
-                    <p className="text-[10px] text-[#4b5563] leading-relaxed text-justify pr-4">{exp.description}</p>
-                    {exp.tech_stack && (
-                      <div className="mt-2 flex flex-wrap gap-1.5">
-                        {(Array.isArray(exp.tech_stack) ? exp.tech_stack : JSON.parse(exp.tech_stack || '[]')).map((tech, i) => (
-                          <span key={i} className="font-mono text-[8px] bg-[#ffffff] border border-[#e5e5e5] px-1.5 py-0.5 uppercase tracking-wider text-[#4b5563]">
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
+            {/* Experience */}
+            {experiences.length > 0 && (
+              <View>
+                <Text style={styles.sectionHeader}>[ 02/ EXPERIENCE ]</Text>
+                {experiences.map((exp, idx) => {
+                  const techList = Array.isArray(exp.tech_stack)
+                    ? exp.tech_stack
+                    : JSON.parse(exp.tech_stack || '[]');
+                  return (
+                    <View key={exp.id || idx} style={styles.experienceItem}>
+                      <View style={styles.rowJustify}>
+                        <Text style={styles.expTitle}>{exp.role}</Text>
+                        <Text style={styles.expDate}>{exp.period}</Text>
+                      </View>
+                      <Text style={styles.expCompany}>{exp.company}</Text>
+                      <Text style={styles.expDesc}>{exp.description}</Text>
+                      {techList.length > 0 && (
+                        <View style={styles.techBadgeContainer}>
+                          {techList.map((tech, i) => (
+                            <Text key={i} style={styles.techBadge}>
+                              {tech}
+                            </Text>
+                          ))}
+                        </View>
+                      )}
+                    </View>
+                  );
+                })}
+              </View>
+            )}
+          </View>
 
-        {/* Right Column: Skills, Education, Certs */}
-        <div className="col-span-4 space-y-8 border-l border-[#e5e5e5] pl-6 h-full">
-          {/* Skills */}
-          {info?.skills && (
-            <div>
-              <h2 className="font-mono text-[10px] font-bold tracking-[0.2em] uppercase text-[#9ca3af] mb-3">[ 03/ SKILLS ]</h2>
-              <div className="flex flex-wrap gap-2">
-                {(Array.isArray(info.skills) ? info.skills : JSON.parse(info.skills || '[]')).map((skill, i) => (
-                  <span key={i} className="font-mono text-[9px] font-bold bg-[#111111] text-[#ffffff] px-2 py-1 uppercase tracking-widest">
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
+          {/* Right Column */}
+          <View style={styles.rightCol}>
+            {/* Skills */}
+            {skillsList.length > 0 && (
+              <View>
+                <Text style={styles.sectionHeader}>[ 03/ SKILLS ]</Text>
+                <View style={styles.skillContainer}>
+                  {skillsList.map((skill, i) => (
+                    <Text key={i} style={styles.skillBadge}>
+                      {skill}
+                    </Text>
+                  ))}
+                </View>
+              </View>
+            )}
 
-          {/* Education */}
-          {educations.length > 0 && (
-            <div>
-              <h2 className="font-mono text-[10px] font-bold tracking-[0.2em] uppercase text-[#9ca3af] mb-3">[ 04/ EDUCATION ]</h2>
-              <div className="space-y-4">
+            {/* Education */}
+            {educations.length > 0 && (
+              <View>
+                <Text style={styles.sectionHeader}>[ 04/ EDUCATION ]</Text>
                 {educations.map((edu, idx) => (
-                  <div key={edu.id || idx}>
-                    <p className="font-mono text-[9px] font-bold text-[#6b7280]">{edu.period}</p>
-                    <h3 className="text-[11px] font-bold uppercase tracking-tight text-[#111111]">{edu.title}</h3>
-                    <p className="text-[10px] text-[#9ca3af] font-medium">{edu.institution}</p>
-                  </div>
+                  <View key={edu.id || idx} style={styles.educationItem}>
+                    <Text style={styles.expDate}>{edu.period}</Text>
+                    <Text style={styles.eduTitle}>{edu.title}</Text>
+                    <Text style={styles.eduInst}>{edu.institution}</Text>
+                  </View>
                 ))}
-              </div>
-            </div>
-          )}
+              </View>
+            )}
 
-          {/* Honors */}
-          {honors.length > 0 && (
-            <div>
-              <h2 className="font-mono text-[10px] font-bold tracking-[0.2em] uppercase text-[#9ca3af] mb-3">[ 05/ HONORS ]</h2>
-              <div className="space-y-3">
+            {/* Honors */}
+            {honors.length > 0 && (
+              <View>
+                <Text style={styles.sectionHeader}>[ 05/ HONORS ]</Text>
                 {honors.map((honor, idx) => (
-                  <div key={honor.id || idx} className="p-3 border border-[#e5e5e5] bg-[#ffffff]">
-                    <h3 className="text-[10px] font-bold uppercase tracking-tight text-[#111111] mb-1">{honor.title}</h3>
-                    <p className="text-[9px] font-mono text-gray-400">{honor.institution} — {honor.period}</p>
-                  </div>
+                  <View key={honor.id || idx} style={styles.honorItem}>
+                    <Text style={styles.honorTitle}>{honor.title}</Text>
+                    <Text style={styles.honorMeta}>
+                      {honor.institution} — {honor.period}
+                    </Text>
+                  </View>
                 ))}
-              </div>
-            </div>
-          )}
+              </View>
+            )}
 
-          {/* Certifications */}
-          {certs.length > 0 && (
-            <div>
-              <h2 className="font-mono text-[10px] font-bold tracking-[0.2em] uppercase text-[#9ca3af] mb-3">[ 06/ CERTS ]</h2>
-              <div className="space-y-2">
+            {/* Certifications */}
+            {certs.length > 0 && (
+              <View>
+                <Text style={styles.sectionHeader}>[ 06/ CERTS ]</Text>
                 {certs.map((cert, idx) => (
-                  <div key={cert.id || idx} className="flex justify-between items-baseline border-b border-[#f3f4f6] pb-1.5">
-                    <span className="font-semibold text-[#111111] text-[10px] uppercase truncate max-w-[120px]">{cert.title}</span>
-                    <span className="font-mono text-[8px] text-[#9ca3af] shrink-0">{cert.period}</span>
-                  </div>
+                  <View key={cert.id || idx} style={styles.certItem}>
+                    <Text style={styles.certTitle} numberOfLines={1}>
+                      {cert.title}
+                    </Text>
+                    <Text style={styles.certDate}>{cert.period}</Text>
+                  </View>
                 ))}
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
+              </View>
+            )}
+          </View>
+        </View>
+      </Page>
+    </Document>
   );
 }

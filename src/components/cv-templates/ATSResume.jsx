@@ -1,4 +1,132 @@
 import React from 'react';
+import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
+
+const styles = StyleSheet.create({
+  page: {
+    padding: 30,
+    fontFamily: 'Helvetica',
+    fontSize: 9,
+    lineHeight: 1.4,
+    color: '#000000',
+    backgroundColor: '#ffffff',
+  },
+  header: {
+    textAlign: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#d1d5db',
+    paddingBottom: 8,
+    marginBottom: 12,
+  },
+  name: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    marginBottom: 2,
+  },
+  role: {
+    fontSize: 10,
+    fontWeight: 'bold',
+    color: '#374151',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    marginBottom: 4,
+  },
+  contactContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+  },
+  contactItem: {
+    fontSize: 8,
+    color: '#4b5563',
+    marginHorizontal: 5,
+  },
+  section: {
+    marginBottom: 12,
+  },
+  sectionTitle: {
+    fontSize: 10,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    borderBottomWidth: 1,
+    borderBottomColor: '#9ca3af',
+    paddingBottom: 2,
+    marginBottom: 6,
+  },
+  summaryText: {
+    fontSize: 9,
+    color: '#1f2937',
+    textAlign: 'justify',
+  },
+  experienceItem: {
+    marginBottom: 8,
+  },
+  rowJustify: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'baseline',
+    marginBottom: 2,
+  },
+  companyRole: {
+    fontWeight: 'bold',
+    fontSize: 9,
+    color: '#111111',
+  },
+  date: {
+    fontSize: 8,
+    color: '#4b5563',
+  },
+  descriptionText: {
+    fontSize: 9,
+    color: '#374151',
+    textAlign: 'justify',
+  },
+  techText: {
+    fontSize: 8,
+    color: '#6b7280',
+    marginTop: 2,
+  },
+  educationItem: {
+    marginBottom: 4,
+  },
+  eduTitle: {
+    fontWeight: 'bold',
+    fontSize: 9,
+  },
+  eduInst: {
+    color: '#4b5563',
+  },
+  skillsText: {
+    fontSize: 9,
+    color: '#1f2937',
+  },
+  columnsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  column: {
+    width: '48%',
+  },
+  bulletList: {
+    paddingLeft: 5,
+  },
+  bulletItem: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: 2,
+  },
+  bulletSign: {
+    width: 6,
+    fontSize: 9,
+  },
+  bulletText: {
+    flex: 1,
+    fontSize: 9,
+    color: '#1f2937',
+  }
+});
 
 export function ATSResume({ data }) {
   if (!data) return null;
@@ -8,108 +136,129 @@ export function ATSResume({ data }) {
   const honors = qualifications.filter(q => q.type === 'honor');
   const certs = qualifications.filter(q => q.type === 'certification');
 
+  const skillsList = Array.isArray(info?.skills)
+    ? info.skills
+    : JSON.parse(info?.skills || '[]');
+
   return (
-    <div className="w-[210mm] min-h-[297mm] p-[20mm] bg-[#ffffff] text-[#000000] font-sans text-xs leading-relaxed" style={{ boxSizing: 'border-box' }}>
-      {/* Header */}
-      <div className="text-center border-b border-[#d1d5db] pb-4 mb-6">
-        <h1 className="text-2xl font-bold uppercase tracking-tight mb-1">{info?.full_name || 'Haikal Jibran Al Ghiffarry'}</h1>
-        <p className="text-sm font-semibold text-[#374151] uppercase mb-2">{info?.role || 'Systems Architect & Full-stack Developer'}</p>
-        <div className="flex flex-wrap justify-center gap-x-4 text-[10px] text-[#4b5563] font-mono">
-          <span>{info?.email || 'hello@ghiffa.dev'}</span>
-          {info?.phone_number && <span>{info.phone_number}</span>}
-          {info?.social_links?.linkedin && <span>LinkedIn: {info.social_links.linkedin.replace('https://', '')}</span>}
-          {info?.social_links?.github && <span>GitHub: {info.social_links.github.replace('https://', '')}</span>}
-        </div>
-      </div>
+    <Document>
+      <Page size="A4" style={styles.page}>
+        {/* Header */}
+        <View style={styles.header}>
+          <Text style={styles.name}>{info?.full_name || 'Haikal Jibran Al Ghiffarry'}</Text>
+          <Text style={styles.role}>{info?.role || 'Systems Architect & Full-stack Developer'}</Text>
+          <View style={styles.contactContainer}>
+            <Text style={styles.contactItem}>{info?.email || 'hello@ghiffa.dev'}</Text>
+            {info?.phone_number && <Text style={styles.contactItem}>•  {info.phone_number}</Text>}
+            {info?.social_links?.linkedin && (
+              <Text style={styles.contactItem}>
+                •  LinkedIn: {info.social_links.linkedin.replace('https://', '')}
+              </Text>
+            )}
+            {info?.social_links?.github && (
+              <Text style={styles.contactItem}>
+                •  GitHub: {info.social_links.github.replace('https://', '')}
+              </Text>
+            )}
+          </View>
+        </View>
 
-      {/* Summary */}
-      <div className="mb-6">
-        <h2 className="text-xs font-bold uppercase tracking-wider border-b border-[#9ca3af] pb-1 mb-2">Professional Summary</h2>
-        <p className="text-[11px] text-[#1f2937] text-justify">{info?.about_content || ''}</p>
-      </div>
+        {/* Summary */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Professional Summary</Text>
+          <Text style={styles.summaryText}>{info?.about_content || ''}</Text>
+        </View>
 
-      {/* Experience */}
-      {experiences.length > 0 && (
-        <div className="mb-6">
-          <h2 className="text-xs font-bold uppercase tracking-wider border-b border-[#9ca3af] pb-1 mb-3">Work Experience</h2>
-          <div className="space-y-4">
+        {/* Experience */}
+        {experiences.length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Work Experience</Text>
             {experiences.map((exp, idx) => (
-              <div key={exp.id || idx}>
-                <div className="flex justify-between font-bold text-[11px]">
-                  <span>{exp.role.toUpperCase()} — {exp.company.toUpperCase()}</span>
-                  <span className="font-mono text-[10px] text-[#4b5563]">{exp.period}</span>
-                </div>
-                <p className="text-[10px] text-[#374151] mt-1 whitespace-pre-line text-justify">{exp.description}</p>
+              <View key={exp.id || idx} style={styles.experienceItem}>
+                <View style={styles.rowJustify}>
+                  <Text style={styles.companyRole}>
+                    {exp.role.toUpperCase()} — {exp.company.toUpperCase()}
+                  </Text>
+                  <Text style={styles.date}>{exp.period}</Text>
+                </View>
+                <Text style={styles.descriptionText}>{exp.description}</Text>
                 {exp.tech_stack && (
-                  <p className="text-[9px] text-[#6b7280] font-mono mt-1">
-                    Technologies: {Array.isArray(exp.tech_stack) ? exp.tech_stack.join(', ') : exp.tech_stack}
-                  </p>
+                  <Text style={styles.techText}>
+                    Technologies: {Array.isArray(exp.tech_stack) ? exp.tech_stack.join(', ') : JSON.parse(exp.tech_stack || '[]').join(', ')}
+                  </Text>
                 )}
-              </div>
+              </View>
             ))}
-          </div>
-        </div>
-      )}
+          </View>
+        )}
 
-      {/* Education */}
-      {educations.length > 0 && (
-        <div className="mb-6">
-          <h2 className="text-xs font-bold uppercase tracking-wider border-b border-[#9ca3af] pb-1 mb-3">Education</h2>
-          <div className="space-y-3">
+        {/* Education */}
+        {educations.length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Education</Text>
             {educations.map((edu, idx) => (
-              <div key={edu.id || idx} className="flex justify-between items-start text-[11px]">
-                <div>
-                  <span className="font-bold">{edu.title}</span>
-                  <span className="text-[#4b5563]"> - {edu.institution}</span>
-                  {edu.description && <p className="text-[10px] text-[#4b5563] mt-0.5">{edu.description}</p>}
-                </div>
-                <span className="font-mono text-[10px] text-[#4b5563] shrink-0">{edu.period}</span>
-              </div>
+              <View key={edu.id || idx} style={styles.educationItem}>
+                <View style={styles.rowJustify}>
+                  <Text style={styles.eduTitle}>
+                    {edu.title} <Text style={styles.eduInst}>- {edu.institution}</Text>
+                  </Text>
+                  <Text style={styles.date}>{edu.period}</Text>
+                </View>
+                {edu.description && <Text style={styles.descriptionText}>{edu.description}</Text>}
+              </View>
             ))}
-          </div>
-        </div>
-      )}
-
-      {/* Skills */}
-      {info?.skills && (
-        <div className="mb-6">
-          <h2 className="text-xs font-bold uppercase tracking-wider border-b border-[#9ca3af] pb-1 mb-2">Key Skills</h2>
-          <p className="text-[11px] text-[#1f2937] leading-relaxed font-mono">
-            {Array.isArray(info.skills) ? info.skills.join(' • ') : JSON.parse(info.skills || '[]').join(' • ')}
-          </p>
-        </div>
-      )}
-
-      {/* Honors & Certifications */}
-      <div className="grid grid-cols-2 gap-8">
-        {/* Certifications */}
-        {certs.length > 0 && (
-          <div>
-            <h2 className="text-xs font-bold uppercase tracking-wider border-b border-[#9ca3af] pb-1 mb-2">Certifications</h2>
-            <ul className="list-disc pl-4 space-y-1 text-[10px] text-[#1f2937]">
-              {certs.map((cert, idx) => (
-                <li key={cert.id || idx}>
-                  <span className="font-semibold">{cert.title}</span> ({cert.institution} — {cert.period})
-                </li>
-              ))}
-            </ul>
-          </div>
+          </View>
         )}
 
-        {/* Honors */}
-        {honors.length > 0 && (
-          <div>
-            <h2 className="text-xs font-bold uppercase tracking-wider border-b border-[#9ca3af] pb-1 mb-2">Honors & Awards</h2>
-            <ul className="list-disc pl-4 space-y-1 text-[10px] text-[#1f2937]">
-              {honors.map((honor, idx) => (
-                <li key={honor.id || idx}>
-                  <span className="font-semibold">{honor.title}</span> ({honor.institution} — {honor.period})
-                </li>
-              ))}
-            </ul>
-          </div>
+        {/* Skills */}
+        {skillsList.length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Key Skills</Text>
+            <Text style={styles.skillsText}>{skillsList.join('  •  ')}</Text>
+          </View>
         )}
-      </div>
-    </div>
+
+        {/* Honors and Certifications */}
+        <View style={styles.columnsContainer}>
+          {/* Certifications */}
+          <View style={styles.column}>
+            {certs.length > 0 && (
+              <View style={styles.section}>
+                <Text style={styles.sectionTitle}>Certifications</Text>
+                <View style={styles.bulletList}>
+                  {certs.map((cert, idx) => (
+                    <View key={cert.id || idx} style={styles.bulletItem}>
+                      <Text style={styles.bulletSign}>•</Text>
+                      <Text style={styles.bulletText}>
+                        {cert.title} ({cert.institution} — {cert.period})
+                      </Text>
+                    </View>
+                  ))}
+                </View>
+              </View>
+            )}
+          </View>
+
+          {/* Honors */}
+          <View style={styles.column}>
+            {honors.length > 0 && (
+              <View style={styles.section}>
+                <Text style={styles.sectionTitle}>Honors & Awards</Text>
+                <View style={styles.bulletList}>
+                  {honors.map((honor, idx) => (
+                    <View key={honor.id || idx} style={styles.bulletItem}>
+                      <Text style={styles.bulletSign}>•</Text>
+                      <Text style={styles.bulletText}>
+                        {honor.title} ({honor.institution} — {honor.period})
+                      </Text>
+                    </View>
+                  ))}
+                </View>
+              </View>
+            )}
+          </View>
+        </View>
+      </Page>
+    </Document>
   );
 }

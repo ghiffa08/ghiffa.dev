@@ -5,7 +5,7 @@ import { BioLinksRepository } from '../../repositories/BioLinksRepository';
 import { supabase } from '../../lib/supabaseClient';
 import { ATSResume } from '../../components/cv-templates/ATSResume';
 import { EditorialResume } from '../../components/cv-templates/EditorialResume';
-import html2pdf from 'html2pdf.js';
+import { pdf } from '@react-pdf/renderer';
 import JSZip from 'jszip';
 import { 
   Briefcase, 
@@ -62,41 +62,22 @@ export default function DashboardHome() {
     setSyncMessage('Generating PDFs...');
 
     try {
-      const atsElement = document.getElementById('ats-resume-template');
-      const editorialElement = document.getElementById('editorial-resume-template');
-
-      if (!atsElement || !editorialElement) {
-        throw new Error('Resume templates are not rendered in DOM.');
-      }
-
-      const atsOpt = {
-        margin: 10,
-        filename: 'CV_Haikal_Jibran_ATS.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, logging: false },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-      };
-
-      const editorialOpt = {
-        margin: 0,
-        filename: 'CV_Haikal_Jibran_Creative.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, logging: false },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-      };
-
+      // Generate ATS PDF blob
       setSyncMessage('Generating ATS Resume PDF...');
-      const atsBlob = await html2pdf().from(atsElement).set(atsOpt).output('blob');
+      const atsBlob = await pdf(<ATSResume data={resumeData} />).toBlob();
 
+      // Generate Editorial PDF blob
       setSyncMessage('Generating Editorial Resume PDF...');
-      const editorialBlob = await html2pdf().from(editorialElement).set(editorialOpt).output('blob');
+      const editorialBlob = await pdf(<EditorialResume data={resumeData} />).toBlob();
 
+      // Zip them
       setSyncMessage('Creating ZIP archive...');
       const zip = new JSZip();
       zip.file('CV_Haikal_Jibran_ATS.pdf', atsBlob);
       zip.file('CV_Haikal_Jibran_Creative.pdf', editorialBlob);
       const zipBlob = await zip.generateAsync({ type: 'blob' });
 
+      // Upload to Supabase Storage
       setSyncMessage('Uploading resumes.zip to storage...');
       const { data, error } = await supabase.storage
         .from('portfolio-media')
@@ -308,28 +289,7 @@ export default function DashboardHome() {
         </div>
       </div>
 
-      {/* Hidden Resume Templates for html2pdf */}
-      {resumeData && (
-        <div id="cv-print-container" style={{ position: 'absolute', left: '-9999px', top: '-9999px', overflow: 'hidden', width: '210mm', height: '1px' }}>
-          <style dangerouslySetInnerHTML={{ __html: `
-            #cv-print-container * {
-              border-color: #e5e7eb !important;
-              outline-color: transparent !important;
-              text-decoration-color: transparent !important;
-            }
-            #cv-print-container {
-              background-color: #ffffff !important;
-              color: #000000 !important;
-            }
-          `}} />
-          <div id="ats-resume-template">
-            <ATSResume data={resumeData} />
-          </div>
-          <div id="editorial-resume-template">
-            <EditorialResume data={resumeData} />
-          </div>
-        </div>
-      )}
+
     </div>
   );
 }

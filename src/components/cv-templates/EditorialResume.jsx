@@ -170,44 +170,32 @@ const styles = StyleSheet.create({
     marginTop: 1,
   },
   honorItem: {
-    padding: 6,
-    borderWidth: 1,
-    borderColor: '#e5e5e5',
-    backgroundColor: '#ffffff',
-    marginBottom: 6,
+    marginBottom: 8,
   },
   honorTitle: {
     fontSize: 9,
-    fontWeight: 'bold',
+    fontFamily: 'Helvetica-Bold',
     textTransform: 'uppercase',
     color: '#111111',
-    marginBottom: 1,
+    marginBottom: 2,
   },
   honorMeta: {
-    fontSize: 7.5,
-    color: '#9ca3af',
-    fontFamily: 'Courier',
+    fontSize: 8,
+    color: '#4b5563',
   },
   certItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'baseline',
-    borderBottomWidth: 1,
-    borderBottomColor: '#f3f4f6',
-    paddingBottom: 3,
     marginBottom: 8,
   },
   certTitle: {
     fontSize: 9,
-    fontWeight: 'bold',
+    fontFamily: 'Helvetica-Bold',
     textTransform: 'uppercase',
     color: '#111111',
-    width: '75%',
+    marginBottom: 2,
   },
-  certDate: {
+  certMeta: {
     fontSize: 8,
-    color: '#9ca3af',
-    fontFamily: 'Courier',
+    color: '#4b5563',
   }
 });
 
@@ -255,7 +243,7 @@ export function EditorialResume({ data }) {
             {/* Profile */}
             <View>
               <Text style={styles.sectionHeader}>[ 01/ PROFILE ]</Text>
-              <Text style={styles.profileText}>{info?.about_content || ''}</Text>
+              <Text style={styles.profileText}>{(info?.about_content || '').replace(/\*/g, '')}</Text>
             </View>
 
             {/* Experience */}
@@ -288,28 +276,11 @@ export function EditorialResume({ data }) {
                 })}
               </View>
             )}
-          </View>
 
-          {/* Right Column */}
-          <View style={styles.rightCol}>
-            {/* Skills */}
-            {skillsList.length > 0 && (
-              <View>
-                <Text style={styles.sectionHeader}>[ 03/ SKILLS ]</Text>
-                <View style={styles.skillContainer}>
-                  {skillsList.map((skill, i) => (
-                    <Text key={i} style={styles.skillBadge}>
-                      {skill}
-                    </Text>
-                  ))}
-                </View>
-              </View>
-            )}
-
-            {/* Education */}
+            {/* Education (Moved here to rebalance layout) */}
             {educations.length > 0 && (
-              <View>
-                <Text style={styles.sectionHeader}>[ 04/ EDUCATION ]</Text>
+              <View style={{ marginTop: 12 }}>
+                <Text style={styles.sectionHeader}>[ 03/ EDUCATION ]</Text>
                 {educations.map((edu, idx) => (
                   <View key={edu.id || idx} style={styles.educationItem}>
                     <Text style={styles.expDate}>{edu.period}</Text>
@@ -317,6 +288,23 @@ export function EditorialResume({ data }) {
                     <Text style={styles.eduInst}>{edu.institution}</Text>
                   </View>
                 ))}
+              </View>
+            )}
+          </View>
+
+          {/* Right Column */}
+          <View style={styles.rightCol}>
+            {/* Skills */}
+            {skillsList.length > 0 && (
+              <View>
+                <Text style={styles.sectionHeader}>[ 04/ SKILLS ]</Text>
+                <View style={styles.skillContainer}>
+                  {skillsList.map((skill, i) => (
+                    <Text key={i} style={styles.skillBadge}>
+                      {skill}
+                    </Text>
+                  ))}
+                </View>
               </View>
             )}
 
@@ -341,10 +329,10 @@ export function EditorialResume({ data }) {
                 <Text style={styles.sectionHeader}>[ 06/ CERTS ]</Text>
                 {certs.map((cert, idx) => (
                   <View key={cert.id || idx} style={styles.certItem}>
-                    <Text style={styles.certTitle} numberOfLines={1}>
-                      {cert.title}
+                    <Text style={styles.certTitle}>{cert.title}</Text>
+                    <Text style={styles.certMeta}>
+                      {cert.institution} — {cert.period}
                     </Text>
-                    <Text style={styles.certDate}>{cert.period}</Text>
                   </View>
                 ))}
               </View>

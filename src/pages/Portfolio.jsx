@@ -14,7 +14,6 @@ import { CVDownloadModal } from '../components/organisms/CVDownloadModal';
 import { Header } from '../components/organisms/Header';
 import { HeroSection } from '../components/organisms/HeroSection';
 import { AboutSection } from '../components/organisms/AboutSection';
-import { SkillsSection } from '../components/organisms/SkillsSection';
 import { ExperienceSection } from '../components/organisms/ExperienceSection';
 import { WorksSection } from '../components/organisms/WorksSection';
 import { EducationSection } from '../components/organisms/EducationSection';
@@ -22,7 +21,6 @@ import { InstagramFeed } from '../components/organisms/InstagramFeed';
 import { ContactSection } from '../components/organisms/ContactSection';
 import { Footer } from '../components/organisms/Footer';
 import { SEO } from '../components/atoms/SEO';
-import { VelocityScroll } from '../components/atoms/VelocityScroll';
 
 export default function Portfolio() {
   // Custom hooks initialization
@@ -188,47 +186,37 @@ export default function Portfolio() {
         <Header />
         
         {/* Section 1: Hero */}
-        <section className="sticky top-0 h-screen w-full bg-white z-10 overflow-hidden flex flex-col justify-center">
+        <section className="relative z-10 w-full min-h-[100svh] bg-white flex flex-col justify-center">
           <HeroSection />
         </section>
 
-        {/* Transition: Velocity Scroll */}
-        <section className="sticky top-0 z-20 bg-white">
-          <VelocityScroll baseVelocity={-2} text="DEVELOPER DESIGNER ENGINEER" />
-        </section>
-
-        {/* Section 2: About */}
-        <section className="sticky top-0 h-screen w-full bg-gray-100 border-t-4 border-black z-30 overflow-y-auto pb-20">
+        {/* Section 2: About (contains embedded skills marquee) */}
+        <section className="relative z-20 w-full h-auto min-h-screen py-16 md:py-24 bg-white flex flex-col justify-center">
           <AboutSection onDownloadCV={() => setIsCVModalOpen(true)} />
         </section>
 
-        {/* Section 3: Skills */}
-        <section className="sticky top-0 h-screen w-full bg-white border-t-4 border-black z-40 overflow-y-auto pb-20">
-          <SkillsSection />
-        </section>
-
-        {/* Section 4: Works */}
-        <section className="sticky top-0 h-screen w-full bg-gray-100 border-t-4 border-black z-50 overflow-y-auto pb-20">
+        {/* Section 3: Works */}
+        <section className="relative z-30 w-full h-auto min-h-screen py-16 md:py-24 bg-[#FAFAFA] border-t-4 border-black flex flex-col justify-center">
           <WorksSection setActiveDetail={handleSetActiveDetail} />
         </section>
 
-        {/* Section 5: Experience */}
-        <section className="sticky top-0 h-screen w-full bg-white border-t-4 border-black z-60 overflow-y-auto pb-20">
+        {/* Section 4: Experience */}
+        <section className="relative z-40 w-full h-auto min-h-screen py-16 md:py-24 bg-white border-t-4 border-black flex flex-col justify-center">
           <ExperienceSection />
         </section>
 
-        {/* Section 6: Education */}
-        <section className="sticky top-0 h-screen w-full bg-gray-100 border-t-4 border-black z-70 overflow-y-auto pb-20">
+        {/* Section 5: Education */}
+        <section className="relative z-50 w-full h-auto min-h-screen py-16 md:py-24 bg-[#FAFAFA] border-t-4 border-black flex flex-col justify-center">
           <EducationSection />
         </section>
 
-        {/* Section 7: Instagram & Socials */}
-        <section className="sticky top-0 h-screen w-full bg-white border-t-4 border-black z-80 overflow-y-auto pb-20">
+        {/* Section 6: Instagram & Socials */}
+        <section className="relative z-60 w-full h-auto min-h-screen py-16 md:py-24 bg-white border-t-4 border-black flex flex-col justify-center">
           <InstagramFeed setHoveredArticleImg={setHoveredArticleImg} />
         </section>
 
-        {/* Section 8: Contact & Footer */}
-        <section className="sticky top-0 h-screen w-full bg-gray-100 border-t-4 border-black z-90 overflow-y-auto pb-20">
+        {/* Section 7: Contact & Footer */}
+        <section className="relative z-70 w-full h-auto min-h-screen py-16 md:py-24 bg-[#111111] text-[#FAFAFA] border-t-4 border-black flex flex-col justify-center">
           <ContactSection />
           <Footer />
         </section>

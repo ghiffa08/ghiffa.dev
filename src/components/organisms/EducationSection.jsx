@@ -129,12 +129,12 @@ function CertificateCard({ item }) {
 
       {/* Lightbox Modal UI */}
       {activeModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-10 bg-black/80 backdrop-blur-sm animate-fade-in">
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 md:p-12 bg-black/80 backdrop-blur-sm animate-fade-in">
           {/* Modal Container */}
-          <div className="relative w-full max-w-5xl max-h-full flex flex-col bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] animate-in fade-in zoom-in duration-200">
+          <div className="relative w-full max-w-5xl max-h-[90vh] flex flex-col bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] animate-in fade-in zoom-in duration-200 overflow-hidden">
 
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b-4 border-black bg-gray-100">
+            <div className="flex-none flex items-center justify-between p-4 border-b-4 border-black bg-gray-100">
               <h3 className="font-bold text-lg uppercase truncate pr-4 text-[#111111]">{t(titleKey, item.title)}</h3>
               <button 
                 onClick={() => setActiveModal(null)}
@@ -145,18 +145,18 @@ function CertificateCard({ item }) {
             </div>
 
             {/* Body */}
-            <div className="flex-1 overflow-auto bg-gray-200 p-4 md:p-8 flex items-center justify-center min-h-[50vh] md:min-h-[70vh]">
+            <div className="flex-1 overflow-hidden bg-gray-200 p-2 md:p-6 flex items-center justify-center">
               {activeModal.type === 'image' ? (
                 <img 
                   src={activeModal.url} 
-                  alt={t(titleKey, item.title)} 
-                  className="max-w-full max-h-[70vh] object-contain border-2 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+                  alt="Certificate Preview" 
+                  className="w-full h-full object-contain border-2 border-black bg-white shadow-sm"
                 />
               ) : (
                 <iframe 
                   src={`${activeModal.url}#toolbar=0`} 
-                  title={t(titleKey, item.title)}
-                  className="w-full h-full min-h-[60vh] md:min-h-[70vh] border-2 border-black bg-white"
+                  title="Certificate PDF"
+                  className="w-full h-full border-2 border-black bg-white shadow-sm"
                 />
               )}
             </div>

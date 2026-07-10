@@ -1,12 +1,24 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSupabaseList } from '../../hooks/useSupabaseData';
 import { SectionHeader } from '../atoms/SectionHeader';
 import { slugify } from '../../utils/slugify';
-import { ArrowUpRight, FileText, Image as ImageIcon } from 'lucide-react';
+import { ArrowUpRight, FileText, Image as ImageIcon, X } from 'lucide-react';
 
 function CertificateCard({ item }) {
   const { t } = useTranslation();
+  const [activeModal, setActiveModal] = useState(null);
+
+  useEffect(() => {
+    if (activeModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [activeModal]);
 
   const titleKey = `education.${slugify(item.title)}.title`;
   const instKey = `education.${slugify(item.title)}.institution`;
@@ -57,12 +69,11 @@ function CertificateCard({ item }) {
 
       {/* Clickable media area overlay */}
       {originalUrl && (
-        <a
-          href={originalUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="absolute inset-0 z-0"
-        ></a>
+        <button
+          onClick={() => setActiveModal({ type: isPdf ? 'pdf' : 'image', url: originalUrl })}
+          className="absolute inset-0 z-0 cursor-pointer w-full h-full border-none bg-transparent"
+          aria-label="View media"
+        ></button>
       )}
 
       {/* Caption overlay sliding up on hover */}
@@ -84,26 +95,22 @@ function CertificateCard({ item }) {
         <div className="flex flex-wrap items-center gap-2 mt-4 pt-3 border-t-2 border-gray-200">
           {/* Button 1: Always view the JPG/PNG version */}
           {displayImageUrl && (
-            <a
-              href={displayImageUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[10px] font-bold text-black hover:bg-black hover:text-white border-2 border-transparent hover:border-black px-2 py-1 transition-colors uppercase flex items-center gap-1 z-20"
+            <button
+              onClick={() => setActiveModal({ type: 'image', url: displayImageUrl })}
+              className="text-[10px] font-bold text-black hover:bg-black hover:text-white border-2 border-transparent hover:border-black px-2 py-1 transition-colors uppercase flex items-center gap-1 z-20 cursor-pointer"
             >
               <ImageIcon size={12} strokeWidth={2.5}/> GAMBAR
-            </a>
+            </button>
           )}
 
           {/* Button 2: If it's originally a PDF (or pdfUrl exists), link to the document */}
           {(isPdf || item.pdfUrl) && (
-            <a
-              href={item.pdfUrl || originalUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[10px] font-bold text-black hover:bg-black hover:text-white border-2 border-transparent hover:border-black px-2 py-1 transition-colors uppercase flex items-center gap-1 z-20"
+            <button
+              onClick={() => setActiveModal({ type: 'pdf', url: item.pdfUrl || originalUrl })}
+              className="text-[10px] font-bold text-black hover:bg-black hover:text-white border-2 border-transparent hover:border-black px-2 py-1 transition-colors uppercase flex items-center gap-1 z-20 cursor-pointer"
             >
               <FileText size={12} strokeWidth={2.5}/> BUKA PDF
-            </a>
+            </button>
           )}
 
           {/* Button 3: External verification */}
@@ -119,6 +126,43 @@ function CertificateCard({ item }) {
           )}
         </div>
       </div>
+
+      {/* Lightbox Modal UI */}
+      {activeModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-10 bg-black/80 backdrop-blur-sm animate-fade-in">
+          {/* Modal Container */}
+          <div className="relative w-full max-w-5xl max-h-full flex flex-col bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] animate-in fade-in zoom-in duration-200">
+
+            {/* Header */}
+            <div className="flex items-center justify-between p-4 border-b-4 border-black bg-gray-100">
+              <h3 className="font-bold text-lg uppercase truncate pr-4 text-[#111111]">{t(titleKey, item.title)}</h3>
+              <button 
+                onClick={() => setActiveModal(null)}
+                className="p-1 bg-white border-2 border-black hover:bg-red-500 hover:text-white transition-colors cursor-pointer"
+              >
+                <X size={24} strokeWidth={3}/>
+              </button>
+            </div>
+
+            {/* Body */}
+            <div className="flex-1 overflow-auto bg-gray-200 p-4 md:p-8 flex items-center justify-center min-h-[50vh] md:min-h-[70vh]">
+              {activeModal.type === 'image' ? (
+                <img 
+                  src={activeModal.url} 
+                  alt={t(titleKey, item.title)} 
+                  className="max-w-full max-h-[70vh] object-contain border-2 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+                />
+              ) : (
+                <iframe 
+                  src={`${activeModal.url}#toolbar=0`} 
+                  title={t(titleKey, item.title)}
+                  className="w-full h-full min-h-[60vh] md:min-h-[70vh] border-2 border-black bg-white"
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

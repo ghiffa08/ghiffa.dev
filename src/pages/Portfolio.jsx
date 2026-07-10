@@ -21,6 +21,7 @@ import { InstagramFeed } from '../components/organisms/InstagramFeed';
 import { ContactSection } from '../components/organisms/ContactSection';
 import { Footer } from '../components/organisms/Footer';
 import { SEO } from '../components/atoms/SEO';
+import { PinnedMarquee } from '../components/atoms/PinnedMarquee';
 
 export default function Portfolio() {
   // Custom hooks initialization
@@ -190,33 +191,41 @@ export default function Portfolio() {
           <HeroSection />
         </section>
 
-        {/* Section 2: About (contains embedded skills marquee) */}
-        <section className="relative w-full h-auto min-h-screen py-16 md:py-24 flex flex-col justify-center z-10 bg-white border-t-4 border-black shadow-[0px_-10px_30px_rgba(0,0,0,0.1)]">
+        {/* Section 2: About */}
+        <section className="relative w-full h-auto min-h-screen py-16 md:py-24 flex flex-col justify-center z-10 bg-white shadow-[0px_-10px_30px_rgba(0,0,0,0.1)]">
           <AboutSection onDownloadCV={() => setIsCVModalOpen(true)} />
         </section>
 
+        {/* Transition: Pinned Horizontal Scroll Marquee */}
+        <PinnedMarquee 
+          text={info?.skills && info.skills.length > 0 
+            ? info.skills.map(s => s.toUpperCase()).join(' ') 
+            : "SQL MYSQL SUPABASE GSAP WEB DESIGN UI/UX ESP32 MICROCONTROLLER"
+          } 
+        />
+
         {/* Section 3: Works */}
-        <section className="relative z-30 w-full h-auto min-h-screen py-16 md:py-24 bg-[#FAFAFA] border-t-4 border-black flex flex-col justify-center">
+        <section className="relative z-20 w-full h-auto min-h-screen py-16 md:py-24 bg-[#FAFAFA] flex flex-col justify-center">
           <WorksSection setActiveDetail={handleSetActiveDetail} />
         </section>
 
         {/* Section 4: Experience */}
-        <section className="relative z-40 w-full h-auto min-h-screen py-16 md:py-24 bg-white border-t-4 border-black flex flex-col justify-center">
+        <section className="relative z-30 w-full h-auto min-h-screen py-16 md:py-24 bg-white flex flex-col justify-center">
           <ExperienceSection />
         </section>
 
         {/* Section 5: Education */}
-        <section className="relative z-50 w-full h-auto min-h-screen py-16 md:py-24 bg-[#FAFAFA] border-t-4 border-black flex flex-col justify-center">
+        <section className="relative z-40 w-full h-auto min-h-screen py-16 md:py-24 bg-[#FAFAFA] flex flex-col justify-center">
           <EducationSection />
         </section>
 
         {/* Section 6: Instagram & Socials */}
-        <section className="relative z-60 w-full h-auto min-h-screen py-16 md:py-24 bg-white border-t-4 border-black flex flex-col justify-center">
+        <section className="relative z-50 w-full h-auto min-h-screen py-16 md:py-24 bg-white flex flex-col justify-center">
           <InstagramFeed setHoveredArticleImg={setHoveredArticleImg} />
         </section>
 
         {/* Section 7: Contact & Footer */}
-        <section className="relative z-70 w-full h-auto min-h-screen py-16 md:py-24 bg-[#111111] text-[#FAFAFA] border-t-4 border-black flex flex-col justify-center">
+        <section className="relative z-60 w-full h-auto min-h-screen py-16 md:py-24 bg-[#111111] text-[#FAFAFA] flex flex-col justify-center">
           <ContactSection />
           <Footer />
         </section>

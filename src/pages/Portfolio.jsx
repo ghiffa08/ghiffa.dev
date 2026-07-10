@@ -21,7 +21,6 @@ import { InstagramFeed } from '../components/organisms/InstagramFeed';
 import { ContactSection } from '../components/organisms/ContactSection';
 import { Footer } from '../components/organisms/Footer';
 import { SEO } from '../components/atoms/SEO';
-import { PinnedMarquee } from '../components/atoms/PinnedMarquee';
 
 export default function Portfolio() {
   // Custom hooks initialization
@@ -195,14 +194,6 @@ export default function Portfolio() {
         <section className="relative w-full h-auto min-h-screen py-16 md:py-24 flex flex-col justify-center z-10 bg-white shadow-[0px_-10px_30px_rgba(0,0,0,0.1)]">
           <AboutSection onDownloadCV={() => setIsCVModalOpen(true)} />
         </section>
-
-        {/* Transition: Pinned Horizontal Scroll Marquee */}
-        <PinnedMarquee 
-          text={info?.skills && info.skills.length > 0 
-            ? info.skills.map(s => s.toUpperCase()).join(' ') 
-            : "SQL MYSQL SUPABASE GSAP WEB DESIGN UI/UX ESP32 MICROCONTROLLER"
-          } 
-        />
 
         {/* Section 3: Works */}
         <section className="relative z-20 w-full h-auto min-h-screen py-16 md:py-24 bg-[#FAFAFA] flex flex-col justify-center">

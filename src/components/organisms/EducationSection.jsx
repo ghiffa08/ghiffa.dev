@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useSupabaseList } from '../../hooks/useSupabaseData';
 import { SectionHeader } from '../atoms/SectionHeader';
 import { slugify } from '../../utils/slugify';
+import { ArrowUpRight, FileText, Image as ImageIcon } from 'lucide-react';
 
 function CertificateCard({ item }) {
   const { t } = useTranslation();
@@ -10,8 +11,11 @@ function CertificateCard({ item }) {
   const titleKey = `education.${slugify(item.title)}.title`;
   const instKey = `education.${slugify(item.title)}.institution`;
 
-  const hasMedia = !!item.certificate_url;
-  const isPdf = hasMedia && item.certificate_url.toLowerCase().endsWith('.pdf');
+  const originalUrl = item.certificate_url;
+  const isPdf = originalUrl?.toLowerCase().endsWith('.pdf');
+  const displayImageUrl = isPdf ? originalUrl.replace(/\.pdf$/i, '.jpg') : originalUrl;
+
+  const hasMedia = !!displayImageUrl;
   const externalUrl = item.credential_url || item.external_url || null;
 
   if (!hasMedia) {
@@ -45,25 +49,16 @@ function CertificateCard({ item }) {
 
   return (
     <div className="break-inside-avoid mb-4 relative overflow-hidden border-2 border-black group bg-gray-100 flex flex-col">
-      {isPdf ? (
-        <div className="w-full aspect-[3/4] bg-white flex flex-col items-center justify-center p-6 border-b-2 border-black grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500">
-          <div className="w-16 h-20 border-2 border-black relative flex items-center justify-center bg-gray-100 mb-4">
-            <span className="font-bold text-black text-xl absolute font-mono">PDF</span>
-          </div>
-          <span className="text-center font-bold uppercase text-xs line-clamp-2 text-[#111111]">Document Attached</span>
-        </div>
-      ) : (
-        <img
-          src={item.certificate_url}
-          alt={t(titleKey, item.title)}
-          className="w-full h-auto grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 ease-in-out"
-        />
-      )}
+      <img
+        src={displayImageUrl}
+        alt={t(titleKey, item.title)}
+        className="w-full h-auto grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 ease-in-out"
+      />
 
       {/* Clickable media area overlay */}
-      {hasMedia && (
+      {originalUrl && (
         <a
-          href={item.certificate_url}
+          href={originalUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="absolute inset-0 z-0"
@@ -86,25 +81,40 @@ function CertificateCard({ item }) {
         </p>
 
         {/* Action Links container */}
-        <div className="flex flex-wrap items-center gap-4 mt-4 pt-3 border-t-2 border-gray-200">
-          {hasMedia && (
+        <div className="flex flex-wrap items-center gap-2 mt-4 pt-3 border-t-2 border-gray-200">
+          {/* Button 1: Always view the JPG/PNG version */}
+          {displayImageUrl && (
             <a
-              href={item.certificate_url}
+              href={displayImageUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs font-bold text-black hover:bg-black hover:text-white border-2 border-transparent hover:border-black px-2 py-1 transition-colors uppercase flex items-center gap-1 z-20"
+              className="text-[10px] font-bold text-black hover:bg-black hover:text-white border-2 border-transparent hover:border-black px-2 py-1 transition-colors uppercase flex items-center gap-1 z-20"
             >
-              {isPdf ? 'BUKA PDF' : 'LIHAT GAMBAR'}
+              <ImageIcon size={12} strokeWidth={2.5}/> GAMBAR
             </a>
           )}
+
+          {/* Button 2: If it's originally a PDF (or pdfUrl exists), link to the document */}
+          {(isPdf || item.pdfUrl) && (
+            <a
+              href={item.pdfUrl || originalUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[10px] font-bold text-black hover:bg-black hover:text-white border-2 border-transparent hover:border-black px-2 py-1 transition-colors uppercase flex items-center gap-1 z-20"
+            >
+              <FileText size={12} strokeWidth={2.5}/> BUKA PDF
+            </a>
+          )}
+
+          {/* Button 3: External verification */}
           {externalUrl && (
             <a
               href={externalUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs font-bold text-black hover:bg-black hover:text-white border-2 border-transparent hover:border-black px-2 py-1 transition-colors uppercase flex items-center gap-1 z-20"
+              className="text-[10px] font-bold text-black hover:bg-black hover:text-white border-2 border-transparent hover:border-black px-2 py-1 transition-colors uppercase flex items-center gap-1 z-20"
             >
-              🔗 VERIFIKASI
+              <ArrowUpRight size={12} strokeWidth={3}/> VERIFIKASI
             </a>
           )}
         </div>

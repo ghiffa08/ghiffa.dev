@@ -310,7 +310,18 @@ export default function DashboardHome() {
 
       {/* Hidden Resume Templates for html2pdf */}
       {resumeData && (
-        <div style={{ position: 'absolute', left: '-9999px', top: '-9999px', overflow: 'hidden', width: '210mm', height: '1px', color: '#000000', backgroundColor: '#ffffff' }}>
+        <div id="cv-print-container" style={{ position: 'absolute', left: '-9999px', top: '-9999px', overflow: 'hidden', width: '210mm', height: '1px' }}>
+          <style dangerouslySetInnerHTML={{ __html: `
+            #cv-print-container * {
+              border-color: #e5e7eb !important;
+              outline-color: transparent !important;
+              text-decoration-color: transparent !important;
+            }
+            #cv-print-container {
+              background-color: #ffffff !important;
+              color: #000000 !important;
+            }
+          `}} />
           <div id="ats-resume-template">
             <ATSResume data={resumeData} />
           </div>

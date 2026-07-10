@@ -14,7 +14,7 @@ export function WorksSection({ setActiveDetail }) {
 
   if (isLoading) {
     return (
-      <section id="works" className="py-16 md:py-24 hairline-t scroll-fade bg-[#FAFAFA] px-6 md:px-12">
+      <section id="works" className="relative z-20 w-full bg-[#FAFAFA] border-t border-gray-200 py-12 md:py-16 scroll-fade px-6 md:px-12">
         <div className="w-full h-32 bg-gray-200 animate-pulse mb-8"></div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="h-64 bg-gray-200 animate-pulse"></div>
@@ -46,7 +46,7 @@ export function WorksSection({ setActiveDetail }) {
   });
 
   return (
-    <section id="works" className="py-16 md:py-24 hairline-t scroll-fade bg-[#FAFAFA]">
+    <section id="works" className="relative z-20 w-full bg-[#FAFAFA] border-t border-gray-200 py-12 md:py-16 scroll-fade">
       <SectionHeader number="02" title={t('works.title')} />
       
       <div className="flex flex-col hairline-t">

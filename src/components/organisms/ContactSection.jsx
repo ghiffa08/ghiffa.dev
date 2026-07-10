@@ -7,7 +7,7 @@ export function ContactSection() {
 
   if (isLoading) {
     return (
-      <section id="contact" className="bg-[#111111] pt-32 pb-12 mt-12 scroll-fade px-6 md:px-12">
+      <section id="contact" className="relative z-20 w-full bg-[#111111] border-t border-[#333333] py-12 md:py-16 scroll-fade px-6 md:px-12">
         <div className="max-w-screen-2xl mx-auto w-full h-[50vh] bg-[#222] animate-pulse rounded-2xl"></div>
       </section>
     );
@@ -20,7 +20,7 @@ export function ContactSection() {
   const socialLinks = info.social_links || {};
 
   return (
-    <section id="contact" className="bg-[#111111] text-[#FAFAFA] pt-32 pb-12 mt-12 scroll-fade">
+    <section id="contact" className="relative z-20 w-full bg-[#111111] text-[#FAFAFA] border-t border-[#333333] py-12 md:py-16 scroll-fade">
       <div className="max-w-screen-2xl mx-auto px-6 md:px-12 flex flex-col items-center text-center">
         
         <h2 className="text-[11vw] md:text-[8vw] font-black leading-[0.8] tracking-tighter mb-12 text-white uppercase whitespace-pre-line">

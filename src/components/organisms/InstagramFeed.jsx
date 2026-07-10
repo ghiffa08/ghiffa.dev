@@ -32,7 +32,7 @@ export function InstagramFeed({ setHoveredArticleImg }) {
 
   if (isLoading) {
     return (
-      <section id="journal" className="py-16 md:py-24 hairline-t bg-[#FAFAFA]">
+      <section id="journal" className="relative z-20 w-full bg-white border-t border-gray-200 py-12 md:py-16">
         <SectionHeader number="05" title={t('instagram.title')} />
         <div className="px-6 md:px-12 flex justify-center items-center py-24">
           <div className="flex flex-col items-center gap-4">
@@ -48,7 +48,7 @@ export function InstagramFeed({ setHoveredArticleImg }) {
 
   if (error) {
     return (
-      <section id="journal" className="py-16 md:py-24 hairline-t bg-[#FAFAFA]">
+      <section id="journal" className="relative z-20 w-full bg-white border-t border-gray-200 py-12 md:py-16">
         <SectionHeader number="05" title={t('instagram.title')} />
         <div className="mx-6 md:mx-12 py-12 px-6 border border-[#E5E5E5] bg-white text-center shadow-sm">
           <p className="font-mono text-xs uppercase tracking-widest text-red-500 mb-2 font-bold">
@@ -65,7 +65,7 @@ export function InstagramFeed({ setHoveredArticleImg }) {
   const visiblePosts = isExpanded ? posts : posts.slice(0, 6);
 
   return (
-    <section id="journal" className="py-16 md:py-24 hairline-t bg-[#FAFAFA] scroll-fade">
+    <section id="journal" className="relative z-20 w-full bg-white border-t border-gray-200 py-12 md:py-16 scroll-fade">
       <SectionHeader number="05" title={t('instagram.title')} />
       
       <div className="grid grid-cols-1 md:grid-cols-3 border-t border-[#E5E5E5]">

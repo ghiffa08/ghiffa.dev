@@ -190,36 +190,13 @@ export default function Portfolio() {
           <HeroSection />
         </section>
 
-        {/* Section 2: About */}
-        <section className="relative z-10 w-full bg-white border-t border-gray-200 py-12 md:py-16 flex flex-col justify-center">
-          <AboutSection onDownloadCV={() => setIsCVModalOpen(true)} />
-        </section>
-
-        {/* Section 3: Works */}
-        <section className="relative z-20 w-full bg-[#FAFAFA] border-t border-gray-200 py-12 md:py-16 flex flex-col justify-center">
-          <WorksSection setActiveDetail={handleSetActiveDetail} />
-        </section>
-
-        {/* Section 4: Experience */}
-        <section className="relative z-30 w-full bg-white border-t border-gray-200 py-12 md:py-16 flex flex-col justify-center">
-          <ExperienceSection />
-        </section>
-
-        {/* Section 5: Education */}
-        <section className="relative z-40 w-full bg-[#FAFAFA] border-t border-gray-200 py-12 md:py-16 flex flex-col justify-center">
-          <EducationSection />
-        </section>
-
-        {/* Section 6: Instagram & Socials */}
-        <section className="relative z-50 w-full bg-white border-t border-gray-200 py-12 md:py-16 flex flex-col justify-center">
-          <InstagramFeed setHoveredArticleImg={setHoveredArticleImg} />
-        </section>
-
-        {/* Section 7: Contact & Footer */}
-        <section className="relative z-60 w-full bg-[#111111] text-[#FAFAFA] border-t border-[#333333] py-12 md:py-16 flex flex-col justify-center">
-          <ContactSection />
-          <Footer />
-        </section>
+        <AboutSection onDownloadCV={() => setIsCVModalOpen(true)} />
+        <WorksSection setActiveDetail={handleSetActiveDetail} />
+        <ExperienceSection />
+        <EducationSection />
+        <InstagramFeed setHoveredArticleImg={setHoveredArticleImg} />
+        <ContactSection />
+        <Footer />
       </main>
     </>
   );

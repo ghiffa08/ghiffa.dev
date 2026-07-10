@@ -183,7 +183,7 @@ export function EducationSection() {
 
   if (isLoading) {
     return (
-      <section className="py-16 md:py-24 hairline-t scroll-fade bg-white px-6 md:px-12">
+      <section className="relative z-20 w-full bg-[#FAFAFA] border-t border-gray-200 py-12 md:py-16 scroll-fade px-6 md:px-12">
         <div className="w-full h-32 bg-gray-200 animate-pulse mb-12"></div>
       </section>
     );
@@ -204,7 +204,7 @@ export function EducationSection() {
   const displayedItems = isExpanded ? combined : combined.slice(0, 6);
 
   return (
-    <section id="achievements" className="py-16 md:py-24 hairline-t scroll-fade bg-white">
+    <section id="achievements" className="relative z-20 w-full bg-[#FAFAFA] border-t border-gray-200 py-12 md:py-16 scroll-fade">
       <SectionHeader number="04" title={t('education.title')} />
 
       <div className="w-full px-6 md:px-12 mt-8">

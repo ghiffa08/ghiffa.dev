@@ -13,7 +13,7 @@ export function ExperienceSection() {
 
   if (isLoading) {
     return (
-      <section id="experience" className="py-16 md:py-24 hairline-t scroll-fade bg-white px-6 md:px-12">
+      <section id="experience" className="relative z-20 w-full bg-white border-t border-gray-200 py-12 md:py-16 scroll-fade px-6 md:px-12">
         <div className="w-full h-32 bg-gray-200 animate-pulse mb-8"></div>
       </section>
     );
@@ -29,7 +29,7 @@ export function ExperienceSection() {
   const descKey = activeExperience ? `experience.${slugify(activeExperience.company)}.${slugify(activeExperience.role)}.description` : '';
 
   return (
-    <section id="process" className="py-24 md:py-32 hairline-t scroll-fade bg-[#FAFAFA]">
+    <section id="process" className="relative z-20 w-full bg-white border-t border-gray-200 py-12 md:py-16 scroll-fade">
       <SectionHeader number="03" title={t('experience.title')} />
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 px-6 md:px-12">

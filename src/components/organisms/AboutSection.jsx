@@ -36,10 +36,10 @@ export function AboutSection({ onDownloadCV }) {
   }
 
   return (
-    <section id="about" className="relative z-10 w-full min-h-screen bg-white border-t-4 border-black flex flex-col">
+    <section id="about" className="relative z-10 w-full h-auto bg-white border-t border-gray-200 flex flex-col">
       
       {/* 1. CONTENT AREA: Breathes naturally, pushes marquee down */}
-      <div className="container mx-auto px-4 md:px-8 pt-24 md:pt-32 pb-24 flex-grow flex flex-col justify-start">
+      <div className="container mx-auto px-4 md:px-8 pt-12 md:pt-16 pb-12 md:pb-16 flex-grow flex flex-col justify-start">
         <SectionHeader number="01" title={t('about.title')} />
         
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 px-6 md:px-12 items-start mt-4 md:mt-10">
@@ -77,13 +77,13 @@ export function AboutSection({ onDownloadCV }) {
       </div>
 
       {/* 2. SLANTED MARQUEE AREA: Positioned at the bottom */}
-      <div className="w-full mt-auto pb-12 overflow-hidden">
+      <div className="w-full mt-auto pb-8 md:pb-12 relative z-10 overflow-hidden bg-white">
         {/* The transform rotates the banner and scales it slightly so corners don't show gaps */}
         <div className="transform -rotate-2 scale-[1.02]">
           {info?.skills ? (
             <VelocityScroll baseVelocity={0.5} text={info.skills.join(" • ")} />
           ) : (
-            <div className="py-4 border-y-4 border-black bg-white font-bold uppercase text-center">LOADING STACK...</div>
+            <div className="py-4 border-y border-gray-200 bg-white font-bold uppercase text-center">LOADING STACK...</div>
           )}
         </div>
       </div>

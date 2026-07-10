@@ -28,7 +28,7 @@ export function VelocityScroll({ text, baseVelocity = 0.5 }) {
   });
 
   return (
-    <div className="overflow-hidden whitespace-nowrap flex flex-nowrap m-0 border-y-4 border-black bg-white py-3 md:py-4">
+    <div className="overflow-hidden whitespace-nowrap flex flex-nowrap m-0 border-y border-gray-200 bg-white py-3 md:py-4">
       <motion.div className="font-bold uppercase text-3xl md:text-4xl lg:text-5xl text-black flex whitespace-nowrap flex-nowrap leading-none pb-1" style={{ x }}>
         <span className="block mr-10">{text}</span>
         <span className="block mr-10">{text}</span>

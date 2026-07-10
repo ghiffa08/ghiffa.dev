@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { ProjectRepository } from '../repositories/ProjectRepository';
 
 // Hooks
@@ -191,32 +191,32 @@ export default function Portfolio() {
         </section>
 
         {/* Section 2: About */}
-        <section className="relative w-full h-auto min-h-screen py-16 md:py-24 flex flex-col justify-center z-10 bg-white shadow-[0px_-10px_30px_rgba(0,0,0,0.1)]">
+        <section className="relative w-full h-auto py-12 md:py-16 flex flex-col justify-center z-10 bg-white shadow-[0px_-10px_30px_rgba(0,0,0,0.1)]">
           <AboutSection onDownloadCV={() => setIsCVModalOpen(true)} />
         </section>
 
         {/* Section 3: Works */}
-        <section className="relative z-20 w-full h-auto min-h-screen py-16 md:py-24 bg-[#FAFAFA] flex flex-col justify-center">
+        <section className="relative z-20 w-full h-auto py-12 md:py-16 bg-[#FAFAFA] flex flex-col justify-center border-t border-gray-200">
           <WorksSection setActiveDetail={handleSetActiveDetail} />
         </section>
 
         {/* Section 4: Experience */}
-        <section className="relative z-30 w-full h-auto min-h-screen py-16 md:py-24 bg-white flex flex-col justify-center">
+        <section className="relative z-30 w-full h-auto py-12 md:py-16 bg-white flex flex-col justify-center border-t border-gray-200">
           <ExperienceSection />
         </section>
 
         {/* Section 5: Education */}
-        <section className="relative z-40 w-full h-auto min-h-screen py-16 md:py-24 bg-[#FAFAFA] flex flex-col justify-center">
+        <section className="relative z-40 w-full h-auto py-12 md:py-16 bg-[#FAFAFA] flex flex-col justify-center border-t border-gray-200">
           <EducationSection />
         </section>
 
         {/* Section 6: Instagram & Socials */}
-        <section className="relative z-50 w-full h-auto min-h-screen py-16 md:py-24 bg-white flex flex-col justify-center">
+        <section className="relative z-50 w-full h-auto py-12 md:py-16 bg-white flex flex-col justify-center border-t border-gray-200">
           <InstagramFeed setHoveredArticleImg={setHoveredArticleImg} />
         </section>
 
         {/* Section 7: Contact & Footer */}
-        <section className="relative z-60 w-full h-auto min-h-screen py-16 md:py-24 bg-[#111111] text-[#FAFAFA] flex flex-col justify-center">
+        <section className="relative z-60 w-full h-auto py-12 md:py-16 bg-[#111111] text-[#FAFAFA] flex flex-col justify-center border-t border-[#333333]">
           <ContactSection />
           <Footer />
         </section>

@@ -52,7 +52,7 @@ function CertificateCard({ item }) {
       <img
         src={item.certificate_url}
         alt={t(titleKey, item.title)}
-        className="absolute inset-0 w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 ease-in-out"
+        className="absolute inset-0 w-full h-full object-contain p-4 grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 ease-in-out"
         onLoad={(e) => {
           const { naturalWidth, naturalHeight } = e.target;
           if (naturalWidth > naturalHeight) {

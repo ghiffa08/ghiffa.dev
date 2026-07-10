@@ -19,15 +19,15 @@ export function AboutSection() {
     return null;
   }
 
-  const translatedAboutContent = t('personal.about_content', info.about_content);
+  const displayContent = info?.about_content ? info.about_content : t('personal.about_content');
   
   let mainText = 'Transforming your digital ideas into scalable reality.';
   let subText = '';
 
-  const paragraphs = (translatedAboutContent || '').split(/\n\n+/).filter(p => p.trim() !== '');
+  const paragraphs = (displayContent || '').split(/\n\n+/).filter(p => p.trim() !== '');
   if (paragraphs.length > 0) {
     // Left side: first paragraph without any markdown symbols (like bold/asterisks)
-    mainText = paragraphs[0].replace(/[*_#`~\-]/g, '').trim();
+    mainText = paragraphs[0].replace(/[*_#`~-]/g, '').trim();
     // Right side: the remaining paragraphs as markdown content
     subText = paragraphs.slice(1).join('\n\n');
   }

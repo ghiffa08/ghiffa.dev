@@ -22,7 +22,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textTransform: 'uppercase',
     letterSpacing: 0.5,
-    marginBottom: 2,
+    marginBottom: 4,
+    lineHeight: 1.2,
   },
   role: {
     fontSize: 10,
@@ -30,7 +31,8 @@ const styles = StyleSheet.create({
     color: '#374151',
     textTransform: 'uppercase',
     letterSpacing: 0.5,
-    marginBottom: 4,
+    marginBottom: 6,
+    lineHeight: 1.2,
   },
   contactContainer: {
     flexDirection: 'row',
@@ -41,6 +43,7 @@ const styles = StyleSheet.create({
     fontSize: 8,
     color: '#4b5563',
     marginHorizontal: 5,
+    lineHeight: 1.2,
   },
   section: {
     marginBottom: 12,
@@ -166,7 +169,7 @@ export function ATSResume({ data }) {
         {/* Summary */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Professional Summary</Text>
-          <Text style={styles.summaryText}>{info?.about_content || ''}</Text>
+          <Text style={styles.summaryText}>{(info?.about_content || '').replace(/\*/g, '')}</Text>
         </View>
 
         {/* Experience */}

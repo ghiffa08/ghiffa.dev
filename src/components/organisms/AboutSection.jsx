@@ -36,10 +36,10 @@ export function AboutSection({ onDownloadCV }) {
   }
 
   return (
-    <section id="about" className="relative z-20 w-full h-auto bg-white border-t border-gray-200 flex flex-col">
+    <section id="about" className="relative z-10 w-full h-auto bg-white border-t border-gray-200 flex flex-col overflow-hidden">
       
       {/* 1. CONTENT AREA: Breathes naturally, pushes marquee down */}
-      <div className="container mx-auto px-4 md:px-8 pt-12 md:pt-16 pb-12 md:pb-16 flex-grow flex flex-col justify-start">
+      <div className="container mx-auto px-4 md:px-8 pt-12 md:pt-16 pb-16 md:pb-20 flex-grow flex flex-col justify-start relative z-20 bg-white">
         <SectionHeader number="01" title={t('about.title')} />
         
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 px-6 md:px-12 items-start mt-4 md:mt-10">
@@ -76,9 +76,10 @@ export function AboutSection({ onDownloadCV }) {
         </div>
       </div>
 
-      {/* 2. SLANTED MARQUEE AREA: Clipped inside its own stacking context */}
-      <div className="w-full mt-auto pb-8 md:pb-12 overflow-hidden bg-white">
-        <div className="transform -rotate-2 scale-[1.02]">
+      {/* 2. SLANTED MARQUEE AREA: Positioned at the bottom */}
+      <div className="w-full mt-auto pt-4 pb-12 md:pb-16 relative z-10">
+        {/* The transform rotates the banner and scales it slightly so corners don't show gaps */}
+        <div className="transform -rotate-2 scale-[1.05]">
           {info?.skills ? (
             <VelocityScroll baseVelocity={0.5} text={info.skills.join(" • ")} />
           ) : (

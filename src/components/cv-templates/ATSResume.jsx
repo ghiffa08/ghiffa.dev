@@ -115,10 +115,10 @@ const styles = StyleSheet.create({
   bulletItem: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    marginBottom: 2,
+    marginBottom: 4,
   },
   bulletSign: {
-    width: 6,
+    width: 12,
     fontSize: 9,
   },
   bulletText: {
@@ -214,7 +214,7 @@ export function ATSResume({ data }) {
         {skillsList.length > 0 && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Key Skills</Text>
-            <Text style={styles.skillsText}>{skillsList.join('  •  ')}</Text>
+            <Text style={styles.skillsText}>{skillsList.join(', ')}</Text>
           </View>
         )}
 

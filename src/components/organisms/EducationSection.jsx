@@ -4,10 +4,16 @@ import { useSupabaseList } from '../../hooks/useSupabaseData';
 import { SectionHeader } from '../atoms/SectionHeader';
 import { slugify } from '../../utils/slugify';
 import { ArrowUpRight, FileText, Image as ImageIcon, X } from 'lucide-react';
+import { createPortal } from 'react-dom';
 
 function CertificateCard({ item }) {
   const { t } = useTranslation();
   const [activeModal, setActiveModal] = useState(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (activeModal) {
@@ -128,7 +134,7 @@ function CertificateCard({ item }) {
       </div>
 
       {/* Lightbox Modal UI */}
-      {activeModal && (
+      {activeModal && mounted && createPortal(
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 md:p-12 bg-black/80 backdrop-blur-sm animate-fade-in">
           {/* Modal Container */}
           <div className="relative w-full max-w-5xl max-h-[90vh] flex flex-col bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] animate-in fade-in zoom-in duration-200 overflow-hidden">
@@ -161,7 +167,8 @@ function CertificateCard({ item }) {
               )}
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

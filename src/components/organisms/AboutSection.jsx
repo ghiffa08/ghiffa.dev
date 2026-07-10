@@ -4,7 +4,7 @@ import { SectionHeader } from '../atoms/SectionHeader';
 import ReactMarkdown from 'react-markdown';
 
 export function AboutSection() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { data: info, isLoading, error } = useSupabaseSingle('personal_info');
 
   if (isLoading) {
@@ -19,7 +19,9 @@ export function AboutSection() {
     return null;
   }
 
-  const displayContent = info?.about_content ? info.about_content : t('personal.about_content');
+  const currentLang = i18n.language || 'id';
+  const dbContent = currentLang === 'en' && info?.about_content_en ? info.about_content_en : info?.about_content;
+  const displayContent = dbContent ? dbContent : t('personal.about_content');
   
   let mainText = 'Transforming your digital ideas into scalable reality.';
   let subText = '';

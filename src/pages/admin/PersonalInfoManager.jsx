@@ -13,6 +13,7 @@ export default function PersonalInfoManager() {
     role: '',
     headline: '',
     about_content: '',
+    about_content_en: '',
     cv_url: '',
     email: '',
     phone_number: '',
@@ -136,11 +137,22 @@ export default function PersonalInfoManager() {
         </div>
 
         <div className="prose max-w-none">
-          <Label>About Content (Markdown)</Label>
+          <Label>About Content (Indonesian)</Label>
           <div className="mt-2">
             <SimpleMDE
               value={formData.about_content || ''}
               onChange={(val) => setFormData(prev => ({ ...prev, about_content: val }))}
+              options={{ spellChecker: false }}
+            />
+          </div>
+        </div>
+
+        <div className="prose max-w-none">
+          <Label>About Content (English)</Label>
+          <div className="mt-2">
+            <SimpleMDE
+              value={formData.about_content_en || ''}
+              onChange={(val) => setFormData(prev => ({ ...prev, about_content_en: val }))}
               options={{ spellChecker: false }}
             />
           </div>

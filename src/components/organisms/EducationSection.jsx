@@ -4,6 +4,23 @@ import { useSupabaseList } from '../../hooks/useSupabaseData';
 import { SectionHeader } from '../atoms/SectionHeader';
 import { slugify } from '../../utils/slugify';
 
+const getSpanClass = (item, index) => {
+  if (item.orientation === 'landscape') {
+    return 'col-span-1 md:col-span-2 row-span-1';
+  }
+  if (item.orientation === 'portrait') {
+    return 'col-span-1 row-span-2';
+  }
+  // Alternate based on index to create dynamic layout
+  const mod = index % 3;
+  if (mod === 0) {
+    return 'col-span-1 md:col-span-2 row-span-1';
+  } else if (mod === 1) {
+    return 'col-span-1 row-span-2';
+  }
+  return 'col-span-1 row-span-1';
+};
+
 export function EducationSection() {
   const { t } = useTranslation();
   const { data: qualifications, isLoading, error } = useSupabaseList('qualifications', {
@@ -99,18 +116,30 @@ export function EducationSection() {
                     const instKey = `education.${slugify(item.title)}.institution`;
                     const descKey = `education.${slugify(item.title)}.description`;
                     return (
-                      <div key={item.id} className="relative pl-6 md:pl-8 border-l border-[#111111]">
-                        <div className="absolute left-0 top-0 -translate-x-1/2 w-2 h-2 rounded-full bg-[#666666]"></div>
-                        <h5 className="text-lg md:text-xl font-bold leading-tight tracking-tight text-[#111111] mb-2">
+                      <div key={item.id} className="group">
+                        <div className="font-mono text-[10px] md:text-xs text-[#111111] font-bold tracking-[0.25em] uppercase mb-4">
+                          {item.period}
+                        </div>
+                        <h5 className="text-[1.5rem] font-black uppercase leading-[1.0] tracking-tighter text-[#111111] group-hover:text-[#666666] transition-colors duration-300">
                           {t(titleKey, item.title)}
                         </h5>
-                        <p className="text-xs font-mono uppercase tracking-widest text-gray-400 mb-2">
-                          {t(instKey, item.institution)} — {item.period}
+                        <p className="text-xs text-gray-600 mt-2 font-medium">
+                          {t(instKey, item.institution)}
                         </p>
                         {item.description && (
-                          <p className="text-sm text-gray-600 line-clamp-2">
+                          <p className="text-xs text-gray-500 mt-3 leading-relaxed max-w-md">
                             {t(descKey, item.description)}
                           </p>
+                        )}
+                        {item.certificate_url && (
+                          <a 
+                            href={item.certificate_url} 
+                            target="_blank" 
+                            rel="noreferrer" 
+                            className="inline-flex items-center gap-1 mt-4 text-[10px] font-mono font-bold tracking-wider uppercase border-b border-[#111111] hover:text-[#666666] hover:border-[#666666] transition-colors block w-fit"
+                          >
+                            {t('view_certificate')} ↗
+                          </a>
                         )}
                       </div>
                     );
@@ -120,7 +149,7 @@ export function EducationSection() {
             )}
             
             {patens.length > 0 && (
-              <div className="py-16 md:pl-12 hairline-t md:border-t-0">
+              <div className="py-16 md:pl-12">
                 <div className="font-mono text-[10px] md:text-xs text-gray-400 font-bold tracking-[0.2em] uppercase mb-12">
                   [ {t('education.section.patents')} ]
                 </div>
@@ -128,22 +157,26 @@ export function EducationSection() {
                   {patens.map((item, i) => {
                     const titleKey = `education.${slugify(item.title)}.title`;
                     const instKey = `education.${slugify(item.title)}.institution`;
-                    const descKey = `education.${slugify(item.title)}.description`;
                     return (
-                      <div key={item.id} className="group cursor-pointer">
-                        <div className="flex items-baseline gap-4 mb-2">
-                          <span className="font-serif-editorial italic text-3xl text-[#E5E5E5] group-hover:text-[#666666] transition-colors">0{i+1}</span>
-                          <h5 className="text-xl md:text-2xl font-bold uppercase tracking-tighter text-[#111111]">
-                            {t(titleKey, item.title)}
-                          </h5>
+                      <div key={item.id} className="group">
+                        <div className="font-mono text-[10px] md:text-xs text-[#111111] font-bold tracking-[0.25em] uppercase mb-4">
+                          {item.period}
                         </div>
-                        <p className="text-xs font-mono uppercase tracking-widest text-gray-400 pl-12 mb-2">
-                          {t(instKey, item.institution)} — {item.period}
+                        <h5 className="text-[1.5rem] font-black uppercase leading-[1.0] tracking-tighter text-[#111111] group-hover:text-[#666666] transition-colors duration-300">
+                          {t(titleKey, item.title)}
+                        </h5>
+                        <p className="text-xs text-gray-600 mt-2 font-medium">
+                          {t(instKey, item.institution)}
                         </p>
-                        {item.description && (
-                          <p className="text-sm text-gray-600 pl-12">
-                            {t(descKey, item.description)}
-                          </p>
+                        {item.certificate_url && (
+                          <a 
+                            href={item.certificate_url} 
+                            target="_blank" 
+                            rel="noreferrer" 
+                            className="inline-flex items-center gap-1 mt-4 text-[10px] font-mono font-bold tracking-wider uppercase border-b border-[#111111] hover:text-[#666666] hover:border-[#666666] transition-colors block w-fit"
+                          >
+                            {t('view_certificate')} ↗
+                          </a>
                         )}
                       </div>
                     );
@@ -210,46 +243,41 @@ export function EducationSection() {
             </div>
             
             <div className="md:col-span-9">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                {displayedItems.map((item) => {
+              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-[250px] lg:auto-rows-[300px]">
+                {displayedItems.map((item, index) => {
                   const titleKey = `education.${slugify(item.title)}.title`;
                   const instKey = `education.${slugify(item.title)}.institution`;
-                  const isHaki = item.type === 'haki';
-                  
-                  if (isHaki) {
-                    return (
-                      <div key={item.id} className="p-6 border border-[#E5E5E5] hover:border-[#111111] transition-colors bg-white group">
-                        <div className="w-8 h-8 rounded-full bg-[#FAFAFA] flex items-center justify-center text-[10px] font-mono font-bold mb-4 group-hover:bg-[#111111] group-hover:text-white transition-colors">IP</div>
-                        <h5 className="text-sm font-bold uppercase tracking-tight text-[#111111] mb-2">
-                          {t(titleKey, item.title)}
-                        </h5>
-                        <p className="text-xs text-gray-500">{t(instKey, item.institution)}</p>
-                        <p className="text-[10px] font-mono mt-4 text-gray-400 uppercase tracking-widest">{item.period}</p>
-                      </div>
-                    );
-                  }
                   
                   return (
-                    <div key={item.id} className="p-6 bg-[#FAFAFA] hover:bg-[#111111] hover:text-white transition-colors group flex flex-col justify-between">
-                      <div>
-                        <div className="w-8 h-8 rounded-full border border-gray-200 group-hover:border-white/20 flex items-center justify-center text-[10px] font-mono font-bold mb-4">CRT</div>
-                        <h5 className="text-sm font-bold uppercase tracking-tight mb-2">
+                    <a
+                      key={item.id}
+                      href={item.certificate_url || '#'}
+                      target="_blank"
+                      rel="noreferrer"
+                      className={`relative overflow-hidden border-2 border-black group bg-gray-100 flex flex-col cursor-pointer ${getSpanClass(item, index)}`}
+                    >
+                      <img
+                        src={item.certificate_url || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop"}
+                        alt={t(titleKey, item.title)}
+                        className="absolute inset-0 w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 ease-in-out"
+                      />
+                      
+                      {/* Caption overlay sliding up on hover */}
+                      <div className="absolute bottom-0 left-0 right-0 bg-white border-t-2 border-black p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out z-10">
+                        <span className="absolute -top-3 left-4 bg-black text-white text-[8px] font-mono font-bold px-2 py-0.5 border border-black uppercase">
+                          {item.type === 'haki' ? 'IP' : 'CRT'}
+                        </span>
+                        <h6 className="font-bold uppercase text-sm text-[#111111] line-clamp-2">
                           {t(titleKey, item.title)}
-                        </h5>
-                        <p className="text-xs text-gray-500 group-hover:text-gray-400">{t(instKey, item.institution)}</p>
-                        <p className="text-[10px] font-mono mt-4 text-gray-400 uppercase tracking-widest">{item.period}</p>
+                        </h6>
+                        <p className="text-xs text-gray-600 line-clamp-1 mt-0.5">
+                          {t(instKey, item.institution)}
+                        </p>
+                        <p className="text-[10px] tracking-widest mt-2 font-mono text-gray-500 uppercase">
+                          {item.period}
+                        </p>
                       </div>
-                      {item.certificate_url && (
-                        <a 
-                          href={item.certificate_url} 
-                          target="_blank" 
-                          rel="noreferrer" 
-                          className="inline-flex items-center gap-1 mt-4 text-[10px] font-mono font-bold tracking-wider uppercase border-b border-current hover:text-[#666666] transition-colors block w-fit"
-                        >
-                          {t('view_certificate')} ↗
-                        </a>
-                      )}
-                    </div>
+                    </a>
                   );
                 })}
               </div>

@@ -78,7 +78,7 @@ export function AboutSection({ onDownloadCV }) {
         </div>
       </div>
       <div className="w-full mt-8">
-        <VelocityScroll baseVelocity={-2} text={skillsText} />
+        <VelocityScroll baseVelocity={-0.3} text={skillsText} />
       </div>
     </section>
   );

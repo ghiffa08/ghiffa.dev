@@ -186,12 +186,12 @@ export default function Portfolio() {
         <Header />
         
         {/* Section 1: Hero */}
-        <section className="relative z-10 w-full min-h-[100svh] bg-white flex flex-col justify-center">
+        <section className="sticky top-0 w-full h-screen flex flex-col justify-center items-center z-0 overflow-hidden bg-white">
           <HeroSection />
         </section>
 
         {/* Section 2: About (contains embedded skills marquee) */}
-        <section className="relative z-20 w-full h-auto min-h-screen py-16 md:py-24 bg-white flex flex-col justify-center">
+        <section className="relative w-full h-auto min-h-screen py-16 md:py-24 flex flex-col justify-center z-10 bg-white border-t-4 border-black shadow-[0px_-10px_30px_rgba(0,0,0,0.1)]">
           <AboutSection onDownloadCV={() => setIsCVModalOpen(true)} />
         </section>
 

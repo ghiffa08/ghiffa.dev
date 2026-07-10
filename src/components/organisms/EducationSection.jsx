@@ -4,22 +4,83 @@ import { useSupabaseList } from '../../hooks/useSupabaseData';
 import { SectionHeader } from '../atoms/SectionHeader';
 import { slugify } from '../../utils/slugify';
 
-const getSpanClass = (item, index) => {
-  if (item.orientation === 'landscape') {
-    return 'col-span-1 md:col-span-2 row-span-1';
+function CertificateCard({ item }) {
+  const { t } = useTranslation();
+  const [spanClass, setSpanClass] = useState('col-span-1 row-span-1');
+  
+  const titleKey = `education.${slugify(item.title)}.title`;
+  const instKey = `education.${slugify(item.title)}.institution`;
+  
+  const hasImage = item.certificate_url && !item.certificate_url.toLowerCase().endsWith('.pdf');
+
+  if (!hasImage) {
+    return (
+      <div className="col-span-1 row-span-1 p-6 border-2 border-black bg-white flex flex-col justify-between h-full">
+        <div>
+          <div className="w-8 h-8 rounded-full bg-[#FAFAFA] border border-black flex items-center justify-center text-[10px] font-mono font-bold mb-4 uppercase">
+            {item.type === 'haki' ? 'IP' : 'CRT'}
+          </div>
+          <h5 className="text-sm font-bold uppercase tracking-tight text-[#111111] mb-2 line-clamp-2">
+            {t(titleKey, item.title)}
+          </h5>
+          <p className="text-xs text-gray-500 line-clamp-2">{t(instKey, item.institution)}</p>
+        </div>
+        <div className="flex justify-between items-end mt-4">
+          <p className="text-[10px] font-mono text-gray-400 uppercase tracking-widest">{item.period}</p>
+          {item.certificate_url && (
+            <a
+              href={item.certificate_url}
+              target="_blank"
+              rel="noreferrer"
+              className="text-[10px] font-mono font-bold tracking-wider uppercase border-b border-[#111111] hover:text-[#666666] hover:border-[#666666] transition-colors"
+            >
+              {t('view_certificate')} ↗
+            </a>
+          )}
+        </div>
+      </div>
+    );
   }
-  if (item.orientation === 'portrait') {
-    return 'col-span-1 row-span-2';
-  }
-  // Alternate based on index to create dynamic layout
-  const mod = index % 3;
-  if (mod === 0) {
-    return 'col-span-1 md:col-span-2 row-span-1';
-  } else if (mod === 1) {
-    return 'col-span-1 row-span-2';
-  }
-  return 'col-span-1 row-span-1';
-};
+
+  return (
+    <a
+      href={item.certificate_url}
+      target="_blank"
+      rel="noreferrer"
+      className={`relative overflow-hidden border-2 border-black group bg-gray-100 flex flex-col cursor-pointer ${spanClass} transition-all duration-300`}
+    >
+      <img
+        src={item.certificate_url}
+        alt={t(titleKey, item.title)}
+        className="absolute inset-0 w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 ease-in-out"
+        onLoad={(e) => {
+          const { naturalWidth, naturalHeight } = e.target;
+          if (naturalWidth > naturalHeight) {
+            setSpanClass('col-span-1 md:col-span-2 row-span-1'); // Landscape
+          } else {
+            setSpanClass('col-span-1 row-span-2'); // Portrait
+          }
+        }}
+      />
+      
+      {/* Caption overlay sliding up on hover */}
+      <div className="absolute bottom-0 left-0 right-0 bg-white border-t-2 border-black p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out z-10">
+        <span className="absolute -top-3 left-4 bg-black text-white text-[8px] font-mono font-bold px-2 py-0.5 border border-black uppercase">
+          {item.type === 'haki' ? 'IP' : 'CRT'}
+        </span>
+        <h6 className="font-bold uppercase text-sm text-[#111111] line-clamp-2">
+          {t(titleKey, item.title)}
+        </h6>
+        <p className="text-xs text-gray-600 line-clamp-1 mt-0.5">
+          {t(instKey, item.institution)}
+        </p>
+        <p className="text-[10px] tracking-widest mt-2 font-mono text-gray-500 uppercase">
+          {item.period}
+        </p>
+      </div>
+    </a>
+  );
+}
 
 export function EducationSection() {
   const { t } = useTranslation();
@@ -244,42 +305,9 @@ export function EducationSection() {
             
             <div className="md:col-span-9">
               <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-[250px] lg:auto-rows-[300px]">
-                {displayedItems.map((item, index) => {
-                  const titleKey = `education.${slugify(item.title)}.title`;
-                  const instKey = `education.${slugify(item.title)}.institution`;
-                  
-                  return (
-                    <a
-                      key={item.id}
-                      href={item.certificate_url || '#'}
-                      target="_blank"
-                      rel="noreferrer"
-                      className={`relative overflow-hidden border-2 border-black group bg-gray-100 flex flex-col cursor-pointer ${getSpanClass(item, index)}`}
-                    >
-                      <img
-                        src={item.certificate_url || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop"}
-                        alt={t(titleKey, item.title)}
-                        className="absolute inset-0 w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 ease-in-out"
-                      />
-                      
-                      {/* Caption overlay sliding up on hover */}
-                      <div className="absolute bottom-0 left-0 right-0 bg-white border-t-2 border-black p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out z-10">
-                        <span className="absolute -top-3 left-4 bg-black text-white text-[8px] font-mono font-bold px-2 py-0.5 border border-black uppercase">
-                          {item.type === 'haki' ? 'IP' : 'CRT'}
-                        </span>
-                        <h6 className="font-bold uppercase text-sm text-[#111111] line-clamp-2">
-                          {t(titleKey, item.title)}
-                        </h6>
-                        <p className="text-xs text-gray-600 line-clamp-1 mt-0.5">
-                          {t(instKey, item.institution)}
-                        </p>
-                        <p className="text-[10px] tracking-widest mt-2 font-mono text-gray-500 uppercase">
-                          {item.period}
-                        </p>
-                      </div>
-                    </a>
-                  );
-                })}
+                {displayedItems.map((item) => (
+                  <CertificateCard key={item.id} item={item} />
+                ))}
               </div>
               
               {combined.length > 6 && (

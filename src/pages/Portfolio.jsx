@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Suspense, lazy } from 'react';
+import { useState, useEffect, Suspense, lazy } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { ProjectRepository } from '../repositories/ProjectRepository';
 
@@ -186,7 +186,7 @@ export default function Portfolio() {
         <Header />
         
         {/* Section 1: Hero */}
-        <section className="sticky top-0 w-full h-screen flex flex-col justify-center items-center z-0 overflow-hidden bg-white">
+        <section className="sticky top-0 w-full h-screen flex flex-col justify-center items-center z-0 overflow-hidden bg-white transform-gpu will-change-transform">
           <HeroSection />
         </section>
 

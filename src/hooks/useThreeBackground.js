@@ -10,14 +10,14 @@ export function useThreeBackground(canvasId = 'three-canvas') {
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     let renderer;
     try {
-      renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+      renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false });
     } catch (error) {
-      console.warn("WebGL tidak didukung atau terjadi penumpukan konteks. Melewati render 3D.", error);
-      return; 
+      console.warn("WebGL not supported or context limit reached. Falling back to CSS background.", error);
+      return;
     }
     
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
     const geometry = new THREE.IcosahedronGeometry(2, 1);
     const material = new THREE.MeshBasicMaterial({ 
@@ -96,11 +96,19 @@ export function useThreeBackground(canvasId = 'three-canvas') {
       document.removeEventListener('mousemove', onDocumentMouseMove);
       window.removeEventListener('resize', handleResize);
       cancelAnimationFrame(animationFrameId);
-      
+
+      // Dispose geometries and materials to free GPU memory
+      geometry.dispose();
+      material.dispose();
+      particlesGeometry.dispose();
+      particlesMaterial.dispose();
+
+      // Dispose renderer, then force context loss to release the WebGL context slot
       if (renderer) {
-        renderer.forceContextLoss();
         renderer.dispose();
+        renderer.forceContextLoss();
       }
     };
   }, [canvasId]);
 }
+

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useInstagramFeed } from '../../hooks/useInstagramFeed';
 import { SectionHeader } from '../atoms/SectionHeader';

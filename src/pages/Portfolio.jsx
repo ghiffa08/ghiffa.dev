@@ -22,6 +22,7 @@ import { InstagramFeed } from '../components/organisms/InstagramFeed';
 import { ContactSection } from '../components/organisms/ContactSection';
 import { Footer } from '../components/organisms/Footer';
 import { SEO } from '../components/atoms/SEO';
+import { VelocityScroll } from '../components/atoms/VelocityScroll';
 
 export default function Portfolio() {
   // Custom hooks initialization
@@ -183,20 +184,55 @@ export default function Portfolio() {
       />
 
       {/* --- MAIN PAGE CONTENT --- */}
-      <div className="w-full relative z-10 selection:bg-[#111111] selection:text-[#FAFAFA]">
+      <main className="relative w-full z-10 selection:bg-[#111111] selection:text-[#FAFAFA]">
         <Header />
         
-        <HeroSection />
-        <AboutSection onDownloadCV={() => setIsCVModalOpen(true)} />
-        <SkillsSection />
-        <WorksSection setActiveDetail={handleSetActiveDetail} />
-        <ExperienceSection />
-        <EducationSection />
-        <InstagramFeed 
-          setHoveredArticleImg={setHoveredArticleImg} 
-        />
-        <ContactSection />
-      </div>
+        {/* Section 1: Hero */}
+        <section className="sticky top-0 h-screen w-full bg-white z-10 overflow-hidden flex flex-col justify-center">
+          <HeroSection />
+        </section>
+
+        {/* Transition: Velocity Scroll */}
+        <section className="sticky top-0 z-20 bg-white">
+          <VelocityScroll baseVelocity={-2} text="DEVELOPER DESIGNER ENGINEER" />
+        </section>
+
+        {/* Section 2: About */}
+        <section className="sticky top-0 h-screen w-full bg-gray-100 border-t-4 border-black z-30 overflow-y-auto pb-20">
+          <AboutSection onDownloadCV={() => setIsCVModalOpen(true)} />
+        </section>
+
+        {/* Section 3: Skills */}
+        <section className="sticky top-0 h-screen w-full bg-white border-t-4 border-black z-40 overflow-y-auto pb-20">
+          <SkillsSection />
+        </section>
+
+        {/* Section 4: Works */}
+        <section className="sticky top-0 h-screen w-full bg-gray-100 border-t-4 border-black z-50 overflow-y-auto pb-20">
+          <WorksSection setActiveDetail={handleSetActiveDetail} />
+        </section>
+
+        {/* Section 5: Experience */}
+        <section className="sticky top-0 h-screen w-full bg-white border-t-4 border-black z-60 overflow-y-auto pb-20">
+          <ExperienceSection />
+        </section>
+
+        {/* Section 6: Education */}
+        <section className="sticky top-0 h-screen w-full bg-gray-100 border-t-4 border-black z-70 overflow-y-auto pb-20">
+          <EducationSection />
+        </section>
+
+        {/* Section 7: Instagram & Socials */}
+        <section className="sticky top-0 h-screen w-full bg-white border-t-4 border-black z-80 overflow-y-auto pb-20">
+          <InstagramFeed setHoveredArticleImg={setHoveredArticleImg} />
+        </section>
+
+        {/* Section 8: Contact & Footer */}
+        <section className="sticky top-0 h-screen w-full bg-gray-100 border-t-4 border-black z-90 overflow-y-auto pb-20">
+          <ContactSection />
+          <Footer />
+        </section>
+      </main>
     </>
   );
 }

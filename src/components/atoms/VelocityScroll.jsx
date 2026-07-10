@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { motion, useScroll, useSpring, useTransform, useVelocity, useAnimationFrame } from "framer-motion";
+import { motion, useScroll, useSpring, useTransform, useVelocity, useAnimationFrame, useMotionValue } from "framer-motion";
 
 const wrap = (min, max, v) => {
   const rangeSize = max - min;
@@ -7,7 +7,7 @@ const wrap = (min, max, v) => {
 };
 
 export function VelocityScroll({ text, baseVelocity = 5 }) {
-  const baseX = useRef(0);
+  const baseX = useMotionValue(0);
   const { scrollY } = useScroll();
   const scrollVelocity = useVelocity(scrollY);
   const smoothVelocity = useSpring(scrollVelocity, { damping: 50, stiffness: 400 });
@@ -24,7 +24,7 @@ export function VelocityScroll({ text, baseVelocity = 5 }) {
       directionFactor.current = 1;
     }
     moveBy += directionFactor.current * moveBy * velocityFactor.get();
-    baseX.current += moveBy;
+    baseX.set(baseX.get() + moveBy);
   });
 
   return (

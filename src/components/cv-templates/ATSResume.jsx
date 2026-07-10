@@ -227,9 +227,9 @@ export function ATSResume({ data }) {
                 <Text style={styles.sectionTitle}>Certifications</Text>
                 <View style={styles.bulletList}>
                   {certs.map((cert, idx) => (
-                    <View key={cert.id || idx} style={styles.bulletItem}>
-                      <Text style={styles.bulletSign}>•</Text>
-                      <Text style={styles.bulletText}>
+                    <View key={cert.id || idx} style={{ flexDirection: 'row', marginBottom: 4 }}>
+                      <Text style={{ width: 12 }}>•</Text>
+                      <Text style={{ flex: 1 }}>
                         {cert.title} ({cert.institution} — {cert.period})
                       </Text>
                     </View>
@@ -246,9 +246,9 @@ export function ATSResume({ data }) {
                 <Text style={styles.sectionTitle}>Honors & Awards</Text>
                 <View style={styles.bulletList}>
                   {honors.map((honor, idx) => (
-                    <View key={honor.id || idx} style={styles.bulletItem}>
-                      <Text style={styles.bulletSign}>•</Text>
-                      <Text style={styles.bulletText}>
+                    <View key={honor.id || idx} style={{ flexDirection: 'row', marginBottom: 4 }}>
+                      <Text style={{ width: 12 }}>•</Text>
+                      <Text style={{ flex: 1 }}>
                         {honor.title} ({honor.institution} — {honor.period})
                       </Text>
                     </View>

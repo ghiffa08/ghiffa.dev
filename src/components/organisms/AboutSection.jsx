@@ -41,7 +41,7 @@ export function AboutSection({ onDownloadCV }) {
       <div className="sticky top-0 w-full h-screen flex flex-col justify-between overflow-hidden shadow-[0px_-10px_30px_rgba(0,0,0,0.1)] pt-20 md:pt-24">
         
         {/* 1. Main About Content (Top/Middle) */}
-        <div className="container mx-auto px-4 md:px-8 pb-8 flex-grow flex flex-col justify-center overflow-y-auto">
+        <div className="container mx-auto px-4 md:px-8 pb-8 flex-grow flex flex-col justify-center overflow-hidden">
           <SectionHeader number="01" title={t('about.title')} />
           
           <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 px-6 md:px-12 items-start">

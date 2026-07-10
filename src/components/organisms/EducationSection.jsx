@@ -10,9 +10,11 @@ function CertificateCard({ item }) {
   const titleKey = `education.${slugify(item.title)}.title`;
   const instKey = `education.${slugify(item.title)}.institution`;
   
-  const hasImage = item.certificate_url && !item.certificate_url.toLowerCase().endsWith('.pdf');
+  const hasMedia = !!item.certificate_url;
+  const isPdf = hasMedia && item.certificate_url.toLowerCase().endsWith('.pdf');
+  const externalUrl = item.credential_url || item.external_url || null;
 
-  if (!hasImage) {
+  if (!hasMedia) {
     return (
       <div className="break-inside-avoid mb-4 p-6 border-2 border-black bg-white flex flex-col justify-between">
         <div>
@@ -26,11 +28,11 @@ function CertificateCard({ item }) {
         </div>
         <div className="flex justify-between items-end mt-4">
           <p className="text-[10px] font-mono text-gray-400 uppercase tracking-widest">{item.period}</p>
-          {item.certificate_url && (
+          {externalUrl && (
             <a
-              href={item.certificate_url}
+              href={externalUrl}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="text-[10px] font-mono font-bold tracking-wider uppercase border-b border-[#111111] hover:text-[#666666] hover:border-[#666666] transition-colors"
             >
               {t('view_certificate')} ↗
@@ -42,18 +44,32 @@ function CertificateCard({ item }) {
   }
 
   return (
-    <a
-      href={item.certificate_url}
-      target="_blank"
-      rel="noreferrer"
-      className="break-inside-avoid mb-4 relative overflow-hidden border-2 border-black group bg-gray-100 flex flex-col cursor-pointer transition-all duration-300"
-    >
-      <img
-        src={item.certificate_url}
-        alt={t(titleKey, item.title)}
-        className="w-full h-auto grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 ease-in-out"
-      />
-      
+    <div className="break-inside-avoid mb-4 relative overflow-hidden border-2 border-black group bg-gray-100 flex flex-col">
+      {isPdf ? (
+        <div className="w-full aspect-[3/4] bg-white flex flex-col items-center justify-center p-6 border-b-2 border-black grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500">
+          <div className="w-16 h-20 border-2 border-black relative flex items-center justify-center bg-gray-100 mb-4">
+             <span className="font-bold text-black text-xl absolute font-mono">PDF</span>
+          </div>
+          <span className="text-center font-bold uppercase text-xs line-clamp-2 text-[#111111]">Document Attached</span>
+        </div>
+      ) : (
+        <img
+          src={item.certificate_url}
+          alt={t(titleKey, item.title)}
+          className="w-full h-auto grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 ease-in-out"
+        />
+      )}
+
+      {/* Clickable media area overlay */}
+      {hasMedia && (
+        <a 
+          href={item.certificate_url} 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="absolute inset-0 z-0"
+        ></a>
+      )}
+
       {/* Caption overlay sliding up on hover */}
       <div className="absolute bottom-0 left-0 right-0 bg-white border-t-2 border-black p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out z-10">
         <span className="absolute -top-3 left-4 bg-black text-white text-[8px] font-mono font-bold px-2 py-0.5 border border-black uppercase">
@@ -68,8 +84,32 @@ function CertificateCard({ item }) {
         <p className="text-[10px] tracking-widest mt-2 font-mono text-gray-500 uppercase">
           {item.period}
         </p>
+
+        {/* Action Links container */}
+        <div className="flex flex-wrap items-center gap-4 mt-4 pt-3 border-t-2 border-gray-200">
+          {hasMedia && (
+            <a 
+              href={item.certificate_url} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-xs font-bold text-black hover:bg-black hover:text-white border-2 border-transparent hover:border-black px-2 py-1 transition-colors uppercase flex items-center gap-1 z-20"
+            >
+              {isPdf ? '📄 BUKA PDF' : '👁️ LIHAT GAMBAR'}
+            </a>
+          )}
+          {externalUrl && (
+            <a 
+              href={externalUrl} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-xs font-bold text-black hover:bg-black hover:text-white border-2 border-transparent hover:border-black px-2 py-1 transition-colors uppercase flex items-center gap-1 z-20"
+            >
+              🔗 VERIFIKASI
+            </a>
+          )}
+        </div>
       </div>
-    </a>
+    </div>
   );
 }
 

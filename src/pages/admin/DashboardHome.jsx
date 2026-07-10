@@ -2,6 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ProjectRepository } from '../../repositories/ProjectRepository';
 import { BioLinksRepository } from '../../repositories/BioLinksRepository';
+import { supabase } from '../../lib/supabaseClient';
+import { ATSResume } from '../../components/cv-templates/ATSResume';
+import { EditorialResume } from '../../components/cv-templates/EditorialResume';
+import html2pdf from 'html2pdf.js';
+import JSZip from 'jszip';
 import { 
   Briefcase, 
   Link as LinkIcon, 
@@ -9,7 +14,9 @@ import {
   QrCode, 
   Link2, 
   BarChart3,
-  ArrowRight
+  ArrowRight,
+  RefreshCw,
+  FileText
 } from 'lucide-react';
 
 export default function DashboardHome() {
@@ -18,6 +25,97 @@ export default function DashboardHome() {
     links: 0
   });
   const [loading, setLoading] = useState(true);
+  const [resumeData, setResumeData] = useState(null);
+  const [syncing, setSyncing] = useState(false);
+  const [syncStatus, setSyncStatus] = useState('idle'); // 'idle' | 'success' | 'error'
+  const [syncMessage, setSyncMessage] = useState('');
+
+  useEffect(() => {
+    async function loadResumeData() {
+      try {
+        const [infoRes, expRes, qualRes] = await Promise.all([
+          supabase.from('personal_info').select('*').single(),
+          supabase.from('experiences').select('*').order('order_index', { ascending: true }),
+          supabase.from('qualifications').select('*').order('order_index', { ascending: true })
+        ]);
+        setResumeData({
+          info: infoRes.data,
+          experiences: expRes.data || [],
+          qualifications: qualRes.data || []
+        });
+      } catch (error) {
+        console.error('Error fetching resume data:', error);
+      }
+    }
+    loadResumeData();
+  }, []);
+
+  const handleSyncResumes = async () => {
+    if (!resumeData) {
+      setSyncStatus('error');
+      setSyncMessage('Resume data has not loaded yet.');
+      return;
+    }
+
+    setSyncing(true);
+    setSyncStatus('idle');
+    setSyncMessage('Generating PDFs...');
+
+    try {
+      const atsElement = document.getElementById('ats-resume-template');
+      const editorialElement = document.getElementById('editorial-resume-template');
+
+      if (!atsElement || !editorialElement) {
+        throw new Error('Resume templates are not rendered in DOM.');
+      }
+
+      const atsOpt = {
+        margin: 10,
+        filename: 'CV_Haikal_Jibran_ATS.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, logging: false },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+
+      const editorialOpt = {
+        margin: 0,
+        filename: 'CV_Haikal_Jibran_Creative.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, logging: false },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+
+      setSyncMessage('Generating ATS Resume PDF...');
+      const atsBlob = await html2pdf().from(atsElement).set(atsOpt).output('blob');
+
+      setSyncMessage('Generating Editorial Resume PDF...');
+      const editorialBlob = await html2pdf().from(editorialElement).set(editorialOpt).output('blob');
+
+      setSyncMessage('Creating ZIP archive...');
+      const zip = new JSZip();
+      zip.file('CV_Haikal_Jibran_ATS.pdf', atsBlob);
+      zip.file('CV_Haikal_Jibran_Creative.pdf', editorialBlob);
+      const zipBlob = await zip.generateAsync({ type: 'blob' });
+
+      setSyncMessage('Uploading resumes.zip to storage...');
+      const { data, error } = await supabase.storage
+        .from('portfolio-media')
+        .upload('resumes.zip', zipBlob, { upsert: true });
+
+      if (error) {
+        throw new Error(`Upload failed: ${error.message}`);
+      }
+
+      setSyncStatus('success');
+      setSyncMessage('Resumes synced and uploaded to Supabase Storage successfully!');
+    } catch (error) {
+      console.error('Error syncing resumes:', error);
+      setSyncStatus('error');
+      setSyncMessage(error.message || 'An error occurred during resume sync.');
+    } finally {
+      setSyncing(false);
+    }
+  };
 
   useEffect(() => {
     async function fetchStats() {
@@ -165,6 +263,62 @@ export default function DashboardHome() {
           ))}
         </div>
       </div>
+
+      {/* Resume Synchronization Panel */}
+      <div className="bg-white p-6 border border-black/10 shadow-sm">
+        <div className="flex items-center gap-3 mb-4">
+          <FileText className="text-gray-700" size={20} />
+          <h3 className="text-sm font-bold tracking-wider text-gray-700 uppercase">Resume Synchronization</h3>
+        </div>
+        
+        <p className="text-xs text-gray-500 mb-6 leading-relaxed">
+          Generate PDF versions of your ATS and Editorial resumes using the current CMS database entries, package them into a ZIP archive, and upload it directly to Supabase Storage to sync the public resume download links.
+        </p>
+
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <button
+            onClick={handleSyncResumes}
+            disabled={syncing || !resumeData}
+            className="inline-flex items-center gap-2 px-5 py-3 bg-[#111111] text-white hover:bg-white hover:text-[#111111] border-2 border-[#111111] font-mono text-xs font-bold tracking-widest uppercase transition-all duration-300 shadow-[4px_4px_0px_0px_#666666] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_0px_#666666] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {syncing ? (
+              <>
+                <RefreshCw size={14} className="animate-spin" />
+                SYNCING...
+              </>
+            ) : (
+              <>
+                <RefreshCw size={14} />
+                GENERATE & SYNC RESUMES
+              </>
+            )}
+          </button>
+          
+          {syncStatus !== 'idle' && (
+            <span className={`text-[10px] font-bold uppercase tracking-wider ${syncStatus === 'success' ? 'text-green-600' : 'text-red-600'}`}>
+              {syncStatus === 'success' ? '✓' : '⚠'} {syncMessage}
+            </span>
+          )}
+          
+          {syncing && (
+            <span className="text-[10px] text-gray-400 font-medium uppercase tracking-wider animate-pulse">
+              {syncMessage}
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Hidden Resume Templates for html2pdf */}
+      {resumeData && (
+        <div style={{ position: 'absolute', left: '-9999px', top: '-9999px', overflow: 'hidden', width: '210mm', height: '1px' }}>
+          <div id="ats-resume-template">
+            <ATSResume data={resumeData} />
+          </div>
+          <div id="editorial-resume-template">
+            <EditorialResume data={resumeData} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

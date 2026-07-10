@@ -6,7 +6,6 @@ import { slugify } from '../../utils/slugify';
 
 function CertificateCard({ item }) {
   const { t } = useTranslation();
-  const [spanClass, setSpanClass] = useState('col-span-1 row-span-1');
   
   const titleKey = `education.${slugify(item.title)}.title`;
   const instKey = `education.${slugify(item.title)}.institution`;
@@ -15,7 +14,7 @@ function CertificateCard({ item }) {
 
   if (!hasImage) {
     return (
-      <div className="col-span-1 row-span-1 p-6 border-2 border-black bg-white flex flex-col justify-between h-full">
+      <div className="break-inside-avoid mb-4 p-6 border-2 border-black bg-white flex flex-col justify-between">
         <div>
           <div className="w-8 h-8 rounded-full bg-[#FAFAFA] border border-black flex items-center justify-center text-[10px] font-mono font-bold mb-4 uppercase">
             {item.type === 'haki' ? 'IP' : 'CRT'}
@@ -47,20 +46,12 @@ function CertificateCard({ item }) {
       href={item.certificate_url}
       target="_blank"
       rel="noreferrer"
-      className={`relative overflow-hidden border-2 border-black group bg-gray-100 flex flex-col cursor-pointer ${spanClass} transition-all duration-300`}
+      className="break-inside-avoid mb-4 relative overflow-hidden border-2 border-black group bg-gray-100 flex flex-col cursor-pointer transition-all duration-300"
     >
       <img
         src={item.certificate_url}
         alt={t(titleKey, item.title)}
-        className="absolute inset-0 w-full h-full object-contain p-4 grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 ease-in-out"
-        onLoad={(e) => {
-          const { naturalWidth, naturalHeight } = e.target;
-          if (naturalWidth > naturalHeight) {
-            setSpanClass('col-span-1 md:col-span-2 row-span-1'); // Landscape
-          } else {
-            setSpanClass('col-span-1 row-span-2'); // Portrait
-          }
-        }}
+        className="w-full h-auto grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 ease-in-out"
       />
       
       {/* Caption overlay sliding up on hover */}
@@ -304,7 +295,7 @@ export function EducationSection() {
             </div>
             
             <div className="md:col-span-9">
-              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-[250px] lg:auto-rows-[300px]">
+              <div className="columns-1 md:columns-2 lg:columns-3 gap-4">
                 {displayedItems.map((item) => (
                   <CertificateCard key={item.id} item={item} />
                 ))}

@@ -9,8 +9,9 @@ export function useThreeBackground(canvasId = 'three-canvas') {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     
-    // Explicitly check for WebGL support to avoid THREE.js error spam
-    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    // Explicitly check for WebGL support using a dummy canvas so we don't lock the main canvas context
+    const testCanvas = document.createElement('canvas');
+    const gl = testCanvas.getContext('webgl') || testCanvas.getContext('experimental-webgl');
     if (!gl) {
       console.warn("WebGL not supported by browser. Falling back to CSS background.");
       return;

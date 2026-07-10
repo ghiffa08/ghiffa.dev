@@ -9,12 +9,12 @@ export function ATSResume({ data }) {
   const certs = qualifications.filter(q => q.type === 'certification');
 
   return (
-    <div className="w-[210mm] min-h-[297mm] p-[20mm] bg-white text-black font-sans text-xs leading-relaxed" style={{ boxSizing: 'border-box' }}>
+    <div className="w-[210mm] min-h-[297mm] p-[20mm] bg-[#ffffff] text-[#000000] font-sans text-xs leading-relaxed" style={{ boxSizing: 'border-box' }}>
       {/* Header */}
-      <div className="text-center border-b border-gray-300 pb-4 mb-6">
+      <div className="text-center border-b border-[#d1d5db] pb-4 mb-6">
         <h1 className="text-2xl font-bold uppercase tracking-tight mb-1">{info?.full_name || 'Haikal Jibran Al Ghiffarry'}</h1>
-        <p className="text-sm font-semibold text-gray-700 uppercase mb-2">{info?.role || 'Systems Architect & Full-stack Developer'}</p>
-        <div className="flex flex-wrap justify-center gap-x-4 text-[10px] text-gray-600 font-mono">
+        <p className="text-sm font-semibold text-[#374151] uppercase mb-2">{info?.role || 'Systems Architect & Full-stack Developer'}</p>
+        <div className="flex flex-wrap justify-center gap-x-4 text-[10px] text-[#4b5563] font-mono">
           <span>{info?.email || 'hello@ghiffa.dev'}</span>
           {info?.phone_number && <span>{info.phone_number}</span>}
           {info?.social_links?.linkedin && <span>LinkedIn: {info.social_links.linkedin.replace('https://', '')}</span>}
@@ -24,24 +24,24 @@ export function ATSResume({ data }) {
 
       {/* Summary */}
       <div className="mb-6">
-        <h2 className="text-xs font-bold uppercase tracking-wider border-b border-gray-400 pb-1 mb-2">Professional Summary</h2>
-        <p className="text-[11px] text-gray-800 text-justify">{info?.about_content || ''}</p>
+        <h2 className="text-xs font-bold uppercase tracking-wider border-b border-[#9ca3af] pb-1 mb-2">Professional Summary</h2>
+        <p className="text-[11px] text-[#1f2937] text-justify">{info?.about_content || ''}</p>
       </div>
 
       {/* Experience */}
       {experiences.length > 0 && (
         <div className="mb-6">
-          <h2 className="text-xs font-bold uppercase tracking-wider border-b border-gray-400 pb-1 mb-3">Work Experience</h2>
+          <h2 className="text-xs font-bold uppercase tracking-wider border-b border-[#9ca3af] pb-1 mb-3">Work Experience</h2>
           <div className="space-y-4">
             {experiences.map((exp, idx) => (
               <div key={exp.id || idx}>
                 <div className="flex justify-between font-bold text-[11px]">
                   <span>{exp.role.toUpperCase()} — {exp.company.toUpperCase()}</span>
-                  <span className="font-mono text-[10px] text-gray-600">{exp.period}</span>
+                  <span className="font-mono text-[10px] text-[#4b5563]">{exp.period}</span>
                 </div>
-                <p className="text-[10px] text-gray-700 mt-1 whitespace-pre-line text-justify">{exp.description}</p>
+                <p className="text-[10px] text-[#374151] mt-1 whitespace-pre-line text-justify">{exp.description}</p>
                 {exp.tech_stack && (
-                  <p className="text-[9px] text-gray-500 font-mono mt-1">
+                  <p className="text-[9px] text-[#6b7280] font-mono mt-1">
                     Technologies: {Array.isArray(exp.tech_stack) ? exp.tech_stack.join(', ') : exp.tech_stack}
                   </p>
                 )}
@@ -54,16 +54,16 @@ export function ATSResume({ data }) {
       {/* Education */}
       {educations.length > 0 && (
         <div className="mb-6">
-          <h2 className="text-xs font-bold uppercase tracking-wider border-b border-gray-400 pb-1 mb-3">Education</h2>
+          <h2 className="text-xs font-bold uppercase tracking-wider border-b border-[#9ca3af] pb-1 mb-3">Education</h2>
           <div className="space-y-3">
             {educations.map((edu, idx) => (
               <div key={edu.id || idx} className="flex justify-between items-start text-[11px]">
                 <div>
                   <span className="font-bold">{edu.title}</span>
-                  <span className="text-gray-600"> - {edu.institution}</span>
-                  {edu.description && <p className="text-[10px] text-gray-600 mt-0.5">{edu.description}</p>}
+                  <span className="text-[#4b5563]"> - {edu.institution}</span>
+                  {edu.description && <p className="text-[10px] text-[#4b5563] mt-0.5">{edu.description}</p>}
                 </div>
-                <span className="font-mono text-[10px] text-gray-600 shrink-0">{edu.period}</span>
+                <span className="font-mono text-[10px] text-[#4b5563] shrink-0">{edu.period}</span>
               </div>
             ))}
           </div>
@@ -73,8 +73,8 @@ export function ATSResume({ data }) {
       {/* Skills */}
       {info?.skills && (
         <div className="mb-6">
-          <h2 className="text-xs font-bold uppercase tracking-wider border-b border-gray-400 pb-1 mb-2">Key Skills</h2>
-          <p className="text-[11px] text-gray-800 leading-relaxed font-mono">
+          <h2 className="text-xs font-bold uppercase tracking-wider border-b border-[#9ca3af] pb-1 mb-2">Key Skills</h2>
+          <p className="text-[11px] text-[#1f2937] leading-relaxed font-mono">
             {Array.isArray(info.skills) ? info.skills.join(' • ') : JSON.parse(info.skills || '[]').join(' • ')}
           </p>
         </div>
@@ -85,8 +85,8 @@ export function ATSResume({ data }) {
         {/* Certifications */}
         {certs.length > 0 && (
           <div>
-            <h2 className="text-xs font-bold uppercase tracking-wider border-b border-gray-400 pb-1 mb-2">Certifications</h2>
-            <ul className="list-disc pl-4 space-y-1 text-[10px] text-gray-800">
+            <h2 className="text-xs font-bold uppercase tracking-wider border-b border-[#9ca3af] pb-1 mb-2">Certifications</h2>
+            <ul className="list-disc pl-4 space-y-1 text-[10px] text-[#1f2937]">
               {certs.map((cert, idx) => (
                 <li key={cert.id || idx}>
                   <span className="font-semibold">{cert.title}</span> ({cert.institution} — {cert.period})
@@ -99,8 +99,8 @@ export function ATSResume({ data }) {
         {/* Honors */}
         {honors.length > 0 && (
           <div>
-            <h2 className="text-xs font-bold uppercase tracking-wider border-b border-gray-400 pb-1 mb-2">Honors & Awards</h2>
-            <ul className="list-disc pl-4 space-y-1 text-[10px] text-gray-800">
+            <h2 className="text-xs font-bold uppercase tracking-wider border-b border-[#9ca3af] pb-1 mb-2">Honors & Awards</h2>
+            <ul className="list-disc pl-4 space-y-1 text-[10px] text-[#1f2937]">
               {honors.map((honor, idx) => (
                 <li key={honor.id || idx}>
                   <span className="font-semibold">{honor.title}</span> ({honor.institution} — {honor.period})

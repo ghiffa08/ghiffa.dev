@@ -9,6 +9,7 @@ export function EducationSection() {
   const { data: qualifications, isLoading, error } = useSupabaseList('qualifications', {
     order: { column: 'order_index', ascending: true }
   });
+  const [isExpanded, setIsExpanded] = useState(false);
 
   if (isLoading) {
     return (
@@ -28,6 +29,9 @@ export function EducationSection() {
   const hakis = qualifications.filter(q => q.type === 'haki');
   const jurnals = qualifications.filter(q => q.type === 'jurnal' || q.type === 'journal');
   const patens = qualifications.filter(q => q.type === 'paten' || q.type === 'patent');
+
+  const combined = [...hakis, ...certs];
+  const displayedItems = isExpanded ? combined : combined.slice(0, 6);
 
   return (
     <section id="achievements" className="py-16 md:py-24 hairline-t scroll-fade bg-white">
@@ -199,56 +203,67 @@ export function EducationSection() {
         )}
 
         {/* 4. INTELLECTUAL PROPERTY & CERTIFICATIONS: Dense Grid */}
-        {(hakis.length > 0 || certs.length > 0) && (
+        {combined.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-12 hairline-t py-16 gap-y-12">
             <div className="md:col-span-3 font-mono text-[10px] md:text-xs text-gray-400 font-bold tracking-[0.2em] uppercase">
               [ {t('education.section.ipCertifications')} ]
             </div>
             
-            <div className="md:col-span-9 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {/* Hakis */}
-              {hakis.map((item) => {
-                const titleKey = `education.${slugify(item.title)}.title`;
-                const instKey = `education.${slugify(item.title)}.institution`;
-                return (
-                  <div key={item.id} className="p-6 border border-[#E5E5E5] hover:border-[#111111] transition-colors bg-white group">
-                    <div className="w-8 h-8 rounded-full bg-[#FAFAFA] flex items-center justify-center text-[10px] font-mono font-bold mb-4 group-hover:bg-[#111111] group-hover:text-white transition-colors">IP</div>
-                    <h5 className="text-sm font-bold uppercase tracking-tight text-[#111111] mb-2">
-                      {t(titleKey, item.title)}
-                    </h5>
-                    <p className="text-xs text-gray-500">{t(instKey, item.institution)}</p>
-                    <p className="text-[10px] font-mono mt-4 text-gray-400 uppercase tracking-widest">{item.period}</p>
-                  </div>
-                );
-              })}
-              
-              {/* Certifications */}
-              {certs.map((item) => {
-                const titleKey = `education.${slugify(item.title)}.title`;
-                const instKey = `education.${slugify(item.title)}.institution`;
-                return (
-                  <div key={item.id} className="p-6 bg-[#FAFAFA] hover:bg-[#111111] hover:text-white transition-colors group flex flex-col justify-between">
-                    <div>
-                      <div className="w-8 h-8 rounded-full border border-gray-200 group-hover:border-white/20 flex items-center justify-center text-[10px] font-mono font-bold mb-4">CRT</div>
-                      <h5 className="text-sm font-bold uppercase tracking-tight mb-2">
-                        {t(titleKey, item.title)}
-                      </h5>
-                      <p className="text-xs text-gray-500 group-hover:text-gray-400">{t(instKey, item.institution)}</p>
-                      <p className="text-[10px] font-mono mt-4 text-gray-400 uppercase tracking-widest">{item.period}</p>
+            <div className="md:col-span-9">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                {displayedItems.map((item) => {
+                  const titleKey = `education.${slugify(item.title)}.title`;
+                  const instKey = `education.${slugify(item.title)}.institution`;
+                  const isHaki = item.type === 'haki';
+                  
+                  if (isHaki) {
+                    return (
+                      <div key={item.id} className="p-6 border border-[#E5E5E5] hover:border-[#111111] transition-colors bg-white group">
+                        <div className="w-8 h-8 rounded-full bg-[#FAFAFA] flex items-center justify-center text-[10px] font-mono font-bold mb-4 group-hover:bg-[#111111] group-hover:text-white transition-colors">IP</div>
+                        <h5 className="text-sm font-bold uppercase tracking-tight text-[#111111] mb-2">
+                          {t(titleKey, item.title)}
+                        </h5>
+                        <p className="text-xs text-gray-500">{t(instKey, item.institution)}</p>
+                        <p className="text-[10px] font-mono mt-4 text-gray-400 uppercase tracking-widest">{item.period}</p>
+                      </div>
+                    );
+                  }
+                  
+                  return (
+                    <div key={item.id} className="p-6 bg-[#FAFAFA] hover:bg-[#111111] hover:text-white transition-colors group flex flex-col justify-between">
+                      <div>
+                        <div className="w-8 h-8 rounded-full border border-gray-200 group-hover:border-white/20 flex items-center justify-center text-[10px] font-mono font-bold mb-4">CRT</div>
+                        <h5 className="text-sm font-bold uppercase tracking-tight mb-2">
+                          {t(titleKey, item.title)}
+                        </h5>
+                        <p className="text-xs text-gray-500 group-hover:text-gray-400">{t(instKey, item.institution)}</p>
+                        <p className="text-[10px] font-mono mt-4 text-gray-400 uppercase tracking-widest">{item.period}</p>
+                      </div>
+                      {item.certificate_url && (
+                        <a 
+                          href={item.certificate_url} 
+                          target="_blank" 
+                          rel="noreferrer" 
+                          className="inline-flex items-center gap-1 mt-4 text-[10px] font-mono font-bold tracking-wider uppercase border-b border-current hover:text-[#666666] transition-colors block w-fit"
+                        >
+                          {t('view_certificate')} ↗
+                        </a>
+                      )}
                     </div>
-                    {item.certificate_url && (
-                      <a 
-                        href={item.certificate_url} 
-                        target="_blank" 
-                        rel="noreferrer" 
-                        className="inline-flex items-center gap-1 mt-4 text-[10px] font-mono font-bold tracking-wider uppercase border-b border-current hover:text-[#666666] transition-colors block w-fit"
-                      >
-                        {t('view_certificate')} ↗
-                      </a>
-                    )}
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
+              
+              {combined.length > 6 && (
+                <div className="mt-8 flex justify-start">
+                  <button
+                    onClick={() => setIsExpanded(!isExpanded)}
+                    className="px-6 py-3 border-2 border-[#111111] hover:bg-[#111111] hover:text-white font-mono text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase transition-all duration-300 cursor-pointer"
+                  >
+                    {isExpanded ? 'SHOW LESS ↑' : 'SEE ALL CERTIFICATES ↘'}
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         )}

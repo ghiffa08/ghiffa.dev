@@ -6,10 +6,10 @@ import { slugify } from '../../utils/slugify';
 
 function CertificateCard({ item }) {
   const { t } = useTranslation();
-  
+
   const titleKey = `education.${slugify(item.title)}.title`;
   const instKey = `education.${slugify(item.title)}.institution`;
-  
+
   const hasMedia = !!item.certificate_url;
   const isPdf = hasMedia && item.certificate_url.toLowerCase().endsWith('.pdf');
   const externalUrl = item.credential_url || item.external_url || null;
@@ -48,7 +48,7 @@ function CertificateCard({ item }) {
       {isPdf ? (
         <div className="w-full aspect-[3/4] bg-white flex flex-col items-center justify-center p-6 border-b-2 border-black grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500">
           <div className="w-16 h-20 border-2 border-black relative flex items-center justify-center bg-gray-100 mb-4">
-             <span className="font-bold text-black text-xl absolute font-mono">PDF</span>
+            <span className="font-bold text-black text-xl absolute font-mono">PDF</span>
           </div>
           <span className="text-center font-bold uppercase text-xs line-clamp-2 text-[#111111]">Document Attached</span>
         </div>
@@ -62,10 +62,10 @@ function CertificateCard({ item }) {
 
       {/* Clickable media area overlay */}
       {hasMedia && (
-        <a 
-          href={item.certificate_url} 
-          target="_blank" 
-          rel="noopener noreferrer" 
+        <a
+          href={item.certificate_url}
+          target="_blank"
+          rel="noopener noreferrer"
           className="absolute inset-0 z-0"
         ></a>
       )}
@@ -88,19 +88,19 @@ function CertificateCard({ item }) {
         {/* Action Links container */}
         <div className="flex flex-wrap items-center gap-4 mt-4 pt-3 border-t-2 border-gray-200">
           {hasMedia && (
-            <a 
-              href={item.certificate_url} 
-              target="_blank" 
+            <a
+              href={item.certificate_url}
+              target="_blank"
               rel="noopener noreferrer"
               className="text-xs font-bold text-black hover:bg-black hover:text-white border-2 border-transparent hover:border-black px-2 py-1 transition-colors uppercase flex items-center gap-1 z-20"
             >
-              {isPdf ? '📄 BUKA PDF' : '👁️ LIHAT GAMBAR'}
+              {isPdf ? 'BUKA PDF' : 'LIHAT GAMBAR'}
             </a>
           )}
           {externalUrl && (
-            <a 
-              href={externalUrl} 
-              target="_blank" 
+            <a
+              href={externalUrl}
+              target="_blank"
               rel="noopener noreferrer"
               className="text-xs font-bold text-black hover:bg-black hover:text-white border-2 border-transparent hover:border-black px-2 py-1 transition-colors uppercase flex items-center gap-1 z-20"
             >
@@ -145,9 +145,9 @@ export function EducationSection() {
   return (
     <section id="achievements" className="py-16 md:py-24 hairline-t scroll-fade bg-white">
       <SectionHeader number="04" title={t('education.title')} />
-      
+
       <div className="w-full px-6 md:px-12 mt-8">
-        
+
         {/* 1. EDUCATION: Classic Editorial Linear Flow */}
         {educations.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-12 hairline-t py-16">
@@ -176,10 +176,10 @@ export function EducationSection() {
                           </span>
                         )}
                         {item.certificate_url && (
-                          <a 
-                            href={item.certificate_url} 
-                            target="_blank" 
-                            rel="noreferrer" 
+                          <a
+                            href={item.certificate_url}
+                            target="_blank"
+                            rel="noreferrer"
                             className="inline-flex items-center gap-1 mt-3 text-[10px] font-mono font-bold tracking-wider uppercase border-b border-[#111111] hover:text-[#666666] hover:border-[#666666] transition-colors block w-fit"
                           >
                             {t('view_certificate')} ↗
@@ -224,10 +224,10 @@ export function EducationSection() {
                           </p>
                         )}
                         {item.certificate_url && (
-                          <a 
-                            href={item.certificate_url} 
-                            target="_blank" 
-                            rel="noreferrer" 
+                          <a
+                            href={item.certificate_url}
+                            target="_blank"
+                            rel="noreferrer"
                             className="inline-flex items-center gap-1 mt-4 text-[10px] font-mono font-bold tracking-wider uppercase border-b border-[#111111] hover:text-[#666666] hover:border-[#666666] transition-colors block w-fit"
                           >
                             {t('view_certificate')} ↗
@@ -239,7 +239,7 @@ export function EducationSection() {
                 </div>
               </div>
             )}
-            
+
             {patens.length > 0 && (
               <div className="py-16 md:pl-12">
                 <div className="font-mono text-[10px] md:text-xs text-gray-400 font-bold tracking-[0.2em] uppercase mb-12">
@@ -261,10 +261,10 @@ export function EducationSection() {
                           {t(instKey, item.institution)}
                         </p>
                         {item.certificate_url && (
-                          <a 
-                            href={item.certificate_url} 
-                            target="_blank" 
-                            rel="noreferrer" 
+                          <a
+                            href={item.certificate_url}
+                            target="_blank"
+                            rel="noreferrer"
                             className="inline-flex items-center gap-1 mt-4 text-[10px] font-mono font-bold tracking-wider uppercase border-b border-[#111111] hover:text-[#666666] hover:border-[#666666] transition-colors block w-fit"
                           >
                             {t('view_certificate')} ↗
@@ -307,10 +307,10 @@ export function EducationSection() {
                         )}
                       </div>
                       {item.certificate_url && (
-                        <a 
-                          href={item.certificate_url} 
-                          target="_blank" 
-                          rel="noreferrer" 
+                        <a
+                          href={item.certificate_url}
+                          target="_blank"
+                          rel="noreferrer"
                           className="inline-flex items-center gap-1 mt-3 text-[10px] font-mono font-bold tracking-wider uppercase border-b border-[#111111] hover:text-[#666666] hover:border-[#666666] transition-colors block w-fit"
                         >
                           {t('view_certificate')} ↗
@@ -333,14 +333,14 @@ export function EducationSection() {
             <div className="md:col-span-3 font-mono text-[10px] md:text-xs text-gray-400 font-bold tracking-[0.2em] uppercase">
               [ {t('education.section.ipCertifications')} ]
             </div>
-            
+
             <div className="md:col-span-9">
               <div className="columns-1 md:columns-2 lg:columns-3 gap-4">
                 {displayedItems.map((item) => (
                   <CertificateCard key={item.id} item={item} />
                 ))}
               </div>
-              
+
               {combined.length > 6 && (
                 <div className="mt-8 flex justify-start">
                   <button

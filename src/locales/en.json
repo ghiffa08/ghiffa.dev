@@ -96,5 +96,15 @@
   "Juara 1 PILMAPRES Universitas Kuningan": "1st Place in the University-Level Outstanding Student Award (Pilmapres)",
   "2nd Place Winner – International Digital Mathematics Game Competition 2025": "2nd Place Winner – International Digital Mathematics Game Competition 2025",
   "Nilai Tertinggi Pertama Uji Kompetensi": "Highest Score in Competency Test",
-  "Juara 1 Business Plan Competition": "1st Place Winner Business Plan Competition"
+  "Juara 1 Business Plan Competition": "1st Place Winner Business Plan Competition",
+  "cvModal.title": "REQUEST CV / RESUME",
+  "cvModal.name": "NAME",
+  "cvModal.email": "EMAIL",
+  "cvModal.company": "COMPANY / ORGANIZATION",
+  "cvModal.submit": "SUBMIT",
+  "cvModal.sending": "SENDING...",
+  "cvModal.successHeader": "SUCCESS",
+  "cvModal.success": "Resume has been sent to your email!",
+  "cvModal.error": "Failed to send resume. Please try again.",
+  "cvModal.invalidFields": "Please fill out Name and Email."
 }

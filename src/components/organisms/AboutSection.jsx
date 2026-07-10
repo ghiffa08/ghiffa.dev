@@ -3,7 +3,7 @@ import { useSupabaseSingle } from '../../hooks/useSupabaseData';
 import { SectionHeader } from '../atoms/SectionHeader';
 import ReactMarkdown from 'react-markdown';
 
-export function AboutSection() {
+export function AboutSection({ onDownloadCV }) {
   const { t, i18n } = useTranslation();
   const { data: info, isLoading, error } = useSupabaseSingle('personal_info');
 
@@ -61,15 +61,13 @@ export function AboutSection() {
             <ReactMarkdown>{subText}</ReactMarkdown>
           </div>
           
-          <a 
-            href={info.cv_url || '#'} 
-            target={info.cv_url ? '_blank' : '_self'}
-            rel="noreferrer"
-            className="inline-flex items-center gap-3 border-b-2 border-[#111111] pb-1 font-mono text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] hover:text-[#666666] hover:border-[#666666] transition-colors"
+          <button 
+            onClick={onDownloadCV}
+            className="inline-flex items-center gap-3 border-b-2 border-[#111111] pb-1 font-mono text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] hover:text-[#666666] hover:border-[#666666] transition-colors cursor-pointer text-left"
           >
             <span>{t('about.downloadResume')}</span>
             <span className="text-sm leading-none">↓</span>
-          </a>
+          </button>
         </div>
       </div>
     </section>

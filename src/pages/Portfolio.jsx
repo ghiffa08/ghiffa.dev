@@ -10,6 +10,7 @@ import { useSupabaseSingle } from '../hooks/useSupabaseData';
 const ThreeBackground = lazy(() => import('../components/organisms/ThreeBackground').then(m => ({ default: m.ThreeBackground })));
 const CustomCursor = lazy(() => import('../components/organisms/CustomCursor').then(m => ({ default: m.CustomCursor })));
 import { DetailModal } from '../components/organisms/DetailModal';
+import { CVDownloadModal } from '../components/organisms/CVDownloadModal';
 import { Header } from '../components/organisms/Header';
 import { HeroSection } from '../components/organisms/HeroSection';
 import { AboutSection } from '../components/organisms/AboutSection';
@@ -33,6 +34,7 @@ export default function Portfolio() {
   // State
   const [hoveredArticleImg, setHoveredArticleImg] = useState(null);
   const [activeDetail, setActiveDetail] = useState(null);
+  const [isCVModalOpen, setIsCVModalOpen] = useState(false);
   
   const { slug } = useParams();
   const location = useLocation();
@@ -175,12 +177,17 @@ export default function Portfolio() {
         setActiveDetail={handleSetActiveDetail} 
       />
 
+      <CVDownloadModal 
+        isOpen={isCVModalOpen} 
+        onClose={() => setIsCVModalOpen(false)} 
+      />
+
       {/* --- MAIN PAGE CONTENT --- */}
       <div className="w-full relative z-10 selection:bg-[#111111] selection:text-[#FAFAFA]">
         <Header />
         
         <HeroSection />
-        <AboutSection />
+        <AboutSection onDownloadCV={() => setIsCVModalOpen(true)} />
         <SkillsSection />
         <WorksSection setActiveDetail={handleSetActiveDetail} />
         <ExperienceSection />

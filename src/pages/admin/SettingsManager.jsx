@@ -24,7 +24,12 @@ export default function SettingsManager() {
     try {
       const data = await SettingsRepository.getSettings();
       if (data) {
-        setFormData(data);
+        setFormData({
+          app_name: data.app_name || '',
+          seo_title: data.seo_title || '',
+          seo_description: data.seo_description === '[object Object]' ? '' : (data.seo_description || ''),
+          maintenance_mode: data.maintenance_mode || false
+        });
       }
     } catch (err) {
       setMessage('Error loading settings: ' + err.message);
@@ -98,7 +103,7 @@ export default function SettingsManager() {
           <TextArea
             name="seo_description"
             value={formData.seo_description || ''}
-            onChange={(val) => setFormData(prev => ({ ...prev, seo_description: val }))}
+            onChange={handleChange}
             rows={3}
             required
           />

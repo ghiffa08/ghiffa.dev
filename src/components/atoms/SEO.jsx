@@ -44,11 +44,35 @@ export function SEO({
       )}
 
       {/* JSON-LD Structured Data Schema Markup */}
-      {jsonLd && (
-        <script type="application/ld+json">
-          {JSON.stringify(jsonLd)}
-        </script>
-      )}
+      <script type="application/ld+json">
+        {JSON.stringify(jsonLd || {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebSite",
+              "@id": "https://ghiffa.dev/#website",
+              "url": "https://ghiffa.dev",
+              "name": "ghiffa.dev | Haikal Jibran Al-Ghiffarry",
+              "description": "Personal website and portfolio of Haikal Jibran Al-Ghiffarry."
+            },
+            {
+              "@type": "Person",
+              "@id": "https://ghiffa.dev/#person",
+              "name": "Haikal Jibran Al-Ghiffarry",
+              "url": "https://ghiffa.dev",
+              "jobTitle": ["IoT Engineer", "Fullstack Web Developer"],
+              "alumniOf": {
+                "@type": "CollegeOrUniversity",
+                "name": "Universitas Kuningan"
+              },
+              "sameAs": [
+                "https://github.com/ghiffa",
+                "https://linkedin.com/in/haikaljibran"
+              ]
+            }
+          ]
+        })}
+      </script>
     </Helmet>
   );
 }

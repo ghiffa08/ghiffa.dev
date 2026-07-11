@@ -2,8 +2,8 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
 export function SEO({
-  title,
-  description,
+  title = "Haikal Jibran Al-Ghiffarry | Portofolio & Resume",
+  description = "Portofolio dan resume digital resmi milik Haikal Jibran Al-Ghiffarry, seorang IoT Engineer dan Fullstack Web Developer berbasis di Kuningan, Indonesia.",
   name = 'Ghiffa.dev',
   type = 'website',
   url = 'https://ghiffa.dev',

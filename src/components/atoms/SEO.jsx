@@ -66,8 +66,9 @@ export function SEO({
                 "name": "Universitas Kuningan"
               },
               "sameAs": [
-                "https://github.com/ghiffa",
-                "https://linkedin.com/in/haikaljibran"
+                "https://github.com/ghiffa08",
+                "https://www.linkedin.com/in/haikal-jibran-al-ghiffarry",
+                "https://www.instagram.com/haikaljibraan"
               ]
             }
           ]

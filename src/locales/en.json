@@ -106,5 +106,11 @@
   "cvModal.successHeader": "SUCCESS",
   "cvModal.success": "Resume has been sent to your email!",
   "cvModal.error": "Failed to send resume. Please try again.",
-  "cvModal.invalidFields": "Please fill out Name and Email."
+  "cvModal.invalidFields": "Please fill out Name and Email.",
+  "resume.summary": "Professional Summary",
+  "resume.experience": "Work Experience",
+  "resume.education": "Education",
+  "resume.skills": "Key Skills",
+  "resume.certifications": "Certifications",
+  "resume.honors": "Honors & Awards"
 }

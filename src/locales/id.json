@@ -106,5 +106,11 @@
   "cvModal.successHeader": "BERHASIL",
   "cvModal.success": "Resume telah dikirim ke email Anda!",
   "cvModal.error": "Gagal mengirim resume. Silakan coba lagi.",
-  "cvModal.invalidFields": "Harap isi Nama dan Email."
+  "cvModal.invalidFields": "Harap isi Nama dan Email.",
+  "resume.summary": "Ringkasan Profesional",
+  "resume.experience": "Pengalaman Kerja",
+  "resume.education": "Pendidikan",
+  "resume.skills": "Keahlian Utama",
+  "resume.certifications": "Sertifikasi",
+  "resume.honors": "Penghargaan & Prestasi"
 }

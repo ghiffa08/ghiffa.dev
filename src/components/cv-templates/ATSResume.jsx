@@ -1,5 +1,7 @@
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
+import { useTranslation } from 'react-i18next';
+import { slugify } from '../../utils/slugify';
 
 const styles = StyleSheet.create({
   page: {
@@ -132,6 +134,8 @@ const styles = StyleSheet.create({
 });
 
 export function ATSResume({ data }) {
+  const { t, i18n } = useTranslation();
+  const isEn = i18n.language === 'en';
   if (!data) return null;
   const { info, experiences = [], qualifications = [] } = data;
 
@@ -152,6 +156,7 @@ export function ATSResume({ data }) {
           <Text style={styles.role}>{info?.role || 'Systems Architect & Full-stack Developer'}</Text>
           <View style={styles.contactContainer}>
             <Text style={styles.contactItem}>{info?.email || 'hello@ghiffa.dev'}</Text>
+            <Text style={styles.contactItem}>•  Portfolio: ghiffa.dev</Text>
             {info?.phone_number && <Text style={styles.contactItem}>•  {info.phone_number}</Text>}
             {info?.social_links?.linkedin && (
               <Text style={styles.contactItem}>
@@ -168,55 +173,64 @@ export function ATSResume({ data }) {
 
         {/* Summary */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Professional Summary</Text>
-          <Text style={styles.summaryText}>{(info?.about_content || '').replace(/\*/g, '')}</Text>
+          <Text style={styles.sectionTitle}>{t('resume.summary', 'Professional Summary')}</Text>
+          <Text style={styles.summaryText}>{(isEn && info?.about_content_en ? info.about_content_en : info?.about_content || '').replace(/\*/g, '')}</Text>
         </View>
 
         {/* Experience */}
         {experiences.length > 0 && (
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Work Experience</Text>
-            {experiences.map((exp, idx) => (
-              <View key={exp.id || idx} style={styles.experienceItem}>
-                <View style={styles.rowJustify}>
-                  <Text style={styles.companyRole}>
-                    {exp.role.toUpperCase()} — {exp.company.toUpperCase()}
-                  </Text>
-                  <Text style={styles.date}>{exp.period}</Text>
+            <Text style={styles.sectionTitle}>{t('resume.experience', 'Work Experience')}</Text>
+            {experiences.map((exp, idx) => {
+              const roleKey = `experience.${slugify(exp.company)}.${slugify(exp.role)}.role`;
+              const descKey = `experience.${slugify(exp.company)}.${slugify(exp.role)}.description`;
+              return (
+                <View key={exp.id || idx} style={styles.experienceItem}>
+                  <View style={styles.rowJustify}>
+                    <Text style={styles.companyRole}>
+                      {t(roleKey, exp.role).toUpperCase()} — {exp.company.toUpperCase()}
+                    </Text>
+                    <Text style={styles.date}>{exp.period}</Text>
+                  </View>
+                  <Text style={styles.descriptionText}>{t(descKey, exp.description)}</Text>
+                  {exp.tech_stack && (
+                    <Text style={styles.techText}>
+                      Technologies: {Array.isArray(exp.tech_stack) ? exp.tech_stack.join(', ') : JSON.parse(exp.tech_stack || '[]').join(', ')}
+                    </Text>
+                  )}
                 </View>
-                <Text style={styles.descriptionText}>{exp.description}</Text>
-                {exp.tech_stack && (
-                  <Text style={styles.techText}>
-                    Technologies: {Array.isArray(exp.tech_stack) ? exp.tech_stack.join(', ') : JSON.parse(exp.tech_stack || '[]').join(', ')}
-                  </Text>
-                )}
-              </View>
-            ))}
+              );
+            })}
           </View>
         )}
 
         {/* Education */}
         {educations.length > 0 && (
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Education</Text>
-            {educations.map((edu, idx) => (
-              <View key={edu.id || idx} style={styles.educationItem}>
-                <View style={styles.rowJustify}>
-                  <Text style={styles.eduTitle}>
-                    {edu.title} <Text style={styles.eduInst}>- {edu.institution}</Text>
-                  </Text>
-                  <Text style={styles.date}>{edu.period}</Text>
+            <Text style={styles.sectionTitle}>{t('resume.education', 'Education')}</Text>
+            {educations.map((edu, idx) => {
+              const titleKey = `education.${slugify(edu.title)}.title`;
+              const instKey = `education.${slugify(edu.title)}.institution`;
+              const descKey = `education.${slugify(edu.title)}.description`;
+              return (
+                <View key={edu.id || idx} style={styles.educationItem}>
+                  <View style={styles.rowJustify}>
+                    <Text style={styles.eduTitle}>
+                      {t(titleKey, edu.title)} <Text style={styles.eduInst}>- {t(instKey, edu.institution)}</Text>
+                    </Text>
+                    <Text style={styles.date}>{edu.period}</Text>
+                  </View>
+                  {edu.description && <Text style={styles.descriptionText}>{t(descKey, edu.description)}</Text>}
                 </View>
-                {edu.description && <Text style={styles.descriptionText}>{edu.description}</Text>}
-              </View>
-            ))}
+              );
+            })}
           </View>
         )}
 
         {/* Skills */}
         {skillsList.length > 0 && (
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Key Skills</Text>
+            <Text style={styles.sectionTitle}>{t('resume.skills', 'Key Skills')}</Text>
             <Text style={styles.skillsText}>{skillsList.join(', ')}</Text>
           </View>
         )}
@@ -227,16 +241,20 @@ export function ATSResume({ data }) {
           <View style={styles.column}>
             {certs.length > 0 && (
               <View style={styles.section}>
-                <Text style={styles.sectionTitle}>Certifications</Text>
+                <Text style={styles.sectionTitle}>{t('resume.certifications', 'Certifications')}</Text>
                 <View style={styles.bulletList}>
-                  {certs.map((cert, idx) => (
-                    <View key={cert.id || idx} style={{ flexDirection: 'row', marginBottom: 4 }}>
-                      <Text style={{ width: 12 }}>•</Text>
-                      <Text style={{ flex: 1 }}>
-                        {cert.title} ({cert.institution} — {cert.period})
-                      </Text>
-                    </View>
-                  ))}
+                  {certs.map((cert, idx) => {
+                    const titleKey = `education.${slugify(cert.title)}.title`;
+                    const instKey = `education.${slugify(cert.title)}.institution`;
+                    return (
+                      <View key={cert.id || idx} style={{ flexDirection: 'row', marginBottom: 4 }}>
+                        <Text style={{ width: 12 }}>•</Text>
+                        <Text style={{ flex: 1 }}>
+                          {t(titleKey, cert.title)} ({t(instKey, cert.institution)} — {cert.period})
+                        </Text>
+                      </View>
+                    );
+                  })}
                 </View>
               </View>
             )}
@@ -246,16 +264,20 @@ export function ATSResume({ data }) {
           <View style={styles.column}>
             {honors.length > 0 && (
               <View style={styles.section}>
-                <Text style={styles.sectionTitle}>Honors & Awards</Text>
+                <Text style={styles.sectionTitle}>{t('resume.honors', 'Honors & Awards')}</Text>
                 <View style={styles.bulletList}>
-                  {honors.map((honor, idx) => (
-                    <View key={honor.id || idx} style={{ flexDirection: 'row', marginBottom: 4 }}>
-                      <Text style={{ width: 12 }}>•</Text>
-                      <Text style={{ flex: 1 }}>
-                        {honor.title} ({honor.institution} — {honor.period})
-                      </Text>
-                    </View>
-                  ))}
+                  {honors.map((honor, idx) => {
+                    const titleKey = `education.${slugify(honor.title)}.title`;
+                    const instKey = `education.${slugify(honor.title)}.institution`;
+                    return (
+                      <View key={honor.id || idx} style={{ flexDirection: 'row', marginBottom: 4 }}>
+                        <Text style={{ width: 12 }}>•</Text>
+                        <Text style={{ flex: 1 }}>
+                          {t(titleKey, t(honor.title))} ({t(instKey, honor.institution)} — {honor.period})
+                        </Text>
+                      </View>
+                    );
+                  })}
                 </View>
               </View>
             )}

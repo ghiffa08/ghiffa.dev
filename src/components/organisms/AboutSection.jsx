@@ -63,7 +63,8 @@ export function AboutSection({ onDownloadCV }) {
               <div className="aspect-square bg-gray-100 overflow-hidden relative group border border-[#E5E5E5]">
                 <img 
                   src="/ghiffa.jpeg" 
-                  alt={info.full_name || "Profile Photo"} 
+                  alt={`${info.full_name || 'Haikal Jibran Al-Ghiffarry'}, ${info.role || 'IoT Engineer & Full-stack Developer'}`} 
+                  title={`${info.full_name || 'Haikal Jibran Al-Ghiffarry'} - Profile`}
                   className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700"
                   onError={(e) => {
                     e.target.onerror = null; 

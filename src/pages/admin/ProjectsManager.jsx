@@ -304,8 +304,8 @@ export default function ProjectsManager() {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableCell isHeader>PROJECT</TableCell>
             <TableCell isHeader>ORDER</TableCell>
+            <TableCell isHeader>PROJECT</TableCell>
             <TableCell isHeader>CATEGORY</TableCell>
             <TableCell isHeader>YEAR</TableCell>
             <TableCell isHeader className="text-right">ACTIONS</TableCell>
@@ -314,8 +314,8 @@ export default function ProjectsManager() {
         <TableBody>
           {projects.map(proj => (
             <TableRow key={proj.id}>
-              <TableCell className="font-bold">{proj.title}</TableCell>
               <TableCell>{proj.order_index || 0}</TableCell>
+              <TableCell className="font-bold">{proj.title}</TableCell>
               <TableCell>{proj.category}</TableCell>
               <TableCell>{proj.year}</TableCell>
               <TableCell className="flex justify-end gap-3">

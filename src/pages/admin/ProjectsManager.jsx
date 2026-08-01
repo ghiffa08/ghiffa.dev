@@ -20,7 +20,7 @@ export default function ProjectsManager() {
   // Form State
   const [formData, setFormData] = useState({
     title: '', category: '', description: '', content: '',
-    image_url: '', image_urls: [], tech_stack: '', client: '', year: '', link: '', github_url: ''
+    image_url: '', image_urls: [], tech_stack: '', client: '', year: '', link: '', github_url: '', order_index: 0
   });
   
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -103,7 +103,8 @@ export default function ProjectsManager() {
         client: formData.client,
         year: formData.year,
         link: formData.link,
-        github_url: formData.github_url
+        github_url: formData.github_url,
+        order_index: Number(formData.order_index) || 0
       };
 
       if (editingId) {
@@ -116,7 +117,7 @@ export default function ProjectsManager() {
       previews.forEach(p => URL.revokeObjectURL(p.url));
       
       // Reset form
-      setFormData({ title: '', category: '', description: '', content: '', image_url: '', image_urls: [], tech_stack: '', client: '', year: '', link: '', github_url: '' });
+      setFormData({ title: '', category: '', description: '', content: '', image_url: '', image_urls: [], tech_stack: '', client: '', year: '', link: '', github_url: '', order_index: 0 });
       setSelectedFiles([]);
       setPreviews([]);
       setEditingId(null);
@@ -206,6 +207,11 @@ export default function ProjectsManager() {
             <Label>Live Demo Link</Label>
             <Input type="text" value={formData.link} onChange={e => setFormData({...formData, link: e.target.value})} />
           </div>
+          
+          <div>
+            <Label>Order Index (Smaller = First)</Label>
+            <Input type="number" value={formData.order_index} onChange={e => setFormData({...formData, order_index: e.target.value})} />
+          </div>
 
           {/* Multiple image upload component */}
           <div className="md:col-span-2 border-t border-[#E5E5E5] pt-6 mt-2">
@@ -281,7 +287,7 @@ export default function ProjectsManager() {
               variant="outline"
               onClick={() => { 
                 setEditingId(null); 
-                setFormData({ title: '', category: '', description: '', content: '', image_url: '', image_urls: [], tech_stack: '', client: '', year: '', link: '', github_url: '' }); 
+                setFormData({ title: '', category: '', description: '', content: '', image_url: '', image_urls: [], tech_stack: '', client: '', year: '', link: '', github_url: '', order_index: 0 }); 
                 setSelectedFiles([]);
                 previews.forEach(p => URL.revokeObjectURL(p.url));
                 setPreviews([]);
@@ -299,6 +305,7 @@ export default function ProjectsManager() {
         <TableHeader>
           <TableRow>
             <TableCell isHeader>PROJECT</TableCell>
+            <TableCell isHeader>ORDER</TableCell>
             <TableCell isHeader>CATEGORY</TableCell>
             <TableCell isHeader>YEAR</TableCell>
             <TableCell isHeader className="text-right">ACTIONS</TableCell>
@@ -308,6 +315,7 @@ export default function ProjectsManager() {
           {projects.map(proj => (
             <TableRow key={proj.id}>
               <TableCell className="font-bold">{proj.title}</TableCell>
+              <TableCell>{proj.order_index || 0}</TableCell>
               <TableCell>{proj.category}</TableCell>
               <TableCell>{proj.year}</TableCell>
               <TableCell className="flex justify-end gap-3">
@@ -318,7 +326,7 @@ export default function ProjectsManager() {
           ))}
           {projects.length === 0 && (
             <TableRow>
-              <TableCell colSpan={4} className="text-center text-gray-500">No projects found.</TableCell>
+              <TableCell colSpan={5} className="text-center text-gray-500">No projects found.</TableCell>
             </TableRow>
           )}
         </TableBody>

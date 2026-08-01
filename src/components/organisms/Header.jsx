@@ -8,11 +8,15 @@ export function Header() {
   const { data: settings } = useSupabaseSingle('general_settings');
   const appName = settings?.app_name || 'ghiffa.dev';
   const [activeSection, setActiveSection] = useState('');
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       const sections = ['about', 'works', 'process', 'journal'];
       let current = '';
+      
+      // Check if scrolled past hero (threshold 100px)
+      setIsScrolled(window.scrollY > 100);
       
       // Calculate active section based on scroll position
       for (const section of sections) {
@@ -47,7 +51,11 @@ export function Header() {
   };
 
   return (
-    <nav className="w-full bg-[#FAFAFA]/90 backdrop-blur-md z-40 fixed top-0 hairline-b transition-all notranslate" translate="no">
+    <nav className={`w-full z-40 fixed top-0 transition-all duration-300 notranslate border-b ${
+      isScrolled 
+        ? 'bg-[#FAFAFA]/90 backdrop-blur-md border-[var(--border)]' 
+        : 'bg-transparent border-transparent'
+    }`} translate="no">
       <div className="max-w-screen-2xl mx-auto flex justify-between items-center px-6 md:px-12 py-6">
         <div className="flex items-center gap-4 cursor-pointer" onClick={(e) => handleScrollTo(e, 'body')}>
           <span className="font-mono text-sm font-bold tracking-[0.2em] uppercase">{appName}</span>

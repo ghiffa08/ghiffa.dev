@@ -11,6 +11,7 @@ export const ProjectRepository = {
     let query = supabase
       .from('projects')
       .select('*')
+      .order('order_index', { ascending: true })
       .order('created_at', { ascending: false });
 
     if (limit) {

@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { SettingsRepository } from '../../repositories/SettingsRepository';
-import { User, Save, AlertCircle } from 'lucide-react';
-import Button from '../../components/admin-ui/Button';
+import { User, Check, Loader2, AlertCircle } from 'lucide-react';
 import { Input } from '../../components/admin-ui/Input';
 import Label from '../../components/admin-ui/Label';
 import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css';
+
+const DEBOUNCE_MS = 800;
 
 export default function PersonalInfoManager() {
   const [formData, setFormData] = useState({
@@ -18,19 +19,23 @@ export default function PersonalInfoManager() {
     email: '',
     phone_number: '',
     availability_status: '',
-    social_links: {
-      github: '',
-      linkedin: '',
-      instagram: ''
-    }
+    social_links: { github: '', linkedin: '', instagram: '' }
   });
   const [skillsText, setSkillsText] = useState('');
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [message, setMessage] = useState('');
+  const [saveState, setSaveState] = useState('idle'); // 'idle' | 'saving' | 'saved' | 'error'
+  const [errorMsg, setErrorMsg] = useState('');
+
+  const timerRef = useRef(null);
+  const firstRender = useRef(true);
 
   useEffect(() => {
     fetchInfo();
+    return () => clearTimeout(timerRef.current);
+  }, []);
+
+  useEffect(() => {
+    firstRender.current = false;
   }, []);
 
   const fetchInfo = async () => {
@@ -44,96 +49,93 @@ export default function PersonalInfoManager() {
         setSkillsText(data.skills ? data.skills.join(', ') : '');
       }
     } catch (err) {
-      setMessage('Error loading personal info: ' + err.message);
+      setErrorMsg('Error loading personal info: ' + err.message);
+      setSaveState('error');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (['github', 'linkedin', 'instagram'].includes(name)) {
-      setFormData(prev => ({
-        ...prev,
-        social_links: {
-          ...prev.social_links,
-          [name]: value
-        }
-      }));
-    } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
-    }
+  const scheduleSave = (payload) => {
+    if (firstRender.current) return;
+
+    setSaveState('saving');
+    clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(async () => {
+      try {
+        const parsedSkills = skillsText.split(',').map(s => s.trim()).filter(Boolean);
+        await SettingsRepository.updatePersonalInfo({ ...payload, skills: parsedSkills });
+        setSaveState('saved');
+        setTimeout(() => setSaveState('idle'), 2000);
+      } catch (err) {
+        setErrorMsg(err.message);
+        setSaveState('error');
+      }
+    }, DEBOUNCE_MS);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setSaving(true);
-    setMessage('');
-    
-    try {
-      const parsedSkills = skillsText.split(',').map(s => s.trim()).filter(Boolean);
-      const payload = { ...formData, skills: parsedSkills };
-      
-      await SettingsRepository.updatePersonalInfo(payload);
-      setMessage('Personal information saved successfully!');
-      setTimeout(() => setMessage(''), 3000);
-    } catch (err) {
-      setMessage(`Error: ${err.message}`);
-    } finally {
-      setSaving(false);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    let next;
+    if (['github', 'linkedin', 'instagram'].includes(name)) {
+      next = {
+        ...formData,
+        social_links: { ...formData.social_links, [name]: value }
+      };
+    } else {
+      next = { ...formData, [name]: value };
     }
+    setFormData(next);
+    scheduleSave(next);
+  };
+
+  const handleAboutChange = (field, val) => {
+    const next = { ...formData, [field]: val };
+    setFormData(next);
+    scheduleSave(next);
+  };
+
+  const handleSkillsChange = (e) => {
+    const val = e.target.value;
+    setSkillsText(val);
+    const next = { ...formData };
+    scheduleSave(next); // skills parsed at save time
   };
 
   if (loading) return <div className="p-8 text-center font-mono">Loading...</div>;
 
   return (
     <div className="bg-white rounded-none border border-black/10 p-6 font-mono text-[#111111]">
-      <div className="flex items-center space-x-3 mb-6 pb-6 border-b border-black/10">
-        <User size={20} />
-        <h2 className="text-xl font-black uppercase">Personal Info</h2>
+      <div className="flex items-center justify-between mb-6 pb-6 border-b border-black/10">
+        <div className="flex items-center space-x-3">
+          <User size={20} />
+          <h2 className="text-xl font-black uppercase">Personal Info</h2>
+        </div>
+        <SaveStatus state={saveState} />
       </div>
 
-      {message && (
-        <div className={`p-4 mb-6 rounded-none flex items-center gap-3 ${message.includes('Error') ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'}`}>
+      {saveState === 'error' && errorMsg && (
+        <div className="p-4 mb-6 rounded-none flex items-center gap-3 bg-red-50 text-red-700">
           <AlertCircle size={16} />
-          <span className="text-xs font-bold uppercase">{message}</span>
+          <span className="text-xs font-bold uppercase">{errorMsg}</span>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <Label>Full Name</Label>
-            <Input
-              type="text"
-              name="full_name"
-              value={formData.full_name || ''}
-              onChange={handleChange}
-              required
-            />
+            <Input type="text" name="full_name" value={formData.full_name || ''} onChange={handleChange} />
           </div>
-
           <div>
             <Label>Role/Title</Label>
-            <Input
-              type="text"
-              name="role"
-              value={formData.role || ''}
-              onChange={handleChange}
-              required
-            />
+            <Input type="text" name="role" value={formData.role || ''} onChange={handleChange} />
           </div>
         </div>
 
         <div>
           <Label>Hero Headline</Label>
-          <Input
-            type="text"
-            name="headline"
-            value={formData.headline || ''}
-            onChange={handleChange}
-            required
-          />
+          <Input type="text" name="headline" value={formData.headline || ''} onChange={handleChange} />
         </div>
 
         <div className="prose max-w-none">
@@ -141,7 +143,7 @@ export default function PersonalInfoManager() {
           <div className="mt-2">
             <SimpleMDE
               value={formData.about_content || ''}
-              onChange={(val) => setFormData(prev => ({ ...prev, about_content: val }))}
+              onChange={(val) => handleAboutChange('about_content', val)}
               options={{ spellChecker: false }}
             />
           </div>
@@ -152,7 +154,7 @@ export default function PersonalInfoManager() {
           <div className="mt-2">
             <SimpleMDE
               value={formData.about_content_en || ''}
-              onChange={(val) => setFormData(prev => ({ ...prev, about_content_en: val }))}
+              onChange={(val) => handleAboutChange('about_content_en', val)}
               options={{ spellChecker: false }}
             />
           </div>
@@ -161,25 +163,12 @@ export default function PersonalInfoManager() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <Label>Email Address</Label>
-            <Input
-              type="email"
-              name="email"
-              value={formData.email || ''}
-              onChange={handleChange}
-              required
-            />
+            <Input type="email" name="email" value={formData.email || ''} onChange={handleChange} />
           </div>
-
           <div>
             <Label>Phone Number</Label>
-            <Input
-              type="text"
-              name="phone_number"
-              value={formData.phone_number || ''}
-              onChange={handleChange}
-            />
+            <Input type="text" name="phone_number" value={formData.phone_number || ''} onChange={handleChange} />
           </div>
-
           <div>
             <Label>Availability Status</Label>
             <Input
@@ -188,18 +177,11 @@ export default function PersonalInfoManager() {
               value={formData.availability_status || ''}
               onChange={handleChange}
               placeholder="e.g. I'm currently available for freelance worldwide."
-              required
             />
           </div>
-
           <div>
             <Label>Resume (CV) URL</Label>
-            <Input
-              type="url"
-              name="cv_url"
-              value={formData.cv_url || ''}
-              onChange={handleChange}
-            />
+            <Input type="url" name="cv_url" value={formData.cv_url || ''} onChange={handleChange} />
           </div>
         </div>
 
@@ -210,7 +192,7 @@ export default function PersonalInfoManager() {
             <textarea
               name="skills"
               value={skillsText}
-              onChange={(e) => setSkillsText(e.target.value)}
+              onChange={handleSkillsChange}
               rows="3"
               placeholder="e.g. REACT, NEXT.JS, EMBEDDED SYSTEM, LORA CONNECTION"
               className="w-full border border-black/10 rounded-none bg-[#FAFAFA] text-[#111111] px-4 py-2 focus:outline-none focus:border-black font-mono text-sm resize-none"
@@ -224,40 +206,48 @@ export default function PersonalInfoManager() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
               <Label>LinkedIn URL</Label>
-              <Input
-                type="url"
-                name="linkedin"
-                value={formData.social_links.linkedin || ''}
-                onChange={handleChange}
-              />
+              <Input type="url" name="linkedin" value={formData.social_links.linkedin || ''} onChange={handleChange} />
             </div>
             <div>
               <Label>GitHub URL</Label>
-              <Input
-                type="url"
-                name="github"
-                value={formData.social_links.github || ''}
-                onChange={handleChange}
-              />
+              <Input type="url" name="github" value={formData.social_links.github || ''} onChange={handleChange} />
             </div>
             <div>
               <Label>Instagram URL</Label>
-              <Input
-                type="url"
-                name="instagram"
-                value={formData.social_links.instagram || ''}
-                onChange={handleChange}
-              />
+              <Input type="url" name="instagram" value={formData.social_links.instagram || ''} onChange={handleChange} />
             </div>
           </div>
         </div>
 
-        <div className="pt-6 border-t border-black/10">
-          <Button type="submit" disabled={saving} startIcon={<Save size={16} />}>
-            {saving ? 'Saving...' : 'Save Personal Info'}
-          </Button>
-        </div>
-      </form>
+        <p className="text-[10px] text-gray-400 uppercase tracking-wider pt-4 border-t border-black/10">
+          Changes are saved automatically
+        </p>
+      </div>
     </div>
   );
+}
+
+function SaveStatus({ state }) {
+  if (state === 'saving') {
+    return (
+      <span className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-gray-400">
+        <Loader2 size={14} className="animate-spin" /> Saving...
+      </span>
+    );
+  }
+  if (state === 'saved') {
+    return (
+      <span className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-green-600">
+        <Check size={14} /> Saved
+      </span>
+    );
+  }
+  if (state === 'error') {
+    return (
+      <span className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-red-600">
+        <AlertCircle size={14} /> Save failed
+      </span>
+    );
+  }
+  return null;
 }

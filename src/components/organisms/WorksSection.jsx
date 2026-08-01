@@ -1,15 +1,19 @@
+import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSupabaseList } from '../../hooks/useSupabaseData';
 import { slugify } from '../../utils/slugify';
 import { SectionHeader } from '../atoms/SectionHeader';
+import { useScrollAnimation } from '../../hooks/useScrollAnimation';
 
 export function WorksSection({ setActiveDetail }) {
   const { t } = useTranslation();
+  const [isExpanded, setIsExpanded] = useState(false);
   const [hoveredProject, setHoveredProject] = useState(null);
+  const { ref, isInView } = useScrollAnimation({ margin: '0px' });
   const { data: rawProjects, isLoading, error } = useSupabaseList('projects', {
-    order: { column: 'created_at', ascending: false },
-    limit: 6
+    order: { column: 'order_index', ascending: true },
+    limit: 50
   });
 
   if (isLoading) {
@@ -45,17 +49,28 @@ export function WorksSection({ setActiveDetail }) {
     };
   });
 
+  const visibleProjects = isExpanded ? projects : projects.slice(0, 5);
+
   return (
     <section id="works" className="relative z-20 w-full bg-[#FAFAFA] border-t border-gray-200 py-12 md:py-16 scroll-fade">
       <SectionHeader number="02" title={t('works.title')} />
       
-      <div className="flex flex-col hairline-t">
-        {projects.map((project, idx) => {
+      <motion.div 
+        ref={ref}
+        initial={{ opacity: 0 }}
+        animate={isInView ? { opacity: 1 } : { opacity: 1 }}
+        transition={{ duration: 0.4 }}
+        className="flex flex-col hairline-t"
+      >
+        {visibleProjects.map((project, idx) => {
           const titleKey = `project.${slugify(project.title)}.title`;
           const categoryKey = `project.${slugify(project.title)}.category`;
           return (
-            <div 
+            <motion.div 
               key={project.db_id || idx}
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: idx * 0.1, ease: [0.25, 0.1, 0.25, 1] }}
               onMouseEnter={() => setHoveredProject(project.title)}
               onMouseLeave={() => setHoveredProject(null)}
               onClick={() => setActiveDetail(project)}
@@ -82,10 +97,21 @@ export function WorksSection({ setActiveDetail }) {
                   ↗
                 </div>
               </div>
-            </div>
+            </motion.div>
           );
         })}
-      </div>
+      </motion.div>
+      
+      {projects.length > 5 && (
+        <div className="flex justify-center px-6 md:px-12 pt-12 md:pt-16">
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="inline-flex items-center justify-center border border-[#111111] bg-transparent text-[#111111] hover:bg-[#111111] hover:text-[#FAFAFA] transition-all duration-300 font-mono text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] px-8 py-4 cursor-pointer"
+          >
+            {isExpanded ? t('show_less') : t('see_all_works')}
+          </button>
+        </div>
+      )}
     </section>
   );
 }

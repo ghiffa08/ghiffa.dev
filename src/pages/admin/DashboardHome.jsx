@@ -3,10 +3,6 @@ import { Link } from 'react-router-dom';
 import { ProjectRepository } from '../../repositories/ProjectRepository';
 import { BioLinksRepository } from '../../repositories/BioLinksRepository';
 import { supabase } from '../../lib/supabaseClient';
-import { ATSResume } from '../../components/cv-templates/ATSResume';
-import { EditorialResume } from '../../components/cv-templates/EditorialResume';
-import { pdf } from '@react-pdf/renderer';
-import JSZip from 'jszip';
 import { 
   Briefcase, 
   Link as LinkIcon, 
@@ -59,27 +55,18 @@ export default function DashboardHome() {
 
     setSyncing(true);
     setSyncStatus('idle');
-    setSyncMessage('Generating PDFs...');
+    setSyncMessage('Loading PDF generator...');
 
     try {
-      // Generate ATS PDF blob
-      setSyncMessage('Generating ATS Resume PDF...');
-      const atsBlob = await pdf(<ATSResume data={resumeData} />).toBlob();
-
-      // Generate Editorial PDF blob
-      setSyncMessage('Generating Editorial Resume PDF...');
-      const editorialBlob = await pdf(<EditorialResume data={resumeData} />).toBlob();
-
-      // Zip them
-      setSyncMessage('Creating ZIP archive...');
-      const zip = new JSZip();
-      zip.file('CV_Haikal_Jibran_ATS.pdf', atsBlob);
-      zip.file('CV_Haikal_Jibran_Creative.pdf', editorialBlob);
-      const zipBlob = await zip.generateAsync({ type: 'blob' });
+      // Lazy load PDF generator module (code splitting)
+      const { generateResumeZip } = await import('../../utils/pdfGenerator');
+      
+      // Generate ZIP with progress callback
+      const zipBlob = await generateResumeZip(resumeData, setSyncMessage);
 
       // Upload to Supabase Storage
       setSyncMessage('Uploading resumes.zip to storage...');
-      const { data, error } = await supabase.storage
+      const { error } = await supabase.storage
         .from('portfolio-media')
         .upload('resumes.zip', zipBlob, { upsert: true });
 
@@ -141,25 +128,26 @@ export default function DashboardHome() {
       name: 'URL Shortener',
       description: 'Create and track short links for your campaigns.',
       icon: Link2,
-      path: '#',
-      status: 'coming_soon',
-      color: 'bg-gray-100 text-gray-400'
+      path: '/admin/panel/url-shortener',
+      status: 'active',
+      color: 'bg-indigo-50 text-indigo-600'
     },
     {
       name: 'QR Generator',
       description: 'Generate customized QR codes for your links.',
       icon: QrCode,
-      path: '#',
-      status: 'coming_soon',
-      color: 'bg-gray-100 text-gray-400'
+      path: '/admin/panel/qr-generator',
+      status: 'active',
+      color: 'bg-pink-50 text-pink-600'
     },
     {
       name: 'Web Analytics',
-      description: 'Track your portfolio and link-in-bio performance.',
+      description: 'Track your portfolio and link-in-bio performance with real-time visitor insights.',
       icon: BarChart3,
-      path: '#',
-      status: 'coming_soon',
-      color: 'bg-gray-100 text-gray-400'
+      path: 'https://analytics.google.com',
+      status: 'external',
+      color: 'bg-purple-50 text-purple-600',
+      external: true
     }
   ];
 
@@ -221,6 +209,11 @@ export default function DashboardHome() {
                       Active
                     </span>
                   )}
+                  {app.status === 'external' && (
+                    <span className="bg-purple-100 text-purple-700 text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-sm">
+                      External
+                    </span>
+                  )}
                 </div>
                 <h4 className="text-lg font-bold mb-2">{app.name}</h4>
                 <p className="text-sm text-gray-500 leading-relaxed">{app.description}</p>
@@ -234,6 +227,15 @@ export default function DashboardHome() {
                   >
                     Open App <ArrowRight size={16} className="ml-2" />
                   </Link>
+                ) : app.status === 'external' ? (
+                  <a 
+                    href={app.path}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center text-sm font-bold text-[#111111] hover:text-purple-600 transition-colors"
+                  >
+                    Open Analytics ↗
+                  </a>
                 ) : (
                   <span className="text-sm font-medium text-gray-400 flex items-center cursor-not-allowed">
                     In Development

@@ -60,10 +60,6 @@ export function BusinessCard3D({ email, phone, github, linkedin, instagram, hero
   const transformX = rotation.x;
   const transformY = isFlipped ? rotation.y + 180 : rotation.y;
 
-  const nameParts = hero?.headline_1 ? hero.headline_1.split(' ') : ['Haikal', 'Jibran'];
-  const firstName = nameParts.length <= 2 ? nameParts[0] || '' : nameParts.slice(0, 2).join(' ');
-  const lastName = nameParts.length <= 2 ? nameParts[1] || '' : nameParts.slice(2).join(' ');
-
   return (
     <div 
       className="perspective-1000 w-full max-w-[340px] h-[200px] md:max-w-[420px] md:h-[240px] mt-16 cursor-pointer mx-auto relative z-20"

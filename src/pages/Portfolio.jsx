@@ -18,6 +18,7 @@ import { ExperienceSection } from '../components/organisms/ExperienceSection';
 import { WorksSection } from '../components/organisms/WorksSection';
 import { EducationSection } from '../components/organisms/EducationSection';
 import { InstagramFeed } from '../components/organisms/InstagramFeed';
+import { ArticlesPreview } from '../components/organisms/ArticlesPreview';
 import { ContactSection } from '../components/organisms/ContactSection';
 import { Footer } from '../components/organisms/Footer';
 import { SEO } from '../components/atoms/SEO';
@@ -63,7 +64,24 @@ export default function Portfolio() {
     if (!activeDetail && slug) {
       fetchDetail();
     }
-  }, []); // Only run once on mount
+  }, [slug, activeDetail]); 
+
+  // Handle hash scrolling on mount or when hash changes
+  useEffect(() => {
+    if (location.pathname === '/' && location.hash) {
+      const timer = setTimeout(() => {
+        const target = location.hash;
+        if (document.querySelector(target)) {
+          if (window.lenis) {
+            window.lenis.scrollTo(target, { duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+          } else {
+            document.querySelector(target).scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      }, 300); // Give enough time for DOM to be fully ready
+      return () => clearTimeout(timer);
+    }
+  }, [location.hash, location.pathname]);
 
   const handleSetActiveDetail = (detail) => {
     setActiveDetail(detail);
@@ -194,6 +212,7 @@ export default function Portfolio() {
         <WorksSection setActiveDetail={handleSetActiveDetail} />
         <ExperienceSection />
         <EducationSection />
+        <ArticlesPreview />
         <InstagramFeed setHoveredArticleImg={setHoveredArticleImg} />
         <ContactSection />
         <Footer />

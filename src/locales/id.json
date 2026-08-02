@@ -131,5 +131,18 @@
   "course.banner.card3.title": "Evaluator Kode Langsung",
   "course.banner.card3.desc": "Kode kamu dieksekusi secara real-time. Umpan balik instan, validasi otomatis, tanpa hambatan konteks.",
   "course.banner.card4.title": "Papan Peringkat Liga",
-  "course.banner.card4.desc": "Bersaing dalam liga koding mingguan. Raih peringkatmu. Buat progres menjadi terukur dan terbuka."
+  "course.banner.card4.desc": "Bersaing dalam liga koding mingguan. Raih peringkatmu. Buat progres menjadi terukur dan terbuka.",
+  "nav.articles": "Artikel",
+  "articles.title": "Editorial",
+  "articles.subtitle": "Artikel & Wawasan",
+  "articles.search_placeholder": "Cari artikel...",
+  "articles.read_more": "BACA SELENGKAPNYA",
+  "articles.read_all": "LIHAT SEMUA ARTIKEL",
+  "articles.no_results": "Tidak ada artikel ditemukan.",
+  "articles.back": "KEMBALI KE ARTIKEL",
+  "articles.min_read": "menit baca",
+  "articles.latest": "Artikel Terbaru",
+  "articles.featured": "UNGGULAN",
+  "articles.draft": "DRAF",
+  "articles.published": "TERBIT"
 }

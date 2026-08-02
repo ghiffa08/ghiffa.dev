@@ -131,5 +131,18 @@
   "course.banner.card3.title": "Live Code Evaluator",
   "course.banner.card3.desc": "Your code runs in real-time. Instant feedback, automated assertions, zero context-switching.",
   "course.banner.card4.title": "League Leaderboard",
-  "course.banner.card4.desc": "Compete in weekly coding leagues. Earn your rank. Make progress measurable and public."
+  "course.banner.card4.desc": "Compete in weekly coding leagues. Earn your rank. Make progress measurable and public.",
+  "nav.articles": "Articles",
+  "articles.title": "The Editorial",
+  "articles.subtitle": "Articles & Insights",
+  "articles.search_placeholder": "Search articles...",
+  "articles.read_more": "READ MORE",
+  "articles.read_all": "READ ALL ARTICLES",
+  "articles.no_results": "No articles found.",
+  "articles.back": "BACK TO ARTICLES",
+  "articles.min_read": "min read",
+  "articles.latest": "Latest Articles",
+  "articles.featured": "FEATURED",
+  "articles.draft": "DRAFT",
+  "articles.published": "PUBLISHED"
 }

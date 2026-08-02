@@ -3,6 +3,7 @@ import { ProjectRepository } from '../repositories/ProjectRepository';
 import { ExperienceRepository } from '../repositories/ExperienceRepository';
 import { EducationRepository } from '../repositories/EducationRepository';
 import { SettingsRepository } from '../repositories/SettingsRepository';
+import { ArticleRepository } from '../repositories/ArticleRepository';
 
 // Fetcher routing the query through the respective Repository pattern methods
 const repositoryFetcher = async ({ table }) => {
@@ -17,6 +18,8 @@ const repositoryFetcher = async ({ table }) => {
       return SettingsRepository.getSettings();
     case 'personal_info':
       return SettingsRepository.getPersonalInfo();
+    case 'articles':
+      return ArticleRepository.getAllArticles();
     default:
       throw new Error(`Repository mapping not found for table/domain: ${table}`);
   }

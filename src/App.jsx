@@ -19,6 +19,9 @@ const EducationManager = lazy(() => import('./pages/admin/EducationManager'));
 const BioLinksManager = lazy(() => import('./pages/admin/BioLinksManager'));
 const URLShortenerManager = lazy(() => import('./pages/admin/URLShortenerManager'));
 const QRCodeGenerator = lazy(() => import('./pages/admin/QRCodeGenerator'));
+const ArticlesManager = lazy(() => import('./pages/admin/ArticlesManager'));
+const ArticlesPage = lazy(() => import('./pages/ArticlesPage'));
+const ArticleDetailPage = lazy(() => import('./pages/ArticleDetailPage'));
 
 // Admin Loading Fallback
 const AdminLoader = () => (
@@ -64,6 +67,7 @@ export default function App() {
           <Route path="projects" element={<ProjectsManager />} />
           <Route path="qualifications" element={<EducationManager />} />
           <Route path="links" element={<BioLinksManager />} />
+          <Route path="articles" element={<ArticlesManager />} />
           <Route path="url-shortener" element={<URLShortenerManager />} />
           <Route path="qr-generator" element={<QRCodeGenerator />} />
         </Route>
@@ -78,7 +82,16 @@ export default function App() {
     <Routes>
       {/* Public Route */}
       <Route path="/" element={<Portfolio />} />
-      <Route path="/article/:slug" element={<Portfolio />} />
+      <Route path="/article/:slug" element={
+        <Suspense fallback={<AdminLoader />}>
+          <ArticleDetailPage />
+        </Suspense>
+      } />
+      <Route path="/articles" element={
+        <Suspense fallback={<AdminLoader />}>
+          <ArticlesPage />
+        </Suspense>
+      } />
       <Route path="/project/:slug" element={<Portfolio />} />
       
       {/* Short URL Redirect */}
@@ -104,6 +117,7 @@ export default function App() {
         <Route path="projects" element={<ProjectsManager />} />
         <Route path="qualifications" element={<EducationManager />} />
         <Route path="links" element={<BioLinksManager />} />
+        <Route path="articles" element={<ArticlesManager />} />
         <Route path="url-shortener" element={<URLShortenerManager />} />
         <Route path="qr-generator" element={<QRCodeGenerator />} />
       </Route>

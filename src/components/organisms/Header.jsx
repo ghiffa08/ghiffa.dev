@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { LanguageSwitcher } from '../molecules/LanguageSwitcher';
 import { useSupabaseSingle } from '../../hooks/useSupabaseData';
 
@@ -9,6 +10,9 @@ export function Header() {
   const appName = settings?.app_name || 'ghiffa.dev';
   const [activeSection, setActiveSection] = useState('');
   const [isScrolled, setIsScrolled] = useState(false);
+  
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,10 +47,26 @@ export function Header() {
 
   const handleScrollTo = (e, targetId) => {
     e.preventDefault();
+    
+    if (location.pathname !== '/') {
+      // If we're not on the homepage, navigate to the homepage with the hash.
+      // Portfolio.jsx now has a useEffect to handle scrolling to the hash on mount.
+      navigate(targetId === 'body' ? '/' : `/${targetId}`);
+      return;
+    }
+
+    // Same-page smooth scroll
+    const target = targetId === 'body' ? 0 : targetId;
     if (window.lenis) {
-      window.lenis.scrollTo(targetId, { duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+      if (target === 0 || document.querySelector(target)) {
+        window.lenis.scrollTo(target, { duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+      }
     } else {
-      document.querySelector(targetId)?.scrollIntoView({ behavior: 'smooth' });
+      if (targetId !== 'body') {
+        document.querySelector(targetId)?.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     }
   };
 
@@ -66,6 +86,7 @@ export function Header() {
           <a href="#works" onClick={(e) => handleScrollTo(e, '#works')} className={`transition-colors ${activeSection === 'works' ? 'text-[#111111]' : 'hover:text-[#111111]'}`}>{t('nav.works')}</a>
           <a href="#process" onClick={(e) => handleScrollTo(e, '#process')} className={`transition-colors ${activeSection === 'process' ? 'text-[#111111]' : 'hover:text-[#111111]'}`}>{t('nav.experience')}</a>
           <a href="#journal" onClick={(e) => handleScrollTo(e, '#journal')} className={`transition-colors ${activeSection === 'journal' ? 'text-[#111111]' : 'hover:text-[#111111]'}`}>{t('nav.journal')}</a>
+          <Link to="/articles" className="transition-colors hover:text-[#111111]">{t('nav.articles')}</Link>
         </div>
 
         <div className="flex items-center gap-6">

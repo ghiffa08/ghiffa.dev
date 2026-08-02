@@ -8,7 +8,8 @@ import {
   History, 
   Briefcase, 
   GraduationCap, 
-  Link as LinkIcon 
+  Link as LinkIcon,
+  FileText
 } from 'lucide-react';
 
 const navItems = [
@@ -18,6 +19,7 @@ const navItems = [
   { name: 'Experiences', path: '/admin/panel/experiences', icon: History },
   { name: 'Projects', path: '/admin/panel/projects', icon: Briefcase },
   { name: 'Education', path: '/admin/panel/qualifications', icon: GraduationCap },
+  { name: 'Articles', path: '/admin/panel/articles', icon: FileText },
   { name: 'Bio Links', path: '/admin/panel/links', icon: LinkIcon },
 ];
 

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useSupabaseList } from '../../hooks/useSupabaseData';
 import { slugify } from '../../utils/slugify';
 import { SectionHeader } from '../atoms/SectionHeader';
+import { CourseBannerCTA } from './CourseBannerCTA';
 import { useScrollAnimation } from '../../hooks/useScrollAnimation';
 
 export function WorksSection({ setActiveDetail }) {
@@ -53,6 +54,7 @@ export function WorksSection({ setActiveDetail }) {
 
   return (
     <section id="works" className="relative z-20 w-full bg-[#FAFAFA] border-t border-gray-200 py-12 md:py-16 scroll-fade">
+      <CourseBannerCTA />
       <SectionHeader number="02" title={t('works.title')} />
       
       <motion.div 

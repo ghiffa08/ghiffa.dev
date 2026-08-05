@@ -7,6 +7,8 @@ import { useSmoothScroll } from '../hooks/useSmoothScroll';
 import { Header } from '../components/organisms/Header';
 import { Footer } from '../components/organisms/Footer';
 import { SEO } from '../components/atoms/SEO';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 /**
  * Format ISO timestamp into long readable format (e.g. "10 July 2026").
@@ -179,6 +181,8 @@ export default function ArticleDetailPage() {
         .article-content p { margin: 0 0 1.75rem; line-height: 1.85; color: #222222; font-size: 1.125rem; font-weight: 300; }
         .article-content ul, .article-content ol { margin: 0 0 1.75rem; padding-left: 1.75rem; color: #222222; font-size: 1.125rem; font-weight: 300; }
         .article-content li { margin-bottom: 0.6rem; line-height: 1.8; }
+        .article-content strong, .article-content b { font-weight: 700; color: #111111; }
+        .article-content em, .article-content i { font-style: italic; }
         .article-content blockquote { border-left: 3px solid #111111; margin: 2.25rem 0; padding: 1.25rem 1.75rem; background: #F5F5F5; font-style: italic; color: #444444; font-size: 1.15rem; }
         .article-content code { font-family: 'JetBrains Mono', monospace; background: #F0F0F0; padding: 0.15rem 0.45rem; font-size: 0.9rem; border: 1px solid #E5E5E5; }
         .article-content pre { background: #111111; color: #FAFAFA; padding: 1.5rem; overflow-x: auto; margin: 2rem 0; border: 1px solid #333; }
@@ -263,7 +267,9 @@ export default function ArticleDetailPage() {
         <section className="w-full bg-[#FAFAFA] py-8 md:py-12 flex-1">
           <div className="max-w-3xl mx-auto px-6 md:px-8">
             <div className="article-content">
-              <div dangerouslySetInnerHTML={{ __html: article.content }} />
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {article.content}
+              </ReactMarkdown>
             </div>
 
             {/* Article Footer */}

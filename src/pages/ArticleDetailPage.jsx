@@ -45,6 +45,16 @@ export default function ArticleDetailPage() {
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [igStoryCopied, setIgStoryCopied] = useState(false);
+  const [igDmCopied, setIgDmCopied] = useState(false);
+
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(window.location.href);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   useEffect(() => {
     async function fetchArticle() {
@@ -283,12 +293,20 @@ export default function ArticleDetailPage() {
                     {formatDateLong(article.published_at)}
                   </p>
                 </div>
-                <Link
-                  to="/articles"
-                  className="inline-flex items-center justify-center border border-[#111111] bg-transparent text-[#111111] hover:bg-[#111111] hover:text-[#FAFAFA] transition-all duration-300 font-mono text-[10px] font-bold uppercase tracking-[0.2em] px-6 py-3"
-                >
-                  ← {t('articles.back')}
-                </Link>
+                <div className="flex items-center gap-4">
+                  <button
+                    onClick={() => setShowShareModal(true)}
+                    className="inline-flex items-center justify-center border border-[#111111] bg-transparent text-[#111111] hover:bg-[#111111] hover:text-[#FAFAFA] transition-all duration-300 font-mono text-[10px] font-bold uppercase tracking-[0.2em] px-6 py-3 cursor-pointer"
+                  >
+                    SHARE ARTICLE
+                  </button>
+                  <Link
+                    to="/articles"
+                    className="inline-flex items-center justify-center border border-[#111111] bg-transparent text-[#111111] hover:bg-[#111111] hover:text-[#FAFAFA] transition-all duration-300 font-mono text-[10px] font-bold uppercase tracking-[0.2em] px-6 py-3"
+                  >
+                    ← {t('articles.back')}
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
@@ -296,6 +314,99 @@ export default function ArticleDetailPage() {
         </article>
 
         <Footer />
+
+        {/* Share Modal */}
+        {showShareModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-fade-in">
+            <div className="bg-white border border-[#E5E5E5] w-full max-w-md p-6 shadow-2xl relative">
+              <button 
+                onClick={() => setShowShareModal(false)}
+                className="absolute top-4 right-4 text-[#666666] hover:text-[#111111] p-2"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+              
+              <h3 className="font-serif-editorial text-2xl font-bold text-[#111111] mb-6">Share Article</h3>
+              
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                <a 
+                  href={`https://api.whatsapp.com/send?text=${encodeURIComponent(article.title + ' - ' + articleUrl)}`}
+                  target="_blank" rel="noreferrer"
+                  className="flex items-center justify-center gap-2 py-3 border border-[#E5E5E5] hover:bg-[#FAFAFA] transition-colors group"
+                >
+                  <span className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#111111] group-hover:text-[#666666]">WhatsApp</span>
+                </a>
+                <a 
+                  href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(articleUrl)}&text=${encodeURIComponent(article.title)}`}
+                  target="_blank" rel="noreferrer"
+                  className="flex items-center justify-center gap-2 py-3 border border-[#E5E5E5] hover:bg-[#FAFAFA] transition-colors group"
+                >
+                  <span className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#111111] group-hover:text-[#666666]">X / Twitter</span>
+                </a>
+                <a 
+                  href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(articleUrl)}`}
+                  target="_blank" rel="noreferrer"
+                  className="flex items-center justify-center gap-2 py-3 border border-[#E5E5E5] hover:bg-[#FAFAFA] transition-colors group"
+                >
+                  <span className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#111111] group-hover:text-[#666666]">LinkedIn</span>
+                </a>
+                
+                <button 
+                  onClick={() => {
+                    navigator.clipboard.writeText(window.location.href);
+                    setIgDmCopied(true);
+                    setTimeout(() => setIgDmCopied(false), 2000);
+                    window.open('https://www.instagram.com/direct/inbox/', '_blank');
+                  }}
+                  className="flex items-center justify-center gap-2 py-3 border border-[#E5E5E5] hover:bg-[#FAFAFA] transition-colors group"
+                >
+                  <span className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#111111] group-hover:text-[#666666]">
+                    {igDmCopied ? 'COPIED! OPENING IG...' : 'IG DM'}
+                  </span>
+                </button>
+                
+                <button 
+                  onClick={() => {
+                    if (navigator.share) {
+                      navigator.share({
+                        title: article.title,
+                        text: article.description,
+                        url: window.location.href,
+                      }).catch(console.error);
+                    } else {
+                      navigator.clipboard.writeText(window.location.href);
+                      setIgStoryCopied(true);
+                      setTimeout(() => setIgStoryCopied(false), 2000);
+                    }
+                  }}
+                  className="flex items-center justify-center gap-2 py-3 border border-[#E5E5E5] hover:bg-[#FAFAFA] transition-colors group col-span-2"
+                >
+                  <span className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#111111] group-hover:text-[#666666]">
+                    {igStoryCopied ? 'LINK COPIED! PASTE IN IG STORY' : 'IG STORY / SHARE'}
+                  </span>
+                </button>
+              </div>
+
+              <div className="border-t border-[#E5E5E5] pt-6">
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#666666] font-bold mb-3">Copy Link</p>
+                <div className="flex items-center gap-2">
+                  <input 
+                    type="text" 
+                    readOnly 
+                    value={articleUrl} 
+                    className="flex-1 bg-[#FAFAFA] border border-[#E5E5E5] px-3 py-3 font-mono text-xs text-[#666666] outline-none"
+                  />
+                  <button 
+                    onClick={handleCopyLink}
+                    className="px-6 py-3 bg-[#111111] text-[#FAFAFA] font-mono text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#333333] transition-colors min-w-[120px]"
+                  >
+                    {copied ? 'COPIED!' : 'COPY'}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
     </>
   );

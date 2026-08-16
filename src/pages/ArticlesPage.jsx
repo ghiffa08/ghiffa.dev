@@ -188,9 +188,9 @@ export default function ArticlesPage() {
                 )}
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 border-t border-l border-[#E5E5E5]">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                 {filtered.map((article, idx) => (
-                  <article key={article.id} className="group relative flex flex-col bg-white hover:bg-[#FAFAFA] transition-all duration-300 border-b border-r border-[#E5E5E5] animate-fade-in" style={{ animationDelay: `${idx * 80}ms`, opacity: 0 }}>
+                  <article key={article.id} className="group relative flex flex-col bg-white hover:bg-[#FAFAFA] transition-all duration-300 border border-[#E5E5E5] animate-fade-in" style={{ animationDelay: `${idx * 80}ms`, opacity: 0 }}>
                     <Link
                       to={`/article/${article.slug}`}
                       className="flex flex-col h-full w-full outline-none focus:ring-2 focus:ring-[#111111]"

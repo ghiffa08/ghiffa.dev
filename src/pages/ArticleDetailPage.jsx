@@ -80,14 +80,6 @@ export default function ArticleDetailPage() {
   if (loading) {
     return (
       <>
-        <style dangerouslySetInnerHTML={{__html: `
-          @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800;900&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
-          :root { --bg-light: #FAFAFA; --text-dark: #111111; --border: #E5E5E5; }
-          body { background-color: var(--bg-light); color: var(--text-dark); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
-          .font-mono { font-family: 'JetBrains Mono', monospace; }
-          .font-serif-editorial { font-family: 'Playfair Display', serif; }
-          ::selection { background: var(--text-dark); color: var(--bg-light); }
-        `}} />
         <main className="relative w-full z-10 min-h-screen flex flex-col items-center justify-center selection:bg-[#111111] selection:text-[#FAFAFA]">
           <div className="flex flex-col items-center gap-4">
             <div className="w-8 h-8 border-4 border-[#111111] border-t-transparent rounded-full animate-spin"></div>
@@ -103,14 +95,6 @@ export default function ArticleDetailPage() {
   if (notFound) {
     return (
       <>
-        <style dangerouslySetInnerHTML={{__html: `
-          @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800;900&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
-          :root { --bg-light: #FAFAFA; --text-dark: #111111; --border: #E5E5E5; }
-          body { background-color: var(--bg-light); color: var(--text-dark); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
-          .font-mono { font-family: 'JetBrains Mono', monospace; }
-          .font-serif-editorial { font-family: 'Playfair Display', serif; }
-          ::selection { background: var(--text-dark); color: var(--bg-light); }
-        `}} />
         <main className="relative w-full z-10 min-h-screen flex flex-col items-center justify-center selection:bg-[#111111] selection:text-[#FAFAFA]">
           <Header />
           <div className="flex flex-col items-center gap-6 pt-32">
@@ -159,8 +143,6 @@ export default function ArticleDetailPage() {
       />
 
       <style dangerouslySetInnerHTML={{__html: `
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800;900&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
-        
         :root {
           --bg-light: #FAFAFA;
           --bg-card: #FFFFFF;
@@ -268,6 +250,9 @@ export default function ArticleDetailPage() {
                 src={article.cover_image}
                 alt={article.title}
                 className="w-full h-full object-cover"
+                fetchpriority="high"
+                loading="eager"
+                decoding="async"
               />
             </div>
           </div>

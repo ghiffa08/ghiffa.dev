@@ -318,7 +318,7 @@ export default function ArticleDetailPage() {
         {/* Share Modal */}
         {showShareModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-fade-in">
-            <div className="bg-white border border-[#E5E5E5] w-full max-w-md p-6 shadow-2xl relative">
+            <div className="bg-white border border-[#E5E5E5] w-[90%] max-w-[400px] p-6 sm:p-8 shadow-2xl relative">
               <button 
                 onClick={() => setShowShareModal(false)}
                 className="absolute top-4 right-4 text-[#666666] hover:text-[#111111] p-2"
@@ -328,7 +328,7 @@ export default function ArticleDetailPage() {
               
               <h3 className="font-serif-editorial text-2xl font-bold text-[#111111] mb-6">Share Article</h3>
               
-              <div className="grid grid-cols-2 gap-4 mb-6">
+              <div className="grid grid-cols-2 gap-3 mb-6">
                 <a 
                   href={`https://api.whatsapp.com/send?text=${encodeURIComponent(article.title + ' - ' + articleUrl)}`}
                   target="_blank" rel="noreferrer"
@@ -356,12 +356,21 @@ export default function ArticleDetailPage() {
                     navigator.clipboard.writeText(window.location.href);
                     setIgDmCopied(true);
                     setTimeout(() => setIgDmCopied(false), 2000);
-                    window.open('https://www.instagram.com/direct/inbox/', '_blank');
+                    
+                    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                    if (isMobile) {
+                      window.location.href = 'instagram://';
+                      setTimeout(() => {
+                        window.open('https://www.instagram.com/direct/inbox/', '_blank');
+                      }, 1000);
+                    } else {
+                      window.open('https://www.instagram.com/direct/inbox/', '_blank');
+                    }
                   }}
                   className="flex items-center justify-center gap-2 py-3 border border-[#E5E5E5] hover:bg-[#FAFAFA] transition-colors group"
                 >
                   <span className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#111111] group-hover:text-[#666666]">
-                    {igDmCopied ? 'COPIED! OPENING IG...' : 'IG DM'}
+                    {igDmCopied ? 'COPIED!' : 'IG DM'}
                   </span>
                 </button>
                 

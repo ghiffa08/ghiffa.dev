@@ -74,7 +74,7 @@ export function CourseBannerCTA() {
 
               {/* Domain headline */}
               <h3 className="text-[1.4rem] sm:text-5xl md:text-6xl font-black tracking-tighter text-[#111111] uppercase leading-none mb-5 whitespace-nowrap">
-                {t('course.banner.title', 'course.ghiffa.dev')}
+                {t('course.banner.title', 'skillstreak.web.id')}
               </h3>
 
               {/* Serif sub-headline */}
@@ -84,7 +84,7 @@ export function CourseBannerCTA() {
 
               {/* Body copy */}
               <p className="text-sm text-[#666666] leading-relaxed max-w-xl text-justify md:text-left">
-                {t('course.banner.description', 'Most developers quit because learning feels like a grind with no visible progress. course.ghiffa.dev changes the feedback loop. You earn XP, unlock levels, maintain streaks, and ship real projects while the system adapts to your pace. Built with the engagement mechanics of Duolingo, applied to serious software engineering.')}
+                {t('course.banner.description', 'Most developers quit because learning feels like a grind with no visible progress. skillstreak.web.id changes the feedback loop. You earn XP, unlock levels, maintain streaks, and ship real projects while the system adapts to your pace. Built with the engagement mechanics of Duolingo, applied to serious software engineering.')}
               </p>
             </div>
 
@@ -137,7 +137,7 @@ export function CourseBannerCTA() {
             {/* CTA */}
             <div className="px-6 md:px-8 py-6 border-t border-[#E5E5E5]">
               <a
-                href="https://course.ghiffa.dev"
+                href="https://skillstreak.web.id"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group/btn w-full inline-flex items-center justify-between border border-[#111111] bg-[#111111] text-[#FAFAFA] hover:bg-transparent hover:text-[#111111] transition-all duration-300 font-mono text-[10px] font-bold uppercase tracking-[0.22em] px-6 py-4"

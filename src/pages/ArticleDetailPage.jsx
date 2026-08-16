@@ -314,11 +314,8 @@ export default function ArticleDetailPage() {
         </article>
 
         <Footer />
-
-        {/* Share Modal */}
-        )}
       </main>
-      
+
       {/* ── SHARE MODAL ─────────────────────────────────── */}
       {showShareModal && (
         <div

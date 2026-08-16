@@ -215,7 +215,6 @@ export default function Portfolio() {
         <ArticlesPreview />
         <InstagramFeed setHoveredArticleImg={setHoveredArticleImg} />
         <ContactSection />
-        <Footer />
       </main>
     </>
   );

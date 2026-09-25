@@ -20,9 +20,13 @@ export const TableBody = ({ children, className = "" }) => {
   return <tbody className={`divide-y divide-black/10 bg-white ${className}`}>{children}</tbody>;
 };
 
-export const TableRow = ({ children, className = "" }) => {
-  return <tr className={`hover:bg-gray-50 transition-colors ${className}`}>{children}</tr>;
-};
+export const TableRow = React.forwardRef(({ children, className = "", style, ...props }, ref) => {
+  return (
+    <tr ref={ref} style={style} className={`hover:bg-gray-50 transition-colors ${className}`} {...props}>
+      {children}
+    </tr>
+  );
+});
 
 export const TableCell = ({ children, isHeader = false, className = "" }) => {
   const CellTag = isHeader ? "th" : "td";

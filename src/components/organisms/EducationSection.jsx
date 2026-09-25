@@ -38,7 +38,7 @@ function CertificateCard({ item }) {
 
   if (!hasMedia) {
     return (
-      <div className="break-inside-avoid mb-4 p-6 border-2 border-black bg-white flex flex-col justify-between">
+      <div className="p-6 border-2 border-black bg-white flex flex-col justify-between">
         <div>
           <div className="w-8 h-8 rounded-full bg-[#FAFAFA] border border-black flex items-center justify-center text-[10px] font-mono font-bold mb-4 uppercase">
             {item.type === 'haki' ? 'IP' : 'CRT'}
@@ -66,7 +66,7 @@ function CertificateCard({ item }) {
   }
 
   return (
-    <div className="break-inside-avoid mb-4 relative overflow-hidden border-2 border-black group bg-gray-100 flex flex-col">
+    <div className="relative overflow-hidden border-2 border-black group bg-gray-100 flex flex-col">
       <img
         src={displayImageUrl}
         alt={t(titleKey, item.title)}
@@ -174,6 +174,76 @@ function CertificateCard({ item }) {
   );
 }
 
+function StableMasonry({ items, renderItem, cols = 3 }) {
+  const [aspectRatios, setAspectRatios] = useState({});
+
+  useEffect(() => {
+    let mounted = true;
+    items.forEach(item => {
+      if (item.certificate_url && !aspectRatios[item.id]) {
+        const img = new Image();
+        img.onload = () => {
+          if (mounted) {
+            setAspectRatios(prev => ({
+              ...prev,
+              [item.id]: img.naturalHeight / img.naturalWidth
+            }));
+          }
+        };
+        img.onerror = () => {
+          if (mounted) {
+            setAspectRatios(prev => ({ ...prev, [item.id]: 1 }));
+          }
+        };
+        const displayUrl = item.certificate_url.toLowerCase().endsWith('.pdf') 
+          ? item.certificate_url.replace(/\.pdf$/i, '.jpg') 
+          : item.certificate_url;
+        img.src = displayUrl;
+      }
+    });
+    return () => { mounted = false; };
+  }, [items, aspectRatios]);
+
+  const [currentCols, setCurrentCols] = useState(cols);
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) setCurrentCols(1);
+      else if (window.innerWidth < 1024) setCurrentCols(2);
+      else setCurrentCols(cols);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [cols]);
+
+  const columns = Array.from({ length: currentCols }, () => []);
+  const colHeights = Array.from({ length: currentCols }, () => 0);
+
+  items.forEach(item => {
+    const ratio = aspectRatios[item.id] || 1.4; // Default to portrait if loading
+    let minHeight = colHeights[0];
+    let minIndex = 0;
+    for (let i = 1; i < currentCols; i++) {
+      if (colHeights[i] < minHeight) {
+        minHeight = colHeights[i];
+        minIndex = i;
+      }
+    }
+    columns[minIndex].push(item);
+    colHeights[minIndex] += (ratio + 0.4); 
+  });
+
+  return (
+    <div className={`grid gap-4 ${currentCols === 1 ? 'grid-cols-1' : currentCols === 2 ? 'grid-cols-2' : 'grid-cols-3'}`}>
+      {columns.map((col, i) => (
+        <div key={i} className="flex flex-col gap-4">
+          {col.map(item => renderItem(item))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export function EducationSection() {
   const { t } = useTranslation();
   const { data: qualifications, isLoading, error } = useSupabaseList('qualifications', {
@@ -195,13 +265,12 @@ export function EducationSection() {
 
   const educations = qualifications.filter(q => q.type === 'education');
   const honors = qualifications.filter(q => q.type === 'honor');
-  const certs = qualifications.filter(q => q.type === 'certification');
-  const hakis = qualifications.filter(q => q.type === 'haki');
   const jurnals = qualifications.filter(q => q.type === 'jurnal' || q.type === 'journal');
   const patens = qualifications.filter(q => q.type === 'paten' || q.type === 'patent');
 
-  const combined = [...hakis, ...certs];
-  const displayedItems = isExpanded ? combined : combined.slice(0, 6);
+  const certTypes = ['haki', 'certification', 'certificate'];
+  const combined = qualifications.filter(q => certTypes.includes(q.type));
+  const displayedItems = isExpanded ? combined : combined.slice(0, 8);
 
   return (
     <section id="achievements" className="relative z-20 w-full bg-[#FAFAFA] border-t border-gray-200 py-12 md:py-16 scroll-fade">
@@ -396,13 +465,12 @@ export function EducationSection() {
             </div>
 
             <div className="md:col-span-9">
-              <div className="columns-1 md:columns-2 lg:columns-3 gap-4">
-                {displayedItems.map((item) => (
-                  <CertificateCard key={item.id} item={item} />
-                ))}
-              </div>
+              <StableMasonry 
+                items={displayedItems} 
+                renderItem={(item) => <CertificateCard key={item.id} item={item} />} 
+              />
 
-              {combined.length > 6 && (
+              {combined.length > 8 && (
                 <div className="mt-8 flex justify-start">
                   <button
                     onClick={() => setIsExpanded(!isExpanded)}

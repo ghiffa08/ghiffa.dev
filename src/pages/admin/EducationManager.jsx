@@ -1,7 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Edit2, Trash2, Image as ImageIcon } from 'lucide-react';
+import { Plus, Edit2, Trash2, Image as ImageIcon, GripVertical, List, Grid2x2 } from 'lucide-react';
 import { EducationRepository } from '../../repositories/EducationRepository';
 import { uploadToCloudinary } from '../../utils/cloudinary';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+  rectSortingStrategy,
+  useSortable
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 // Monochromatic UI elements
 import Button from '../../components/admin-ui/Button';
@@ -9,10 +26,165 @@ import { Input, TextArea } from '../../components/admin-ui/Input';
 import Label from '../../components/admin-ui/Label';
 import { Table, TableHeader, TableBody, TableRow, TableCell } from '../../components/admin-ui/Table';
 
+const SortableTableRow = ({ item, index, onEdit, onDelete }) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging
+  } = useSortable({ id: item.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    ...(isDragging ? { position: 'relative', zIndex: 50, opacity: 0.8, backgroundColor: '#f9fafb', boxShadow: '0 5px 15px rgba(0,0,0,0.1)' } : {})
+  };
+
+  return (
+    <TableRow ref={setNodeRef} style={style} className={isDragging ? 'shadow-lg bg-gray-50' : ''}>
+      <TableCell className="font-mono text-sm">
+        <div className="flex items-center gap-3">
+          <button {...attributes} {...listeners} className="cursor-grab text-gray-400 hover:text-black touch-none">
+            <GripVertical size={16} />
+          </button>
+          {index + 1}
+        </div>
+      </TableCell>
+      <TableCell className="font-mono text-sm text-gray-500">{item.period}</TableCell>
+      <TableCell>
+        <div className="font-bold">{item.title}</div>
+        <div className="text-sm text-gray-500">{item.institution}</div>
+      </TableCell>
+      <TableCell className="text-right">
+        <button onClick={() => onEdit(item)} className="text-blue-500 hover:text-blue-700 mr-4"><Edit2 size={18} /></button>
+        <button onClick={() => onDelete(item.id)} className="text-red-500 hover:text-red-700"><Trash2 size={18} /></button>
+      </TableCell>
+    </TableRow>
+  );
+};
+
+const SortableGridItem = ({ item, index }) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging
+  } = useSortable({ id: item.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    ...(isDragging ? { position: 'relative', zIndex: 50, opacity: 0.9, boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' } : {})
+  };
+
+  const isPdf = item.certificate_url?.toLowerCase().endsWith('.pdf');
+  const displayImageUrl = isPdf ? item.certificate_url.replace(/\.pdf$/i, '.jpg') : item.certificate_url;
+
+  return (
+    <div 
+      ref={setNodeRef} 
+      style={style} 
+      {...attributes} 
+      {...listeners}
+      className={`relative cursor-grab bg-white border-2 touch-none flex flex-col overflow-hidden transition-all duration-300 ${isDragging ? 'border-[#111111] z-50 scale-105' : 'border-[#E5E5E5] hover:border-gray-400'}`}
+    >
+      <div className="absolute top-2 left-2 bg-[#111111] text-white text-[10px] px-2 py-1 font-mono font-bold z-10 border border-[#111111]">
+        {index + 1}
+      </div>
+      <div className="w-full bg-gray-100 flex items-center justify-center border-b border-[#E5E5E5]">
+        {displayImageUrl ? (
+          <img src={displayImageUrl} alt={item.title} className="w-full h-auto object-cover pointer-events-none" />
+        ) : (
+          <div className="text-xs font-mono text-gray-400 p-8">NO IMAGE</div>
+        )}
+      </div>
+      <div className="p-3">
+        <h4 className="text-xs font-bold uppercase" title={item.title}>{item.title}</h4>
+        <p className="text-[10px] text-gray-500 mt-1">{item.institution}</p>
+      </div>
+    </div>
+  );
+};
+
+function StableMasonry({ items, renderItem, cols = 3 }) {
+  const [aspectRatios, setAspectRatios] = useState({});
+
+  useEffect(() => {
+    let mounted = true;
+    items.forEach(item => {
+      if (item.certificate_url && !aspectRatios[item.id]) {
+        const img = new Image();
+        img.onload = () => {
+          if (mounted) {
+            setAspectRatios(prev => ({
+              ...prev,
+              [item.id]: img.naturalHeight / img.naturalWidth
+            }));
+          }
+        };
+        img.onerror = () => {
+          if (mounted) {
+            setAspectRatios(prev => ({ ...prev, [item.id]: 1 }));
+          }
+        };
+        const displayUrl = item.certificate_url.toLowerCase().endsWith('.pdf') 
+          ? item.certificate_url.replace(/\.pdf$/i, '.jpg') 
+          : item.certificate_url;
+        img.src = displayUrl;
+      }
+    });
+    return () => { mounted = false; };
+  }, [items, aspectRatios]);
+
+  const [currentCols, setCurrentCols] = useState(cols);
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) setCurrentCols(1);
+      else if (window.innerWidth < 1024) setCurrentCols(2);
+      else setCurrentCols(cols);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [cols]);
+
+  const columns = Array.from({ length: currentCols }, () => []);
+  const colHeights = Array.from({ length: currentCols }, () => 0);
+
+  items.forEach(item => {
+    const ratio = aspectRatios[item.id] || 1.4; // Default to portrait if loading
+    let minHeight = colHeights[0];
+    let minIndex = 0;
+    for (let i = 1; i < currentCols; i++) {
+      if (colHeights[i] < minHeight) {
+        minHeight = colHeights[i];
+        minIndex = i;
+      }
+    }
+    columns[minIndex].push(item);
+    colHeights[minIndex] += (ratio + 0.4); 
+  });
+
+  return (
+    <div className={`grid gap-6 ${currentCols === 1 ? 'grid-cols-1' : currentCols === 2 ? 'grid-cols-2' : 'grid-cols-3'}`}>
+      {columns.map((col, i) => (
+        <div key={i} className="flex flex-col gap-6">
+          {col.map(item => renderItem(item))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function EducationManager() {
   const [qualifications, setQualifications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('education'); // 'education', 'honor', 'certification'
+  const [viewMode, setViewMode] = useState('table'); // 'table' or 'grid'
   
   // Form state
   const [isEditing, setIsEditing] = useState(false);
@@ -32,6 +204,13 @@ export default function EducationManager() {
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState('');
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
   useEffect(() => {
     fetchQualifications();
@@ -54,7 +233,61 @@ export default function EducationManager() {
     }
   };
 
-  const filteredData = qualifications.filter(q => q.type === activeTab);
+  const filteredData = [...qualifications]
+    .filter(q => {
+      if (activeTab === 'certification') {
+        return ['certification', 'certificate', 'haki'].includes(q.type);
+      }
+      return q.type === activeTab;
+    })
+    .sort((a, b) => a.order_index - b.order_index);
+
+  const handleDragEnd = async (event) => {
+    const { active, over } = event;
+
+    if (over && active.id !== over.id) {
+      const oldIndex = filteredData.findIndex((item) => item.id === active.id);
+      const newIndex = filteredData.findIndex((item) => item.id === over.id);
+
+      // PERFORM DIRECT SWAP INSTEAD OF ARRAY MOVE (Prevents shifting other items)
+      const newFilteredData = [...filteredData];
+      const temp = newFilteredData[oldIndex];
+      newFilteredData[oldIndex] = newFilteredData[newIndex];
+      newFilteredData[newIndex] = temp;
+      
+      // Update order_index for items starting from 0 or 1
+      const updatedItems = newFilteredData.map((item, index) => ({
+        ...item,
+        order_index: index
+      }));
+
+      // Immediately update local state so UI doesn't bounce
+      const newQualifications = qualifications.map(q => {
+        const updated = updatedItems.find(u => u.id === q.id);
+        return updated ? updated : q;
+      });
+      
+      setQualifications(newQualifications);
+
+      // Save to database
+      try {
+        const payloadToUpdate = updatedItems.map(item => ({
+          id: item.id,
+          type: item.type,
+          period: item.period,
+          title: item.title,
+          institution: item.institution,
+          description: item.description,
+          order_index: item.order_index,
+          certificate_url: item.certificate_url || null
+        }));
+        await EducationRepository.batchUpdateQualifications(payloadToUpdate);
+      } catch (err) {
+        alert('Failed to save new order: ' + err.message);
+        fetchQualifications(); // revert to original on error
+      }
+    }
+  };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -144,7 +377,7 @@ export default function EducationManager() {
   };
 
   const handleAddNew = () => {
-    setFormData({ id: null, type: activeTab, period: '', title: '', institution: '', description: '', order_index: filteredData.length + 1, certificate_url: '' });
+    setFormData({ id: null, type: activeTab, period: '', title: '', institution: '', description: '', order_index: filteredData.length, certificate_url: '' });
     setPreview('');
     setSelectedFile(null);
     setIsEditing(true);
@@ -174,6 +407,7 @@ export default function EducationManager() {
                 <option value="education">Education</option>
                 <option value="honor">Honor / Award</option>
                 <option value="certification">Certification</option>
+                <option value="haki">IP / HAKI</option>
               </select>
             </div>
             <div>
@@ -183,17 +417,13 @@ export default function EducationManager() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <Label>Order Index</Label>
-              <Input type="number" required value={formData.order_index} onChange={(e) => setFormData({...formData, order_index: parseInt(e.target.value)})} />
-            </div>
-            <div>
               <Label>Title</Label>
               <Input type="text" required value={formData.title} onChange={(e) => setFormData({...formData, title: e.target.value})} placeholder="e.g. S1 Teknik Informatika" />
             </div>
-          </div>
-          <div>
-            <Label>Institution</Label>
-            <Input type="text" required value={formData.institution} onChange={(e) => setFormData({...formData, institution: e.target.value})} />
+            <div>
+              <Label>Institution</Label>
+              <Input type="text" required value={formData.institution} onChange={(e) => setFormData({...formData, institution: e.target.value})} />
+            </div>
           </div>
           <div>
             <Label>Description (Optional)</Label>
@@ -258,49 +488,111 @@ export default function EducationManager() {
         </Button>
       </div>
 
-      <div className="flex space-x-4 mb-6">
-        {['education', 'honor', 'certification'].map(tab => (
-          <button 
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-            className={`font-mono text-xs font-bold uppercase tracking-widest pb-2 border-b-2 transition-colors ${activeTab === tab ? 'border-[#111111] text-[#111111]' : 'border-transparent text-gray-400 hover:text-gray-600'}`}
-          >
-            {tab}s
-          </button>
-        ))}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+        <div className="flex space-x-4">
+          {['education', 'honor', 'certification'].map(tab => (
+            <button 
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`font-mono text-xs font-bold uppercase tracking-widest pb-2 border-b-2 transition-colors ${activeTab === tab ? 'border-[#111111] text-[#111111]' : 'border-transparent text-gray-400 hover:text-gray-600'}`}
+            >
+              {tab === 'certification' ? 'CERTIFICATIONS & IP' : tab + 's'}
+            </button>
+          ))}
+        </div>
+
+        {activeTab === 'certification' && (
+          <div className="flex border border-[#E5E5E5] bg-white">
+            <button 
+              onClick={() => setViewMode('table')} 
+              className={`px-3 py-2 flex items-center gap-2 text-[10px] sm:text-xs font-mono font-bold transition-colors ${viewMode === 'table' ? 'bg-[#111111] text-white' : 'hover:bg-gray-50 text-gray-500'}`}
+            >
+              <List size={14} /> TABLE MODE
+            </button>
+            <button 
+              onClick={() => setViewMode('grid')} 
+              className={`px-3 py-2 flex items-center gap-2 text-[10px] sm:text-xs font-mono font-bold transition-colors ${viewMode === 'grid' ? 'bg-[#111111] text-white' : 'hover:bg-gray-50 text-gray-500'}`}
+            >
+              <Grid2x2 size={14} /> VISUAL GRID MODE
+            </button>
+          </div>
+        )}
       </div>
 
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableCell isHeader>Order</TableCell>
-            <TableCell isHeader>Period</TableCell>
-            <TableCell isHeader>Title / Institution</TableCell>
-            <TableCell isHeader className="text-right">Actions</TableCell>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {filteredData.map(item => (
-            <TableRow key={item.id}>
-              <TableCell className="font-mono text-sm">{item.order_index}</TableCell>
-              <TableCell className="font-mono text-sm text-gray-500">{item.period}</TableCell>
-              <TableCell>
-                <div className="font-bold">{item.title}</div>
-                <div className="text-sm text-gray-500">{item.institution}</div>
-              </TableCell>
-              <TableCell className="text-right">
-                <button onClick={() => handleEdit(item)} className="text-blue-500 hover:text-blue-700 mr-4"><Edit2 size={18} /></button>
-                <button onClick={() => handleDelete(item.id)} className="text-red-500 hover:text-red-700"><Trash2 size={18} /></button>
-              </TableCell>
-            </TableRow>
-          ))}
-          {filteredData.length === 0 && (
+      {viewMode === 'table' || activeTab !== 'certification' ? (
+        <Table>
+          <TableHeader>
             <TableRow>
-              <TableCell colSpan={4} className="text-center text-gray-500 py-8 font-mono">No items found for {activeTab}.</TableCell>
+              <TableCell isHeader>Order</TableCell>
+              <TableCell isHeader>Period</TableCell>
+              <TableCell isHeader>Title / Institution</TableCell>
+              <TableCell isHeader className="text-right">Actions</TableCell>
             </TableRow>
+          </TableHeader>
+          <TableBody>
+            <DndContext 
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
+            >
+              <SortableContext 
+                items={filteredData.map(item => item.id)}
+                strategy={verticalListSortingStrategy}
+              >
+                {filteredData.map((item, index) => (
+                  <SortableTableRow 
+                    key={item.id} 
+                    item={item} 
+                    index={index}
+                    onEdit={handleEdit} 
+                    onDelete={handleDelete} 
+                  />
+                ))}
+              </SortableContext>
+            </DndContext>
+            {filteredData.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={4} className="text-center text-gray-500 py-8 font-mono">No items found for {activeTab}.</TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      ) : (
+        <div className="bg-[#FAFAFA] p-4 sm:p-6 border border-[#E5E5E5]">
+          <div className="mb-6 pb-4 border-b border-[#E5E5E5]">
+            <h3 className="font-mono font-bold text-sm uppercase">Visual Grid Layout Editor</h3>
+            <p className="text-xs text-gray-500 mt-1 max-w-2xl">
+              Drag and drop the certificates to arrange how they will physically appear on the masonry grid layout in the front-end. The grid flows left-to-right exactly like the live website.
+            </p>
+          </div>
+          
+          <DndContext 
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+          >
+            <SortableContext 
+              items={filteredData.map(item => item.id)}
+              strategy={() => null} // Disables chaotic live-shifting
+            >
+              <StableMasonry 
+                items={filteredData} 
+                renderItem={(item) => (
+                  <SortableGridItem 
+                    key={item.id} 
+                    item={item} 
+                    index={filteredData.findIndex(q => q.id === item.id)} 
+                  />
+                )} 
+              />
+            </SortableContext>
+          </DndContext>
+          
+          {filteredData.length === 0 && (
+            <div className="text-center text-gray-500 py-8 font-mono">No items found for {activeTab}.</div>
           )}
-        </TableBody>
-      </Table>
+        </div>
+      )}
     </div>
   );
 }

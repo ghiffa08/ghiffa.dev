@@ -62,5 +62,18 @@ export const EducationRepository = {
       .eq('id', id);
     if (error) throw new Error(error.message);
     return true;
+  },
+
+  /**
+   * Batch update qualifications (useful for reordering).
+   * @param {Array<Object>} payloadArray Array of items with 'id' and fields to update.
+   */
+  async batchUpdateQualifications(payloadArray) {
+    const { data, error } = await supabase
+      .from('qualifications')
+      .upsert(payloadArray, { onConflict: 'id' })
+      .select();
+    if (error) throw new Error(error.message);
+    return data;
   }
 };

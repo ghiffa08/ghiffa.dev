@@ -204,9 +204,7 @@ export default function Portfolio() {
         <Header />
         
         {/* Section 1: Hero */}
-        <section className="sticky top-0 w-full h-screen flex flex-col justify-center items-center z-0 overflow-hidden bg-transparent">
-          <HeroSection />
-        </section>
+        <HeroSection />
 
         <AboutSection onDownloadCV={() => setIsCVModalOpen(true)} />
         <WorksSection setActiveDetail={handleSetActiveDetail} />

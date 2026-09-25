@@ -35,127 +35,104 @@ const FEATURES = [
 
 export function CourseBannerCTA() {
   const { t } = useTranslation();
-  const { ref, isInView } = useScrollAnimation({ margin: '0px' });
+  const { ref, isInView } = useScrollAnimation({ margin: '-50px' });
 
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 24 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
-      transition={{ duration: 0.55, ease: [0.25, 0.1, 0.25, 1] }}
-      className="w-full px-6 md:px-12 mb-16 md:mb-20"
-    >
-      <div className="w-full border border-[#111111] bg-white overflow-hidden">
-
-        {/* Top strip */}
-        <div className="flex items-center justify-between px-6 md:px-10 py-3 bg-[#111111] gap-4">
-          <span className="font-mono text-[9px] md:text-[10px] uppercase tracking-[0.18em] md:tracking-[0.22em] font-bold text-[#FAFAFA] leading-tight">
-            {t('course.banner.tag', 'NEW PLATFORM // COMING SOON')}
-          </span>
-          <div className="flex items-center gap-2 shrink-0">
-            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-            <span className="font-mono text-[9px] md:text-[10px] uppercase tracking-[0.18em] md:tracking-[0.22em] font-bold text-[#FAFAFA] whitespace-nowrap">
-              {t('course.banner.status', 'COMING SOON')}
+    <section className="w-full px-6 md:px-12 mb-24 md:mb-40 overflow-hidden">
+      <motion.div
+        ref={ref}
+        initial={{ opacity: 0, y: 40 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="max-w-screen-2xl mx-auto flex flex-col gap-12 md:gap-20"
+      >
+        {/* Header / Meta */}
+        <div className="flex justify-between items-start border-t-2 border-[#111111] pt-6 md:pt-8">
+          <div className="flex flex-col gap-1">
+            <span className="font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold text-[#111111]">
+              {t('course.banner.subtitle', '[ Coding Course ]')}
+            </span>
+            <span className="font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold text-[#666666]">
+              {t('course.banner.tag', 'New Platform')}
+            </span>
+          </div>
+          <div className="flex items-center gap-3 shrink-0">
+            <span className="w-2 h-2 rounded-full bg-[#111111] animate-pulse" />
+            <span className="font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold text-[#111111] whitespace-nowrap">
+              {t('course.banner.status', 'Coming Soon')}
             </span>
           </div>
         </div>
 
-        {/* Main body: stacks on mobile, side-by-side on lg */}
-        <div className="flex flex-col lg:grid lg:grid-cols-12">
+        {/* Massive Headline */}
+        <div className="flex flex-col w-full">
+          <h2 className="text-[14vw] sm:text-[13vw] lg:text-[12vw] leading-[0.8] font-black tracking-tighter uppercase text-[#111111] -ml-[1vw]">
+            SKILLSTREAK
+          </h2>
+          <h2 className="text-[14vw] sm:text-[13vw] lg:text-[12vw] leading-[0.8] font-black tracking-tighter uppercase text-[#E5E5E5] -ml-[1vw]">
+            WEB.ID
+          </h2>
+        </div>
 
-          {/* LEFT: editorial copy */}
-          <div className="lg:col-span-7 px-6 md:px-10 py-8 md:py-12 flex flex-col justify-between border-b border-[#E5E5E5] lg:border-b-0 lg:border-r lg:border-[#E5E5E5]">
-
+        {/* Content Grid */}
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-16 lg:gap-24 pt-12 md:pt-16 border-t border-[#E5E5E5]">
+          
+          {/* Left: Copy & CTA */}
+          <div className="xl:col-span-5 flex flex-col justify-between">
             <div>
-              {/* Category label */}
-              <span className="inline-block font-mono text-[10px] uppercase tracking-[0.22em] font-bold text-[#666666] border border-[#E5E5E5] px-3 py-1 mb-5">
-                {t('course.banner.subtitle', '[ Coding Course ]')}
-              </span>
-
-              {/* Domain headline */}
-              <h3 className="text-[1.4rem] sm:text-5xl md:text-6xl font-black tracking-tighter text-[#111111] uppercase leading-none mb-5 whitespace-nowrap">
-                {t('course.banner.title', 'skillstreak.web.id')}
-              </h3>
-
-              {/* Serif sub-headline */}
-              <p className="font-serif-editorial text-base md:text-xl italic text-[#333333] leading-snug mb-5 max-w-lg text-justify md:text-left">
+              <p className="font-serif-editorial text-2xl md:text-4xl italic text-[#111111] leading-[1.1] mb-8 md:mb-12 pr-4">
                 &ldquo;{t('course.banner.headline', 'The fastest path from zero to deployable engineer, built like a game, engineered for the real world.')}&rdquo;
               </p>
-
-              {/* Body copy */}
-              <p className="text-sm text-[#666666] leading-relaxed max-w-xl text-justify md:text-left">
+              <p className="text-sm md:text-base text-[#666666] leading-relaxed max-w-md text-justify md:text-left">
                 {t('course.banner.description', 'Most developers quit because learning feels like a grind with no visible progress. skillstreak.web.id changes the feedback loop. You earn XP, unlock levels, maintain streaks, and ship real projects while the system adapts to your pace. Built with the engagement mechanics of Duolingo, applied to serious software engineering.')}
               </p>
             </div>
-
-            {/* Progress bar */}
-            <div className="mt-8 pt-6 border-t border-[#E5E5E5]">
-              <div className="flex items-center justify-between mb-2">
-                <span className="font-mono text-[10px] uppercase tracking-[0.2em] font-bold text-[#111111]">
-                  {t('course.banner.progress.label', 'Build Progress')}
-                </span>
-                <span className="font-mono text-[10px] uppercase tracking-[0.2em] font-bold text-[#666666]">
-                  {t('course.banner.progress.level', 'LVL 01 / LVL 99')}
-                </span>
-              </div>
-              <div className="relative w-full h-[2px] bg-[#E5E5E5]">
-                <div className="absolute left-0 top-0 h-full w-[78%] bg-[#111111]" />
-              </div>
-            </div>
-          </div>
-
-          {/* RIGHT: feature list + CTA */}
-          <div className="lg:col-span-5 flex flex-col">
-
-            {/* Feature rows — 2 col grid on sm, single col otherwise */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 divide-y divide-[#E5E5E5] sm:divide-y-0 lg:divide-y flex-1">
-              {FEATURES.map((f, i) => (
-                <div
-                  key={f.index}
-                  className={[
-                    'flex items-start gap-4 px-6 md:px-8 py-5 hover:bg-[#FAFAFA] transition-colors duration-200',
-                    /* sm: add right border to left-column items, top border to bottom row */
-                    i % 2 === 0 ? 'sm:border-r sm:border-[#E5E5E5] lg:border-r-0' : '',
-                    i >= 2     ? 'sm:border-t sm:border-[#E5E5E5] lg:border-t-0'  : '',
-                  ].join(' ')}
+            
+            <div className="mt-12 md:mt-16 flex flex-col gap-6">
+              <div className="inline-flex items-center gap-4">
+                <a 
+                  href="https://skillstreak.web.id"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-4 rounded-full bg-[#111111] text-white px-6 py-4 md:px-8 md:py-5 text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold hover:bg-[#333333] transition-colors duration-300"
                 >
-                  <span className="font-mono text-[10px] font-bold text-[#AAAAAA] shrink-0 pt-0.5 tracking-wider">
-                    {f.index}
-                  </span>
-                  <div>
-                    <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#111111] block mb-1">
-                      {t(f.titleKey, f.titleFallback)}
-                    </span>
-                    <p className="text-[11px] text-[#666666] leading-relaxed text-justify md:text-left">
-                      {t(f.descKey, f.descFallback)}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* CTA */}
-            <div className="px-6 md:px-8 py-6 border-t border-[#E5E5E5]">
-              <a
-                href="https://skillstreak.web.id"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group/btn w-full inline-flex items-center justify-between border border-[#111111] bg-[#111111] text-[#FAFAFA] hover:bg-transparent hover:text-[#111111] transition-all duration-300 font-mono text-[10px] font-bold uppercase tracking-[0.22em] px-6 py-4"
-              >
-                <span>{t('course.banner.cta', 'Get Early Access')}</span>
-                <span className="text-sm transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform duration-200">
-                  &#8599;
-                </span>
-              </a>
-
-              <p className="font-mono text-[9px] text-[#AAAAAA] uppercase tracking-[0.18em] mt-3 leading-relaxed">
+                  <span>{t('course.banner.cta', 'Get Early Access')}</span>
+                  <span className="transform -rotate-45">→</span>
+                </a>
+              </div>
+              <p className="font-mono text-[9px] md:text-[10px] text-[#AAAAAA] uppercase tracking-[0.15em] leading-relaxed max-w-xs">
                 {t('course.banner.footnote', '* Early members receive Founder Badge + lifetime discounted access')}
               </p>
             </div>
-
           </div>
+
+          {/* Right: Features */}
+          <div className="xl:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-16">
+            {FEATURES.map((f, i) => (
+              <motion.div 
+                key={f.index} 
+                className="flex flex-col gap-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.6, delay: 0.2 + (i * 0.1), ease: [0.16, 1, 0.3, 1] }}
+              >
+                <div className="flex items-end gap-3 border-b border-[#E5E5E5] pb-3 mb-2">
+                  <span className="font-mono text-sm md:text-base font-bold text-[#CCCCCC] leading-none">
+                    {f.index}
+                  </span>
+                  <h4 className="font-bold text-sm md:text-base uppercase tracking-tight text-[#111111] leading-none">
+                    {t(f.titleKey, f.titleFallback)}
+                  </h4>
+                </div>
+                <p className="text-xs md:text-sm text-[#666666] leading-relaxed text-justify md:text-left">
+                  {t(f.descKey, f.descFallback)}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </section>
   );
 }

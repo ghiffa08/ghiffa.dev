@@ -40,14 +40,14 @@ export function HeroSection() {
         variants={staggerContainer}
       >
         <motion.h2 
-          className="text-6xl sm:text-[10vw] md:text-[9vw] lg:text-[140px] font-black leading-[0.85] tracking-tighter uppercase text-[#111111] mb-2 max-w-6xl break-words"
+          className="text-6xl sm:text-[10vw] md:text-[9vw] lg:text-[140px] font-black leading-[0.85] tracking-tighter uppercase text-[#111111] mb-2 max-w-6xl mx-auto break-words"
           variants={fadeInUp}
         >
           {t(info.headline)}
         </motion.h2>
         
         <motion.div 
-          className="mt-16 md:mt-24 grid grid-cols-1 md:grid-cols-12 gap-8 items-end"
+          className="mt-16 md:mt-24 grid grid-cols-1 md:grid-cols-12 gap-8 items-end max-w-6xl mx-auto"
           variants={staggerItem}
         >
           <div className="md:col-span-5 lg:col-span-4 flex items-center gap-4">

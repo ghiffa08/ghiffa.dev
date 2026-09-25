@@ -38,9 +38,7 @@ export function AboutSection({ onDownloadCV }) {
 
   return (
     <section id="about" className="relative z-10 w-full h-auto bg-[#FAFAFA] pt-12 md:pt-16 flex flex-col overflow-hidden scroll-fade">
-      <div className="container mx-auto px-6 md:px-12">
-        <SectionHeader number="01" title={t('about.title')} />
-      </div>
+      <SectionHeader number="01" title={t('about.title')} />
 
       {/* Main Editorial Content */}
       <motion.div 
@@ -74,11 +72,13 @@ export function AboutSection({ onDownloadCV }) {
               />
             </div>
             {/* Rotated Caption (visible on desktop) */}
-            <div className="hidden lg:flex absolute -right-8 bottom-32 rotate-90 origin-bottom-right items-center gap-4 opacity-70">
-              <span className="w-16 h-[1px] bg-[#111111]"></span>
-              <span className="font-mono text-[9px] uppercase tracking-[0.3em] font-bold text-[#111111] whitespace-nowrap">
-                {info.full_name || 'Haikal Jibran'} — {info.role || 'Architect'}
-              </span>
+            <div className="hidden lg:block absolute left-full top-0 h-full w-8">
+              <div className="absolute bottom-0 left-4 origin-bottom-left -rotate-90 text-left whitespace-nowrap flex items-center gap-4 opacity-70">
+                <span className="font-mono text-[9px] uppercase tracking-[0.3em] font-bold text-[#111111]">
+                  {info.full_name || 'Haikal Jibran'}
+                </span>
+                <span className="w-12 h-[1px] bg-[#111111]"></span>
+              </div>
             </div>
             {/* Mobile Caption */}
             <div className="lg:hidden mt-4 flex items-center justify-center gap-4 opacity-70">

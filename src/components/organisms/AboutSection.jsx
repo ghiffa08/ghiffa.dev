@@ -72,13 +72,14 @@ export function AboutSection({ onDownloadCV }) {
               />
             </div>
             {/* Rotated Caption (visible on desktop) */}
-            <div className="hidden lg:block absolute left-full top-0 h-full w-8">
-              <div className="absolute bottom-0 left-4 origin-bottom-left -rotate-90 text-left whitespace-nowrap flex items-center gap-4 opacity-70">
-                <span className="font-mono text-[9px] uppercase tracking-[0.3em] font-bold text-[#111111]">
-                  {info.full_name || 'Haikal Jibran'}
-                </span>
-                <span className="w-12 h-[1px] bg-[#111111]"></span>
-              </div>
+            <div className="hidden lg:flex absolute left-full top-0 h-full w-12 pl-2 flex-col items-center justify-end opacity-70">
+              <div className="w-[1px] flex-grow bg-[#111111] mt-0 mb-6"></div>
+              <span 
+                className="font-mono text-[9px] uppercase tracking-[0.3em] font-bold text-[#111111] mb-0" 
+                style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
+              >
+                {info.full_name || 'Haikal Jibran'}
+              </span>
             </div>
             {/* Mobile Caption */}
             <div className="lg:hidden mt-4 flex items-center justify-center gap-4 opacity-70">

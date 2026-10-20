@@ -110,9 +110,6 @@ export default function Portfolio() {
   const [selectedProjectModal, setSelectedProjectModal] = useState(null);
   const [selectedCert, setSelectedCert] = useState(null);
   const [certFilter, setCertFilter] = useState('all');
-  const [certPage, setCertPage] = useState(0);
-  const [igPage, setIgPage] = useState(0);
-
   // Draggable slider state for Selected Work
   const workSliderRef = useRef(null);
   const [isWorkDragging, setIsWorkDragging] = useState(false);
@@ -150,6 +147,86 @@ export default function Portfolio() {
     const maxScroll = scrollWidth - clientWidth;
     if (maxScroll > 0) {
       setWorkDragProgress((scrollLeft / maxScroll) * 100);
+    }
+  };
+
+  // Draggable slider state for Credentials
+  const certSliderRef = useRef(null);
+  const [isCertDragging, setIsCertDragging] = useState(false);
+  const [certStartX, setCertStartX] = useState(0);
+  const [certScrollLeft, setCertScrollLeft] = useState(0);
+  const [certDragProgress, setCertDragProgress] = useState(0);
+  const [certHasDragged, setCertHasDragged] = useState(false);
+
+  const handleCertMouseDown = (e) => {
+    if (!certSliderRef.current) return;
+    setIsCertDragging(true);
+    setCertHasDragged(false);
+    setCertStartX(e.pageX - certSliderRef.current.offsetLeft);
+    setCertScrollLeft(certSliderRef.current.scrollLeft);
+  };
+
+  const handleCertMouseMove = (e) => {
+    if (!isCertDragging || !certSliderRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - certSliderRef.current.offsetLeft;
+    const walk = (x - certStartX) * 1.6;
+    if (Math.abs(walk) > 6) {
+      setCertHasDragged(true);
+    }
+    certSliderRef.current.scrollLeft = certScrollLeft - walk;
+  };
+
+  const handleCertMouseUpOrLeave = () => {
+    setIsCertDragging(false);
+  };
+
+  const handleCertScroll = () => {
+    if (!certSliderRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = certSliderRef.current;
+    const maxScroll = scrollWidth - clientWidth;
+    if (maxScroll > 0) {
+      setCertDragProgress((scrollLeft / maxScroll) * 100);
+    }
+  };
+
+  // Draggable slider state for Instagram Dispatches
+  const igSliderRef = useRef(null);
+  const [isIgDragging, setIsIgDragging] = useState(false);
+  const [igStartX, setIgStartX] = useState(0);
+  const [igScrollLeft, setIgScrollLeft] = useState(0);
+  const [igDragProgress, setIgDragProgress] = useState(0);
+  const [igHasDragged, setIgHasDragged] = useState(false);
+
+  const handleIgMouseDown = (e) => {
+    if (!igSliderRef.current) return;
+    setIsIgDragging(true);
+    setIgHasDragged(false);
+    setIgStartX(e.pageX - igSliderRef.current.offsetLeft);
+    setIgScrollLeft(igSliderRef.current.scrollLeft);
+  };
+
+  const handleIgMouseMove = (e) => {
+    if (!isIgDragging || !igSliderRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - igSliderRef.current.offsetLeft;
+    const walk = (x - igStartX) * 1.6;
+    if (Math.abs(walk) > 6) {
+      setIgHasDragged(true);
+    }
+    igSliderRef.current.scrollLeft = igScrollLeft - walk;
+  };
+
+  const handleIgMouseUpOrLeave = () => {
+    setIsIgDragging(false);
+  };
+
+  const handleIgScroll = () => {
+    if (!igSliderRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = igSliderRef.current;
+    const maxScroll = scrollWidth - clientWidth;
+    if (maxScroll > 0) {
+      setIgDragProgress((scrollLeft / maxScroll) * 100);
     }
   };
 
@@ -319,8 +396,6 @@ export default function Portfolio() {
     return true;
   });
 
-  const pagedCerts = filteredCerts.slice(certPage * 3, (certPage + 1) * 3);
-
   // Instagram date formatter
   const formatIgDate = (timestamp) => {
     if (!timestamp) return '';
@@ -374,8 +449,6 @@ export default function Portfolio() {
   const displayedInstagramPosts = (instagramPosts && instagramPosts.length > 0)
     ? instagramPosts
     : fallbackInstagramPosts;
-
-  const pagedInstagramPosts = displayedInstagramPosts.slice(igPage * 3, (igPage + 1) * 3);
 
   return (
     <div className="min-h-screen bg-[#111110] py-0 sm:py-8 px-0 sm:px-4 flex justify-center items-start font-mono text-[#1c1c1a] selection:bg-[#E84E0F] selection:text-[#EAE6DF]">
@@ -770,28 +843,45 @@ export default function Portfolio() {
         {/* =========================================================
             5. CREDENTIALS & LICENSES (EXACTLY MATCHING SELECTED WORK)
         ========================================================= */}
-        <section id="credentials" className="relative z-20 bg-[#181816] text-[#EAE6DF] flex flex-col md:flex-row border-t border-b border-[#2b2b28]">
+        <section id="credentials" className="relative z-20 bg-[#181816] text-[#EAE6DF] border-t border-b border-[#2b2b28] overflow-hidden">
 
-          {/* Left Vertical Orange Sidebar */}
-          <div className="bg-[#E84E0F] text-[#181816] md:w-[68px] py-3.5 px-6 md:py-6 md:px-0 flex items-center justify-between md:justify-center shrink-0 self-stretch select-none">
+          {/* Left Vertical Orange Sidebar - SITS ON TOP (z-30) */}
+          <div className="md:absolute md:left-0 md:top-0 md:bottom-0 z-30 bg-[#E84E0F] text-[#181816] md:w-[68px] py-3.5 px-6 md:py-6 md:px-0 flex items-center justify-between md:justify-center shrink-0 select-none shadow-[16px_0_32px_rgba(0,0,0,0.95)] border-b md:border-b-0 md:border-r border-[#181816]">
             <div className="font-mono-tech font-bold text-xs sm:text-[13px] tracking-[0.24em] uppercase flex items-center gap-2.5 md:[writing-mode:vertical-rl] md:rotate-180">
               <span>CREDENTIALS</span>
               <span className="inline-block w-[10px] h-[2px] md:w-[2.5px] md:h-[12px] bg-[#181816]" />
             </div>
           </div>
 
-          {/* Credentials Cards Grid - ULTRA CLEAN */}
-          <div className="flex-1 flex flex-col p-6 sm:p-8 lg:p-10">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-7 lg:gap-8">
-              {pagedCerts.map((cert, cIdx) => (
-                <div 
+          {/* Depth Shadow Layer Behind Sidebar Edge */}
+          <div className="hidden md:block absolute left-[68px] top-0 bottom-0 w-14 bg-gradient-to-r from-black/90 via-black/40 to-transparent pointer-events-none z-20" />
+
+          {/* Credentials Cards Draggable Slider - SLIDES UNDERNEATH ORANGE SIDEBAR */}
+          <div className="flex flex-col p-6 sm:p-8 lg:p-10 md:pl-0 pb-5 sm:pb-6 lg:pb-6 overflow-hidden relative z-10">
+            <div
+              ref={certSliderRef}
+              onMouseDown={handleCertMouseDown}
+              onMouseMove={handleCertMouseMove}
+              onMouseUp={handleCertMouseUpOrLeave}
+              onMouseLeave={handleCertMouseUpOrLeave}
+              onScroll={handleCertScroll}
+              className="flex items-start gap-6 sm:gap-7 overflow-x-auto scrollbar-none cursor-grab active:cursor-grabbing select-none pb-2 pt-1 md:pl-[96px] pr-8"
+              style={{
+                scrollbarWidth: 'none',
+                msOverflowStyle: 'none'
+              }}
+            >
+              {filteredCerts.map((cert, cIdx) => (
+                <div
                   key={cert.id || cIdx}
-                  onClick={() => setSelectedCert(cert)}
-                  className="group cursor-pointer flex flex-col"
+                  onClick={() => {
+                    if (!certHasDragged) setSelectedCert(cert);
+                  }}
+                  className="w-[280px] sm:w-[310px] md:w-[325px] shrink-0 group flex flex-col cursor-pointer"
                 >
                   {/* Clean Orange Index */}
                   <span className="text-[#E84E0F] font-mono-tech text-xs sm:text-sm font-semibold mb-2.5 tracking-wider block">
-                    {String(certPage * 3 + cIdx + 1).padStart(2, '0')}/
+                    {String(cIdx + 1).padStart(2, '0')}/
                   </span>
 
                   {/* Clean Certificate Thumbnail - ZERO TEXT ON IMAGE */}
@@ -800,13 +890,14 @@ export default function Portfolio() {
                       <img
                         src={cert.certificate_url}
                         alt={cert.title}
-                        className="w-full h-full object-cover grayscale contrast-125 transition-transform duration-500 group-hover:scale-105 group-hover:grayscale-0"
+                        draggable={false}
+                        className="w-full h-full object-cover grayscale contrast-125 transition-transform duration-500 group-hover:scale-105 group-hover:grayscale-0 pointer-events-none select-none"
                         onError={(e) => {
                           e.target.style.display = 'none';
                         }}
                       />
                     ) : (
-                      <div className="w-full h-full bg-[#141413] p-4 flex flex-col justify-between text-[#8e8d87] font-mono-tech text-[9px] uppercase">
+                      <div className="w-full h-full bg-[#141413] p-4 flex flex-col justify-between text-[#8e8d87] font-mono-tech text-[9px] uppercase pointer-events-none select-none">
                         <div className="flex justify-between items-center text-[#E84E0F]">
                           <span>[ARCHIVE ATTESTATION]</span>
                           <span>OFFICIAL</span>
@@ -833,14 +924,18 @@ export default function Portfolio() {
               ))}
             </div>
 
-            {/* Subtle Minimal Pagination & Filter at Bottom */}
-            <div className="mt-8 pt-4 border-t border-[#252522] flex flex-wrap items-center justify-between gap-3 font-mono-tech text-[10px] text-[#8e8d87] uppercase tracking-wider">
-              <div className="flex flex-wrap items-center gap-2">
+            {/* Subtle Minimal Bottom Bar: Category Filters & Progress */}
+            <div className="mt-4 pt-3 flex flex-wrap items-center justify-between gap-3 border-t border-[#232320]/60 md:ml-[96px] mr-8">
+              <div className="flex flex-wrap items-center gap-2 font-mono-tech text-[10px] text-[#8e8d87] uppercase tracking-wider">
                 <span className="text-[#8e8d87]">CATEGORY:</span>
                 {['all', 'verified', 'national', 'competition'].map((tab) => (
                   <button
                     key={tab}
-                    onClick={() => { setCertFilter(tab); setCertPage(0); }}
+                    onClick={() => {
+                      setCertFilter(tab);
+                      if (certSliderRef.current) certSliderRef.current.scrollLeft = 0;
+                      setCertDragProgress(0);
+                    }}
                     className={`px-2 py-0.5 border cursor-pointer transition-colors ${certFilter === tab ? 'border-[#E84E0F] text-[#E84E0F] font-bold' : 'border-transparent text-[#8e8d87] hover:text-[#EAE6DF]'}`}
                   >
                     {tab.toUpperCase()}
@@ -848,22 +943,20 @@ export default function Portfolio() {
                 ))}
               </div>
 
-              <div className="flex items-center gap-2">
-                <span>{certPage * 3 + 1}–{Math.min((certPage + 1) * 3, filteredCerts.length)} OF {filteredCerts.length}</span>
-                <button
-                  disabled={certPage === 0}
-                  onClick={() => setCertPage(p => Math.max(0, p - 1))}
-                  className="px-2.5 py-1 border border-[#2e2e2b] enabled:hover:border-[#E84E0F] enabled:hover:text-[#E84E0F] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed transition-colors"
-                >
-                  ← PREV
-                </button>
-                <button
-                  disabled={(certPage + 1) * 3 >= filteredCerts.length}
-                  onClick={() => setCertPage(p => p + 1)}
-                  className="px-2.5 py-1 border border-[#2e2e2b] enabled:hover:border-[#E84E0F] enabled:hover:text-[#E84E0F] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed transition-colors"
-                >
-                  NEXT →
-                </button>
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 font-mono-tech text-[9.5px] uppercase tracking-widest text-[#66655f]">
+                  <span>[ DRAG ARCHIVE // {filteredCerts.length} RECORDS ]</span>
+                  <span className="text-[#E84E0F]">→</span>
+                </div>
+                <div className="w-20 sm:w-28 h-[2px] bg-[#262624] overflow-hidden rounded-full relative">
+                  <div 
+                    className="h-full bg-[#E84E0F] transition-all duration-150"
+                    style={{
+                      width: '32%',
+                      transform: `translateX(${certDragProgress * 2.1}%)`
+                    }}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -913,20 +1006,35 @@ export default function Portfolio() {
         {/* =========================================================
             7. VISUAL DISPATCHES (EXACTLY MATCHING SELECTED WORK)
         ========================================================= */}
-        <section id="dispatches" className="relative z-20 bg-[#181816] text-[#EAE6DF] flex flex-col md:flex-row border-t border-b border-[#2b2b28]">
+        <section id="dispatches" className="relative z-20 bg-[#181816] text-[#EAE6DF] border-t border-b border-[#2b2b28] overflow-hidden">
 
-          {/* Left Vertical Orange Sidebar */}
-          <div className="bg-[#E84E0F] text-[#181816] md:w-[68px] py-3.5 px-6 md:py-6 md:px-0 flex items-center justify-between md:justify-center shrink-0 self-stretch select-none">
+          {/* Left Vertical Orange Sidebar - SITS ON TOP (z-30) */}
+          <div className="md:absolute md:left-0 md:top-0 md:bottom-0 z-30 bg-[#E84E0F] text-[#181816] md:w-[68px] py-3.5 px-6 md:py-6 md:px-0 flex items-center justify-between md:justify-center shrink-0 select-none shadow-[16px_0_32px_rgba(0,0,0,0.95)] border-b md:border-b-0 md:border-r border-[#181816]">
             <div className="font-mono-tech font-bold text-xs sm:text-[13px] tracking-[0.24em] uppercase flex items-center gap-2.5 md:[writing-mode:vertical-rl] md:rotate-180">
               <span>DISPATCHES</span>
               <span className="inline-block w-[10px] h-[2px] md:w-[2.5px] md:h-[12px] bg-[#181816]" />
             </div>
           </div>
 
-          {/* Visual Dispatches Cards Grid - ULTRA CLEAN */}
-          <div className="flex-1 flex flex-col p-6 sm:p-8 lg:p-10">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-7 lg:gap-8">
-              {pagedInstagramPosts.map((post, pIdx) => {
+          {/* Depth Shadow Layer Behind Sidebar Edge */}
+          <div className="hidden md:block absolute left-[68px] top-0 bottom-0 w-14 bg-gradient-to-r from-black/90 via-black/40 to-transparent pointer-events-none z-20" />
+
+          {/* Visual Dispatches Draggable Slider - SLIDES UNDERNEATH ORANGE SIDEBAR */}
+          <div className="flex flex-col p-6 sm:p-8 lg:p-10 md:pl-0 pb-5 sm:pb-6 lg:pb-6 overflow-hidden relative z-10">
+            <div
+              ref={igSliderRef}
+              onMouseDown={handleIgMouseDown}
+              onMouseMove={handleIgMouseMove}
+              onMouseUp={handleIgMouseUpOrLeave}
+              onMouseLeave={handleIgMouseUpOrLeave}
+              onScroll={handleIgScroll}
+              className="flex items-start gap-6 sm:gap-7 overflow-x-auto scrollbar-none cursor-grab active:cursor-grabbing select-none pb-2 pt-1 md:pl-[96px] pr-8"
+              style={{
+                scrollbarWidth: 'none',
+                msOverflowStyle: 'none'
+              }}
+            >
+              {displayedInstagramPosts.map((post, pIdx) => {
                 const mediaUrl = post.media_type === 'VIDEO' ? (post.thumbnail_url || post.media_url) : post.media_url;
                 return (
                   <a
@@ -934,11 +1042,14 @@ export default function Portfolio() {
                     href={post.permalink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group cursor-pointer flex flex-col"
+                    onClick={(e) => {
+                      if (igHasDragged) e.preventDefault();
+                    }}
+                    className="w-[280px] sm:w-[310px] md:w-[325px] shrink-0 group flex flex-col cursor-pointer"
                   >
                     {/* Clean Orange Index */}
                     <span className="text-[#E84E0F] font-mono-tech text-xs sm:text-sm font-semibold mb-2.5 tracking-wider block">
-                      {String(igPage * 3 + pIdx + 1).padStart(2, '0')}/
+                      {String(pIdx + 1).padStart(2, '0')}/
                     </span>
 
                     {/* Clean Instagram Photo Thumbnail - ZERO TEXT ON IMAGE */}
@@ -946,7 +1057,8 @@ export default function Portfolio() {
                       <img
                         src={mediaUrl}
                         alt={post.caption || 'Instagram dispatch'}
-                        className="w-full h-full object-cover grayscale contrast-125 transition-transform duration-500 group-hover:scale-105 group-hover:grayscale-0"
+                        draggable={false}
+                        className="w-full h-full object-cover grayscale contrast-125 transition-transform duration-500 group-hover:scale-105 group-hover:grayscale-0 pointer-events-none select-none"
                         onError={(e) => {
                           e.target.onerror = null;
                           e.target.src = 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80';
@@ -972,33 +1084,31 @@ export default function Portfolio() {
             </div>
 
             {/* Subtle Minimal Bottom Bar */}
-            <div className="mt-8 pt-4 border-t border-[#252522] flex items-center justify-between font-mono-tech text-[10px] text-[#8e8d87] uppercase tracking-wider">
+            <div className="mt-4 pt-3 flex items-center justify-between border-t border-[#232320]/60 md:ml-[96px] mr-8">
               <a
                 href="https://www.instagram.com/haikaljibraan/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-[#E84E0F] transition-colors flex items-center gap-1.5 font-bold"
+                className="hover:text-[#E84E0F] transition-colors flex items-center gap-1.5 font-mono-tech text-[10.5px] uppercase font-bold tracking-wider text-[#8e8d87]"
               >
                 <span>@HAIKALJIBRAAN</span>
                 <ExternalLink className="w-3 h-3" />
               </a>
 
-              <div className="flex items-center gap-2">
-                <span>{igPage * 3 + 1}–{Math.min((igPage + 1) * 3, displayedInstagramPosts.length)} OF {displayedInstagramPosts.length}</span>
-                <button
-                  disabled={igPage === 0}
-                  onClick={() => setIgPage(p => Math.max(0, p - 1))}
-                  className="px-2.5 py-1 border border-[#2e2e2b] enabled:hover:border-[#E84E0F] enabled:hover:text-[#E84E0F] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed transition-colors"
-                >
-                  ← PREV
-                </button>
-                <button
-                  disabled={(igPage + 1) * 3 >= displayedInstagramPosts.length}
-                  onClick={() => setIgPage(p => p + 1)}
-                  className="px-2.5 py-1 border border-[#2e2e2b] enabled:hover:border-[#E84E0F] enabled:hover:text-[#E84E0F] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed transition-colors"
-                >
-                  NEXT →
-                </button>
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 font-mono-tech text-[9.5px] uppercase tracking-widest text-[#66655f]">
+                  <span>[ DRAG ARCHIVE // {displayedInstagramPosts.length} POSTS ]</span>
+                  <span className="text-[#E84E0F]">→</span>
+                </div>
+                <div className="w-20 sm:w-28 h-[2px] bg-[#262624] overflow-hidden rounded-full relative">
+                  <div 
+                    className="h-full bg-[#E84E0F] transition-all duration-150"
+                    style={{
+                      width: '32%',
+                      transform: `translateX(${igDragProgress * 2.1}%)`
+                    }}
+                  />
+                </div>
               </div>
             </div>
           </div>

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Mail, 
-  Phone, 
-  Globe, 
-  Plus, 
-  Minus, 
+import {
+  Mail,
+  Phone,
+  Globe,
+  Plus,
+  Minus,
   CornerDownRight,
   ExternalLink
 } from 'lucide-react';
@@ -15,24 +15,24 @@ import { SEO } from '../components/atoms/SEO';
 // Inline SVGs for Brand Icons
 const InstagramIcon = () => (
   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
-    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
   </svg>
 );
 
 const GithubIcon = () => (
   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
-    <path d="M9 18c-4.51 2-5-2-7-2"/>
+    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+    <path d="M9 18c-4.51 2-5-2-7-2" />
   </svg>
 );
 
 const LinkedinIcon = () => (
   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-    <rect width="4" height="12" x="2" y="9"/>
-    <circle cx="4" cy="4" r="2"/>
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+    <rect width="4" height="12" x="2" y="9" />
+    <circle cx="4" cy="4" r="2" />
   </svg>
 );
 
@@ -140,35 +140,35 @@ export default function Portfolio() {
 
   // Services Data
   const servicesData = [
-    { 
-      id: '01', 
-      title: 'WEB ARCHITECTURE & DEV', 
-      desc: 'High-performance React, Next.js, and modern full-stack web applications engineered for speed, clean UX, and deterministic scale.' 
+    {
+      id: '01',
+      title: 'WEB ARCHITECTURE & DEV',
+      desc: 'High-performance React, Next.js, and modern full-stack web applications engineered for speed, clean UX, and deterministic scale.'
     },
-    { 
-      id: '02', 
-      title: 'EMBEDDED IOT SYSTEMS', 
-      desc: 'End-to-end hardware telemetry, ESP32 microcontrollers, custom sensor networks, LoRa long-range protocols, and edge computing.' 
+    {
+      id: '02',
+      title: 'EMBEDDED IOT SYSTEMS',
+      desc: 'End-to-end hardware telemetry, ESP32 microcontrollers, custom sensor networks, LoRa long-range protocols, and edge computing.'
     },
-    { 
-      id: '03', 
-      title: 'UI/UX & EDITORIAL DESIGN', 
-      desc: 'Bold, brutalist visual identities, typographic design systems, and responsive layouts that cut through generic digital noise.' 
+    {
+      id: '03',
+      title: 'UI/UX & EDITORIAL DESIGN',
+      desc: 'Bold, brutalist visual identities, typographic design systems, and responsive layouts that cut through generic digital noise.'
     },
-    { 
-      id: '04', 
-      title: 'FULL-STACK BACKENDS', 
-      desc: 'Secure REST APIs, Supabase / PostgreSQL schemas, real-time telemetry streaming, and automated backend infrastructure.' 
+    {
+      id: '04',
+      title: 'FULL-STACK BACKENDS',
+      desc: 'Secure REST APIs, Supabase / PostgreSQL schemas, real-time telemetry streaming, and automated backend infrastructure.'
     },
-    { 
-      id: '05', 
-      title: 'HARDWARE & PCB DESIGN', 
-      desc: 'From circuit schematics to physical fabrication — bridging digital code (Bits) with real-world physical devices (Atoms).' 
+    {
+      id: '05',
+      title: 'HARDWARE & PCB DESIGN',
+      desc: 'From circuit schematics to physical fabrication — bridging digital code (Bits) with real-world physical devices (Atoms).'
     },
-    { 
-      id: '06', 
-      title: 'PERFORMANCE & AUDIT', 
-      desc: 'Ongoing system audits, memory-leak debugging, Core Web Vitals optimization, and long-term infrastructure maintenance.' 
+    {
+      id: '06',
+      title: 'PERFORMANCE & AUDIT',
+      desc: 'Ongoing system audits, memory-leak debugging, Core Web Vitals optimization, and long-term infrastructure maintenance.'
     },
   ];
 
@@ -176,16 +176,16 @@ export default function Portfolio() {
   const techStack = (info?.skills && Array.isArray(info.skills) && info.skills.length > 0)
     ? info.skills.slice(0, 9)
     : [
-        'REACT / NEXT.JS',
-        'TAILWIND CSS',
-        'JAVASCRIPT (ES6+)',
-        'LARAVEL / PHP',
-        'ESP32 / IOT FIRMWARE',
-        'POSTGRESQL & SUPABASE',
-        'GSAP ANIMATION',
-        'LORA TELEMETRY',
-        'FIGMA & UI/UX'
-      ];
+      'REACT / NEXT.JS',
+      'TAILWIND CSS',
+      'JAVASCRIPT (ES6+)',
+      'LARAVEL / PHP',
+      'ESP32 / IOT FIRMWARE',
+      'POSTGRESQL & SUPABASE',
+      'GSAP ANIMATION',
+      'LORA TELEMETRY',
+      'FIGMA & UI/UX'
+    ];
 
   // Projects Data with graceful fallbacks
   const defaultProjects = [
@@ -223,16 +223,16 @@ export default function Portfolio() {
 
   const allProjects = (supabaseProjects && supabaseProjects.length > 0)
     ? supabaseProjects.map((p, idx) => ({
-        id: p.id,
-        num: `${String(idx + 1).padStart(2, '0')}/`,
-        title: (p.title || `PROJECT 0${idx + 1}`).toUpperCase(),
-        category: (p.category || 'FULL-STACK & IOT').toUpperCase(),
-        desc: p.description || 'Full-stack engineering commission built with modern architectural rigor.',
-        link: p.live_url || p.github_url || '#',
-        img: p.image_url || defaultProjects[idx % defaultProjects.length]?.img,
-        client: p.client || 'COMMISSION WORK',
-        stat: p.metrics || 'Engineered for Performance'
-      }))
+      id: p.id,
+      num: `${String(idx + 1).padStart(2, '0')}/`,
+      title: (p.title || `PROJECT 0${idx + 1}`).toUpperCase(),
+      category: (p.category || 'FULL-STACK & IOT').toUpperCase(),
+      desc: p.description || 'Full-stack engineering commission built with modern architectural rigor.',
+      link: p.live_url || p.github_url || '#',
+      img: p.image_url || defaultProjects[idx % defaultProjects.length]?.img,
+      client: p.client || 'COMMISSION WORK',
+      stat: p.metrics || 'Engineered for Performance'
+    }))
     : defaultProjects;
 
   const pagedProjects = allProjects.slice(projPage * 3, (projPage + 1) * 3);
@@ -240,34 +240,34 @@ export default function Portfolio() {
   // Certifications data processing from Supabase
   const allCertifications = (supabaseQualifications && supabaseQualifications.length > 0)
     ? supabaseQualifications
-        .filter(q => q.type === 'certification')
-        .sort((a, b) => (a.order_index ?? 999) - (b.order_index ?? 999))
+      .filter(q => q.type === 'certification')
+      .sort((a, b) => (a.order_index ?? 999) - (b.order_index ?? 999))
     : [
-        {
-          id: "cert-01",
-          title: "Piagam Penghargaan Mahasiswa Berprestasi Universitas Kuningan 2026",
-          institution: "Universitas Kuningan",
-          period: "May 2026",
-          certificate_url: "https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1783714135/f2p9oyiqe0hvurgsevhx.jpg",
-          description: "Rank 1 Outstanding Student Award across University level."
-        },
-        {
-          id: "cert-02",
-          title: "2nd Runner Up of the Business Plan (Canva Design) Competition",
-          institution: "Universitas Pancasakti",
-          period: "2026",
-          certificate_url: "https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1790349503/o6nrysdsqeq6qmcrbouh.jpg",
-          description: "National business innovation and digital presentation design."
-        },
-        {
-          id: "cert-03",
-          title: "Junior Web Developer",
-          institution: "BNSP & Kominfo",
-          period: "Okt 2024",
-          certificate_url: "https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1783626185/dbbffblvvangiizxkudh.jpg",
-          description: "Certified professional competence in modern web software engineering."
-        }
-      ];
+      {
+        id: "cert-01",
+        title: "Piagam Penghargaan Mahasiswa Berprestasi Universitas Kuningan 2026",
+        institution: "Universitas Kuningan",
+        period: "May 2026",
+        certificate_url: "https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1783714135/f2p9oyiqe0hvurgsevhx.jpg",
+        description: "Rank 1 Outstanding Student Award across University level."
+      },
+      {
+        id: "cert-02",
+        title: "2nd Runner Up of the Business Plan (Canva Design) Competition",
+        institution: "Universitas Pancasakti",
+        period: "2026",
+        certificate_url: "https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1790349503/o6nrysdsqeq6qmcrbouh.jpg",
+        description: "National business innovation and digital presentation design."
+      },
+      {
+        id: "cert-03",
+        title: "Junior Web Developer",
+        institution: "BNSP & Kominfo",
+        period: "Okt 2024",
+        certificate_url: "https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1783626185/dbbffblvvangiizxkudh.jpg",
+        description: "Certified professional competence in modern web software engineering."
+      }
+    ];
 
   const filteredCerts = allCertifications.filter(cert => {
     if (certFilter === 'verified') return Boolean(cert.certificate_url);
@@ -342,8 +342,8 @@ export default function Portfolio() {
 
   return (
     <div className="min-h-screen bg-[#111110] py-0 sm:py-8 px-0 sm:px-4 flex justify-center items-start font-mono text-[#1c1c1a] selection:bg-[#E84E0F] selection:text-[#EAE6DF]">
-      <SEO 
-        title={`${fullName} — IoT Engineer & Full-stack Developer`} 
+      <SEO
+        title={`${fullName} — IoT Engineer & Full-stack Developer`}
         description="Official poster portfolio of Haikal Jibran Al-Ghiffarry (Ghiffa). Bridging bits and atoms through modern web architecture and embedded IoT systems."
       />
 
@@ -358,9 +358,9 @@ export default function Portfolio() {
 
       {/* MAIN POSTER CONTAINER */}
       <div className="w-full max-w-[1080px] bg-[#EAE6DF] relative shadow-[0_25px_70px_rgba(0,0,0,0.85)] overflow-hidden border border-[#2c2c2a]">
-        
+
         {/* Global Fine Noise Texture Overlay */}
-        <div 
+        <div
           className="pointer-events-none absolute inset-0 z-40 opacity-[0.18] mix-blend-multiply"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
@@ -400,14 +400,14 @@ export default function Portfolio() {
         ========================================================= */}
         <section className="relative z-10 px-6 sm:px-12 pt-3 pb-10 lg:pb-0">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start relative">
-            
+
             {/* LEFT COLUMN: STACKED BRUTALIST HEADLINE & ABOUT ME */}
             <div className="lg:col-span-7 relative z-20 flex flex-col justify-between">
-              
+
               {/* Giant Stacked Headline */}
               <div className="select-none pt-1">
                 <h1 className="font-anton uppercase tracking-[-0.02em] flex flex-col">
-                  <span 
+                  <span
                     className="text-[21vw] sm:text-[145px] lg:text-[160px] leading-[0.87] text-[#222220] relative"
                     style={{
                       backgroundImage: 'radial-gradient(rgba(234, 230, 223, 0.14) 1px, transparent 0)',
@@ -463,20 +463,20 @@ export default function Portfolio() {
 
             {/* RIGHT COLUMN: PORTRAIT WITH GEOMETRIC ORANGE BACKDROP */}
             <div className="lg:col-span-5 relative min-h-[460px] sm:min-h-[560px] lg:min-h-[635px] flex items-end justify-center lg:-ml-14">
-              
+
               {/* Crosshair Target Graphic Top Right */}
               <div className="absolute top-12 right-2 sm:right-4 z-20">
                 <CrosshairIcon />
               </div>
 
               {/* Bold Orange Brutalist Geometric Shapes Behind Subject */}
-              <div 
+              <div
                 className="w-[215px] sm:w-[245px] h-[125px] bg-[#E84E0F] absolute top-[18px] left-[22px] sm:left-[40px] z-0"
                 style={{
                   clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)'
                 }}
               />
-              <div 
+              <div
                 className="w-[150px] sm:w-[175px] h-[185px] bg-[#E84E0F] absolute top-[145px] right-0 sm:right-2 z-0"
                 style={{
                   clipPath: 'polygon(0 0, 74% 0, 100% 24%, 100% 100%, 0 100%)'
@@ -486,7 +486,7 @@ export default function Portfolio() {
               {/* High-Contrast B&W Editorial Portrait of Haikal */}
               <div className="relative z-10 w-full h-[460px] sm:h-[555px] lg:h-[615px] flex items-end justify-center overflow-hidden">
                 <img
-                  src="/ghiffa.jpeg"
+                  src="/ghiffa.png"
                   alt={fullName}
                   className="w-full h-full object-cover object-top grayscale contrast-125 brightness-95 select-none"
                   style={{
@@ -521,7 +521,7 @@ export default function Portfolio() {
             3. SELECTED WORK BAR (CLEAN BRUTALIST BAND)
         ========================================================= */}
         <section id="work" className="relative z-20 bg-[#181816] text-[#EAE6DF] flex flex-col md:flex-row border-t border-b border-[#2b2b28]">
-          
+
           {/* Left Vertical Orange Sidebar */}
           <div className="bg-[#E84E0F] text-[#181816] md:w-[68px] py-3.5 px-6 md:py-6 md:px-0 flex items-center justify-between md:justify-center shrink-0 self-stretch select-none">
             <div className="font-mono-tech font-bold text-xs sm:text-[13px] tracking-[0.24em] uppercase flex items-center gap-2.5 md:[writing-mode:vertical-rl] md:rotate-180">
@@ -534,7 +534,7 @@ export default function Portfolio() {
           <div className="flex-1 flex flex-col p-6 sm:p-8 lg:p-10">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-7 lg:gap-8">
               {pagedProjects.map((proj, pIdx) => (
-                <div 
+                <div
                   key={proj.id || pIdx}
                   onClick={() => setSelectedProjectModal(proj)}
                   className="group cursor-pointer flex flex-col"
@@ -546,9 +546,9 @@ export default function Portfolio() {
 
                   {/* Clean Cover Thumbnail - ZERO TEXT ON IMAGE */}
                   <div className="relative aspect-[16/10] w-full bg-[#0d0d0d] border border-[#2e2e2b] overflow-hidden mb-3.5">
-                    <img 
-                      src={proj.img} 
-                      alt={proj.title} 
+                    <img
+                      src={proj.img}
+                      alt={proj.title}
                       className="w-full h-full object-cover grayscale contrast-125 transition-transform duration-500 group-hover:scale-105 group-hover:grayscale-0"
                       onError={(e) => {
                         e.target.onerror = null;
@@ -599,206 +599,10 @@ export default function Portfolio() {
         </section>
 
         {/* =========================================================
-            4. CREDENTIALS & LICENSES (EXACTLY MATCHING SELECTED WORK)
-        ========================================================= */}
-        <section id="credentials" className="relative z-20 bg-[#181816] text-[#EAE6DF] flex flex-col md:flex-row border-t border-b border-[#2b2b28]">
-          
-          {/* Left Vertical Orange Sidebar */}
-          <div className="bg-[#E84E0F] text-[#181816] md:w-[68px] py-3.5 px-6 md:py-6 md:px-0 flex items-center justify-between md:justify-center shrink-0 self-stretch select-none">
-            <div className="font-mono-tech font-bold text-xs sm:text-[13px] tracking-[0.24em] uppercase flex items-center gap-2.5 md:[writing-mode:vertical-rl] md:rotate-180">
-              <span>CREDENTIALS</span>
-              <span className="inline-block w-[10px] h-[2px] md:w-[2.5px] md:h-[12px] bg-[#181816]" />
-            </div>
-          </div>
-
-          {/* Credentials Cards Grid - ULTRA CLEAN */}
-          <div className="flex-1 flex flex-col p-6 sm:p-8 lg:p-10">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-7 lg:gap-8">
-              {pagedCerts.map((cert, cIdx) => (
-                <div 
-                  key={cert.id || cIdx}
-                  onClick={() => setSelectedCert(cert)}
-                  className="group cursor-pointer flex flex-col"
-                >
-                  {/* Clean Orange Index */}
-                  <span className="text-[#E84E0F] font-mono-tech text-xs sm:text-sm font-semibold mb-2.5 tracking-wider block">
-                    {String(certPage * 3 + cIdx + 1).padStart(2, '0')}/
-                  </span>
-
-                  {/* Clean Certificate Thumbnail - ZERO TEXT ON IMAGE */}
-                  <div className="relative aspect-[16/10] w-full bg-[#0d0d0d] border border-[#2e2e2b] overflow-hidden mb-3.5">
-                    {cert.certificate_url ? (
-                      <img 
-                        src={cert.certificate_url} 
-                        alt={cert.title} 
-                        className="w-full h-full object-cover grayscale contrast-125 transition-transform duration-500 group-hover:scale-105 group-hover:grayscale-0"
-                        onError={(e) => {
-                          e.target.style.display = 'none';
-                        }}
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-[#141413] p-4 flex flex-col justify-between text-[#8e8d87] font-mono-tech text-[9px] uppercase">
-                        <div className="flex justify-between items-center text-[#E84E0F]">
-                          <span>[ARCHIVE ATTESTATION]</span>
-                          <span>OFFICIAL</span>
-                        </div>
-                        <div className="text-xs font-bold text-[#EAE6DF] truncate">{cert.institution}</div>
-                        <div>VALIDATED RECORD</div>
-                      </div>
-                    )}
-
-                    {/* Bottom Right Orange Action Tag */}
-                    <div className="absolute bottom-0 right-0 w-7 h-7 sm:w-8 sm:h-8 bg-[#E84E0F] flex items-center justify-center transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                      <CornerDownRight className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#181816] stroke-[2.5]" />
-                    </div>
-                  </div>
-
-                  {/* Clean Titles Below Thumbnail */}
-                  <h3 className="font-mono-tech text-xs sm:text-[13px] font-bold tracking-wider text-[#EAE6DF] group-hover:text-[#E84E0F] transition-colors uppercase truncate">
-                    {cert.title}
-                  </h3>
-                  <p className="font-mono-tech text-[10px] sm:text-[11px] tracking-wider text-[#8e8d87] uppercase mt-1 truncate">
-                    {cert.institution} · {cert.period}
-                  </p>
-                </div>
-              ))}
-            </div>
-
-            {/* Subtle Minimal Pagination & Filter at Bottom */}
-            <div className="mt-8 pt-4 border-t border-[#252522] flex flex-wrap items-center justify-between gap-3 font-mono-tech text-[10px] text-[#8e8d87] uppercase tracking-wider">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="text-[#8e8d87]">CATEGORY:</span>
-                {['all', 'verified', 'national', 'competition'].map((tab) => (
-                  <button
-                    key={tab}
-                    onClick={() => { setCertFilter(tab); setCertPage(0); }}
-                    className={`px-2 py-0.5 border cursor-pointer transition-colors ${certFilter === tab ? 'border-[#E84E0F] text-[#E84E0F] font-bold' : 'border-transparent text-[#8e8d87] hover:text-[#EAE6DF]'}`}
-                  >
-                    {tab.toUpperCase()}
-                  </button>
-                ))}
-              </div>
-
-              <div className="flex items-center gap-2">
-                <span>{certPage * 3 + 1}–{Math.min((certPage + 1) * 3, filteredCerts.length)} OF {filteredCerts.length}</span>
-                <button
-                  disabled={certPage === 0}
-                  onClick={() => setCertPage(p => Math.max(0, p - 1))}
-                  className="px-2.5 py-1 border border-[#2e2e2b] enabled:hover:border-[#E84E0F] enabled:hover:text-[#E84E0F] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed transition-colors"
-                >
-                  ← PREV
-                </button>
-                <button
-                  disabled={(certPage + 1) * 3 >= filteredCerts.length}
-                  onClick={() => setCertPage(p => p + 1)}
-                  className="px-2.5 py-1 border border-[#2e2e2b] enabled:hover:border-[#E84E0F] enabled:hover:text-[#E84E0F] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed transition-colors"
-                >
-                  NEXT →
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* =========================================================
-            5. VISUAL DISPATCHES (EXACTLY MATCHING SELECTED WORK)
-        ========================================================= */}
-        <section id="dispatches" className="relative z-20 bg-[#181816] text-[#EAE6DF] flex flex-col md:flex-row border-t border-b border-[#2b2b28]">
-          
-          {/* Left Vertical Orange Sidebar */}
-          <div className="bg-[#E84E0F] text-[#181816] md:w-[68px] py-3.5 px-6 md:py-6 md:px-0 flex items-center justify-between md:justify-center shrink-0 self-stretch select-none">
-            <div className="font-mono-tech font-bold text-xs sm:text-[13px] tracking-[0.24em] uppercase flex items-center gap-2.5 md:[writing-mode:vertical-rl] md:rotate-180">
-              <span>DISPATCHES</span>
-              <span className="inline-block w-[10px] h-[2px] md:w-[2.5px] md:h-[12px] bg-[#181816]" />
-            </div>
-          </div>
-
-          {/* Visual Dispatches Cards Grid - ULTRA CLEAN */}
-          <div className="flex-1 flex flex-col p-6 sm:p-8 lg:p-10">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-7 lg:gap-8">
-              {pagedInstagramPosts.map((post, pIdx) => {
-                const mediaUrl = post.media_type === 'VIDEO' ? (post.thumbnail_url || post.media_url) : post.media_url;
-                return (
-                  <a 
-                    key={post.id || pIdx}
-                    href={post.permalink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group cursor-pointer flex flex-col"
-                  >
-                    {/* Clean Orange Index */}
-                    <span className="text-[#E84E0F] font-mono-tech text-xs sm:text-sm font-semibold mb-2.5 tracking-wider block">
-                      {String(igPage * 3 + pIdx + 1).padStart(2, '0')}/
-                    </span>
-
-                    {/* Clean Instagram Photo Thumbnail - ZERO TEXT ON IMAGE */}
-                    <div className="relative aspect-[16/10] w-full bg-[#0d0d0d] border border-[#2e2e2b] overflow-hidden mb-3.5">
-                      <img 
-                        src={mediaUrl} 
-                        alt={post.caption || 'Instagram dispatch'} 
-                        className="w-full h-full object-cover grayscale contrast-125 transition-transform duration-500 group-hover:scale-105 group-hover:grayscale-0"
-                        onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.src = 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80';
-                        }}
-                      />
-
-                      {/* Bottom Right Orange Action Tag */}
-                      <div className="absolute bottom-0 right-0 w-7 h-7 sm:w-8 sm:h-8 bg-[#E84E0F] flex items-center justify-center transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                        <CornerDownRight className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#181816] stroke-[2.5]" />
-                      </div>
-                    </div>
-
-                    {/* Clean Titles Below Thumbnail */}
-                    <h3 className="font-mono-tech text-xs sm:text-[13px] font-bold tracking-wider text-[#EAE6DF] group-hover:text-[#E84E0F] transition-colors uppercase truncate">
-                      {post.caption ? post.caption.split('\n')[0] : 'FIELD TELEMETRY & LAB NOTES'}
-                    </h3>
-                    <p className="font-mono-tech text-[10px] sm:text-[11px] tracking-wider text-[#8e8d87] uppercase mt-1 truncate">
-                      INSTAGRAM · {formatIgDate(post.timestamp)}
-                    </p>
-                  </a>
-                );
-              })}
-            </div>
-
-            {/* Subtle Minimal Bottom Bar */}
-            <div className="mt-8 pt-4 border-t border-[#252522] flex items-center justify-between font-mono-tech text-[10px] text-[#8e8d87] uppercase tracking-wider">
-              <a 
-                href="https://www.instagram.com/haikaljibraan/" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="hover:text-[#E84E0F] transition-colors flex items-center gap-1.5 font-bold"
-              >
-                <span>@HAIKALJIBRAAN</span>
-                <ExternalLink className="w-3 h-3" />
-              </a>
-
-              <div className="flex items-center gap-2">
-                <span>{igPage * 3 + 1}–{Math.min((igPage + 1) * 3, displayedInstagramPosts.length)} OF {displayedInstagramPosts.length}</span>
-                <button
-                  disabled={igPage === 0}
-                  onClick={() => setIgPage(p => Math.max(0, p - 1))}
-                  className="px-2.5 py-1 border border-[#2e2e2b] enabled:hover:border-[#E84E0F] enabled:hover:text-[#E84E0F] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed transition-colors"
-                >
-                  ← PREV
-                </button>
-                <button
-                  disabled={(igPage + 1) * 3 >= displayedInstagramPosts.length}
-                  onClick={() => setIgPage(p => p + 1)}
-                  className="px-2.5 py-1 border border-[#2e2e2b] enabled:hover:border-[#E84E0F] enabled:hover:text-[#E84E0F] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed transition-colors"
-                >
-                  NEXT →
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* =========================================================
-            6. SERVICES / DESIGN MANIFESTO / TECH STACK (3 COLUMNS)
+            4. SERVICES / DESIGN MANIFESTO / TECH STACK (3 COLUMNS)
         ========================================================= */}
         <section id="services" className="relative z-20 grid grid-cols-1 lg:grid-cols-12 bg-[#EAE6DF] border-b border-[#1c1c1a]/20">
-          
+
           {/* COLUMN 1: SERVICES ACCORDION LIST */}
           <div className="lg:col-span-4 p-6 sm:p-10 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-[#1c1c1a]/20">
             <div>
@@ -878,7 +682,7 @@ export default function Portfolio() {
             </div>
 
             {/* Signature Black Cutout Triangle in Bottom Right */}
-            <div 
+            <div
               className="w-20 h-11 bg-[#181816] absolute bottom-2.5 right-3"
               style={{
                 clipPath: 'polygon(100% 0, 0 100%, 100% 100%)'
@@ -898,8 +702,8 @@ export default function Portfolio() {
 
               <ul className="space-y-2.5">
                 {techStack.map((tech) => (
-                  <li 
-                    key={tech} 
+                  <li
+                    key={tech}
                     className="flex items-center justify-between font-mono-tech text-[11.5px] tracking-wider font-medium text-[#1c1c1a] group cursor-default"
                   >
                     <span className="group-hover:translate-x-1 transition-transform group-hover:text-[#E84E0F]">
@@ -914,16 +718,212 @@ export default function Portfolio() {
 
         </section>
 
+        {/* =========================================================
+            5. CREDENTIALS & LICENSES (EXACTLY MATCHING SELECTED WORK)
+        ========================================================= */}
+        <section id="credentials" className="relative z-20 bg-[#181816] text-[#EAE6DF] flex flex-col md:flex-row border-t border-b border-[#2b2b28]">
+
+          {/* Left Vertical Orange Sidebar */}
+          <div className="bg-[#E84E0F] text-[#181816] md:w-[68px] py-3.5 px-6 md:py-6 md:px-0 flex items-center justify-between md:justify-center shrink-0 self-stretch select-none">
+            <div className="font-mono-tech font-bold text-xs sm:text-[13px] tracking-[0.24em] uppercase flex items-center gap-2.5 md:[writing-mode:vertical-rl] md:rotate-180">
+              <span>CREDENTIALS</span>
+              <span className="inline-block w-[10px] h-[2px] md:w-[2.5px] md:h-[12px] bg-[#181816]" />
+            </div>
+          </div>
+
+          {/* Credentials Cards Grid - ULTRA CLEAN */}
+          <div className="flex-1 flex flex-col p-6 sm:p-8 lg:p-10">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-7 lg:gap-8">
+              {pagedCerts.map((cert, cIdx) => (
+                <div 
+                  key={cert.id || cIdx}
+                  onClick={() => setSelectedCert(cert)}
+                  className="group cursor-pointer flex flex-col"
+                >
+                  {/* Clean Orange Index */}
+                  <span className="text-[#E84E0F] font-mono-tech text-xs sm:text-sm font-semibold mb-2.5 tracking-wider block">
+                    {String(certPage * 3 + cIdx + 1).padStart(2, '0')}/
+                  </span>
+
+                  {/* Clean Certificate Thumbnail - ZERO TEXT ON IMAGE */}
+                  <div className="relative aspect-[16/10] w-full bg-[#0d0d0d] border border-[#2e2e2b] overflow-hidden mb-3.5">
+                    {cert.certificate_url ? (
+                      <img
+                        src={cert.certificate_url}
+                        alt={cert.title}
+                        className="w-full h-full object-cover grayscale contrast-125 transition-transform duration-500 group-hover:scale-105 group-hover:grayscale-0"
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                        }}
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-[#141413] p-4 flex flex-col justify-between text-[#8e8d87] font-mono-tech text-[9px] uppercase">
+                        <div className="flex justify-between items-center text-[#E84E0F]">
+                          <span>[ARCHIVE ATTESTATION]</span>
+                          <span>OFFICIAL</span>
+                        </div>
+                        <div className="text-xs font-bold text-[#EAE6DF] truncate">{cert.institution}</div>
+                        <div>VALIDATED RECORD</div>
+                      </div>
+                    )}
+
+                    {/* Bottom Right Orange Action Tag */}
+                    <div className="absolute bottom-0 right-0 w-7 h-7 sm:w-8 sm:h-8 bg-[#E84E0F] flex items-center justify-center transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                      <CornerDownRight className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#181816] stroke-[2.5]" />
+                    </div>
+                  </div>
+
+                  {/* Clean Titles Below Thumbnail */}
+                  <h3 className="font-mono-tech text-xs sm:text-[13px] font-bold tracking-wider text-[#EAE6DF] group-hover:text-[#E84E0F] transition-colors uppercase truncate">
+                    {cert.title}
+                  </h3>
+                  <p className="font-mono-tech text-[10px] sm:text-[11px] tracking-wider text-[#8e8d87] uppercase mt-1 truncate">
+                    {cert.institution} · {cert.period}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            {/* Subtle Minimal Pagination & Filter at Bottom */}
+            <div className="mt-8 pt-4 border-t border-[#252522] flex flex-wrap items-center justify-between gap-3 font-mono-tech text-[10px] text-[#8e8d87] uppercase tracking-wider">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-[#8e8d87]">CATEGORY:</span>
+                {['all', 'verified', 'national', 'competition'].map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => { setCertFilter(tab); setCertPage(0); }}
+                    className={`px-2 py-0.5 border cursor-pointer transition-colors ${certFilter === tab ? 'border-[#E84E0F] text-[#E84E0F] font-bold' : 'border-transparent text-[#8e8d87] hover:text-[#EAE6DF]'}`}
+                  >
+                    {tab.toUpperCase()}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex items-center gap-2">
+                <span>{certPage * 3 + 1}–{Math.min((certPage + 1) * 3, filteredCerts.length)} OF {filteredCerts.length}</span>
+                <button
+                  disabled={certPage === 0}
+                  onClick={() => setCertPage(p => Math.max(0, p - 1))}
+                  className="px-2.5 py-1 border border-[#2e2e2b] enabled:hover:border-[#E84E0F] enabled:hover:text-[#E84E0F] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed transition-colors"
+                >
+                  ← PREV
+                </button>
+                <button
+                  disabled={(certPage + 1) * 3 >= filteredCerts.length}
+                  onClick={() => setCertPage(p => p + 1)}
+                  className="px-2.5 py-1 border border-[#2e2e2b] enabled:hover:border-[#E84E0F] enabled:hover:text-[#E84E0F] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed transition-colors"
+                >
+                  NEXT →
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* =========================================================
+            6. VISUAL DISPATCHES (EXACTLY MATCHING SELECTED WORK)
+        ========================================================= */}
+        <section id="dispatches" className="relative z-20 bg-[#181816] text-[#EAE6DF] flex flex-col md:flex-row border-t border-b border-[#2b2b28]">
+
+          {/* Left Vertical Orange Sidebar */}
+          <div className="bg-[#E84E0F] text-[#181816] md:w-[68px] py-3.5 px-6 md:py-6 md:px-0 flex items-center justify-between md:justify-center shrink-0 self-stretch select-none">
+            <div className="font-mono-tech font-bold text-xs sm:text-[13px] tracking-[0.24em] uppercase flex items-center gap-2.5 md:[writing-mode:vertical-rl] md:rotate-180">
+              <span>DISPATCHES</span>
+              <span className="inline-block w-[10px] h-[2px] md:w-[2.5px] md:h-[12px] bg-[#181816]" />
+            </div>
+          </div>
+
+          {/* Visual Dispatches Cards Grid - ULTRA CLEAN */}
+          <div className="flex-1 flex flex-col p-6 sm:p-8 lg:p-10">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-7 lg:gap-8">
+              {pagedInstagramPosts.map((post, pIdx) => {
+                const mediaUrl = post.media_type === 'VIDEO' ? (post.thumbnail_url || post.media_url) : post.media_url;
+                return (
+                  <a
+                    key={post.id || pIdx}
+                    href={post.permalink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group cursor-pointer flex flex-col"
+                  >
+                    {/* Clean Orange Index */}
+                    <span className="text-[#E84E0F] font-mono-tech text-xs sm:text-sm font-semibold mb-2.5 tracking-wider block">
+                      {String(igPage * 3 + pIdx + 1).padStart(2, '0')}/
+                    </span>
+
+                    {/* Clean Instagram Photo Thumbnail - ZERO TEXT ON IMAGE */}
+                    <div className="relative aspect-[16/10] w-full bg-[#0d0d0d] border border-[#2e2e2b] overflow-hidden mb-3.5">
+                      <img
+                        src={mediaUrl}
+                        alt={post.caption || 'Instagram dispatch'}
+                        className="w-full h-full object-cover grayscale contrast-125 transition-transform duration-500 group-hover:scale-105 group-hover:grayscale-0"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80';
+                        }}
+                      />
+
+                      {/* Bottom Right Orange Action Tag */}
+                      <div className="absolute bottom-0 right-0 w-7 h-7 sm:w-8 sm:h-8 bg-[#E84E0F] flex items-center justify-center transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                        <CornerDownRight className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#181816] stroke-[2.5]" />
+                      </div>
+                    </div>
+
+                    {/* Clean Titles Below Thumbnail */}
+                    <h3 className="font-mono-tech text-xs sm:text-[13px] font-bold tracking-wider text-[#EAE6DF] group-hover:text-[#E84E0F] transition-colors uppercase truncate">
+                      {post.caption ? post.caption.split('\n')[0] : 'FIELD TELEMETRY & LAB NOTES'}
+                    </h3>
+                    <p className="font-mono-tech text-[10px] sm:text-[11px] tracking-wider text-[#8e8d87] uppercase mt-1 truncate">
+                      INSTAGRAM · {formatIgDate(post.timestamp)}
+                    </p>
+                  </a>
+                );
+              })}
+            </div>
+
+            {/* Subtle Minimal Bottom Bar */}
+            <div className="mt-8 pt-4 border-t border-[#252522] flex items-center justify-between font-mono-tech text-[10px] text-[#8e8d87] uppercase tracking-wider">
+              <a
+                href="https://www.instagram.com/haikaljibraan/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-[#E84E0F] transition-colors flex items-center gap-1.5 font-bold"
+              >
+                <span>@HAIKALJIBRAAN</span>
+                <ExternalLink className="w-3 h-3" />
+              </a>
+
+              <div className="flex items-center gap-2">
+                <span>{igPage * 3 + 1}–{Math.min((igPage + 1) * 3, displayedInstagramPosts.length)} OF {displayedInstagramPosts.length}</span>
+                <button
+                  disabled={igPage === 0}
+                  onClick={() => setIgPage(p => Math.max(0, p - 1))}
+                  className="px-2.5 py-1 border border-[#2e2e2b] enabled:hover:border-[#E84E0F] enabled:hover:text-[#E84E0F] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed transition-colors"
+                >
+                  ← PREV
+                </button>
+                <button
+                  disabled={(igPage + 1) * 3 >= displayedInstagramPosts.length}
+                  onClick={() => setIgPage(p => p + 1)}
+                  className="px-2.5 py-1 border border-[#2e2e2b] enabled:hover:border-[#E84E0F] enabled:hover:text-[#E84E0F] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed transition-colors"
+                >
+                  NEXT →
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
 
         {/* =========================================================
             7. FOOTER (CTA + CONTACT DETAILS + ROTATING STAMP & BARCODE)
         ========================================================= */}
         <footer id="contact" className="relative z-20 bg-[#141413] text-[#EAE6DF] px-6 sm:px-10 py-9 border-t border-[#2b2b28]">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            
+
             {/* LEFT: VERTICAL TEXT + CTA HEADLINE */}
             <div className="lg:col-span-5 flex items-stretch gap-5">
-              
+
               {/* Vertical "LET'S BUILD SOMETHING BOLD." */}
               <div className="hidden sm:flex items-center pr-4 border-r border-[#EAE6DF]/25 select-none">
                 <div className="font-mono-tech text-[10px] tracking-[0.18em] uppercase [writing-mode:vertical-rl] rotate-180 flex items-center gap-2 text-[#EAE6DF]/90">
@@ -945,10 +945,10 @@ export default function Portfolio() {
 
                 {/* Chalk/Brush White Underline Stroke */}
                 <svg className="w-48 h-3 my-2.5" viewBox="0 0 200 12" fill="none">
-                  <path 
-                    d="M2 7.5C45 3.5 135 2.5 198 6.5" 
-                    stroke="#EAE6DF" 
-                    strokeWidth="3.5" 
+                  <path
+                    d="M2 7.5C45 3.5 135 2.5 198 6.5"
+                    stroke="#EAE6DF"
+                    strokeWidth="3.5"
                     strokeLinecap="round"
                   />
                 </svg>
@@ -1024,11 +1024,11 @@ export default function Portfolio() {
             INTERACTIVE PROJECT CASE STUDY PREVIEW MODAL
         ========================================================= */}
         {selectedProjectModal && (
-          <div 
+          <div
             className="fixed inset-0 z-50 bg-black/85 backdrop-blur-xs flex items-center justify-center p-4 animate-fade-in"
             onClick={() => setSelectedProjectModal(null)}
           >
-            <div 
+            <div
               className="bg-[#EAE6DF] border-2 border-[#181816] max-w-lg w-full p-6 sm:p-8 shadow-2xl relative"
               onClick={(e) => e.stopPropagation()}
             >
@@ -1036,7 +1036,7 @@ export default function Portfolio() {
                 <span className="font-mono-tech text-xs font-bold text-[#E84E0F] bg-[#181816] px-2.5 py-1">
                   {selectedProjectModal.num} {selectedProjectModal.category}
                 </span>
-                <button 
+                <button
                   onClick={() => setSelectedProjectModal(null)}
                   className="font-mono-tech text-xs font-bold text-[#181816] hover:text-[#E84E0F] cursor-pointer"
                 >
@@ -1077,11 +1077,11 @@ export default function Portfolio() {
             CERTIFICATE PREVIEW MODAL
         ========================================================= */}
         {selectedCert && (
-          <div 
+          <div
             className="fixed inset-0 z-50 bg-black/85 backdrop-blur-xs flex items-center justify-center p-4 animate-fade-in"
             onClick={() => setSelectedCert(null)}
           >
-            <div 
+            <div
               className="bg-[#EAE6DF] border-2 border-[#181816] max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative max-h-[92vh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
@@ -1089,7 +1089,7 @@ export default function Portfolio() {
                 <span className="font-mono-tech text-xs font-bold text-[#E84E0F] bg-[#181816] px-2.5 py-1">
                   [CREDENTIAL: {selectedCert.period || 'OFFICIAL'}]
                 </span>
-                <button 
+                <button
                   onClick={() => setSelectedCert(null)}
                   className="font-mono-tech text-xs font-bold text-[#181816] hover:text-[#E84E0F] cursor-pointer"
                 >
@@ -1102,7 +1102,7 @@ export default function Portfolio() {
               <h3 className="font-anton text-2xl sm:text-3xl uppercase text-[#181816] mb-4">
                 {selectedCert.title}
               </h3>
-              
+
               {selectedCert.certificate_url && (
                 <div className="w-full bg-[#181816] border border-[#181816] mb-4 overflow-hidden flex items-center justify-center min-h-[300px]">
                   {selectedCert.certificate_url.toLowerCase().endsWith('.pdf') ? (

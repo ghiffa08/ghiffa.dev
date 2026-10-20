@@ -821,7 +821,48 @@ export default function Portfolio() {
         </section>
 
         {/* =========================================================
-            6. VISUAL DISPATCHES (EXACTLY MATCHING SELECTED WORK)
+            6. SPECIAL FEATURE: SKILLSTREAK.ID CTA BANNER
+        ========================================================= */}
+        <section className="relative z-20 bg-[#EAE6DF] text-[#181816] border-t border-b border-[#1c1c1a]/20 p-6 sm:p-10 lg:p-12">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+            <div className="max-w-2xl">
+              <div className="flex items-center gap-3 mb-3">
+                <span className="w-2.5 h-2.5 bg-[#E84E0F]" />
+                <span className="font-mono-tech text-[11px] font-bold tracking-widest text-[#E84E0F] uppercase">
+                  [ CODING EDUCATION PLATFORM · FOUNDED BY GHIFFA ]
+                </span>
+              </div>
+              <h2 className="font-anton text-3xl sm:text-5xl lg:text-6xl uppercase tracking-tight text-[#181816] leading-[0.92] mb-3">
+                SKILLSTREAK.ID
+              </h2>
+              <p className="font-mono-tech text-xs sm:text-[13px] leading-relaxed text-[#3a3935] uppercase font-medium max-w-xl">
+                The fastest path from zero to deployable software engineer. Built with gamified streaks, live code evaluators, and production-grade curriculum.
+              </p>
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-4 font-mono-tech text-[10px] uppercase text-[#6e6c64] font-semibold">
+                <span>⚡ XP REWARD SYSTEM</span>
+                <span className="hidden sm:inline">•</span>
+                <span>🔥 DAILY STREAK ENGINE</span>
+                <span className="hidden sm:inline">•</span>
+                <span>💻 LIVE CODE EVALUATOR</span>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full lg:w-auto shrink-0">
+              <a
+                href="https://skillstreak.web.id"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-3 bg-[#181816] text-[#EAE6DF] hover:bg-[#E84E0F] hover:text-[#181816] px-7 py-4 font-mono-tech text-xs font-bold uppercase tracking-wider transition-colors group cursor-pointer border border-[#181816]"
+              >
+                <span>EXPLORE SKILLSTREAK.ID</span>
+                <CornerDownRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-transform stroke-[2.5]" />
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* =========================================================
+            7. VISUAL DISPATCHES (EXACTLY MATCHING SELECTED WORK)
         ========================================================= */}
         <section id="dispatches" className="relative z-20 bg-[#181816] text-[#EAE6DF] flex flex-col md:flex-row border-t border-b border-[#2b2b28]">
 

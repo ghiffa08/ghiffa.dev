@@ -1,72 +1,102 @@
-import { motion } from 'framer-motion';
-import { useTranslation } from 'react-i18next';
+import React from 'react';
 import { useSupabaseSingle } from '../../hooks/useSupabaseData';
-import { fadeInUp, staggerContainer, staggerItem } from '../../utils/animationVariants';
 
-export function HeroSection() {
-  const { t } = useTranslation();
-  const { data: info, isLoading, error } = useSupabaseSingle('personal_info');
+export function HeroSection({ onOpenWork }) {
+  const { data: info } = useSupabaseSingle('personal_info');
+  const { data: settings } = useSupabaseSingle('general_settings');
 
-  if (isLoading) {
-    return (
-      <section className="min-h-screen w-full flex flex-col justify-center pb-12 pt-32 px-6 md:px-12 relative">
-        <div className="max-w-screen-2xl w-full mx-auto">
-          <div className="w-full max-w-3xl h-[10vw] md:h-[7.5vw] lg:h-[120px] bg-gray-200 animate-pulse mb-4"></div>
-          <div className="w-[85%] max-w-2xl h-[10vw] md:h-[7.5vw] lg:h-[120px] bg-gray-200 animate-pulse"></div>
-          <div className="mt-16 md:mt-24 grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
-            <div className="md:col-span-5 lg:col-span-4 flex items-center gap-4">
-              <div className="w-48 h-12 rounded-full bg-gray-200 animate-pulse"></div>
-              <div className="w-12 h-12 rounded-full bg-gray-200 animate-pulse"></div>
-            </div>
-            <div className="md:col-span-7 lg:col-span-8 md:pl-12 lg:border-l border-[#E5E5E5]">
-              <div className="w-full max-w-lg h-16 bg-gray-200 animate-pulse"></div>
+  // Display nickname / title: 'Ghiffa.' or first name
+  const displayName = info?.full_name ? info.full_name.split(' ')[0] + '.' : 'Ghiffa.';
+  const subtitle = info?.headline || "Quiet design and engineering that earns attention — and keeps working long after launch.";
+
+  return (
+    <section id="home" className="relative max-w-[1600px] mx-auto border-b border-[#D6D4CC]">
+      {/* Vertical 12-Column Grid Area */}
+      <div className="hero-grid-bg relative min-h-[540px] sm:min-h-[640px] lg:min-h-[730px] flex flex-col justify-between px-4 sm:px-6 pt-3 pb-16">
+        
+        {/* Top Micro-Metadata Row */}
+        <div className="flex flex-wrap items-center justify-between gap-2 font-mono text-[9px] sm:text-[10px] tracking-[0.15em] text-[#6E6D68] uppercase">
+          <div>S 6°58'38" E 108°29'00" · FOLIO/01</div>
+          <div>GHIFFA — INDEPENDENT ENGINEERING PRACTICE, EST. 2022</div>
+        </div>
+
+        {/* Centerpiece Logo + Title Typography */}
+        <div className="my-auto py-16 sm:py-24">
+          <div className="grid grid-cols-1 lg:grid-cols-12 items-center">
+            <div className="lg:col-start-2 lg:col-span-10">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-7 md:gap-9">
+                {/* Large Geometric Pill Emblem */}
+                <div className="shrink-0">
+                  <svg className="w-24 h-32 sm:w-32 sm:h-44 md:w-36 md:h-48 lg:w-[152px] lg:h-[206px]" viewBox="0 0 152 206" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* Black Upper & Left Pill Body */}
+                    <path d="M76 0C34.0264 0 0 34.0264 0 76V130C0 171.974 34.0264 206 76 206V103H152V76C152 34.0264 117.974 0 76 0Z" fill="#121210"/>
+                    {/* Orange Bottom-Right Quadrant */}
+                    <path d="M76 103H152V130C152 171.974 117.974 206 76 206V103Z" fill="#FF441F"/>
+                  </svg>
+                </div>
+
+                {/* Massive Display Heading + Underline Subtitle */}
+                <div className="flex-1 w-full">
+                  <h1 className="akira-title text-[78px] sm:text-[128px] md:text-[168px] lg:text-[205px] text-[#121210] select-none">
+                    {displayName}
+                  </h1>
+                  
+                  {/* Thin Horizontal Rule under title extending right */}
+                  <div className="mt-3 sm:mt-4 border-t border-[#121210]/80 pt-3 sm:pt-3.5 max-w-[780px]">
+                    <p className="text-sm sm:text-base md:text-[17px] font-medium text-[#121210] tracking-[-0.01em]">
+                      {subtitle}
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </section>
-    );
-  }
 
-  if (error || !info) {
-    return <section className="min-h-[100svh] flex items-center justify-center text-gray-400 font-mono text-sm uppercase tracking-widest px-6 pt-32 pb-16">{error ? 'Error loading data' : 'Please configure Personal Info in Admin'}</section>;
-  }
+        {/* Bottom Spacer inside Hero Grid */}
+        <div className="h-2"></div>
+      </div>
 
-  return (
-    <section className="min-h-[100svh] flex flex-col justify-center px-6 md:px-12 pt-32 pb-16 md:pb-24 relative">
-      <motion.div 
-        className="max-w-screen-2xl w-full mx-auto"
-        initial="hidden"
-        animate="visible"
-        variants={staggerContainer}
-      >
-        <motion.h2 
-          className="text-6xl sm:text-[10vw] md:text-[9vw] lg:text-[140px] font-black leading-[0.85] tracking-tighter uppercase text-[#111111] mb-2 max-w-6xl mx-auto break-words"
-          variants={fadeInUp}
-        >
-          {t(info.headline)}
-        </motion.h2>
-        
-        <motion.div 
-          className="mt-16 md:mt-24 grid grid-cols-1 md:grid-cols-12 gap-8 items-end max-w-6xl mx-auto"
-          variants={staggerItem}
-        >
-          <div className="md:col-span-5 lg:col-span-4 flex items-center gap-4">
-            <a href="#contact" className="inline-flex items-center gap-3 rounded-full border border-[#E5E5E5] bg-white px-5 py-3 md:px-8 md:py-4 text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold hover:bg-[#111111] hover:text-white hover:border-[#111111] shadow-sm transition-all duration-300">
-              <span>{t('contact.connect')}</span>
-            </a>
-            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-[#111111] text-[#111111] flex items-center justify-center transform -rotate-45 font-mono text-sm hover:bg-[#111111] hover:text-white transition-colors cursor-pointer">
-              →
+      {/* 4-COLUMN HERO FOOTER SPEC BAR */}
+      <div className="border-t border-[#D6D4CC] bg-[#F0EFE9] px-4 sm:px-6 py-7">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
+          {/* [01] DISCIPLINE */}
+          <div className="space-y-1.5">
+            <div className="font-mono text-[10px] tracking-[0.14em] text-[#6E6D68] uppercase">[01] DISCIPLINE</div>
+            <div className="text-xs font-bold text-[#121210]">IoT &amp; Hardware</div>
+            <p className="text-xs text-[#6E6D68] leading-relaxed">Sensors, telemetry, custom PCB. Built end-to-end.</p>
+          </div>
+
+          {/* [02] PRACTICE */}
+          <div className="space-y-1.5">
+            <div className="font-mono text-[10px] tracking-[0.14em] text-[#6E6D68] uppercase">[02] PRACTICE</div>
+            <div className="text-xs font-bold text-[#121210]">Fullstack &amp; Edge Systems</div>
+            <p className="text-xs text-[#6E6D68] leading-relaxed">Web, APIs, embedded firmware. One engineer of one.</p>
+          </div>
+
+          {/* [03] CURRENTLY */}
+          <div className="space-y-1.5">
+            <div className="font-mono text-[10px] tracking-[0.14em] text-[#6E6D68] uppercase">[03] CURRENTLY</div>
+            <div className="text-xs font-bold text-[#121210]">{info?.availability_status || 'Open for Q3/Q4 2026'}</div>
+            <p className="text-xs text-[#6E6D68] leading-relaxed">Client slots open. Reply within 24h.</p>
+          </div>
+
+          {/* [04] ARCHIVE */}
+          <div className="space-y-1.5">
+            <div className="font-mono text-[10px] tracking-[0.14em] text-[#6E6D68] uppercase">[04] ARCHIVE</div>
+            <div className="text-xs font-bold text-[#121210]">The folio · 2022→2026</div>
+            <p className="text-xs text-[#6E6D68] leading-relaxed">Hardware, web interface, IoT telemetry.</p>
+            <div className="pt-0.5">
+              <button 
+                onClick={onOpenWork} 
+                className="inline-block font-mono text-[10px] tracking-[0.12em] uppercase text-[#121210] underline underline-offset-4 hover:text-[#FF441F] transition-colors cursor-pointer"
+              >
+                OPEN THE INDEX
+              </button>
             </div>
           </div>
-          <div className="md:col-span-7 lg:col-span-8 md:pl-12 lg:border-l border-[#E5E5E5]">
-            <h1 className="text-gray-500 font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] leading-relaxed max-w-lg">
-              <span className="sr-only">The official personal website of </span>
-              <strong className="block text-[#111111]">{info.full_name}</strong>
-              <span className="block">{t(info.role)}</span>
-            </h1>
-          </div>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </section>
   );
 }

@@ -1,0 +1,1942 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEQUON STUDIO — Akira Mori | Independent Design Practice</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bg: '#F0EFE9',
+                        bgDark: '#121210',
+                        ink: '#121210',
+                        muted: '#6E6D68',
+                        line: '#D6D4CC',
+                        accent: '#FF441F',
+                        accentMuted: '#D14B30'
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        display: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Instrument Serif"', 'serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --bg-cream: #F0EFE9;
+            --ink: #121210;
+            --line: #D6D4CC;
+            --orange: #FF441F;
+            --coral-serif: #CE4A30;
+        }
+
+        body {
+            background-color: var(--bg-cream);
+            color: var(--ink);
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 12-Column Background Grid System matching screenshot */
+        .hero-grid-bg {
+            background-size: calc(100% / 12) 100%;
+            background-image: linear-gradient(to right, var(--line) 1px, transparent 1px);
+        }
+
+        @media (max-width: 768px) {
+            .hero-grid-bg {
+                background-size: calc(100% / 4) 100%;
+            }
+        }
+
+        /* Custom Akira Title Typography */
+        .akira-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            letter-spacing: -0.055em;
+            line-height: 0.88;
+        }
+
+        /* Editorial Serif Italic Accent */
+        .editorial-serif {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-style: italic;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+        }
+
+        /* Marquee Infinite Animation */
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .animate-marquee {
+            display: flex;
+            width: max-content;
+            animation: marquee 28s linear infinite;
+        }
+
+        .animate-marquee:hover {
+            animation-play-state: paused;
+        }
+
+        /* Subtle grain overlay for authentic print/editorial look */
+        .grain-overlay {
+            pointer-events: none;
+            position: fixed;
+            inset: 0;
+            z-index: 99;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Custom transitions */
+        .collaborator-cell {
+            transition: background-color 0.25s ease, color 0.25s ease;
+        }
+        .collaborator-cell:hover {
+            background-color: #E6E4DC;
+        }
+
+        .project-card:hover .project-img {
+            transform: scale(1.03);
+        }
+
+        /* Page Transition Animation */
+        .page-view {
+            animation: pageFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes pageFadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .nav-link-active {
+            color: var(--orange) !important;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="selection:bg-accent selection:text-white">
+
+    <!-- Subtle Print Texture Overlay -->
+    <div class="grain-overlay"></div>
+
+    <!-- TOP NAVIGATION BAR -->
+    <header class="sticky top-0 z-40 bg-[#F0EFE9]/95 backdrop-blur-sm border-b border-line">
+        <div class="max-w-[1600px] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
+            <!-- Left Brand Logo -->
+            <button onclick="switchPage('home')" class="flex items-center gap-2.5 group text-left focus:outline-none">
+                <!-- Lequon Pill-Cutout Icon -->
+                <svg class="w-4 h-5 transition-transform duration-300 group-hover:scale-105" viewBox="0 0 32 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 0C7.16344 0 0 7.16344 0 16V26C0 34.8366 7.16344 42 16 42V21H32V16C32 7.16344 24.8366 0 16 0Z" fill="#121210"/>
+                    <path d="M16 21H32V26C32 34.8366 24.8366 42 16 42V21Z" fill="#FF441F"/>
+                </svg>
+                <div class="flex items-baseline gap-1.5">
+                    <span class="font-extrabold tracking-tight text-sm uppercase text-ink">LEQUON</span>
+                    <span class="font-mono text-[9px] tracking-[0.16em] text-muted uppercase">STUDIO</span>
+                </div>
+            </button>
+
+            <!-- Center Navigation Links (Multi-Page Switcher) -->
+            <nav class="hidden md:flex items-center gap-8 font-mono text-[10px] tracking-[0.14em] uppercase">
+                <button onclick="switchPage('home')" id="nav-home" class="nav-item nav-link-active text-ink hover:text-accent transition-colors">
+                    <span class="text-muted mr-1">00</span>HOME
+                </button>
+                <button onclick="switchPage('about')" id="nav-about" class="nav-item text-ink hover:text-accent transition-colors">
+                    <span class="text-muted mr-1">01</span>ABOUT
+                </button>
+                <button onclick="switchPage('work')" id="nav-work" class="nav-item text-ink hover:text-accent transition-colors">
+                    <span class="text-muted mr-1">02</span>WORK
+                </button>
+            </nav>
+
+            <!-- Right CTA Button & Mobile Page Switcher -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <!-- Mobile Quick Nav -->
+                <div class="flex md:hidden items-center border border-line bg-[#EAE8E0]/70 p-0.5 font-mono text-[9px] uppercase">
+                    <button onclick="switchPage('home')" id="mob-home" class="px-2 py-1 bg-ink text-[#F0EFE9]">00</button>
+                    <button onclick="switchPage('about')" id="mob-about" class="px-2 py-1 text-ink">01 ABOUT</button>
+                    <button onclick="switchPage('work')" id="mob-work" class="px-2 py-1 text-ink">02 WORK</button>
+                </div>
+
+                <a href="#contact" class="border border-ink px-3 sm:px-3.5 py-1.5 font-mono text-[10px] tracking-[0.12em] uppercase text-ink hover:bg-ink hover:text-[#F0EFE9] transition-colors flex items-center gap-1.5">
+                    <span>GET IN TOUCH</span>
+                    <span class="text-[11px] leading-none">↗</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================================================================= -->
+    <!-- PAGE 00: HOME VIEW (https://lequon.webflow.io/)                   -->
+    <!-- ================================================================= -->
+    <main id="page-home" class="page-view">
+
+    <!-- HERO SECTION -->
+    <section id="home" class="relative max-w-[1600px] mx-auto border-b border-line">
+        <!-- Vertical 12-Column Grid Area -->
+        <div class="hero-grid-bg relative min-h-[540px] sm:min-h-[640px] lg:min-h-[730px] flex flex-col justify-between px-4 sm:px-6 pt-3 pb-16">
+            
+            <!-- Top Micro-Metadata Row -->
+            <div class="flex flex-wrap items-center justify-between gap-2 font-mono text-[9px] sm:text-[10px] tracking-[0.15em] text-muted uppercase">
+                <div>N 35°41'22" E 139°41'30" · FOLIO/01</div>
+                <div>LEQUON — INDEPENDENT DESIGN PRACTICE, EST. 2018</div>
+            </div>
+
+            <!-- Centerpiece Logo + Akira Typography -->
+            <div class="my-auto py-16 sm:py-24">
+                <div class="grid grid-cols-1 lg:grid-cols-12 items-center">
+                    <div class="lg:col-start-2 lg:col-span-10">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-7 md:gap-9">
+                            <!-- Large Geometric Pill Emblem -->
+                            <div class="shrink-0">
+                                <svg class="w-24 h-32 sm:w-32 sm:h-44 md:w-36 md:h-48 lg:w-[152px] lg:h-[206px]" viewBox="0 0 152 206" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Black Upper & Left Pill Body -->
+                                    <path d="M76 0C34.0264 0 0 34.0264 0 76V130C0 171.974 34.0264 206 76 206V103H152V76C152 34.0264 117.974 0 76 0Z" fill="#121210"/>
+                                    <!-- Orange Bottom-Right Quadrant -->
+                                    <path d="M76 103H152V130C152 171.974 117.974 206 76 206V103Z" fill="#FF441F"/>
+                                </svg>
+                            </div>
+
+                            <!-- Massive "Akira." Display Heading + Underline Subtitle -->
+                            <div class="flex-1 w-full">
+                                <h1 class="akira-title text-[78px] sm:text-[128px] md:text-[168px] lg:text-[205px] text-ink select-none">
+                                    Akira.
+                                </h1>
+                                
+                                <!-- Thin Horizontal Rule under Akira extending right -->
+                                <div class="mt-3 sm:mt-4 border-t border-ink/80 pt-3 sm:pt-3.5 max-w-[780px]">
+                                    <p class="text-sm sm:text-base md:text-[17px] font-medium text-ink tracking-[-0.01em]">
+                                        Quiet design that earns attention — and keeps working long after launch.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Spacer inside Hero Grid -->
+            <div class="h-2"></div>
+        </div>
+
+        <!-- 4-COLUMN HERO FOOTER SPEC BAR -->
+        <div class="border-t border-line bg-[#F0EFE9] px-4 sm:px-6 py-7">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
+                <!-- [01] DISCIPLINE -->
+                <div class="space-y-1.5">
+                    <div class="font-mono text-[10px] tracking-[0.14em] text-muted uppercase">[01] DISCIPLINE</div>
+                    <div class="text-xs font-bold text-ink">Brand Systems</div>
+                    <p class="text-xs text-muted leading-relaxed">Identity, type, motion. Built end-to-end.</p>
+                </div>
+
+                <!-- [02] PRACTICE -->
+                <div class="space-y-1.5">
+                    <div class="font-mono text-[10px] tracking-[0.14em] text-muted uppercase">[02] PRACTICE</div>
+                    <div class="text-xs font-bold text-ink">Editorial &amp; product</div>
+                    <p class="text-xs text-muted leading-relaxed">Web, print, packaging. One studio of one.</p>
+                </div>
+
+                <!-- [03] CURRENTLY -->
+                <div class="space-y-1.5">
+                    <div class="font-mono text-[10px] tracking-[0.14em] text-muted uppercase">[03] CURRENTLY</div>
+                    <div class="text-xs font-bold text-ink">Open for Q3 2026</div>
+                    <p class="text-xs text-muted leading-relaxed">2 client slots remain. Reply within 24h.</p>
+                </div>
+
+                <!-- [04] ARCHIVE -->
+                <div class="space-y-1.5">
+                    <div class="font-mono text-[10px] tracking-[0.14em] text-muted uppercase">[04] ARCHIVE</div>
+                    <div class="text-xs font-bold text-ink">The folio · 2018→2026</div>
+                    <p class="text-xs text-muted leading-relaxed">Identity, interface, editorial.</p>
+                    <div class="pt-0.5">
+                        <button onclick="switchPage('work')" class="inline-block font-mono text-[10px] tracking-[0.12em] uppercase text-ink underline underline-offset-4 hover:text-accent transition-colors">
+                            OPEN THE INDEX
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INFINITE MARQUEE TICKER -->
+    <div class="bg-ink text-[#F0EFE9] py-4 sm:py-5 border-b border-line overflow-hidden select-none">
+        <div class="animate-marquee flex items-center">
+            <!-- Set 1 -->
+            <div class="flex items-center shrink-0">
+                <span class="text-xl sm:text-2xl md:text-[26px] font-bold tracking-tight mx-5 sm:mx-7">Art direction</span>
+                <span class="w-2.5 h-2.5 rounded-full bg-accent mx-2"></span>
+                <span class="text-xl sm:text-2xl md:text-[26px] font-bold tracking-tight mx-5 sm:mx-7">Type</span>
+                <span class="w-2.5 h-2.5 rounded-full bg-accent mx-2"></span>
+                <span class="text-xl sm:text-2xl md:text-[26px] font-bold tracking-tight mx-5 sm:mx-7">Motion</span>
+                <span class="w-2.5 h-2.5 rounded-full bg-accent mx-2"></span>
+                <span class="text-xl sm:text-2xl md:text-[26px] font-bold tracking-tight mx-5 sm:mx-7">Packaging</span>
+                <span class="w-2.5 h-2.5 rounded-full bg-accent mx-2"></span>
+                <span class="text-xl sm:text-2xl md:text-[26px] font-bold tracking-tight mx-5 sm:mx-7">Identity systems</span>
+                <span class="w-2.5 h-2.5 rounded-full bg-accent mx-2"></span>
+                <span class="text-xl sm:text-2xl md:text-[26px] font-bold tracking-tight mx-5 sm:mx-7">Editorial</span>
+                <span class="w-2.5 h-2.5 rounded-full bg-accent mx-2"></span>
+                <span class="text-xl sm:text-2xl md:text-[26px] font-bold tracking-tight mx-5 sm:mx-7">Web design</span>
+                <span class="w-2.5 h-2.5 rounded-full bg-accent mx-2"></span>
+            </div>
+            <!-- Set 2 (Duplicate for seamless loop) -->
+            <div class="flex items-center shrink-0">
+                <span class="text-xl sm:text-2xl md:text-[26px] font-bold tracking-tight mx-5 sm:mx-7">Art direction</span>
+                <span class="w-2.5 h-2.5 rounded-full bg-accent mx-2"></span>
+                <span class="text-xl sm:text-2xl md:text-[26px] font-bold tracking-tight mx-5 sm:mx-7">Type</span>
+                <span class="w-2.5 h-2.5 rounded-full bg-accent mx-2"></span>
+                <span class="text-xl sm:text-2xl md:text-[26px] font-bold tracking-tight mx-5 sm:mx-7">Motion</span>
+                <span class="w-2.5 h-2.5 rounded-full bg-accent mx-2"></span>
+                <span class="text-xl sm:text-2xl md:text-[26px] font-bold tracking-tight mx-5 sm:mx-7">Packaging</span>
+                <span class="w-2.5 h-2.5 rounded-full bg-accent mx-2"></span>
+                <span class="text-xl sm:text-2xl md:text-[26px] font-bold tracking-tight mx-5 sm:mx-7">Identity systems</span>
+                <span class="w-2.5 h-2.5 rounded-full bg-accent mx-2"></span>
+                <span class="text-xl sm:text-2xl md:text-[26px] font-bold tracking-tight mx-5 sm:mx-7">Editorial</span>
+                <span class="w-2.5 h-2.5 rounded-full bg-accent mx-2"></span>
+                <span class="text-xl sm:text-2xl md:text-[26px] font-bold tracking-tight mx-5 sm:mx-7">Web design</span>
+                <span class="w-2.5 h-2.5 rounded-full bg-accent mx-2"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION [ 01 / 06 ] ABOUT -->
+    <section id="about" class="max-w-[1600px] mx-auto border-b border-line">
+        <!-- Section Header Row -->
+        <div class="px-4 sm:px-6 py-8 sm:py-11 border-b border-line">
+            <div class="grid grid-cols-1 lg:grid-cols-12 items-end gap-4">
+                <!-- Left Index Marker -->
+                <div class="lg:col-span-2 font-mono text-[10px] tracking-[0.14em] text-muted uppercase leading-relaxed">
+                    <div>[ 01 / 06 ]</div>
+                    <div>ABOUT</div>
+                </div>
+                <!-- Right Editorial Headline -->
+                <div class="lg:col-span-10">
+                    <h2 class="text-3xl sm:text-5xl md:text-[54px] font-extrabold tracking-[-0.035em] leading-[1.02] text-ink">
+                        A studio of one. <span class="editorial-serif text-accentMuted font-normal text-[1.08em]">Built around obsession</span>, run like<br class="hidden sm:inline"> a system.
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Split Profile Content: Left Bio & Stats / Right Low-Key Monochrome Portrait -->
+        <div class="grid grid-cols-1 lg:grid-cols-12">
+            <!-- Left Column (5 cols on desktop) -->
+            <div class="lg:col-span-5 p-6 sm:p-8 md:p-10 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-line">
+                <div>
+                    <!-- Red Tag -->
+                    <div class="font-mono text-[10px] tracking-[0.15em] text-accentMuted uppercase mb-4">
+                        [ DESIGNER · TOKYO / REMOTE ]
+                    </div>
+
+                    <!-- Name & Sub-caption -->
+                    <h3 class="editorial-serif text-3xl sm:text-4xl text-ink leading-none mb-1.5">
+                        Akira Mori
+                    </h3>
+                    <div class="font-mono text-[9px] tracking-[0.16em] text-muted uppercase mb-8">
+                        INDEPENDENT DESIGNER · SINCE 2018
+                    </div>
+
+                    <!-- Main Pull Quote -->
+                    <blockquote class="text-base sm:text-lg md:text-[19px] font-semibold text-ink leading-[1.42] tracking-[-0.015em] mb-6">
+                        "I believe a well-designed website is a quiet kind of leverage — it earns attention without asking for it, and keeps working long after the announcement fades."
+                    </blockquote>
+
+                    <!-- Supporting Paragraph -->
+                    <p class="text-xs sm:text-[13px] text-muted leading-relaxed mb-10">
+                        Over eight years I've worked with founders, studios and editorial teams across three continents. The brief changes; the rigor doesn't.
+                    </p>
+                </div>
+
+                <!-- Bottom 3 Metrics Row -->
+                <div class="border-t border-line pt-6 grid grid-cols-3 gap-4">
+                    <div>
+                        <div class="editorial-serif text-3xl sm:text-4xl text-ink leading-none mb-1.5">
+                            082<span class="text-accentMuted">.</span>
+                        </div>
+                        <div class="font-mono text-[8px] sm:text-[9px] tracking-[0.13em] text-muted uppercase">
+                            PROJECTS SHIPPED
+                        </div>
+                    </div>
+                    <div>
+                        <div class="editorial-serif text-3xl sm:text-4xl text-ink leading-none mb-1.5">
+                            14<span class="text-accentMuted text-2xl align-top">×</span>
+                        </div>
+                        <div class="font-mono text-[8px] sm:text-[9px] tracking-[0.13em] text-muted uppercase">
+                            AWARDS / MENTIONS
+                        </div>
+                    </div>
+                    <div>
+                        <div class="editorial-serif text-3xl sm:text-4xl text-ink leading-none mb-1.5">
+                            08<span class="text-accentMuted">yr</span>
+                        </div>
+                        <div class="font-mono text-[8px] sm:text-[9px] tracking-[0.13em] text-muted uppercase">
+                            INDEPENDENT PRACTICE
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column (7 cols on desktop): Monochrome Portrait on Pure Black Background -->
+            <div class="lg:col-span-7 bg-[#0E0E0E] relative min-h-[420px] sm:min-h-[520px] flex flex-col justify-between overflow-hidden group">
+                <!-- Top Right Tag -->
+                <div class="relative z-10 p-5 sm:p-6 flex justify-end">
+                    <span class="font-mono text-[10px] tracking-[0.16em] text-white/70 uppercase">[ LEQUON ]</span>
+                </div>
+
+                <!-- Portrait Image Centered -->
+                <div class="absolute inset-0 flex items-end justify-center pt-10">
+                    <img 
+                        src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1200&q=85" 
+                        alt="Akira Mori Portrait" 
+                        class="h-[92%] w-auto object-cover object-top grayscale contrast-125 brightness-90 transition-transform duration-700 group-hover:scale-[1.02]"
+                        onerror="this.src='https://placehold.co/800x900/0E0E0E/E0E0E0?text=Akira+Mori'"
+                    />
+                    <!-- Subtle Vignette to blend into #0E0E0E -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#0E0E0E] via-transparent to-[#0E0E0E]/40"></div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-[#0E0E0E] via-transparent to-[#0E0E0E]"></div>
+                </div>
+
+                <!-- Bottom Overlay Bar inside Portrait -->
+                <button onclick="switchPage('about')" class="w-full relative z-10 border-t border-white/15 px-6 py-4 flex items-center justify-between text-white hover:bg-white/5 transition-colors text-left">
+                    <span class="font-mono text-[10px] tracking-[0.16em] uppercase">MORE ABOUT ME</span>
+                    <span class="text-sm transform group-hover:translate-x-1 transition-transform">→</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION [ 02 / 06 ] SELECTED COLLABORATORS -->
+    <section class="max-w-[1600px] mx-auto border-b border-line">
+        <!-- Header Row -->
+        <div class="px-4 sm:px-6 py-8 sm:py-10 border-b border-line">
+            <div class="grid grid-cols-1 lg:grid-cols-12 items-end gap-4">
+                <div class="lg:col-span-2 font-mono text-[10px] tracking-[0.14em] text-muted uppercase leading-relaxed">
+                    <div>[ 02 / 06 ]</div>
+                    <div>ABOUT</div>
+                </div>
+                <div class="lg:col-span-10">
+                    <h2 class="text-3xl sm:text-5xl md:text-[52px] font-extrabold tracking-[-0.035em] leading-none text-ink">
+                        Selected <span class="editorial-serif text-accentMuted font-normal text-[1.08em]">collaborators</span>.
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6x2 Grid of Collaborators (01 to 12) -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6">
+            <!-- 01 Novaire -->
+            <div class="collaborator-cell border-r border-b border-line p-4 sm:p-5 h-32 sm:h-36 flex flex-col justify-between">
+                <span class="font-mono text-[10px] text-muted">01</span>
+                <div class="my-auto text-center font-semibold text-base sm:text-lg tracking-tight text-ink">Novaire</div>
+                <div class="h-2"></div>
+            </div>
+
+            <!-- 02 BRIXEN (Note: Screenshot has a quirk showing 03, we keep authentic look) -->
+            <div class="collaborator-cell border-r border-b border-line p-4 sm:p-5 h-32 sm:h-36 flex flex-col justify-between">
+                <span class="font-mono text-[10px] text-muted">02</span>
+                <div class="my-auto text-center font-bold text-sm sm:text-base tracking-[0.06em] uppercase text-ink">BRIXEN</div>
+                <div class="h-2"></div>
+            </div>
+
+            <!-- 03 Vale&Form -->
+            <div class="collaborator-cell border-r border-b border-line p-4 sm:p-5 h-32 sm:h-36 flex flex-col justify-between">
+                <span class="font-mono text-[10px] text-muted">03</span>
+                <div class="my-auto text-center font-semibold text-base sm:text-lg tracking-tight text-ink">Vale&amp;Form</div>
+                <div class="h-2"></div>
+            </div>
+
+            <!-- 04 MONO/TYPE -->
+            <div class="collaborator-cell border-r border-b border-line p-4 sm:p-5 h-32 sm:h-36 flex flex-col justify-between">
+                <span class="font-mono text-[10px] text-muted">04</span>
+                <div class="my-auto text-center font-bold text-xs sm:text-sm tracking-[0.08em] uppercase text-ink">MONO/TYPE</div>
+                <div class="h-2"></div>
+            </div>
+
+            <!-- 05 Arclane -->
+            <div class="collaborator-cell border-r border-b border-line p-4 sm:p-5 h-32 sm:h-36 flex flex-col justify-between">
+                <span class="font-mono text-[10px] text-muted">05</span>
+                <div class="my-auto text-center font-semibold text-base sm:text-lg tracking-tight text-ink">Arclane</div>
+                <div class="h-2"></div>
+            </div>
+
+            <!-- 06 Hush&Co -->
+            <div class="collaborator-cell border-b border-line p-4 sm:p-5 h-32 sm:h-36 flex flex-col justify-between">
+                <span class="font-mono text-[10px] text-muted">06</span>
+                <div class="my-auto text-center font-bold text-base sm:text-lg tracking-tight text-ink">Hush&amp;Co</div>
+                <div class="h-2"></div>
+            </div>
+
+            <!-- 07 KINFOLK LAB -->
+            <div class="collaborator-cell border-r border-b lg:border-b-0 border-line p-4 sm:p-5 h-32 sm:h-36 flex flex-col justify-between">
+                <span class="font-mono text-[10px] text-muted">07</span>
+                <div class="my-auto text-center font-bold text-xs sm:text-sm tracking-[0.1em] uppercase text-ink">KINFOLK LAB</div>
+                <div class="h-2"></div>
+            </div>
+
+            <!-- 08 Sori Studio -->
+            <div class="collaborator-cell border-r border-b lg:border-b-0 border-line p-4 sm:p-5 h-32 sm:h-36 flex flex-col justify-between">
+                <span class="font-mono text-[10px] text-muted">08</span>
+                <div class="my-auto text-center editorial-serif text-xl sm:text-2xl text-ink">Sori Studio</div>
+                <div class="h-2"></div>
+            </div>
+
+            <!-- 09 NORD/OST -->
+            <div class="collaborator-cell border-r border-b sm:border-b-0 border-line p-4 sm:p-5 h-32 sm:h-36 flex flex-col justify-between">
+                <span class="font-mono text-[10px] text-muted">09</span>
+                <div class="my-auto text-center font-bold text-xs sm:text-sm tracking-[0.08em] uppercase text-ink">NORD/OST</div>
+                <div class="h-2"></div>
+            </div>
+
+            <!-- 10 Atelier K -->
+            <div class="collaborator-cell border-r border-b sm:border-b-0 border-line p-4 sm:p-5 h-32 sm:h-36 flex flex-col justify-between">
+                <span class="font-mono text-[10px] text-muted">10</span>
+                <div class="my-auto text-center font-semibold text-base sm:text-lg tracking-tight text-ink">Atelier K</div>
+                <div class="h-2"></div>
+            </div>
+
+            <!-- 11 Vespera -->
+            <div class="collaborator-cell border-r border-line p-4 sm:p-5 h-32 sm:h-36 flex flex-col justify-between">
+                <span class="font-mono text-[10px] text-muted">11</span>
+                <div class="my-auto text-center editorial-serif text-xl sm:text-2xl text-ink">Vespera</div>
+                <div class="h-2"></div>
+            </div>
+
+            <!-- 12 OMNIA.01 -->
+            <div class="collaborator-cell p-4 sm:p-5 h-32 sm:h-36 flex flex-col justify-between">
+                <span class="font-mono text-[10px] text-muted">12</span>
+                <div class="my-auto text-center font-mono text-xs sm:text-sm font-medium tracking-[0.12em] uppercase text-ink">OMNIA.01</div>
+                <div class="h-2"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION [ 03 / 06 ] SELECTED WORK (CMS CASE STUDIES) -->
+    <section id="work" class="max-w-[1600px] mx-auto border-b border-line">
+        <!-- Header Row -->
+        <div class="px-4 sm:px-6 py-8 sm:py-11 border-b border-line">
+            <div class="grid grid-cols-1 lg:grid-cols-12 items-end gap-4">
+                <div class="lg:col-span-2 font-mono text-[10px] tracking-[0.14em] text-muted uppercase leading-relaxed">
+                    <div>[ 03 / 06 ]</div>
+                    <div>SELECTED WORK</div>
+                </div>
+                <div class="lg:col-span-7">
+                    <h2 class="text-3xl sm:text-5xl md:text-[54px] font-extrabold tracking-[-0.035em] leading-[1.02] text-ink">
+                        Considered <span class="editorial-serif text-accentMuted font-normal text-[1.08em]">case studies</span>,<br class="hidden sm:inline"> built to endure.
+                    </h2>
+                </div>
+                <div class="lg:col-span-3 flex lg:justify-end">
+                    <button onclick="switchPage('work')" class="border border-ink px-4 py-2 font-mono text-[10px] tracking-[0.14em] text-ink hover:bg-ink hover:text-[#F0EFE9] transition-colors uppercase">
+                        VIEW ALL WORK (08) →
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="px-4 sm:px-6 py-3.5 border-b border-line flex flex-wrap items-center justify-between gap-4 bg-[#EAE8E0]/50">
+            <div class="flex flex-wrap items-center gap-2 font-mono text-[10px] tracking-[0.12em] uppercase">
+                <button onclick="filterProjects('all')" data-filter="all" class="filter-btn bg-ink text-[#F0EFE9] px-3 py-1 transition-colors">ALL [04]</button>
+                <button onclick="filterProjects('identity')" data-filter="identity" class="filter-btn hover:bg-ink/10 text-ink px-3 py-1 transition-colors">BRAND SYSTEMS</button>
+                <button onclick="filterProjects('digital')" data-filter="digital" class="filter-btn hover:bg-ink/10 text-ink px-3 py-1 transition-colors">DIGITAL PRODUCT</button>
+                <button onclick="filterProjects('editorial')" data-filter="editorial" class="filter-btn hover:bg-ink/10 text-ink px-3 py-1 transition-colors">EDITORIAL &amp; PRINT</button>
+            </div>
+            <div class="font-mono text-[10px] tracking-[0.12em] text-muted uppercase">
+                CLICK ANY PROJECT TO INSPECT CASE STUDY ↗
+            </div>
+        </div>
+
+        <!-- Projects 2-Column Editorial Grid -->
+        <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2">
+            <!-- Project 01 -->
+            <article data-category="identity" onclick="openProjectModal(0)" class="project-card cursor-pointer border-b md:border-r border-line p-5 sm:p-8 flex flex-col justify-between group">
+                <div>
+                    <!-- Top Meta Row -->
+                    <div class="flex items-center justify-between font-mono text-[10px] tracking-[0.14em] text-muted uppercase mb-4">
+                        <span>[ FOLIO / 01 ]</span>
+                        <span>IDENTITY · WEB · 2026</span>
+                    </div>
+                    <!-- Image Container -->
+                    <div class="relative aspect-[16/10] bg-ink overflow-hidden mb-6 border border-line">
+                        <img 
+                            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80" 
+                            alt="Novaire Architectural Identity" 
+                            class="project-img w-full h-full object-cover grayscale contrast-110 group-hover:grayscale-0 transition-all duration-500"
+                        />
+                        <div class="absolute top-3 right-3 bg-ink/90 text-[#F0EFE9] font-mono text-[9px] tracking-[0.14em] px-2.5 py-1 uppercase">
+                            VIEW CASE STUDY ↗
+                        </div>
+                    </div>
+                </div>
+                <!-- Bottom Title & Specs -->
+                <div class="flex items-end justify-between gap-4 pt-2 border-t border-line">
+                    <div>
+                        <h3 class="text-2xl sm:text-3xl font-bold tracking-tight text-ink group-hover:text-accent transition-colors">
+                            Novaire <span class="editorial-serif font-normal text-muted text-3xl sm:text-4xl">Architecture</span>
+                        </h3>
+                        <p class="text-xs text-muted mt-1">Modular identity system and digital monograph for a Zurich-based architectural practice.</p>
+                    </div>
+                    <span class="font-mono text-xs text-ink group-hover:translate-x-1 transition-transform">→</span>
+                </div>
+            </article>
+
+            <!-- Project 02 -->
+            <article data-category="digital" onclick="openProjectModal(1)" class="project-card cursor-pointer border-b border-line p-5 sm:p-8 flex flex-col justify-between group">
+                <div>
+                    <div class="flex items-center justify-between font-mono text-[10px] tracking-[0.14em] text-muted uppercase mb-4">
+                        <span>[ FOLIO / 02 ]</span>
+                        <span>TYPE · INTERFACE · 2025</span>
+                    </div>
+                    <div class="relative aspect-[16/10] bg-ink overflow-hidden mb-6 border border-line">
+                        <img 
+                            src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=1200&q=80" 
+                            alt="MONO/TYPE Foundry System" 
+                            class="project-img w-full h-full object-cover grayscale contrast-110 group-hover:grayscale-0 transition-all duration-500"
+                        />
+                        <div class="absolute top-3 right-3 bg-ink/90 text-[#F0EFE9] font-mono text-[9px] tracking-[0.14em] px-2.5 py-1 uppercase">
+                            VIEW CASE STUDY ↗
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-end justify-between gap-4 pt-2 border-t border-line">
+                    <div>
+                        <h3 class="text-2xl sm:text-3xl font-bold tracking-tight text-ink group-hover:text-accent transition-colors">
+                            MONO/TYPE <span class="editorial-serif font-normal text-muted text-3xl sm:text-4xl">Foundry</span>
+                        </h3>
+                        <p class="text-xs text-muted mt-1">Bespoke variable type specimen tester and e-commerce engine for an independent foundry.</p>
+                    </div>
+                    <span class="font-mono text-xs text-ink group-hover:translate-x-1 transition-transform">→</span>
+                </div>
+            </article>
+
+            <!-- Project 03 -->
+            <article data-category="editorial" onclick="openProjectModal(2)" class="project-card cursor-pointer border-b md:border-b-0 md:border-r border-line p-5 sm:p-8 flex flex-col justify-between group">
+                <div>
+                    <div class="flex items-center justify-between font-mono text-[10px] tracking-[0.14em] text-muted uppercase mb-4">
+                        <span>[ FOLIO / 03 ]</span>
+                        <span>PACKAGING · ART DIRECTION · 2025</span>
+                    </div>
+                    <div class="relative aspect-[16/10] bg-ink overflow-hidden mb-6 border border-line">
+                        <img 
+                            src="https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=1200&q=80" 
+                            alt="Vale & Form Botanical Objects" 
+                            class="project-img w-full h-full object-cover grayscale contrast-110 group-hover:grayscale-0 transition-all duration-500"
+                        />
+                        <div class="absolute top-3 right-3 bg-ink/90 text-[#F0EFE9] font-mono text-[9px] tracking-[0.14em] px-2.5 py-1 uppercase">
+                            VIEW CASE STUDY ↗
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-end justify-between gap-4 pt-2 border-t border-line">
+                    <div>
+                        <h3 class="text-2xl sm:text-3xl font-bold tracking-tight text-ink group-hover:text-accent transition-colors">
+                            Vale&amp;Form <span class="editorial-serif font-normal text-muted text-3xl sm:text-4xl">Objects</span>
+                        </h3>
+                        <p class="text-xs text-muted mt-1">Tactile packaging architecture and print catalogue for apothecary &amp; ceramic objects.</p>
+                    </div>
+                    <span class="font-mono text-xs text-ink group-hover:translate-x-1 transition-transform">→</span>
+                </div>
+            </article>
+
+            <!-- Project 04 -->
+            <article data-category="digital" onclick="openProjectModal(3)" class="project-card cursor-pointer p-5 sm:p-8 flex flex-col justify-between group">
+                <div>
+                    <div class="flex items-center justify-between font-mono text-[10px] tracking-[0.14em] text-muted uppercase mb-4">
+                        <span>[ FOLIO / 04 ]</span>
+                        <span>DESIGN SYSTEM · MOTION · 2024</span>
+                    </div>
+                    <div class="relative aspect-[16/10] bg-ink overflow-hidden mb-6 border border-line">
+                        <img 
+                            src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=80" 
+                            alt="Arclane Acoustic Instruments" 
+                            class="project-img w-full h-full object-cover grayscale contrast-110 group-hover:grayscale-0 transition-all duration-500"
+                        />
+                        <div class="absolute top-3 right-3 bg-ink/90 text-[#F0EFE9] font-mono text-[9px] tracking-[0.14em] px-2.5 py-1 uppercase">
+                            VIEW CASE STUDY ↗
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-end justify-between gap-4 pt-2 border-t border-line">
+                    <div>
+                        <h3 class="text-2xl sm:text-3xl font-bold tracking-tight text-ink group-hover:text-accent transition-colors">
+                            Arclane <span class="editorial-serif font-normal text-muted text-3xl sm:text-4xl">Audio</span>
+                        </h3>
+                        <p class="text-xs text-muted mt-1">Industrial hardware interface and web launch system for a Tokyo synthesizer lab.</p>
+                    </div>
+                    <span class="font-mono text-xs text-ink group-hover:translate-x-1 transition-transform">→</span>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- SECTION [ 04 / 06 ] CAPABILITIES & SERVICES ACCORDION -->
+    <section id="services" class="max-w-[1600px] mx-auto border-b border-line">
+        <!-- Header Row -->
+        <div class="px-4 sm:px-6 py-8 sm:py-11 border-b border-line">
+            <div class="grid grid-cols-1 lg:grid-cols-12 items-end gap-4">
+                <div class="lg:col-span-2 font-mono text-[10px] tracking-[0.14em] text-muted uppercase leading-relaxed">
+                    <div>[ 04 / 06 ]</div>
+                    <div>CAPABILITIES</div>
+                </div>
+                <div class="lg:col-span-10">
+                    <h2 class="text-3xl sm:text-5xl md:text-[52px] font-extrabold tracking-[-0.035em] leading-[1.02] text-ink">
+                        Four disciplines. <span class="editorial-serif text-accentMuted font-normal text-[1.08em]">One unified</span> standard.
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Accordion List -->
+        <div class="divide-y divide-line">
+            <!-- Service 01 -->
+            <div class="accordion-item">
+                <button onclick="toggleAccordion(0)" class="w-full px-4 sm:px-6 py-6 sm:py-8 flex items-center justify-between text-left hover:bg-[#EAE8E0]/60 transition-colors group">
+                    <div class="grid grid-cols-1 sm:grid-cols-12 w-full items-baseline gap-2 sm:gap-4">
+                        <span class="sm:col-span-2 font-mono text-xs text-muted">[ 01 ]</span>
+                        <span class="sm:col-span-5 text-xl sm:text-3xl font-bold tracking-tight text-ink group-hover:text-accent transition-colors">Brand &amp; Identity Systems</span>
+                        <span class="sm:col-span-4 font-mono text-[10px] tracking-[0.13em] text-muted uppercase">STRATEGY · MARKS · GUIDELINES</span>
+                    </div>
+                    <span id="acc-icon-0" class="font-mono text-xl text-ink ml-4 transition-transform duration-300">−</span>
+                </button>
+                <div id="acc-content-0" class="px-4 sm:px-6 pb-8 pt-2 bg-[#EAE8E0]/30">
+                    <div class="grid grid-cols-1 sm:grid-cols-12 gap-6">
+                        <div class="sm:col-start-3 sm:col-span-5 text-sm text-ink/90 leading-relaxed">
+                            Visual identities engineered from first principles. Rather than decorative logos, I build cohesive typographic, grid, and color architectures that scale effortlessly from a 16px favicon to architectural signage.
+                        </div>
+                        <div class="sm:col-span-4 flex flex-wrap gap-1.5 content-start">
+                            <span class="border border-line bg-[#F0EFE9] px-2.5 py-1 font-mono text-[10px] uppercase">Visual Strategy</span>
+                            <span class="border border-line bg-[#F0EFE9] px-2.5 py-1 font-mono text-[10px] uppercase">Custom Wordmarks</span>
+                            <span class="border border-line bg-[#F0EFE9] px-2.5 py-1 font-mono text-[10px] uppercase">Design Systems</span>
+                            <span class="border border-line bg-[#F0EFE9] px-2.5 py-1 font-mono text-[10px] uppercase">Type Direction</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service 02 -->
+            <div class="accordion-item">
+                <button onclick="toggleAccordion(1)" class="w-full px-4 sm:px-6 py-6 sm:py-8 flex items-center justify-between text-left hover:bg-[#EAE8E0]/60 transition-colors group">
+                    <div class="grid grid-cols-1 sm:grid-cols-12 w-full items-baseline gap-2 sm:gap-4">
+                        <span class="sm:col-span-2 font-mono text-xs text-muted">[ 02 ]</span>
+                        <span class="sm:col-span-5 text-xl sm:text-3xl font-bold tracking-tight text-ink group-hover:text-accent transition-colors">Editorial &amp; Digital Products</span>
+                        <span class="sm:col-span-4 font-mono text-[10px] tracking-[0.13em] text-muted uppercase">WEBFLOW · UI/UX · INTERACTION</span>
+                    </div>
+                    <span id="acc-icon-1" class="font-mono text-xl text-ink ml-4 transition-transform duration-300">+</span>
+                </button>
+                <div id="acc-content-1" class="hidden px-4 sm:px-6 pb-8 pt-2 bg-[#EAE8E0]/30">
+                    <div class="grid grid-cols-1 sm:grid-cols-12 gap-6">
+                        <div class="sm:col-start-3 sm:col-span-5 text-sm text-ink/90 leading-relaxed">
+                            Digital flagships and product interfaces designed with editorial restraint. Every layout prioritizes structural clarity, rapid load performance, and tactile micro-interactions that feel natural.
+                        </div>
+                        <div class="sm:col-span-4 flex flex-wrap gap-1.5 content-start">
+                            <span class="border border-line bg-[#F0EFE9] px-2.5 py-1 font-mono text-[10px] uppercase">Art Direction</span>
+                            <span class="border border-line bg-[#F0EFE9] px-2.5 py-1 font-mono text-[10px] uppercase">Webflow Development</span>
+                            <span class="border border-line bg-[#F0EFE9] px-2.5 py-1 font-mono text-[10px] uppercase">CMS Architecture</span>
+                            <span class="border border-line bg-[#F0EFE9] px-2.5 py-1 font-mono text-[10px] uppercase">Prototyping</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service 03 -->
+            <div class="accordion-item">
+                <button onclick="toggleAccordion(2)" class="w-full px-4 sm:px-6 py-6 sm:py-8 flex items-center justify-between text-left hover:bg-[#EAE8E0]/60 transition-colors group">
+                    <div class="grid grid-cols-1 sm:grid-cols-12 w-full items-baseline gap-2 sm:gap-4">
+                        <span class="sm:col-span-2 font-mono text-xs text-muted">[ 03 ]</span>
+                        <span class="sm:col-span-5 text-xl sm:text-3xl font-bold tracking-tight text-ink group-hover:text-accent transition-colors">Print, Monographs &amp; Packaging</span>
+                        <span class="sm:col-span-4 font-mono text-[10px] tracking-[0.13em] text-muted uppercase">TACTILE · PAPER · PRODUCTION</span>
+                    </div>
+                    <span id="acc-icon-2" class="font-mono text-xl text-ink ml-4 transition-transform duration-300">+</span>
+                </button>
+                <div id="acc-content-2" class="hidden px-4 sm:px-6 pb-8 pt-2 bg-[#EAE8E0]/30">
+                    <div class="grid grid-cols-1 sm:grid-cols-12 gap-6">
+                        <div class="sm:col-start-3 sm:col-span-5 text-sm text-ink/90 leading-relaxed">
+                            Physical artifacts designed to be kept. From cloth-bound architectural monographs to structural retail packaging, overseeing paper stock selection, foil stamping, and press checks.
+                        </div>
+                        <div class="sm:col-span-4 flex flex-wrap gap-1.5 content-start">
+                            <span class="border border-line bg-[#F0EFE9] px-2.5 py-1 font-mono text-[10px] uppercase">Book Design</span>
+                            <span class="border border-line bg-[#F0EFE9] px-2.5 py-1 font-mono text-[10px] uppercase">Structural Packaging</span>
+                            <span class="border border-line bg-[#F0EFE9] px-2.5 py-1 font-mono text-[10px] uppercase">Print Supervision</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service 04 -->
+            <div class="accordion-item">
+                <button onclick="toggleAccordion(3)" class="w-full px-4 sm:px-6 py-6 sm:py-8 flex items-center justify-between text-left hover:bg-[#EAE8E0]/60 transition-colors group">
+                    <div class="grid grid-cols-1 sm:grid-cols-12 w-full items-baseline gap-2 sm:gap-4">
+                        <span class="sm:col-span-2 font-mono text-xs text-muted">[ 04 ]</span>
+                        <span class="sm:col-span-5 text-xl sm:text-3xl font-bold tracking-tight text-ink group-hover:text-accent transition-colors">Motion &amp; Kinetic Typography</span>
+                        <span class="sm:col-span-4 font-mono text-[10px] tracking-[0.13em] text-muted uppercase">BEHAVIOR · RHYTHM · FILM</span>
+                    </div>
+                    <span id="acc-icon-3" class="font-mono text-xl text-ink ml-4 transition-transform duration-300">+</span>
+                </button>
+                <div id="acc-content-3" class="hidden px-4 sm:px-6 pb-8 pt-2 bg-[#EAE8E0]/30">
+                    <div class="grid grid-cols-1 sm:grid-cols-12 gap-6">
+                        <div class="sm:col-start-3 sm:col-span-5 text-sm text-ink/90 leading-relaxed">
+                            Giving static systems a distinct temporal cadence. Motion guidelines, kinetic identity reels, and custom GSAP web transitions that reinforce brand character without slowing down the user.
+                        </div>
+                        <div class="sm:col-span-4 flex flex-wrap gap-1.5 content-start">
+                            <span class="border border-line bg-[#F0EFE9] px-2.5 py-1 font-mono text-[10px] uppercase">Motion Systems</span>
+                            <span class="border border-line bg-[#F0EFE9] px-2.5 py-1 font-mono text-[10px] uppercase">GSAP Interactions</span>
+                            <span class="border border-line bg-[#F0EFE9] px-2.5 py-1 font-mono text-[10px] uppercase">Launch Reels</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION [ 05 / 06 ] METHOD & ARCHIVE INDEX -->
+    <section id="process" class="max-w-[1600px] mx-auto border-b border-line">
+        <div class="px-4 sm:px-6 py-8 sm:py-11 border-b border-line">
+            <div class="grid grid-cols-1 lg:grid-cols-12 items-end gap-4">
+                <div class="lg:col-span-2 font-mono text-[10px] tracking-[0.14em] text-muted uppercase leading-relaxed">
+                    <div>[ 05 / 06 ]</div>
+                    <div>METHOD</div>
+                </div>
+                <div class="lg:col-span-10">
+                    <h2 class="text-3xl sm:text-5xl md:text-[52px] font-extrabold tracking-[-0.035em] leading-[1.02] text-ink">
+                        Direct access. <span class="editorial-serif text-accentMuted font-normal text-[1.08em]">Zero account</span> managers.
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4-Step Method Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-line">
+            <div class="p-6 sm:p-8 flex flex-col justify-between min-h-[250px]">
+                <div class="flex items-center justify-between font-mono text-[10px] tracking-[0.14em] text-muted uppercase">
+                    <span>PHASE 01</span>
+                    <span>WEEK 1</span>
+                </div>
+                <div class="my-6">
+                    <h3 class="text-xl font-bold text-ink mb-2">Diagnostic &amp; Audit</h3>
+                    <p class="text-xs text-muted leading-relaxed">
+                        We strip away assumptions, clarify positioning, and define the exact visual and commercial leverage points before drawing a single frame.
+                    </p>
+                </div>
+                <div class="font-mono text-[10px] text-accentMuted uppercase tracking-wider">01 / ALIGNMENT</div>
+            </div>
+
+            <div class="p-6 sm:p-8 flex flex-col justify-between min-h-[250px]">
+                <div class="flex items-center justify-between font-mono text-[10px] tracking-[0.14em] text-muted uppercase">
+                    <span>PHASE 02</span>
+                    <span>WEEK 2–3</span>
+                </div>
+                <div class="my-6">
+                    <h3 class="text-xl font-bold text-ink mb-2">System Architecture</h3>
+                    <p class="text-xs text-muted leading-relaxed">
+                        Establishing the typographic voice, grid ratios, and core visual language tested across real-world applications rather than abstract mockups.
+                    </p>
+                </div>
+                <div class="font-mono text-[10px] text-accentMuted uppercase tracking-wider">02 / DIRECTION</div>
+            </div>
+
+            <div class="p-6 sm:p-8 flex flex-col justify-between min-h-[250px]">
+                <div class="flex items-center justify-between font-mono text-[10px] tracking-[0.14em] text-muted uppercase">
+                    <span>PHASE 03</span>
+                    <span>WEEK 4–5</span>
+                </div>
+                <div class="my-6">
+                    <h3 class="text-xl font-bold text-ink mb-2">Craft &amp; Build</h3>
+                    <p class="text-xs text-muted leading-relaxed">
+                        High-precision execution across digital templates, CMS collections, motion states, and print-ready production files.
+                    </p>
+                </div>
+                <div class="font-mono text-[10px] text-accentMuted uppercase tracking-wider">03 / EXECUTION</div>
+            </div>
+
+            <div class="p-6 sm:p-8 flex flex-col justify-between min-h-[250px]">
+                <div class="flex items-center justify-between font-mono text-[10px] tracking-[0.14em] text-muted uppercase">
+                    <span>PHASE 04</span>
+                    <span>ONGOING</span>
+                </div>
+                <div class="my-6">
+                    <h3 class="text-xl font-bold text-ink mb-2">Handover &amp; Stewardship</h3>
+                    <p class="text-xs text-muted leading-relaxed">
+                        Comprehensive documentation, team training, and autonomous design systems built so your internal team can ship without friction.
+                    </p>
+                </div>
+                <div class="font-mono text-[10px] text-accentMuted uppercase tracking-wider">04 / LONGEVITY</div>
+            </div>
+        </div>
+    </section>
+
+    </main>
+    <!-- END OF PAGE 00: HOME VIEW -->
+
+    <!-- ================================================================= -->
+    <!-- PAGE 01: ABOUT VIEW (https://lequon.webflow.io/about)             -->
+    <!-- ================================================================= -->
+    <main id="page-about" class="page-view hidden">
+        <!-- ABOUT HERO SECTION WITH 12-COLUMN GRID -->
+        <section class="relative max-w-[1600px] mx-auto border-b border-line">
+            <div class="hero-grid-bg relative min-h-[480px] sm:min-h-[580px] flex flex-col justify-between px-4 sm:px-6 pt-3 pb-12">
+                <!-- Top Micro-Metadata Row -->
+                <div class="flex flex-wrap items-center justify-between gap-2 font-mono text-[9px] sm:text-[10px] tracking-[0.15em] text-muted uppercase">
+                    <div>N 35°41'22" E 139°41'30" · FOLIO/ABOUT</div>
+                    <div>[ 01 ] PRACTICE PROFILE &amp; MONOGRAPH</div>
+                </div>
+
+                <!-- Large Editorial Display Title -->
+                <div class="my-auto py-14 sm:py-20">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 items-end gap-6">
+                        <div class="lg:col-span-2 font-mono text-[10px] tracking-[0.14em] text-accentMuted uppercase">
+                            <div>[ STUDIO OF ONE ]</div>
+                            <div class="text-muted mt-1">EST. TOKYO 2018</div>
+                        </div>
+                        <div class="lg:col-span-10">
+                            <h1 class="akira-title text-[54px] sm:text-[96px] md:text-[128px] lg:text-[152px] text-ink select-none">
+                                Independent<br>
+                                <span class="editorial-serif text-accentMuted font-normal">by design.</span>
+                            </h1>
+                            <div class="mt-6 border-t border-ink/80 pt-4 max-w-[760px]">
+                                <p class="text-sm sm:text-base md:text-[17px] font-medium text-ink tracking-[-0.01em] leading-relaxed">
+                                    Lequon is the independent design practice of Akira Mori — working directly with founders, architects, and cultural institutions to build identities and digital flagships that age with grace.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Metadata Bar inside Hero -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-6 border-t border-line font-mono text-[10px] tracking-[0.14em] uppercase">
+                    <div>
+                        <span class="text-muted block mb-1">PRINCIPAL</span>
+                        <span class="text-ink font-semibold">AKIRA MORI</span>
+                    </div>
+                    <div>
+                        <span class="text-muted block mb-1">BASE</span>
+                        <span class="text-ink font-semibold">SHIBUYA-KU, TOKYO</span>
+                    </div>
+                    <div>
+                        <span class="text-muted block mb-1">EXPERIENCE</span>
+                        <span class="text-ink font-semibold">08+ YEARS INDEPENDENT</span>
+                    </div>
+                    <div>
+                        <span class="text-muted block mb-1">AVAILABILITY</span>
+                        <span class="text-accent font-semibold">Q3 / Q4 2026 OPEN</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BIOGRAPHY & MONOCHROME PORTRAIT STUDY -->
+        <section class="max-w-[1600px] mx-auto border-b border-line">
+            <div class="grid grid-cols-1 lg:grid-cols-12">
+                <!-- Left Portrait Column -->
+                <div class="lg:col-span-5 bg-[#0E0E0E] relative min-h-[460px] sm:min-h-[600px] flex flex-col justify-between p-6 border-b lg:border-b-0 lg:border-r border-line overflow-hidden">
+                    <div class="relative z-10 flex items-center justify-between font-mono text-[10px] tracking-[0.15em] text-white/70 uppercase">
+                        <span>[ PORTRAIT / 01 ]</span>
+                        <span>SHIBUYA STUDIO</span>
+                    </div>
+
+                    <div class="absolute inset-0 flex items-end justify-center pt-12">
+                        <img 
+                            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1200&q=85" 
+                            alt="Akira Mori Portrait" 
+                            class="h-[90%] w-auto object-cover object-top grayscale contrast-125 brightness-90"
+                            onerror="this.src='https://placehold.co/800x900/0E0E0E/E0E0E0?text=Akira+Mori'"
+                        />
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#0E0E0E] via-transparent to-[#0E0E0E]/40"></div>
+                    </div>
+
+                    <div class="relative z-10 border-t border-white/15 pt-4 flex items-center justify-between font-mono text-[10px] tracking-[0.14em] text-white/80 uppercase">
+                        <span>AKIRA MORI — PRINCIPAL</span>
+                        <span>35.6895° N, 139.6917° E</span>
+                    </div>
+                </div>
+
+                <!-- Right Editorial Essay & Specs -->
+                <div class="lg:col-span-7 p-6 sm:p-12 md:p-16 flex flex-col justify-between">
+                    <div class="space-y-8">
+                        <div class="font-mono text-[10px] tracking-[0.15em] text-accentMuted uppercase">
+                            [ 01 / 05 · THE PRACTICE ]
+                        </div>
+
+                        <h2 class="text-2xl sm:text-4xl md:text-[42px] font-extrabold tracking-[-0.03em] leading-[1.1] text-ink">
+                            Small by conviction. <span class="editorial-serif text-accentMuted font-normal text-[1.08em]">Senior in execution</span>. Every project is designed and built by the same pair of hands.
+                        </h2>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4 text-xs sm:text-sm text-ink/85 leading-relaxed">
+                            <div class="space-y-4">
+                                <p>
+                                    Most agencies separate thinking from making. Strategy happens in one room, design in another, and development is handed off at the end. Along the way, the quiet nuances that make a brand feel unmistakable get lost in translation.
+                                </p>
+                                <p>
+                                    I founded Lequon Studio in 2018 as an antidote to bloated creative rosters. By keeping the practice intentionally a studio of one, clients work directly with the person shaping their identity, writing the grid, and building the production site.
+                                </p>
+                            </div>
+                            <div class="space-y-4">
+                                <p>
+                                    Trained in Swiss typographic systems and Japanese editorial print production, my approach balances structural clarity with tactile warmth. Whether designing a custom wordmark, a cloth-bound monograph, or a Webflow flagship, the goal remains identical: longevity over novelty.
+                                </p>
+                                <p>
+                                    When a project requires specialized 3D, industrial hardware engineering, or copywriting, I assemble a bespoke circle of senior independent collaborators—never junior intermediaries.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4 Key Figures Row -->
+                    <div class="mt-12 pt-8 border-t border-line grid grid-cols-2 sm:grid-cols-4 gap-6">
+                        <div>
+                            <div class="editorial-serif text-4xl sm:text-5xl text-ink leading-none mb-2">082<span class="text-accentMuted">.</span></div>
+                            <div class="font-mono text-[9px] tracking-[0.14em] text-muted uppercase">COMMISSIONED WORKS</div>
+                        </div>
+                        <div>
+                            <div class="editorial-serif text-4xl sm:text-5xl text-ink leading-none mb-2">14<span class="text-accentMuted text-3xl align-top">×</span></div>
+                            <div class="font-mono text-[9px] tracking-[0.14em] text-muted uppercase">DESIGN RECOGNITIONS</div>
+                        </div>
+                        <div>
+                            <div class="editorial-serif text-4xl sm:text-5xl text-ink leading-none mb-2">03</div>
+                            <div class="font-mono text-[9px] tracking-[0.14em] text-muted uppercase">CONTINENTS SERVED</div>
+                        </div>
+                        <div>
+                            <div class="editorial-serif text-4xl sm:text-5xl text-ink leading-none mb-2">100<span class="text-accentMuted text-2xl">%</span></div>
+                            <div class="font-mono text-[9px] tracking-[0.14em] text-muted uppercase">PRINCIPAL LED</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION [ 02 / 05 ] DESIGN PRINCIPLES -->
+        <section class="max-w-[1600px] mx-auto border-b border-line">
+            <div class="px-4 sm:px-6 py-8 sm:py-11 border-b border-line">
+                <div class="grid grid-cols-1 lg:grid-cols-12 items-end gap-4">
+                    <div class="lg:col-span-2 font-mono text-[10px] tracking-[0.14em] text-muted uppercase leading-relaxed">
+                        <div>[ 02 / 05 ]</div>
+                        <div>ETHOS</div>
+                    </div>
+                    <div class="lg:col-span-10">
+                        <h2 class="text-3xl sm:text-5xl md:text-[52px] font-extrabold tracking-[-0.035em] leading-[1.02] text-ink">
+                            Three rules that <span class="editorial-serif text-accentMuted font-normal text-[1.08em]">govern the work</span>.
+                        </h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-line">
+                <div class="p-6 sm:p-10 flex flex-col justify-between min-h-[300px]">
+                    <div class="font-mono text-[10px] tracking-[0.15em] text-accentMuted uppercase">[ PRINCIPLE / 01 ]</div>
+                    <div class="my-8">
+                        <h3 class="text-2xl font-bold tracking-tight text-ink mb-3">Clarity is the highest form of craft.</h3>
+                        <p class="text-xs sm:text-sm text-muted leading-relaxed">
+                            If an interface requires explanation or an identity relies on a passing visual trend to feel relevant, the structure isn't finished yet. We reduce until only the essential remains.
+                        </p>
+                    </div>
+                    <div class="font-mono text-[10px] text-muted uppercase">REDUCTION · STRUCTURE</div>
+                </div>
+
+                <div class="p-6 sm:p-10 flex flex-col justify-between min-h-[300px]">
+                    <div class="font-mono text-[10px] tracking-[0.15em] text-accentMuted uppercase">[ PRINCIPLE / 02 ]</div>
+                    <div class="my-8">
+                        <h3 class="text-2xl font-bold tracking-tight text-ink mb-3">Typography carries 80% of the voice.</h3>
+                        <p class="text-xs sm:text-sm text-muted leading-relaxed">
+                            Before color, motion, or photography, how a brand sets its words defines its authority. Every project begins with rigorous typographic scale, optical kerning, and grid tension.
+                        </p>
+                    </div>
+                    <div class="font-mono text-[10px] text-muted uppercase">PROPORTION · CADENCE</div>
+                </div>
+
+                <div class="p-6 sm:p-10 flex flex-col justify-between min-h-[300px]">
+                    <div class="font-mono text-[10px] tracking-[0.15em] text-accentMuted uppercase">[ PRINCIPLE / 03 ]</div>
+                    <div class="my-8">
+                        <h3 class="text-2xl font-bold tracking-tight text-ink mb-3">Built for the fifth year, not launch day.</h3>
+                        <p class="text-xs sm:text-sm text-muted leading-relaxed">
+                            Launch announcements fade in 48 hours. A well-architected CMS and modular identity system continue compounding commercial trust years after handover.
+                        </p>
+                    </div>
+                    <div class="font-mono text-[10px] text-muted uppercase">ENDURANCE · AUTONOMY</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION [ 03 / 05 ] CAREER CHRONOLOGY / CV -->
+        <section class="max-w-[1600px] mx-auto border-b border-line">
+            <div class="px-4 sm:px-6 py-8 sm:py-11 border-b border-line">
+                <div class="grid grid-cols-1 lg:grid-cols-12 items-end gap-4">
+                    <div class="lg:col-span-2 font-mono text-[10px] tracking-[0.14em] text-muted uppercase leading-relaxed">
+                        <div>[ 03 / 05 ]</div>
+                        <div>CHRONOLOGY</div>
+                    </div>
+                    <div class="lg:col-span-10">
+                        <h2 class="text-3xl sm:text-5xl md:text-[52px] font-extrabold tracking-[-0.035em] leading-[1.02] text-ink">
+                            Experience &amp; <span class="editorial-serif text-accentMuted font-normal text-[1.08em]">lineage</span>.
+                        </h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divide-y divide-line">
+                <!-- Role 01 -->
+                <div class="px-4 sm:px-6 py-6 sm:py-8 grid grid-cols-1 md:grid-cols-12 items-baseline gap-4 hover:bg-[#EAE8E0]/50 transition-colors">
+                    <div class="md:col-span-2 font-mono text-xs text-accentMuted">2018 — PRESENT</div>
+                    <div class="md:col-span-4 text-xl sm:text-2xl font-bold text-ink">Principal &amp; Founder</div>
+                    <div class="md:col-span-3 font-mono text-xs uppercase text-ink">LEQUON STUDIO · TOKYO</div>
+                    <div class="md:col-span-3 text-xs text-muted">Independent brand, editorial, and digital practice serving global clients.</div>
+                </div>
+                <!-- Role 02 -->
+                <div class="px-4 sm:px-6 py-6 sm:py-8 grid grid-cols-1 md:grid-cols-12 items-baseline gap-4 hover:bg-[#EAE8E0]/50 transition-colors">
+                    <div class="md:col-span-2 font-mono text-xs text-muted">2016 — 2018</div>
+                    <div class="md:col-span-4 text-xl sm:text-2xl font-bold text-ink">Senior Art Director</div>
+                    <div class="md:col-span-3 font-mono text-xs uppercase text-ink">ATELIER NORD · ZURICH</div>
+                    <div class="md:col-span-3 text-xs text-muted">Led architectural monographs, Swiss cultural identities, and exhibition systems.</div>
+                </div>
+                <!-- Role 03 -->
+                <div class="px-4 sm:px-6 py-6 sm:py-8 grid grid-cols-1 md:grid-cols-12 items-baseline gap-4 hover:bg-[#EAE8E0]/50 transition-colors">
+                    <div class="md:col-span-2 font-mono text-xs text-muted">2014 — 2016</div>
+                    <div class="md:col-span-4 text-xl sm:text-2xl font-bold text-ink">Interactive Designer</div>
+                    <div class="md:col-span-3 font-mono text-xs uppercase text-ink">KINFOLK DIGITAL LAB · COPENHAGEN</div>
+                    <div class="md:col-span-3 text-xs text-muted">Designed digital editorial flagships, typographic systems, and e-commerce experiences.</div>
+                </div>
+                <!-- Role 04 -->
+                <div class="px-4 sm:px-6 py-6 sm:py-8 grid grid-cols-1 md:grid-cols-12 items-baseline gap-4 hover:bg-[#EAE8E0]/50 transition-colors">
+                    <div class="md:col-span-2 font-mono text-xs text-muted">2010 — 2014</div>
+                    <div class="md:col-span-4 text-xl sm:text-2xl font-bold text-ink">B.A. Visual Communication</div>
+                    <div class="md:col-span-3 font-mono text-xs uppercase text-ink">MUSASHINO ART UNIVERSITY · TOKYO</div>
+                    <div class="md:col-span-3 text-xs text-muted">Graduated with honors in editorial typography and kinetic grid systems.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION [ 04 / 05 ] RECOGNITION & AWARDS INDEX -->
+        <section class="max-w-[1600px] mx-auto border-b border-line">
+            <div class="px-4 sm:px-6 py-8 sm:py-11 border-b border-line">
+                <div class="grid grid-cols-1 lg:grid-cols-12 items-end gap-4">
+                    <div class="lg:col-span-2 font-mono text-[10px] tracking-[0.14em] text-muted uppercase leading-relaxed">
+                        <div>[ 04 / 05 ]</div>
+                        <div>RECOGNITION</div>
+                    </div>
+                    <div class="lg:col-span-10">
+                        <h2 class="text-3xl sm:text-5xl md:text-[52px] font-extrabold tracking-[-0.035em] leading-[1.02] text-ink">
+                            Selected <span class="editorial-serif text-accentMuted font-normal text-[1.08em]">honors &amp; press</span> (14×).
+                        </h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-line">
+                <div class="p-6 sm:p-8 flex flex-col justify-between min-h-[210px]">
+                    <div class="font-mono text-[10px] text-muted uppercase">AWWWARDS · 04×</div>
+                    <div>
+                        <div class="text-xl font-bold text-ink mb-1">Site of the Day &amp; Dev Award</div>
+                        <p class="text-xs text-muted">Novaire Architecture (2026), MONO/TYPE Foundry (2025), Sori Studio (2024).</p>
+                    </div>
+                    <div class="font-mono text-[10px] text-accentMuted uppercase">2024 — 2026</div>
+                </div>
+
+                <div class="p-6 sm:p-8 flex flex-col justify-between min-h-[210px]">
+                    <div class="font-mono text-[10px] text-muted uppercase">TYPE DIRECTORS CLUB · 03×</div>
+                    <div>
+                        <div class="text-xl font-bold text-ink mb-1">Certificate of Typographic Excellence</div>
+                        <p class="text-xs text-muted">MONO/TYPE Specimen System &amp; BRIXEN Monograph Series.</p>
+                    </div>
+                    <div class="font-mono text-[10px] text-accentMuted uppercase">TDC 70 &amp; 71</div>
+                </div>
+
+                <div class="p-6 sm:p-8 flex flex-col justify-between min-h-[210px]">
+                    <div class="font-mono text-[10px] text-muted uppercase">COMMUNICATION ARTS · 04×</div>
+                    <div>
+                        <div class="text-xl font-bold text-ink mb-1">Design &amp; Interactive Annual</div>
+                        <p class="text-xs text-muted">Vale&amp;Form Botanical Packaging &amp; Arclane Synthesizer UI.</p>
+                    </div>
+                    <div class="font-mono text-[10px] text-accentMuted uppercase">2023 — 2025</div>
+                </div>
+
+                <div class="p-6 sm:p-8 flex flex-col justify-between min-h-[210px]">
+                    <div class="font-mono text-[10px] text-muted uppercase">TOKYO TDC / JAGDA · 03×</div>
+                    <div>
+                        <div class="text-xl font-bold text-ink mb-1">Selected Editorial &amp; Book Design</div>
+                        <p class="text-xs text-muted">Permanent Archive Collection in Tokyo Graphic Design Annual.</p>
+                    </div>
+                    <div class="font-mono text-[10px] text-accentMuted uppercase">2022 — 2025</div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- END OF PAGE 01: ABOUT VIEW -->
+
+    <!-- ================================================================= -->
+    <!-- PAGE 02: WORK VIEW (https://lequon.webflow.io/work)               -->
+    <!-- ================================================================= -->
+    <main id="page-work" class="page-view hidden">
+        <!-- WORK HERO SECTION -->
+        <section class="relative max-w-[1600px] mx-auto border-b border-line">
+            <div class="hero-grid-bg relative min-h-[420px] sm:min-h-[500px] flex flex-col justify-between px-4 sm:px-6 pt-3 pb-10">
+                <!-- Top Micro-Metadata Row -->
+                <div class="flex flex-wrap items-center justify-between gap-2 font-mono text-[9px] sm:text-[10px] tracking-[0.15em] text-muted uppercase">
+                    <div>N 35°41'22" E 139°41'30" · FOLIO/WORK</div>
+                    <div>COMPLETE ARCHIVE · 2018 — 2026</div>
+                </div>
+
+                <!-- Work Display Headline -->
+                <div class="my-auto py-12 sm:py-16">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 items-end gap-6">
+                        <div class="lg:col-span-2 font-mono text-[10px] tracking-[0.14em] text-accentMuted uppercase">
+                            <div>[ 02 / WORK ]</div>
+                            <div class="text-muted mt-1">SELECTED FOLIO</div>
+                        </div>
+                        <div class="lg:col-span-10">
+                            <h1 class="akira-title text-[56px] sm:text-[104px] md:text-[138px] lg:text-[164px] text-ink select-none">
+                                Work <span class="editorial-serif text-accentMuted font-normal">index.</span>
+                            </h1>
+                            <div class="mt-4 border-t border-ink/80 pt-3.5 max-w-[780px] flex flex-wrap items-center justify-between gap-4">
+                                <p class="text-sm sm:text-base font-medium text-ink tracking-[-0.01em]">
+                                    A curated selection of brand identities, digital flagships, and tactile print editions shipped between 2022 and 2026.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Controls Bar: Category Filter + Grid/Index View Switcher -->
+                <div class="pt-5 border-t border-line flex flex-wrap items-center justify-between gap-4">
+                    <div class="flex flex-wrap items-center gap-2 font-mono text-[10px] tracking-[0.12em] uppercase">
+                        <button onclick="filterWorkPage('all')" data-wfilter="all" class="wfilter-btn bg-ink text-[#F0EFE9] px-3 py-1.5 transition-colors">ALL WORKS [08]</button>
+                        <button onclick="filterWorkPage('identity')" data-wfilter="identity" class="wfilter-btn border border-line hover:border-ink text-ink px-3 py-1.5 transition-colors">BRAND SYSTEMS [03]</button>
+                        <button onclick="filterWorkPage('digital')" data-wfilter="digital" class="wfilter-btn border border-line hover:border-ink text-ink px-3 py-1.5 transition-colors">DIGITAL &amp; WEB [03]</button>
+                        <button onclick="filterWorkPage('editorial')" data-wfilter="editorial" class="wfilter-btn border border-line hover:border-ink text-ink px-3 py-1.5 transition-colors">EDITORIAL &amp; PACKAGING [02]</button>
+                    </div>
+
+                    <!-- View Mode Switcher (Editorial Cards vs Archive Table) -->
+                    <div class="flex items-center gap-2 font-mono text-[10px] tracking-[0.12em] uppercase">
+                        <span class="text-muted mr-1">VIEW MODE:</span>
+                        <button onclick="setWorkLayout('grid')" id="view-grid-btn" class="bg-ink text-[#F0EFE9] px-3 py-1.5 border border-ink transition-colors">
+                            [::] EDITORIAL GRID
+                        </button>
+                        <button onclick="setWorkLayout('table')" id="view-table-btn" class="text-ink hover:bg-ink/10 px-3 py-1.5 border border-line transition-colors">
+                            [≡] ARCHIVE INDEX
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WORK EDITORIAL GRID VIEW (8 COMPLETE CMS PROJECTS) -->
+        <section id="work-grid-container" class="max-w-[1600px] mx-auto border-b border-line">
+            <div class="grid grid-cols-1 md:grid-cols-2">
+                <!-- Work Card 01 -->
+                <article data-wcat="identity" onclick="openProjectModal(0)" class="work-page-card project-card cursor-pointer border-b md:border-r border-line p-5 sm:p-9 flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between font-mono text-[10px] tracking-[0.14em] text-muted uppercase mb-4">
+                            <span>[ FOLIO / 01 · ZURICH ]</span>
+                            <span>IDENTITY · WEB · 2026</span>
+                        </div>
+                        <div class="relative aspect-[16/10] bg-ink overflow-hidden mb-6 border border-line">
+                            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80" alt="Novaire Architecture" class="project-img w-full h-full object-cover grayscale contrast-110 group-hover:grayscale-0 transition-all duration-500">
+                            <div class="absolute top-3 right-3 bg-ink/90 text-[#F0EFE9] font-mono text-[9px] tracking-[0.14em] px-2.5 py-1 uppercase">OPEN CASE STUDY ↗</div>
+                        </div>
+                    </div>
+                    <div class="flex items-end justify-between gap-4 pt-3 border-t border-line">
+                        <div>
+                            <h3 class="text-2xl sm:text-3xl font-bold tracking-tight text-ink group-hover:text-accent transition-colors">
+                                Novaire <span class="editorial-serif font-normal text-muted text-3xl sm:text-4xl">Architecture</span>
+                            </h3>
+                            <p class="text-xs text-muted mt-1">Modular identity system and digital monograph for a Zurich architectural studio.</p>
+                        </div>
+                        <span class="font-mono text-xs text-ink group-hover:translate-x-1 transition-transform">→</span>
+                    </div>
+                </article>
+
+                <!-- Work Card 02 -->
+                <article data-wcat="digital" onclick="openProjectModal(1)" class="work-page-card project-card cursor-pointer border-b border-line p-5 sm:p-9 flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between font-mono text-[10px] tracking-[0.14em] text-muted uppercase mb-4">
+                            <span>[ FOLIO / 02 · BERLIN ]</span>
+                            <span>TYPE · INTERFACE · 2025</span>
+                        </div>
+                        <div class="relative aspect-[16/10] bg-ink overflow-hidden mb-6 border border-line">
+                            <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=1200&q=80" alt="MONO/TYPE Foundry" class="project-img w-full h-full object-cover grayscale contrast-110 group-hover:grayscale-0 transition-all duration-500">
+                            <div class="absolute top-3 right-3 bg-ink/90 text-[#F0EFE9] font-mono text-[9px] tracking-[0.14em] px-2.5 py-1 uppercase">OPEN CASE STUDY ↗</div>
+                        </div>
+                    </div>
+                    <div class="flex items-end justify-between gap-4 pt-3 border-t border-line">
+                        <div>
+                            <h3 class="text-2xl sm:text-3xl font-bold tracking-tight text-ink group-hover:text-accent transition-colors">
+                                MONO/TYPE <span class="editorial-serif font-normal text-muted text-3xl sm:text-4xl">Foundry</span>
+                            </h3>
+                            <p class="text-xs text-muted mt-1">Real-time variable type specimen playground and direct licensing flagship.</p>
+                        </div>
+                        <span class="font-mono text-xs text-ink group-hover:translate-x-1 transition-transform">→</span>
+                    </div>
+                </article>
+
+                <!-- Work Card 03 -->
+                <article data-wcat="editorial" onclick="openProjectModal(2)" class="work-page-card project-card cursor-pointer border-b md:border-r border-line p-5 sm:p-9 flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between font-mono text-[10px] tracking-[0.14em] text-muted uppercase mb-4">
+                            <span>[ FOLIO / 03 · KYOTO ]</span>
+                            <span>PACKAGING · PRINT · 2025</span>
+                        </div>
+                        <div class="relative aspect-[16/10] bg-ink overflow-hidden mb-6 border border-line">
+                            <img src="https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=1200&q=80" alt="Vale&Form Objects" class="project-img w-full h-full object-cover grayscale contrast-110 group-hover:grayscale-0 transition-all duration-500">
+                            <div class="absolute top-3 right-3 bg-ink/90 text-[#F0EFE9] font-mono text-[9px] tracking-[0.14em] px-2.5 py-1 uppercase">OPEN CASE STUDY ↗</div>
+                        </div>
+                    </div>
+                    <div class="flex items-end justify-between gap-4 pt-3 border-t border-line">
+                        <div>
+                            <h3 class="text-2xl sm:text-3xl font-bold tracking-tight text-ink group-hover:text-accent transition-colors">
+                                Vale&amp;Form <span class="editorial-serif font-normal text-muted text-3xl sm:text-4xl">Objects</span>
+                            </h3>
+                            <p class="text-xs text-muted mt-1">Tactile packaging architecture and herbarium index for ceramic &amp; botanical objects.</p>
+                        </div>
+                        <span class="font-mono text-xs text-ink group-hover:translate-x-1 transition-transform">→</span>
+                    </div>
+                </article>
+
+                <!-- Work Card 04 -->
+                <article data-wcat="digital" onclick="openProjectModal(3)" class="work-page-card project-card cursor-pointer border-b border-line p-5 sm:p-9 flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between font-mono text-[10px] tracking-[0.14em] text-muted uppercase mb-4">
+                            <span>[ FOLIO / 04 · TOKYO ]</span>
+                            <span>HARDWARE UI · MOTION · 2024</span>
+                        </div>
+                        <div class="relative aspect-[16/10] bg-ink overflow-hidden mb-6 border border-line">
+                            <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=80" alt="Arclane Audio" class="project-img w-full h-full object-cover grayscale contrast-110 group-hover:grayscale-0 transition-all duration-500">
+                            <div class="absolute top-3 right-3 bg-ink/90 text-[#F0EFE9] font-mono text-[9px] tracking-[0.14em] px-2.5 py-1 uppercase">OPEN CASE STUDY ↗</div>
+                        </div>
+                    </div>
+                    <div class="flex items-end justify-between gap-4 pt-3 border-t border-line">
+                        <div>
+                            <h3 class="text-2xl sm:text-3xl font-bold tracking-tight text-ink group-hover:text-accent transition-colors">
+                                Arclane <span class="editorial-serif font-normal text-muted text-3xl sm:text-4xl">Audio</span>
+                            </h3>
+                            <p class="text-xs text-muted mt-1">Industrial synthesizer silk-screen system and interactive web patch explorer.</p>
+                        </div>
+                        <span class="font-mono text-xs text-ink group-hover:translate-x-1 transition-transform">→</span>
+                    </div>
+                </article>
+
+                <!-- Work Card 05 -->
+                <article data-wcat="identity" onclick="openProjectModal(4)" class="work-page-card project-card cursor-pointer border-b md:border-r border-line p-5 sm:p-9 flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between font-mono text-[10px] tracking-[0.14em] text-muted uppercase mb-4">
+                            <span>[ FOLIO / 05 · MILAN ]</span>
+                            <span>BRAND SYSTEM · PRINT · 2024</span>
+                        </div>
+                        <div class="relative aspect-[16/10] bg-ink overflow-hidden mb-6 border border-line">
+                            <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1200&q=80" alt="BRIXEN Brutalist Lighting" class="project-img w-full h-full object-cover grayscale contrast-110 group-hover:grayscale-0 transition-all duration-500">
+                            <div class="absolute top-3 right-3 bg-ink/90 text-[#F0EFE9] font-mono text-[9px] tracking-[0.14em] px-2.5 py-1 uppercase">OPEN CASE STUDY ↗</div>
+                        </div>
+                    </div>
+                    <div class="flex items-end justify-between gap-4 pt-3 border-t border-line">
+                        <div>
+                            <h3 class="text-2xl sm:text-3xl font-bold tracking-tight text-ink group-hover:text-accent transition-colors">
+                                BRIXEN <span class="editorial-serif font-normal text-muted text-3xl sm:text-4xl">Atelier</span>
+                            </h3>
+                            <p class="text-xs text-muted mt-1">Architectural lighting identity, technical specification sheets, and Salone del Mobile exhibition.</p>
+                        </div>
+                        <span class="font-mono text-xs text-ink group-hover:translate-x-1 transition-transform">→</span>
+                    </div>
+                </article>
+
+                <!-- Work Card 06 -->
+                <article data-wcat="editorial" onclick="openProjectModal(5)" class="work-page-card project-card cursor-pointer border-b border-line p-5 sm:p-9 flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between font-mono text-[10px] tracking-[0.14em] text-muted uppercase mb-4">
+                            <span>[ FOLIO / 06 · COPENHAGEN ]</span>
+                            <span>BOOK DESIGN · ART DIRECTION · 2024</span>
+                        </div>
+                        <div class="relative aspect-[16/10] bg-ink overflow-hidden mb-6 border border-line">
+                            <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=1200&q=80" alt="Kinfolk Lab Monograph" class="project-img w-full h-full object-cover grayscale contrast-110 group-hover:grayscale-0 transition-all duration-500">
+                            <div class="absolute top-3 right-3 bg-ink/90 text-[#F0EFE9] font-mono text-[9px] tracking-[0.14em] px-2.5 py-1 uppercase">OPEN CASE STUDY ↗</div>
+                        </div>
+                    </div>
+                    <div class="flex items-end justify-between gap-4 pt-3 border-t border-line">
+                        <div>
+                            <h3 class="text-2xl sm:text-3xl font-bold tracking-tight text-ink group-hover:text-accent transition-colors">
+                                KINFOLK <span class="editorial-serif font-normal text-muted text-3xl sm:text-4xl">Archive Vol. IV</span>
+                            </h3>
+                            <p class="text-xs text-muted mt-1">340-page linen-bound editorial anthology exploring Nordic &amp; Japanese spatial restraint.</p>
+                        </div>
+                        <span class="font-mono text-xs text-ink group-hover:translate-x-1 transition-transform">→</span>
+                    </div>
+                </article>
+
+                <!-- Work Card 07 -->
+                <article data-wcat="identity" onclick="openProjectModal(6)" class="work-page-card project-card cursor-pointer border-b md:border-b-0 md:border-r border-line p-5 sm:p-9 flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between font-mono text-[10px] tracking-[0.14em] text-muted uppercase mb-4">
+                            <span>[ FOLIO / 07 · SEOUL ]</span>
+                            <span>IDENTITY · E-COMMERCE · 2023</span>
+                        </div>
+                        <div class="relative aspect-[16/10] bg-ink overflow-hidden mb-6 border border-line">
+                            <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80" alt="Sori Studio Garments" class="project-img w-full h-full object-cover grayscale contrast-110 group-hover:grayscale-0 transition-all duration-500">
+                            <div class="absolute top-3 right-3 bg-ink/90 text-[#F0EFE9] font-mono text-[9px] tracking-[0.14em] px-2.5 py-1 uppercase">OPEN CASE STUDY ↗</div>
+                        </div>
+                    </div>
+                    <div class="flex items-end justify-between gap-4 pt-3 border-t border-line">
+                        <div>
+                            <h3 class="text-2xl sm:text-3xl font-bold tracking-tight text-ink group-hover:text-accent transition-colors">
+                                Sori <span class="editorial-serif font-normal text-muted text-3xl sm:text-4xl">Studio</span>
+                            </h3>
+                            <p class="text-xs text-muted mt-1">Garment label architecture, woven care tags, and lookbook platform for a Seoul atelier.</p>
+                        </div>
+                        <span class="font-mono text-xs text-ink group-hover:translate-x-1 transition-transform">→</span>
+                    </div>
+                </article>
+
+                <!-- Work Card 08 -->
+                <article data-wcat="digital" onclick="openProjectModal(7)" class="work-page-card project-card cursor-pointer p-5 sm:p-9 flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between font-mono text-[10px] tracking-[0.14em] text-muted uppercase mb-4">
+                            <span>[ FOLIO / 08 · STOCKHOLM ]</span>
+                            <span>DESIGN SYSTEM · WEB · 2023</span>
+                        </div>
+                        <div class="relative aspect-[16/10] bg-ink overflow-hidden mb-6 border border-line">
+                            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80" alt="NORD/OST Spatial Research" class="project-img w-full h-full object-cover grayscale contrast-110 group-hover:grayscale-0 transition-all duration-500">
+                            <div class="absolute top-3 right-3 bg-ink/90 text-[#F0EFE9] font-mono text-[9px] tracking-[0.14em] px-2.5 py-1 uppercase">OPEN CASE STUDY ↗</div>
+                        </div>
+                    </div>
+                    <div class="flex items-end justify-between gap-4 pt-3 border-t border-line">
+                        <div>
+                            <h3 class="text-2xl sm:text-3xl font-bold tracking-tight text-ink group-hover:text-accent transition-colors">
+                                NORD/OST <span class="editorial-serif font-normal text-muted text-3xl sm:text-4xl">Research</span>
+                            </h3>
+                            <p class="text-xs text-muted mt-1">Data-driven publication portal and visual identity for a Scandinavian climate think tank.</p>
+                        </div>
+                        <span class="font-mono text-xs text-ink group-hover:translate-x-1 transition-transform">→</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- WORK ARCHIVE TABLE VIEW (TOGGLED VIA VIEW MODE) -->
+        <section id="work-table-container" class="hidden max-w-[1600px] mx-auto border-b border-line">
+            <div class="divide-y divide-line">
+                <!-- Table Header -->
+                <div class="px-4 sm:px-6 py-3 bg-[#EAE8E0] grid grid-cols-12 font-mono text-[10px] tracking-[0.14em] text-muted uppercase">
+                    <div class="col-span-2 sm:col-span-1">NO.</div>
+                    <div class="col-span-6 sm:col-span-4">CLIENT / PROJECT</div>
+                    <div class="hidden sm:block sm:col-span-4">DISCIPLINE</div>
+                    <div class="col-span-2 sm:col-span-2">LOCATION</div>
+                    <div class="col-span-2 sm:col-span-1 text-right">YEAR</div>
+                </div>
+
+                <div onclick="openProjectModal(0)" class="px-4 sm:px-6 py-5 grid grid-cols-12 items-center hover:bg-ink hover:text-[#F0EFE9] cursor-pointer transition-colors group">
+                    <div class="col-span-2 sm:col-span-1 font-mono text-xs text-muted group-hover:text-[#F0EFE9]/70">01</div>
+                    <div class="col-span-6 sm:col-span-4 font-bold text-base sm:text-xl">Novaire Architecture</div>
+                    <div class="hidden sm:block sm:col-span-4 font-mono text-[11px] uppercase text-muted group-hover:text-[#F0EFE9]/80">Brand System · Digital Monograph</div>
+                    <div class="col-span-2 sm:col-span-2 font-mono text-[11px] uppercase">ZURICH</div>
+                    <div class="col-span-2 sm:col-span-1 font-mono text-xs text-right">2026 ↗</div>
+                </div>
+
+                <div onclick="openProjectModal(1)" class="px-4 sm:px-6 py-5 grid grid-cols-12 items-center hover:bg-ink hover:text-[#F0EFE9] cursor-pointer transition-colors group">
+                    <div class="col-span-2 sm:col-span-1 font-mono text-xs text-muted group-hover:text-[#F0EFE9]/70">02</div>
+                    <div class="col-span-6 sm:col-span-4 font-bold text-base sm:text-xl">MONO/TYPE Foundry</div>
+                    <div class="hidden sm:block sm:col-span-4 font-mono text-[11px] uppercase text-muted group-hover:text-[#F0EFE9]/80">Variable Type · E-Commerce</div>
+                    <div class="col-span-2 sm:col-span-2 font-mono text-[11px] uppercase">BERLIN</div>
+                    <div class="col-span-2 sm:col-span-1 font-mono text-xs text-right">2025 ↗</div>
+                </div>
+
+                <div onclick="openProjectModal(2)" class="px-4 sm:px-6 py-5 grid grid-cols-12 items-center hover:bg-ink hover:text-[#F0EFE9] cursor-pointer transition-colors group">
+                    <div class="col-span-2 sm:col-span-1 font-mono text-xs text-muted group-hover:text-[#F0EFE9]/70">03</div>
+                    <div class="col-span-6 sm:col-span-4 font-bold text-base sm:text-xl">Vale&amp;Form Objects</div>
+                    <div class="hidden sm:block sm:col-span-4 font-mono text-[11px] uppercase text-muted group-hover:text-[#F0EFE9]/80">Packaging Architecture · Print</div>
+                    <div class="col-span-2 sm:col-span-2 font-mono text-[11px] uppercase">KYOTO</div>
+                    <div class="col-span-2 sm:col-span-1 font-mono text-xs text-right">2025 ↗</div>
+                </div>
+
+                <div onclick="openProjectModal(3)" class="px-4 sm:px-6 py-5 grid grid-cols-12 items-center hover:bg-ink hover:text-[#F0EFE9] cursor-pointer transition-colors group">
+                    <div class="col-span-2 sm:col-span-1 font-mono text-xs text-muted group-hover:text-[#F0EFE9]/70">04</div>
+                    <div class="col-span-6 sm:col-span-4 font-bold text-base sm:text-xl">Arclane Audio Lab</div>
+                    <div class="hidden sm:block sm:col-span-4 font-mono text-[11px] uppercase text-muted group-hover:text-[#F0EFE9]/80">Hardware UI · Launch System</div>
+                    <div class="col-span-2 sm:col-span-2 font-mono text-[11px] uppercase">TOKYO</div>
+                    <div class="col-span-2 sm:col-span-1 font-mono text-xs text-right">2024 ↗</div>
+                </div>
+
+                <div onclick="openProjectModal(4)" class="px-4 sm:px-6 py-5 grid grid-cols-12 items-center hover:bg-ink hover:text-[#F0EFE9] cursor-pointer transition-colors group">
+                    <div class="col-span-2 sm:col-span-1 font-mono text-xs text-muted group-hover:text-[#F0EFE9]/70">05</div>
+                    <div class="col-span-6 sm:col-span-4 font-bold text-base sm:text-xl">BRIXEN Atelier</div>
+                    <div class="hidden sm:block sm:col-span-4 font-mono text-[11px] uppercase text-muted group-hover:text-[#F0EFE9]/80">Identity · Exhibition Print</div>
+                    <div class="col-span-2 sm:col-span-2 font-mono text-[11px] uppercase">MILAN</div>
+                    <div class="col-span-2 sm:col-span-1 font-mono text-xs text-right">2024 ↗</div>
+                </div>
+
+                <div onclick="openProjectModal(5)" class="px-4 sm:px-6 py-5 grid grid-cols-12 items-center hover:bg-ink hover:text-[#F0EFE9] cursor-pointer transition-colors group">
+                    <div class="col-span-2 sm:col-span-1 font-mono text-xs text-muted group-hover:text-[#F0EFE9]/70">06</div>
+                    <div class="col-span-6 sm:col-span-4 font-bold text-base sm:text-xl">KINFOLK Archive Vol. IV</div>
+                    <div class="hidden sm:block sm:col-span-4 font-mono text-[11px] uppercase text-muted group-hover:text-[#F0EFE9]/80">Editorial Monograph · Print</div>
+                    <div class="col-span-2 sm:col-span-2 font-mono text-[11px] uppercase">COPENHAGEN</div>
+                    <div class="col-span-2 sm:col-span-1 font-mono text-xs text-right">2024 ↗</div>
+                </div>
+
+                <div onclick="openProjectModal(6)" class="px-4 sm:px-6 py-5 grid grid-cols-12 items-center hover:bg-ink hover:text-[#F0EFE9] cursor-pointer transition-colors group">
+                    <div class="col-span-2 sm:col-span-1 font-mono text-xs text-muted group-hover:text-[#F0EFE9]/70">07</div>
+                    <div class="col-span-6 sm:col-span-4 font-bold text-base sm:text-xl">Sori Studio</div>
+                    <div class="hidden sm:block sm:col-span-4 font-mono text-[11px] uppercase text-muted group-hover:text-[#F0EFE9]/80">Brand Identity · E-Commerce</div>
+                    <div class="col-span-2 sm:col-span-2 font-mono text-[11px] uppercase">SEOUL</div>
+                    <div class="col-span-2 sm:col-span-1 font-mono text-xs text-right">2023 ↗</div>
+                </div>
+
+                <div onclick="openProjectModal(7)" class="px-4 sm:px-6 py-5 grid grid-cols-12 items-center hover:bg-ink hover:text-[#F0EFE9] cursor-pointer transition-colors group">
+                    <div class="col-span-2 sm:col-span-1 font-mono text-xs text-muted group-hover:text-[#F0EFE9]/70">08</div>
+                    <div class="col-span-6 sm:col-span-4 font-bold text-base sm:text-xl">NORD/OST Research</div>
+                    <div class="hidden sm:block sm:col-span-4 font-mono text-[11px] uppercase text-muted group-hover:text-[#F0EFE9]/80">Design System · Digital Publication</div>
+                    <div class="col-span-2 sm:col-span-2 font-mono text-[11px] uppercase">STOCKHOLM</div>
+                    <div class="col-span-2 sm:col-span-1 font-mono text-xs text-right">2023 ↗</div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- END OF PAGE 02: WORK VIEW -->
+
+    <!-- SECTION [ 06 / 06 ] SHARED CONTACT & FOOTER -->
+    <footer id="contact" class="max-w-[1600px] mx-auto">
+        <!-- Contact Header -->
+        <div class="px-4 sm:px-6 py-8 sm:py-11 border-b border-line">
+            <div class="grid grid-cols-1 lg:grid-cols-12 items-end gap-4">
+                <div class="lg:col-span-2 font-mono text-[10px] tracking-[0.14em] text-muted uppercase leading-relaxed">
+                    <div>[ 06 / 06 ]</div>
+                    <div>INQUIRIES</div>
+                </div>
+                <div class="lg:col-span-10">
+                    <h2 class="text-3xl sm:text-5xl md:text-[54px] font-extrabold tracking-[-0.035em] leading-[1.02] text-ink">
+                        Have a brief in mind? <span class="editorial-serif text-accentMuted font-normal text-[1.08em]">Let's talk</span> scope.
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Split Contact Area -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 border-b border-line">
+            <!-- Left Direct Details -->
+            <div class="lg:col-span-5 p-6 sm:p-10 border-b lg:border-b-0 lg:border-r border-line flex flex-col justify-between">
+                <div class="space-y-6">
+                    <div class="font-mono text-[10px] tracking-[0.15em] text-accentMuted uppercase">
+                        [ BOOKING Q3 / Q4 2026 ]
+                    </div>
+                    <p class="text-sm text-ink/80 leading-relaxed max-w-md">
+                        Taking on select brand identity and web commissions starting next month. Direct email is preferred; every inquiry receives a personal response within 24 hours.
+                    </p>
+                    <div class="pt-2">
+                        <div class="font-mono text-[10px] tracking-[0.14em] text-muted uppercase mb-1">DIRECT DISPATCH</div>
+                        <div class="flex items-center gap-3">
+                            <a href="mailto:akira@lequon.studio" id="email-text" class="text-xl sm:text-2xl font-bold tracking-tight text-ink hover:text-accent transition-colors">
+                                akira@lequon.studio
+                            </a>
+                            <button onclick="copyEmail()" id="copy-btn" class="border border-line px-2.5 py-1 font-mono text-[9px] tracking-[0.12em] uppercase hover:bg-ink hover:text-[#F0EFE9] transition-colors">
+                                COPY
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-10 mt-10 border-t border-line grid grid-cols-2 gap-4 font-mono text-[10px] tracking-[0.12em] uppercase">
+                    <div>
+                        <div class="text-muted mb-1">STUDIO BASE</div>
+                        <div class="text-ink">SHIBUYA-KU, TOKYO</div>
+                    </div>
+                    <div>
+                        <div class="text-muted mb-1">LOCAL TIME</div>
+                        <div id="tokyo-time" class="text-ink">JST (UTC+9)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Interactive Commission Form -->
+            <div class="lg:col-span-7 p-6 sm:p-10 bg-[#EAE8E0]/40">
+                <form id="inquiry-form" onsubmit="handleFormSubmit(event)" class="space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block font-mono text-[10px] tracking-[0.14em] text-muted uppercase mb-2">01 / YOUR NAME *</label>
+                            <input type="text" required placeholder="Elena Rostova" class="w-full bg-transparent border-b border-ink/40 focus:border-ink py-2.5 text-sm text-ink placeholder:text-muted/50 focus:outline-none transition-colors">
+                        </div>
+                        <div>
+                            <label class="block font-mono text-[10px] tracking-[0.14em] text-muted uppercase mb-2">02 / EMAIL ADDRESS *</label>
+                            <input type="email" required placeholder="elena@novaire.ch" class="w-full bg-transparent border-b border-ink/40 focus:border-ink py-2.5 text-sm text-ink placeholder:text-muted/50 focus:outline-none transition-colors">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block font-mono text-[10px] tracking-[0.14em] text-muted uppercase mb-2">03 / DISCIPLINE</label>
+                            <select class="w-full bg-transparent border-b border-ink/40 focus:border-ink py-2.5 text-sm text-ink focus:outline-none">
+                                <option value="Brand System + Web">Brand System + Digital Flagship</option>
+                                <option value="Editorial Website">Editorial Web Design &amp; Webflow</option>
+                                <option value="Identity Only">Brand Identity &amp; Typography</option>
+                                <option value="Print & Packaging">Print &amp; Packaging Direction</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block font-mono text-[10px] tracking-[0.14em] text-muted uppercase mb-2">04 / INDICATIVE BUDGET</label>
+                            <select class="w-full bg-transparent border-b border-ink/40 focus:border-ink py-2.5 text-sm text-ink focus:outline-none">
+                                <option value="8k-15k">$8,000 — $15,000 USD</option>
+                                <option value="15k-30k">$15,000 — $30,000 USD</option>
+                                <option value="30k+">$30,000+ USD (Full Retainer)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block font-mono text-[10px] tracking-[0.14em] text-muted uppercase mb-2">05 / PROJECT BRIEF &amp; TIMELINE *</label>
+                        <textarea rows="3" required placeholder="Tell me about what you are building, target launch window, and key objectives..." class="w-full bg-transparent border-b border-ink/40 focus:border-ink py-2.5 text-sm text-ink placeholder:text-muted/50 focus:outline-none transition-colors resize-none"></textarea>
+                    </div>
+
+                    <div class="pt-2 flex flex-wrap items-center justify-between gap-4">
+                        <span id="form-feedback" class="font-mono text-[10px] tracking-[0.12em] text-accent uppercase hidden">
+                            ✓ DISPATCH RECEIVED — AKIRA WILL REPLY WITHIN 24H.
+                        </span>
+                        <button type="submit" class="ml-auto bg-ink text-[#F0EFE9] hover:bg-accent px-6 py-3 font-mono text-[10px] tracking-[0.16em] uppercase transition-colors flex items-center gap-2">
+                            <span>SEND INQUIRY</span>
+                            <span>↗</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Bottom Colophon Bar -->
+        <div class="px-4 sm:px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-[10px] tracking-[0.14em] text-muted uppercase">
+            <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-accent"></span>
+                <span>© 2018—2026 LEQUON STUDIO · AKIRA MORI. ALL RIGHTS RESERVED.</span>
+            </div>
+            <div class="flex items-center gap-6">
+                <a href="https://x.com" target="_blank" rel="noopener noreferrer" class="hover:text-ink transition-colors">X / TWITTER ↗</a>
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="hover:text-ink transition-colors">INSTAGRAM ↗</a>
+                <a href="https://are.na" target="_blank" rel="noopener noreferrer" class="hover:text-ink transition-colors">ARE.NA ↗</a>
+                <a href="#home" class="text-ink hover:text-accent transition-colors">TOP ↑</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- CMS CASE STUDY MODAL -->
+    <div id="case-modal" class="fixed inset-0 z-50 hidden bg-ink/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6">
+        <div class="bg-[#F0EFE9] border border-line max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+            <!-- Modal Top Sticky Header -->
+            <div class="sticky top-0 z-10 bg-[#F0EFE9] border-b border-line px-5 py-4 flex items-center justify-between">
+                <div id="modal-folio" class="font-mono text-[10px] tracking-[0.15em] text-muted uppercase">[ CASE STUDY / 01 ]</div>
+                <button onclick="closeProjectModal()" class="border border-ink px-3 py-1 font-mono text-[10px] tracking-[0.12em] uppercase hover:bg-ink hover:text-[#F0EFE9] transition-colors">
+                    CLOSE [ESC] ×
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6 sm:p-10 space-y-8">
+                <div>
+                    <div id="modal-meta" class="font-mono text-[10px] tracking-[0.15em] text-accentMuted uppercase mb-2">IDENTITY · WEB · 2026</div>
+                    <h3 id="modal-title" class="text-3xl sm:text-5xl font-extrabold tracking-tight text-ink">Novaire Architecture</h3>
+                </div>
+
+                <div class="aspect-[16/9] bg-ink overflow-hidden border border-line">
+                    <img id="modal-img" src="" alt="Case study preview" class="w-full h-full object-cover">
+                </div>
+
+                <!-- Challenge & Strategy Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-b border-line py-6">
+                    <div>
+                        <div class="font-mono text-[10px] tracking-[0.14em] text-muted uppercase mb-2">[ 01 / THE CHALLENGE ]</div>
+                        <p id="modal-challenge" class="text-xs sm:text-sm text-ink/90 leading-relaxed"></p>
+                    </div>
+                    <div>
+                        <div class="font-mono text-[10px] tracking-[0.14em] text-muted uppercase mb-2">[ 02 / THE SYSTEM ]</div>
+                        <p id="modal-solution" class="text-xs sm:text-sm text-ink/90 leading-relaxed"></p>
+                    </div>
+                </div>
+
+                <!-- Deliverables & Outcome -->
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <span class="font-mono text-[10px] tracking-[0.14em] text-muted uppercase block mb-1">OUTCOME METRIC</span>
+                        <span id="modal-stat" class="editorial-serif text-3xl text-ink"></span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <button onclick="nextProjectInModal()" class="border border-ink px-4 py-2.5 font-mono text-[10px] tracking-[0.14em] uppercase hover:bg-ink hover:text-[#F0EFE9] transition-colors">
+                            NEXT PROJECT →
+                        </button>
+                        <a href="#contact" onclick="closeProjectModal()" class="bg-ink text-[#F0EFE9] hover:bg-accent px-5 py-2.5 font-mono text-[10px] tracking-[0.14em] uppercase transition-colors">
+                            COMMISSION SIMILAR WORK ↗
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Complete 8 Case Studies CMS data matching LEQUON/01 architecture
+        let currentModalIndex = 0;
+        const projectsData = [
+            {
+                folio: "[ FOLIO / 01 · CASE STUDY ]",
+                meta: "BRAND SYSTEM · DIGITAL MONOGRAPH · 2026",
+                title: "Novaire Architecture",
+                img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85",
+                challenge: "Novaire needed to transition from a regional Zurich studio into an international architectural practice without losing the quiet rigor of their physical buildings.",
+                solution: "We constructed a strict 12-column swiss grid system paired with a bespoke serif monograph layout, indexing 14 years of built works by material, typology, and latitude.",
+                stat: "+140% International Commission Inquiries"
+            },
+            {
+                folio: "[ FOLIO / 02 · CASE STUDY ]",
+                meta: "VARIABLE TYPE · E-COMMERCE · 2025",
+                title: "MONO/TYPE Foundry",
+                img: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=1200&q=85",
+                challenge: "Traditional type foundries bury their typefaces under bloated licensing calculators and slow specimen PDFs.",
+                solution: "Designed an immediate, zero-latency browser specimen playground with real-time OpenType feature toggles and a frictionless 2-step licensing checkout.",
+                stat: "3.8× Increase in Direct License Conversions"
+            },
+            {
+                folio: "[ FOLIO / 03 · CASE STUDY ]",
+                meta: "PACKAGING ARCHITECTURE · PRINT · 2025",
+                title: "Vale&Form Botanical Objects",
+                img: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=1200&q=85",
+                challenge: "Create a zero-plastic packaging system and seasonal print index for a Kyoto-based botanical and ceramic object label.",
+                solution: "Utilized blind debossing on uncoated Japanese cotton stock with numbered batch labels inspired by archival herbarium specimens.",
+                stat: "Featured in Communication Arts & Awwwards"
+            },
+            {
+                folio: "[ FOLIO / 04 · CASE STUDY ]",
+                meta: "HARDWARE UI · LAUNCH SYSTEM · 2024",
+                title: "Arclane Acoustic Lab",
+                img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=85",
+                challenge: "Unify the physical silk-screened interface of Arclane's flagship analog synthesizer with their digital documentation and launch film.",
+                solution: "Developed a custom high-legibility technical micro-type system and interactive web audio patch explorer.",
+                stat: "First Production Batch Sold Out in 18 Hours"
+            },
+            {
+                folio: "[ FOLIO / 05 · CASE STUDY ]",
+                meta: "BRAND SYSTEM · EXHIBITION · 2024",
+                title: "BRIXEN Atelier Milan",
+                img: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1200&q=85",
+                challenge: "Establish an authoritative architectural lighting identity and technical specification system ahead of Salone del Mobile in Milan.",
+                solution: "Created an industrial cataloguing system inspired by 1970s European electrical schematics, unifying product stamps, crates, and digital spec sheets.",
+                stat: "Adopted by 240+ Architectural Specifiers"
+            },
+            {
+                folio: "[ FOLIO / 06 · CASE STUDY ]",
+                meta: "BOOK DESIGN · ART DIRECTION · 2024",
+                title: "KINFOLK Archive Vol. IV",
+                img: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=1200&q=85",
+                challenge: "Design a landmark 340-page hardcover anthology celebrating ten years of spatial essays and monochrome portrait commissions.",
+                solution: "Paired custom-milled Munken print paper with raw Japanese linen bindings and a Swiss baseline grid that accommodates bilingual essays.",
+                stat: "15,000 First-Edition Copies Sold Worldwide"
+            },
+            {
+                folio: "[ FOLIO / 07 · CASE STUDY ]",
+                meta: "IDENTITY · DIGITAL FLAGSHIP · 2023",
+                title: "Sori Studio Seoul",
+                img: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=85",
+                challenge: "Translate the quiet drape and unbleached textile philosophy of a Seoul garment studio into a global direct-to-consumer flagship.",
+                solution: "Designed an editorial lookbook commerce experience where every garment is documented like an archival gallery piece with fabric weight specs.",
+                stat: "+210% Direct Global Online Revenue"
+            },
+            {
+                folio: "[ FOLIO / 08 · CASE STUDY ]",
+                meta: "DESIGN SYSTEM · PUBLICATION · 2023",
+                title: "NORD/OST Spatial Research",
+                img: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=85",
+                challenge: "Make complex Nordic urban climate data legible and engaging for policymakers, architects, and the general public.",
+                solution: "Engineered a modular Webflow CMS publication platform featuring interactive cartographic diagrams and automated footnote indexing.",
+                stat: "Winner of TDC Typographic Excellence"
+            }
+        ];
+
+        // Multi-Page Router (Home / About / Work)
+        function switchPage(pageId) {
+            const pages = ['home', 'about', 'work'];
+            pages.forEach(p => {
+                const el = document.getElementById(`page-${p}`);
+                const navBtn = document.getElementById(`nav-${p}`);
+                const mobBtn = document.getElementById(`mob-${p}`);
+                if (p === pageId) {
+                    el.classList.remove('hidden');
+                    if (navBtn) navBtn.classList.add('nav-link-active');
+                    if (mobBtn) {
+                        mobBtn.classList.add('bg-ink', 'text-[#F0EFE9]');
+                        mobBtn.classList.remove('text-ink');
+                    }
+                } else {
+                    el.classList.add('hidden');
+                    if (navBtn) navBtn.classList.remove('nav-link-active');
+                    if (mobBtn) {
+                        mobBtn.classList.remove('bg-ink', 'text-[#F0EFE9]');
+                        mobBtn.classList.add('text-ink');
+                    }
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Open & Close CMS Modal
+        function openProjectModal(index) {
+            currentModalIndex = index;
+            const p = projectsData[index];
+            document.getElementById('modal-folio').textContent = p.folio;
+            document.getElementById('modal-meta').textContent = p.meta;
+            document.getElementById('modal-title').textContent = p.title;
+            document.getElementById('modal-img').src = p.img;
+            document.getElementById('modal-challenge').textContent = p.challenge;
+            document.getElementById('modal-solution').textContent = p.solution;
+            document.getElementById('modal-stat').textContent = p.stat;
+            document.getElementById('case-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function nextProjectInModal() {
+            const nextIdx = (currentModalIndex + 1) % projectsData.length;
+            openProjectModal(nextIdx);
+        }
+
+        function closeProjectModal() {
+            document.getElementById('case-modal').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        // Close modal on Escape key
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeProjectModal();
+        });
+
+        // Filter Projects on Home Page
+        function filterProjects(category) {
+            const cards = document.querySelectorAll('#projects-grid .project-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+
+            buttons.forEach(btn => {
+                if (btn.dataset.filter === category) {
+                    btn.classList.add('bg-ink', 'text-[#F0EFE9]');
+                    btn.classList.remove('hover:bg-ink/10', 'text-ink');
+                } else {
+                    btn.classList.remove('bg-ink', 'text-[#F0EFE9]');
+                    btn.classList.add('hover:bg-ink/10', 'text-ink');
+                }
+            });
+
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        // Filter Projects on Dedicated Work Page (/work)
+        function filterWorkPage(category) {
+            const cards = document.querySelectorAll('.work-page-card');
+            const buttons = document.querySelectorAll('.wfilter-btn');
+
+            buttons.forEach(btn => {
+                if (btn.dataset.wfilter === category) {
+                    btn.classList.add('bg-ink', 'text-[#F0EFE9]');
+                    btn.classList.remove('border', 'border-line', 'text-ink');
+                } else {
+                    btn.classList.remove('bg-ink', 'text-[#F0EFE9]');
+                    btn.classList.add('border', 'border-line', 'text-ink');
+                }
+            });
+
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.wcat === category) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        // Toggle between Editorial Grid & Archive Table on /work page
+        function setWorkLayout(mode) {
+            const gridContainer = document.getElementById('work-grid-container');
+            const tableContainer = document.getElementById('work-table-container');
+            const gridBtn = document.getElementById('view-grid-btn');
+            const tableBtn = document.getElementById('view-table-btn');
+
+            if (mode === 'grid') {
+                gridContainer.classList.remove('hidden');
+                tableContainer.classList.add('hidden');
+                gridBtn.classList.add('bg-ink', 'text-[#F0EFE9]', 'border-ink');
+                gridBtn.classList.remove('text-ink', 'border-line');
+                tableBtn.classList.remove('bg-ink', 'text-[#F0EFE9]', 'border-ink');
+                tableBtn.classList.add('text-ink', 'border-line');
+            } else {
+                gridContainer.classList.add('hidden');
+                tableContainer.classList.remove('hidden');
+                tableBtn.classList.add('bg-ink', 'text-[#F0EFE9]', 'border-ink');
+                tableBtn.classList.remove('text-ink', 'border-line');
+                gridBtn.classList.remove('bg-ink', 'text-[#F0EFE9]', 'border-ink');
+                gridBtn.classList.add('text-ink', 'border-line');
+            }
+        }
+
+        // Toggle Services Accordion
+        function toggleAccordion(idx) {
+            const content = document.getElementById(`acc-content-${idx}`);
+            const icon = document.getElementById(`acc-icon-${idx}`);
+            const isOpen = !content.classList.contains('hidden');
+
+            // Close all others for clean editorial rhythm
+            for (let i = 0; i < 4; i++) {
+                document.getElementById(`acc-content-${i}`).classList.add('hidden');
+                document.getElementById(`acc-icon-${i}`).textContent = '+';
+            }
+
+            if (!isOpen) {
+                content.classList.remove('hidden');
+                icon.textContent = '−';
+            }
+        }
+
+        // Copy Email to Clipboard
+        function copyEmail() {
+            const tempInput = document.createElement('textarea');
+            tempInput.value = 'akira@lequon.studio';
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            const btn = document.getElementById('copy-btn');
+            btn.textContent = 'COPIED ✓';
+            setTimeout(() => {
+                btn.textContent = 'COPY';
+            }, 2000);
+        }
+
+        // Handle Inquiry Form Submission
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const feedback = document.getElementById('form-feedback');
+            feedback.classList.remove('hidden');
+            e.target.reset();
+            setTimeout(() => {
+                feedback.classList.add('hidden');
+            }, 5000);
+        }
+
+        // Live Tokyo Studio Clock
+        function updateTokyoClock() {
+            try {
+                const now = new Date();
+                const options = { timeZone: 'Asia/Tokyo', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+                const timeString = new Intl.DateTimeFormat('en-US', options).format(now);
+                document.getElementById('tokyo-time').textContent = `${timeString} JST (UTC+9)`;
+            } catch (err) {
+                document.getElementById('tokyo-time').textContent = 'JST (UTC+9)';
+            }
+        }
+        setInterval(updateTokyoClock, 1000);
+        updateTokyoClock();
+    </script>
+</body>
+</html>

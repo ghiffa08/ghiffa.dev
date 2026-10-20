@@ -1,98 +1,109 @@
-import { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { LanguageSwitcher } from '../molecules/LanguageSwitcher';
+import React from 'react';
 import { useSupabaseSingle } from '../../hooks/useSupabaseData';
 
-export function Header() {
-  const { t } = useTranslation();
+export function Header({ activePage = 'home', setActivePage, onGetInTouch }) {
   const { data: settings } = useSupabaseSingle('general_settings');
-  const appName = settings?.app_name || 'ghiffa.dev';
-  const [activeSection, setActiveSection] = useState('');
-  const [isScrolled, setIsScrolled] = useState(false);
-  
-  const location = useLocation();
-  const navigate = useNavigate();
+  const rawName = settings?.app_name || 'GHIFFA';
+  const brandName = rawName.replace('.dev', '').toUpperCase();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = ['about', 'works', 'process', 'journal'];
-      let current = '';
-      
-      // Check if scrolled past hero (threshold 100px)
-      setIsScrolled(window.scrollY > 100);
-      
-      // Calculate active section based on scroll position
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          // Check if section is currently visible in the upper part of the viewport
-          if (rect.top <= 150 && rect.bottom >= 150) {
-            current = section;
-            break;
-          }
-        }
-      }
-      
-      setActiveSection(current);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    // Trigger once on mount
-    handleScroll();
-    
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const handleScrollTo = (e, targetId) => {
-    e.preventDefault();
-    
-    if (location.pathname !== '/') {
-      // If we're not on the homepage, navigate to the homepage with the hash.
-      // Portfolio.jsx now has a useEffect to handle scrolling to the hash on mount.
-      navigate(targetId === 'body' ? '/' : `/${targetId}`);
-      return;
+  const handleNavClick = (pageId) => {
+    if (setActivePage) {
+      setActivePage(pageId);
     }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
-    // Same-page smooth scroll
-    const target = targetId === 'body' ? 0 : targetId;
-    if (window.lenis) {
-      if (target === 0 || document.querySelector(target)) {
-        window.lenis.scrollTo(target, { duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
-      }
+  const handleContactClick = (e) => {
+    e.preventDefault();
+    if (onGetInTouch) {
+      onGetInTouch();
     } else {
-      if (targetId !== 'body') {
-        document.querySelector(targetId)?.scrollIntoView({ behavior: 'smooth' });
-      } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+      const contactEl = document.getElementById('contact');
+      if (contactEl) {
+        contactEl.scrollIntoView({ behavior: 'smooth' });
       }
     }
   };
 
   return (
-    <nav className={`w-full z-40 fixed top-0 transition-all duration-300 notranslate border-b ${
-      isScrolled 
-        ? 'bg-[#FAFAFA]/90 backdrop-blur-md border-[var(--border)]' 
-        : 'bg-transparent border-transparent'
-    }`} translate="no">
-      <div className="max-w-screen-2xl mx-auto flex justify-between items-center px-6 md:px-12 py-6">
-        <div className="flex items-center gap-4 cursor-pointer" onClick={(e) => handleScrollTo(e, 'body')}>
-          <span className="font-mono text-sm font-bold tracking-[0.2em] uppercase">{appName}</span>
-        </div>
-        
-        <div className="hidden md:flex space-x-12 font-mono text-[10px] tracking-[0.2em] uppercase font-bold text-gray-400">
-          <a href="#about" onClick={(e) => handleScrollTo(e, '#about')} className={`transition-colors ${activeSection === 'about' ? 'text-[#111111]' : 'hover:text-[#111111]'}`}>{t('nav.about')}</a>
-          <a href="#works" onClick={(e) => handleScrollTo(e, '#works')} className={`transition-colors ${activeSection === 'works' ? 'text-[#111111]' : 'hover:text-[#111111]'}`}>{t('nav.works')}</a>
-          <a href="#process" onClick={(e) => handleScrollTo(e, '#process')} className={`transition-colors ${activeSection === 'process' ? 'text-[#111111]' : 'hover:text-[#111111]'}`}>{t('nav.experience')}</a>
-          <a href="#journal" onClick={(e) => handleScrollTo(e, '#journal')} className={`transition-colors ${activeSection === 'journal' ? 'text-[#111111]' : 'hover:text-[#111111]'}`}>{t('nav.journal')}</a>
-          <Link to="/articles" className="transition-colors hover:text-[#111111]">{t('nav.articles')}</Link>
-        </div>
+    <header className="sticky top-0 z-40 bg-[#F0EFE9]/95 backdrop-blur-sm border-b border-[#D6D4CC]">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
+        {/* Left Brand Logo */}
+        <button 
+          onClick={() => handleNavClick('home')} 
+          className="flex items-center gap-2.5 group text-left focus:outline-none cursor-pointer"
+        >
+          {/* Lequon Pill-Cutout Icon */}
+          <svg className="w-4 h-5 transition-transform duration-300 group-hover:scale-105" viewBox="0 0 32 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 0C7.16344 0 0 7.16344 0 16V26C0 34.8366 7.16344 42 16 42V21H32V16C32 7.16344 24.8366 0 16 0Z" fill="#121210"/>
+            <path d="M16 21H32V26C32 34.8366 24.8366 42 16 42V21Z" fill="#FF441F"/>
+          </svg>
+          <div className="flex items-baseline gap-1.5">
+            <span className="font-extrabold tracking-tight text-sm uppercase text-[#121210] font-sans">
+              {brandName || 'LEQUON'}
+            </span>
+            <span className="font-mono text-[9px] tracking-[0.16em] text-[#6E6D68] uppercase">
+              STUDIO
+            </span>
+          </div>
+        </button>
 
-        <div className="flex items-center gap-6">
-          <LanguageSwitcher />
+        {/* Center Navigation Links (Multi-Page Switcher) */}
+        <nav className="hidden md:flex items-center gap-8 font-mono text-[10px] tracking-[0.14em] uppercase">
+          <button 
+            onClick={() => handleNavClick('home')} 
+            className={`nav-item transition-colors cursor-pointer ${activePage === 'home' ? 'text-[#FF441F] font-semibold' : 'text-[#121210] hover:text-[#FF441F]'}`}
+          >
+            <span className="text-[#6E6D68] mr-1">00</span>HOME
+          </button>
+          <button 
+            onClick={() => handleNavClick('about')} 
+            className={`nav-item transition-colors cursor-pointer ${activePage === 'about' ? 'text-[#FF441F] font-semibold' : 'text-[#121210] hover:text-[#FF441F]'}`}
+          >
+            <span className="text-[#6E6D68] mr-1">01</span>ABOUT
+          </button>
+          <button 
+            onClick={() => handleNavClick('work')} 
+            className={`nav-item transition-colors cursor-pointer ${activePage === 'work' ? 'text-[#FF441F] font-semibold' : 'text-[#121210] hover:text-[#FF441F]'}`}
+          >
+            <span className="text-[#6E6D68] mr-1">02</span>WORK
+          </button>
+        </nav>
+
+        {/* Right CTA Button & Mobile Page Switcher */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Mobile Quick Nav */}
+          <div className="flex md:hidden items-center border border-[#D6D4CC] bg-[#EAE8E0]/70 p-0.5 font-mono text-[9px] uppercase">
+            <button 
+              onClick={() => handleNavClick('home')} 
+              className={`px-2 py-1 transition-colors ${activePage === 'home' ? 'bg-[#121210] text-[#F0EFE9]' : 'text-[#121210]'}`}
+            >
+              00
+            </button>
+            <button 
+              onClick={() => handleNavClick('about')} 
+              className={`px-2 py-1 transition-colors ${activePage === 'about' ? 'bg-[#121210] text-[#F0EFE9]' : 'text-[#121210]'}`}
+            >
+              01 ABOUT
+            </button>
+            <button 
+              onClick={() => handleNavClick('work')} 
+              className={`px-2 py-1 transition-colors ${activePage === 'work' ? 'bg-[#121210] text-[#F0EFE9]' : 'text-[#121210]'}`}
+            >
+              02 WORK
+            </button>
+          </div>
+
+          <a 
+            href="#contact" 
+            onClick={handleContactClick}
+            className="border border-[#121210] px-3 sm:px-3.5 py-1.5 font-mono text-[10px] tracking-[0.12em] uppercase text-[#121210] hover:bg-[#121210] hover:text-[#F0EFE9] transition-colors flex items-center gap-1.5"
+          >
+            <span>GET IN TOUCH</span>
+            <span className="text-[11px] leading-none">↗</span>
+          </a>
         </div>
       </div>
-    </nav>
+    </header>
   );
 }

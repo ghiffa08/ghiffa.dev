@@ -1,6 +1,198 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+@theme {
+  --color-bg: #F0EFE9;
+  --color-bgDark: #111111;
+  --color-ink: #111111;
+  --color-muted: #6E6D68;
+  --color-line: rgba(17, 17, 17, 0.18);
+  --color-lineDark: #111111;
+  --color-accent: #FF441F;
+  --color-accentMuted: #D85131;
+
+  --font-sans: "Plus Jakarta Sans", sans-serif;
+  --font-display: "Plus Jakarta Sans", sans-serif;
+  --font-serif: "Instrument Serif", Georgia, serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+:root {
+  --spring-wood: #F0EFE9;
+  --cod-grey: #111111;
+  --grey-18: rgba(17, 17, 17, 0.18);
+  --grey-50: rgba(17, 17, 17, 0.50);
+  --grey-70: rgba(17, 17, 17, 0.70);
+  --vermilion: #D85131;
+  --white-20: rgba(255, 255, 255, 0.20);
+  --white-45: rgba(255, 255, 255, 0.45);
+  --white-50: rgba(255, 255, 255, 0.50);
+
+  --bg-cream: var(--spring-wood);
+  --ink: var(--cod-grey);
+  --line: var(--grey-18);
+  --orange: var(--vermilion);
+  --coral-serif: var(--vermilion);
+}
+
+/* Base content container strictly matching Webflow Lequon */
+.content-container {
+  border-right: 1px solid var(--grey-18);
+  border-bottom: 1px solid var(--cod-grey);
+  border-left: 1px solid var(--grey-18);
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+
+.content-container.no-bottom-border {
+  border-bottom-style: none;
+}
+
+/* 12-Column Background Grid Lines System matching webflow source */
+.section-bg-line-container {
+  z-index: 0;
+  justify-content: space-between;
+  align-items: stretch;
+  display: flex;
+  position: absolute;
+  inset: 0%;
+  pointer-events: none;
+}
+
+.section-bg-line {
+  background-color: var(--grey-18);
+  flex: none;
+  width: 1px;
+  height: 100%;
+}
+
+.section-bg-line.placeholder-line {
+  background-color: transparent;
+}
+
+/* Collaborator Grid matching Webflow source with 1px gap creating the lines */
+.collaborator-brand-grid {
+  grid-column-gap: 1px;
+  grid-row-gap: 1px;
+  background-color: var(--grey-18);
+  grid-template-rows: auto auto;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  display: grid;
+}
+
+@media (max-width: 1024px) {
+  .collaborator-brand-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .collaborator-brand-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.collaborator-card {
+  background-color: var(--spring-wood);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 54px;
+  padding-bottom: 54px;
+  text-decoration: none;
+  transition: background-color 0.2s, color 0.2s;
+  display: flex;
+  position: relative;
+  cursor: pointer;
+}
+
+.collaborator-card:hover {
+  background-color: var(--vermilion) !important;
+  color: #ffffff !important;
+}
+
+.collaborator-card:hover .mono-label,
+.collaborator-card:hover .quote-text {
+  color: #ffffff !important;
+}
+
+.collaborator-card-number-wrapper {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+}
+
+/* Custom Akira / Display Title Typography */
+.akira-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.055em;
+  line-height: 0.88;
+}
+
+/* Editorial Serif Italic Accent */
+.editorial-serif {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* Marquee Infinite Animation */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Subtle grain overlay for authentic print/editorial look */
+.grain-overlay {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Custom transitions */
+.collaborator-cell {
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+.collaborator-cell:hover {
+  background-color: #E6E4DC;
+}
+
+.project-card:hover .project-img {
+  transform: scale(1.03);
+}
+
+/* Page Transition Animation */
+.page-view {
+  animation: pageFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes pageFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.nav-link-active {
+  color: var(--orange) !important;
+  font-weight: 600;
+}
+
 @layer utilities {
   .perspective-1000 {
     perspective: 1000px;

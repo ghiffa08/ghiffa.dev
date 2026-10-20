@@ -1,250 +1,164 @@
-import { useEffect, useState, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
+import React, { useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
-import { SEO } from '../atoms/SEO';
-import { slugify } from '../../utils/slugify';
+import remarkGfm from 'remark-gfm';
 
-export function DetailModal({ activeDetail, setActiveDetail }) {
-  const { t } = useTranslation();
-  const [activeSlide, setActiveSlide] = useState(0);
-  const scrollRef = useRef(null);
-
+export function DetailModal({ activeDetail, setActiveDetail, allProjects = [] }) {
   useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setActiveDetail(null);
+      }
+    };
     if (activeDetail) {
       document.body.style.overflow = 'hidden';
-      if (window.lenis) window.lenis.stop();
-      setActiveSlide(0); // Reset slide on open
+      window.addEventListener('keydown', handleKeyDown);
     } else {
-      document.body.style.overflow = 'auto';
-      if (window.lenis) window.lenis.start();
+      document.body.style.overflow = '';
     }
-    const modalElement = document.getElementById('detail-modal');
-    if (modalElement) modalElement.scrollTop = 0;
-  }, [activeDetail]);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [activeDetail, setActiveDetail]);
 
   if (!activeDetail) return null;
 
-  const isProject = activeDetail.type === 'project';
-  const prefix = isProject ? 'project' : 'article';
-  const slug = slugify(activeDetail.title || '');
+  const currentIdx = allProjects.findIndex(p => p.id === activeDetail.id || p.title === activeDetail.title);
+  const folioNum = currentIdx >= 0 ? String(currentIdx + 1).padStart(2, '0') : '01';
 
-  const titleKey = `${prefix}.${slug}.title`;
-  const descKey = `${prefix}.${slug}.description`;
-  const contentKey = `${prefix}.${slug}.content`;
-  const clientKey = isProject ? `${prefix}.${slug}.client` : '';
-  const categoryKey = isProject ? `${prefix}.${slug}.category` : '';
-
-  const images = Array.isArray(activeDetail.image_urls) && activeDetail.image_urls.length > 0 
-    ? activeDetail.image_urls 
-    : (activeDetail.img ? [activeDetail.img] : (activeDetail.image_url ? [activeDetail.image_url] : []));
-
-  const handleScroll = (e) => {
-    const container = e.currentTarget;
-    const scrollPosition = container.scrollLeft;
-    const width = container.clientWidth;
-    if (width > 0) {
-      const index = Math.round(scrollPosition / width);
-      setActiveSlide(index);
+  const handleNext = () => {
+    if (allProjects.length > 0) {
+      const nextIdx = (currentIdx + 1) % allProjects.length;
+      setActiveDetail(allProjects[nextIdx]);
     }
   };
 
-  const slideLeft = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({
-        left: -scrollRef.current.clientWidth,
-        behavior: 'smooth'
-      });
-    }
+  const handleClose = () => {
+    setActiveDetail(null);
   };
 
-  const slideRight = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({
-        left: scrollRef.current.clientWidth,
-        behavior: 'smooth'
-      });
-    }
-  };
+  const imageUrl = activeDetail.image_url || activeDetail.img || activeDetail.image_urls?.[0] || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85';
+  const metaCategory = (activeDetail.category || 'SYSTEM').toUpperCase();
+  const metaYear = activeDetail.year || '2024';
+  const metaClient = (activeDetail.client || 'INDEPENDENT').toUpperCase();
 
-  const schema = isProject 
-    ? {
-        "@context": "https://schema.org",
-        "@type": "SoftwareSourceCode",
-        "name": t(titleKey, activeDetail.title),
-        "description": t(descKey, activeDetail.desc),
-        "image": images[0] || '',
-        "programmingLanguage": activeDetail.stack,
-        "author": {
-          "@type": "Person",
-          "name": "Haikal Jibran Al Ghiffarry"
-        }
-      }
-    : {
-        "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "headline": t(titleKey, activeDetail.title),
-        "description": t(descKey, activeDetail.desc),
-        "image": images[0] || '',
-        "datePublished": activeDetail.published_at || activeDetail.date,
-        "author": {
-          "@type": "Person",
-          "name": "Haikal Jibran Al Ghiffarry"
-        }
-      };
+  // Tech stack string
+  const stackString = Array.isArray(activeDetail.tech_stack)
+    ? activeDetail.tech_stack.filter(Boolean).join(' · ')
+    : (activeDetail.tech_stack || 'HARDWARE · FIRMWARE · CLOUD');
 
   return (
-    <div id="detail-modal" data-lenis-prevent="true" className="fixed inset-0 z-[100] bg-[#FAFAFA] text-[#111111] overflow-y-auto animate-fade-in">
-      <SEO 
-        title={t(titleKey, activeDetail.title)} 
-        description={t(descKey, activeDetail.desc)} 
-        image={images[0] || ''}
-        type={activeDetail.type === 'article' ? 'article' : 'website'}
-        publishedDate={activeDetail.published_at || activeDetail.date}
-        jsonLd={schema}
-      />
-      
-      {/* Modal Header Navbar */}
-      <div className="sticky top-0 w-full px-6 py-4 flex justify-between items-center bg-[#FAFAFA]/95 backdrop-blur-md z-50 hairline-b">
-        <div className="font-mono text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase">
-          {isProject ? t('detail.featuredProject') : t('detail.editorialArticle')}
-        </div>
-        <button 
-          onClick={() => setActiveDetail(null)} 
-          className="font-mono text-[10px] md:text-xs font-bold tracking-[0.2em] hover:text-[#666666] transition-colors flex items-center gap-2 group uppercase"
-        >
-          {t('detail.close')} <span className="group-hover:rotate-90 transition-transform text-base md:text-lg leading-none">✕</span>
-        </button>
-      </div>
-
-      {/* Modal Content - Magazine Layout */}
-      <div className="w-full max-w-screen-2xl mx-auto px-6 md:px-12 py-16 md:py-24">
-        
-        {/* Title & Meta Data Block */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-start mb-16">
-          <div className="md:col-span-8 lg:col-span-9">
-            <h1 className={`text-5xl md:text-[6vw] leading-[0.9] tracking-tighter uppercase ${activeDetail.type === 'article' ? 'font-serif-editorial font-bold normal-case' : 'font-black'}`}>
-              {t(titleKey, activeDetail.title)}
-            </h1>
+    <div className="fixed inset-0 z-50 bg-[#121210]/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 animate-fade-in">
+      <div className="bg-[#F0EFE9] border border-[#D6D4CC] max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+        {/* Modal Top Sticky Header */}
+        <div className="sticky top-0 z-10 bg-[#F0EFE9] border-b border-[#D6D4CC] px-5 py-4 flex items-center justify-between">
+          <div className="font-mono text-[10px] tracking-[0.15em] text-[#6E6D68] uppercase">
+            [ CASE STUDY / {folioNum} ]
           </div>
-          <div className="md:col-span-4 lg:col-span-3 font-mono text-[10px] md:text-xs uppercase md:border-l border-[#E5E5E5] pt-6 md:pt-0 md:pl-8 space-y-8 tracking-widest">
-            {isProject ? (
-              <>
-                <div>
-                  <p className="text-gray-400 mb-1">{t('detail.client')}</p>
-                  <p className="font-bold text-[#111111]">{t(clientKey, activeDetail.client) || t(categoryKey, activeDetail.category) || 'Personal'}</p>
-                </div>
-                <div>
-                  <p className="text-gray-400 mb-1">{t('detail.year')}</p>
-                  <p className="font-bold text-[#111111]">{activeDetail.year || new Date().getFullYear()}</p>
-                </div>
-                <div>
-                  <p className="text-gray-400 mb-1">{t('detail.techStack')}</p>
-                  <p className="font-bold text-[#666666]">{activeDetail.stack ? activeDetail.stack.join(', ') : ''}</p>
-                </div>
-              </>
-            ) : (
-              <>
-                <div>
-                  <p className="text-gray-400 mb-1">{t('detail.published')}</p>
-                  <p className="font-bold text-[#111111]">{activeDetail.date}</p>
-                </div>
-                <div>
-                  <p className="text-gray-400 mb-1">{t('detail.readTime')}</p>
-                  <p className="font-bold text-[#111111]">{activeDetail.readTime || '5 min'}</p>
-                </div>
-              </>
+          <button 
+            onClick={handleClose} 
+            className="border border-[#121210] px-3 py-1 font-mono text-[10px] tracking-[0.12em] uppercase hover:bg-[#121210] hover:text-[#F0EFE9] transition-colors cursor-pointer"
+          >
+            CLOSE [ESC] ×
+          </button>
+        </div>
+
+        {/* Modal Body */}
+        <div className="p-6 sm:p-10 space-y-8">
+          <div>
+            <div className="font-mono text-[10px] tracking-[0.15em] text-[#D14B30] uppercase mb-2">
+              {metaCategory} · {metaClient} · {metaYear}
+            </div>
+            <h3 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#121210] font-sans">
+              {activeDetail.title}
+            </h3>
+            {stackString && (
+              <div className="mt-2 font-mono text-[10px] text-[#6E6D68] tracking-widest uppercase">
+                {stackString}
+              </div>
             )}
           </div>
-        </div>
 
-        {/* Hero Image Block / Editorial Snap Carousel */}
-        <div className="w-full h-[40vh] md:h-[70vh] mb-16 border border-[#E5E5E5] p-1 bg-[#FAFAFA] relative group">
-          {images.length > 0 ? (
-            <>
-              {/* Snap Container */}
-              <div 
-                ref={scrollRef}
-                onScroll={handleScroll}
-                className="w-full h-full flex overflow-x-auto snap-x snap-mandatory scrollbar-none scroll-smooth"
-              >
-                {images.map((imgUrl, idx) => (
-                  <div key={idx} className="w-full h-full shrink-0 snap-start bg-[#E5E5E5]">
-                    <img 
-                      src={imgUrl} 
-                      alt={`${t(titleKey, activeDetail.title)} - slide ${idx + 1}`} 
-                      loading="lazy"
-                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" 
-                    />
-                  </div>
-                ))}
+          <div className="aspect-[16/9] bg-[#121210] overflow-hidden border border-[#D6D4CC]">
+            <img 
+              src={imageUrl} 
+              alt={activeDetail.title} 
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85';
+              }}
+            />
+          </div>
+
+          {/* Challenge & Strategy Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-b border-[#D6D4CC] py-6">
+            <div>
+              <div className="font-mono text-[10px] tracking-[0.14em] text-[#6E6D68] uppercase mb-2">
+                [ 01 / THE CHALLENGE &amp; SCOPE ]
               </div>
+              <p className="text-xs sm:text-sm text-[#121210]/90 leading-relaxed">
+                {activeDetail.description || "Building an end-to-end robust architecture that solves concrete operational bottlenecks with high reliability, minimal maintenance, and intuitive usability."}
+              </p>
+            </div>
+            <div>
+              <div className="font-mono text-[10px] tracking-[0.14em] text-[#6E6D68] uppercase mb-2">
+                [ 02 / THE SYSTEM ARCHITECTURE ]
+              </div>
+              <p className="text-xs sm:text-sm text-[#121210]/90 leading-relaxed">
+                Engineered with modular principles, low-latency telemetry processing, and clean maintainable code to ensure sustained operational performance across field environments.
+              </p>
+            </div>
+          </div>
 
-              {/* Prev / Next Minimal Buttons */}
-              {images.length > 1 && (
-                <>
-                  <button 
-                    onClick={slideLeft}
-                    className="absolute left-6 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-black hover:text-white transition-all border border-[#E5E5E5] flex items-center justify-center font-mono text-sm shadow-sm md:opacity-0 group-hover:opacity-100 duration-300 z-10"
-                  >
-                    ←
-                  </button>
-                  <button 
-                    onClick={slideRight}
-                    className="absolute right-6 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-black hover:text-white transition-all border border-[#E5E5E5] flex items-center justify-center font-mono text-sm shadow-sm md:opacity-0 group-hover:opacity-100 duration-300 z-10"
-                  >
-                    →
-                  </button>
-                  
-                  {/* Monospace Paginated Slide counter */}
-                  <div className="absolute bottom-6 right-6 bg-[#111111] text-[#FAFAFA] font-mono text-[10px] px-3 py-1.5 uppercase tracking-[0.2em] font-bold shadow-md z-10">
-                    [ {activeSlide + 1} / {images.length} ]
-                  </div>
-                </>
-              )}
-            </>
-          ) : (
-            <div className="w-full h-full bg-[#E5E5E5] flex items-center justify-center font-mono text-xs text-gray-400">
-              NO IMAGE AVAILABLE
+          {/* Full content if present */}
+          {activeDetail.content && (
+            <div className="prose prose-sm max-w-none text-[#121210]/90 border-b border-[#D6D4CC] pb-6 leading-relaxed">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {activeDetail.content}
+              </ReactMarkdown>
             </div>
           )}
-        </div>
 
-        {/* Article Content - Split Column Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 hairline-t pt-16">
-          {/* Left Pull-Quote / Abstract */}
-          <div className="md:col-span-4 lg:col-span-3">
-            <p className="text-xl md:text-2xl font-serif-editorial font-medium italic leading-relaxed text-gray-900 border-l-4 border-[#111111] pl-6 py-2">
-              "{t(descKey, activeDetail.desc)}"
-            </p>
-            {activeDetail.link && (
-              <div className="mt-16 hidden md:block">
-                <a href={activeDetail.link} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 font-mono text-xs font-bold tracking-widest uppercase hover:text-[#666666] transition-colors border-b border-[#111111] hover:border-[#666666] pb-1">
-                  <span>{t('detail.visitLive')}</span>
-                  <span className="text-sm leading-none">↗</span>
-                </a>
-              </div>
-            )}
-          </div>
-          
-          {/* Right Body Text */}
-          <div className="md:col-span-8 lg:col-span-9">
-            {/* Magazine Layout for both Projects & Articles */}
-            <div className="columns-1 md:columns-2 gap-12 text-base md:text-lg text-gray-700 leading-relaxed drop-cap text-justify prose md:prose-lg max-w-none prose-p:font-sans prose-headings:font-sans prose-a:text-[#666666] hover:prose-a:text-[#111111] transition-colors">
-              <ReactMarkdown>{t(contentKey, activeDetail.content) || ''}</ReactMarkdown>
+          {/* Deliverables & Outcome */}
+          <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
+            <div>
+              <span className="font-mono text-[10px] tracking-[0.14em] text-[#6E6D68] uppercase block mb-1">
+                OUTCOME METRIC / STATUS
+              </span>
+              <span className="editorial-serif text-3xl text-[#121210]">
+                {activeDetail.stat || "100% Shipped & Operational"}
+              </span>
             </div>
-            
-            {/* Mobile Link Fallback */}
-            {activeDetail.link && (
-              <div className="mt-12 md:hidden">
-                <a href={activeDetail.link} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 font-mono text-xs font-bold tracking-widest uppercase hover:text-[#666666] transition-colors border-b border-[#111111] hover:border-[#666666] pb-1">
-                  <span>{t('detail.visitLive')}</span>
-                  <span className="text-sm leading-none">↗</span>
+            <div className="flex items-center gap-3">
+              {activeDetail.link && activeDetail.link !== '#' && (
+                <a 
+                  href={activeDetail.link} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="border border-[#121210] px-4 py-2.5 font-mono text-[10px] tracking-[0.14em] uppercase hover:bg-[#121210] hover:text-[#F0EFE9] transition-colors"
+                >
+                  LIVE DEMO ↗
                 </a>
-              </div>
-            )}
+              )}
+              {allProjects.length > 1 && (
+                <button 
+                  onClick={handleNext} 
+                  className="border border-[#121210] px-4 py-2.5 font-mono text-[10px] tracking-[0.14em] uppercase hover:bg-[#121210] hover:text-[#F0EFE9] transition-colors cursor-pointer"
+                >
+                  NEXT PROJECT →
+                </button>
+              )}
+              <a 
+                href="#contact" 
+                onClick={handleClose} 
+                className="bg-[#121210] text-[#F0EFE9] hover:bg-[#FF441F] px-5 py-2.5 font-mono text-[10px] tracking-[0.14em] uppercase transition-colors"
+              >
+                COMMISSION SIMILAR WORK ↗
+              </a>
+            </div>
           </div>
         </div>
-
       </div>
     </div>
   );

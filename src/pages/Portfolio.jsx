@@ -518,62 +518,38 @@ export default function Portfolio() {
         </section>
 
         {/* =========================================================
-            3. SELECTED WORK BAR (DARK BAND + VERTICAL ORANGE SIDEBAR)
+            3. SELECTED WORK BAR (CLEAN BRUTALIST BAND)
         ========================================================= */}
         <section id="work" className="relative z-20 bg-[#181816] text-[#EAE6DF] flex flex-col md:flex-row border-t border-b border-[#2b2b28]">
           
           {/* Left Vertical Orange Sidebar */}
-          <div className="bg-[#E84E0F] text-[#181816] md:w-[68px] py-3.5 px-6 md:py-6 md:px-0 flex md:flex-col items-center justify-between md:justify-center shrink-0 select-none">
-            <div 
-              className="font-mono-tech font-bold text-sm sm:text-[15px] tracking-[0.22em] uppercase flex items-center gap-3 md:[writing-mode:vertical-rl] md:rotate-180"
-            >
+          <div className="bg-[#E84E0F] text-[#181816] md:w-[68px] py-3.5 px-6 md:py-6 md:px-0 flex items-center justify-between md:justify-center shrink-0 self-stretch select-none">
+            <div className="font-mono-tech font-bold text-xs sm:text-[13px] tracking-[0.24em] uppercase flex items-center gap-2.5 md:[writing-mode:vertical-rl] md:rotate-180">
               <span>SELECTED WORK</span>
-              <span className="inline-block w-[10px] h-[2.5px] md:w-[2.5px] md:h-[14px] bg-[#181816]" />
+              <span className="inline-block w-[10px] h-[2px] md:w-[2.5px] md:h-[12px] bg-[#181816]" />
             </div>
           </div>
 
-          {/* Project Cards Grid & Header Controls */}
-          <div className="flex-1 flex flex-col p-6 sm:p-8 lg:px-10 lg:py-8">
-            {allProjects.length > 3 && (
-              <div className="flex items-center justify-between pb-4 border-b border-[#2b2b28] mb-6 font-mono-tech text-[10px] uppercase text-[#8e8d87]">
-                <span className="text-[#E84E0F] font-bold">[ 01 / FEATURED COMMISSIONS &amp; CASE STUDIES ]</span>
-                <div className="flex items-center gap-2">
-                  <span>{projPage * 3 + 1}–{Math.min((projPage + 1) * 3, allProjects.length)} OF {allProjects.length}</span>
-                  <button
-                    disabled={projPage === 0}
-                    onClick={() => setProjPage(p => Math.max(0, p - 1))}
-                    className="px-2 py-1 border border-[#2e2e2b] enabled:hover:border-[#E84E0F] enabled:hover:text-[#E84E0F] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed"
-                  >
-                    ← PREV
-                  </button>
-                  <button
-                    disabled={(projPage + 1) * 3 >= allProjects.length}
-                    onClick={() => setProjPage(p => p + 1)}
-                    className="px-2 py-1 border border-[#2e2e2b] enabled:hover:border-[#E84E0F] enabled:hover:text-[#E84E0F] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed"
-                  >
-                    NEXT →
-                  </button>
-                </div>
-              </div>
-            )}
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-7">
+          {/* Project Cards Grid - ULTRA CLEAN, NO BUSY HEADER */}
+          <div className="flex-1 flex flex-col p-6 sm:p-8 lg:p-10">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-7 lg:gap-8">
               {pagedProjects.map((proj, pIdx) => (
                 <div 
                   key={proj.id || pIdx}
                   onClick={() => setSelectedProjectModal(proj)}
                   className="group cursor-pointer flex flex-col"
                 >
-                  <span className="text-[#E84E0F] font-mono-tech text-xs font-semibold mb-2 tracking-wider">
+                  {/* Clean Orange Index */}
+                  <span className="text-[#E84E0F] font-mono-tech text-xs sm:text-sm font-semibold mb-2.5 tracking-wider block">
                     {proj.num}
                   </span>
 
-                  {/* Clean Cover Thumbnail - NO TEXT IN THE MIDDLE */}
-                  <div className="relative aspect-[16/10] w-full bg-[#0d0d0d] border border-[#2e2e2b] overflow-hidden mb-3">
+                  {/* Clean Cover Thumbnail - ZERO TEXT ON IMAGE */}
+                  <div className="relative aspect-[16/10] w-full bg-[#0d0d0d] border border-[#2e2e2b] overflow-hidden mb-3.5">
                     <img 
                       src={proj.img} 
                       alt={proj.title} 
-                      className="w-full h-full object-cover grayscale contrast-125 brightness-90 transition-transform duration-500 group-hover:scale-105 group-hover:grayscale-0"
+                      className="w-full h-full object-cover grayscale contrast-125 transition-transform duration-500 group-hover:scale-105 group-hover:grayscale-0"
                       onError={(e) => {
                         e.target.onerror = null;
                         e.target.src = 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80';
@@ -581,20 +557,44 @@ export default function Portfolio() {
                     />
 
                     {/* Bottom Right Orange Action Tag */}
-                    <div className="absolute bottom-0 right-0 w-7 h-7 bg-[#E84E0F] flex items-center justify-center transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                      <CornerDownRight className="w-4 h-4 text-[#181816] stroke-[2.5]" />
+                    <div className="absolute bottom-0 right-0 w-7 h-7 sm:w-8 sm:h-8 bg-[#E84E0F] flex items-center justify-center transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                      <CornerDownRight className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#181816] stroke-[2.5]" />
                     </div>
                   </div>
 
-                  <h3 className="font-mono-tech text-xs font-semibold tracking-wider text-[#EAE6DF] group-hover:text-[#E84E0F] transition-colors line-clamp-1">
+                  {/* Clean Titles Below Thumbnail */}
+                  <h3 className="font-mono-tech text-xs sm:text-[13px] font-bold tracking-wider text-[#EAE6DF] group-hover:text-[#E84E0F] transition-colors uppercase truncate">
                     {proj.title}
                   </h3>
-                  <p className="font-mono-tech text-[10px] tracking-wider text-[#8e8d87] uppercase mt-0.5">
+                  <p className="font-mono-tech text-[10px] sm:text-[11px] tracking-wider text-[#8e8d87] uppercase mt-1 truncate">
                     {proj.category}
                   </p>
                 </div>
               ))}
             </div>
+
+            {/* Subtle Minimal Pagination at Bottom */}
+            {allProjects.length > 3 && (
+              <div className="mt-8 pt-4 border-t border-[#252522] flex items-center justify-between font-mono-tech text-[10px] text-[#8e8d87] uppercase tracking-wider">
+                <span>PROJECTS {projPage * 3 + 1}–{Math.min((projPage + 1) * 3, allProjects.length)} OF {allProjects.length}</span>
+                <div className="flex items-center gap-2">
+                  <button
+                    disabled={projPage === 0}
+                    onClick={() => setProjPage(p => Math.max(0, p - 1))}
+                    className="px-2.5 py-1 border border-[#2e2e2b] enabled:hover:border-[#E84E0F] enabled:hover:text-[#E84E0F] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed transition-colors"
+                  >
+                    ← PREV
+                  </button>
+                  <button
+                    disabled={(projPage + 1) * 3 >= allProjects.length}
+                    onClick={() => setProjPage(p => p + 1)}
+                    className="px-2.5 py-1 border border-[#2e2e2b] enabled:hover:border-[#E84E0F] enabled:hover:text-[#E84E0F] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed transition-colors"
+                  >
+                    NEXT →
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </section>
 
@@ -604,81 +604,29 @@ export default function Portfolio() {
         <section id="credentials" className="relative z-20 bg-[#181816] text-[#EAE6DF] flex flex-col md:flex-row border-t border-b border-[#2b2b28]">
           
           {/* Left Vertical Orange Sidebar */}
-          <div className="bg-[#E84E0F] text-[#181816] md:w-[68px] py-3.5 px-6 md:py-6 md:px-0 flex md:flex-col items-center justify-between md:justify-center shrink-0 select-none">
-            <div 
-              className="font-mono-tech font-bold text-sm sm:text-[15px] tracking-[0.22em] uppercase flex items-center gap-3 md:[writing-mode:vertical-rl] md:rotate-180"
-            >
+          <div className="bg-[#E84E0F] text-[#181816] md:w-[68px] py-3.5 px-6 md:py-6 md:px-0 flex items-center justify-between md:justify-center shrink-0 self-stretch select-none">
+            <div className="font-mono-tech font-bold text-xs sm:text-[13px] tracking-[0.24em] uppercase flex items-center gap-2.5 md:[writing-mode:vertical-rl] md:rotate-180">
               <span>CREDENTIALS</span>
-              <span className="inline-block w-[10px] h-[2.5px] md:w-[2.5px] md:h-[14px] bg-[#181816]" />
+              <span className="inline-block w-[10px] h-[2px] md:w-[2.5px] md:h-[12px] bg-[#181816]" />
             </div>
           </div>
 
-          {/* Content Area with Filter & 3-Cards Grid */}
-          <div className="flex-1 flex flex-col p-6 sm:p-8 lg:px-10 lg:py-8">
-            {/* Top Bar with Filter Tabs & Pagination */}
-            <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[#2b2b28] mb-6">
-              <div className="flex flex-wrap items-center gap-2 font-mono-tech text-[10px] uppercase">
-                <span className="text-[#8e8d87] mr-1">FILTER:</span>
-                <button
-                  onClick={() => { setCertFilter('all'); setCertPage(0); }}
-                  className={`px-2.5 py-1 border transition-colors cursor-pointer ${certFilter === 'all' ? 'bg-[#E84E0F] text-[#181816] border-[#E84E0F] font-bold' : 'border-[#2e2e2b] text-[#8e8d87] hover:border-[#EAE6DF]'}`}
-                >
-                  ALL [{allCertifications.length}]
-                </button>
-                <button
-                  onClick={() => { setCertFilter('verified'); setCertPage(0); }}
-                  className={`px-2.5 py-1 border transition-colors cursor-pointer ${certFilter === 'verified' ? 'bg-[#E84E0F] text-[#181816] border-[#E84E0F] font-bold' : 'border-[#2e2e2b] text-[#8e8d87] hover:border-[#EAE6DF]'}`}
-                >
-                  WITH ATTESTATION [{allCertifications.filter(c => c.certificate_url).length}]
-                </button>
-                <button
-                  onClick={() => { setCertFilter('national'); setCertPage(0); }}
-                  className={`px-2.5 py-1 border transition-colors cursor-pointer ${certFilter === 'national' ? 'bg-[#E84E0F] text-[#181816] border-[#E84E0F] font-bold' : 'border-[#2e2e2b] text-[#8e8d87] hover:border-[#EAE6DF]'}`}
-                >
-                  NATIONAL &amp; GOV
-                </button>
-                <button
-                  onClick={() => { setCertFilter('competition'); setCertPage(0); }}
-                  className={`px-2.5 py-1 border transition-colors cursor-pointer ${certFilter === 'competition' ? 'bg-[#E84E0F] text-[#181816] border-[#E84E0F] font-bold' : 'border-[#2e2e2b] text-[#8e8d87] hover:border-[#EAE6DF]'}`}
-                >
-                  AWARDS
-                </button>
-              </div>
-
-              {/* Prev / Next controls */}
-              <div className="flex items-center gap-2 font-mono-tech text-[10px] uppercase text-[#8e8d87]">
-                <span>{certPage * 3 + 1}–{Math.min((certPage + 1) * 3, filteredCerts.length)} OF {filteredCerts.length}</span>
-                <button
-                  disabled={certPage === 0}
-                  onClick={() => setCertPage(p => Math.max(0, p - 1))}
-                  className="px-2 py-1 border border-[#2e2e2b] enabled:hover:border-[#E84E0F] enabled:hover:text-[#E84E0F] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed"
-                >
-                  ← PREV
-                </button>
-                <button
-                  disabled={(certPage + 1) * 3 >= filteredCerts.length}
-                  onClick={() => setCertPage(p => p + 1)}
-                  className="px-2 py-1 border border-[#2e2e2b] enabled:hover:border-[#E84E0F] enabled:hover:text-[#E84E0F] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed"
-                >
-                  NEXT →
-                </button>
-              </div>
-            </div>
-
-            {/* 3 Cards Grid exactly like Selected Work */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-7">
+          {/* Credentials Cards Grid - ULTRA CLEAN */}
+          <div className="flex-1 flex flex-col p-6 sm:p-8 lg:p-10">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-7 lg:gap-8">
               {pagedCerts.map((cert, cIdx) => (
                 <div 
                   key={cert.id || cIdx}
                   onClick={() => setSelectedCert(cert)}
                   className="group cursor-pointer flex flex-col"
                 >
-                  <span className="text-[#E84E0F] font-mono-tech text-xs font-semibold mb-2 tracking-wider">
+                  {/* Clean Orange Index */}
+                  <span className="text-[#E84E0F] font-mono-tech text-xs sm:text-sm font-semibold mb-2.5 tracking-wider block">
                     {String(certPage * 3 + cIdx + 1).padStart(2, '0')}/
                   </span>
 
-                  {/* Clean Thumbnail Box - NO TEXT IN THE MIDDLE */}
-                  <div className="relative aspect-[16/10] w-full bg-[#0d0d0d] border border-[#2e2e2b] overflow-hidden mb-3">
+                  {/* Clean Certificate Thumbnail - ZERO TEXT ON IMAGE */}
+                  <div className="relative aspect-[16/10] w-full bg-[#0d0d0d] border border-[#2e2e2b] overflow-hidden mb-3.5">
                     {cert.certificate_url ? (
                       <img 
                         src={cert.certificate_url} 
@@ -691,28 +639,63 @@ export default function Portfolio() {
                     ) : (
                       <div className="w-full h-full bg-[#141413] p-4 flex flex-col justify-between text-[#8e8d87] font-mono-tech text-[9px] uppercase">
                         <div className="flex justify-between items-center text-[#E84E0F]">
-                          <span>[CERT ATTESTATION]</span>
+                          <span>[ARCHIVE ATTESTATION]</span>
                           <span>OFFICIAL</span>
                         </div>
                         <div className="text-xs font-bold text-[#EAE6DF] truncate">{cert.institution}</div>
-                        <div>VALIDATED IN ARCHIVE</div>
+                        <div>VALIDATED RECORD</div>
                       </div>
                     )}
 
                     {/* Bottom Right Orange Action Tag */}
-                    <div className="absolute bottom-0 right-0 w-7 h-7 bg-[#E84E0F] flex items-center justify-center transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                      <CornerDownRight className="w-4 h-4 text-[#181816] stroke-[2.5]" />
+                    <div className="absolute bottom-0 right-0 w-7 h-7 sm:w-8 sm:h-8 bg-[#E84E0F] flex items-center justify-center transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                      <CornerDownRight className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#181816] stroke-[2.5]" />
                     </div>
                   </div>
 
-                  <h3 className="font-mono-tech text-xs font-semibold tracking-wider text-[#EAE6DF] group-hover:text-[#E84E0F] transition-colors line-clamp-1">
+                  {/* Clean Titles Below Thumbnail */}
+                  <h3 className="font-mono-tech text-xs sm:text-[13px] font-bold tracking-wider text-[#EAE6DF] group-hover:text-[#E84E0F] transition-colors uppercase truncate">
                     {cert.title}
                   </h3>
-                  <p className="font-mono-tech text-[10px] tracking-wider text-[#8e8d87] uppercase mt-0.5 truncate">
+                  <p className="font-mono-tech text-[10px] sm:text-[11px] tracking-wider text-[#8e8d87] uppercase mt-1 truncate">
                     {cert.institution} · {cert.period}
                   </p>
                 </div>
               ))}
+            </div>
+
+            {/* Subtle Minimal Pagination & Filter at Bottom */}
+            <div className="mt-8 pt-4 border-t border-[#252522] flex flex-wrap items-center justify-between gap-3 font-mono-tech text-[10px] text-[#8e8d87] uppercase tracking-wider">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-[#8e8d87]">CATEGORY:</span>
+                {['all', 'verified', 'national', 'competition'].map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => { setCertFilter(tab); setCertPage(0); }}
+                    className={`px-2 py-0.5 border cursor-pointer transition-colors ${certFilter === tab ? 'border-[#E84E0F] text-[#E84E0F] font-bold' : 'border-transparent text-[#8e8d87] hover:text-[#EAE6DF]'}`}
+                  >
+                    {tab.toUpperCase()}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex items-center gap-2">
+                <span>{certPage * 3 + 1}–{Math.min((certPage + 1) * 3, filteredCerts.length)} OF {filteredCerts.length}</span>
+                <button
+                  disabled={certPage === 0}
+                  onClick={() => setCertPage(p => Math.max(0, p - 1))}
+                  className="px-2.5 py-1 border border-[#2e2e2b] enabled:hover:border-[#E84E0F] enabled:hover:text-[#E84E0F] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed transition-colors"
+                >
+                  ← PREV
+                </button>
+                <button
+                  disabled={(certPage + 1) * 3 >= filteredCerts.length}
+                  onClick={() => setCertPage(p => p + 1)}
+                  className="px-2.5 py-1 border border-[#2e2e2b] enabled:hover:border-[#E84E0F] enabled:hover:text-[#E84E0F] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed transition-colors"
+                >
+                  NEXT →
+                </button>
+              </div>
             </div>
           </div>
         </section>
@@ -723,55 +706,16 @@ export default function Portfolio() {
         <section id="dispatches" className="relative z-20 bg-[#181816] text-[#EAE6DF] flex flex-col md:flex-row border-t border-b border-[#2b2b28]">
           
           {/* Left Vertical Orange Sidebar */}
-          <div className="bg-[#E84E0F] text-[#181816] md:w-[68px] py-3.5 px-6 md:py-6 md:px-0 flex md:flex-col items-center justify-between md:justify-center shrink-0 select-none">
-            <div 
-              className="font-mono-tech font-bold text-sm sm:text-[15px] tracking-[0.22em] uppercase flex items-center gap-3 md:[writing-mode:vertical-rl] md:rotate-180"
-            >
+          <div className="bg-[#E84E0F] text-[#181816] md:w-[68px] py-3.5 px-6 md:py-6 md:px-0 flex items-center justify-between md:justify-center shrink-0 self-stretch select-none">
+            <div className="font-mono-tech font-bold text-xs sm:text-[13px] tracking-[0.24em] uppercase flex items-center gap-2.5 md:[writing-mode:vertical-rl] md:rotate-180">
               <span>DISPATCHES</span>
-              <span className="inline-block w-[10px] h-[2.5px] md:w-[2.5px] md:h-[14px] bg-[#181816]" />
+              <span className="inline-block w-[10px] h-[2px] md:w-[2.5px] md:h-[12px] bg-[#181816]" />
             </div>
           </div>
 
-          {/* Content Area with 3 Clean Cards */}
-          <div className="flex-1 flex flex-col p-6 sm:p-8 lg:px-10 lg:py-8">
-            {/* Top Bar with Profile Link & Pagination */}
-            <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[#2b2b28] mb-6">
-              <div className="flex items-center gap-2 font-mono-tech text-[10px] uppercase text-[#E84E0F] font-bold">
-                <span>[ 03 / LIVE FIELD TELEMETRY · INSTAGRAM FEED ]</span>
-              </div>
-
-              <div className="flex items-center gap-4 font-mono-tech text-[10px] uppercase text-[#8e8d87]">
-                <a 
-                  href="https://www.instagram.com/haikaljibraan/" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="text-[#EAE6DF] hover:text-[#E84E0F] transition-colors flex items-center gap-1.5 font-bold"
-                >
-                  <span>@HAIKALJIBRAAN</span>
-                  <ExternalLink className="w-3 h-3" />
-                </a>
-                <div className="flex items-center gap-2">
-                  <span>{igPage * 3 + 1}–{Math.min((igPage + 1) * 3, displayedInstagramPosts.length)} OF {displayedInstagramPosts.length}</span>
-                  <button
-                    disabled={igPage === 0}
-                    onClick={() => setIgPage(p => Math.max(0, p - 1))}
-                    className="px-2 py-1 border border-[#2e2e2b] enabled:hover:border-[#E84E0F] enabled:hover:text-[#E84E0F] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed"
-                  >
-                    ← PREV
-                  </button>
-                  <button
-                    disabled={(igPage + 1) * 3 >= displayedInstagramPosts.length}
-                    onClick={() => setIgPage(p => p + 1)}
-                    className="px-2 py-1 border border-[#2e2e2b] enabled:hover:border-[#E84E0F] enabled:hover:text-[#E84E0F] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed"
-                  >
-                    NEXT →
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* 3 Cards Grid exactly like Selected Work */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-7">
+          {/* Visual Dispatches Cards Grid - ULTRA CLEAN */}
+          <div className="flex-1 flex flex-col p-6 sm:p-8 lg:p-10">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-7 lg:gap-8">
               {pagedInstagramPosts.map((post, pIdx) => {
                 const mediaUrl = post.media_type === 'VIDEO' ? (post.thumbnail_url || post.media_url) : post.media_url;
                 return (
@@ -782,12 +726,13 @@ export default function Portfolio() {
                     rel="noopener noreferrer"
                     className="group cursor-pointer flex flex-col"
                   >
-                    <span className="text-[#E84E0F] font-mono-tech text-xs font-semibold mb-2 tracking-wider">
+                    {/* Clean Orange Index */}
+                    <span className="text-[#E84E0F] font-mono-tech text-xs sm:text-sm font-semibold mb-2.5 tracking-wider block">
                       {String(igPage * 3 + pIdx + 1).padStart(2, '0')}/
                     </span>
 
-                    {/* Clean Thumbnail Box - NO TEXT ON THE IMAGE */}
-                    <div className="relative aspect-[16/10] w-full bg-[#0d0d0d] border border-[#2e2e2b] overflow-hidden mb-3">
+                    {/* Clean Instagram Photo Thumbnail - ZERO TEXT ON IMAGE */}
+                    <div className="relative aspect-[16/10] w-full bg-[#0d0d0d] border border-[#2e2e2b] overflow-hidden mb-3.5">
                       <img 
                         src={mediaUrl} 
                         alt={post.caption || 'Instagram dispatch'} 
@@ -799,20 +744,52 @@ export default function Portfolio() {
                       />
 
                       {/* Bottom Right Orange Action Tag */}
-                      <div className="absolute bottom-0 right-0 w-7 h-7 bg-[#E84E0F] flex items-center justify-center transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                        <CornerDownRight className="w-4 h-4 text-[#181816] stroke-[2.5]" />
+                      <div className="absolute bottom-0 right-0 w-7 h-7 sm:w-8 sm:h-8 bg-[#E84E0F] flex items-center justify-center transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                        <CornerDownRight className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#181816] stroke-[2.5]" />
                       </div>
                     </div>
 
-                    <h3 className="font-mono-tech text-xs font-semibold tracking-wider text-[#EAE6DF] group-hover:text-[#E84E0F] transition-colors line-clamp-1">
-                      {post.caption ? post.caption.split('\n')[0] : 'FIELD TELEMETRY & LAB LOGS'}
+                    {/* Clean Titles Below Thumbnail */}
+                    <h3 className="font-mono-tech text-xs sm:text-[13px] font-bold tracking-wider text-[#EAE6DF] group-hover:text-[#E84E0F] transition-colors uppercase truncate">
+                      {post.caption ? post.caption.split('\n')[0] : 'FIELD TELEMETRY & LAB NOTES'}
                     </h3>
-                    <p className="font-mono-tech text-[10px] tracking-wider text-[#8e8d87] uppercase mt-0.5 truncate">
+                    <p className="font-mono-tech text-[10px] sm:text-[11px] tracking-wider text-[#8e8d87] uppercase mt-1 truncate">
                       INSTAGRAM · {formatIgDate(post.timestamp)}
                     </p>
                   </a>
                 );
               })}
+            </div>
+
+            {/* Subtle Minimal Bottom Bar */}
+            <div className="mt-8 pt-4 border-t border-[#252522] flex items-center justify-between font-mono-tech text-[10px] text-[#8e8d87] uppercase tracking-wider">
+              <a 
+                href="https://www.instagram.com/haikaljibraan/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="hover:text-[#E84E0F] transition-colors flex items-center gap-1.5 font-bold"
+              >
+                <span>@HAIKALJIBRAAN</span>
+                <ExternalLink className="w-3 h-3" />
+              </a>
+
+              <div className="flex items-center gap-2">
+                <span>{igPage * 3 + 1}–{Math.min((igPage + 1) * 3, displayedInstagramPosts.length)} OF {displayedInstagramPosts.length}</span>
+                <button
+                  disabled={igPage === 0}
+                  onClick={() => setIgPage(p => Math.max(0, p - 1))}
+                  className="px-2.5 py-1 border border-[#2e2e2b] enabled:hover:border-[#E84E0F] enabled:hover:text-[#E84E0F] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed transition-colors"
+                >
+                  ← PREV
+                </button>
+                <button
+                  disabled={(igPage + 1) * 3 >= displayedInstagramPosts.length}
+                  onClick={() => setIgPage(p => p + 1)}
+                  className="px-2.5 py-1 border border-[#2e2e2b] enabled:hover:border-[#E84E0F] enabled:hover:text-[#E84E0F] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed transition-colors"
+                >
+                  NEXT →
+                </button>
+              </div>
             </div>
           </div>
         </section>

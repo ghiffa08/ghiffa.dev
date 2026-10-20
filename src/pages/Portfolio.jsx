@@ -110,8 +110,9 @@ export default function Portfolio() {
   const [selectedProjectModal, setSelectedProjectModal] = useState(null);
   const [selectedCert, setSelectedCert] = useState(null);
   const [certFilter, setCertFilter] = useState('all');
-  const [showAllCerts, setShowAllCerts] = useState(false);
-  const [igCount, setIgCount] = useState(4);
+  const [projPage, setProjPage] = useState(0);
+  const [certPage, setCertPage] = useState(0);
+  const [igPage, setIgPage] = useState(0);
 
   // Dynamic Identity Data
   const fullName = info?.full_name || 'Haikal Jibran Al-Ghiffarry';
@@ -220,18 +221,21 @@ export default function Portfolio() {
     }
   ];
 
-  const projectsList = (supabaseProjects && supabaseProjects.length >= 3)
-    ? supabaseProjects.slice(0, 3).map((p, idx) => ({
-        num: `0${idx + 1}/`,
+  const allProjects = (supabaseProjects && supabaseProjects.length > 0)
+    ? supabaseProjects.map((p, idx) => ({
+        id: p.id,
+        num: `${String(idx + 1).padStart(2, '0')}/`,
         title: (p.title || `PROJECT 0${idx + 1}`).toUpperCase(),
         category: (p.category || 'FULL-STACK & IOT').toUpperCase(),
         desc: p.description || 'Full-stack engineering commission built with modern architectural rigor.',
         link: p.live_url || p.github_url || '#',
-        img: p.image_url || defaultProjects[idx]?.img,
+        img: p.image_url || defaultProjects[idx % defaultProjects.length]?.img,
         client: p.client || 'COMMISSION WORK',
         stat: p.metrics || 'Engineered for Performance'
       }))
     : defaultProjects;
+
+  const pagedProjects = allProjects.slice(projPage * 3, (projPage + 1) * 3);
 
   // Certifications data processing from Supabase
   const allCertifications = (supabaseQualifications && supabaseQualifications.length > 0)
@@ -278,7 +282,7 @@ export default function Portfolio() {
     return true;
   });
 
-  const displayedCerts = showAllCerts ? filteredCerts : filteredCerts.slice(0, 6);
+  const pagedCerts = filteredCerts.slice(certPage * 3, (certPage + 1) * 3);
 
   // Instagram date formatter
   const formatIgDate = (timestamp) => {
@@ -333,6 +337,8 @@ export default function Portfolio() {
   const displayedInstagramPosts = (instagramPosts && instagramPosts.length > 0)
     ? instagramPosts
     : fallbackInstagramPosts;
+
+  const pagedInstagramPosts = displayedInstagramPosts.slice(igPage * 3, (igPage + 1) * 3);
 
   return (
     <div className="min-h-screen bg-[#111110] py-0 sm:py-8 px-0 sm:px-4 flex justify-center items-start font-mono text-[#1c1c1a] selection:bg-[#E84E0F] selection:text-[#EAE6DF]">
@@ -526,58 +532,293 @@ export default function Portfolio() {
             </div>
           </div>
 
-          {/* 3 Project Cards Grid */}
-          <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-7 p-6 sm:p-8 lg:px-10 lg:py-8">
-            {projectsList.map((proj, pIdx) => (
-              <div 
-                key={pIdx}
-                onClick={() => setSelectedProjectModal(proj)}
-                className="group cursor-pointer flex flex-col"
-              >
-                <span className="text-[#E84E0F] font-mono-tech text-xs font-semibold mb-2 tracking-wider">
-                  {proj.num}
-                </span>
-
-                {/* Custom Designed Thumbnail */}
-                <div className="relative aspect-[16/10] w-full bg-[#0d0d0d] border border-[#2e2e2b] overflow-hidden mb-3">
-                  <div 
-                    className="absolute inset-0 bg-cover bg-center grayscale contrast-125 brightness-80 transition-transform duration-500 group-hover:scale-105"
-                    style={{ backgroundImage: `url('${proj.img}')` }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent" />
-                  
-                  {/* Top Micro Header */}
-                  <div className="absolute top-2.5 left-3 right-3 flex justify-between items-center text-[7px] text-white/70 font-mono-tech uppercase">
-                    <span>{proj.title}</span>
-                    <span className="px-1.5 py-0.5 bg-white text-black font-bold rounded-[1px]">EXP</span>
-                  </div>
-
-                  {/* Thumbnail Overlay Typography */}
-                  <div className="absolute inset-0 p-4 flex flex-col justify-center">
-                    <h4 className="font-syne text-white text-lg sm:text-[20px] font-bold leading-[1.1] tracking-tight">
-                      {proj.title}
-                    </h4>
-                  </div>
-
-                  {/* Bottom Right Orange Action Tag */}
-                  <div className="absolute bottom-0 right-0 w-7 h-7 bg-[#E84E0F] flex items-center justify-center transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                    <CornerDownRight className="w-4 h-4 text-[#181816] stroke-[2.5]" />
-                  </div>
+          {/* Project Cards Grid & Header Controls */}
+          <div className="flex-1 flex flex-col p-6 sm:p-8 lg:px-10 lg:py-8">
+            {allProjects.length > 3 && (
+              <div className="flex items-center justify-between pb-4 border-b border-[#2b2b28] mb-6 font-mono-tech text-[10px] uppercase text-[#8e8d87]">
+                <span className="text-[#E84E0F] font-bold">[ 01 / FEATURED COMMISSIONS &amp; CASE STUDIES ]</span>
+                <div className="flex items-center gap-2">
+                  <span>{projPage * 3 + 1}–{Math.min((projPage + 1) * 3, allProjects.length)} OF {allProjects.length}</span>
+                  <button
+                    disabled={projPage === 0}
+                    onClick={() => setProjPage(p => Math.max(0, p - 1))}
+                    className="px-2 py-1 border border-[#2e2e2b] enabled:hover:border-[#E84E0F] enabled:hover:text-[#E84E0F] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed"
+                  >
+                    ← PREV
+                  </button>
+                  <button
+                    disabled={(projPage + 1) * 3 >= allProjects.length}
+                    onClick={() => setProjPage(p => p + 1)}
+                    className="px-2 py-1 border border-[#2e2e2b] enabled:hover:border-[#E84E0F] enabled:hover:text-[#E84E0F] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed"
+                  >
+                    NEXT →
+                  </button>
                 </div>
-
-                <h3 className="font-mono-tech text-xs font-semibold tracking-wider text-[#EAE6DF] group-hover:text-[#E84E0F] transition-colors">
-                  {proj.title}
-                </h3>
-                <p className="font-mono-tech text-[10px] tracking-wider text-[#8e8d87] uppercase mt-0.5">
-                  {proj.category}
-                </p>
               </div>
-            ))}
+            )}
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-7">
+              {pagedProjects.map((proj, pIdx) => (
+                <div 
+                  key={proj.id || pIdx}
+                  onClick={() => setSelectedProjectModal(proj)}
+                  className="group cursor-pointer flex flex-col"
+                >
+                  <span className="text-[#E84E0F] font-mono-tech text-xs font-semibold mb-2 tracking-wider">
+                    {proj.num}
+                  </span>
+
+                  {/* Clean Cover Thumbnail - NO TEXT IN THE MIDDLE */}
+                  <div className="relative aspect-[16/10] w-full bg-[#0d0d0d] border border-[#2e2e2b] overflow-hidden mb-3">
+                    <img 
+                      src={proj.img} 
+                      alt={proj.title} 
+                      className="w-full h-full object-cover grayscale contrast-125 brightness-90 transition-transform duration-500 group-hover:scale-105 group-hover:grayscale-0"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80';
+                      }}
+                    />
+
+                    {/* Bottom Right Orange Action Tag */}
+                    <div className="absolute bottom-0 right-0 w-7 h-7 bg-[#E84E0F] flex items-center justify-center transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                      <CornerDownRight className="w-4 h-4 text-[#181816] stroke-[2.5]" />
+                    </div>
+                  </div>
+
+                  <h3 className="font-mono-tech text-xs font-semibold tracking-wider text-[#EAE6DF] group-hover:text-[#E84E0F] transition-colors line-clamp-1">
+                    {proj.title}
+                  </h3>
+                  <p className="font-mono-tech text-[10px] tracking-wider text-[#8e8d87] uppercase mt-0.5">
+                    {proj.category}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
         {/* =========================================================
-            4. SERVICES / DESIGN MANIFESTO / TECH STACK (3 COLUMNS)
+            4. CREDENTIALS & LICENSES (EXACTLY MATCHING SELECTED WORK)
+        ========================================================= */}
+        <section id="credentials" className="relative z-20 bg-[#181816] text-[#EAE6DF] flex flex-col md:flex-row border-t border-b border-[#2b2b28]">
+          
+          {/* Left Vertical Orange Sidebar */}
+          <div className="bg-[#E84E0F] text-[#181816] md:w-[68px] py-3.5 px-6 md:py-6 md:px-0 flex md:flex-col items-center justify-between md:justify-center shrink-0 select-none">
+            <div 
+              className="font-mono-tech font-bold text-sm sm:text-[15px] tracking-[0.22em] uppercase flex items-center gap-3 md:[writing-mode:vertical-rl] md:rotate-180"
+            >
+              <span>CREDENTIALS</span>
+              <span className="inline-block w-[10px] h-[2.5px] md:w-[2.5px] md:h-[14px] bg-[#181816]" />
+            </div>
+          </div>
+
+          {/* Content Area with Filter & 3-Cards Grid */}
+          <div className="flex-1 flex flex-col p-6 sm:p-8 lg:px-10 lg:py-8">
+            {/* Top Bar with Filter Tabs & Pagination */}
+            <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[#2b2b28] mb-6">
+              <div className="flex flex-wrap items-center gap-2 font-mono-tech text-[10px] uppercase">
+                <span className="text-[#8e8d87] mr-1">FILTER:</span>
+                <button
+                  onClick={() => { setCertFilter('all'); setCertPage(0); }}
+                  className={`px-2.5 py-1 border transition-colors cursor-pointer ${certFilter === 'all' ? 'bg-[#E84E0F] text-[#181816] border-[#E84E0F] font-bold' : 'border-[#2e2e2b] text-[#8e8d87] hover:border-[#EAE6DF]'}`}
+                >
+                  ALL [{allCertifications.length}]
+                </button>
+                <button
+                  onClick={() => { setCertFilter('verified'); setCertPage(0); }}
+                  className={`px-2.5 py-1 border transition-colors cursor-pointer ${certFilter === 'verified' ? 'bg-[#E84E0F] text-[#181816] border-[#E84E0F] font-bold' : 'border-[#2e2e2b] text-[#8e8d87] hover:border-[#EAE6DF]'}`}
+                >
+                  WITH ATTESTATION [{allCertifications.filter(c => c.certificate_url).length}]
+                </button>
+                <button
+                  onClick={() => { setCertFilter('national'); setCertPage(0); }}
+                  className={`px-2.5 py-1 border transition-colors cursor-pointer ${certFilter === 'national' ? 'bg-[#E84E0F] text-[#181816] border-[#E84E0F] font-bold' : 'border-[#2e2e2b] text-[#8e8d87] hover:border-[#EAE6DF]'}`}
+                >
+                  NATIONAL &amp; GOV
+                </button>
+                <button
+                  onClick={() => { setCertFilter('competition'); setCertPage(0); }}
+                  className={`px-2.5 py-1 border transition-colors cursor-pointer ${certFilter === 'competition' ? 'bg-[#E84E0F] text-[#181816] border-[#E84E0F] font-bold' : 'border-[#2e2e2b] text-[#8e8d87] hover:border-[#EAE6DF]'}`}
+                >
+                  AWARDS
+                </button>
+              </div>
+
+              {/* Prev / Next controls */}
+              <div className="flex items-center gap-2 font-mono-tech text-[10px] uppercase text-[#8e8d87]">
+                <span>{certPage * 3 + 1}–{Math.min((certPage + 1) * 3, filteredCerts.length)} OF {filteredCerts.length}</span>
+                <button
+                  disabled={certPage === 0}
+                  onClick={() => setCertPage(p => Math.max(0, p - 1))}
+                  className="px-2 py-1 border border-[#2e2e2b] enabled:hover:border-[#E84E0F] enabled:hover:text-[#E84E0F] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed"
+                >
+                  ← PREV
+                </button>
+                <button
+                  disabled={(certPage + 1) * 3 >= filteredCerts.length}
+                  onClick={() => setCertPage(p => p + 1)}
+                  className="px-2 py-1 border border-[#2e2e2b] enabled:hover:border-[#E84E0F] enabled:hover:text-[#E84E0F] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed"
+                >
+                  NEXT →
+                </button>
+              </div>
+            </div>
+
+            {/* 3 Cards Grid exactly like Selected Work */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-7">
+              {pagedCerts.map((cert, cIdx) => (
+                <div 
+                  key={cert.id || cIdx}
+                  onClick={() => setSelectedCert(cert)}
+                  className="group cursor-pointer flex flex-col"
+                >
+                  <span className="text-[#E84E0F] font-mono-tech text-xs font-semibold mb-2 tracking-wider">
+                    {String(certPage * 3 + cIdx + 1).padStart(2, '0')}/
+                  </span>
+
+                  {/* Clean Thumbnail Box - NO TEXT IN THE MIDDLE */}
+                  <div className="relative aspect-[16/10] w-full bg-[#0d0d0d] border border-[#2e2e2b] overflow-hidden mb-3">
+                    {cert.certificate_url ? (
+                      <img 
+                        src={cert.certificate_url} 
+                        alt={cert.title} 
+                        className="w-full h-full object-cover grayscale contrast-125 transition-transform duration-500 group-hover:scale-105 group-hover:grayscale-0"
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                        }}
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-[#141413] p-4 flex flex-col justify-between text-[#8e8d87] font-mono-tech text-[9px] uppercase">
+                        <div className="flex justify-between items-center text-[#E84E0F]">
+                          <span>[CERT ATTESTATION]</span>
+                          <span>OFFICIAL</span>
+                        </div>
+                        <div className="text-xs font-bold text-[#EAE6DF] truncate">{cert.institution}</div>
+                        <div>VALIDATED IN ARCHIVE</div>
+                      </div>
+                    )}
+
+                    {/* Bottom Right Orange Action Tag */}
+                    <div className="absolute bottom-0 right-0 w-7 h-7 bg-[#E84E0F] flex items-center justify-center transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                      <CornerDownRight className="w-4 h-4 text-[#181816] stroke-[2.5]" />
+                    </div>
+                  </div>
+
+                  <h3 className="font-mono-tech text-xs font-semibold tracking-wider text-[#EAE6DF] group-hover:text-[#E84E0F] transition-colors line-clamp-1">
+                    {cert.title}
+                  </h3>
+                  <p className="font-mono-tech text-[10px] tracking-wider text-[#8e8d87] uppercase mt-0.5 truncate">
+                    {cert.institution} · {cert.period}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* =========================================================
+            5. VISUAL DISPATCHES (EXACTLY MATCHING SELECTED WORK)
+        ========================================================= */}
+        <section id="dispatches" className="relative z-20 bg-[#181816] text-[#EAE6DF] flex flex-col md:flex-row border-t border-b border-[#2b2b28]">
+          
+          {/* Left Vertical Orange Sidebar */}
+          <div className="bg-[#E84E0F] text-[#181816] md:w-[68px] py-3.5 px-6 md:py-6 md:px-0 flex md:flex-col items-center justify-between md:justify-center shrink-0 select-none">
+            <div 
+              className="font-mono-tech font-bold text-sm sm:text-[15px] tracking-[0.22em] uppercase flex items-center gap-3 md:[writing-mode:vertical-rl] md:rotate-180"
+            >
+              <span>DISPATCHES</span>
+              <span className="inline-block w-[10px] h-[2.5px] md:w-[2.5px] md:h-[14px] bg-[#181816]" />
+            </div>
+          </div>
+
+          {/* Content Area with 3 Clean Cards */}
+          <div className="flex-1 flex flex-col p-6 sm:p-8 lg:px-10 lg:py-8">
+            {/* Top Bar with Profile Link & Pagination */}
+            <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[#2b2b28] mb-6">
+              <div className="flex items-center gap-2 font-mono-tech text-[10px] uppercase text-[#E84E0F] font-bold">
+                <span>[ 03 / LIVE FIELD TELEMETRY · INSTAGRAM FEED ]</span>
+              </div>
+
+              <div className="flex items-center gap-4 font-mono-tech text-[10px] uppercase text-[#8e8d87]">
+                <a 
+                  href="https://www.instagram.com/haikaljibraan/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-[#EAE6DF] hover:text-[#E84E0F] transition-colors flex items-center gap-1.5 font-bold"
+                >
+                  <span>@HAIKALJIBRAAN</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+                <div className="flex items-center gap-2">
+                  <span>{igPage * 3 + 1}–{Math.min((igPage + 1) * 3, displayedInstagramPosts.length)} OF {displayedInstagramPosts.length}</span>
+                  <button
+                    disabled={igPage === 0}
+                    onClick={() => setIgPage(p => Math.max(0, p - 1))}
+                    className="px-2 py-1 border border-[#2e2e2b] enabled:hover:border-[#E84E0F] enabled:hover:text-[#E84E0F] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed"
+                  >
+                    ← PREV
+                  </button>
+                  <button
+                    disabled={(igPage + 1) * 3 >= displayedInstagramPosts.length}
+                    onClick={() => setIgPage(p => p + 1)}
+                    className="px-2 py-1 border border-[#2e2e2b] enabled:hover:border-[#E84E0F] enabled:hover:text-[#E84E0F] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed"
+                  >
+                    NEXT →
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* 3 Cards Grid exactly like Selected Work */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-7">
+              {pagedInstagramPosts.map((post, pIdx) => {
+                const mediaUrl = post.media_type === 'VIDEO' ? (post.thumbnail_url || post.media_url) : post.media_url;
+                return (
+                  <a 
+                    key={post.id || pIdx}
+                    href={post.permalink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group cursor-pointer flex flex-col"
+                  >
+                    <span className="text-[#E84E0F] font-mono-tech text-xs font-semibold mb-2 tracking-wider">
+                      {String(igPage * 3 + pIdx + 1).padStart(2, '0')}/
+                    </span>
+
+                    {/* Clean Thumbnail Box - NO TEXT ON THE IMAGE */}
+                    <div className="relative aspect-[16/10] w-full bg-[#0d0d0d] border border-[#2e2e2b] overflow-hidden mb-3">
+                      <img 
+                        src={mediaUrl} 
+                        alt={post.caption || 'Instagram dispatch'} 
+                        className="w-full h-full object-cover grayscale contrast-125 transition-transform duration-500 group-hover:scale-105 group-hover:grayscale-0"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80';
+                        }}
+                      />
+
+                      {/* Bottom Right Orange Action Tag */}
+                      <div className="absolute bottom-0 right-0 w-7 h-7 bg-[#E84E0F] flex items-center justify-center transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                        <CornerDownRight className="w-4 h-4 text-[#181816] stroke-[2.5]" />
+                      </div>
+                    </div>
+
+                    <h3 className="font-mono-tech text-xs font-semibold tracking-wider text-[#EAE6DF] group-hover:text-[#E84E0F] transition-colors line-clamp-1">
+                      {post.caption ? post.caption.split('\n')[0] : 'FIELD TELEMETRY & LAB LOGS'}
+                    </h3>
+                    <p className="font-mono-tech text-[10px] tracking-wider text-[#8e8d87] uppercase mt-0.5 truncate">
+                      INSTAGRAM · {formatIgDate(post.timestamp)}
+                    </p>
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* =========================================================
+            6. SERVICES / DESIGN MANIFESTO / TECH STACK (3 COLUMNS)
         ========================================================= */}
         <section id="services" className="relative z-20 grid grid-cols-1 lg:grid-cols-12 bg-[#EAE6DF] border-b border-[#1c1c1a]/20">
           

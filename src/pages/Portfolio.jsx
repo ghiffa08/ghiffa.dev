@@ -164,10 +164,7 @@ export default function Portfolio() {
   const [certFilter, setCertFilter] = useState('all');
   const [sideNavOpen, setSideNavOpen] = useState(false);
 
-  // Draggable scroll instances for new sections
-  const expScroll = useDraggableScroll();
-  const eduScroll = useDraggableScroll();
-  const honorScroll = useDraggableScroll();
+  // Draggable scroll instance for Latest Articles carousel
   const articleScroll = useDraggableScroll();
 
   // Close side nav drawer on Escape key
@@ -1063,245 +1060,8 @@ export default function Portfolio() {
         </section>
 
         {/* =========================================================
-            3B. PROFESSIONAL JOURNEY (EXACTLY MATCHING SELECTED WORK)
-        ========================================================= */}
-        <section id="journey" className="relative z-20 bg-[#161614] text-[#EAE6DF] border-t border-b border-[#2b2b28] overflow-hidden">
-          {/* Left Vertical Orange Sidebar - SITS ON TOP (z-30) */}
-          <div className="md:absolute md:left-0 md:top-0 md:bottom-0 z-30 bg-[#E84E0F] text-[#181816] md:w-[68px] py-3.5 px-6 md:py-6 md:px-0 flex items-center justify-between md:justify-center shrink-0 select-none shadow-[16px_0_32px_rgba(0,0,0,0.95)] border-b md:border-b-0 md:border-r border-[#181816]">
-            <div className="font-mono-tech font-bold text-xs sm:text-[13px] tracking-[0.24em] uppercase flex items-center gap-2.5 md:[writing-mode:vertical-rl] md:rotate-180">
-              <span>JOURNEY</span>
-              <span className="inline-block w-[10px] h-[2px] md:w-[2.5px] md:h-[12px] bg-[#181816]" />
-            </div>
-          </div>
-
-          {/* Depth Shadow Layer Behind Sidebar Edge */}
-          <div className="hidden md:block absolute left-[68px] top-0 bottom-0 w-14 bg-gradient-to-r from-black/90 via-black/40 to-transparent pointer-events-none z-20" />
-
-          {/* Draggable Slider */}
-          <div className="flex flex-col py-5 sm:py-6 lg:py-7 px-6 sm:px-8 lg:px-10 md:pl-0 overflow-hidden relative z-10">
-            <div
-              ref={expScroll.ref}
-              onMouseDown={expScroll.handlers.onMouseDown}
-              onMouseMove={expScroll.handlers.onMouseMove}
-              onMouseUp={expScroll.handlers.onMouseUp}
-              onMouseLeave={expScroll.handlers.onMouseLeave}
-              className="flex items-start gap-6 sm:gap-7 overflow-x-auto scrollbar-none cursor-grab active:cursor-grabbing select-none pt-0.5 pb-1 md:pl-[96px] pr-8"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-            >
-              {allExperiences.map((exp, eIdx) => (
-                <div
-                  key={exp.id || eIdx}
-                  onClick={() => {
-                    if (!expScroll.hasDragged) setSelectedExperienceModal(exp);
-                  }}
-                  className="w-[280px] sm:w-[320px] md:w-[335px] shrink-0 group flex flex-col cursor-pointer"
-                >
-                  {/* Clean Orange Index */}
-                  <span className="text-[#E84E0F] font-mono-tech text-xs sm:text-sm font-semibold mb-2.5 tracking-wider block">
-                    {String(eIdx + 1).padStart(2, '0')}/
-                  </span>
-
-                  {/* Clean Card Visual Box */}
-                  <div className="relative aspect-[16/10] w-full bg-[#0d0d0c] border border-[#2e2e2b] p-5 flex flex-col justify-between overflow-hidden mb-3.5 group-hover:border-[#E84E0F] transition-colors">
-                    <div className="flex items-center justify-between z-10">
-                      <span className="font-mono-tech text-[9.5px] tracking-widest uppercase px-2 py-0.5 bg-[#1c1c1a] border border-[#2e2e2a] text-[#E84E0F] font-bold">
-                        {exp.period}
-                      </span>
-                      <span className="font-mono-tech text-[9px] tracking-wider uppercase text-[#66655f]">
-                        {exp.type}
-                      </span>
-                    </div>
-
-                    <div className="my-auto z-10">
-                      <span className="font-anton text-2xl sm:text-3xl uppercase tracking-wider text-[#EAE6DF] group-hover:text-[#E84E0F] transition-colors line-clamp-1">
-                        {exp.company}
-                      </span>
-                      <p className="font-mono-tech text-[10px] tracking-widest uppercase text-[#8e8d87] mt-1 font-semibold">
-                        {exp.role}
-                      </p>
-                    </div>
-
-                    {/* Bottom Right Orange Action Tag */}
-                    <div className="absolute bottom-0 right-0 w-7 h-7 sm:w-8 sm:h-8 bg-[#E84E0F] flex items-center justify-center transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                      <CornerDownRight className="w-4 h-4 text-[#181816] stroke-[2.5]" />
-                    </div>
-                  </div>
-
-                  {/* Clean Titles Below Card */}
-                  <h3 className="font-mono-tech text-xs sm:text-[13px] font-bold tracking-wider text-[#EAE6DF] group-hover:text-[#E84E0F] transition-colors uppercase truncate">
-                    {exp.role}
-                  </h3>
-                  <p className="font-mono-tech text-[10px] sm:text-[11px] tracking-wider text-[#8e8d87] uppercase mt-1 truncate">
-                    {exp.company}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* =========================================================
-            3C. EDUCATION (EXACTLY MATCHING SELECTED WORK)
-        ========================================================= */}
-        <section id="education" className="relative z-20 bg-[#181816] text-[#EAE6DF] border-t border-b border-[#2b2b28] overflow-hidden">
-          {/* Left Vertical Orange Sidebar - SITS ON TOP (z-30) */}
-          <div className="md:absolute md:left-0 md:top-0 md:bottom-0 z-30 bg-[#E84E0F] text-[#181816] md:w-[68px] py-3.5 px-6 md:py-6 md:px-0 flex items-center justify-between md:justify-center shrink-0 select-none shadow-[16px_0_32px_rgba(0,0,0,0.95)] border-b md:border-b-0 md:border-r border-[#181816]">
-            <div className="font-mono-tech font-bold text-xs sm:text-[13px] tracking-[0.24em] uppercase flex items-center gap-2.5 md:[writing-mode:vertical-rl] md:rotate-180">
-              <span>EDUCATION</span>
-              <span className="inline-block w-[10px] h-[2px] md:w-[2.5px] md:h-[12px] bg-[#181816]" />
-            </div>
-          </div>
-
-          {/* Depth Shadow Layer Behind Sidebar Edge */}
-          <div className="hidden md:block absolute left-[68px] top-0 bottom-0 w-14 bg-gradient-to-r from-black/90 via-black/40 to-transparent pointer-events-none z-20" />
-
-          {/* Draggable Slider */}
-          <div className="flex flex-col py-5 sm:py-6 lg:py-7 px-6 sm:px-8 lg:px-10 md:pl-0 overflow-hidden relative z-10">
-            <div
-              ref={eduScroll.ref}
-              onMouseDown={eduScroll.handlers.onMouseDown}
-              onMouseMove={eduScroll.handlers.onMouseMove}
-              onMouseUp={eduScroll.handlers.onMouseUp}
-              onMouseLeave={eduScroll.handlers.onMouseLeave}
-              className="flex items-start gap-6 sm:gap-7 overflow-x-auto scrollbar-none cursor-grab active:cursor-grabbing select-none pt-0.5 pb-1 md:pl-[96px] pr-8"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-            >
-              {allEducation.map((edu, edIdx) => (
-                <div
-                  key={edu.id || edIdx}
-                  className="w-[280px] sm:w-[320px] md:w-[335px] shrink-0 group flex flex-col cursor-default"
-                >
-                  {/* Clean Orange Index */}
-                  <span className="text-[#E84E0F] font-mono-tech text-xs sm:text-sm font-semibold mb-2.5 tracking-wider block">
-                    {String(edIdx + 1).padStart(2, '0')}/
-                  </span>
-
-                  {/* Visual Box */}
-                  <div className="relative aspect-[16/10] w-full bg-[#0d0d0c] border border-[#2e2e2b] p-5 flex flex-col justify-between overflow-hidden mb-3.5 group-hover:border-[#E84E0F] transition-colors">
-                    <div className="flex items-center justify-between z-10">
-                      <span className="font-mono-tech text-[9.5px] tracking-widest uppercase px-2 py-0.5 bg-[#1c1c1a] border border-[#2e2e2a] text-[#E84E0F] font-bold">
-                        {edu.period}
-                      </span>
-                      <span className="font-mono-tech text-[9px] tracking-wider uppercase text-[#66655f]">
-                        FORMAL ACADEMICS
-                      </span>
-                    </div>
-
-                    <div className="my-auto z-10">
-                      <span className="font-anton text-2xl sm:text-3xl uppercase tracking-wider text-[#EAE6DF] group-hover:text-[#E84E0F] transition-colors line-clamp-1">
-                        {edu.title}
-                      </span>
-                      <p className="font-mono-tech text-[10px] tracking-widest uppercase text-[#8e8d87] mt-1 font-semibold">
-                        {edu.institution}
-                      </p>
-                    </div>
-
-                    <div className="pt-2 border-t border-[#1e1e1b] flex items-center justify-between z-10">
-                      <span className="font-mono-tech text-[9px] tracking-wider uppercase text-[#b8b5ad]">
-                        {edu.degree}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Clean Titles Below Card */}
-                  <h3 className="font-mono-tech text-xs sm:text-[13px] font-bold tracking-wider text-[#EAE6DF] group-hover:text-[#E84E0F] transition-colors uppercase truncate">
-                    {edu.title}
-                  </h3>
-                  <p className="font-mono-tech text-[10px] sm:text-[11px] tracking-wider text-[#8e8d87] uppercase mt-1 truncate">
-                    {edu.institution} · {edu.period}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* =========================================================
-            3D. HONORS & AWARDS (EXACTLY MATCHING SELECTED WORK)
-        ========================================================= */}
-        <section id="honors" className="relative z-20 bg-[#161614] text-[#EAE6DF] border-t border-b border-[#2b2b28] overflow-hidden">
-          {/* Left Vertical Orange Sidebar - SITS ON TOP (z-30) */}
-          <div className="md:absolute md:left-0 md:top-0 md:bottom-0 z-30 bg-[#E84E0F] text-[#181816] md:w-[68px] py-3.5 px-6 md:py-6 md:px-0 flex items-center justify-between md:justify-center shrink-0 select-none shadow-[16px_0_32px_rgba(0,0,0,0.95)] border-b md:border-b-0 md:border-r border-[#181816]">
-            <div className="font-mono-tech font-bold text-xs sm:text-[13px] tracking-[0.24em] uppercase flex items-center gap-2.5 md:[writing-mode:vertical-rl] md:rotate-180">
-              <span>HONORS & AWARDS</span>
-              <span className="inline-block w-[10px] h-[2px] md:w-[2.5px] md:h-[12px] bg-[#181816]" />
-            </div>
-          </div>
-
-          {/* Depth Shadow Layer Behind Sidebar Edge */}
-          <div className="hidden md:block absolute left-[68px] top-0 bottom-0 w-14 bg-gradient-to-r from-black/90 via-black/40 to-transparent pointer-events-none z-20" />
-
-          {/* Draggable Slider */}
-          <div className="flex flex-col py-5 sm:py-6 lg:py-7 px-6 sm:px-8 lg:px-10 md:pl-0 overflow-hidden relative z-10">
-            <div
-              ref={honorScroll.ref}
-              onMouseDown={honorScroll.handlers.onMouseDown}
-              onMouseMove={honorScroll.handlers.onMouseMove}
-              onMouseUp={honorScroll.handlers.onMouseUp}
-              onMouseLeave={honorScroll.handlers.onMouseLeave}
-              className="flex items-start gap-6 sm:gap-7 overflow-x-auto scrollbar-none cursor-grab active:cursor-grabbing select-none pt-0.5 pb-1 md:pl-[96px] pr-8"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-            >
-              {allHonors.map((honor, hIdx) => (
-                <div
-                  key={honor.id || hIdx}
-                  onClick={() => {
-                    if (!honorScroll.hasDragged && honor.certificate_url) {
-                      setSelectedCert(honor);
-                    }
-                  }}
-                  className="w-[280px] sm:w-[310px] md:w-[325px] shrink-0 group flex flex-col cursor-pointer"
-                >
-                  {/* Clean Orange Index */}
-                  <span className="text-[#E84E0F] font-mono-tech text-xs sm:text-sm font-semibold mb-2.5 tracking-wider block">
-                    {String(hIdx + 1).padStart(2, '0')}/
-                  </span>
-
-                  {/* Thumbnail */}
-                  <div className="relative aspect-[16/10] w-full bg-[#0d0d0d] border border-[#2e2e2b] overflow-hidden mb-3.5 group-hover:border-[#E84E0F] transition-colors">
-                    {honor.certificate_url ? (
-                      <img
-                        src={honor.certificate_url}
-                        alt={honor.title}
-                        draggable={false}
-                        className="w-full h-full object-cover grayscale contrast-125 transition-transform duration-500 group-hover:scale-105 group-hover:grayscale-0 pointer-events-none select-none"
-                      />
-                    ) : (
-                      <div className="w-full h-full p-5 flex flex-col justify-between bg-[#111110]">
-                        <span className="font-mono-tech text-[9.5px] tracking-widest uppercase px-2 py-0.5 bg-[#1c1c1a] border border-[#2e2e2a] text-[#E84E0F] font-bold w-fit">
-                          {honor.badge || 'AWARD'}
-                        </span>
-                        <div className="font-anton text-2xl uppercase tracking-wider text-[#EAE6DF] group-hover:text-[#E84E0F] transition-colors line-clamp-2">
-                          {honor.title}
-                        </div>
-                        <span className="font-mono-tech text-[9.5px] uppercase tracking-wider text-[#66655f]">
-                          {honor.period}
-                        </span>
-                      </div>
-                    )}
-
-                    {/* Bottom Right Orange Action Tag */}
-                    <div className="absolute bottom-0 right-0 w-7 h-7 sm:w-8 sm:h-8 bg-[#E84E0F] flex items-center justify-center transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                      <CornerDownRight className="w-4 h-4 text-[#181816] stroke-[2.5]" />
-                    </div>
-                  </div>
-
-                  {/* Clean Titles Below Thumbnail */}
-                  <h3 className="font-mono-tech text-xs sm:text-[13px] font-bold tracking-wider text-[#EAE6DF] group-hover:text-[#E84E0F] transition-colors uppercase truncate">
-                    {honor.title}
-                  </h3>
-                  <p className="font-mono-tech text-[10px] sm:text-[11px] tracking-wider text-[#8e8d87] uppercase mt-1 truncate">
-                    {honor.institution} · {honor.period}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-
-        {/* =========================================================
-            4. SERVICES / DESIGN MANIFESTO / TECH STACK (3 COLUMNS)
+            02. SERVICES / DESIGN MANIFESTO / TECH STACK (3 COLUMNS)
+            DIRECTLY UNDER SELECTED WORKS
         ========================================================= */}
         <section id="services" className="relative z-20 grid grid-cols-1 lg:grid-cols-12 bg-[#EAE6DF] border-b border-[#1c1c1a]/20">
 
@@ -1417,15 +1177,146 @@ export default function Portfolio() {
               </ul>
             </div>
           </div>
-
         </section>
 
+        {/* =========================================================
+            03. LATEST ARTICLES (HORIZONTAL DRAGGABLE CAROUSEL)
+        ========================================================= */}
+        <section id="articles" className="relative z-20 bg-[#161614] text-[#EAE6DF] border-t border-b border-[#2b2b28] overflow-hidden">
+          {/* Left Vertical Orange Sidebar - SITS ON TOP (z-30) */}
+          <div className="md:absolute md:left-0 md:top-0 md:bottom-0 z-30 bg-[#E84E0F] text-[#181816] md:w-[68px] py-3.5 px-6 md:py-6 md:px-0 flex items-center justify-between md:justify-center shrink-0 select-none shadow-[16px_0_32px_rgba(0,0,0,0.95)] border-b md:border-b-0 md:border-r border-[#181816]">
+            <div className="font-mono-tech font-bold text-xs sm:text-[13px] tracking-[0.24em] uppercase flex items-center gap-2.5 md:[writing-mode:vertical-rl] md:rotate-180">
+              <span>ARTICLES</span>
+              <span className="inline-block w-[10px] h-[2px] md:w-[2.5px] md:h-[12px] bg-[#181816]" />
+            </div>
+          </div>
+
+          {/* Depth Shadow Layer Behind Sidebar Edge */}
+          <div className="hidden md:block absolute left-[68px] top-0 bottom-0 w-14 bg-gradient-to-r from-black/90 via-black/40 to-transparent pointer-events-none z-20" />
+
+          {/* Draggable Slider */}
+          <div className="flex flex-col py-5 sm:py-6 lg:py-7 px-6 sm:px-8 lg:px-10 md:pl-0 overflow-hidden relative z-10">
+            <div
+              ref={articleScroll.ref}
+              onMouseDown={articleScroll.handlers.onMouseDown}
+              onMouseMove={articleScroll.handlers.onMouseMove}
+              onMouseUp={articleScroll.handlers.onMouseUp}
+              onMouseLeave={articleScroll.handlers.onMouseLeave}
+              className="flex items-start gap-6 sm:gap-7 overflow-x-auto scrollbar-none cursor-grab active:cursor-grabbing select-none pt-0.5 pb-1 md:pl-[96px] pr-8"
+              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            >
+              {allArticles.map((article, aIdx) => (
+                <Link
+                  key={article.id || aIdx}
+                  to={`/article/${article.slug}`}
+                  onClick={(e) => {
+                    if (articleScroll.hasDragged) e.preventDefault();
+                  }}
+                  className="w-[280px] sm:w-[310px] md:w-[325px] shrink-0 group flex flex-col cursor-pointer"
+                >
+                  {/* Clean Orange Index */}
+                  <span className="text-[#E84E0F] font-mono-tech text-xs sm:text-sm font-semibold mb-2.5 tracking-wider block">
+                    {String(aIdx + 1).padStart(2, '0')}/
+                  </span>
+
+                  {/* Thumbnail */}
+                  <div className="relative aspect-[16/10] w-full bg-[#0d0d0d] border border-[#2e2e2b] overflow-hidden mb-3.5 group-hover:border-[#E84E0F] transition-colors">
+                    <img
+                      src={article.cover_image}
+                      alt={article.title}
+                      draggable={false}
+                      className="w-full h-full object-cover grayscale contrast-125 transition-transform duration-500 group-hover:scale-105 group-hover:grayscale-0 pointer-events-none select-none"
+                    />
+
+                    {/* Bottom Right Orange Action Tag */}
+                    <div className="absolute bottom-0 right-0 w-7 h-7 sm:w-8 sm:h-8 bg-[#E84E0F] flex items-center justify-center transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                      <CornerDownRight className="w-4 h-4 text-[#181816] stroke-[2.5]" />
+                    </div>
+                  </div>
+
+                  {/* Clean Titles Below Thumbnail */}
+                  <h3 className="font-mono-tech text-xs sm:text-[13px] font-bold tracking-wider text-[#EAE6DF] group-hover:text-[#E84E0F] transition-colors uppercase truncate">
+                    {article.title}
+                  </h3>
+                  <p className="font-mono-tech text-[10px] sm:text-[11px] tracking-wider text-[#8e8d87] uppercase mt-1 truncate">
+                    DISPATCH · {formatArticleDate(article.published_at)}
+                  </p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
 
         {/* =========================================================
-            5. CREDENTIALS & LICENSES (EXACTLY MATCHING SELECTED WORK)
+            04. PROFESSIONAL JOURNEY (EDITORIAL LEDGER - NON-CAROUSEL)
+        ========================================================= */}
+        <section id="journey" className="relative z-20 bg-[#EAE6DF] text-[#181816] border-t border-b border-[#1c1c1a]/20 p-6 sm:p-10 lg:p-12">
+          {/* Header Bar */}
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-[#1c1c1a]/20 mb-8">
+            <div>
+              <div className="flex items-center gap-2.5 mb-2">
+                <span className="w-2.5 h-2.5 bg-[#E84E0F]" />
+                <span className="font-mono-tech text-[10.5px] font-bold tracking-widest text-[#E84E0F] uppercase">
+                  [ 04 // CAREER TRAJECTORY & INDUSTRY DISPATCHES ]
+                </span>
+              </div>
+              <h2 className="font-anton text-2xl sm:text-4xl uppercase tracking-wide text-[#181816]">
+                PROFESSIONAL JOURNEY
+              </h2>
+            </div>
+            <div className="font-mono-tech text-[10.5px] tracking-widest uppercase text-[#5e5c56] font-semibold">
+              {allExperiences.length} COMMISSIONS · INDUSTRIAL ATTESTATION
+            </div>
+          </div>
+
+          {/* Brutalist Editorial Ledger List */}
+          <div className="divide-y divide-[#1c1c1a]/20 border-b border-[#1c1c1a]/20">
+            {allExperiences.map((exp, eIdx) => (
+              <div
+                key={exp.id || eIdx}
+                onClick={() => setSelectedExperienceModal(exp)}
+                className="py-5 sm:py-6 group cursor-pointer transition-colors hover:bg-black/[0.02]"
+              >
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6 items-start md:items-center">
+                  {/* Index & Period Badge */}
+                  <div className="md:col-span-3 flex items-center gap-3">
+                    <span className="text-[#E84E0F] font-mono-tech text-sm sm:text-base font-bold tracking-wider">
+                      {String(eIdx + 1).padStart(2, '0')}/
+                    </span>
+                    <span className="font-mono-tech text-[10px] tracking-wider uppercase px-2 py-0.5 bg-[#181816] text-[#EAE6DF] font-bold">
+                      {exp.period}
+                    </span>
+                  </div>
+
+                  {/* Company & Role */}
+                  <div className="md:col-span-5">
+                    <h3 className="font-anton text-xl sm:text-2xl uppercase tracking-wider text-[#181816] group-hover:text-[#E84E0F] transition-colors leading-tight">
+                      {exp.company}
+                    </h3>
+                    <p className="font-mono-tech text-[11px] font-bold tracking-widest uppercase text-[#E84E0F] mt-0.5">
+                      {exp.role}
+                    </p>
+                  </div>
+
+                  {/* Description Excerpt & Action Link */}
+                  <div className="md:col-span-4 flex items-center justify-between gap-4">
+                    <p className="font-mono-tech text-[10.5px] leading-relaxed text-[#4a4946] uppercase line-clamp-2">
+                      {exp.description}
+                    </p>
+                    <div className="w-8 h-8 shrink-0 bg-[#181816] text-[#EAE6DF] group-hover:bg-[#E84E0F] group-hover:text-[#181816] flex items-center justify-center transition-all group-hover:translate-x-0.5">
+                      <CornerDownRight className="w-4 h-4 stroke-[2.5]" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* =========================================================
+            05. CREDENTIALS & LICENSES (HORIZONTAL DRAGGABLE CAROUSEL)
         ========================================================= */}
         <section id="credentials" className="relative z-20 bg-[#181816] text-[#EAE6DF] border-t border-b border-[#2b2b28] overflow-hidden">
-
           {/* Left Vertical Orange Sidebar - SITS ON TOP (z-30) */}
           <div className="md:absolute md:left-0 md:top-0 md:bottom-0 z-30 bg-[#E84E0F] text-[#181816] md:w-[68px] py-3.5 px-6 md:py-6 md:px-0 flex items-center justify-between md:justify-center shrink-0 select-none shadow-[16px_0_32px_rgba(0,0,0,0.95)] border-b md:border-b-0 md:border-r border-[#181816]">
             <div className="font-mono-tech font-bold text-xs sm:text-[13px] tracking-[0.24em] uppercase flex items-center gap-2.5 md:[writing-mode:vertical-rl] md:rotate-180">
@@ -1437,7 +1328,7 @@ export default function Portfolio() {
           {/* Depth Shadow Layer Behind Sidebar Edge */}
           <div className="hidden md:block absolute left-[68px] top-0 bottom-0 w-14 bg-gradient-to-r from-black/90 via-black/40 to-transparent pointer-events-none z-20" />
 
-          {/* Credentials Cards Draggable Slider - SLIDES UNDERNEATH ORANGE SIDEBAR */}
+          {/* Draggable Slider */}
           <div className="flex flex-col p-6 sm:p-8 lg:p-10 md:pl-0 pb-5 sm:pb-6 lg:pb-6 overflow-hidden relative z-10">
             <div
               ref={certSliderRef}
@@ -1465,8 +1356,8 @@ export default function Portfolio() {
                     {String(cIdx + 1).padStart(2, '0')}/
                   </span>
 
-                  {/* Clean Certificate Thumbnail - ZERO TEXT ON IMAGE */}
-                  <div className="relative aspect-[16/10] w-full bg-[#0d0d0d] border border-[#2e2e2b] overflow-hidden mb-3.5">
+                  {/* Clean Certificate Thumbnail */}
+                  <div className="relative aspect-[16/10] w-full bg-[#0d0d0d] border border-[#2e2e2b] overflow-hidden mb-3.5 group-hover:border-[#E84E0F] transition-colors">
                     {cert.certificate_url ? (
                       <img
                         src={cert.certificate_url}
@@ -1544,70 +1435,103 @@ export default function Portfolio() {
         </section>
 
         {/* =========================================================
-            5B. LATEST ARTICLES (EXACTLY MATCHING SELECTED WORK)
+            06. EDUCATION & HONORS / AWARDS (DUAL EDITORIAL LEDGER)
         ========================================================= */}
-        <section id="articles" className="relative z-20 bg-[#161614] text-[#EAE6DF] border-t border-b border-[#2b2b28] overflow-hidden">
-          {/* Left Vertical Orange Sidebar - SITS ON TOP (z-30) */}
-          <div className="md:absolute md:left-0 md:top-0 md:bottom-0 z-30 bg-[#E84E0F] text-[#181816] md:w-[68px] py-3.5 px-6 md:py-6 md:px-0 flex items-center justify-between md:justify-center shrink-0 select-none shadow-[16px_0_32px_rgba(0,0,0,0.95)] border-b md:border-b-0 md:border-r border-[#181816]">
-            <div className="font-mono-tech font-bold text-xs sm:text-[13px] tracking-[0.24em] uppercase flex items-center gap-2.5 md:[writing-mode:vertical-rl] md:rotate-180">
-              <span>ARTICLES</span>
-              <span className="inline-block w-[10px] h-[2px] md:w-[2.5px] md:h-[12px] bg-[#181816]" />
-            </div>
-          </div>
+        <section id="education" className="relative z-20 bg-[#EAE6DF] text-[#181816] border-t border-b border-[#1c1c1a]/20 p-6 sm:p-10 lg:p-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12">
 
-          {/* Depth Shadow Layer Behind Sidebar Edge */}
-          <div className="hidden md:block absolute left-[68px] top-0 bottom-0 w-14 bg-gradient-to-r from-black/90 via-black/40 to-transparent pointer-events-none z-20" />
-
-          {/* Draggable Slider */}
-          <div className="flex flex-col py-5 sm:py-6 lg:py-7 px-6 sm:px-8 lg:px-10 md:pl-0 overflow-hidden relative z-10">
-            <div
-              ref={articleScroll.ref}
-              onMouseDown={articleScroll.handlers.onMouseDown}
-              onMouseMove={articleScroll.handlers.onMouseMove}
-              onMouseUp={articleScroll.handlers.onMouseUp}
-              onMouseLeave={articleScroll.handlers.onMouseLeave}
-              className="flex items-start gap-6 sm:gap-7 overflow-x-auto scrollbar-none cursor-grab active:cursor-grabbing select-none pt-0.5 pb-1 md:pl-[96px] pr-8"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-            >
-              {allArticles.map((article, aIdx) => (
-                <Link
-                  key={article.id || aIdx}
-                  to={`/article/${article.slug}`}
-                  onClick={(e) => {
-                    if (articleScroll.hasDragged) e.preventDefault();
-                  }}
-                  className="w-[280px] sm:w-[310px] md:w-[325px] shrink-0 group flex flex-col cursor-pointer"
-                >
-                  {/* Clean Orange Index */}
-                  <span className="text-[#E84E0F] font-mono-tech text-xs sm:text-sm font-semibold mb-2.5 tracking-wider block">
-                    {String(aIdx + 1).padStart(2, '0')}/
+            {/* LEFT COLUMN: FORMAL ACADEMICS */}
+            <div className="lg:col-span-6 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-2.5 mb-2">
+                  <span className="w-2.5 h-2.5 bg-[#E84E0F]" />
+                  <span className="font-mono-tech text-[10.5px] font-bold tracking-widest text-[#E84E0F] uppercase">
+                    [ 06A // ACADEMIC PEDIGREE ]
                   </span>
+                </div>
+                <h2 className="font-anton text-2xl sm:text-3xl uppercase tracking-wide text-[#181816] mb-6">
+                  FORMAL EDUCATION
+                </h2>
 
-                  {/* Thumbnail */}
-                  <div className="relative aspect-[16/10] w-full bg-[#0d0d0d] border border-[#2e2e2b] overflow-hidden mb-3.5 group-hover:border-[#E84E0F] transition-colors">
-                    <img
-                      src={article.cover_image}
-                      alt={article.title}
-                      draggable={false}
-                      className="w-full h-full object-cover grayscale contrast-125 transition-transform duration-500 group-hover:scale-105 group-hover:grayscale-0 pointer-events-none select-none"
-                    />
-
-                    {/* Bottom Right Orange Action Tag */}
-                    <div className="absolute bottom-0 right-0 w-7 h-7 sm:w-8 sm:h-8 bg-[#E84E0F] flex items-center justify-center transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                      <CornerDownRight className="w-4 h-4 text-[#181816] stroke-[2.5]" />
+                <div className="space-y-6">
+                  {allEducation.map((edu, edIdx) => (
+                    <div
+                      key={edu.id || edIdx}
+                      className="p-5 bg-white/70 border border-[#1c1c1a]/20 hover:border-[#E84E0F] transition-colors relative group"
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-[#E84E0F] font-mono-tech text-xs font-bold tracking-wider">
+                          {String(edIdx + 1).padStart(2, '0')}/
+                        </span>
+                        <span className="font-mono-tech text-[9.5px] tracking-wider uppercase px-2 py-0.5 bg-[#181816] text-[#EAE6DF] font-bold">
+                          {edu.period}
+                        </span>
+                      </div>
+                      <h3 className="font-anton text-xl uppercase tracking-wider text-[#181816] group-hover:text-[#E84E0F] transition-colors">
+                        {edu.title}
+                      </h3>
+                      <p className="font-mono-tech text-xs font-bold tracking-wide text-[#4a4946] uppercase mt-1">
+                        {edu.institution}
+                      </p>
+                      <div className="mt-3 pt-3 border-t border-[#1c1c1a]/10 flex items-center justify-between">
+                        <span className="font-mono-tech text-[10.5px] uppercase tracking-wider text-[#E84E0F] font-semibold">
+                          {edu.degree}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-
-                  {/* Clean Titles Below Thumbnail */}
-                  <h3 className="font-mono-tech text-xs sm:text-[13px] font-bold tracking-wider text-[#EAE6DF] group-hover:text-[#E84E0F] transition-colors uppercase truncate">
-                    {article.title}
-                  </h3>
-                  <p className="font-mono-tech text-[10px] sm:text-[11px] tracking-wider text-[#8e8d87] uppercase mt-1 truncate">
-                    DISPATCH · {formatArticleDate(article.published_at)}
-                  </p>
-                </Link>
-              ))}
+                  ))}
+                </div>
+              </div>
             </div>
+
+            {/* RIGHT COLUMN: HONORS & AWARDS */}
+            <div id="honors" className="lg:col-span-6 flex flex-col justify-between border-t lg:border-t-0 lg:border-l border-[#1c1c1a]/20 pt-8 lg:pt-0 lg:pl-10">
+              <div>
+                <div className="flex items-center gap-2.5 mb-2">
+                  <span className="w-2.5 h-2.5 bg-[#E84E0F]" />
+                  <span className="font-mono-tech text-[10.5px] font-bold tracking-widest text-[#E84E0F] uppercase">
+                    [ 06B // MERIT CITATIONS ]
+                  </span>
+                </div>
+                <h2 className="font-anton text-2xl sm:text-3xl uppercase tracking-wide text-[#181816] mb-6">
+                  HONORS & AWARDS
+                </h2>
+
+                <div className="space-y-4">
+                  {allHonors.map((honor, hIdx) => (
+                    <div
+                      key={honor.id || hIdx}
+                      onClick={() => {
+                        if (honor.certificate_url) setSelectedCert(honor);
+                      }}
+                      className={`p-4 sm:p-5 bg-white/70 border border-[#1c1c1a]/20 transition-all relative group ${honor.certificate_url ? 'cursor-pointer hover:border-[#E84E0F]' : ''}`}
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-[#E84E0F] font-mono-tech text-xs font-bold tracking-wider">
+                          {String(hIdx + 1).padStart(2, '0')}/
+                        </span>
+                        <span className="font-mono-tech text-[9.5px] tracking-wider uppercase px-2 py-0.5 bg-[#E84E0F] text-[#181816] font-bold">
+                          {honor.badge || 'AWARD'}
+                        </span>
+                      </div>
+                      <h3 className="font-anton text-lg sm:text-xl uppercase tracking-wider text-[#181816] group-hover:text-[#E84E0F] transition-colors">
+                        {honor.title}
+                      </h3>
+                      <p className="font-mono-tech text-[11px] uppercase tracking-wide text-[#55534e] mt-1">
+                        {honor.institution} · {honor.period}
+                      </p>
+                      {honor.certificate_url && (
+                        <div className="mt-2.5 flex items-center gap-1.5 font-mono-tech text-[10px] text-[#E84E0F] font-bold uppercase">
+                          <span>VIEW CERTIFICATE ATTESTATION</span>
+                          <CornerDownRight className="w-3.5 h-3.5 stroke-[2.5]" />
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
           </div>
         </section>
 
@@ -2085,14 +2009,13 @@ export default function Portfolio() {
                 <nav className="mt-6 space-y-2.5 font-mono-tech">
                   {[
                     { num: '01', label: 'SELECTED WORK', href: '#work', sub: 'ENGINEERING COMMISSIONS' },
-                    { num: '02', label: 'JOURNEY', href: '#journey', sub: 'PROFESSIONAL EXPERIENCE' },
-                    { num: '03', label: 'EDUCATION', href: '#education', sub: 'ACADEMIC BACKGROUND' },
-                    { num: '04', label: 'HONORS & AWARDS', href: '#honors', sub: 'COMPETITIONS & PILMAPRES' },
-                    { num: '05', label: 'SERVICES & STACK', href: '#services', sub: 'CAPABILITIES & MANIFESTO' },
-                    { num: '06', label: 'CREDENTIALS', href: '#credentials', sub: 'OFFICIAL CERTIFICATIONS' },
-                    { num: '07', label: 'ARTICLES', href: '#articles', sub: 'WRITING & DISPATCHES' },
-                    { num: '08', label: 'DISPATCHES', href: '#dispatches', sub: 'FIELD NOTES & INSTAGRAM' },
-                    { num: '09', label: 'CONTACT', href: '#contact', sub: 'START A CONVERSATION' },
+                    { num: '02', label: 'SERVICES & STACK', href: '#services', sub: 'CAPABILITIES & MANIFESTO' },
+                    { num: '03', label: 'LATEST ARTICLES', href: '#articles', sub: 'WRITING & DISPATCHES' },
+                    { num: '04', label: 'JOURNEY', href: '#journey', sub: 'PROFESSIONAL EXPERIENCE' },
+                    { num: '05', label: 'CREDENTIALS', href: '#credentials', sub: 'OFFICIAL CERTIFICATIONS' },
+                    { num: '06', label: 'EDUCATION & HONORS', href: '#education', sub: 'ACADEMICS & MERIT' },
+                    { num: '07', label: 'DISPATCHES', href: '#dispatches', sub: 'FIELD NOTES & INSTAGRAM' },
+                    { num: '08', label: 'CONTACT', href: '#contact', sub: 'START A CONVERSATION' },
                   ].map((item) => (
                     <a
                       key={item.num}

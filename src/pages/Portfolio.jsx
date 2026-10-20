@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Mail,
   Phone,
@@ -110,9 +110,48 @@ export default function Portfolio() {
   const [selectedProjectModal, setSelectedProjectModal] = useState(null);
   const [selectedCert, setSelectedCert] = useState(null);
   const [certFilter, setCertFilter] = useState('all');
-  const [projPage, setProjPage] = useState(0);
   const [certPage, setCertPage] = useState(0);
   const [igPage, setIgPage] = useState(0);
+
+  // Draggable slider state for Selected Work
+  const workSliderRef = useRef(null);
+  const [isWorkDragging, setIsWorkDragging] = useState(false);
+  const [workStartX, setWorkStartX] = useState(0);
+  const [workScrollLeft, setWorkScrollLeft] = useState(0);
+  const [workDragProgress, setWorkDragProgress] = useState(0);
+  const [workHasDragged, setWorkHasDragged] = useState(false);
+
+  const handleWorkMouseDown = (e) => {
+    if (!workSliderRef.current) return;
+    setIsWorkDragging(true);
+    setWorkHasDragged(false);
+    setWorkStartX(e.pageX - workSliderRef.current.offsetLeft);
+    setWorkScrollLeft(workSliderRef.current.scrollLeft);
+  };
+
+  const handleWorkMouseMove = (e) => {
+    if (!isWorkDragging || !workSliderRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - workSliderRef.current.offsetLeft;
+    const walk = (x - workStartX) * 1.6;
+    if (Math.abs(walk) > 6) {
+      setWorkHasDragged(true);
+    }
+    workSliderRef.current.scrollLeft = workScrollLeft - walk;
+  };
+
+  const handleWorkMouseUpOrLeave = () => {
+    setIsWorkDragging(false);
+  };
+
+  const handleWorkScroll = () => {
+    if (!workSliderRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = workSliderRef.current;
+    const maxScroll = scrollWidth - clientWidth;
+    if (maxScroll > 0) {
+      setWorkDragProgress((scrollLeft / maxScroll) * 100);
+    }
+  };
 
   // Dynamic Identity Data
   const fullName = info?.full_name || 'Haikal Jibran Al-Ghiffarry';
@@ -234,8 +273,6 @@ export default function Portfolio() {
       stat: p.metrics || 'Engineered for Performance'
     }))
     : defaultProjects;
-
-  const pagedProjects = allProjects.slice(projPage * 3, (projPage + 1) * 3);
 
   // Certifications data processing from Supabase
   const allCertifications = (supabaseQualifications && supabaseQualifications.length > 0)
@@ -530,14 +567,28 @@ export default function Portfolio() {
             </div>
           </div>
 
-          {/* Project Cards Grid - ULTRA CLEAN, NO BUSY HEADER */}
-          <div className="flex-1 flex flex-col p-6 sm:p-8 lg:p-10">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-7 lg:gap-8">
-              {pagedProjects.map((proj, pIdx) => (
+          {/* Project Cards Draggable Slider - ULTRA CLEAN, NO PAGINATION */}
+          <div className="flex-1 flex flex-col p-6 sm:p-8 lg:p-10 pb-5 sm:pb-6 lg:pb-6 overflow-hidden">
+            <div
+              ref={workSliderRef}
+              onMouseDown={handleWorkMouseDown}
+              onMouseMove={handleWorkMouseMove}
+              onMouseUp={handleWorkMouseUpOrLeave}
+              onMouseLeave={handleWorkMouseUpOrLeave}
+              onScroll={handleWorkScroll}
+              className="flex items-start gap-6 sm:gap-7 overflow-x-auto scrollbar-none cursor-grab active:cursor-grabbing select-none pb-2 pt-1"
+              style={{
+                scrollbarWidth: 'none',
+                msOverflowStyle: 'none'
+              }}
+            >
+              {allProjects.map((proj, pIdx) => (
                 <div
                   key={proj.id || pIdx}
-                  onClick={() => setSelectedProjectModal(proj)}
-                  className="group cursor-pointer flex flex-col"
+                  onClick={() => {
+                    if (!workHasDragged) setSelectedProjectModal(proj);
+                  }}
+                  className="w-[280px] sm:w-[310px] md:w-[325px] shrink-0 group flex flex-col cursor-pointer"
                 >
                   {/* Clean Orange Index */}
                   <span className="text-[#E84E0F] font-mono-tech text-xs sm:text-sm font-semibold mb-2.5 tracking-wider block">
@@ -549,7 +600,8 @@ export default function Portfolio() {
                     <img
                       src={proj.img}
                       alt={proj.title}
-                      className="w-full h-full object-cover grayscale contrast-125 transition-transform duration-500 group-hover:scale-105 group-hover:grayscale-0"
+                      draggable={false}
+                      className="w-full h-full object-cover grayscale contrast-125 transition-transform duration-500 group-hover:scale-105 group-hover:grayscale-0 pointer-events-none select-none"
                       onError={(e) => {
                         e.target.onerror = null;
                         e.target.src = 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80';
@@ -573,28 +625,22 @@ export default function Portfolio() {
               ))}
             </div>
 
-            {/* Subtle Minimal Pagination at Bottom */}
-            {allProjects.length > 3 && (
-              <div className="mt-8 pt-4 border-t border-[#252522] flex items-center justify-between font-mono-tech text-[10px] text-[#8e8d87] uppercase tracking-wider">
-                <span>PROJECTS {projPage * 3 + 1}–{Math.min((projPage + 1) * 3, allProjects.length)} OF {allProjects.length}</span>
-                <div className="flex items-center gap-2">
-                  <button
-                    disabled={projPage === 0}
-                    onClick={() => setProjPage(p => Math.max(0, p - 1))}
-                    className="px-2.5 py-1 border border-[#2e2e2b] enabled:hover:border-[#E84E0F] enabled:hover:text-[#E84E0F] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed transition-colors"
-                  >
-                    ← PREV
-                  </button>
-                  <button
-                    disabled={(projPage + 1) * 3 >= allProjects.length}
-                    onClick={() => setProjPage(p => p + 1)}
-                    className="px-2.5 py-1 border border-[#2e2e2b] enabled:hover:border-[#E84E0F] enabled:hover:text-[#E84E0F] disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed transition-colors"
-                  >
-                    NEXT →
-                  </button>
-                </div>
+            {/* Subtle Minimal Drag Hint & Recessed Progress Indicator */}
+            <div className="mt-4 pt-3 flex items-center justify-between border-t border-[#232320]/60">
+              <div className="flex items-center gap-2 font-mono-tech text-[9.5px] uppercase tracking-widest text-[#66655f]">
+                <span>[ DRAG ARCHIVE // {allProjects.length} COMMISSIONS ]</span>
+                <span className="text-[#E84E0F]">→</span>
               </div>
-            )}
+              <div className="w-24 sm:w-32 h-[2px] bg-[#262624] overflow-hidden rounded-full relative">
+                <div 
+                  className="h-full bg-[#E84E0F] transition-all duration-150"
+                  style={{
+                    width: '32%',
+                    transform: `translateX(${workDragProgress * 2.1}%)`
+                  }}
+                />
+              </div>
+            </div>
           </div>
         </section>
 

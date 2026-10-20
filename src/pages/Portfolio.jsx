@@ -490,11 +490,15 @@ export default function Portfolio() {
       />
 
       {/* SVG Filters for Paper Noise & Grunge Distress */}
-      <svg className="hidden">
+      <svg className="absolute w-0 h-0 overflow-hidden pointer-events-none" aria-hidden="true">
         <filter id="paper-grain">
           <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch" result="noise" />
           <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.08 0" in="noise" result="coloredNoise" />
           <feComposite operator="in" in2="SourceGraphic" />
+        </filter>
+        <filter id="ink-edge" x="-2%" y="-2%" width="104%" height="104%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.25" numOctaves="3" result="roughNoise" />
+          <feDisplacementMap in="SourceGraphic" in2="roughNoise" scale="1.5" xChannelSelector="R" yChannelSelector="G" />
         </filter>
       </svg>
 
@@ -576,25 +580,58 @@ export default function Portfolio() {
             {/* LEFT COLUMN: STACKED BRUTALIST HEADLINE & ABOUT ME */}
             <div className="lg:col-span-7 relative z-20 flex flex-col justify-between pt-1 pb-6 lg:pb-10 pr-4 sm:pr-6 lg:pr-0">
 
-              {/* Giant Stacked Headline */}
+              {/* Giant Stacked Brutalist Headline */}
               <div className="select-none pt-1">
                 <h1 className="font-anton uppercase tracking-[-0.02em] flex flex-col">
                   <span
-                    className="text-[21vw] sm:text-[145px] lg:text-[160px] leading-[0.87] text-[#222220] relative"
+                    className="text-[10.5vw] sm:text-[68px] md:text-[80px] lg:text-[88px] xl:text-[94px] leading-[0.88] select-none block"
                     style={{
-                      backgroundImage: 'radial-gradient(rgba(234, 230, 223, 0.14) 1px, transparent 0)',
-                      backgroundSize: '6px 6px'
+                      backgroundImage: `url('/distress-speckles.png'), radial-gradient(circle, rgba(234,230,223,0.16) 1px, transparent 1px), linear-gradient(180deg, #262624 0%, #171716 100%)`,
+                      backgroundSize: '340px 340px, 4px 4px, 100% 100%',
+                      WebkitBackgroundClip: 'text',
+                      backgroundClip: 'text',
+                      color: 'transparent',
+                      filter: 'url(#ink-edge)',
                     }}
                   >
-                    DESIGN
+                    BUILDING THE
                   </span>
-                  <span className="text-[21vw] sm:text-[145px] lg:text-[160px] leading-[0.87] text-[#222220] mt-1">
-                    WITH
+                  <span
+                    className="text-[10.5vw] sm:text-[68px] md:text-[80px] lg:text-[88px] xl:text-[94px] leading-[0.88] select-none block mt-1"
+                    style={{
+                      backgroundImage: `url('/distress-speckles.png'), radial-gradient(circle, rgba(234,230,223,0.16) 1px, transparent 1px), linear-gradient(180deg, #262624 0%, #171716 100%)`,
+                      backgroundSize: '340px 340px, 4px 4px, 100% 100%',
+                      WebkitBackgroundClip: 'text',
+                      backgroundClip: 'text',
+                      color: 'transparent',
+                      filter: 'url(#ink-edge)',
+                    }}
+                  >
+                    BRIDGE BETWEEN
                   </span>
-                  <span className="text-[21vw] sm:text-[145px] lg:text-[160px] leading-[0.87] text-[#E84E0F] mt-1 inline-flex items-baseline">
-                    INTENT.
-                    {/* Distinct black square next to the orange period */}
-                    <span className="inline-block w-5 h-5 sm:w-[26px] sm:h-[26px] bg-[#1c1c1a] ml-2 sm:ml-3 mb-2 sm:mb-3 shrink-0" />
+                  <span
+                    className="text-[10.5vw] sm:text-[68px] md:text-[80px] lg:text-[88px] xl:text-[94px] leading-[0.88] select-none inline-flex items-baseline mt-1"
+                  >
+                    <span
+                      style={{
+                        backgroundImage: `url('/distress-speckles.png'), radial-gradient(circle, rgba(234,230,223,0.18) 1px, transparent 1px), linear-gradient(180deg, #EB5310 0%, #D84508 100%)`,
+                        backgroundSize: '340px 340px, 4px 4px, 100% 100%',
+                        WebkitBackgroundClip: 'text',
+                        backgroundClip: 'text',
+                        color: 'transparent',
+                        filter: 'url(#ink-edge)',
+                      }}
+                    >
+                      BITS AND ATOMS.
+                    </span>
+                    {/* Distinct black square block next to the orange period */}
+                    <span
+                      className="inline-block w-4 h-4 sm:w-5 sm:h-5 lg:w-[22px] lg:h-[22px] bg-[#1c1c1a] ml-2 sm:ml-3 mb-1 sm:mb-2 shrink-0"
+                      style={{
+                        backgroundImage: `url('/distress-speckles.png')`,
+                        backgroundSize: '240px 240px',
+                      }}
+                    />
                   </span>
                 </h1>
               </div>
@@ -643,15 +680,21 @@ export default function Portfolio() {
 
               {/* Bold Orange Brutalist Geometric Shapes Behind Subject */}
               <div
-                className="w-[220px] sm:w-[260px] lg:w-[280px] h-[130px] sm:h-[150px] bg-[#E84E0F] absolute top-[25px] sm:top-[35px] left-[-20px] sm:left-[0px] lg:left-[20px] z-0"
+                className="w-[220px] sm:w-[260px] lg:w-[280px] h-[130px] sm:h-[150px] absolute top-[25px] sm:top-[35px] left-[-20px] sm:left-[0px] lg:left-[20px] z-0"
                 style={{
-                  clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)'
+                  clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
+                  backgroundColor: '#E84E0F',
+                  backgroundImage: `url('/distress-speckles.png'), linear-gradient(180deg, #eb5310 0%, #dc4708 100%)`,
+                  backgroundSize: '340px 340px, 100% 100%',
                 }}
               />
               <div
-                className="w-[150px] sm:w-[180px] lg:w-[200px] h-[220px] sm:h-[260px] bg-[#E84E0F] absolute top-[140px] sm:top-[160px] right-0 z-0"
+                className="w-[150px] sm:w-[180px] lg:w-[200px] h-[220px] sm:h-[260px] absolute top-[140px] sm:top-[160px] right-0 z-0"
                 style={{
-                  clipPath: 'polygon(0 0, 75% 0, 100% 25%, 100% 100%, 0 100%)'
+                  clipPath: 'polygon(0 0, 75% 0, 100% 25%, 100% 100%, 0 100%)',
+                  backgroundColor: '#E84E0F',
+                  backgroundImage: `url('/distress-speckles.png'), linear-gradient(180deg, #eb5310 0%, #dc4708 100%)`,
+                  backgroundSize: '340px 340px, 100% 100%',
                 }}
               />
 

@@ -110,6 +110,27 @@ export default function Portfolio() {
   const [selectedProjectModal, setSelectedProjectModal] = useState(null);
   const [selectedCert, setSelectedCert] = useState(null);
   const [certFilter, setCertFilter] = useState('all');
+
+  // UV-Coated Glossy HD Poster Specular Sheen
+  const posterRef = useRef(null);
+  const [glossPos, setGlossPos] = useState({ x: 50, y: 25, active: false });
+
+  const handlePosterMouseMove = (e) => {
+    if (!posterRef.current) return;
+    const rect = posterRef.current.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    setGlossPos({
+      x: Math.round(x * 10) / 10,
+      y: Math.round(y * 10) / 10,
+      active: true
+    });
+  };
+
+  const handlePosterMouseLeave = () => {
+    setGlossPos(prev => ({ ...prev, active: false }));
+  };
+
   // Draggable slider state for Selected Work
   const workSliderRef = useRef(null);
   const [isWorkDragging, setIsWorkDragging] = useState(false);
@@ -466,16 +487,48 @@ export default function Portfolio() {
         </filter>
       </svg>
 
-      {/* MAIN POSTER CONTAINER */}
-      <div className="w-full max-w-[1080px] bg-[#EAE6DF] relative shadow-[0_25px_70px_rgba(0,0,0,0.85)] overflow-hidden border border-[#2c2c2a]">
+      {/* MAIN POSTER CONTAINER - UV-COATED GLOSSY HD PRINT */}
+      <div
+        ref={posterRef}
+        onMouseMove={handlePosterMouseMove}
+        onMouseLeave={handlePosterMouseLeave}
+        className="w-full max-w-[1080px] bg-[#EAE6DF] relative shadow-[0_30px_90px_rgba(0,0,0,0.92),0_0_0_1px_rgba(255,255,255,0.08),inset_0_1px_2px_rgba(255,255,255,0.5),inset_0_-1px_2px_rgba(0,0,0,0.6)] overflow-hidden border border-[#2c2c2a] transition-all duration-300"
+      >
 
-        {/* Global Fine Noise Texture Overlay */}
+        {/* =========================================================
+            UV-COATED GLOSSY HD POSTER PRINT FINISH OVERLAYS
+        ========================================================= */}
+
+        {/* Layer 1: Global HD Print Grain & Micro-Stipple (1200 DPI Coated Paper) */}
         <div
-          className="pointer-events-none absolute inset-0 z-40 opacity-[0.18] mix-blend-multiply"
+          className="pointer-events-none absolute inset-0 z-40 opacity-[0.20] mix-blend-multiply select-none"
           style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='uvGrain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23uvGrain)'/%3E%3C/svg%3E")`
           }}
         />
+
+        {/* Layer 2: Ambient Diagonal Studio Light Specular Refraction */}
+        <div
+          className="pointer-events-none absolute inset-0 z-45 opacity-60 mix-blend-soft-light select-none"
+          style={{
+            background: 'linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 24%, transparent 50%, rgba(255,255,255,0.14) 58%, transparent 76%)'
+          }}
+        />
+
+        {/* Layer 3: Interactive Dynamic Specular UV Glare (Follows Cursor Across Canvas) */}
+        <div
+          className="pointer-events-none absolute inset-0 z-50 transition-opacity duration-500 select-none"
+          style={{
+            background: glossPos.active
+              ? `radial-gradient(1100px circle at ${glossPos.x}% ${glossPos.y}%, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.06) 30%, transparent 68%), linear-gradient(120deg, rgba(255,255,255,0.06) 0%, transparent 35%, rgba(255,255,255,0.04) 65%, transparent 100%)`
+              : `linear-gradient(120deg, rgba(255,255,255,0.06) 0%, transparent 35%, rgba(255,255,255,0.04) 65%, transparent 100%)`,
+            mixBlendMode: 'screen',
+            opacity: glossPos.active ? 1 : 0.65
+          }}
+        />
+
+        {/* Layer 4: Spot-UV Lacquer Lamination Edge Glare (Micro Bevel) */}
+        <div className="pointer-events-none absolute inset-0 z-50 shadow-[inset_0_1px_1px_rgba(255,255,255,0.45),inset_1px_0_1px_rgba(255,255,255,0.2),inset_-1px_0_1px_rgba(255,255,255,0.15),inset_0_-1px_2px_rgba(0,0,0,0.5)] select-none" />
 
         {/* =========================================================
             1. TOP NAVIGATION / STATUS BAR

@@ -693,7 +693,7 @@ export default function Portfolio() {
           <div className="hidden md:block absolute left-[68px] top-0 bottom-0 w-14 bg-gradient-to-r from-black/90 via-black/40 to-transparent pointer-events-none z-20" />
 
           {/* Project Cards Draggable Slider - SLIDES UNDERNEATH ORANGE SIDEBAR */}
-          <div className="flex flex-col p-6 sm:p-8 lg:p-10 md:pl-0 pb-5 sm:pb-6 lg:pb-6 overflow-hidden relative z-10">
+          <div className="flex flex-col py-5 sm:py-6 lg:py-7 px-6 sm:px-8 lg:px-10 md:pl-0 overflow-hidden relative z-10">
             <div
               ref={workSliderRef}
               onMouseDown={handleWorkMouseDown}
@@ -701,7 +701,7 @@ export default function Portfolio() {
               onMouseUp={handleWorkMouseUpOrLeave}
               onMouseLeave={handleWorkMouseUpOrLeave}
               onScroll={handleWorkScroll}
-              className="flex items-start gap-6 sm:gap-7 overflow-x-auto scrollbar-none cursor-grab active:cursor-grabbing select-none pb-2 pt-1 md:pl-[96px] pr-8"
+              className="flex items-start gap-6 sm:gap-7 overflow-x-auto scrollbar-none cursor-grab active:cursor-grabbing select-none pt-0.5 pb-1 md:pl-[96px] pr-8"
               style={{
                 scrollbarWidth: 'none',
                 msOverflowStyle: 'none'
@@ -749,26 +749,129 @@ export default function Portfolio() {
                 </div>
               ))}
             </div>
-
-            {/* Subtle Minimal Drag Hint & Recessed Progress Indicator */}
-            <div className="mt-4 pt-3 flex items-center justify-between border-t border-[#232320]/60 md:ml-[96px] mr-8">
-              <div className="flex items-center gap-2 font-mono-tech text-[9.5px] uppercase tracking-widest text-[#66655f]">
-                <span>[ DRAG ARCHIVE // {allProjects.length} COMMISSIONS ]</span>
-                <span className="text-[#E84E0F]">→</span>
-              </div>
-              <div className="w-24 sm:w-32 h-[2px] bg-[#262624] overflow-hidden rounded-full relative">
-                <div
-                  className="h-full bg-[#E84E0F] transition-all duration-150"
-                  style={{
-                    width: '32%',
-                    transform: `translateX(${workDragProgress * 2.1}%)`
-                  }}
-                />
-              </div>
-            </div>
           </div>
         </section>
 
+
+        {/* =========================================================
+            4. SERVICES / DESIGN MANIFESTO / TECH STACK (3 COLUMNS)
+        ========================================================= */}
+        <section id="services" className="relative z-20 grid grid-cols-1 lg:grid-cols-12 bg-[#EAE6DF] border-b border-[#1c1c1a]/20">
+
+          {/* COLUMN 1: SERVICES ACCORDION LIST */}
+          <div className="lg:col-span-4 p-6 sm:p-10 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-[#1c1c1a]/20">
+            <div>
+              <div className="flex items-center gap-3.5 mb-6">
+                <h2 className="font-anton text-2xl sm:text-[28px] tracking-wide uppercase text-[#1c1c1a]">
+                  SERVICES
+                </h2>
+                <span className="w-6 h-[2.5px] bg-[#1c1c1a]" />
+              </div>
+
+              <div className="divide-y divide-[#1c1c1a]/30 border-b border-[#1c1c1a]/30">
+                {servicesData.map((item) => {
+                  const isOpen = expandedService === item.id;
+                  return (
+                    <div key={item.id} className="py-2.5">
+                      <button
+                        onClick={() => toggleService(item.id)}
+                        className="w-full flex items-center justify-between text-left group focus:outline-none cursor-pointer"
+                      >
+                        <div className="flex items-center gap-3.5">
+                          <span className="font-mono-tech text-xs font-extrabold text-[#1c1c1a]">
+                            {item.id}
+                          </span>
+                          <span className="font-mono-tech text-[11px] sm:text-xs font-medium tracking-wider text-[#1c1c1a] group-hover:text-[#E84E0F] transition-colors">
+                            {item.title}
+                          </span>
+                        </div>
+                        <span className="text-[#1c1c1a] group-hover:text-[#E84E0F] transition-colors">
+                          {isOpen ? <Minus className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
+                        </span>
+                      </button>
+                      {isOpen && (
+                        <p className="mt-2 pl-7 text-[11px] leading-relaxed text-[#4a4946] font-mono-tech">
+                          {item.desc}
+                        </p>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* COLUMN 2: DESIGN MANIFESTO (ORANGE BLOCK) */}
+          <div className="lg:col-span-4 bg-[#E84E0F] text-[#181816] p-6 sm:p-10 relative flex flex-col justify-between overflow-hidden border-b lg:border-b-0 lg:border-r border-[#1c1c1a]/20">
+            <div>
+              <div className="flex items-end gap-3 mb-5">
+                <h2 className="font-anton text-xl sm:text-[23px] leading-[1.08] tracking-wide uppercase text-[#181816]">
+                  ENGINEERING<br />
+                  MANIFESTO
+                </h2>
+                <span className="w-5 h-[2px] bg-[#181816] mb-1.5" />
+              </div>
+
+              <div className="font-mono-tech text-[11px] leading-[1.55] tracking-[0.02em] uppercase space-y-4 font-medium text-[#181816]">
+                <p>
+                  GOOD TECHNOLOGY ISN&apos;T JUST<br />
+                  ABOUT HOW IT LOOKS.<br />
+                  IT&apos;S ABOUT HOW IT PERFORMS,<br />
+                  HOW RELIABLE IT RUNS, AND<br />
+                  WHAT PROBLEM IT SOLVES.
+                </p>
+                <p>
+                  FROM BITS TO ATOMS.<br />
+                  I ARCHITECT WITH PURPOSE.<br />
+                  I BUILD WITH PRECISION.<br />
+                  I DELIVER WITH PRIDE.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-8 pt-2">
+              <p className="font-mono-tech text-[10.5px] leading-[1.4] uppercase italic font-semibold text-[#181816]">
+                NO TRENDS.<br />
+                ONLY WORKING SYSTEMS.
+              </p>
+            </div>
+
+            {/* Signature Black Cutout Triangle in Bottom Right */}
+            <div
+              className="w-20 h-11 bg-[#181816] absolute bottom-2.5 right-3"
+              style={{
+                clipPath: 'polygon(100% 0, 0 100%, 100% 100%)'
+              }}
+            />
+          </div>
+
+          {/* COLUMN 3: TECH STACK */}
+          <div className="lg:col-span-4 p-6 sm:p-10 flex flex-col justify-between">
+            <div>
+              <div className="flex items-center gap-3.5 mb-6">
+                <h2 className="font-anton text-2xl sm:text-[26px] tracking-wide uppercase text-[#1c1c1a]">
+                  TECH STACK
+                </h2>
+                <span className="w-5 h-[2.5px] bg-[#1c1c1a]" />
+              </div>
+
+              <ul className="space-y-2.5">
+                {techStack.map((tech) => (
+                  <li
+                    key={tech}
+                    className="flex items-center justify-between font-mono-tech text-[11.5px] tracking-wider font-medium text-[#1c1c1a] group cursor-default"
+                  >
+                    <span className="group-hover:translate-x-1 transition-transform group-hover:text-[#E84E0F]">
+                      {tech}
+                    </span>
+                    <span className="w-1.5 h-1.5 bg-[#1c1c1a] group-hover:bg-[#E84E0F] transition-colors" />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+        </section>
 
 
         {/* =========================================================
@@ -1045,125 +1148,7 @@ export default function Portfolio() {
           </div>
         </section>
 
-        {/* =========================================================
-            4. SERVICES / DESIGN MANIFESTO / TECH STACK (3 COLUMNS)
-        ========================================================= */}
-        <section id="services" className="relative z-20 grid grid-cols-1 lg:grid-cols-12 bg-[#EAE6DF] border-b border-[#1c1c1a]/20">
 
-          {/* COLUMN 1: SERVICES ACCORDION LIST */}
-          <div className="lg:col-span-4 p-6 sm:p-10 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-[#1c1c1a]/20">
-            <div>
-              <div className="flex items-center gap-3.5 mb-6">
-                <h2 className="font-anton text-2xl sm:text-[28px] tracking-wide uppercase text-[#1c1c1a]">
-                  SERVICES
-                </h2>
-                <span className="w-6 h-[2.5px] bg-[#1c1c1a]" />
-              </div>
-
-              <div className="divide-y divide-[#1c1c1a]/30 border-b border-[#1c1c1a]/30">
-                {servicesData.map((item) => {
-                  const isOpen = expandedService === item.id;
-                  return (
-                    <div key={item.id} className="py-2.5">
-                      <button
-                        onClick={() => toggleService(item.id)}
-                        className="w-full flex items-center justify-between text-left group focus:outline-none cursor-pointer"
-                      >
-                        <div className="flex items-center gap-3.5">
-                          <span className="font-mono-tech text-xs font-extrabold text-[#1c1c1a]">
-                            {item.id}
-                          </span>
-                          <span className="font-mono-tech text-[11px] sm:text-xs font-medium tracking-wider text-[#1c1c1a] group-hover:text-[#E84E0F] transition-colors">
-                            {item.title}
-                          </span>
-                        </div>
-                        <span className="text-[#1c1c1a] group-hover:text-[#E84E0F] transition-colors">
-                          {isOpen ? <Minus className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
-                        </span>
-                      </button>
-                      {isOpen && (
-                        <p className="mt-2 pl-7 text-[11px] leading-relaxed text-[#4a4946] font-mono-tech">
-                          {item.desc}
-                        </p>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-
-          {/* COLUMN 2: DESIGN MANIFESTO (ORANGE BLOCK) */}
-          <div className="lg:col-span-4 bg-[#E84E0F] text-[#181816] p-6 sm:p-10 relative flex flex-col justify-between overflow-hidden border-b lg:border-b-0 lg:border-r border-[#1c1c1a]/20">
-            <div>
-              <div className="flex items-end gap-3 mb-5">
-                <h2 className="font-anton text-xl sm:text-[23px] leading-[1.08] tracking-wide uppercase text-[#181816]">
-                  ENGINEERING<br />
-                  MANIFESTO
-                </h2>
-                <span className="w-5 h-[2px] bg-[#181816] mb-1.5" />
-              </div>
-
-              <div className="font-mono-tech text-[11px] leading-[1.55] tracking-[0.02em] uppercase space-y-4 font-medium text-[#181816]">
-                <p>
-                  GOOD TECHNOLOGY ISN&apos;T JUST<br />
-                  ABOUT HOW IT LOOKS.<br />
-                  IT&apos;S ABOUT HOW IT PERFORMS,<br />
-                  HOW RELIABLE IT RUNS, AND<br />
-                  WHAT PROBLEM IT SOLVES.
-                </p>
-                <p>
-                  FROM BITS TO ATOMS.<br />
-                  I ARCHITECT WITH PURPOSE.<br />
-                  I BUILD WITH PRECISION.<br />
-                  I DELIVER WITH PRIDE.
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-8 pt-2">
-              <p className="font-mono-tech text-[10.5px] leading-[1.4] uppercase italic font-semibold text-[#181816]">
-                NO TRENDS.<br />
-                ONLY WORKING SYSTEMS.
-              </p>
-            </div>
-
-            {/* Signature Black Cutout Triangle in Bottom Right */}
-            <div
-              className="w-20 h-11 bg-[#181816] absolute bottom-2.5 right-3"
-              style={{
-                clipPath: 'polygon(100% 0, 0 100%, 100% 100%)'
-              }}
-            />
-          </div>
-
-          {/* COLUMN 3: TECH STACK */}
-          <div className="lg:col-span-4 p-6 sm:p-10 flex flex-col justify-between">
-            <div>
-              <div className="flex items-center gap-3.5 mb-6">
-                <h2 className="font-anton text-2xl sm:text-[26px] tracking-wide uppercase text-[#1c1c1a]">
-                  TECH STACK
-                </h2>
-                <span className="w-5 h-[2.5px] bg-[#1c1c1a]" />
-              </div>
-
-              <ul className="space-y-2.5">
-                {techStack.map((tech) => (
-                  <li
-                    key={tech}
-                    className="flex items-center justify-between font-mono-tech text-[11.5px] tracking-wider font-medium text-[#1c1c1a] group cursor-default"
-                  >
-                    <span className="group-hover:translate-x-1 transition-transform group-hover:text-[#E84E0F]">
-                      {tech}
-                    </span>
-                    <span className="w-1.5 h-1.5 bg-[#1c1c1a] group-hover:bg-[#E84E0F] transition-colors" />
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-        </section>
 
 
         {/* =========================================================

@@ -757,8 +757,8 @@ export default function Portfolio() {
           <feComposite operator="in" in2="SourceGraphic" />
         </filter>
         <filter id="ink-edge" x="-2%" y="-2%" width="104%" height="104%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.25" numOctaves="3" result="roughNoise" />
-          <feDisplacementMap in="SourceGraphic" in2="roughNoise" scale="1.5" xChannelSelector="R" yChannelSelector="G" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.45" numOctaves="3" result="roughNoise" />
+          <feDisplacementMap in="SourceGraphic" in2="roughNoise" scale="0.8" xChannelSelector="R" yChannelSelector="G" />
         </filter>
       </svg>
 
@@ -800,75 +800,50 @@ export default function Portfolio() {
         <div className="pointer-events-none absolute inset-0 z-50 shadow-[inset_0_1px_1px_rgba(255,255,255,0.45),inset_1px_0_1px_rgba(255,255,255,0.2),inset_-1px_0_1px_rgba(255,255,255,0.15),inset_0_-1px_2px_rgba(0,0,0,0.5)] select-none" />
 
         {/* =========================================================
-            1. TOP NAVIGATION / STATUS BAR
+            1. TOP NAVIGATION / STATUS BAR (PROPORTIONAL EDITORIAL)
         ========================================================= */}
-        <header className="relative z-20 px-6 sm:px-12 pt-7 pb-4 flex justify-between items-start text-[11px] sm:text-xs leading-[1.35] tracking-[0.06em] font-mono-tech font-medium uppercase border-b border-[#1c1c1a]/15">
-          {/* Top Left */}
-          <div>
-            <div className="w-3.5 h-[3px] bg-[#E84E0F] mb-2" />
-            <p className="text-[#1c1c1a] font-bold">FULL-STACK DEVELOPER</p>
-            <p className="text-[#4a4946]">IOT TELEMETRY ENGINEER</p>
-          </div>
+        <header className="relative z-20 border-b border-[#1c1c1a]/15">
+          <div className="max-w-[1536px] mx-auto px-6 sm:px-12 pt-7 pb-4 flex justify-between items-start text-[11px] sm:text-xs leading-[1.35] tracking-[0.06em] font-mono-tech font-medium uppercase border-x border-[#1c1c1a]/15">
+            {/* Top Left */}
+            <div>
+              <div className="w-3.5 h-[3px] bg-[#E84E0F] mb-2" />
+              <p className="text-[#1c1c1a] font-bold">FULL-STACK DEVELOPER</p>
+              <p className="text-[#4a4946]">IOT TELEMETRY ENGINEER</p>
+            </div>
 
-          {/* Top Center Clean Identity */}
-          <div className="text-center hidden sm:block">
-            <div className="h-[3px] mb-2 opacity-0" />
-            <p className="text-[#1c1c1a] font-bold">BASED IN</p>
-            <p className="text-[#4a4946] font-medium">INDONESIA / REMOTE</p>
-          </div>
+            {/* Top Center Clean Identity */}
+            <div className="text-center hidden sm:block">
+              <div className="h-[3px] mb-2 opacity-0" />
+              <p className="text-[#1c1c1a] font-bold">BASED IN</p>
+              <p className="text-[#4a4946] font-medium">INDONESIA / REMOTE</p>
+            </div>
 
-          {/* Top Right */}
-          <div className="text-right flex flex-col items-end">
-            <div className="w-3.5 h-[3px] bg-[#E84E0F] mb-2" />
-            <p className="text-[#1c1c1a] font-bold">BASE: {location.toUpperCase()}</p>
-            <p className="text-[#E84E0F] font-semibold">{availability.toUpperCase()}</p>
+            {/* Top Right */}
+            <div className="text-right flex flex-col items-end">
+              <div className="w-3.5 h-[3px] bg-[#E84E0F] mb-2" />
+              <p className="text-[#1c1c1a] font-bold">BASE: {location.toUpperCase()}</p>
+              <p className="text-[#E84E0F] font-semibold">{availability.toUpperCase()}</p>
+            </div>
           </div>
         </header>
 
         {/* =========================================================
             2. HERO SECTION (TYPOGRAPHY + PORTRAIT + ABOUT ME)
         ========================================================= */}
-        <section className="relative z-10 pl-6 sm:pl-12 pr-6 sm:pr-12 lg:pr-0 pt-3 pb-0 overflow-hidden">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 items-start lg:items-end relative">
+        <section className="relative z-10 pt-4 sm:pt-6 pb-0 overflow-hidden">
+          <div className="max-w-[1536px] mx-auto px-6 sm:px-12 border-x border-[#1c1c1a]/15">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-end relative">
 
-            {/* LEFT COLUMN: STACKED BRUTALIST HEADLINE & ABOUT ME */}
-            <div className="lg:col-span-7 relative z-20 flex flex-col justify-between pt-1 pb-6 lg:pb-10 pr-4 sm:pr-6 lg:pr-0">
+              {/* LEFT COLUMN: STACKED BRUTALIST HEADLINE & ABOUT ME */}
+              <div className="lg:col-span-7 relative z-20 flex flex-col justify-between pt-1 pb-6 lg:pb-10">
 
-              {/* Giant Stacked Brutalist Headline */}
-              <div className="select-none pt-1">
-                <h1 className="font-anton uppercase tracking-[-0.02em] flex flex-col">
-                  <span
-                    className="text-[10.5vw] sm:text-[68px] md:text-[80px] lg:text-[88px] xl:text-[94px] leading-[0.88] select-none block"
-                    style={{
-                      backgroundImage: `url('/distress-speckles.png'), radial-gradient(circle, rgba(234,230,223,0.16) 1px, transparent 1px), linear-gradient(180deg, #262624 0%, #171716 100%)`,
-                      backgroundSize: '340px 340px, 4px 4px, 100% 100%',
-                      WebkitBackgroundClip: 'text',
-                      backgroundClip: 'text',
-                      color: 'transparent',
-                      filter: 'url(#ink-edge)',
-                    }}
-                  >
-                    BUILDING THE
-                  </span>
-                  <span
-                    className="text-[10.5vw] sm:text-[68px] md:text-[80px] lg:text-[88px] xl:text-[94px] leading-[0.88] select-none block mt-1"
-                    style={{
-                      backgroundImage: `url('/distress-speckles.png'), radial-gradient(circle, rgba(234,230,223,0.16) 1px, transparent 1px), linear-gradient(180deg, #262624 0%, #171716 100%)`,
-                      backgroundSize: '340px 340px, 4px 4px, 100% 100%',
-                      WebkitBackgroundClip: 'text',
-                      backgroundClip: 'text',
-                      color: 'transparent',
-                      filter: 'url(#ink-edge)',
-                    }}
-                  >
-                    BRIDGE BETWEEN
-                  </span>
-                  <span
-                    className="text-[10.5vw] sm:text-[68px] md:text-[80px] lg:text-[88px] xl:text-[94px] leading-[0.88] select-none inline-flex items-baseline mt-1"
-                  >
+                {/* Giant Stacked Brutalist Headline */}
+                <div className="select-none pt-1">
+                  <h1 className="font-anton uppercase tracking-[-0.02em] flex flex-col">
                     <span
+                      className="text-[10vw] sm:text-[64px] md:text-[76px] lg:text-[80px] xl:text-[92px] 2xl:text-[102px] leading-[0.88] select-none block"
                       style={{
-                        backgroundImage: `url('/distress-speckles.png'), radial-gradient(circle, rgba(234,230,223,0.18) 1px, transparent 1px), linear-gradient(180deg, #EB5310 0%, #D84508 100%)`,
+                        backgroundImage: `url('/distress-speckles.png'), radial-gradient(circle, rgba(234,230,223,0.16) 1px, transparent 1px), linear-gradient(180deg, #262624 0%, #171716 100%)`,
                         backgroundSize: '340px 340px, 4px 4px, 100% 100%',
                         WebkitBackgroundClip: 'text',
                         backgroundClip: 'text',
@@ -876,109 +851,145 @@ export default function Portfolio() {
                         filter: 'url(#ink-edge)',
                       }}
                     >
-                      BITS AND ATOMS.
+                      BUILDING THE
                     </span>
-                    {/* Distinct black square block next to the orange period */}
                     <span
-                      className="inline-block w-4 h-4 sm:w-5 sm:h-5 lg:w-[22px] lg:h-[22px] bg-[#1c1c1a] ml-2 sm:ml-3 mb-1 sm:mb-2 shrink-0"
+                      className="text-[10vw] sm:text-[64px] md:text-[76px] lg:text-[80px] xl:text-[92px] 2xl:text-[102px] leading-[0.88] select-none block mt-1 sm:mt-1.5"
                       style={{
-                        backgroundImage: `url('/distress-speckles.png')`,
-                        backgroundSize: '240px 240px',
+                        backgroundImage: `url('/distress-speckles.png'), radial-gradient(circle, rgba(234,230,223,0.16) 1px, transparent 1px), linear-gradient(180deg, #262624 0%, #171716 100%)`,
+                        backgroundSize: '340px 340px, 4px 4px, 100% 100%',
+                        WebkitBackgroundClip: 'text',
+                        backgroundClip: 'text',
+                        color: 'transparent',
+                        filter: 'url(#ink-edge)',
                       }}
-                    />
-                  </span>
-                </h1>
-              </div>
-
-              {/* ABOUT ME & WORLDWIDE COLLABS ROW */}
-              <div className="mt-8 sm:mt-10 grid grid-cols-1 sm:grid-cols-12 gap-6 items-end">
-                {/* About Me Text */}
-                <div className="sm:col-span-6">
-                  <div className="flex items-center gap-3 mb-3">
-                    <h2 className="font-anton text-xl sm:text-[22px] tracking-wide uppercase text-[#1c1c1a]">
-                      ABOUT ME
-                    </h2>
-                    <span className="w-6 h-[2.5px] bg-[#1c1c1a]" />
-                  </div>
-                  <p className="text-[11.5px] leading-[1.55] text-[#2b2b29] font-mono-tech mb-4 max-w-[260px]">
-                    Translating digital architecture and lines of code (Bits) into physical hardware that impacts the real world (Atoms).
-                  </p>
-                  <p className="text-[11.5px] leading-[1.5] text-[#1c1c1a] font-mono-tech font-medium">
-                    Small by conviction.<br />
-                    Rigorous by execution.
-                  </p>
+                    >
+                      BRIDGE BETWEEN
+                    </span>
+                    <span
+                      className="text-[10vw] sm:text-[64px] md:text-[76px] lg:text-[80px] xl:text-[92px] 2xl:text-[102px] leading-[0.88] select-none inline-flex items-baseline mt-1 sm:mt-1.5"
+                    >
+                      <span
+                        style={{
+                          backgroundImage: `url('/distress-speckles.png'), radial-gradient(circle, rgba(234,230,223,0.18) 1px, transparent 1px), linear-gradient(180deg, #EB5310 0%, #D84508 100%)`,
+                          backgroundSize: '340px 340px, 4px 4px, 100% 100%',
+                          WebkitBackgroundClip: 'text',
+                          backgroundClip: 'text',
+                          color: 'transparent',
+                          filter: 'url(#ink-edge)',
+                        }}
+                      >
+                        BITS AND ATOMS.
+                      </span>
+                      {/* Distinct black square block next to the orange period */}
+                      <span
+                        className="inline-block w-4 h-4 sm:w-5 sm:h-5 lg:w-[22px] lg:h-[22px] bg-[#1c1c1a] ml-2 sm:ml-3 mb-1 sm:mb-2 shrink-0"
+                        style={{
+                          backgroundImage: `url('/distress-speckles.png')`,
+                          backgroundSize: '240px 240px',
+                        }}
+                      />
+                    </span>
+                  </h1>
                 </div>
 
-                {/* Available Worldwide Globe Badge */}
-                <div className="sm:col-span-6 flex flex-col justify-end">
-                  <div className="w-full h-[1px] bg-[#1c1c1a]/60 mb-4" />
-                  <div className="flex items-center gap-3.5">
-                    <WireframeGlobe />
-                    <div className="text-[10px] leading-[1.45] font-mono-tech uppercase tracking-[0.04em] text-[#1c1c1a] font-semibold">
-                      <p>AVAILABLE WORLDWIDE</p>
-                      <p>FOR ENGINEERING</p>
-                      <p>&amp; HARDWARE COLLABS</p>
+                {/* ABOUT ME & WORLDWIDE COLLABS ROW */}
+                <div className="mt-8 sm:mt-10 pt-6 border-t border-[#1c1c1a]/15 grid grid-cols-1 sm:grid-cols-12 gap-6 items-end">
+                  {/* About Me Text */}
+                  <div className="sm:col-span-6">
+                    <div className="flex items-center gap-3 mb-3">
+                      <h2 className="font-anton text-xl sm:text-[22px] tracking-wide uppercase text-[#1c1c1a]">
+                        ABOUT ME
+                      </h2>
+                      <span className="w-6 h-[2.5px] bg-[#1c1c1a]" />
+                    </div>
+                    <p className="text-[11.5px] leading-[1.55] text-[#2b2b29] font-mono-tech mb-4 max-w-[280px]">
+                      Translating digital architecture and lines of code (Bits) into physical hardware that impacts the real world (Atoms).
+                    </p>
+                    <p className="text-[11.5px] leading-[1.5] text-[#1c1c1a] font-mono-tech font-medium">
+                      Small by conviction.<br />
+                      Rigorous by execution.
+                    </p>
+                  </div>
+
+                  {/* Available Worldwide Globe Badge */}
+                  <div className="sm:col-span-6 flex flex-col justify-end">
+                    <div className="flex items-center gap-3.5">
+                      <WireframeGlobe />
+                      <div className="text-[10px] leading-[1.45] font-mono-tech uppercase tracking-[0.04em] text-[#1c1c1a] font-semibold">
+                        <p className="text-[#E84E0F] font-bold">AVAILABLE WORLDWIDE</p>
+                        <p>FOR ENGINEERING</p>
+                        <p>&amp; HARDWARE COLLABS</p>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
+
+              {/* RIGHT COLUMN: PORTRAIT WITH ANCHORED GEOMETRIC ORANGE BACKDROP */}
+              <div className="lg:col-span-5 relative w-full h-[520px] sm:h-[600px] lg:h-[660px] xl:h-[720px] flex items-end justify-center lg:justify-end self-end">
+
+                {/* ANCHORED PORTRAIT WRAPPER: Ensures orange shapes & badge ALWAYS frame Haikal */}
+                <div className="relative h-full w-fit flex items-end justify-center">
+
+                  {/* Crosshair Target Graphic Top Right */}
+                  <div className="absolute top-4 sm:top-8 -right-2 sm:-right-4 z-20 pointer-events-none">
+                    <CrosshairIcon />
+                  </div>
+
+                  {/* Orange Shape 1: Top-Left Shoulder Accent */}
+                  <div
+                    className="w-[190px] sm:w-[230px] lg:w-[260px] h-[110px] sm:h-[130px] lg:h-[145px] absolute top-[30px] sm:top-[40px] -left-10 sm:-left-14 lg:-left-16 z-0 pointer-events-none"
+                    style={{
+                      clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
+                      backgroundColor: '#E84E0F',
+                      backgroundImage: `url('/distress-speckles.png'), linear-gradient(180deg, #eb5310 0%, #dc4708 100%)`,
+                      backgroundSize: '340px 340px, 100% 100%',
+                    }}
+                  />
+
+                  {/* Orange Shape 2: Right Flank Accent */}
+                  <div
+                    className="w-[130px] sm:w-[160px] lg:w-[185px] h-[190px] sm:h-[230px] lg:h-[255px] absolute top-[130px] sm:top-[150px] -right-3 sm:-right-4 z-0 pointer-events-none"
+                    style={{
+                      clipPath: 'polygon(0 0, 75% 0, 100% 25%, 100% 100%, 0 100%)',
+                      backgroundColor: '#E84E0F',
+                      backgroundImage: `url('/distress-speckles.png'), linear-gradient(180deg, #eb5310 0%, #dc4708 100%)`,
+                      backgroundSize: '340px 340px, 100% 100%',
+                    }}
+                  />
+
+                  {/* High-Contrast B&W Editorial Portrait of Haikal */}
+                  <div className="relative z-10 h-full flex items-end select-none pointer-events-none">
+                    <img
+                      src="/ghiffa.png"
+                      alt={fullName}
+                      draggable={false}
+                      className="h-full w-auto max-w-none object-contain object-bottom grayscale contrast-125 brightness-95 select-none drop-shadow-[0_16px_36px_rgba(0,0,0,0.35)]"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1000&q=85';
+                      }}
+                    />
+                  </div>
+
+                  {/* Floating Dark Name Tag Card */}
+                  <div className="absolute bottom-[35px] sm:bottom-[50px] lg:bottom-[70px] -right-1 sm:right-2 z-30 bg-[#181817]/95 border border-[#2e2e2c] px-4 sm:px-5 py-3 sm:py-3.5 shadow-2xl backdrop-blur-xs">
+                    <div className="w-7 h-[2px] bg-[#EAE6DF] mb-2 opacity-80" />
+                    <p className="font-mono-tech text-[#EAE6DF] text-xs sm:text-[13px] tracking-[0.14em] leading-tight uppercase font-medium">
+                      HAIKAL JIBRAN<br />
+                      AL-GHIFFARRY
+                    </p>
+                    <p className="font-mono-tech text-[#E84E0F] text-[10px] tracking-[0.14em] uppercase mt-1.5 font-semibold">
+                      IOT &amp; FULL-STACK ENGINEER
+                    </p>
+                  </div>
+
+                </div>
+
+              </div>
+
             </div>
-
-            {/* RIGHT COLUMN: PORTRAIT WITH GEOMETRIC ORANGE BACKDROP - FULL BLEED TO RIGHT & BOTTOM */}
-            <div className="lg:col-span-5 relative w-full h-[520px] sm:h-[620px] lg:h-[720px] flex items-end justify-center lg:justify-end self-end">
-
-              {/* Crosshair Target Graphic Top Right */}
-              <div className="absolute top-10 sm:top-14 right-4 sm:right-8 z-20">
-                <CrosshairIcon />
-              </div>
-
-              {/* Bold Orange Brutalist Geometric Shapes Behind Subject */}
-              <div
-                className="w-[220px] sm:w-[260px] lg:w-[280px] h-[130px] sm:h-[150px] absolute top-[25px] sm:top-[35px] left-[-20px] sm:left-[0px] lg:left-[20px] z-0"
-                style={{
-                  clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
-                  backgroundColor: '#E84E0F',
-                  backgroundImage: `url('/distress-speckles.png'), linear-gradient(180deg, #eb5310 0%, #dc4708 100%)`,
-                  backgroundSize: '340px 340px, 100% 100%',
-                }}
-              />
-              <div
-                className="w-[150px] sm:w-[180px] lg:w-[200px] h-[220px] sm:h-[260px] absolute top-[140px] sm:top-[160px] right-0 z-0"
-                style={{
-                  clipPath: 'polygon(0 0, 75% 0, 100% 25%, 100% 100%, 0 100%)',
-                  backgroundColor: '#E84E0F',
-                  backgroundImage: `url('/distress-speckles.png'), linear-gradient(180deg, #eb5310 0%, #dc4708 100%)`,
-                  backgroundSize: '340px 340px, 100% 100%',
-                }}
-              />
-
-              {/* High-Contrast B&W Editorial Portrait of Haikal */}
-              <div className="relative z-10 w-full h-full flex items-end justify-center lg:justify-end pointer-events-none select-none">
-                <img
-                  src="/ghiffa.png"
-                  alt={fullName}
-                  draggable={false}
-                  className="h-full w-auto max-w-none object-contain object-bottom lg:object-bottom-right grayscale contrast-125 brightness-95 select-none"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1000&q=85';
-                  }}
-                />
-              </div>
-
-              {/* Floating Dark Name Tag Card */}
-              <div className="absolute bottom-[40px] sm:bottom-[60px] lg:bottom-[80px] right-4 sm:right-8 z-30 bg-[#181817]/95 border border-[#2e2e2c] px-5 py-3.5 shadow-2xl backdrop-blur-xs">
-                <div className="w-8 h-[2px] bg-[#EAE6DF] mb-2 opacity-80" />
-                <p className="font-mono-tech text-[#EAE6DF] text-xs sm:text-[13px] tracking-[0.14em] leading-tight uppercase font-medium">
-                  HAIKAL JIBRAN<br />
-                  AL-GHIFFARRY
-                </p>
-                <p className="font-mono-tech text-[#E84E0F] text-[10px] tracking-[0.14em] uppercase mt-1.5 font-semibold">
-                  IOT &amp; FULL-STACK ENGINEER
-                </p>
-              </div>
-            </div>
-
           </div>
         </section>
 
@@ -1062,119 +1073,122 @@ export default function Portfolio() {
             02. SERVICES / DESIGN MANIFESTO / TECH STACK (3 COLUMNS)
             DIRECTLY UNDER SELECTED WORKS
         ========================================================= */}
-        <section id="services" className="relative z-20 grid grid-cols-1 lg:grid-cols-12 bg-[#EAE6DF] border-b border-[#1c1c1a]/20">
+        <section id="services" className="relative z-20 bg-[#EAE6DF] border-b border-[#1c1c1a]/20">
+          <div className="max-w-[1536px] mx-auto grid grid-cols-1 lg:grid-cols-12 border-x border-[#1c1c1a]/15">
 
-          {/* COLUMN 1: SERVICES ACCORDION LIST */}
-          <div className="lg:col-span-4 p-6 sm:p-10 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-[#1c1c1a]/20">
-            <div>
-              <div className="flex items-center gap-3.5 mb-6">
-                <h2 className="font-anton text-2xl sm:text-[28px] tracking-wide uppercase text-[#1c1c1a]">
-                  SERVICES
-                </h2>
-                <span className="w-6 h-[2.5px] bg-[#1c1c1a]" />
-              </div>
+            {/* COLUMN 1: SERVICES ACCORDION LIST */}
+            <div className="lg:col-span-4 p-6 sm:p-10 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-[#1c1c1a]/20">
+              <div>
+                <div className="flex items-center gap-3.5 mb-6">
+                  <h2 className="font-anton text-2xl sm:text-[28px] tracking-wide uppercase text-[#1c1c1a]">
+                    SERVICES
+                  </h2>
+                  <span className="w-6 h-[2.5px] bg-[#1c1c1a]" />
+                </div>
 
-              <div className="divide-y divide-[#1c1c1a]/30 border-b border-[#1c1c1a]/30">
-                {servicesData.map((item) => {
-                  const isOpen = expandedService === item.id;
-                  return (
-                    <div key={item.id} className="py-2.5">
-                      <button
-                        onClick={() => toggleService(item.id)}
-                        className="w-full flex items-center justify-between text-left group focus:outline-none cursor-pointer"
-                      >
-                        <div className="flex items-center gap-3.5">
-                          <span className="font-mono-tech text-xs font-extrabold text-[#1c1c1a]">
-                            {item.id}
+                <div className="divide-y divide-[#1c1c1a]/30 border-b border-[#1c1c1a]/30">
+                  {servicesData.map((item) => {
+                    const isOpen = expandedService === item.id;
+                    return (
+                      <div key={item.id} className="py-2.5">
+                        <button
+                          onClick={() => toggleService(item.id)}
+                          className="w-full flex items-center justify-between text-left group focus:outline-none cursor-pointer"
+                        >
+                          <div className="flex items-center gap-3.5">
+                            <span className="font-mono-tech text-xs font-extrabold text-[#1c1c1a]">
+                              {item.id}
+                            </span>
+                            <span className="font-mono-tech text-[11px] sm:text-xs font-medium tracking-wider text-[#1c1c1a] group-hover:text-[#E84E0F] transition-colors">
+                              {item.title}
+                            </span>
+                          </div>
+                          <span className="text-[#1c1c1a] group-hover:text-[#E84E0F] transition-colors">
+                            {isOpen ? <Minus className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
                           </span>
-                          <span className="font-mono-tech text-[11px] sm:text-xs font-medium tracking-wider text-[#1c1c1a] group-hover:text-[#E84E0F] transition-colors">
-                            {item.title}
-                          </span>
-                        </div>
-                        <span className="text-[#1c1c1a] group-hover:text-[#E84E0F] transition-colors">
-                          {isOpen ? <Minus className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
-                        </span>
-                      </button>
-                      {isOpen && (
-                        <p className="mt-2 pl-7 text-[11px] leading-relaxed text-[#4a4946] font-mono-tech">
-                          {item.desc}
-                        </p>
-                      )}
-                    </div>
-                  );
-                })}
+                        </button>
+                        {isOpen && (
+                          <p className="mt-2 pl-7 text-[11px] leading-relaxed text-[#4a4946] font-mono-tech">
+                            {item.desc}
+                          </p>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* COLUMN 2: DESIGN MANIFESTO (ORANGE BLOCK) */}
-          <div className="lg:col-span-4 bg-[#E84E0F] text-[#181816] p-6 sm:p-10 relative flex flex-col justify-between overflow-hidden border-b lg:border-b-0 lg:border-r border-[#1c1c1a]/20">
-            <div>
-              <div className="flex items-end gap-3 mb-5">
-                <h2 className="font-anton text-xl sm:text-[23px] leading-[1.08] tracking-wide uppercase text-[#181816]">
-                  ENGINEERING<br />
-                  MANIFESTO
-                </h2>
-                <span className="w-5 h-[2px] bg-[#181816] mb-1.5" />
+            {/* COLUMN 2: DESIGN MANIFESTO (ORANGE BLOCK) */}
+            <div className="lg:col-span-4 bg-[#E84E0F] text-[#181816] p-6 sm:p-10 relative flex flex-col justify-between overflow-hidden border-b lg:border-b-0 lg:border-r border-[#1c1c1a]/20">
+              <div>
+                <div className="flex items-end gap-3 mb-5">
+                  <h2 className="font-anton text-xl sm:text-[23px] leading-[1.08] tracking-wide uppercase text-[#181816]">
+                    ENGINEERING<br />
+                    MANIFESTO
+                  </h2>
+                  <span className="w-5 h-[2px] bg-[#181816] mb-1.5" />
+                </div>
+
+                <div className="font-mono-tech text-[11px] leading-[1.55] tracking-[0.02em] uppercase space-y-4 font-medium text-[#181816]">
+                  <p>
+                    GOOD TECHNOLOGY ISN&apos;T JUST<br />
+                    ABOUT HOW IT LOOKS.<br />
+                    IT&apos;S ABOUT HOW IT PERFORMS,<br />
+                    HOW RELIABLE IT RUNS, AND<br />
+                    WHAT PROBLEM IT SOLVES.
+                  </p>
+                  <p>
+                    FROM BITS TO ATOMS.<br />
+                    I ARCHITECT WITH PURPOSE.<br />
+                    I BUILD WITH PRECISION.<br />
+                    I DELIVER WITH PRIDE.
+                  </p>
+                </div>
               </div>
 
-              <div className="font-mono-tech text-[11px] leading-[1.55] tracking-[0.02em] uppercase space-y-4 font-medium text-[#181816]">
-                <p>
-                  GOOD TECHNOLOGY ISN&apos;T JUST<br />
-                  ABOUT HOW IT LOOKS.<br />
-                  IT&apos;S ABOUT HOW IT PERFORMS,<br />
-                  HOW RELIABLE IT RUNS, AND<br />
-                  WHAT PROBLEM IT SOLVES.
+              <div className="mt-8 pt-2">
+                <p className="font-mono-tech text-[10.5px] leading-[1.4] uppercase italic font-semibold text-[#181816]">
+                  NO TRENDS.<br />
+                  ONLY WORKING SYSTEMS.
                 </p>
-                <p>
-                  FROM BITS TO ATOMS.<br />
-                  I ARCHITECT WITH PURPOSE.<br />
-                  I BUILD WITH PRECISION.<br />
-                  I DELIVER WITH PRIDE.
-                </p>
+              </div>
+
+              {/* Signature Black Cutout Triangle in Bottom Right */}
+              <div
+                className="w-20 h-11 bg-[#181816] absolute bottom-2.5 right-3"
+                style={{
+                  clipPath: 'polygon(100% 0, 0 100%, 100% 100%)'
+                }}
+              />
+            </div>
+
+            {/* COLUMN 3: TECH STACK */}
+            <div className="lg:col-span-4 p-6 sm:p-10 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-3.5 mb-6">
+                  <h2 className="font-anton text-2xl sm:text-[26px] tracking-wide uppercase text-[#1c1c1a]">
+                    TECH STACK
+                  </h2>
+                  <span className="w-5 h-[2.5px] bg-[#1c1c1a]" />
+                </div>
+
+                <ul className="space-y-2.5">
+                  {techStack.map((tech) => (
+                    <li
+                      key={tech}
+                      className="flex items-center justify-between font-mono-tech text-[11.5px] tracking-wider font-medium text-[#1c1c1a] group cursor-default"
+                    >
+                      <span className="group-hover:translate-x-1 transition-transform group-hover:text-[#E84E0F]">
+                        {tech}
+                      </span>
+                      <span className="w-1.5 h-1.5 bg-[#1c1c1a] group-hover:bg-[#E84E0F] transition-colors" />
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
 
-            <div className="mt-8 pt-2">
-              <p className="font-mono-tech text-[10.5px] leading-[1.4] uppercase italic font-semibold text-[#181816]">
-                NO TRENDS.<br />
-                ONLY WORKING SYSTEMS.
-              </p>
-            </div>
-
-            {/* Signature Black Cutout Triangle in Bottom Right */}
-            <div
-              className="w-20 h-11 bg-[#181816] absolute bottom-2.5 right-3"
-              style={{
-                clipPath: 'polygon(100% 0, 0 100%, 100% 100%)'
-              }}
-            />
-          </div>
-
-          {/* COLUMN 3: TECH STACK */}
-          <div className="lg:col-span-4 p-6 sm:p-10 flex flex-col justify-between">
-            <div>
-              <div className="flex items-center gap-3.5 mb-6">
-                <h2 className="font-anton text-2xl sm:text-[26px] tracking-wide uppercase text-[#1c1c1a]">
-                  TECH STACK
-                </h2>
-                <span className="w-5 h-[2.5px] bg-[#1c1c1a]" />
-              </div>
-
-              <ul className="space-y-2.5">
-                {techStack.map((tech) => (
-                  <li
-                    key={tech}
-                    className="flex items-center justify-between font-mono-tech text-[11.5px] tracking-wider font-medium text-[#1c1c1a] group cursor-default"
-                  >
-                    <span className="group-hover:translate-x-1 transition-transform group-hover:text-[#E84E0F]">
-                      {tech}
-                    </span>
-                    <span className="w-1.5 h-1.5 bg-[#1c1c1a] group-hover:bg-[#E84E0F] transition-colors" />
-                  </li>
-                ))}
-              </ul>
-            </div>
           </div>
         </section>
 
@@ -1249,66 +1263,68 @@ export default function Portfolio() {
         {/* =========================================================
             04. PROFESSIONAL JOURNEY (EDITORIAL LEDGER - NON-CAROUSEL)
         ========================================================= */}
-        <section id="journey" className="relative z-20 bg-[#EAE6DF] text-[#181816] border-t border-b border-[#1c1c1a]/20 p-6 sm:p-10 lg:p-12">
-          {/* Header Bar */}
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-[#1c1c1a]/20 mb-8">
-            <div>
-              <div className="flex items-center gap-2.5 mb-2">
-                <span className="w-2.5 h-2.5 bg-[#E84E0F]" />
-                <span className="font-mono-tech text-[10.5px] font-bold tracking-widest text-[#E84E0F] uppercase">
-                  [ 04 // CAREER TRAJECTORY & INDUSTRY DISPATCHES ]
-                </span>
+        <section id="journey" className="relative z-20 bg-[#EAE6DF] text-[#181816] border-t border-b border-[#1c1c1a]/20">
+          <div className="max-w-[1536px] mx-auto p-6 sm:p-10 lg:p-12 border-x border-[#1c1c1a]/15">
+            {/* Header Bar */}
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-[#1c1c1a]/20 mb-8">
+              <div>
+                <div className="flex items-center gap-2.5 mb-2">
+                  <span className="w-2.5 h-2.5 bg-[#E84E0F]" />
+                  <span className="font-mono-tech text-[10.5px] font-bold tracking-widest text-[#E84E0F] uppercase">
+                    [ 04 // CAREER TRAJECTORY & INDUSTRY DISPATCHES ]
+                  </span>
+                </div>
+                <h2 className="font-anton text-2xl sm:text-4xl uppercase tracking-wide text-[#181816]">
+                  PROFESSIONAL JOURNEY
+                </h2>
               </div>
-              <h2 className="font-anton text-2xl sm:text-4xl uppercase tracking-wide text-[#181816]">
-                PROFESSIONAL JOURNEY
-              </h2>
+              <div className="font-mono-tech text-[10.5px] tracking-widest uppercase text-[#5e5c56] font-semibold">
+                {allExperiences.length} COMMISSIONS · INDUSTRIAL ATTESTATION
+              </div>
             </div>
-            <div className="font-mono-tech text-[10.5px] tracking-widest uppercase text-[#5e5c56] font-semibold">
-              {allExperiences.length} COMMISSIONS · INDUSTRIAL ATTESTATION
-            </div>
-          </div>
 
-          {/* Brutalist Editorial Ledger List */}
-          <div className="divide-y divide-[#1c1c1a]/20 border-b border-[#1c1c1a]/20">
-            {allExperiences.map((exp, eIdx) => (
-              <div
-                key={exp.id || eIdx}
-                onClick={() => setSelectedExperienceModal(exp)}
-                className="py-5 sm:py-6 group cursor-pointer transition-colors hover:bg-black/[0.02]"
-              >
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6 items-start md:items-center">
-                  {/* Index & Period Badge */}
-                  <div className="md:col-span-3 flex items-center gap-3">
-                    <span className="text-[#E84E0F] font-mono-tech text-sm sm:text-base font-bold tracking-wider">
-                      {String(eIdx + 1).padStart(2, '0')}/
-                    </span>
-                    <span className="font-mono-tech text-[10px] tracking-wider uppercase px-2 py-0.5 bg-[#181816] text-[#EAE6DF] font-bold">
-                      {exp.period}
-                    </span>
-                  </div>
+            {/* Brutalist Editorial Ledger List */}
+            <div className="divide-y divide-[#1c1c1a]/20 border-b border-[#1c1c1a]/20">
+              {allExperiences.map((exp, eIdx) => (
+                <div
+                  key={exp.id || eIdx}
+                  onClick={() => setSelectedExperienceModal(exp)}
+                  className="py-5 sm:py-6 group cursor-pointer transition-colors hover:bg-black/[0.02]"
+                >
+                  <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6 items-start md:items-center">
+                    {/* Index & Period Badge */}
+                    <div className="md:col-span-3 flex items-center gap-3">
+                      <span className="text-[#E84E0F] font-mono-tech text-sm sm:text-base font-bold tracking-wider">
+                        {String(eIdx + 1).padStart(2, '0')}/
+                      </span>
+                      <span className="font-mono-tech text-[10px] tracking-wider uppercase px-2 py-0.5 bg-[#181816] text-[#EAE6DF] font-bold">
+                        {exp.period}
+                      </span>
+                    </div>
 
-                  {/* Company & Role */}
-                  <div className="md:col-span-5">
-                    <h3 className="font-anton text-xl sm:text-2xl uppercase tracking-wider text-[#181816] group-hover:text-[#E84E0F] transition-colors leading-tight">
-                      {exp.company}
-                    </h3>
-                    <p className="font-mono-tech text-[11px] font-bold tracking-widest uppercase text-[#E84E0F] mt-0.5">
-                      {exp.role}
-                    </p>
-                  </div>
+                    {/* Company & Role */}
+                    <div className="md:col-span-5">
+                      <h3 className="font-anton text-xl sm:text-2xl uppercase tracking-wider text-[#181816] group-hover:text-[#E84E0F] transition-colors leading-tight">
+                        {exp.company}
+                      </h3>
+                      <p className="font-mono-tech text-[11px] font-bold tracking-widest uppercase text-[#E84E0F] mt-0.5">
+                        {exp.role}
+                      </p>
+                    </div>
 
-                  {/* Description Excerpt & Action Link */}
-                  <div className="md:col-span-4 flex items-center justify-between gap-4">
-                    <p className="font-mono-tech text-[10.5px] leading-relaxed text-[#4a4946] uppercase line-clamp-2">
-                      {exp.description}
-                    </p>
-                    <div className="w-8 h-8 shrink-0 bg-[#181816] text-[#EAE6DF] group-hover:bg-[#E84E0F] group-hover:text-[#181816] flex items-center justify-center transition-all group-hover:translate-x-0.5">
-                      <CornerDownRight className="w-4 h-4 stroke-[2.5]" />
+                    {/* Description Excerpt & Action Link */}
+                    <div className="md:col-span-4 flex items-center justify-between gap-4">
+                      <p className="font-mono-tech text-[10.5px] leading-relaxed text-[#4a4946] uppercase line-clamp-2">
+                        {exp.description}
+                      </p>
+                      <div className="w-8 h-8 shrink-0 bg-[#181816] text-[#EAE6DF] group-hover:bg-[#E84E0F] group-hover:text-[#181816] flex items-center justify-center transition-all group-hover:translate-x-0.5">
+                        <CornerDownRight className="w-4 h-4 stroke-[2.5]" />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </section>
 
@@ -1436,141 +1452,145 @@ export default function Portfolio() {
         {/* =========================================================
             06. EDUCATION & HONORS / AWARDS (DUAL EDITORIAL LEDGER)
         ========================================================= */}
-        <section id="education" className="relative z-20 bg-[#EAE6DF] text-[#181816] border-t border-b border-[#1c1c1a]/20 p-6 sm:p-10 lg:p-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12">
+        <section id="education" className="relative z-20 bg-[#EAE6DF] text-[#181816] border-t border-b border-[#1c1c1a]/20">
+          <div className="max-w-[1536px] mx-auto p-6 sm:p-10 lg:p-12 border-x border-[#1c1c1a]/15">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12">
 
-            {/* LEFT COLUMN: FORMAL ACADEMICS */}
-            <div className="lg:col-span-6 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center gap-2.5 mb-2">
-                  <span className="w-2.5 h-2.5 bg-[#E84E0F]" />
-                  <span className="font-mono-tech text-[10.5px] font-bold tracking-widest text-[#E84E0F] uppercase">
-                    [ 06A // ACADEMIC PEDIGREE ]
-                  </span>
-                </div>
-                <h2 className="font-anton text-2xl sm:text-3xl uppercase tracking-wide text-[#181816] mb-6">
-                  FORMAL EDUCATION
-                </h2>
+              {/* LEFT COLUMN: FORMAL ACADEMICS */}
+              <div className="lg:col-span-6 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center gap-2.5 mb-2">
+                    <span className="w-2.5 h-2.5 bg-[#E84E0F]" />
+                    <span className="font-mono-tech text-[10.5px] font-bold tracking-widest text-[#E84E0F] uppercase">
+                      [ 06A // ACADEMIC PEDIGREE ]
+                    </span>
+                  </div>
+                  <h2 className="font-anton text-2xl sm:text-3xl uppercase tracking-wide text-[#181816] mb-6">
+                    FORMAL EDUCATION
+                  </h2>
 
-                <div className="space-y-6">
-                  {allEducation.map((edu, edIdx) => (
-                    <div
-                      key={edu.id || edIdx}
-                      className="p-5 bg-white/70 border border-[#1c1c1a]/20 hover:border-[#E84E0F] transition-colors relative group"
-                    >
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-[#E84E0F] font-mono-tech text-xs font-bold tracking-wider">
-                          {String(edIdx + 1).padStart(2, '0')}/
-                        </span>
-                        <span className="font-mono-tech text-[9.5px] tracking-wider uppercase px-2 py-0.5 bg-[#181816] text-[#EAE6DF] font-bold">
-                          {edu.period}
-                        </span>
-                      </div>
-                      <h3 className="font-anton text-xl uppercase tracking-wider text-[#181816] group-hover:text-[#E84E0F] transition-colors">
-                        {edu.title}
-                      </h3>
-                      <p className="font-mono-tech text-xs font-bold tracking-wide text-[#4a4946] uppercase mt-1">
-                        {edu.institution}
-                      </p>
-                      <div className="mt-3 pt-3 border-t border-[#1c1c1a]/10 flex items-center justify-between">
-                        <span className="font-mono-tech text-[10.5px] uppercase tracking-wider text-[#E84E0F] font-semibold">
-                          {edu.degree}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* RIGHT COLUMN: HONORS & AWARDS */}
-            <div id="honors" className="lg:col-span-6 flex flex-col justify-between border-t lg:border-t-0 lg:border-l border-[#1c1c1a]/20 pt-8 lg:pt-0 lg:pl-10">
-              <div>
-                <div className="flex items-center gap-2.5 mb-2">
-                  <span className="w-2.5 h-2.5 bg-[#E84E0F]" />
-                  <span className="font-mono-tech text-[10.5px] font-bold tracking-widest text-[#E84E0F] uppercase">
-                    [ 06B // MERIT CITATIONS ]
-                  </span>
-                </div>
-                <h2 className="font-anton text-2xl sm:text-3xl uppercase tracking-wide text-[#181816] mb-6">
-                  HONORS & AWARDS
-                </h2>
-
-                <div className="space-y-4">
-                  {allHonors.map((honor, hIdx) => (
-                    <div
-                      key={honor.id || hIdx}
-                      onClick={() => {
-                        if (honor.certificate_url) setSelectedCert(honor);
-                      }}
-                      className={`p-4 sm:p-5 bg-white/70 border border-[#1c1c1a]/20 transition-all relative group ${honor.certificate_url ? 'cursor-pointer hover:border-[#E84E0F]' : ''}`}
-                    >
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-[#E84E0F] font-mono-tech text-xs font-bold tracking-wider">
-                          {String(hIdx + 1).padStart(2, '0')}/
-                        </span>
-                        <span className="font-mono-tech text-[9.5px] tracking-wider uppercase px-2 py-0.5 bg-[#E84E0F] text-[#181816] font-bold">
-                          {honor.badge || 'AWARD'}
-                        </span>
-                      </div>
-                      <h3 className="font-anton text-lg sm:text-xl uppercase tracking-wider text-[#181816] group-hover:text-[#E84E0F] transition-colors">
-                        {honor.title}
-                      </h3>
-                      <p className="font-mono-tech text-[11px] uppercase tracking-wide text-[#55534e] mt-1">
-                        {honor.institution} · {honor.period}
-                      </p>
-                      {honor.certificate_url && (
-                        <div className="mt-2.5 flex items-center gap-1.5 font-mono-tech text-[10px] text-[#E84E0F] font-bold uppercase">
-                          <span>VIEW CERTIFICATE ATTESTATION</span>
-                          <CornerDownRight className="w-3.5 h-3.5 stroke-[2.5]" />
+                  <div className="space-y-6">
+                    {allEducation.map((edu, edIdx) => (
+                      <div
+                        key={edu.id || edIdx}
+                        className="p-5 bg-white/70 border border-[#1c1c1a]/20 hover:border-[#E84E0F] transition-colors relative group"
+                      >
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-[#E84E0F] font-mono-tech text-xs font-bold tracking-wider">
+                            {String(edIdx + 1).padStart(2, '0')}/
+                          </span>
+                          <span className="font-mono-tech text-[9.5px] tracking-wider uppercase px-2 py-0.5 bg-[#181816] text-[#EAE6DF] font-bold">
+                            {edu.period}
+                          </span>
                         </div>
-                      )}
-                    </div>
-                  ))}
+                        <h3 className="font-anton text-xl uppercase tracking-wider text-[#181816] group-hover:text-[#E84E0F] transition-colors">
+                          {edu.title}
+                        </h3>
+                        <p className="font-mono-tech text-xs font-bold tracking-wide text-[#4a4946] uppercase mt-1">
+                          {edu.institution}
+                        </p>
+                        <div className="mt-3 pt-3 border-t border-[#1c1c1a]/10 flex items-center justify-between">
+                          <span className="font-mono-tech text-[10.5px] uppercase tracking-wider text-[#E84E0F] font-semibold">
+                            {edu.degree}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
 
+              {/* RIGHT COLUMN: HONORS & AWARDS */}
+              <div id="honors" className="lg:col-span-6 flex flex-col justify-between border-t lg:border-t-0 lg:border-l border-[#1c1c1a]/20 pt-8 lg:pt-0 lg:pl-10">
+                <div>
+                  <div className="flex items-center gap-2.5 mb-2">
+                    <span className="w-2.5 h-2.5 bg-[#E84E0F]" />
+                    <span className="font-mono-tech text-[10.5px] font-bold tracking-widest text-[#E84E0F] uppercase">
+                      [ 06B // MERIT CITATIONS ]
+                    </span>
+                  </div>
+                  <h2 className="font-anton text-2xl sm:text-3xl uppercase tracking-wide text-[#181816] mb-6">
+                    HONORS & AWARDS
+                  </h2>
+
+                  <div className="space-y-4">
+                    {allHonors.map((honor, hIdx) => (
+                      <div
+                        key={honor.id || hIdx}
+                        onClick={() => {
+                          if (honor.certificate_url) setSelectedCert(honor);
+                        }}
+                        className={`p-4 sm:p-5 bg-white/70 border border-[#1c1c1a]/20 transition-all relative group ${honor.certificate_url ? 'cursor-pointer hover:border-[#E84E0F]' : ''}`}
+                      >
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-[#E84E0F] font-mono-tech text-xs font-bold tracking-wider">
+                            {String(hIdx + 1).padStart(2, '0')}/
+                          </span>
+                          <span className="font-mono-tech text-[9.5px] tracking-wider uppercase px-2 py-0.5 bg-[#E84E0F] text-[#181816] font-bold">
+                            {honor.badge || 'AWARD'}
+                          </span>
+                        </div>
+                        <h3 className="font-anton text-lg sm:text-xl uppercase tracking-wider text-[#181816] group-hover:text-[#E84E0F] transition-colors">
+                          {honor.title}
+                        </h3>
+                        <p className="font-mono-tech text-[11px] uppercase tracking-wide text-[#55534e] mt-1">
+                          {honor.institution} · {honor.period}
+                        </p>
+                        {honor.certificate_url && (
+                          <div className="mt-2.5 flex items-center gap-1.5 font-mono-tech text-[10px] text-[#E84E0F] font-bold uppercase">
+                            <span>VIEW CERTIFICATE ATTESTATION</span>
+                            <CornerDownRight className="w-3.5 h-3.5 stroke-[2.5]" />
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+            </div>
           </div>
         </section>
 
         {/* =========================================================
             6. SPECIAL FEATURE: SKILLSTREAK.ID CTA BANNER
         ========================================================= */}
-        <section className="relative z-20 bg-[#EAE6DF] text-[#181816] border-t border-b border-[#1c1c1a]/20 p-6 sm:p-10 lg:p-12">
-          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
-            <div className="max-w-2xl">
-              <div className="flex items-center gap-3 mb-3">
-                <span className="w-2.5 h-2.5 bg-[#E84E0F]" />
-                <span className="font-mono-tech text-[11px] font-bold tracking-widest text-[#E84E0F] uppercase">
-                  [ CODING EDUCATION PLATFORM · FOUNDED BY GHIFFA ]
-                </span>
+        <section className="relative z-20 bg-[#EAE6DF] text-[#181816] border-t border-b border-[#1c1c1a]/20">
+          <div className="max-w-[1536px] mx-auto p-6 sm:p-10 lg:p-12 border-x border-[#1c1c1a]/15">
+            <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+              <div className="max-w-2xl">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="w-2.5 h-2.5 bg-[#E84E0F]" />
+                  <span className="font-mono-tech text-[11px] font-bold tracking-widest text-[#E84E0F] uppercase">
+                    [ CODING EDUCATION PLATFORM · FOUNDED BY GHIFFA ]
+                  </span>
+                </div>
+                <h2 className="font-anton text-3xl sm:text-5xl lg:text-6xl uppercase tracking-tight text-[#181816] leading-[0.92] mb-3">
+                  SKILLSTREAK.ID
+                </h2>
+                <p className="font-mono-tech text-xs sm:text-[13px] leading-relaxed text-[#3a3935] uppercase font-medium max-w-xl">
+                  The fastest path from zero to deployable software engineer. Built with gamified streaks, live code evaluators, and production-grade curriculum.
+                </p>
+                <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-4 font-mono-tech text-[10px] uppercase text-[#6e6c64] font-semibold">
+                  <span>⚡ XP REWARD SYSTEM</span>
+                  <span className="hidden sm:inline">•</span>
+                  <span>🔥 DAILY STREAK ENGINE</span>
+                  <span className="hidden sm:inline">•</span>
+                  <span>💻 LIVE CODE EVALUATOR</span>
+                </div>
               </div>
-              <h2 className="font-anton text-3xl sm:text-5xl lg:text-6xl uppercase tracking-tight text-[#181816] leading-[0.92] mb-3">
-                SKILLSTREAK.ID
-              </h2>
-              <p className="font-mono-tech text-xs sm:text-[13px] leading-relaxed text-[#3a3935] uppercase font-medium max-w-xl">
-                The fastest path from zero to deployable software engineer. Built with gamified streaks, live code evaluators, and production-grade curriculum.
-              </p>
-              <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-4 font-mono-tech text-[10px] uppercase text-[#6e6c64] font-semibold">
-                <span>⚡ XP REWARD SYSTEM</span>
-                <span className="hidden sm:inline">•</span>
-                <span>🔥 DAILY STREAK ENGINE</span>
-                <span className="hidden sm:inline">•</span>
-                <span>💻 LIVE CODE EVALUATOR</span>
-              </div>
-            </div>
 
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full lg:w-auto shrink-0">
-              <a
-                href="https://skillstreak.web.id"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-3 bg-[#181816] text-[#EAE6DF] hover:bg-[#E84E0F] hover:text-[#181816] px-7 py-4 font-mono-tech text-xs font-bold uppercase tracking-wider transition-colors group cursor-pointer border border-[#181816]"
-              >
-                <span>EXPLORE SKILLSTREAK.ID</span>
-                <CornerDownRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-transform stroke-[2.5]" />
-              </a>
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full lg:w-auto shrink-0">
+                <a
+                  href="https://skillstreak.web.id"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-3 bg-[#181816] text-[#EAE6DF] hover:bg-[#E84E0F] hover:text-[#181816] px-7 py-4 font-mono-tech text-xs font-bold uppercase tracking-wider transition-colors group cursor-pointer border border-[#181816]"
+                >
+                  <span>EXPLORE SKILLSTREAK.ID</span>
+                  <CornerDownRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-transform stroke-[2.5]" />
+                </a>
+              </div>
             </div>
           </div>
         </section>
@@ -1693,112 +1713,114 @@ export default function Portfolio() {
             7. FOOTER (CLEAN BRUTALIST CTA: COMMUNICATION MATTERS TO START GOOD THINGS/)
         ========================================================= */}
         <footer id="contact" className="relative z-20 bg-[#141413] text-[#EAE6DF] px-6 sm:px-10 lg:px-12 py-12 sm:py-16 border-t border-[#2b2b28]">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <div className="max-w-[1536px] mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
 
-            {/* LEFT: MONUMENTAL BRUTALIST CTA (COMMUNICATION MATTERS TO START GOOD THINGS/) */}
-            <div className="lg:col-span-6 flex flex-col justify-center">
-              {/* Available For Work Status Badge */}
-              <div className="inline-flex items-center gap-2.5 px-3 py-1.5 bg-[#1c1c1a] border border-[#2e2e2a] w-fit mb-5">
-                <span className="w-2 h-2 rounded-full bg-[#10b981] animate-pulse" />
-                <span className="font-mono-tech text-[10.5px] uppercase font-bold tracking-[0.2em] text-[#EAE6DF]">
-                  AVAILABLE FOR WORK
-                </span>
+              {/* LEFT: MONUMENTAL BRUTALIST CTA (COMMUNICATION MATTERS TO START GOOD THINGS/) */}
+              <div className="lg:col-span-6 flex flex-col justify-center">
+                {/* Available For Work Status Badge */}
+                <div className="inline-flex items-center gap-2.5 px-3 py-1.5 bg-[#1c1c1a] border border-[#2e2e2a] w-fit mb-5">
+                  <span className="w-2 h-2 rounded-full bg-[#10b981] animate-pulse" />
+                  <span className="font-mono-tech text-[10.5px] uppercase font-bold tracking-[0.2em] text-[#EAE6DF]">
+                    AVAILABLE FOR WORK
+                  </span>
+                </div>
+
+                {/* Monumental Headline */}
+                <h2 className="font-anton text-4xl sm:text-6xl lg:text-[68px] leading-[0.88] tracking-tight uppercase text-[#EAE6DF] mb-4">
+                  COMMUNICATION<br />
+                  MATTERS<br />
+                  TO START GOOD<br />
+                  <span className="text-[#E84E0F]">THINGS/</span>
+                </h2>
+
+                {/* Chalk/Brush White Underline Stroke */}
+                <svg className="w-52 h-3.5 my-2 opacity-85" viewBox="0 0 200 12" fill="none">
+                  <path
+                    d="M2 7.5C45 3.5 135 2.5 198 6.5"
+                    stroke="#EAE6DF"
+                    strokeWidth="3.5"
+                    strokeLinecap="round"
+                  />
+                </svg>
+
+                <p className="font-mono-tech text-xs leading-relaxed tracking-wider text-[#b8b5ad] uppercase max-w-md mt-2 mb-6">
+                  Whether you have an embedded IoT hardware challenge, a high-performance web architecture, or a creative commission — let&apos;s build something extraordinary together.
+                </p>
+
+                {/* Clean Brutalist CTA Button */}
+                <div className="flex flex-wrap items-center gap-4">
+                  <a
+                    href={`mailto:${emailAddress}`}
+                    className="inline-flex items-center justify-center gap-3 bg-[#E84E0F] text-[#181816] hover:bg-[#EAE6DF] hover:text-[#181816] px-8 py-4 font-mono-tech text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-200 border-2 border-[#E84E0F] hover:border-[#EAE6DF] shadow-[4px_4px_0_#000] active:translate-x-0.5 active:translate-y-0.5"
+                  >
+                    <span>LET&apos;S CONNECT WITH ME</span>
+                    <ArrowUpRight className="w-4 h-4 stroke-[3]" />
+                  </a>
+                </div>
               </div>
 
-              {/* Monumental Headline */}
-              <h2 className="font-anton text-4xl sm:text-6xl lg:text-[68px] leading-[0.88] tracking-tight uppercase text-[#EAE6DF] mb-4">
-                COMMUNICATION<br />
-                MATTERS<br />
-                TO START GOOD<br />
-                <span className="text-[#E84E0F]">THINGS/</span>
-              </h2>
+              {/* CENTER: DIRECT CONTACT DETAILS */}
+              <div className="lg:col-span-3 flex flex-col justify-center">
+                <h3 className="font-anton text-base tracking-wider uppercase text-[#EAE6DF] pb-2 mb-3 border-b border-[#EAE6DF]/20">
+                  DIRECT CONTACT
+                </h3>
 
-              {/* Chalk/Brush White Underline Stroke */}
-              <svg className="w-52 h-3.5 my-2 opacity-85" viewBox="0 0 200 12" fill="none">
-                <path
-                  d="M2 7.5C45 3.5 135 2.5 198 6.5"
-                  stroke="#EAE6DF"
-                  strokeWidth="3.5"
-                  strokeLinecap="round"
-                />
-              </svg>
-
-              <p className="font-mono-tech text-xs leading-relaxed tracking-wider text-[#b8b5ad] uppercase max-w-md mt-2 mb-6">
-                Whether you have an embedded IoT hardware challenge, a high-performance web architecture, or a creative commission — let&apos;s build something extraordinary together.
-              </p>
-
-              {/* Clean Brutalist CTA Button */}
-              <div className="flex flex-wrap items-center gap-4">
-                <a
-                  href={`mailto:${emailAddress}`}
-                  className="inline-flex items-center justify-center gap-3 bg-[#E84E0F] text-[#181816] hover:bg-[#EAE6DF] hover:text-[#181816] px-8 py-4 font-mono-tech text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-200 border-2 border-[#E84E0F] hover:border-[#EAE6DF] shadow-[4px_4px_0_#000] active:translate-x-0.5 active:translate-y-0.5"
-                >
-                  <span>LET&apos;S CONNECT WITH ME</span>
-                  <ArrowUpRight className="w-4 h-4 stroke-[3]" />
-                </a>
+                <ul className="space-y-2.5 font-mono-tech text-[10.5px] tracking-[0.06em] text-[#d6d3cb]">
+                  <li>
+                    <a href={`mailto:${emailAddress}`} className="flex items-center gap-3 hover:text-[#E84E0F] transition-colors">
+                      <span className="w-5 h-5 rounded-full border border-[#EAE6DF]/40 flex items-center justify-center shrink-0">
+                        <Mail className="w-2.5 h-2.5" />
+                      </span>
+                      <span className="uppercase">{emailAddress}</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href={`tel:${phone}`} className="flex items-center gap-3 hover:text-[#E84E0F] transition-colors">
+                      <span className="w-5 h-5 rounded-full border border-[#EAE6DF]/40 flex items-center justify-center shrink-0">
+                        <Phone className="w-2.5 h-2.5" />
+                      </span>
+                      <span>{phone}</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://instagram.com/haikaljibraan" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-[#E84E0F] transition-colors">
+                      <span className="w-5 h-5 rounded-full border border-[#EAE6DF]/40 flex items-center justify-center shrink-0">
+                        <InstagramIcon />
+                      </span>
+                      <span>INSTAGRAM.COM/HAIKALJIBRAAN</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/ghiffa08" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-[#E84E0F] transition-colors">
+                      <span className="w-5 h-5 rounded-full border border-[#EAE6DF]/40 flex items-center justify-center shrink-0">
+                        <GithubIcon />
+                      </span>
+                      <span>GITHUB.COM/GHIFFA08</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://linkedin.com/in/haikaljibraan" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-[#E84E0F] transition-colors">
+                      <span className="w-5 h-5 rounded-full border border-[#EAE6DF]/40 flex items-center justify-center shrink-0">
+                        <LinkedinIcon />
+                      </span>
+                      <span>LINKEDIN.COM/IN/HAIKALJIBRAAN</span>
+                    </a>
+                  </li>
+                </ul>
               </div>
-            </div>
 
-            {/* CENTER: DIRECT CONTACT DETAILS */}
-            <div className="lg:col-span-3 flex flex-col justify-center">
-              <h3 className="font-anton text-base tracking-wider uppercase text-[#EAE6DF] pb-2 mb-3 border-b border-[#EAE6DF]/20">
-                DIRECT CONTACT
-              </h3>
-
-              <ul className="space-y-2.5 font-mono-tech text-[10.5px] tracking-[0.06em] text-[#d6d3cb]">
-                <li>
-                  <a href={`mailto:${emailAddress}`} className="flex items-center gap-3 hover:text-[#E84E0F] transition-colors">
-                    <span className="w-5 h-5 rounded-full border border-[#EAE6DF]/40 flex items-center justify-center shrink-0">
-                      <Mail className="w-2.5 h-2.5" />
-                    </span>
-                    <span className="uppercase">{emailAddress}</span>
-                  </a>
-                </li>
-                <li>
-                  <a href={`tel:${phone}`} className="flex items-center gap-3 hover:text-[#E84E0F] transition-colors">
-                    <span className="w-5 h-5 rounded-full border border-[#EAE6DF]/40 flex items-center justify-center shrink-0">
-                      <Phone className="w-2.5 h-2.5" />
-                    </span>
-                    <span>{phone}</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="https://instagram.com/haikaljibraan" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-[#E84E0F] transition-colors">
-                    <span className="w-5 h-5 rounded-full border border-[#EAE6DF]/40 flex items-center justify-center shrink-0">
-                      <InstagramIcon />
-                    </span>
-                    <span>INSTAGRAM.COM/HAIKALJIBRAAN</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="https://github.com/ghiffa08" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-[#E84E0F] transition-colors">
-                    <span className="w-5 h-5 rounded-full border border-[#EAE6DF]/40 flex items-center justify-center shrink-0">
-                      <GithubIcon />
-                    </span>
-                    <span>GITHUB.COM/GHIFFA08</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="https://linkedin.com/in/haikaljibraan" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-[#E84E0F] transition-colors">
-                    <span className="w-5 h-5 rounded-full border border-[#EAE6DF]/40 flex items-center justify-center shrink-0">
-                      <LinkedinIcon />
-                    </span>
-                    <span>LINKEDIN.COM/IN/HAIKALJIBRAAN</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            {/* RIGHT: CIRCULAR STRATEGY STAMP & BARCODE */}
-            <div className="lg:col-span-3 flex flex-col items-center lg:items-end justify-between gap-6">
-              <RotatingStamp />
-              <BarcodeGraphic />
-              <div className="font-mono-tech text-[10px] uppercase text-[#66655f] text-center lg:text-right">
-                <p>© 2026 HAIKAL JIBRAN AL-GHIFFARRY</p>
-                <p className="text-[#8e8d87]">ALL RIGHTS RESERVED // VER. 4.0</p>
+              {/* RIGHT: CIRCULAR STRATEGY STAMP & BARCODE */}
+              <div className="lg:col-span-3 flex flex-col items-center lg:items-end justify-between gap-6">
+                <RotatingStamp />
+                <BarcodeGraphic />
+                <div className="font-mono-tech text-[10px] uppercase text-[#66655f] text-center lg:text-right">
+                  <p>© 2026 HAIKAL JIBRAN AL-GHIFFARRY</p>
+                  <p className="text-[#8e8d87]">ALL RIGHTS RESERVED // VER. 4.0</p>
+                </div>
               </div>
-            </div>
 
+            </div>
           </div>
         </footer>
 

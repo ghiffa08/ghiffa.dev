@@ -557,18 +557,21 @@ export default function Portfolio() {
         {/* =========================================================
             3. SELECTED WORK BAR (CLEAN BRUTALIST BAND)
         ========================================================= */}
-        <section id="work" className="relative z-20 bg-[#181816] text-[#EAE6DF] flex flex-col md:flex-row border-t border-b border-[#2b2b28]">
+        <section id="work" className="relative z-20 bg-[#181816] text-[#EAE6DF] border-t border-b border-[#2b2b28] overflow-hidden">
 
-          {/* Left Vertical Orange Sidebar */}
-          <div className="bg-[#E84E0F] text-[#181816] md:w-[68px] py-3.5 px-6 md:py-6 md:px-0 flex items-center justify-between md:justify-center shrink-0 self-stretch select-none">
+          {/* Left Vertical Orange Sidebar - SITS ON TOP (z-30) */}
+          <div className="md:absolute md:left-0 md:top-0 md:bottom-0 z-30 bg-[#E84E0F] text-[#181816] md:w-[68px] py-3.5 px-6 md:py-6 md:px-0 flex items-center justify-between md:justify-center shrink-0 select-none shadow-[16px_0_32px_rgba(0,0,0,0.95)] border-b md:border-b-0 md:border-r border-[#181816]">
             <div className="font-mono-tech font-bold text-xs sm:text-[13px] tracking-[0.24em] uppercase flex items-center gap-2.5 md:[writing-mode:vertical-rl] md:rotate-180">
               <span>SELECTED WORK</span>
               <span className="inline-block w-[10px] h-[2px] md:w-[2.5px] md:h-[12px] bg-[#181816]" />
             </div>
           </div>
 
-          {/* Project Cards Draggable Slider - ULTRA CLEAN, NO PAGINATION */}
-          <div className="flex-1 flex flex-col p-6 sm:p-8 lg:p-10 pb-5 sm:pb-6 lg:pb-6 overflow-hidden">
+          {/* Depth Shadow Layer Behind Sidebar Edge */}
+          <div className="hidden md:block absolute left-[68px] top-0 bottom-0 w-14 bg-gradient-to-r from-black/90 via-black/40 to-transparent pointer-events-none z-20" />
+
+          {/* Project Cards Draggable Slider - SLIDES UNDERNEATH ORANGE SIDEBAR */}
+          <div className="flex flex-col p-6 sm:p-8 lg:p-10 md:pl-0 pb-5 sm:pb-6 lg:pb-6 overflow-hidden relative z-10">
             <div
               ref={workSliderRef}
               onMouseDown={handleWorkMouseDown}
@@ -576,7 +579,7 @@ export default function Portfolio() {
               onMouseUp={handleWorkMouseUpOrLeave}
               onMouseLeave={handleWorkMouseUpOrLeave}
               onScroll={handleWorkScroll}
-              className="flex items-start gap-6 sm:gap-7 overflow-x-auto scrollbar-none cursor-grab active:cursor-grabbing select-none pb-2 pt-1"
+              className="flex items-start gap-6 sm:gap-7 overflow-x-auto scrollbar-none cursor-grab active:cursor-grabbing select-none pb-2 pt-1 md:pl-[96px] pr-8"
               style={{
                 scrollbarWidth: 'none',
                 msOverflowStyle: 'none'
@@ -626,7 +629,7 @@ export default function Portfolio() {
             </div>
 
             {/* Subtle Minimal Drag Hint & Recessed Progress Indicator */}
-            <div className="mt-4 pt-3 flex items-center justify-between border-t border-[#232320]/60">
+            <div className="mt-4 pt-3 flex items-center justify-between border-t border-[#232320]/60 md:ml-[96px] mr-8">
               <div className="flex items-center gap-2 font-mono-tech text-[9.5px] uppercase tracking-widest text-[#66655f]">
                 <span>[ DRAG ARCHIVE // {allProjects.length} COMMISSIONS ]</span>
                 <span className="text-[#E84E0F]">→</span>

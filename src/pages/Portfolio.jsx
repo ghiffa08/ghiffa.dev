@@ -889,7 +889,7 @@ export default function Portfolio() {
                 {/* About Me Text */}
                 <div className="sm:col-span-6">
                   <div className="flex items-center gap-3 mb-3">
-                    <h2 className="font-anton text-xl sm:text-[22px] tracking-wide uppercase text-[#1c1c1a]">
+                    <h2 className="font-syne font-extrabold text-xl sm:text-[22px] tracking-tight uppercase text-[#1c1c1a]">
                       ABOUT ME
                     </h2>
                     <span className="w-6 h-[2.5px] bg-[#1c1c1a]" />
@@ -1062,7 +1062,7 @@ export default function Portfolio() {
           <div className="lg:col-span-4 p-6 sm:p-10 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-[#1c1c1a]/20">
             <div>
               <div className="flex items-center gap-3.5 mb-6">
-                <h2 className="font-anton text-2xl sm:text-[28px] tracking-wide uppercase text-[#1c1c1a]">
+                <h2 className="font-syne font-extrabold text-2xl sm:text-[28px] tracking-tight uppercase text-[#1c1c1a]">
                   SERVICES
                 </h2>
                 <span className="w-6 h-[2.5px] bg-[#1c1c1a]" />
@@ -1105,7 +1105,7 @@ export default function Portfolio() {
           <div className="lg:col-span-4 bg-[#E84E0F] text-[#181816] p-6 sm:p-10 relative flex flex-col justify-between overflow-hidden border-b lg:border-b-0 lg:border-r border-[#1c1c1a]/20">
             <div>
               <div className="flex items-end gap-3 mb-5">
-                <h2 className="font-anton text-xl sm:text-[23px] leading-[1.08] tracking-wide uppercase text-[#181816]">
+                <h2 className="font-syne font-extrabold text-xl sm:text-[23px] leading-[1.08] tracking-tight uppercase text-[#181816]">
                   ENGINEERING<br />
                   MANIFESTO
                 </h2>
@@ -1149,7 +1149,7 @@ export default function Portfolio() {
           <div className="lg:col-span-4 p-6 sm:p-10 flex flex-col justify-between">
             <div>
               <div className="flex items-center gap-3.5 mb-6">
-                <h2 className="font-anton text-2xl sm:text-[26px] tracking-wide uppercase text-[#1c1c1a]">
+                <h2 className="font-syne font-extrabold text-2xl sm:text-[26px] tracking-tight uppercase text-[#1c1c1a]">
                   TECH STACK
                 </h2>
                 <span className="w-5 h-[2.5px] bg-[#1c1c1a]" />
@@ -1253,7 +1253,7 @@ export default function Portfolio() {
                   [ 04 // CAREER TRAJECTORY & INDUSTRY DISPATCHES ]
                 </span>
               </div>
-              <h2 className="font-anton text-2xl sm:text-4xl uppercase tracking-wide text-[#181816]">
+              <h2 className="font-syne font-extrabold text-2xl sm:text-3xl lg:text-4xl uppercase tracking-tight text-[#181816]">
                 PROFESSIONAL JOURNEY
               </h2>
             </div>
@@ -1283,7 +1283,7 @@ export default function Portfolio() {
 
                   {/* Company & Role */}
                   <div className="md:col-span-5">
-                    <h3 className="font-anton text-xl sm:text-2xl uppercase tracking-wider text-[#181816] group-hover:text-[#E84E0F] transition-colors leading-tight">
+                    <h3 className="font-sans font-bold text-base sm:text-lg lg:text-xl uppercase tracking-tight text-[#181816] group-hover:text-[#E84E0F] transition-colors leading-snug">
                       {exp.company}
                     </h3>
                     <p className="font-mono-tech text-[11px] font-bold tracking-widest uppercase text-[#E84E0F] mt-0.5">
@@ -1442,7 +1442,7 @@ export default function Portfolio() {
                     [ 06A // ACADEMIC PEDIGREE ]
                   </span>
                 </div>
-                <h2 className="font-anton text-2xl sm:text-3xl uppercase tracking-wide text-[#181816] mb-6">
+                <h2 className="font-syne font-extrabold text-2xl sm:text-3xl uppercase tracking-tight text-[#181816] mb-6">
                   FORMAL EDUCATION
                 </h2>
 
@@ -1460,7 +1460,7 @@ export default function Portfolio() {
                           {edu.period}
                         </span>
                       </div>
-                      <h3 className="font-anton text-xl uppercase tracking-wider text-[#181816] group-hover:text-[#E84E0F] transition-colors">
+                      <h3 className="font-sans font-bold text-base sm:text-lg uppercase tracking-tight text-[#181816] group-hover:text-[#E84E0F] transition-colors leading-snug">
                         {edu.title}
                       </h3>
                       <p className="font-mono-tech text-xs font-bold tracking-wide text-[#4a4946] uppercase mt-1">
@@ -1486,7 +1486,7 @@ export default function Portfolio() {
                     [ 06B // MERIT CITATIONS ]
                   </span>
                 </div>
-                <h2 className="font-anton text-2xl sm:text-3xl uppercase tracking-wide text-[#181816] mb-6">
+                <h2 className="font-syne font-extrabold text-2xl sm:text-3xl uppercase tracking-tight text-[#181816] mb-6">
                   HONORS & AWARDS
                 </h2>
 
@@ -1507,7 +1507,7 @@ export default function Portfolio() {
                           {honor.badge || 'AWARD'}
                         </span>
                       </div>
-                      <h3 className="font-anton text-lg sm:text-xl uppercase tracking-wider text-[#181816] group-hover:text-[#E84E0F] transition-colors">
+                      <h3 className="font-sans font-bold text-sm sm:text-[15px] leading-snug uppercase tracking-tight text-[#181816] group-hover:text-[#E84E0F] transition-colors">
                         {honor.title}
                       </h3>
                       <p className="font-mono-tech text-[11px] uppercase tracking-wide text-[#55534e] mt-1">
@@ -1540,7 +1540,7 @@ export default function Portfolio() {
                   [ CODING EDUCATION PLATFORM · FOUNDED BY GHIFFA ]
                 </span>
               </div>
-              <h2 className="font-anton text-3xl sm:text-5xl lg:text-6xl uppercase tracking-tight text-[#181816] leading-[0.92] mb-3">
+              <h2 className="font-syne font-black text-3xl sm:text-5xl lg:text-6xl uppercase tracking-tight text-[#181816] leading-[0.95] mb-3">
                 SKILLSTREAK.ID
               </h2>
               <p className="font-mono-tech text-xs sm:text-[13px] leading-relaxed text-[#3a3935] uppercase font-medium max-w-xl">
@@ -1735,7 +1735,7 @@ export default function Portfolio() {
 
             {/* CENTER: DIRECT CONTACT DETAILS */}
             <div className="lg:col-span-3 flex flex-col justify-center">
-              <h3 className="font-anton text-base tracking-wider uppercase text-[#EAE6DF] pb-2 mb-3 border-b border-[#EAE6DF]/20">
+              <h3 className="font-syne font-bold text-base tracking-wide uppercase text-[#EAE6DF] pb-2 mb-3 border-b border-[#EAE6DF]/20">
                 DIRECT CONTACT
               </h3>
 
@@ -1822,7 +1822,7 @@ export default function Portfolio() {
               <div className="font-mono-tech text-xs font-bold text-[#E84E0F] uppercase mb-1">
                 {selectedExperienceModal.company}
               </div>
-              <h3 className="font-anton text-2xl sm:text-3xl uppercase text-[#181816] mb-4">
+              <h3 className="font-syne font-bold text-xl sm:text-2xl uppercase tracking-tight text-[#181816] mb-4">
                 {selectedExperienceModal.role}
               </h3>
               <p className="font-mono-tech text-xs sm:text-[13px] leading-relaxed text-[#2b2b29] mb-6">
@@ -1859,7 +1859,7 @@ export default function Portfolio() {
                   [CLOSE X]
                 </button>
               </div>
-              <h3 className="font-anton text-3xl uppercase text-[#181816] mb-3">
+              <h3 className="font-syne font-bold text-2xl sm:text-3xl uppercase tracking-tight text-[#181816] mb-3">
                 {selectedProjectModal.title}
               </h3>
               {selectedProjectModal.img && (
@@ -1915,7 +1915,7 @@ export default function Portfolio() {
               <div className="font-mono-tech text-xs font-bold text-[#E84E0F] uppercase mb-1">
                 {selectedCert.institution}
               </div>
-              <h3 className="font-anton text-2xl sm:text-3xl uppercase text-[#181816] mb-4">
+              <h3 className="font-syne font-bold text-xl sm:text-2xl uppercase tracking-tight text-[#181816] mb-4">
                 {selectedCert.title}
               </h3>
 

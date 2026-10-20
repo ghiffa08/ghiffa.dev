@@ -738,7 +738,18 @@ export default function Portfolio() {
     : fallbackInstagramPosts;
 
   return (
-    <div className="min-h-screen bg-[#111110] py-0 sm:py-8 px-0 sm:px-4 flex justify-center items-start font-mono text-[#1c1c1a] selection:bg-[#E84E0F] selection:text-[#EAE6DF]">
+    <div
+      className="min-h-screen bg-[#0c0c0b] py-4 sm:py-10 md:py-14 px-2 sm:px-6 md:px-10 lg:px-12 flex justify-center items-start font-mono text-[#1c1c1a] selection:bg-[#E84E0F] selection:text-[#EAE6DF] relative overflow-x-hidden"
+      style={{
+        backgroundImage: `
+          radial-gradient(ellipse 90% 55% at 50% 10%, rgba(255, 255, 255, 0.045) 0%, transparent 75%),
+          radial-gradient(circle at 50% 50%, rgba(232, 78, 15, 0.015) 0%, transparent 60%),
+          linear-gradient(to right, rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(255, 255, 255, 0.018) 1px, transparent 1px)
+        `,
+        backgroundSize: '100% 100%, 100% 100%, 54px 54px, 54px 54px'
+      }}
+    >
       <SEO
         title={`${fullName} — IoT Engineer & Full-stack Developer`}
         description="Official poster portfolio of Haikal Jibran Al-Ghiffarry (Ghiffa). Bridging bits and atoms through modern web architecture and embedded IoT systems."
@@ -757,48 +768,146 @@ export default function Portfolio() {
         </filter>
       </svg>
 
-      {/* MAIN POSTER CONTAINER - UV-COATED GLOSSY HD PRINT */}
-      <div
-        ref={posterRef}
-        onMouseMove={handlePosterMouseMove}
-        onMouseLeave={handlePosterMouseLeave}
-        className="w-full max-w-[1080px] bg-[#EAE6DF] relative shadow-[0_30px_90px_rgba(0,0,0,0.92),0_0_0_1px_rgba(255,255,255,0.08),inset_0_1px_2px_rgba(255,255,255,0.5),inset_0_-1px_2px_rgba(0,0,0,0.6)] overflow-hidden border border-[#2c2c2a] transition-all duration-300"
-      >
+      {/* TACTILE POSTER WRAPPER WITH REALISTIC VOLUMETRIC CORNER LIFT SHADOWS */}
+      <div className="relative w-full max-w-[1080px] my-auto">
 
-        {/* =========================================================
-            UV-COATED GLOSSY HD POSTER PRINT FINISH OVERLAYS
-        ========================================================= */}
+        {/* Physical Paper Corner Lift Shadows (3D Optical Paper Lift) */}
+        {/* Bottom Left Corner Lift */}
+        <div className="hidden sm:block absolute -bottom-6 -left-4 w-80 h-20 bg-black/90 blur-2xl -rotate-2 pointer-events-none rounded-full" />
+        {/* Bottom Right Corner Lift */}
+        <div className="hidden sm:block absolute -bottom-6 -right-4 w-80 h-20 bg-black/90 blur-2xl rotate-2 pointer-events-none rounded-full" />
+        {/* Deep Atmospheric Contact Shadow */}
+        <div className="absolute -bottom-7 left-8 right-8 h-18 bg-black/85 blur-2xl pointer-events-none" />
 
-        {/* Layer 1: Global HD Print Grain & Micro-Stipple (1200 DPI Coated Paper) */}
+        {/* MAIN POSTER CONTAINER - 350 GSM HEAVYWEIGHT POSTER BOARD */}
         <div
-          className="pointer-events-none absolute inset-0 z-40 opacity-[0.20] mix-blend-multiply select-none"
+          ref={posterRef}
+          onMouseMove={handlePosterMouseMove}
+          onMouseLeave={handlePosterMouseLeave}
+          className="w-full bg-[#EAE6DF] relative overflow-hidden transition-all duration-300"
           style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='uvGrain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23uvGrain)'/%3E%3C/svg%3E")`
+            /* Authentic Heavyweight Cardstock Bevel Edge + Multi-Tier Drop Shadow */
+            boxShadow: `
+              /* Paper Cut Core Edge Highlight (White Bevel Rim) */
+              0 0 0 1px rgba(255, 255, 255, 0.65),
+              0 0 0 2.5px rgba(218, 212, 202, 0.95),
+              0 0 0 3.5px rgba(22, 22, 20, 0.9),
+              /* Sharp Contact Shadow */
+              0 3px 6px -1px rgba(0, 0, 0, 0.85),
+              /* Mid-tier Occlusion Shadow */
+              0 18px 36px -6px rgba(0, 0, 0, 0.85),
+              /* Deep Cast Table Shadow */
+              0 45px 85px -15px rgba(0, 0, 0, 0.95),
+              0 90px 160px -25px rgba(0, 0, 0, 0.98),
+              /* Ambient Surface Light Spill */
+              0 0 160px rgba(0, 0, 0, 0.75),
+              /* Internal Bevel: Top & Left Rim Light, Bottom & Right Cast Shade */
+              inset 0 2.5px 3px rgba(255, 255, 255, 0.9),
+              inset 2px 0 2px rgba(255, 255, 255, 0.5),
+              inset 0 -3.5px 4px rgba(0, 0, 0, 0.35),
+              inset -2px 0 3px rgba(0, 0, 0, 0.25)
+            `
           }}
-        />
+        >
 
-        {/* Layer 2: Ambient Diagonal Studio Light Specular Refraction */}
-        <div
-          className="pointer-events-none absolute inset-0 z-45 opacity-60 mix-blend-soft-light select-none"
-          style={{
-            background: 'linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 24%, transparent 50%, rgba(255,255,255,0.14) 58%, transparent 76%)'
-          }}
-        />
+          {/* =========================================================
+              TACTILE PHYSICAL PAPER VOLUME & COATED FINISH OVERLAYS
+          ========================================================= */}
 
-        {/* Layer 3: Interactive Dynamic Specular UV Glare (Follows Cursor Across Canvas) */}
-        <div
-          className="pointer-events-none absolute inset-0 z-50 transition-opacity duration-500 select-none"
-          style={{
-            background: glossPos.active
-              ? `radial-gradient(1100px circle at ${glossPos.x}% ${glossPos.y}%, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.06) 30%, transparent 68%), linear-gradient(120deg, rgba(255,255,255,0.06) 0%, transparent 35%, rgba(255,255,255,0.04) 65%, transparent 100%)`
-              : `linear-gradient(120deg, rgba(255,255,255,0.06) 0%, transparent 35%, rgba(255,255,255,0.04) 65%, transparent 100%)`,
-            mixBlendMode: 'screen',
-            opacity: glossPos.active ? 1 : 0.65
-          }}
-        />
+          {/* Volumetric Layer 1: 3D Cylindrical Paper Surface Curvature (Convex Lighting) */}
+          <div
+            className="pointer-events-none absolute inset-0 z-40 select-none mix-blend-soft-light opacity-80"
+            style={{
+              background: `linear-gradient(90deg,
+                rgba(0, 0, 0, 0.07) 0%,
+                rgba(0, 0, 0, 0.02) 4%,
+                transparent 12%,
+                rgba(255, 255, 255, 0.08) 28%,
+                rgba(255, 255, 255, 0.14) 50%,
+                rgba(255, 255, 255, 0.08) 72%,
+                transparent 88%,
+                rgba(0, 0, 0, 0.03) 96%,
+                rgba(0, 0, 0, 0.08) 100%
+              )`
+            }}
+          />
 
-        {/* Layer 4: Spot-UV Lacquer Lamination Edge Glare (Micro Bevel) */}
-        <div className="pointer-events-none absolute inset-0 z-50 shadow-[inset_0_1px_1px_rgba(255,255,255,0.45),inset_1px_0_1px_rgba(255,255,255,0.2),inset_-1px_0_1px_rgba(255,255,255,0.15),inset_0_-1px_2px_rgba(0,0,0,0.5)] select-none" />
+          {/* Volumetric Layer 2: Subtle Architectural Paper Fold Lines (Embossed Score Creases) */}
+          <div
+            className="pointer-events-none absolute top-0 bottom-0 left-[62%] w-[2px] z-40 select-none opacity-25 mix-blend-multiply"
+            style={{
+              background: 'linear-gradient(to right, rgba(0,0,0,0.18) 0%, rgba(255,255,255,0.4) 100%)',
+              boxShadow: '1px 0 0 rgba(255,255,255,0.45)'
+            }}
+          />
+          <div
+            className="pointer-events-none absolute left-0 right-0 top-[38%] h-[2px] z-40 select-none opacity-20 mix-blend-multiply"
+            style={{
+              background: 'linear-gradient(to bottom, rgba(0,0,0,0.18) 0%, rgba(255,255,255,0.4) 100%)',
+              boxShadow: '0 1px 0 rgba(255,255,255,0.4)'
+            }}
+          />
+
+          {/* Volumetric Layer 3: 4-Corner Litho Crop Marks (Physical Print Trim Guides) */}
+          <div className="pointer-events-none absolute top-2 left-2 z-40 font-mono-tech text-[10px] text-[#1c1c1a]/30 select-none font-bold">
+            ┌ <span className="text-[8px] tracking-widest ml-1">TRIM // 01</span>
+          </div>
+          <div className="pointer-events-none absolute top-2 right-2 z-40 font-mono-tech text-[10px] text-[#1c1c1a]/30 select-none font-bold text-right">
+            <span className="text-[8px] tracking-widest mr-1">350 GSM // REF</span> ┐
+          </div>
+          <div className="pointer-events-none absolute bottom-2 left-2 z-40 font-mono-tech text-[10px] text-[#1c1c1a]/30 select-none font-bold">
+            └ <span className="text-[8px] tracking-widest ml-1">LITHO ARCHIVE</span>
+          </div>
+          <div className="pointer-events-none absolute bottom-2 right-2 z-40 font-mono-tech text-[10px] text-[#1c1c1a]/30 select-none font-bold text-right">
+            <span className="text-[8px] tracking-widest mr-1">GHIFFA.DEV // 2026</span> ┘
+          </div>
+
+          {/* Volumetric Layer 4: Top Print Color Calibration Bar & Scale */}
+          <div className="relative z-20 px-6 sm:px-12 pt-3 pb-1 flex items-center justify-between border-b border-[#1c1c1a]/10 font-mono-tech text-[8.5px] uppercase text-[#73716a] tracking-widest select-none">
+            <div className="flex items-center gap-2">
+              <span className="text-[#1c1c1a] font-bold">[ SPEC: 350 GSM HEAVYWEIGHT SILK ART POSTER ]</span>
+              <span className="hidden sm:inline">•</span>
+              <span className="hidden sm:inline text-[#55534e]">OFFSET LITHO CMYK + PANTONE 021C</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="w-2 h-2 bg-[#00AEEF] inline-block" title="Cyan" />
+              <span className="w-2 h-2 bg-[#EC008C] inline-block" title="Magenta" />
+              <span className="w-2 h-2 bg-[#FFF100] inline-block" title="Yellow" />
+              <span className="w-2 h-2 bg-[#231F20] inline-block" title="Key/Black" />
+              <span className="w-2 h-2 bg-[#E84E0F] inline-block" title="Pantone 021C" />
+            </div>
+          </div>
+
+          {/* Layer 5: Global HD Print Grain & Micro-Stipple (1200 DPI Coated Paper) */}
+          <div
+            className="pointer-events-none absolute inset-0 z-40 opacity-[0.22] mix-blend-multiply select-none"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='uvGrain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.18 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23uvGrain)'/%3E%3C/svg%3E")`
+            }}
+          />
+
+          {/* Layer 6: Ambient Diagonal Studio Light Specular Refraction */}
+          <div
+            className="pointer-events-none absolute inset-0 z-45 opacity-60 mix-blend-soft-light select-none"
+            style={{
+              background: 'linear-gradient(135deg, rgba(255,255,255,0.20) 0%, transparent 24%, transparent 50%, rgba(255,255,255,0.15) 58%, transparent 76%)'
+            }}
+          />
+
+          {/* Layer 7: Interactive Dynamic Specular UV Glare (Follows Cursor Across Canvas) */}
+          <div
+            className="pointer-events-none absolute inset-0 z-50 transition-opacity duration-500 select-none"
+            style={{
+              background: glossPos.active
+                ? `radial-gradient(1100px circle at ${glossPos.x}% ${glossPos.y}%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.07) 30%, transparent 68%), linear-gradient(120deg, rgba(255,255,255,0.06) 0%, transparent 35%, rgba(255,255,255,0.04) 65%, transparent 100%)`
+                : `linear-gradient(120deg, rgba(255,255,255,0.06) 0%, transparent 35%, rgba(255,255,255,0.04) 65%, transparent 100%)`,
+              mixBlendMode: 'screen',
+              opacity: glossPos.active ? 1 : 0.65
+            }}
+          />
+
+          {/* Layer 8: Spot-UV Lacquer Lamination Edge Glare (Micro Bevel) */}
+          <div className="pointer-events-none absolute inset-0 z-50 shadow-[inset_0_1px_1px_rgba(255,255,255,0.5),inset_1px_0_1px_rgba(255,255,255,0.25),inset_-1px_0_1px_rgba(255,255,255,0.2),inset_0_-1px_2px_rgba(0,0,0,0.5)] select-none" />
 
         {/* =========================================================
             1. TOP NAVIGATION / STATUS BAR
@@ -2061,6 +2170,7 @@ export default function Portfolio() {
           </div>
         )}
 
+        </div>
       </div>
     </div>
   );

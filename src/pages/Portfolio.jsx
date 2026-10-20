@@ -6,7 +6,8 @@ import {
   Plus,
   Minus,
   CornerDownRight,
-  ExternalLink
+  ExternalLink,
+  X
 } from 'lucide-react';
 import { useSupabaseSingle, useSupabaseList } from '../hooks/useSupabaseData';
 import { useInstagramFeed } from '../hooks/useInstagramFeed';
@@ -110,6 +111,16 @@ export default function Portfolio() {
   const [selectedProjectModal, setSelectedProjectModal] = useState(null);
   const [selectedCert, setSelectedCert] = useState(null);
   const [certFilter, setCertFilter] = useState('all');
+  const [sideNavOpen, setSideNavOpen] = useState(false);
+
+  // Close side nav drawer on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') setSideNavOpen(false);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   // UV-Coated Glossy HD Poster Specular Sheen
   const posterRef = useRef(null);
@@ -541,13 +552,11 @@ export default function Portfolio() {
             <p className="text-[#4a4946]">IOT TELEMETRY ENGINEER</p>
           </div>
 
-          {/* Top Center Quick Anchors */}
-          <div className="hidden sm:flex items-center gap-6 font-mono-tech text-[10.5px] tracking-wider text-[#1c1c1a]">
-            <a href="#work" className="hover:text-[#E84E0F] transition-colors">01. WORK</a>
-            <a href="#services" className="hover:text-[#E84E0F] transition-colors">02. SERVICES</a>
-            <a href="#credentials" className="hover:text-[#E84E0F] transition-colors">03. CREDENTIALS</a>
-            <a href="#dispatches" className="hover:text-[#E84E0F] transition-colors">04. DISPATCHES</a>
-            <a href="#contact" className="hover:text-[#E84E0F] transition-colors">05. CONTACT</a>
+          {/* Top Center Clean Identity */}
+          <div className="text-center hidden sm:block">
+            <div className="h-[3px] mb-2 opacity-0" />
+            <p className="text-[#1c1c1a] font-bold">BASED IN</p>
+            <p className="text-[#4a4946] font-medium">INDONESIA / REMOTE</p>
           </div>
 
           {/* Top Right */}
@@ -1368,6 +1377,104 @@ export default function Portfolio() {
                     <ExternalLink className="w-3.5 h-3.5" />
                   </a>
                 )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* =========================================================
+            FLOATING BRUTALIST SIDE TAB BUTTON & DRAWER
+        ========================================================= */}
+        {/* Floating Side Tab Button - Pinned to Right Viewport Edge */}
+        <button
+          onClick={() => setSideNavOpen(prev => !prev)}
+          className="fixed right-0 top-1/2 -translate-y-1/2 z-50 bg-[#181816] text-[#EAE6DF] hover:bg-[#E84E0F] hover:text-[#181816] border-l-2 border-y border-[#E84E0F] px-2.5 py-4 shadow-[0_12px_36px_rgba(0,0,0,0.85)] flex flex-col items-center gap-2.5 transition-all duration-200 group cursor-pointer"
+          aria-label="Toggle Navigation Index"
+          title="Navigation Index"
+        >
+          <span className="w-1.5 h-1.5 bg-[#E84E0F] group-hover:bg-[#181816] rounded-full transition-colors" />
+          <span className="font-mono-tech text-[10px] sm:text-[11px] font-bold tracking-[0.25em] uppercase [writing-mode:vertical-rl] rotate-180 select-none">
+            {sideNavOpen ? 'CLOSE ✕' : 'INDEX // NAV'}
+          </span>
+        </button>
+
+        {/* Slide-out Brutalist Index Drawer */}
+        {sideNavOpen && (
+          <div className="fixed inset-0 z-50 flex justify-end">
+            {/* Backdrop */}
+            <div
+              onClick={() => setSideNavOpen(false)}
+              className="absolute inset-0 bg-black/65 backdrop-blur-xs transition-opacity"
+            />
+
+            {/* Drawer Sheet */}
+            <div className="relative w-full max-w-[340px] bg-[#141413] border-l-2 border-[#E84E0F] text-[#EAE6DF] h-full p-6 sm:p-8 flex flex-col justify-between shadow-2xl z-10 animate-in slide-in-from-right duration-200">
+              {/* Top Section */}
+              <div>
+                <div className="flex items-center justify-between pb-5 border-b border-[#2b2b28]">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 bg-[#E84E0F]" />
+                    <span className="font-mono-tech text-xs font-bold tracking-wider uppercase text-[#EAE6DF]">
+                      NAVIGATION INDEX
+                    </span>
+                  </div>
+                  <button
+                    onClick={() => setSideNavOpen(false)}
+                    className="p-1 hover:text-[#E84E0F] text-[#8e8d87] transition-colors cursor-pointer"
+                    aria-label="Close Navigation Index"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+
+                {/* Navigation Links */}
+                <nav className="mt-6 space-y-2.5 font-mono-tech">
+                  {[
+                    { num: '01', label: 'SELECTED WORK', href: '#work', sub: 'ENGINEERING COMMISSIONS' },
+                    { num: '02', label: 'SERVICES & STACK', href: '#services', sub: 'CAPABILITIES & MANIFESTO' },
+                    { num: '03', label: 'CREDENTIALS', href: '#credentials', sub: 'CERTIFICATIONS & AWARDS' },
+                    { num: '04', label: 'DISPATCHES', href: '#dispatches', sub: 'FIELD NOTES & INSTAGRAM' },
+                    { num: '05', label: 'CONTACT', href: '#contact', sub: 'START A CONVERSATION' },
+                  ].map((item) => (
+                    <a
+                      key={item.num}
+                      href={item.href}
+                      onClick={() => setSideNavOpen(false)}
+                      className="group block p-3 border border-[#232320] hover:border-[#E84E0F] bg-[#181816]/70 hover:bg-[#181816] transition-all"
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="text-[#E84E0F] text-xs font-bold font-mono-tech tracking-wider">
+                          {item.num}/
+                        </span>
+                        <CornerDownRight className="w-3.5 h-3.5 text-[#66655f] group-hover:text-[#E84E0F] group-hover:translate-x-0.5 transition-all" />
+                      </div>
+                      <div className="font-mono-tech text-xs sm:text-[13px] font-bold uppercase tracking-wider text-[#EAE6DF] group-hover:text-[#E84E0F] transition-colors mt-1">
+                        {item.label}
+                      </div>
+                      <div className="font-mono-tech text-[9.5px] uppercase tracking-wider text-[#66655f] mt-0.5">
+                        {item.sub}
+                      </div>
+                    </a>
+                  ))}
+                </nav>
+              </div>
+
+              {/* Bottom Meta & Quick Contact */}
+              <div className="pt-6 border-t border-[#2b2b28] font-mono-tech text-[10px] uppercase text-[#8e8d87] space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <span>LOCATION:</span>
+                  <span className="text-[#EAE6DF] font-bold">{location.toUpperCase()}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span>STATUS:</span>
+                  <span className="text-[#E84E0F] font-bold">AVAILABLE FOR COMMISSIONS</span>
+                </div>
+                <a
+                  href={`mailto:${emailAddress}`}
+                  className="mt-3 block w-full text-center py-3 bg-[#E84E0F] text-[#181816] font-bold hover:bg-[#ff5d1a] transition-colors tracking-wider"
+                >
+                  EMAIL DIRECTLY ↗
+                </a>
               </div>
             </div>
           </div>

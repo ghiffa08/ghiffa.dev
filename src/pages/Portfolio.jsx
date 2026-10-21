@@ -2146,27 +2146,30 @@ export default function Portfolio() {
         }`}
       >
         <div className="w-full max-w-[1140px] mx-auto">
-          {/* Centered Dark Card (Restored to exact initial style) */}
-          <div className="relative rounded-[32px] sm:rounded-[36px] bg-[#141414] border border-white/[0.08] shadow-2xl overflow-hidden min-h-[500px] lg:h-[530px] flex items-center">
+          {/* Centered Warm Espresso Card (Harmonized with soft orange background) */}
+          <div className="relative rounded-[32px] sm:rounded-[36px] bg-gradient-to-br from-[#28140B] via-[#200F07] to-[#180A04] border border-orange-400/20 shadow-2xl shadow-orange-950/30 overflow-hidden min-h-[500px] lg:h-[530px] flex items-center">
+
+            {/* Subtle warm ambient glow behind laptop */}
+            <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[520px] h-[400px] bg-[#FF5500]/12 rounded-full blur-[130px] pointer-events-none" />
 
             {/* Inner Grid: Left Content (52%) + Right Laptop (48%) */}
             <div className="w-full h-full grid grid-cols-1 lg:grid-cols-12 items-center relative z-10">
 
-              {/* Left Column: Typography, Figma selection box & Blue CTA */}
+              {/* Left Column: Typography, Figma selection box & Skillstreak Orange CTA */}
               <div className="lg:col-span-6 px-8 sm:px-12 lg:pl-14 lg:pr-4 py-10 lg:py-12 flex flex-col justify-center">
 
-                {/* Figma Dashed Bounding Box with 8 Handles (Exact Initial Reference) */}
-                <div className="relative inline-block border border-dashed border-[#555555] px-3.5 py-1.5 -ml-2 rounded-[1px] select-none self-start">
+                {/* Figma Dashed Bounding Box with Warm Handles */}
+                <div className="relative inline-block border border-dashed border-orange-200/40 px-3.5 py-1.5 -ml-2 rounded-[1px] select-none self-start">
                   {/* 4 Corner Handles */}
-                  <span className="absolute -top-1 -left-1 w-1.5 h-1.5 bg-[#888888] border border-[#222222] rounded-[1px]" />
-                  <span className="absolute -top-1 -right-1 w-1.5 h-1.5 bg-[#888888] border border-[#222222] rounded-[1px]" />
-                  <span className="absolute -bottom-1 -left-1 w-1.5 h-1.5 bg-[#888888] border border-[#222222] rounded-[1px]" />
-                  <span className="absolute -bottom-1 -right-1 w-1.5 h-1.5 bg-[#888888] border border-[#222222] rounded-[1px]" />
+                  <span className="absolute -top-1 -left-1 w-1.5 h-1.5 bg-[#F8A065] border border-[#28140B] rounded-[1px]" />
+                  <span className="absolute -top-1 -right-1 w-1.5 h-1.5 bg-[#F8A065] border border-[#28140B] rounded-[1px]" />
+                  <span className="absolute -bottom-1 -left-1 w-1.5 h-1.5 bg-[#F8A065] border border-[#28140B] rounded-[1px]" />
+                  <span className="absolute -bottom-1 -right-1 w-1.5 h-1.5 bg-[#F8A065] border border-[#28140B] rounded-[1px]" />
                   {/* 4 Midpoint Handles */}
-                  <span className="absolute -top-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#888888] border border-[#222222] rounded-[1px]" />
-                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#888888] border border-[#222222] rounded-[1px]" />
-                  <span className="absolute top-1/2 -left-1 -translate-y-1/2 w-1.5 h-1.5 bg-[#888888] border border-[#222222] rounded-[1px]" />
-                  <span className="absolute top-1/2 -right-1 -translate-y-1/2 w-1.5 h-1.5 bg-[#888888] border border-[#222222] rounded-[1px]" />
+                  <span className="absolute -top-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#F8A065] border border-[#28140B] rounded-[1px]" />
+                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#F8A065] border border-[#28140B] rounded-[1px]" />
+                  <span className="absolute top-1/2 -left-1 -translate-y-1/2 w-1.5 h-1.5 bg-[#F8A065] border border-[#28140B] rounded-[1px]" />
+                  <span className="absolute top-1/2 -right-1 -translate-y-1/2 w-1.5 h-1.5 bg-[#F8A065] border border-[#28140B] rounded-[1px]" />
 
                   <h2 className="text-[38px] sm:text-[46px] lg:text-[50px] font-bold tracking-tight text-white leading-none">
                     skillstreak.id
@@ -2174,22 +2177,22 @@ export default function Portfolio() {
                 </div>
 
                 {/* Primary bold lead text */}
-                <p className="text-white text-[16px] sm:text-[18px] font-normal leading-[1.48] mt-6 max-w-[430px]">
+                <p className="text-orange-50 text-[16px] sm:text-[18px] font-normal leading-[1.48] mt-6 max-w-[430px]">
                   The fastest path from zero to deployable engineer, built like a game and engineered for the real world.
                 </p>
 
-                {/* Secondary muted text */}
-                <p className="text-[#7c7c7c] text-[13px] sm:text-[13.5px] leading-[1.6] mt-4 max-w-[400px]">
+                {/* Secondary muted text with warm tone */}
+                <p className="text-orange-200/70 text-[13px] sm:text-[13.5px] leading-[1.6] mt-4 max-w-[400px]">
                   Most developers quit because learning feels like a grind with no visible progress. skillstreak.id changes the feedback loop with XP rewards, daily streak accountability, and real-time code evaluations.
                 </p>
 
-                {/* Solid Blue Pill CTA Button */}
+                {/* Fiery Skillstreak Orange Pill CTA Button */}
                 <div className="mt-8">
                   <a
                     href="https://skillstreak.id"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block bg-[#0859d4] hover:bg-[#0648af] text-white text-[14px] font-medium px-8 py-3.5 rounded-full shadow-md shadow-blue-600/20 transition-all duration-200 active:scale-95 cursor-pointer"
+                    className="inline-block bg-[#FF5500] hover:bg-[#E64D00] text-white text-[14px] font-semibold px-8 py-3.5 rounded-full shadow-lg shadow-black/20 transition-all duration-200 active:scale-95 cursor-pointer"
                   >
                     Get Early Access
                   </a>

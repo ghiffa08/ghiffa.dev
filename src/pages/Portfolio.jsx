@@ -319,8 +319,12 @@ export default function Portfolio() {
   }, [aiActive]);
 
   const emailAddress = info?.email || 'hello@ghiffa.dev';
-  const fullName = info?.name || 'Haikal Jibran Al-Ghiffarry';
+  const fullName = info?.full_name || info?.name || 'Haikal Jibran Al-Ghiffarry';
+  const roleTitle = info?.role || 'IoT Engineer & Fullstack Developer';
   const avatarImage = info?.avatar_url || '/ghiffa.jpeg';
+  const cvUrl = info?.cv_url || '/cv.pdf';
+  const aboutHeadline = info?.headline || 'Designing & engineering where hardware meets the web.';
+  const aboutBio = info?.about_content_en || info?.about_content;
 
   return (
     <div className={`min-h-screen bg-white text-[#111111] font-sans overflow-x-clip antialiased selection:bg-blue-600 selection:text-white ${aiActive ? 'ai-mode-active' : ''}`}>
@@ -749,27 +753,37 @@ export default function Portfolio() {
                 // ABOUT ME
               </div>
               <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#141414] leading-[1.18]">
-                Designing &amp; engineering where hardware meets the web.
+                {aboutHeadline}
               </h2>
             </div>
 
             <div className="space-y-4 text-[15px] leading-relaxed text-gray-600">
-              <p>
-                I&apos;m <strong>Haikal Jibran Al-Ghiffarry</strong>, an IoT Engineer and Fullstack Web Developer based in Kuningan, Indonesia. I build end-to-end systems that bridge physical microcontrollers, sensors, and firmware with modern, responsive web software.
-              </p>
-              <p>
-                Rather than treating hardware and the web as separate worlds, I work across the full stack: from embedded firmware (ESP32, Arduino) and communication protocols to cloud databases and reactive user interfaces built with React and Next.js.
-              </p>
-              <p>
-                I am also the founder of <strong>Skillstreak.id</strong>, an interactive platform designed to help developers build consistent daily coding habits.
-              </p>
+              {aboutBio ? (
+                aboutBio.split(/\n\n+/).filter(p => p.trim() !== '').map((para, idx) => (
+                  <p key={idx} className={idx === 0 ? "text-gray-800 font-medium" : ""}>
+                    {para.replace(/[*_#`~]/g, '')}
+                  </p>
+                ))
+              ) : (
+                <>
+                  <p>
+                    I&apos;m <strong>Haikal Jibran Al-Ghiffarry</strong>, an IoT Engineer and Fullstack Web Developer based in Kuningan, Indonesia. I build end-to-end systems that bridge physical microcontrollers, sensors, and firmware with modern, responsive web software.
+                  </p>
+                  <p>
+                    Rather than treating hardware and the web as separate worlds, I work across the full stack: from embedded firmware (ESP32, Arduino) and communication protocols to cloud databases and reactive user interfaces built with React and Next.js.
+                  </p>
+                  <p>
+                    I am also the founder of <strong>Skillstreak.id</strong>, an interactive platform designed to help developers build consistent daily coding habits.
+                  </p>
+                </>
+              )}
             </div>
 
             {/* Clean Specs Grid */}
             <div className="pt-6 border-t border-gray-200 grid grid-cols-1 sm:grid-cols-2 gap-y-5 gap-x-8">
               <div>
                 <span className="block text-[11px] font-mono text-gray-400 uppercase tracking-wider mb-1">DISCIPLINE</span>
-                <p className="text-sm font-medium text-gray-900">IoT Embedded &amp; Fullstack Web</p>
+                <p className="text-sm font-medium text-gray-900">{roleTitle}</p>
               </div>
               <div>
                 <span className="block text-[11px] font-mono text-gray-400 uppercase tracking-wider mb-1">TECH STACK</span>
@@ -793,9 +807,20 @@ export default function Portfolio() {
               >
                 Let&apos;s build together
               </button>
+              {cvUrl && (
+                <a
+                  href={cvUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 border border-gray-300 hover:border-black text-gray-700 hover:text-black font-medium text-[13px] px-5 py-2.5 rounded-full transition-colors cursor-pointer"
+                >
+                  <span>Download CV</span>
+                  <span className="font-mono text-xs">↓</span>
+                </a>
+              )}
               <a
                 href={`mailto:${emailAddress}`}
-                className="inline-flex items-center gap-1.5 border border-gray-300 hover:border-black text-gray-700 hover:text-black font-medium text-[13px] px-5 py-2 rounded-full transition-colors"
+                className="inline-flex items-center gap-1 text-gray-500 hover:text-black font-medium text-[13px] px-3 py-2.5 transition-colors"
               >
                 <span>Get in touch</span>
                 <span className="font-mono text-xs">&rarr;</span>

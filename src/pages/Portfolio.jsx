@@ -145,8 +145,8 @@ export default function Portfolio() {
   const { data: supabaseProjects } = useSupabaseList('projects');
   const { data: supabaseArticles } = useSupabaseList('articles');
 
-  // Interactive AI Mode Toggle
-  const [aiActive, setAiActive] = useState(true);
+  // Interactive AI Mode Toggle (Default to solid black)
+  const [aiActive, setAiActive] = useState(false);
 
   // Contact Modal
   const [contactModalOpen, setContactModalOpen] = useState(false);
@@ -321,7 +321,7 @@ export default function Portfolio() {
   const emailAddress = info?.email || 'hello@ghiffa.dev';
 
   return (
-    <div className={`min-h-screen bg-white text-[#111111] font-sans overflow-x-hidden antialiased selection:bg-blue-600 selection:text-white ${aiActive ? 'ai-mode-active' : ''}`}>
+    <div className={`min-h-screen bg-white text-[#111111] font-sans overflow-x-clip antialiased selection:bg-blue-600 selection:text-white ${aiActive ? 'ai-mode-active' : ''}`}>
       <SEO
         title="ghiffa.dev — Custom Web Design & Development"
         description="Official portfolio of Haikal Jibran Al-Ghiffarry (ghiffa.dev). Building the bridge between bits and atoms for companies, governments, and organizations."
@@ -366,7 +366,7 @@ export default function Portfolio() {
 
           {/* 2. CENTER: Giant "ghiffa.dev" inside dashed Figma bounding box */}
           <div className="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 px-4">
-            <div id="hero-bbox" className="figma-bbox px-6 sm:px-11 py-3 sm:py-5">
+            <div id="hero-bbox" className="figma-bbox px-6 sm:px-12 pt-3 sm:pt-4 pb-4 sm:pb-6 overflow-visible">
               {/* 8 Figma resize handles */}
               <span className="figma-handle -top-1 -left-1" />
               <span className="figma-handle -top-1 left-1/2 -translate-x-1/2" />
@@ -379,7 +379,7 @@ export default function Portfolio() {
 
               <h1
                 id="hero-title"
-                className="text-[48px] sm:text-[92px] md:text-[118px] lg:text-[138px] font-bold tracking-[-0.045em] leading-[0.92] text-[#141414] select-none whitespace-nowrap"
+                className="text-[48px] sm:text-[92px] md:text-[118px] lg:text-[138px] font-bold tracking-[-0.04em] leading-[1.08] text-[#141414] select-none whitespace-nowrap block pb-1 sm:pb-2"
               >
                 ghiffa.dev
               </h1>
@@ -648,7 +648,7 @@ export default function Portfolio() {
       {/* 2. STICKY SCROLL-ANIMATED TEXT SECTION */}
       <section id="scroll-text-track" className="relative h-[260vh] bg-white bg-dot-matrix">
 
-        <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center px-6 overflow-hidden pt-16">
+        <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center px-6">
           <div className="max-w-[960px] mx-auto text-center relative z-10">
             {/* Main Animated Headline: ALL words start in faded gray (#ECEEEF) */}
             <h2 id="animated-scroll-title" className="text-[38px] sm:text-[56px] md:text-[68px] lg:text-[76px] font-bold tracking-[-0.035em] leading-[1.08]">

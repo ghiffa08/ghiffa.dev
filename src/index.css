@@ -419,14 +419,13 @@ body {
   will-change: transform;
 }
 
-/* AI Mode active glow effect */
-.ai-mode-active #hero-title {
-  background: linear-gradient(90deg, #111111 0%, #1877F2 55%, #7C3AED 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* AI Mode active effect (keeps solid title, highlights bounding box and handles) */
+#hero-title {
+  color: #141414;
 }
 .ai-mode-active .figma-bbox {
   border-color: #3B82F6;
+  box-shadow: 0 0 20px -3px rgba(59, 130, 246, 0.25);
 }
 .ai-mode-active .figma-handle {
   border-color: #3B82F6;

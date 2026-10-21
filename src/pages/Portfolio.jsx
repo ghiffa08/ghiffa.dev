@@ -319,6 +319,8 @@ export default function Portfolio() {
   }, [aiActive]);
 
   const emailAddress = info?.email || 'hello@ghiffa.dev';
+  const fullName = info?.name || 'Haikal Jibran Al-Ghiffarry';
+  const avatarImage = info?.avatar_url || '/ghiffa.jpeg';
 
   return (
     <div className={`min-h-screen bg-white text-[#111111] font-sans overflow-x-clip antialiased selection:bg-blue-600 selection:text-white ${aiActive ? 'ai-mode-active' : ''}`}>
@@ -686,6 +688,215 @@ export default function Portfolio() {
               <span className="reveal-subword">place.</span>
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* 2.5 ABOUT ME SECTION (CLEAN FIGMA STYLE) */}
+      <section id="about" className="py-24 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto relative select-none">
+        
+        {/* Figma Section Top Bar / Frame Indicator */}
+        <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-12 border-b border-gray-200/80">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-gray-100 border border-gray-200 text-[#141414] font-mono text-[11px] font-semibold">
+              <svg className="w-3.5 h-3.5 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <path d="M3 9h18M9 21V9" />
+              </svg>
+              <span>Frame // 02 · About Me</span>
+            </div>
+            <span className="hidden sm:inline font-mono text-[11px] text-gray-400">
+              [Auto Layout: 2 Columns ↕]
+            </span>
+          </div>
+
+          <div className="flex items-center gap-4 font-mono text-[11px] text-gray-500">
+            <span className="hidden md:inline px-2 py-0.5 rounded bg-gray-50 border border-gray-200">
+              W: 1360px · H: Auto
+            </span>
+            <div className="inline-flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-gray-700 font-medium">Available for projects</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Main 2-Column Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          
+          {/* LEFT: Figma Layer Card with Portrait & Floating Badges */}
+          <div className="lg:col-span-5 relative">
+            <div className="figma-bbox p-2.5 bg-white rounded-2xl soft-card-shadow transition-all group">
+              {/* 8 Figma resize handles */}
+              <span className="figma-handle -top-1 -left-1" />
+              <span className="figma-handle -top-1 left-1/2 -translate-x-1/2" />
+              <span className="figma-handle -top-1 -right-1" />
+              <span className="figma-handle top-1/2 -translate-y-1/2 -left-1" />
+              <span className="figma-handle top-1/2 -translate-y-1/2 -right-1" />
+              <span className="figma-handle -bottom-1 -left-1" />
+              <span className="figma-handle -bottom-1 left-1/2 -translate-x-1/2" />
+              <span className="figma-handle -bottom-1 -right-1" />
+
+              {/* Portrait Container */}
+              <div className="relative aspect-[4/5] w-full rounded-xl overflow-hidden bg-zinc-950 border border-gray-100">
+                <img
+                  src={avatarImage}
+                  alt={fullName}
+                  className="w-full h-full object-cover grayscale contrast-110 group-hover:scale-102 group-hover:grayscale-0 transition-all duration-500"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = '/ghiffa.jpeg';
+                  }}
+                />
+                
+                {/* Subtle bottom vignette gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
+
+                {/* Bottom Overlay Label */}
+                <div className="absolute bottom-4 left-4 right-4 text-white flex items-end justify-between pointer-events-none">
+                  <div>
+                    <span className="text-[10px] font-mono tracking-widest text-blue-400 uppercase font-semibold block mb-0.5">
+                      ❖ Layer: #ghiffa-portrait
+                    </span>
+                    <h3 className="text-base font-bold tracking-tight text-white">
+                      Haikal Jibran Al-Ghiffarry
+                    </h3>
+                    <p className="text-[11.5px] text-white/80">
+                      IoT Engineer &amp; Fullstack Developer
+                    </p>
+                  </div>
+                  <span className="px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-[10px] font-mono text-white">
+                    100%
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Floating Figma Tags around Portrait */}
+            {/* Top-Right Floating Chat Comment */}
+            <div className="hidden sm:flex items-start gap-2.5 absolute -top-5 -right-6 z-20 bg-white/95 backdrop-blur-md rounded-2xl rounded-bl-sm px-3.5 py-2.5 comment-shadow border border-gray-100 max-w-[240px]">
+              <div className="w-6 h-6 rounded-full bg-[#111] text-white flex items-center justify-center text-[7px] font-bold shrink-0 mt-0.5">
+                gh
+              </div>
+              <div>
+                <div className="flex items-center gap-1.5 text-[10px]">
+                  <span className="font-semibold text-gray-900">ghiffa</span>
+                  <span className="text-gray-400">designer/eng</span>
+                </div>
+                <p className="text-[11px] text-gray-700 mt-0.5 leading-snug">
+                  From circuits &amp; firmware to clean, reactive UI.
+                </p>
+              </div>
+            </div>
+
+            {/* Bottom-Left Location Pill */}
+            <div className="hidden sm:inline-flex items-center gap-2 absolute -bottom-4 left-4 z-20 bg-white px-3.5 py-1.5 rounded-full soft-card-shadow border border-gray-100 text-[11px] text-gray-700 font-medium">
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-600" />
+              <span>📍 Kuningan, Indonesia · GMT+7</span>
+            </div>
+
+            {/* 3 Metric Stats Below Portrait */}
+            <div className="grid grid-cols-3 gap-3 mt-8">
+              <div className="bg-gray-50 border border-gray-200/80 rounded-xl p-3 text-center">
+                <span className="font-mono text-xs text-gray-400 uppercase tracking-wider block">EXP</span>
+                <span className="text-2xl font-bold text-[#141414] tracking-tight">4+</span>
+                <span className="text-[10px] text-gray-500 block leading-tight mt-0.5">Years Built</span>
+              </div>
+              <div className="bg-gray-50 border border-gray-200/80 rounded-xl p-3 text-center">
+                <span className="font-mono text-xs text-gray-400 uppercase tracking-wider block">PROJ</span>
+                <span className="text-2xl font-bold text-[#141414] tracking-tight">20+</span>
+                <span className="text-[10px] text-gray-500 block leading-tight mt-0.5">Systems Shipped</span>
+              </div>
+              <div className="bg-gray-50 border border-gray-200/80 rounded-xl p-3 text-center">
+                <span className="font-mono text-xs text-gray-400 uppercase tracking-wider block">IMPACT</span>
+                <span className="text-2xl font-bold text-[#141414] tracking-tight">100%</span>
+                <span className="text-[10px] text-gray-500 block leading-tight mt-0.5">Custom Code</span>
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT: Narrative Story & Figma Component Properties Inspector */}
+          <div className="lg:col-span-7 space-y-6">
+            <div>
+              <div className="text-[11px] font-mono uppercase tracking-widest text-blue-600 font-semibold mb-2">
+                // THE ARCHITECT BEHIND THE SYSTEM
+              </div>
+              <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-bold tracking-tight text-[#141414] leading-[1.12]">
+                Engineering digital products that{' '}
+                <span className="relative inline-block bg-[#DCE8FF] text-[#141414] px-2.5 py-0.5 mx-1 border border-[#3B82F6] font-semibold">
+                  <span className="w-1.5 h-1.5 bg-white border border-[#3B82F6] absolute -top-1 -left-1" />
+                  <span className="w-1.5 h-1.5 bg-white border border-[#3B82F6] absolute -top-1 -right-1" />
+                  <span className="w-1.5 h-1.5 bg-white border border-[#3B82F6] absolute -bottom-1 -left-1" />
+                  <span className="w-1.5 h-1.5 bg-white border border-[#3B82F6] absolute -bottom-1 -right-1" />
+                  bridge bits and atoms.
+                </span>
+              </h2>
+            </div>
+
+            <div className="space-y-4 text-[14.5px] leading-relaxed text-gray-600">
+              <p>
+                Hi, I&apos;m <strong>Haikal Jibran Al-Ghiffarry</strong> (known as <em>ghiffa</em>). I am an IoT Engineer and Fullstack Web Developer. My work sits directly at the intersection of physical hardware electronics and modern, high-performance web software.
+              </p>
+              <p>
+                Rather than treating hardware and software as separate worlds, I design unified systems: from circuit schematics, sensors, and microcontrollers (ESP32, Arduino, MQTT) to edge APIs, cloud databases, and pixel-precise, responsive user interfaces built in React and Next.js.
+              </p>
+              <p>
+                I am also the founder of <strong>Skillstreak.id</strong>, a platform designed to accelerate programming education with gamified streaks and hands-on coding challenges.
+              </p>
+            </div>
+
+            {/* Figma-Style Component Properties Inspector Box */}
+            <div className="rounded-2xl border border-gray-200/90 bg-[#F9FAFB] p-5 sm:p-6 space-y-3.5">
+              <div className="flex items-center justify-between border-b border-gray-200 pb-2.5">
+                <span className="font-mono text-xs font-semibold text-gray-900 uppercase tracking-wider flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-xs bg-blue-600" />
+                  Component Properties // Specs
+                </span>
+                <span className="font-mono text-[10px] text-gray-400">Props: 5 active</span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 text-xs">
+                <div className="sm:col-span-4 font-mono text-gray-500 uppercase">Core Discipline:</div>
+                <div className="sm:col-span-8 font-medium text-gray-900">IoT Embedded Engineering &amp; Fullstack Web</div>
+
+                <div className="sm:col-span-4 font-mono text-gray-500 uppercase">Education:</div>
+                <div className="sm:col-span-8 font-medium text-gray-900">Teknik Informatika · Universitas Kuningan (S.Kom)</div>
+
+                <div className="sm:col-span-4 font-mono text-gray-500 uppercase">Hardware / IoT:</div>
+                <div className="sm:col-span-8 font-mono text-gray-800 text-[11.5px]">
+                  ESP32, Arduino, Raspberry Pi, MQTT, LoRa, Sensor Integrations
+                </div>
+
+                <div className="sm:col-span-4 font-mono text-gray-500 uppercase">Software Stack:</div>
+                <div className="sm:col-span-8 font-mono text-gray-800 text-[11.5px]">
+                  React, Next.js, TypeScript, Tailwind CSS, Node.js, Supabase, PostgreSQL
+                </div>
+
+                <div className="sm:col-span-4 font-mono text-gray-500 uppercase">Ventures:</div>
+                <div className="sm:col-span-8 font-medium text-gray-900">
+                  Skillstreak.id (Founder) · Open Source Hardware &amp; Web
+                </div>
+              </div>
+            </div>
+
+            {/* CTAs */}
+            <div className="pt-2 flex flex-wrap items-center gap-4">
+              <button
+                onClick={() => openContactModal('About Me & Collaboration')}
+                className="bg-[#0055FF] hover:bg-[#0044CC] text-white font-medium text-[13px] px-7 py-3 rounded-full shadow-sm transition-all active:scale-95 cursor-pointer"
+              >
+                Let&apos;s build together
+              </button>
+              <a
+                href={`mailto:${emailAddress}`}
+                className="inline-flex items-center gap-2 border border-gray-300 hover:border-black text-gray-700 hover:text-black font-medium text-[13px] px-6 py-2.5 rounded-full transition-colors"
+              >
+                <span>Get in touch</span>
+                <span className="font-mono text-xs">&rarr;</span>
+              </a>
+            </div>
+
+          </div>
+
         </div>
       </section>
 

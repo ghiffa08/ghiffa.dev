@@ -195,7 +195,7 @@ export default function Portfolio() {
 
   useEffect(() => {
     if (isBannerDark) {
-      document.body.style.backgroundColor = '#000000';
+      document.body.style.backgroundColor = '#F8A065';
     } else {
       document.body.style.backgroundColor = '#ffffff';
     }
@@ -682,7 +682,7 @@ export default function Portfolio() {
   return (
     <div
       className={`min-h-screen font-sans overflow-x-clip antialiased selection:bg-blue-600 selection:text-white transition-colors duration-700 ease-in-out ${
-        isBannerDark ? 'bg-black text-white' : 'bg-white text-[#111111]'
+        isBannerDark ? 'bg-[#F8A065] text-[#111111]' : 'bg-white text-[#111111]'
       } ${aiActive ? 'ai-mode-active' : ''}`}
     >
       <SEO
@@ -695,7 +695,7 @@ export default function Portfolio() {
       <header
         className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b transition-all duration-700 ease-in-out ${
           isBannerDark
-            ? 'bg-black/85 border-white/10 text-white'
+            ? 'bg-[#F8A065]/85 border-black/10 text-[#111111]'
             : 'bg-white/95 border-gray-100/80 text-[#111111]'
         }`}
       >
@@ -704,7 +704,7 @@ export default function Portfolio() {
             href="#"
             className={`text-[20px] font-bold tracking-tight border px-1.5 py-0.5 leading-none transition-colors duration-700 ${
               isBannerDark
-                ? 'text-white border-white/80 hover:text-gray-300'
+                ? 'text-[#111111] border-[#111111] hover:opacity-80'
                 : 'text-[#111111] border-gray-800 hover:opacity-80'
             }`}
           >
@@ -714,7 +714,7 @@ export default function Portfolio() {
             onClick={() => openContactModal('Header Inquiry')}
             className={`text-[12.5px] font-medium px-5 py-2 rounded-full transition-all active:scale-95 cursor-pointer shadow-xs ${
               isBannerDark
-                ? 'bg-white text-black hover:bg-gray-200'
+                ? 'bg-[#18181B] text-white hover:bg-black'
                 : 'bg-[#18181B] text-white hover:bg-[#2a2a2a]'
             }`}
           >
@@ -2142,31 +2142,31 @@ export default function Portfolio() {
         ref={bannerRef}
         id="skillstreak-banner"
         className={`min-h-screen w-full flex flex-col justify-center items-center px-4 sm:px-8 lg:px-12 py-12 relative z-10 transition-colors duration-700 ease-in-out select-none ${
-          isBannerDark ? 'bg-black' : 'bg-white'
+          isBannerDark ? 'bg-[#F8A065]' : 'bg-white'
         }`}
       >
         <div className="w-full max-w-[1140px] mx-auto">
-          {/* Skillstreak Orange Card */}
-          <div className="relative rounded-[32px] sm:rounded-[36px] bg-gradient-to-br from-[#FF5E1E] via-[#FF5500] to-[#E54800] border border-orange-400/40 shadow-2xl shadow-orange-950/40 overflow-hidden min-h-[500px] lg:h-[530px] flex items-center">
+          {/* Centered Dark Card (Restored to exact initial style) */}
+          <div className="relative rounded-[32px] sm:rounded-[36px] bg-[#141414] border border-white/[0.08] shadow-2xl overflow-hidden min-h-[500px] lg:h-[530px] flex items-center">
 
             {/* Inner Grid: Left Content (52%) + Right Laptop (48%) */}
             <div className="w-full h-full grid grid-cols-1 lg:grid-cols-12 items-center relative z-10">
 
-              {/* Left Column: Typography, Figma selection box & Black CTA */}
+              {/* Left Column: Typography, Figma selection box & Blue CTA */}
               <div className="lg:col-span-6 px-8 sm:px-12 lg:pl-14 lg:pr-4 py-10 lg:py-12 flex flex-col justify-center">
 
-                {/* Figma Dashed Bounding Box with 8 White Handles */}
-                <div className="relative inline-block border border-dashed border-white/70 px-3.5 py-1.5 -ml-2 rounded-[1px] select-none self-start">
+                {/* Figma Dashed Bounding Box with 8 Handles (Exact Initial Reference) */}
+                <div className="relative inline-block border border-dashed border-[#555555] px-3.5 py-1.5 -ml-2 rounded-[1px] select-none self-start">
                   {/* 4 Corner Handles */}
-                  <span className="absolute -top-1 -left-1 w-1.5 h-1.5 bg-white border border-[#FF5500] rounded-[1px]" />
-                  <span className="absolute -top-1 -right-1 w-1.5 h-1.5 bg-white border border-[#FF5500] rounded-[1px]" />
-                  <span className="absolute -bottom-1 -left-1 w-1.5 h-1.5 bg-white border border-[#FF5500] rounded-[1px]" />
-                  <span className="absolute -bottom-1 -right-1 w-1.5 h-1.5 bg-white border border-[#FF5500] rounded-[1px]" />
+                  <span className="absolute -top-1 -left-1 w-1.5 h-1.5 bg-[#888888] border border-[#222222] rounded-[1px]" />
+                  <span className="absolute -top-1 -right-1 w-1.5 h-1.5 bg-[#888888] border border-[#222222] rounded-[1px]" />
+                  <span className="absolute -bottom-1 -left-1 w-1.5 h-1.5 bg-[#888888] border border-[#222222] rounded-[1px]" />
+                  <span className="absolute -bottom-1 -right-1 w-1.5 h-1.5 bg-[#888888] border border-[#222222] rounded-[1px]" />
                   {/* 4 Midpoint Handles */}
-                  <span className="absolute -top-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-white border border-[#FF5500] rounded-[1px]" />
-                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-white border border-[#FF5500] rounded-[1px]" />
-                  <span className="absolute top-1/2 -left-1 -translate-y-1/2 w-1.5 h-1.5 bg-white border border-[#FF5500] rounded-[1px]" />
-                  <span className="absolute top-1/2 -right-1 -translate-y-1/2 w-1.5 h-1.5 bg-white border border-[#FF5500] rounded-[1px]" />
+                  <span className="absolute -top-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#888888] border border-[#222222] rounded-[1px]" />
+                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#888888] border border-[#222222] rounded-[1px]" />
+                  <span className="absolute top-1/2 -left-1 -translate-y-1/2 w-1.5 h-1.5 bg-[#888888] border border-[#222222] rounded-[1px]" />
+                  <span className="absolute top-1/2 -right-1 -translate-y-1/2 w-1.5 h-1.5 bg-[#888888] border border-[#222222] rounded-[1px]" />
 
                   <h2 className="text-[38px] sm:text-[46px] lg:text-[50px] font-bold tracking-tight text-white leading-none">
                     skillstreak.id
@@ -2174,22 +2174,22 @@ export default function Portfolio() {
                 </div>
 
                 {/* Primary bold lead text */}
-                <p className="text-white text-[16px] sm:text-[18px] font-medium leading-[1.48] mt-6 max-w-[430px]">
+                <p className="text-white text-[16px] sm:text-[18px] font-normal leading-[1.48] mt-6 max-w-[430px]">
                   The fastest path from zero to deployable engineer, built like a game and engineered for the real world.
                 </p>
 
-                {/* Secondary text */}
-                <p className="text-white/90 text-[13px] sm:text-[13.5px] leading-[1.6] mt-4 max-w-[400px]">
+                {/* Secondary muted text */}
+                <p className="text-[#7c7c7c] text-[13px] sm:text-[13.5px] leading-[1.6] mt-4 max-w-[400px]">
                   Most developers quit because learning feels like a grind with no visible progress. skillstreak.id changes the feedback loop with XP rewards, daily streak accountability, and real-time code evaluations.
                 </p>
 
-                {/* Solid Black Pill CTA Button */}
+                {/* Solid Blue Pill CTA Button */}
                 <div className="mt-8">
                   <a
                     href="https://skillstreak.id"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block bg-[#111111] hover:bg-black text-white text-[14px] font-semibold px-8 py-3.5 rounded-full shadow-lg shadow-black/20 transition-all duration-200 active:scale-95 cursor-pointer"
+                    className="inline-block bg-[#0859d4] hover:bg-[#0648af] text-white text-[14px] font-medium px-8 py-3.5 rounded-full shadow-md shadow-blue-600/20 transition-all duration-200 active:scale-95 cursor-pointer"
                   >
                     Get Early Access
                   </a>
@@ -2237,8 +2237,8 @@ export default function Portfolio() {
             </div>
           </div>
 
-          {/* Subtext below card — aligned with card left edge */}
-          <p className="text-[12px] text-[#666666] mt-4 pl-1 max-w-lg leading-relaxed">
+          {/* Subtext below card — dark text on soft orange background */}
+          <p className="text-[12px] text-neutral-900/80 font-medium mt-4 pl-1 max-w-lg leading-relaxed">
             * Early members receive Founder Badge + lifetime discounted access on skillstreak.id
           </p>
         </div>

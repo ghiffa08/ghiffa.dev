@@ -878,9 +878,9 @@ export default function Portfolio() {
             <div className="bg-[#111] p-2 rounded-t-xl border-2 border-gray-300 shadow-xl">
               <div className="overflow-hidden rounded-xs h-[150px] bg-zinc-900 relative">
                 <img
-                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80"
-                  alt="Laptop screen"
-                  className="w-full h-full object-cover grayscale contrast-125 pointer-events-none select-none"
+                  src="/skillstreak-dekstop.png"
+                  alt="Skillstreak Desktop"
+                  className="w-full h-full object-cover object-top pointer-events-none select-none"
                 />
               </div>
             </div>
@@ -2082,7 +2082,6 @@ export default function Portfolio() {
             {/* Left Copy & Blue Pill CTA */}
             <div className="lg:col-span-6 space-y-5 pr-4">
               <div className="text-[11px] font-mono uppercase tracking-widest text-gray-400">
-                // FEATURED PLATFORM • EDTECH VENTURE
               </div>
               <h2 className="text-3xl sm:text-[42px] font-bold tracking-tight text-[#141414] leading-tight">
                 skillstreak.id
@@ -2095,7 +2094,7 @@ export default function Portfolio() {
               </p>
               <div className="pt-3">
                 <a
-                  href="https://skillstreak.web.id"
+                  href="https://skillstreak.id"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-[#0055FF] hover:bg-[#0044CC] text-white font-medium text-[13px] px-7 py-3 rounded-full shadow-sm transition-all active:scale-95 inline-flex items-center gap-2 cursor-pointer"
@@ -2106,27 +2105,19 @@ export default function Portfolio() {
               </div>
             </div>
 
-            {/* Right Bleed Laptop Mockup with Royal Blue Grid Screen */}
+            {/* Right Bleed Laptop Mockup with Skillstreak Desktop Screen */}
             <div className="lg:col-span-6 flex justify-end">
               <div className="w-full max-w-[520px] lg:translate-x-6">
                 <div className="bg-[#141414] p-3 rounded-t-2xl border-2 border-gray-300 shadow-2xl">
                   {/* Camera notch */}
                   <div className="w-12 h-1.5 bg-black mx-auto rounded-b-md mb-1" />
-                  {/* Blue Grid Display */}
-                  <div className="bg-royal-blue-grid h-[260px] sm:h-[300px] rounded-lg p-6 flex flex-col justify-between relative overflow-hidden">
-                    <div className="flex items-center justify-between text-white/60 text-xs font-mono">
-                      <span>skillstreak.id // workspace</span>
-                      <span>v1.0</span>
-                    </div>
-                    <div className="my-auto text-center">
-                      <div className="inline-block border border-dashed border-white/40 px-5 py-2.5">
-                        <span className="text-white font-bold text-2xl sm:text-3xl tracking-tight">skillstreak.id</span>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between text-[11px] text-white/70 font-mono">
-                      <span>STATUS: EARLY ACCESS</span>
-                      <span>100% HANDS-ON</span>
-                    </div>
+                  {/* Skillstreak Desktop Display */}
+                  <div className="h-[260px] sm:h-[300px] rounded-lg overflow-hidden bg-zinc-950 relative border border-gray-700/60 shadow-inner">
+                    <img
+                      src="/skillstreak-dekstop.png"
+                      alt="Skillstreak Platform Desktop Preview"
+                      className="w-full h-full object-cover object-top"
+                    />
                   </div>
                 </div>
                 <div className="h-4 bg-gradient-to-b from-gray-200 to-gray-400 rounded-b-2xl -mx-4 shadow-md flex items-center justify-center">
@@ -2138,7 +2129,7 @@ export default function Portfolio() {
           </div>
         </div>
         <p className="text-[11.5px] text-gray-400 mt-4 pl-2">
-          * Early members receive Founder Badge + lifetime discounted access on skillstreak.web.id
+          * Early members receive Founder Badge + lifetime discounted access on skillstreak.id
         </p>
       </section>
 

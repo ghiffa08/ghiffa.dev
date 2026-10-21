@@ -167,6 +167,44 @@ export default function Portfolio() {
   const [formSent, setFormSent] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
 
+  // Skillstreak.id Banner Section Dark Mode & Mockup Screen State
+  const [isBannerDark, setIsBannerDark] = useState(false);
+  const [bannerScreenMode, setBannerScreenMode] = useState('desktop'); // 'desktop' or 'blueprint'
+  const bannerRef = useRef(null);
+
+  // Scroll-triggered dark mode for Skillstreak.id banner section
+  useEffect(() => {
+    const handleBannerScroll = () => {
+      if (!bannerRef.current) return;
+      const rect = bannerRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+
+      // When the banner enters the central focal reading range of the viewport
+      const isInFocalRange = rect.top < windowHeight * 0.70 && rect.bottom > windowHeight * 0.30;
+      setIsBannerDark(isInFocalRange);
+    };
+
+    window.addEventListener('scroll', handleBannerScroll, { passive: true });
+    window.addEventListener('resize', handleBannerScroll, { passive: true });
+    handleBannerScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleBannerScroll);
+      window.removeEventListener('resize', handleBannerScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isBannerDark) {
+      document.body.style.backgroundColor = '#000000';
+    } else {
+      document.body.style.backgroundColor = '#ffffff';
+    }
+    return () => {
+      document.body.style.backgroundColor = '';
+    };
+  }, [isBannerDark]);
+
   const openContactModal = (topic = '') => {
     setModalTopic(topic);
     if (topic) {
@@ -643,7 +681,11 @@ export default function Portfolio() {
   const activeCredential = credentialsList[selectedCredIdx] || credentialsList[0];
 
   return (
-    <div className={`min-h-screen bg-white text-[#111111] font-sans overflow-x-clip antialiased selection:bg-blue-600 selection:text-white ${aiActive ? 'ai-mode-active' : ''}`}>
+    <div
+      className={`min-h-screen font-sans overflow-x-clip antialiased selection:bg-blue-600 selection:text-white transition-colors duration-700 ease-in-out ${
+        isBannerDark ? 'bg-black text-white' : 'bg-white text-[#111111]'
+      } ${aiActive ? 'ai-mode-active' : ''}`}
+    >
       <SEO
         title="ghiffa.dev — Custom Web Design & Development"
         description="Official portfolio of Haikal Jibran Al-Ghiffarry (ghiffa.dev). Building the bridge between bits and atoms for companies, governments, and organizations."
@@ -651,17 +693,31 @@ export default function Portfolio() {
       />
 
       {/* FULL-WIDTH HEADER */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100/80">
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b transition-all duration-700 ease-in-out ${
+          isBannerDark
+            ? 'bg-black/85 border-white/10 text-white'
+            : 'bg-white/95 border-gray-100/80 text-[#111111]'
+        }`}
+      >
         <div className="w-full px-6 sm:px-16 lg:px-[12.8vw] h-[72px] flex items-center justify-between">
           <a
             href="#"
-            className="text-[20px] font-bold tracking-tight text-[#111111] border border-gray-800 px-1.5 py-0.5 leading-none hover:opacity-80 transition-opacity"
+            className={`text-[20px] font-bold tracking-tight border px-1.5 py-0.5 leading-none transition-colors duration-700 ${
+              isBannerDark
+                ? 'text-white border-white/80 hover:text-gray-300'
+                : 'text-[#111111] border-gray-800 hover:opacity-80'
+            }`}
           >
             ghiffa.dev
           </a>
           <button
             onClick={() => openContactModal('Header Inquiry')}
-            className="bg-[#18181B] hover:bg-[#2a2a2a] text-white text-[12.5px] font-medium px-5 py-2 rounded-full transition-all active:scale-95 cursor-pointer shadow-xs"
+            className={`text-[12.5px] font-medium px-5 py-2 rounded-full transition-all active:scale-95 cursor-pointer shadow-xs ${
+              isBannerDark
+                ? 'bg-white text-black hover:bg-gray-200'
+                : 'bg-[#18181B] text-white hover:bg-[#2a2a2a]'
+            }`}
           >
             Let&apos;s talk
           </button>
@@ -874,25 +930,26 @@ export default function Portfolio() {
           </DraggableItem>
 
           {/* Middle-Left Laptop Mockup (Bleeds off left edge) */}
-          <DraggableItem className="hidden lg:block absolute top-[48%] -left-[18px] z-20 w-[275px] -rotate-[3deg]">
+          <DraggableItem className="hidden lg:block absolute top-[46%] -left-[20px] z-20 w-[315px] -rotate-[3deg]">
             <div
-              className="bg-[#111] p-2.5 rounded-t-xl border-2 border-gray-300 shadow-xl overflow-hidden"
+              className="bg-[#141416] p-2.5 rounded-t-xl border border-gray-300/80 shadow-2xl overflow-hidden"
               style={{ transform: 'translate3d(0, 0, 0)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
             >
               {/* Camera notch */}
-              <div className="w-8 h-1 bg-black mx-auto rounded-b-xs mb-1" />
-              <div className="overflow-hidden rounded-xs aspect-[16/10] bg-zinc-900 relative shadow-inner">
+              <div className="w-10 h-1.5 bg-black mx-auto rounded-b-xs mb-1.5" />
+              <div className="overflow-hidden rounded-sm aspect-[16/10] bg-zinc-950 relative shadow-inner">
                 <img
-                  src="/skillstreak-hero-hd.png"
-                  srcSet="/skillstreak-hero-hd.png 1x, /skillstreak-dekstop.png 2x"
-                  alt="Skillstreak Desktop HD"
+                  src="/skillstreak-dekstop.png"
+                  alt="Skillstreak Desktop Platform"
                   className="w-full h-full object-cover object-top pointer-events-none select-none"
-                  style={{ imageRendering: '-webkit-optimize-contrast', transform: 'translateZ(0)' }}
+                  style={{ transform: 'translateZ(0)' }}
+                  loading="eager"
+                  decoding="async"
                 />
               </div>
             </div>
             <div className="h-3.5 bg-gradient-to-b from-gray-200 to-gray-400 rounded-b-xl mx-[-10px] shadow-md flex items-center justify-center">
-              <div className="w-12 h-1 bg-gray-500/40 rounded-full" />
+              <div className="w-14 h-1 bg-gray-500/40 rounded-full" />
             </div>
           </DraggableItem>
 
@@ -2081,65 +2138,144 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* 4. SKILLSTREAK.ID PLATFORM BANNER WITH BLUE SCREEN LAPTOP MOCKUP */}
-      <section className="py-16 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto">
-        <div className="rounded-[28px] bg-[#F5F6F8] border border-gray-200/70 overflow-hidden pt-12 pb-12 pl-8 sm:pl-16 pr-8 sm:pr-0">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+      {/* 4. SKILLSTREAK.ID PLATFORM BANNER WITH DARK THEME SCROLL TRANSITION (MATCHING GAMBAR 1) */}
+      <section
+        ref={bannerRef}
+        id="skillstreak-banner"
+        className="py-20 sm:py-28 px-6 sm:px-12 lg:px-24 transition-colors duration-700 ease-in-out relative z-10"
+      >
+        <div className="max-w-[1360px] mx-auto">
+          <div className="rounded-[32px] sm:rounded-[36px] bg-[#111113] border border-white/10 shadow-2xl p-8 sm:p-12 lg:p-16 relative overflow-hidden transition-all duration-500">
+            {/* Subtle background ambient blue glow behind the laptop */}
+            <div className="absolute right-[-80px] top-1/2 -translate-y-1/2 w-[480px] h-[380px] bg-[#0055FF]/10 rounded-full blur-[110px] pointer-events-none" />
 
-            {/* Left Copy & Blue Pill CTA */}
-            <div className="lg:col-span-6 space-y-5 pr-4">
-              <div className="text-[11px] font-mono uppercase tracking-widest text-gray-400">
-              </div>
-              <h2 className="text-3xl sm:text-[42px] font-bold tracking-tight text-[#141414] leading-tight">
-                skillstreak.id
-              </h2>
-              <p className="text-gray-600 text-[15px] leading-relaxed max-w-md">
-                The fastest path from zero to deployable engineer, built like a game and engineered for the real world.
-              </p>
-              <p className="text-gray-500 text-[13.5px] leading-relaxed max-w-md">
-                Most developers quit because learning feels like a grind with no visible progress. skillstreak.id changes the feedback loop with XP rewards, daily streak accountability, and real-time code evaluations.
-              </p>
-              <div className="pt-3">
-                <a
-                  href="https://skillstreak.id"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-[#0055FF] hover:bg-[#0044CC] text-white font-medium text-[13px] px-7 py-3 rounded-full shadow-sm transition-all active:scale-95 inline-flex items-center gap-2 cursor-pointer"
-                >
-                  <span>Get Early Access</span>
-                  <span className="text-sm">&rarr;</span>
-                </a>
-              </div>
-            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center relative z-10">
 
-            {/* Right Bleed Laptop Mockup with Skillstreak Desktop Screen */}
-            <div className="lg:col-span-6 flex justify-end">
-              <div className="w-full max-w-[520px] lg:translate-x-6">
-                <div className="bg-[#141414] p-3 rounded-t-2xl border-2 border-gray-300 shadow-2xl">
-                  {/* Camera notch */}
-                  <div className="w-12 h-1.5 bg-black mx-auto rounded-b-md mb-1" />
-                  {/* Skillstreak Desktop Display */}
-                  <div className="h-[260px] sm:h-[300px] rounded-lg overflow-hidden bg-zinc-950 relative border border-gray-700/60 shadow-inner">
-                    <img
-                      src="/skillstreak-dekstop.png"
-                      srcSet="/skillstreak-hero-hd.png 1x, /skillstreak-dekstop.png 2x"
-                      alt="Skillstreak Platform Desktop Preview"
-                      className="w-full h-full object-cover object-top"
-                      style={{ imageRendering: '-webkit-optimize-contrast' }}
-                    />
+              {/* Left Column: Figma Bounding Box Title, Clean Typography & Blue CTA */}
+              <div className="lg:col-span-6 space-y-6 pr-0 lg:pr-4">
+
+                {/* Figma Dashed Bounding Box with Corner & Midpoint Handles (Exact Gambar 1 styling) */}
+                <div className="relative inline-block border border-dashed border-white/35 px-5 py-2.5 -ml-2 rounded-xs select-none">
+                  {/* 4 Corner Handles */}
+                  <span className="absolute -top-1 -left-1 w-2 h-2 bg-white border border-black rounded-[1px]" />
+                  <span className="absolute -top-1 -right-1 w-2 h-2 bg-white border border-black rounded-[1px]" />
+                  <span className="absolute -bottom-1 -left-1 w-2 h-2 bg-white border border-black rounded-[1px]" />
+                  <span className="absolute -bottom-1 -right-1 w-2 h-2 bg-white border border-black rounded-[1px]" />
+                  {/* 4 Midpoint Handles */}
+                  <span className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-white border border-black rounded-[1px]" />
+                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-white border border-black rounded-[1px]" />
+                  <span className="absolute top-1/2 -left-1 -translate-y-1/2 w-2 h-2 bg-white border border-black rounded-[1px]" />
+                  <span className="absolute top-1/2 -right-1 -translate-y-1/2 w-2 h-2 bg-white border border-black rounded-[1px]" />
+
+                  <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-tight">
+                    skillstreak.id
+                  </h2>
+                </div>
+
+                {/* Primary bold lead text */}
+                <p className="text-white text-base sm:text-lg font-medium leading-relaxed max-w-lg">
+                  The fastest path from zero to deployable engineer, built like a game and engineered for the real world.
+                </p>
+
+                {/* Secondary muted text */}
+                <p className="text-[#9E9E9E] text-xs sm:text-[13.5px] leading-relaxed max-w-lg">
+                  Most developers quit because learning feels like a grind with no visible progress. skillstreak.id changes the feedback loop with XP rewards, daily streak accountability, and real-time code evaluations.
+                </p>
+
+                {/* Vibrant Blue Pill CTA */}
+                <div className="pt-2">
+                  <a
+                    href="https://skillstreak.id"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-[#0055FF] hover:bg-[#0044CC] text-white font-medium text-[13.5px] px-8 py-3.5 rounded-full shadow-lg shadow-blue-600/30 transition-all active:scale-95 inline-flex items-center gap-2 cursor-pointer"
+                  >
+                    <span>Get Early Access</span>
+                    <span className="text-sm">&rarr;</span>
+                  </a>
+                </div>
+              </div>
+
+              {/* Right Column: Dark Space-Black MacBook Mockup (Exact Gambar 1 styling) */}
+              <div className="lg:col-span-6 flex justify-end">
+                <div className="w-full max-w-[530px] lg:translate-x-4">
+
+                  {/* Dark MacBook Frame */}
+                  <div className="bg-[#0b0b0d] p-2.5 sm:p-3 rounded-t-2xl border-2 border-[#222225] shadow-2xl relative">
+
+                    {/* Camera notch */}
+                    <div className="w-14 h-2 bg-[#0b0b0d] mx-auto rounded-b-md mb-1.5 flex items-center justify-center">
+                      <div className="w-1 h-1 rounded-full bg-[#1e1e24]" />
+                    </div>
+
+                    {/* Screen Container */}
+                    <div className="h-[250px] sm:h-[295px] rounded-lg overflow-hidden bg-black relative border border-[#1d1d20] shadow-inner group">
+
+                      {/* Screen View Toggle (Live App Screenshot vs Royal Blue Blueprint) */}
+                      <div className="absolute top-2.5 right-2.5 z-20 flex items-center bg-black/70 backdrop-blur-md rounded-full p-0.5 border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button
+                          type="button"
+                          onClick={() => setBannerScreenMode('desktop')}
+                          className={`text-[9.5px] font-mono px-2.5 py-0.5 rounded-full transition-colors cursor-pointer ${
+                            bannerScreenMode === 'desktop' ? 'bg-[#0055FF] text-white' : 'text-gray-400 hover:text-white'
+                          }`}
+                        >
+                          App View
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setBannerScreenMode('blueprint')}
+                          className={`text-[9.5px] font-mono px-2.5 py-0.5 rounded-full transition-colors cursor-pointer ${
+                            bannerScreenMode === 'blueprint' ? 'bg-[#0055FF] text-white' : 'text-gray-400 hover:text-white'
+                          }`}
+                        >
+                          Blueprint
+                        </button>
+                      </div>
+
+                      {bannerScreenMode === 'desktop' ? (
+                        <img
+                          src="/skillstreak-dekstop.png"
+                          alt="Skillstreak Platform Desktop Preview"
+                          className="w-full h-full object-cover object-top select-none pointer-events-none"
+                          loading="eager"
+                          decoding="async"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-royal-blue-grid p-6 flex flex-col justify-between relative overflow-hidden select-none">
+                          <div className="flex items-center justify-between text-white/70 text-xs font-mono">
+                            <span>skillstreak.id // workspace</span>
+                            <span>v1.0</span>
+                          </div>
+                          <div className="my-auto text-center">
+                            <div className="inline-block border border-dashed border-white/40 px-5 py-2.5 rounded-xs">
+                              <span className="text-white font-bold text-2xl sm:text-3xl tracking-tight">skillstreak.id</span>
+                            </div>
+                          </div>
+                          <div className="flex items-center justify-between text-[11px] text-white/70 font-mono">
+                            <span>STATUS: EARLY ACCESS</span>
+                            <span>100% HANDS-ON</span>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Dark Laptop Base with Center Notch */}
+                  <div className="h-4 bg-gradient-to-b from-[#242426] to-[#141416] rounded-b-2xl -mx-3 shadow-xl flex items-center justify-center border-t border-[#313134]">
+                    <div className="w-16 h-1 bg-[#09090b] rounded-full" />
                   </div>
                 </div>
-                <div className="h-4 bg-gradient-to-b from-gray-200 to-gray-400 rounded-b-2xl -mx-4 shadow-md flex items-center justify-center">
-                  <div className="w-16 h-1.5 bg-gray-500/40 rounded-full" />
-                </div>
               </div>
-            </div>
 
+            </div>
           </div>
+
+          {/* Subtext below card */}
+          <p className="text-[12px] text-gray-400 mt-4 pl-2 font-normal transition-colors duration-700">
+            * Early members receive Founder Badge + lifetime discounted access on skillstreak.id
+          </p>
         </div>
-        <p className="text-[11.5px] text-gray-400 mt-4 pl-2">
-          * Early members receive Founder Badge + lifetime discounted access on skillstreak.id
-        </p>
       </section>
 
       {/* 5. "A TEAM THAT LOVES THE INTERNET" INTERACTIVE CANVAS SECTION */}

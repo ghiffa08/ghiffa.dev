@@ -765,73 +765,73 @@ export default function Portfolio() {
 
           {/* 3. LIVE ROAMING MULTIPLAYER CURSORS */}
 
-          {/* Creative Director (Green) */}
+          {/* Ghiffa (Tech Lead - Green) */}
           <div id="cursor-director" className="live-cursor hidden sm:block">
-            <svg className="w-3.5 h-3.5 text-[#1FC77E] -ml-1.5 mb-0.5 drop-shadow-xs" viewBox="0 0 16 16" fill="currentColor">
+            <svg className="w-3.5 h-3.5 text-[#10B981] -ml-1.5 mb-0.5 drop-shadow-xs" viewBox="0 0 16 16" fill="currentColor">
               <path d="M1 1L6.5 14.5L8.8 8.8L14.5 6.5L1 1Z" />
             </svg>
-            <div className="bg-[#1FC77E] text-white text-[11px] font-medium px-2.5 py-0.5 rounded-[5px] shadow-sm whitespace-nowrap">
-              Creative Director
+            <div className="bg-[#10B981] text-white text-[11px] font-medium px-2.5 py-0.5 rounded-[5px] shadow-sm whitespace-nowrap">
+              Ghiffa (Tech Lead)
             </div>
           </div>
 
-          {/* Developer (Cyan) */}
+          {/* CI/CD Bot (Cyan) */}
           <div id="cursor-dev-cyan" className="live-cursor hidden sm:block">
             <svg className="w-3.5 h-3.5 text-[#06B6D4] -ml-1.5 mb-0.5 drop-shadow-xs" viewBox="0 0 16 16" fill="currentColor">
               <path d="M1 1L6.5 14.5L8.8 8.8L14.5 6.5L1 1Z" />
             </svg>
             <div className="bg-[#06B6D4] text-white text-[11px] font-medium px-2.5 py-0.5 rounded-[5px] shadow-sm whitespace-nowrap">
-              Developer
+              CI/CD Passing ✓
             </div>
           </div>
 
-          {/* UI Designer (Purple) */}
+          {/* UI / Motion Designer (Purple) */}
           <div id="cursor-ui" className="live-cursor hidden sm:block">
-            <svg className="w-3.5 h-3.5 text-[#7B7FEF] -ml-1.5 mb-0.5 drop-shadow-xs" viewBox="0 0 16 16" fill="currentColor">
+            <svg className="w-3.5 h-3.5 text-[#8B5CF6] -ml-1.5 mb-0.5 drop-shadow-xs" viewBox="0 0 16 16" fill="currentColor">
               <path d="M1 1L6.5 14.5L8.8 8.8L14.5 6.5L1 1Z" />
             </svg>
-            <div className="bg-[#7B7FEF] text-white text-[11px] font-medium px-2.5 py-0.5 rounded-[5px] shadow-sm whitespace-nowrap">
-              UI Designer
+            <div className="bg-[#8B5CF6] text-white text-[11px] font-medium px-2.5 py-0.5 rounded-[5px] shadow-sm whitespace-nowrap">
+              UI &amp; Motion
             </div>
           </div>
 
-          {/* UX Designer (Pink) */}
+          {/* Design QA (Pink) */}
           <div id="cursor-ux" className="live-cursor hidden sm:block">
-            <svg className="w-3.5 h-3.5 text-[#F452B8] -ml-2 mb-0.5 drop-shadow-xs" viewBox="0 0 16 16" fill="currentColor">
+            <svg className="w-3.5 h-3.5 text-[#EC4899] -ml-2 mb-0.5 drop-shadow-xs" viewBox="0 0 16 16" fill="currentColor">
               <path d="M1 1L6.5 14.5L8.8 8.8L14.5 6.5L1 1Z" />
             </svg>
-            <div className="bg-[#F452B8] text-white text-[11px] font-medium px-2.5 py-0.5 rounded-[5px] shadow-sm whitespace-nowrap">
-              UX Designer
+            <div className="bg-[#EC4899] text-white text-[11px] font-medium px-2.5 py-0.5 rounded-[5px] shadow-sm whitespace-nowrap">
+              Design QA
             </div>
           </div>
 
-          {/* Project Manager (Blue) */}
+          {/* Project Manager Elena (Blue) */}
           <div id="cursor-pm" className="live-cursor hidden sm:block">
-            <svg className="w-3.5 h-3.5 text-[#1D8CF8] -ml-1.5 mb-0.5 drop-shadow-xs" viewBox="0 0 16 16" fill="currentColor">
+            <svg className="w-3.5 h-3.5 text-[#3B82F6] -ml-1.5 mb-0.5 drop-shadow-xs" viewBox="0 0 16 16" fill="currentColor">
               <path d="M1 1L6.5 14.5L8.8 8.8L14.5 6.5L1 1Z" />
             </svg>
-            <div className="bg-[#1D8CF8] text-white text-[11px] font-medium px-2.5 py-0.5 rounded-[5px] shadow-sm whitespace-nowrap">
-              Project Manager
+            <div className="bg-[#3B82F6] text-white text-[11px] font-medium px-2.5 py-0.5 rounded-[5px] shadow-sm whitespace-nowrap">
+              Elena (PM)
             </div>
           </div>
 
-          {/* Client (Orange) */}
+          {/* Client PT Raksa (Orange) */}
           <div id="cursor-client" className="live-cursor hidden md:block">
-            <svg className="w-3.5 h-3.5 text-[#F05228] -ml-1.5 mb-0.5 drop-shadow-xs" viewBox="0 0 16 16" fill="currentColor">
+            <svg className="w-3.5 h-3.5 text-[#F97316] -ml-1.5 mb-0.5 drop-shadow-xs" viewBox="0 0 16 16" fill="currentColor">
               <path d="M1 1L6.5 14.5L8.8 8.8L14.5 6.5L1 1Z" />
             </svg>
-            <div className="bg-[#F05228] text-white text-[11px] font-medium px-2.5 py-0.5 rounded-[5px] shadow-sm whitespace-nowrap">
-              Client
+            <div className="bg-[#F97316] text-white text-[11px] font-medium px-2.5 py-0.5 rounded-[5px] shadow-sm whitespace-nowrap">
+              Client Review (PT Raksa)
             </div>
           </div>
 
-          {/* Developer (Yellow) */}
+          {/* Code Reviewer (Amber) */}
           <div id="cursor-dev-yellow" className="live-cursor hidden sm:block">
-            <svg className="w-3.5 h-3.5 text-[#F5B800] -ml-1.5 mb-0.5 drop-shadow-xs" viewBox="0 0 16 16" fill="currentColor">
+            <svg className="w-3.5 h-3.5 text-[#F59E0B] -ml-1.5 mb-0.5 drop-shadow-xs" viewBox="0 0 16 16" fill="currentColor">
               <path d="M1 1L6.5 14.5L8.8 8.8L14.5 6.5L1 1Z" />
             </svg>
-            <div className="bg-[#F5B800] text-[#111111] text-[11px] font-medium px-2.5 py-0.5 rounded-[5px] shadow-xs whitespace-nowrap">
-              Developer
+            <div className="bg-[#F59E0B] text-[#111111] text-[11px] font-semibold px-2.5 py-0.5 rounded-[5px] shadow-xs whitespace-nowrap">
+              Code Reviewer
             </div>
           </div>
 
@@ -860,7 +860,7 @@ export default function Portfolio() {
             <div className="w-6 h-6 rounded-full bg-black text-white flex items-center justify-center font-bold text-[12px] tracking-tighter group-hover:scale-110 transition-transform">N</div>
           </DraggableItem>
 
-          {/* TypeScript Icon (Replaces WordPress at bottom-center) */}
+          {/* TypeScript Icon (Bottom-center stack) */}
           <DraggableItem className="absolute top-[80.5%] left-[48.1%] z-20 w-12 h-12 rounded-2xl bg-white soft-card-shadow border border-gray-100 flex items-center justify-center group" title="TypeScript">
             <svg className="w-6 h-6 rounded-md shadow-2xs group-hover:scale-110 transition-transform" viewBox="0 0 128 128">
               <rect width="128" height="128" fill="#3178C6" rx="16" />
@@ -868,7 +868,7 @@ export default function Portfolio() {
             </svg>
           </DraggableItem>
 
-          {/* React Icon (New programming stack at top-right where Figma was) */}
+          {/* React Icon (Top-right stack) */}
           <DraggableItem className="absolute top-[15%] right-[19.8%] z-20 w-12 h-12 rounded-2xl bg-white soft-card-shadow border border-gray-100 flex items-center justify-center group" title="React">
             <svg className="w-7 h-7 text-[#00D8FE] transition-transform duration-700 group-hover:rotate-180" viewBox="-11.5 -10.23174 23 20.46348" fill="currentColor">
               <circle cx="0" cy="0" r="2.05" fill="#00D8FE" />
@@ -880,55 +880,70 @@ export default function Portfolio() {
             </svg>
           </DraggableItem>
 
-          {/* 5. FLOATING COMMENTS */}
-          <DraggableItem className="absolute top-[28.5%] right-[10%] z-30 bg-white/95 backdrop-blur-md rounded-2xl rounded-bl-sm px-4 py-3 comment-shadow border border-gray-100 flex items-start gap-3 max-w-[260px]">
-            <div className="w-7 h-7 rounded-full bg-[#111] text-white flex items-center justify-center text-[7px] font-bold shrink-0 mt-0.5">ghiffa</div>
+          {/* 5. FLOATING COLLABORATIVE COMMENTS */}
+          {/* Top-Right: Project Manager / Lead Benchmark Comment */}
+          <DraggableItem className="absolute top-[28.5%] right-[10%] z-30 bg-white/95 backdrop-blur-md rounded-2xl rounded-bl-sm px-4 py-3 comment-shadow border border-gray-100 flex items-start gap-3 max-w-[275px]">
+            <div className="w-7 h-7 rounded-full bg-blue-600 text-white flex items-center justify-center text-[9px] font-bold shrink-0 mt-0.5 shadow-xs">
+              EP
+            </div>
             <div>
               <div className="flex items-center gap-1.5 text-[11px]">
-                <span className="font-semibold text-gray-900">ghiffa.dev</span>
-                <span className="text-gray-400">just now</span>
+                <span className="font-semibold text-gray-900">Elena (PM)</span>
+                <span className="text-gray-400 font-mono text-[10px]">2m ago</span>
               </div>
-              <p className="text-[12px] text-gray-800 mt-0.5 leading-snug">Let&apos;s build your new website.</p>
+              <p className="text-[12px] text-gray-800 mt-0.5 leading-snug">
+                Skillstreak API benchmarks hit 40ms! Ready to ship. 🚀
+              </p>
             </div>
           </DraggableItem>
 
-          <DraggableItem className="absolute top-[65%] left-[52.1%] z-30 bg-white/95 backdrop-blur-md rounded-2xl rounded-bl-sm px-4 py-3 comment-shadow border border-gray-100 flex items-start gap-3 max-w-[290px]">
-            <div className="w-7 h-7 rounded-full bg-[#111] text-white flex items-center justify-center text-[7px] font-bold shrink-0 mt-0.5">ghiffa</div>
+          {/* Bottom-Center: Client Review Approval Comment */}
+          <DraggableItem className="absolute top-[65%] left-[52.1%] z-30 bg-white/95 backdrop-blur-md rounded-2xl rounded-bl-sm px-4 py-3 comment-shadow border border-gray-100 flex items-start gap-3 max-w-[295px]">
+            <div className="w-7 h-7 rounded-full bg-[#18181B] text-white flex items-center justify-center text-[9px] font-bold shrink-0 mt-0.5 shadow-xs">
+              PR
+            </div>
             <div>
               <div className="flex items-center gap-1.5 text-[11px]">
-                <span className="font-semibold text-gray-900">ghiffa.dev</span>
-                <span className="text-gray-400">just now</span>
+                <span className="font-semibold text-gray-900">PT Raksa • Client</span>
+                <span className="text-gray-400 font-mono text-[10px]">just now</span>
               </div>
-              <p className="text-[12px] text-gray-800 mt-0.5 leading-snug">Custom designed and developed.</p>
+              <p className="text-[12px] text-gray-800 mt-0.5 leading-snug">
+                The interactive dashboard flow is approved for production! ✓
+              </p>
             </div>
           </DraggableItem>
 
           {/* 6. EDGE-TO-EDGE SURROUNDING MOCKUPS */}
 
-          {/* Top-Left Wireframe Window */}
-          <DraggableItem className="hidden md:block absolute top-[20.5%] left-[1.6%] z-10 w-[185px] bg-white rounded-xl border border-gray-200 soft-card-shadow rotate-[4deg] overflow-hidden">
-            <div className="px-2.5 py-1.5 border-b border-gray-100 flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full border border-gray-300" />
-              <span className="w-1.5 h-1.5 rounded-full border border-gray-300" />
-              <span className="w-1.5 h-1.5 rounded-full border border-gray-300" />
+          {/* Top-Left Design System Component Window */}
+          <DraggableItem className="hidden md:block absolute top-[20.5%] left-[1.6%] z-10 w-[190px] bg-white rounded-xl border border-gray-200 soft-card-shadow rotate-[4deg] overflow-hidden">
+            <div className="px-2.5 py-1.5 border-b border-gray-100 flex items-center justify-between bg-gray-50/70">
+              <div className="flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-gray-300" />
+                <span className="w-1.5 h-1.5 rounded-full bg-gray-300" />
+                <span className="w-1.5 h-1.5 rounded-full bg-gray-300" />
+              </div>
+              <span className="text-[8px] font-mono text-gray-400 uppercase tracking-wider">Design System v2</span>
             </div>
-            <div className="p-3.5 grid grid-cols-12 gap-2.5">
+            <div className="p-3 grid grid-cols-12 gap-2.5">
               <div className="col-span-4 space-y-2">
-                <div className="w-7 h-7 rounded-full bg-gray-200/80" />
+                <div className="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-[9px]">G</div>
                 <div className="w-full h-1.5 rounded bg-gray-200" />
                 <div className="w-3/4 h-1.5 rounded bg-gray-200" />
               </div>
-              <div className="col-span-8 grid grid-cols-2 gap-2">
-                <div className="h-16 rounded bg-gray-200/80" />
-                <div className="space-y-2">
-                  <div className="h-7 rounded bg-gray-200/80" />
-                  <div className="h-7 rounded bg-gray-200/80" />
+              <div className="col-span-8 space-y-2">
+                <div className="h-8 rounded-lg bg-orange-50 border border-orange-200/60 p-1.5 flex items-center justify-between">
+                  <span className="text-[7.5px] font-medium text-orange-700">Button.primary</span>
+                  <span className="text-[6.5px] px-1 py-0.5 bg-[#FF5500] text-white rounded font-bold">Pill</span>
+                </div>
+                <div className="h-6 rounded-lg bg-gray-100/90 flex items-center px-2">
+                  <div className="w-full h-1.5 rounded bg-gray-300/80" />
                 </div>
               </div>
             </div>
           </DraggableItem>
 
-          {/* Middle-Left Laptop Mockup (Bleeds off left edge) */}
+          {/* Middle-Left Laptop Mockup (Bleeds off left edge with Skillstreak) */}
           <DraggableItem className="hidden lg:block absolute top-[46%] -left-[20px] z-20 w-[315px] -rotate-[3deg]">
             <div
               className="bg-[#141416] p-2.5 rounded-t-xl border border-gray-300/80 shadow-2xl overflow-hidden"
@@ -952,84 +967,160 @@ export default function Portfolio() {
             </div>
           </DraggableItem>
 
-          {/* Bottom-Left UX Wireframe Window */}
-          <DraggableItem className="hidden md:block absolute top-[65%] left-[18%] z-10 w-[188px] bg-white rounded-xl border border-gray-200 soft-card-shadow rotate-[4deg] overflow-hidden">
-            <div className="px-2.5 py-1.5 border-b border-gray-100 flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full border border-gray-300" />
-              <span className="w-1.5 h-1.5 rounded-full border border-gray-300" />
-              <span className="w-1.5 h-1.5 rounded-full border border-gray-300" />
+          {/* Bottom-Left UX Interactive Flow Window */}
+          <DraggableItem className="hidden md:block absolute top-[65%] left-[18%] z-10 w-[190px] bg-white rounded-xl border border-gray-200 soft-card-shadow rotate-[4deg] overflow-hidden">
+            <div className="px-2.5 py-1.5 border-b border-gray-100 flex items-center justify-between bg-gray-50/70">
+              <div className="flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-gray-300" />
+                <span className="w-1.5 h-1.5 rounded-full bg-gray-300" />
+                <span className="w-1.5 h-1.5 rounded-full bg-gray-300" />
+              </div>
+              <span className="text-[8px] font-mono text-gray-400 uppercase tracking-wider">Canvas Flow</span>
             </div>
-            <div className="p-3.5 space-y-2.5">
-              <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-gray-200 shrink-0" />
-                <div className="w-16 h-2 rounded bg-gray-200" />
+            <div className="p-3 space-y-2">
+              <div className="flex items-center justify-between text-[8px] font-mono text-gray-600 bg-gray-50 px-2 py-1 rounded">
+                <span>Viewport: 100vh</span>
+                <span className="text-emerald-600 font-semibold">Active</span>
               </div>
               <div className="flex items-start gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-gray-200 shrink-0 mt-0.5" />
-                <div className="space-y-1.5 flex-1">
-                  <div className="w-full h-2 rounded bg-gray-200" />
-                  <div className="w-4/5 h-2 rounded bg-gray-200" />
+                <span className="w-2.5 h-2.5 rounded-full bg-blue-500 shrink-0 mt-0.5" />
+                <div className="space-y-1 flex-1">
+                  <div className="w-full h-1.5 rounded bg-gray-200" />
+                  <div className="w-4/5 h-1.5 rounded bg-gray-200" />
                 </div>
               </div>
-              <div className="pt-1 flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-gray-200 shrink-0" />
-                <div className="w-full h-4 rounded border border-gray-200" />
+              <div className="pt-0.5 flex items-center gap-1.5">
+                <span className="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-700 text-[7px] font-semibold">Ready</span>
+                <span className="px-1.5 py-0.5 rounded bg-gray-100 text-gray-600 text-[7px] font-mono">Bezier: smooth</span>
               </div>
             </div>
           </DraggableItem>
 
-          {/* Top-Right Sustainability Mockup */}
-          <DraggableItem className="hidden lg:block absolute top-[15.5%] -right-[14px] z-10 w-[235px] bg-white p-1.5 rounded-2xl border border-gray-200 soft-card-shadow -rotate-[4deg]">
-            <div className="relative rounded-xl overflow-hidden h-[178px] bg-stone-800">
-              <img
-                src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80"
-                alt="Custom design"
-                className="w-full h-full object-cover opacity-40 pointer-events-none select-none"
-              />
-              <div className="absolute inset-3 bg-[#F6F4EE] rounded-lg p-3 flex flex-col items-center justify-center text-center shadow-inner border border-stone-300">
-                <span className="text-[8px] uppercase tracking-widest text-stone-500 mb-1">Sustainability</span>
-                <p className="font-serif text-[16px] leading-tight text-stone-800">Care today, for<br />the future</p>
-                <span className="mt-2 px-2 py-0.5 rounded-full bg-rose-500/10 text-rose-600 text-[7px] font-semibold">● Project</span>
+          {/* Top-Right: Featured Architecture & System Health Card (Replaces Sustainability Poster) */}
+          <DraggableItem className="hidden lg:block absolute top-[15.5%] -right-[14px] z-10 w-[245px] bg-white p-2 rounded-2xl border border-gray-200/90 soft-card-shadow -rotate-[4deg]">
+            <div className="relative rounded-xl overflow-hidden p-3.5 bg-[#121215] text-white shadow-inner">
+              {/* Top Status */}
+              <div className="flex items-center justify-between mb-2">
+                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-[8px] font-mono font-medium">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  LIVE PRODUCTION
+                </span>
+                <span className="text-[8px] font-mono text-zinc-400">v2.4.0</span>
+              </div>
+              {/* Project Name & Category */}
+              <p className="text-[13px] font-bold tracking-tight text-white leading-snug">
+                Digital Bank Raksa
+              </p>
+              <p className="text-[9.5px] text-zinc-400 mt-1 leading-relaxed">
+                Fintech banking engine &amp; internal loan automation system.
+              </p>
+              {/* Micro Metrics */}
+              <div className="mt-3 pt-2.5 border-t border-white/10 flex items-center justify-between text-[9px] font-mono">
+                <div className="flex items-center gap-1">
+                  <span className="text-emerald-400 font-bold">100%</span>
+                  <span className="text-zinc-500">Score</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <span className="text-blue-400 font-bold">&lt; 40ms</span>
+                  <span className="text-zinc-500">Latency</span>
+                </div>
+                <div className="px-1.5 py-0.5 rounded bg-white/10 text-[8px] text-zinc-300">
+                  Laravel + React
+                </div>
               </div>
             </div>
           </DraggableItem>
 
-          {/* Bottom-Right Code Editor Window */}
-          <DraggableItem className="hidden md:block absolute top-[66.5%] right-[9.8%] z-10 w-[188px] bg-[#FAFAFA] rounded-xl border border-gray-200 soft-card-shadow -rotate-[4deg] overflow-hidden">
-            <div className="px-2.5 py-1.5 border-b border-gray-200/80 flex items-center gap-1 bg-white">
-              <span className="w-1.5 h-1.5 rounded-full border border-gray-300" />
-              <span className="w-1.5 h-1.5 rounded-full border border-gray-300" />
-              <span className="w-1.5 h-1.5 rounded-full border border-gray-300" />
+          {/* Bottom-Right Syntax-Highlighted TypeScript Code Window (Replaces Blank HTML Boilerplate) */}
+          <DraggableItem className="hidden md:block absolute top-[66.5%] right-[9.8%] z-10 w-[220px] bg-white rounded-xl border border-gray-200 soft-card-shadow -rotate-[4deg] overflow-hidden">
+            <div className="px-3 py-1.5 border-b border-gray-100 flex items-center justify-between bg-gray-50/80">
+              <div className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-[#FF5F56]" />
+                <span className="w-2 h-2 rounded-full bg-[#FFBD2E]" />
+                <span className="w-2 h-2 rounded-full bg-[#27C93F]" />
+              </div>
+              <span className="text-[9px] font-mono font-medium text-gray-500">ghiffa.config.ts</span>
+              <div className="w-2 h-2" />
             </div>
-            <div className="p-3 font-mono text-[8.5px] leading-relaxed text-gray-400 select-none">
-              <div>&lt;!DOCTYPE html&gt;</div>
-              <div>&lt;html lang=&quot;en&quot;&gt;</div>
-              <div>&lt;head&gt;</div>
-              <div className="pl-2">&lt;meta charset=&quot;UTF-8&quot;&gt;</div>
-              <div className="pl-2">&lt;title&gt;ghiffa.dev&lt;/title&gt;</div>
-              <div>&lt;/head&gt;</div>
-              <div>&lt;body&gt;</div>
-              <div>&lt;/body&gt;</div>
-              <div>&lt;/html&gt;</div>
+            <div className="p-3 font-mono text-[9px] leading-[1.6] select-none text-gray-700 bg-white">
+              <div className="text-gray-400">// creative engineer profile</div>
+              <div>
+                <span className="text-[#A626A4] font-semibold">export const</span>{' '}
+                <span className="text-[#4078F2] font-semibold">ghiffa</span> = &#123;
+              </div>
+              <div className="pl-3">
+                <span className="text-gray-600">role:</span>{' '}
+                <span className="text-[#50A14F] font-medium">&apos;Tech Lead&apos;</span>,
+              </div>
+              <div className="pl-3">
+                <span className="text-gray-600">stack:</span>{' '}
+                <span className="text-gray-600">[</span>
+                <span className="text-[#50A14F]">&apos;React&apos;</span>,{' '}
+                <span className="text-[#50A14F]">&apos;Next&apos;</span>,{' '}
+                <span className="text-[#50A14F]">&apos;Go&apos;</span>
+                <span className="text-gray-600">]</span>,
+              </div>
+              <div className="pl-3">
+                <span className="text-gray-600">status:</span>{' '}
+                <span className="text-[#986801] font-medium">&apos;Available 🚀&apos;</span>,
+              </div>
+              <div className="pl-3">
+                <span className="text-[#4078F2]">deploy</span>: () =&gt;{' '}
+                <span className="text-[#A626A4] font-semibold">await</span>{' '}
+                <span className="text-[#0184BC]">ship</span>(&#123; speed: <span className="text-[#986801]">&apos;instant&apos;</span> &#125;)
+              </div>
+              <div>&#125;;</div>
             </div>
           </DraggableItem>
 
-          {/* Middle-Right 3D Chair Smartphone Mockup */}
-          <DraggableItem className="hidden lg:block absolute top-[49.5%] right-[12px] z-20 w-[112px] bg-[#141414] p-1.5 rounded-[24px] shadow-xl rotate-[4deg]">
-            <div className="bg-white rounded-[19px] h-[205px] flex flex-col items-center justify-between p-2.5 relative overflow-hidden">
-              <div className="w-8 h-2 bg-black rounded-full" />
-              <div className="my-auto flex flex-col items-center">
-                <img
-                  src="https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=300&q=80"
-                  alt="3D Mobile View"
-                  className="w-20 h-24 object-contain pointer-events-none select-none"
-                />
+          {/* Middle-Right Skillstreak Mobile App Mockup (Replaces Generic Wooden Chair) */}
+          <DraggableItem className="hidden lg:block absolute top-[48%] right-[10px] z-20 w-[120px] bg-[#121214] p-1.5 rounded-[26px] shadow-2xl rotate-[4deg] border border-gray-800/60">
+            <div className="bg-[#0e0e11] rounded-[21px] h-[220px] flex flex-col p-2.5 relative overflow-hidden select-none text-white">
+              {/* Dynamic Island Notch */}
+              <div className="w-8 h-2 bg-black mx-auto rounded-full mb-1 flex items-center justify-center">
+                <div className="w-1 h-1 rounded-full bg-[#1c1c20]" />
               </div>
-              <div className="pb-1 text-gray-500">
-                <svg className="w-6 h-4" viewBox="0 0 24 14" fill="none" stroke="currentColor" strokeWidth="1.3">
-                  <path d="M3 5C1 6.5 1 9.5 5 11C9 12.5 15 12.5 19 11C23 9.5 23 6.5 21 5" strokeLinecap="round" />
-                </svg>
+
+              {/* Status Bar */}
+              <div className="flex items-center justify-between text-[6.5px] font-mono text-zinc-400 px-0.5 mb-1.5">
+                <span>09:41</span>
+                <div className="flex items-center gap-1">
+                  <span className="w-2.5 h-1 border border-zinc-500 rounded-[1px] relative inline-block">
+                    <span className="absolute inset-0.5 bg-zinc-400" />
+                  </span>
+                </div>
               </div>
+
+              {/* App Bar */}
+              <div className="flex items-center justify-between mb-2">
+                <span className="font-bold text-[8.5px] tracking-tight text-white">skillstreak</span>
+                <span className="px-1.5 py-0.5 rounded-full bg-orange-500/20 text-orange-400 text-[6.5px] font-bold flex items-center gap-0.5">
+                  🔥 14d
+                </span>
+              </div>
+
+              {/* Daily Quest Card */}
+              <div className="p-2 rounded-xl bg-white/[0.06] border border-white/10 mb-2">
+                <span className="text-[6px] text-orange-400 font-bold uppercase tracking-wider block mb-0.5">Daily Quest</span>
+                <p className="text-[8px] font-semibold text-white leading-tight">Master React Hooks</p>
+                <div className="w-full bg-white/10 h-1 rounded-full mt-1.5 overflow-hidden">
+                  <div className="bg-gradient-to-r from-[#FF5500] to-amber-400 h-full w-[75%] rounded-full" />
+                </div>
+                <div className="flex justify-between text-[6px] text-zinc-400 mt-1">
+                  <span>Progress</span>
+                  <span className="text-white font-semibold">75%</span>
+                </div>
+              </div>
+
+              {/* Quick Action Button */}
+              <div className="mt-auto">
+                <div className="w-full py-1.5 rounded-full bg-[#FF5500] text-center text-white text-[7.5px] font-bold shadow-xs">
+                  Solve (+50 XP)
+                </div>
+              </div>
+
+              {/* Home Indicator */}
+              <div className="w-9 h-0.5 bg-white/30 rounded-full mx-auto mt-2" />
             </div>
           </DraggableItem>
 

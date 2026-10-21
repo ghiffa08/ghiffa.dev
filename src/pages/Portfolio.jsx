@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useSupabaseSingle, useSupabaseList } from '../hooks/useSupabaseData';
 import { SEO } from '../components/atoms/SEO';
@@ -526,13 +526,85 @@ export default function Portfolio() {
     }
   ];
 
-  const rawQualifications = (Array.isArray(supabaseQualifications) && supabaseQualifications.length > 0)
-    ? supabaseQualifications
-    : fallbackCredentials;
+  // Deduplicate and merge qualifications so awards/certifications never appear twice
+  const credentialsList = useMemo(() => {
+    const raw = (Array.isArray(supabaseQualifications) && supabaseQualifications.length > 0)
+      ? supabaseQualifications
+      : fallbackCredentials;
 
-  const credentialsList = rawQualifications.filter(q => q.type !== 'education').length > 0
-    ? rawQualifications.filter(q => q.type !== 'education')
-    : rawQualifications;
+    const normalizeKey = (str) => {
+      if (!str) return '';
+      return str.toLowerCase().replace(/[^a-z0-9]/g, ' ').replace(/\s+/g, ' ').trim();
+    };
+
+    const getGroupKey = (item) => {
+      const t = normalizeKey(item.title);
+      const inst = normalizeKey(item.institution);
+      
+      if (t.includes('pilmapres') || t.includes('mahasiswa berprestasi')) return 'pilmapres';
+      if (t.includes('mathematics game') || t.includes('syiah kuala')) return 'intl_math_game';
+      if (t.includes('pancasakti') || t.includes('canva design') || (t.includes('runner up') && t.includes('business plan'))) return 'pancasakti_bizplan';
+      if (t.includes('business plan competition') || t.includes('uniku business') || (t.includes('business plan') && inst.includes('kuningan'))) return 'uniku_bizplan';
+      if (t.includes('uji kompetensi') || t.includes('kompetensi keahlian')) return 'uji_kompetensi';
+      if (t.includes('astra vocapreneur')) return 'astra_vocapreneur';
+      if (t.includes('ciptaan') || t.includes('intellectual property') || t.includes('dgip') || t.includes('copyright')) return 'dgip_haki';
+      if (t.includes('bnsp') || (t.includes('junior web developer') && !t.includes('vocational') && !t.includes('vsga'))) return 'bnsp_jwd';
+      if (t.includes('vocational school') || t.includes('vsga')) return 'vsga_kominfo';
+      if (t.includes('cakrawala') || t.includes('junior web programmer')) return 'cakrawala_jwp';
+      if (t.includes('connect code') && t.includes('committee')) return 'connect_code_committee';
+      if (t.includes('connect code') && t.includes('mentor')) return 'connect_code_mentor';
+      if (t.includes('connect code') && t.includes('lecturer')) return 'connect_code_lecturer';
+      if (t.includes('laravel') || t.includes('pijar')) return 'pijar_laravel';
+      if (t.includes('iot') || t.includes('makerindo')) return 'iot_bootcamp';
+      if (t.includes('web design') && (t.includes('it fest') || inst.includes('kuningan'))) return 'it_fest_web';
+      if (t.includes('data science')) return 'dqlab_datascience';
+      if (t.includes('python') && (t.includes('dqlab') || inst.includes('dqlab'))) return 'dqlab_python';
+      if (t.includes('membangun desa')) return 'smk_membangun_desa';
+      return `${t}_${inst}`;
+    };
+
+    const groups = new Map();
+    raw.forEach(item => {
+      if (item.type === 'education') return;
+      const key = getGroupKey(item);
+      if (!groups.has(key)) {
+        groups.set(key, { ...item });
+      } else {
+        const existing = groups.get(key);
+        // Retain certificate_url if available on either
+        if (!existing.certificate_url && item.certificate_url) {
+          existing.certificate_url = item.certificate_url;
+        }
+        // Prefer honor title if available
+        if (item.type === 'honor' && existing.type !== 'honor') {
+          existing.title = item.title;
+          existing.type = 'honor';
+        }
+        if (item.type === 'honor' && existing.type === 'honor' && item.title.toLowerCase().includes('pilmapres')) {
+          existing.title = item.title;
+        }
+        if (!existing.period || existing.period === 'N/A') {
+          existing.period = item.period;
+        }
+        if (!existing.description && item.description) {
+          existing.description = item.description;
+        }
+      }
+    });
+
+    const result = Array.from(groups.values());
+    result.sort((a, b) => {
+      // Honors first
+      if (a.type === 'honor' && b.type !== 'honor') return -1;
+      if (b.type === 'honor' && a.type !== 'honor') return 1;
+      // Then items with verified certificate documents
+      if (a.certificate_url && !b.certificate_url) return -1;
+      if (b.certificate_url && !a.certificate_url) return 1;
+      return 0;
+    });
+
+    return result.length > 0 ? result : fallbackCredentials;
+  }, [supabaseQualifications]);
 
   const activeCredential = credentialsList[selectedCredIdx] || credentialsList[0];
 

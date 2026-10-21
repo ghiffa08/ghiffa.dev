@@ -698,156 +698,256 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* 2.5 ABOUT ME SECTION (CLEAN FIGMA UI COMPONENT - 100% DYNAMIC FROM DATABASE) */}
-      <section id="about" className="py-20 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto select-none">
-
-        {/* Figma Canvas Frame Top Header */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 mb-6 border-b border-gray-200">
-          <div className="flex items-center gap-2.5">
-            {/* Figma Component Icon & Label */}
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#7B61FF]/10 text-[#7B61FF] font-mono text-xs font-semibold border border-[#7B61FF]/25">
-              <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-                <path d="M12 2L6 8l6 6 6-6-6-6zm0 14l-6 6 6 6 6-6-6-6z"/>
-              </svg>
-              <span>❖ Component // AboutMe</span>
-            </div>
-            <span className="hidden sm:inline font-mono text-xs text-gray-400">
-              [Auto Layout: 2 Columns ↕]
-            </span>
-          </div>
-
-          <div className="flex items-center gap-4 text-xs font-mono">
-            <span className="hidden md:inline text-gray-400">
-              W: 1360px · H: Auto
-            </span>
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 font-sans font-medium">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span>{availabilityStatus}</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Figma Component Frame Box */}
-        <div className="border border-gray-200/90 rounded-2xl bg-white p-6 sm:p-10 lg:p-12 soft-card-shadow relative">
+      {/* 2.5 ABOUT ME SECTION (AUTHENTIC FIGMA CANVAS & INSPECTOR WORKSPACE) */}
+      <section id="about" className="relative w-full py-20 px-4 sm:px-6 lg:px-12 bg-square-grid border-y border-gray-200/80">
+        
+        {/* Figma Workspace Window */}
+        <div className="max-w-[1360px] mx-auto bg-white rounded-2xl border border-gray-200/90 shadow-lg overflow-hidden">
           
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
-
-            {/* LEFT: Portrait in a crisp Figma selection node */}
-            <div className="lg:col-span-5 space-y-4">
-              <div className="relative group rounded-xl p-1 border border-[#0D99FF] bg-blue-50/20 shadow-xs">
-                {/* 4 Corner Figma selection handles */}
-                <span className="w-1.5 h-1.5 bg-white border border-[#0D99FF] absolute -top-1 -left-1" />
-                <span className="w-1.5 h-1.5 bg-white border border-[#0D99FF] absolute -top-1 -right-1" />
-                <span className="w-1.5 h-1.5 bg-white border border-[#0D99FF] absolute -bottom-1 -left-1" />
-                <span className="w-1.5 h-1.5 bg-white border border-[#0D99FF] absolute -bottom-1 -right-1" />
-
-                {/* Photo */}
-                <div className="aspect-[4/5] w-full rounded-lg overflow-hidden bg-gray-100 relative">
-                  <img
-                    src={avatarImage}
-                    alt={fullName}
-                    className="w-full h-full object-cover grayscale contrast-[1.05] group-hover:grayscale-0 group-hover:scale-[1.01] transition-all duration-500"
-                    onError={(e) => {
-                      e.currentTarget.onerror = null;
-                      e.currentTarget.src = '/ghiffa.jpeg';
-                    }}
-                  />
-                  {/* Figma Layer Badge */}
-                  <div className="absolute top-2.5 left-2.5 flex items-center gap-1 bg-[#0D99FF] text-white text-[10px] font-mono font-medium px-2 py-0.5 rounded-xs shadow-sm">
-                    <svg className="w-2.5 h-2.5 fill-current" viewBox="0 0 24 24">
-                      <path d="M4 0l16 12-7 2-4 10z" />
-                    </svg>
-                    <span>#ghiffa-avatar</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Figma Layer Properties Card */}
-              <div className="rounded-xl border border-gray-150 bg-gray-50/70 p-4 space-y-2 text-xs">
-                <div className="flex items-center justify-between border-b border-gray-200/70 pb-2">
-                  <span className="font-mono text-gray-500 uppercase tracking-wider text-[10px]">LAYER / PRINCIPAL</span>
-                  <span className="font-semibold text-gray-900">{fullName}</span>
-                </div>
-                <div className="flex items-center justify-between border-b border-gray-200/70 pb-2">
-                  <span className="font-mono text-gray-500 uppercase tracking-wider text-[10px]">ROLE</span>
-                  <span className="font-medium text-gray-800 text-right">{roleTitle}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-gray-500 uppercase tracking-wider text-[10px]">LOCATION</span>
-                  <span className="font-medium text-gray-800">Kuningan, Indonesia (GMT+7)</span>
-                </div>
+          {/* 1. FIGMA TOP TOOLBAR / APP BAR */}
+          <div className="h-11 bg-[#F9FAFB] border-b border-gray-200/80 px-4 flex items-center justify-between text-xs select-none">
+            
+            {/* Left: Figma Icon + Breadcrumb */}
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
+                <svg className="w-3.5 h-5" viewBox="0 0 38 57" fill="none">
+                  <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE" />
+                  <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83" />
+                  <path d="M19 0V19H28.5C33.7467 19 38 14.7467 38 9.5C38 4.25329 33.7467 0 28.5 0H19Z" fill="#FF7262" />
+                  <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E" />
+                  <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF" />
+                </svg>
+                <span className="font-semibold text-gray-900">ghiffa.fig</span>
+                <span className="text-gray-400">/</span>
+                <span className="text-gray-500 font-mono text-[11px]">About Me</span>
               </div>
             </div>
 
-            {/* RIGHT: Dynamic Database Content & Specs */}
-            <div className="lg:col-span-7 space-y-6">
+            {/* Center: Real Figma Tools (Move V, Frame F, Rectangle R, Text T, Comment C) */}
+            <div className="hidden md:flex items-center gap-1 bg-gray-200/60 p-0.5 rounded-lg">
+              <div className="w-7 h-7 rounded flex items-center justify-center bg-white shadow-2xs text-[#0D99FF]" title="Move (V)">
+                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 16 16"><path d="M1 1L6.5 14.5L8.8 8.8L14.5 6.5L1 1Z" /></svg>
+              </div>
+              <div className="w-7 h-7 rounded flex items-center justify-center text-gray-500 hover:text-gray-800" title="Frame (F)">
+                <span className="font-mono text-[12px] font-bold">#</span>
+              </div>
+              <div className="w-7 h-7 rounded flex items-center justify-center text-gray-500 hover:text-gray-800" title="Rectangle (R)">
+                <div className="w-3 h-3 border border-current rounded-xs" />
+              </div>
+              <div className="w-7 h-7 rounded flex items-center justify-center text-gray-500 hover:text-gray-800" title="Text (T)">
+                <span className="font-serif font-bold text-[12px]">T</span>
+              </div>
+              <div className="w-7 h-7 rounded flex items-center justify-center text-gray-500 hover:text-gray-800" title="Comment (C)">
+                <svg className="w-3.5 h-3.5" viewBox="0 0 16 16" fill="currentColor">
+                  <path d="M2 3a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H6l-3.5 3V3z" />
+                </svg>
+              </div>
+            </div>
 
-              <div>
-                <span className="text-[11px] font-mono uppercase tracking-widest text-blue-600 font-semibold block mb-2">
-                  // PHILOSOPHY &amp; SYSTEM
-                </span>
-                <h2 className="text-2xl sm:text-3xl lg:text-[34px] font-bold tracking-tight text-[#111111] leading-snug">
-                  {aboutHeadline}
-                </h2>
+            {/* Right: Multiplayer Presence + Zoom + Share */}
+            <div className="flex items-center gap-3">
+              <div className="flex items-center -space-x-1.5" title="Collaborators active">
+                <div className="w-6 h-6 rounded-full bg-[#0D99FF] text-white flex items-center justify-center text-[9px] font-bold ring-2 ring-white">H</div>
+                <div className="w-6 h-6 rounded-full bg-[#1FC77E] text-white flex items-center justify-center text-[9px] font-bold ring-2 ring-white">CD</div>
+                <div className="w-6 h-6 rounded-full bg-[#F452B8] text-white flex items-center justify-center text-[9px] font-bold ring-2 ring-white">UX</div>
               </div>
 
-              {/* DYNAMIC DATABASE BIO CONTENT (Rendered directly with ReactMarkdown) */}
-              <div className="prose prose-neutral max-w-none text-[15px] leading-relaxed text-gray-700 space-y-4 font-normal [&>p]:mb-4 [&>p]:leading-relaxed [&>strong]:text-gray-900 [&>strong]:font-semibold">
-                {aboutBio ? (
-                  <ReactMarkdown>{aboutBio}</ReactMarkdown>
-                ) : (
-                  <p className="text-gray-500 italic">Loading profile details from database...</p>
-                )}
-              </div>
+              <span className="hidden sm:inline font-mono text-[11px] text-gray-400">100%</span>
 
-              {/* DYNAMIC SKILLS & PROPERTIES FROM DATABASE */}
-              {skillsList.length > 0 && (
-                <div className="pt-5 border-t border-gray-200/80 space-y-2.5">
-                  <div className="flex items-center justify-between">
-                    <span className="font-mono text-[11px] text-gray-400 uppercase tracking-wider flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-xs bg-[#0D99FF]" />
-                      <span>Component Properties // Skills ({skillsList.length})</span>
-                    </span>
-                    <span className="font-mono text-[10px] text-gray-400">Database Record</span>
+              <button
+                onClick={() => openContactModal('About Me & Collaboration')}
+                className="bg-[#0D99FF] hover:bg-[#0b82d8] text-white text-[11.5px] font-medium px-3.5 py-1.5 rounded-lg transition-colors cursor-pointer shadow-xs flex items-center gap-1.5"
+              >
+                <span>Share</span>
+              </button>
+            </div>
+
+          </div>
+
+          {/* 2. MAIN WORKSPACE: CANVAS (LEFT) + FIGMA INSPECTOR SIDEBAR (RIGHT) */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[580px]">
+            
+            {/* CANVAS AREA (lg:col-span-8) */}
+            <div className="lg:col-span-8 bg-square-grid p-6 sm:p-10 lg:p-12 relative flex flex-col justify-center">
+              
+              {/* Floating Figma Comment Bubble (Matching Hero Section) */}
+              <DraggableItem className="hidden md:flex absolute top-6 right-6 z-20 bg-white/95 backdrop-blur-md rounded-2xl rounded-bl-sm px-4 py-2.5 comment-shadow border border-gray-100 items-start gap-2.5 max-w-[270px]">
+                <div className="w-6 h-6 rounded-full bg-[#111] text-white flex items-center justify-center text-[7px] font-bold shrink-0 mt-0.5">ghiffa</div>
+                <div>
+                  <div className="flex items-center gap-1.5 text-[11px]">
+                    <span className="font-semibold text-gray-900">ghiffa.dev</span>
+                    <span className="text-gray-400">just now</span>
                   </div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {skillsList.slice(0, 12).map((skill, idx) => (
-                      <span
-                        key={idx}
-                        className="px-2.5 py-1 rounded-md bg-gray-100 hover:bg-gray-200 border border-gray-200/70 text-[11px] font-mono font-medium text-gray-800 transition-colors"
-                      >
-                        {skill}
-                      </span>
-                    ))}
+                  <p className="text-[12px] text-gray-800 mt-0.5 leading-snug">
+                    Translating digital bits into real-world atoms.
+                  </p>
+                </div>
+              </DraggableItem>
+
+              {/* Selected Figma Artboard Frame */}
+              <div className="relative">
+                
+                {/* Frame Name Tag at Top-Left */}
+                <div className="flex items-center gap-2 mb-2 select-none">
+                  <span className="inline-flex items-center gap-1 bg-[#0D99FF] text-white text-[10.5px] font-medium font-mono px-2 py-0.5 rounded shadow-2xs">
+                    # About Me
+                  </span>
+                  <span className="text-[10px] font-mono text-gray-400">
+                    880 &times; 520
+                  </span>
+                </div>
+
+                {/* The White Frame Canvas Box with Figma Selection Border & Handles */}
+                <div className="figma-bbox bg-white rounded-xl p-6 sm:p-8 md:p-10 shadow-sm border border-[#0D99FF] relative">
+                  
+                  {/* 8 Figma resize handles (blue border matching active selection) */}
+                  <span className="figma-handle !border-[#0D99FF] -top-1 -left-1" />
+                  <span className="figma-handle !border-[#0D99FF] -top-1 left-1/2 -translate-x-1/2" />
+                  <span className="figma-handle !border-[#0D99FF] -top-1 -right-1" />
+                  <span className="figma-handle !border-[#0D99FF] top-1/2 -translate-y-1/2 -left-1" />
+                  <span className="figma-handle !border-[#0D99FF] top-1/2 -translate-y-1/2 -right-1" />
+                  <span className="figma-handle !border-[#0D99FF] -bottom-1 -left-1" />
+                  <span className="figma-handle !border-[#0D99FF] -bottom-1 left-1/2 -translate-x-1/2" />
+                  <span className="figma-handle !border-[#0D99FF] -bottom-1 -right-1" />
+
+                  {/* Headline */}
+                  <h2 className="text-2xl sm:text-3xl lg:text-[32px] font-bold text-[#141414] tracking-tight leading-[1.2] mb-8">
+                    {aboutHeadline}
+                  </h2>
+
+                  {/* Split: Avatar on left + Story Bio on right */}
+                  <div className="grid grid-cols-1 sm:grid-cols-12 gap-8 items-start">
+                    
+                    {/* Photo */}
+                    <div className="sm:col-span-5 space-y-3">
+                      <div className="relative rounded-xl overflow-hidden border border-gray-200/80 aspect-[4/5] bg-gray-100 group">
+                        <img
+                          src={avatarImage}
+                          alt={fullName}
+                          className="w-full h-full object-cover grayscale contrast-110 group-hover:grayscale-0 transition-all duration-500"
+                          onError={(e) => {
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src = '/ghiffa.jpeg';
+                          }}
+                        />
+                        {/* Cursor pointing at photo */}
+                        <div className="absolute bottom-2.5 right-2.5 flex items-center gap-1.5 bg-[#0D99FF] text-white text-[10px] font-medium font-mono px-2 py-0.5 rounded shadow-sm">
+                          <svg className="w-2.5 h-2.5 fill-current" viewBox="0 0 16 16"><path d="M1 1L6.5 14.5L8.8 8.8L14.5 6.5L1 1Z" /></svg>
+                          <span>ghiffa</span>
+                        </div>
+                      </div>
+
+                      <div>
+                        <div className="font-semibold text-gray-900 text-[14px]">{fullName}</div>
+                        <div className="text-gray-500 text-[12px]">{roleTitle}</div>
+                        <div className="text-gray-400 text-[11px] font-mono mt-0.5">&bull; Kuningan, Indonesia</div>
+                      </div>
+                    </div>
+
+                    {/* Bio Story from database (ReactMarkdown) */}
+                    <div className="sm:col-span-7 text-[14px] leading-relaxed text-gray-600 space-y-3 font-normal [&>p]:leading-relaxed [&>strong]:text-gray-900 [&>strong]:font-semibold">
+                      {aboutBio ? (
+                        <ReactMarkdown>{aboutBio}</ReactMarkdown>
+                      ) : (
+                        <p>Building scalable web architectures and resilient IoT hardware systems.</p>
+                      )}
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+            {/* FIGMA DESIGN INSPECTOR SIDEBAR (lg:col-span-4) */}
+            <div className="lg:col-span-4 bg-[#F9FAFB] border-t lg:border-t-0 lg:border-l border-gray-200/90 p-6 sm:p-7 space-y-6 flex flex-col justify-between">
+              
+              <div className="space-y-6">
+                
+                {/* Tabs: Design / Prototype / Inspect */}
+                <div className="flex items-center gap-5 border-b border-gray-200 pb-3 text-xs font-medium">
+                  <span className="text-[#0D99FF] font-semibold border-b-2 border-[#0D99FF] pb-3 -mb-3">Design</span>
+                  <span className="text-gray-400 hover:text-gray-600 cursor-pointer">Prototype</span>
+                  <span className="text-gray-400 hover:text-gray-600 cursor-pointer">Inspect</span>
+                </div>
+
+                {/* Section: Frame Info */}
+                <div className="space-y-2.5 text-xs">
+                  <div className="text-[11px] font-semibold text-gray-700">Frame</div>
+                  <div className="grid grid-cols-2 gap-2 font-mono text-[11px]">
+                    <div className="flex items-center justify-between bg-white border border-gray-200 px-2.5 py-1.5 rounded">
+                      <span className="text-gray-400">W</span>
+                      <span className="text-gray-800 font-medium">880</span>
+                    </div>
+                    <div className="flex items-center justify-between bg-white border border-gray-200 px-2.5 py-1.5 rounded">
+                      <span className="text-gray-400">H</span>
+                      <span className="text-gray-800 font-medium">Auto</span>
+                    </div>
                   </div>
                 </div>
-              )}
 
-              {/* ACTION BUTTONS (Figma Button Component Style) */}
-              <div className="pt-4 flex flex-wrap items-center gap-3">
+                {/* Section: Status */}
+                <div className="space-y-2 text-xs border-t border-gray-200/70 pt-4">
+                  <div className="text-[11px] font-semibold text-gray-700">Status</div>
+                  <div className="flex items-center gap-2 bg-emerald-50 border border-emerald-200/80 text-emerald-800 px-3 py-1.5 rounded-lg font-medium text-xs">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <span>{availabilityStatus}</span>
+                  </div>
+                </div>
+
+                {/* Section: Skills & Tech Stack (Dynamic from database) */}
+                {skillsList.length > 0 && (
+                  <div className="space-y-2.5 border-t border-gray-200/70 pt-4">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-[11px] font-semibold text-gray-700">Component Variants ({skillsList.length})</span>
+                      <span className="text-[10px] text-gray-400 font-mono">Skills</span>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5 max-h-[160px] overflow-y-auto pr-1">
+                      {skillsList.map((skill, idx) => (
+                        <span
+                          key={idx}
+                          className="px-2.5 py-1 rounded-md bg-white border border-gray-200/90 text-gray-800 text-[11px] font-mono shadow-2xs hover:border-[#0D99FF] transition-colors cursor-default"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+              </div>
+
+              {/* Section: Export & CTAs */}
+              <div className="border-t border-gray-200/70 pt-5 space-y-2.5">
+                <div className="text-[11px] font-semibold text-gray-700 mb-2">Export</div>
+                
                 <button
-                  onClick={() => openContactModal('About Me & Collaboration')}
-                  className="bg-[#111111] hover:bg-black text-white font-medium text-[13px] px-6 py-2.5 rounded-full shadow-xs transition-all active:scale-95 cursor-pointer"
+                  onClick={() => openContactModal('About Me Inquiry')}
+                  className="w-full bg-[#18181B] hover:bg-black text-white text-xs font-medium py-2.5 rounded-lg transition-all active:scale-98 cursor-pointer shadow-xs flex items-center justify-center gap-2"
                 >
-                  Let&apos;s build together
+                  <span>Let&apos;s build together</span>
                 </button>
+
                 {cvUrl && (
                   <a
                     href={cvUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 border border-gray-300 hover:border-black text-gray-700 hover:text-black font-medium text-[13px] px-5 py-2.5 rounded-full transition-colors cursor-pointer"
+                    className="w-full inline-flex items-center justify-center gap-1.5 bg-white hover:bg-gray-50 border border-gray-300 text-gray-800 text-xs font-medium py-2 rounded-lg transition-colors cursor-pointer"
                   >
-                    <span>Download CV</span>
-                    <span className="font-mono text-xs">↓</span>
+                    <span>Download CV (PDF)</span>
+                    <span className="text-xs">&darr;</span>
                   </a>
                 )}
+
                 <a
                   href={`mailto:${emailAddress}`}
-                  className="inline-flex items-center gap-1 text-gray-500 hover:text-black font-medium text-[13px] px-3 py-2.5 transition-colors"
+                  className="w-full inline-flex items-center justify-center gap-1 text-gray-500 hover:text-black text-[11.5px] font-medium py-1 transition-colors"
                 >
-                  <span>Get in touch</span>
-                  <span className="font-mono text-xs">&rarr;</span>
+                  <span>{emailAddress}</span>
+                  <span>&rarr;</span>
                 </a>
               </div>
 

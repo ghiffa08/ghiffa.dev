@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useSupabaseSingle, useSupabaseList } from '../hooks/useSupabaseData';
 import { SEO } from '../components/atoms/SEO';
+import ReactMarkdown from 'react-markdown';
 
 // Quintic ease-in-out for silky human-like cursor acceleration & deceleration
 function easeInOutQuint(t) {
@@ -320,11 +321,13 @@ export default function Portfolio() {
 
   const emailAddress = info?.email || 'hello@ghiffa.dev';
   const fullName = info?.full_name || info?.name || 'Haikal Jibran Al-Ghiffarry';
-  const roleTitle = info?.role || 'IoT Engineer & Fullstack Developer';
+  const roleTitle = info?.role || 'IoT Engineer & Full-stack Developer';
   const avatarImage = info?.avatar_url || '/ghiffa.jpeg';
   const cvUrl = info?.cv_url || '/cv.pdf';
-  const aboutHeadline = info?.headline || 'Designing & engineering where hardware meets the web.';
+  const aboutHeadline = info?.headline || 'Building the bridge between bits and atoms.';
   const aboutBio = info?.about_content_en || info?.about_content;
+  const skillsList = Array.isArray(info?.skills) ? info.skills : [];
+  const availabilityStatus = info?.availability_status || 'Available for work';
 
   return (
     <div className={`min-h-screen bg-white text-[#111111] font-sans overflow-x-clip antialiased selection:bg-blue-600 selection:text-white ${aiActive ? 'ai-mode-active' : ''}`}>
@@ -354,7 +357,7 @@ export default function Portfolio() {
 
       {/* FULL-SCREEN HERO SECTION (100vw x 100vh) */}
       <section className="relative w-screen h-screen min-h-[700px] pt-[72px] bg-square-grid overflow-hidden select-none">
-        
+
         {/* Edge-to-Edge Full Viewport Interactive Canvas */}
         <div id="hero-canvas" className="relative w-full h-full">
 
@@ -393,7 +396,7 @@ export default function Portfolio() {
           </div>
 
           {/* 3. LIVE ROAMING MULTIPLAYER CURSORS */}
-          
+
           {/* Creative Director (Green) */}
           <div id="cursor-director" className="live-cursor hidden sm:block">
             <svg className="w-3.5 h-3.5 text-[#1FC77E] -ml-1.5 mb-0.5 drop-shadow-xs" viewBox="0 0 16 16" fill="currentColor">
@@ -465,7 +468,7 @@ export default function Portfolio() {
           </div>
 
           {/* 4. FLOATING TOOL ICONS (PROGRAMMING STACK + FIGMA SWAPPED) */}
-          
+
           {/* VS Code Icon */}
           <DraggableItem className="absolute top-[15.5%] left-[22.2%] z-20 w-12 h-12 rounded-2xl bg-white soft-card-shadow border border-gray-100 flex items-center justify-center group" title="VS Code">
             <svg className="w-6 h-6 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none">
@@ -695,147 +698,171 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* 2.5 ABOUT ME SECTION (CLEAN FIGMA CANVAS STYLE) */}
-      <section id="about" className="py-20 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto relative select-none">
-        
-        {/* Minimalist Figma Frame Identifier */}
-        <div className="flex items-center justify-between pb-4 mb-10 border-b border-gray-200 text-xs font-mono text-gray-400">
-          <div className="flex items-center gap-2">
-            <span className="text-gray-900 font-semibold"># About</span>
-            <span className="text-gray-300">/</span>
-            <span>Profile &amp; Background</span>
+      {/* 2.5 ABOUT ME SECTION (CLEAN FIGMA UI COMPONENT - 100% DYNAMIC FROM DATABASE) */}
+      <section id="about" className="py-20 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto select-none">
+
+        {/* Figma Canvas Frame Top Header */}
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 mb-6 border-b border-gray-200">
+          <div className="flex items-center gap-2.5">
+            {/* Figma Component Icon & Label */}
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#7B61FF]/10 text-[#7B61FF] font-mono text-xs font-semibold border border-[#7B61FF]/25">
+              <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                <path d="M12 2L6 8l6 6 6-6-6-6zm0 14l-6 6 6 6 6-6-6-6z"/>
+              </svg>
+              <span>❖ Component // AboutMe</span>
+            </div>
+            <span className="hidden sm:inline font-mono text-xs text-gray-400">
+              [Auto Layout: 2 Columns ↕]
+            </span>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-            <span className="text-gray-600 font-sans font-medium text-[11.5px]">Available for projects</span>
+
+          <div className="flex items-center gap-4 text-xs font-mono">
+            <span className="hidden md:inline text-gray-400">
+              W: 1360px · H: Auto
+            </span>
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 font-sans font-medium">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span>{availabilityStatus}</span>
+            </div>
           </div>
         </div>
 
-        {/* Main 2-Column Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+        {/* Figma Component Frame Box */}
+        <div className="border border-gray-200/90 rounded-2xl bg-white p-6 sm:p-10 lg:p-12 soft-card-shadow relative">
           
-          {/* LEFT: Portrait in a crisp, clean frame */}
-          <div className="lg:col-span-5">
-            <div className="relative group">
-              {/* Photo Container */}
-              <div className="relative rounded-2xl overflow-hidden border border-gray-200/90 bg-gray-50 aspect-[4/5] shadow-xs">
-                <img
-                  src={avatarImage}
-                  alt={fullName}
-                  className="w-full h-full object-cover grayscale contrast-[1.05] group-hover:grayscale-0 group-hover:scale-[1.01] transition-all duration-500"
-                  onError={(e) => {
-                    e.currentTarget.onerror = null;
-                    e.currentTarget.src = '/ghiffa.jpeg';
-                  }}
-                />
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
 
-                {/* Minimalist Figma User Badge */}
-                <div className="absolute top-3 left-3 flex items-center gap-1.5 bg-[#0D99FF] text-white text-[10px] font-mono font-medium px-2 py-0.5 rounded-xs shadow-sm pointer-events-none">
-                  <svg className="w-2.5 h-2.5 fill-current" viewBox="0 0 24 24">
-                    <path d="M4 0l16 12-7 2-4 10z" />
-                  </svg>
-                  <span>ghiffa</span>
+            {/* LEFT: Portrait in a crisp Figma selection node */}
+            <div className="lg:col-span-5 space-y-4">
+              <div className="relative group rounded-xl p-1 border border-[#0D99FF] bg-blue-50/20 shadow-xs">
+                {/* 4 Corner Figma selection handles */}
+                <span className="w-1.5 h-1.5 bg-white border border-[#0D99FF] absolute -top-1 -left-1" />
+                <span className="w-1.5 h-1.5 bg-white border border-[#0D99FF] absolute -top-1 -right-1" />
+                <span className="w-1.5 h-1.5 bg-white border border-[#0D99FF] absolute -bottom-1 -left-1" />
+                <span className="w-1.5 h-1.5 bg-white border border-[#0D99FF] absolute -bottom-1 -right-1" />
+
+                {/* Photo */}
+                <div className="aspect-[4/5] w-full rounded-lg overflow-hidden bg-gray-100 relative">
+                  <img
+                    src={avatarImage}
+                    alt={fullName}
+                    className="w-full h-full object-cover grayscale contrast-[1.05] group-hover:grayscale-0 group-hover:scale-[1.01] transition-all duration-500"
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = '/ghiffa.jpeg';
+                    }}
+                  />
+                  {/* Figma Layer Badge */}
+                  <div className="absolute top-2.5 left-2.5 flex items-center gap-1 bg-[#0D99FF] text-white text-[10px] font-mono font-medium px-2 py-0.5 rounded-xs shadow-sm">
+                    <svg className="w-2.5 h-2.5 fill-current" viewBox="0 0 24 24">
+                      <path d="M4 0l16 12-7 2-4 10z" />
+                    </svg>
+                    <span>#ghiffa-avatar</span>
+                  </div>
                 </div>
               </div>
 
-              {/* Clean caption below photo */}
-              <div className="mt-3 flex items-center justify-between text-xs text-gray-500 font-mono">
-                <span>{fullName}</span>
-                <span>Kuningan, Indonesia</span>
+              {/* Figma Layer Properties Card */}
+              <div className="rounded-xl border border-gray-150 bg-gray-50/70 p-4 space-y-2 text-xs">
+                <div className="flex items-center justify-between border-b border-gray-200/70 pb-2">
+                  <span className="font-mono text-gray-500 uppercase tracking-wider text-[10px]">LAYER / PRINCIPAL</span>
+                  <span className="font-semibold text-gray-900">{fullName}</span>
+                </div>
+                <div className="flex items-center justify-between border-b border-gray-200/70 pb-2">
+                  <span className="font-mono text-gray-500 uppercase tracking-wider text-[10px]">ROLE</span>
+                  <span className="font-medium text-gray-800 text-right">{roleTitle}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-gray-500 uppercase tracking-wider text-[10px]">LOCATION</span>
+                  <span className="font-medium text-gray-800">Kuningan, Indonesia (GMT+7)</span>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* RIGHT: Story, Specs, and Actions */}
-          <div className="lg:col-span-7 space-y-6">
-            <div>
-              <div className="text-xs font-mono uppercase tracking-wider text-blue-600 font-semibold mb-2">
-                // ABOUT ME
+            {/* RIGHT: Dynamic Database Content & Specs */}
+            <div className="lg:col-span-7 space-y-6">
+
+              <div>
+                <span className="text-[11px] font-mono uppercase tracking-widest text-blue-600 font-semibold block mb-2">
+                  // PHILOSOPHY &amp; SYSTEM
+                </span>
+                <h2 className="text-2xl sm:text-3xl lg:text-[34px] font-bold tracking-tight text-[#111111] leading-snug">
+                  {aboutHeadline}
+                </h2>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#141414] leading-[1.18]">
-                {aboutHeadline}
-              </h2>
-            </div>
 
-            <div className="space-y-4 text-[15px] leading-relaxed text-gray-600">
-              {aboutBio ? (
-                aboutBio.split(/\n\n+/).filter(p => p.trim() !== '').map((para, idx) => (
-                  <p key={idx} className={idx === 0 ? "text-gray-800 font-medium" : ""}>
-                    {para.replace(/[*_#`~]/g, '')}
-                  </p>
-                ))
-              ) : (
-                <>
-                  <p>
-                    I&apos;m <strong>Haikal Jibran Al-Ghiffarry</strong>, an IoT Engineer and Fullstack Web Developer based in Kuningan, Indonesia. I build end-to-end systems that bridge physical microcontrollers, sensors, and firmware with modern, responsive web software.
-                  </p>
-                  <p>
-                    Rather than treating hardware and the web as separate worlds, I work across the full stack: from embedded firmware (ESP32, Arduino) and communication protocols to cloud databases and reactive user interfaces built with React and Next.js.
-                  </p>
-                  <p>
-                    I am also the founder of <strong>Skillstreak.id</strong>, an interactive platform designed to help developers build consistent daily coding habits.
-                  </p>
-                </>
+              {/* DYNAMIC DATABASE BIO CONTENT (Rendered directly with ReactMarkdown) */}
+              <div className="prose prose-neutral max-w-none text-[15px] leading-relaxed text-gray-700 space-y-4 font-normal [&>p]:mb-4 [&>p]:leading-relaxed [&>strong]:text-gray-900 [&>strong]:font-semibold">
+                {aboutBio ? (
+                  <ReactMarkdown>{aboutBio}</ReactMarkdown>
+                ) : (
+                  <p className="text-gray-500 italic">Loading profile details from database...</p>
+                )}
+              </div>
+
+              {/* DYNAMIC SKILLS & PROPERTIES FROM DATABASE */}
+              {skillsList.length > 0 && (
+                <div className="pt-5 border-t border-gray-200/80 space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-[11px] text-gray-400 uppercase tracking-wider flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-xs bg-[#0D99FF]" />
+                      <span>Component Properties // Skills ({skillsList.length})</span>
+                    </span>
+                    <span className="font-mono text-[10px] text-gray-400">Database Record</span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {skillsList.slice(0, 12).map((skill, idx) => (
+                      <span
+                        key={idx}
+                        className="px-2.5 py-1 rounded-md bg-gray-100 hover:bg-gray-200 border border-gray-200/70 text-[11px] font-mono font-medium text-gray-800 transition-colors"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               )}
-            </div>
 
-            {/* Clean Specs Grid */}
-            <div className="pt-6 border-t border-gray-200 grid grid-cols-1 sm:grid-cols-2 gap-y-5 gap-x-8">
-              <div>
-                <span className="block text-[11px] font-mono text-gray-400 uppercase tracking-wider mb-1">DISCIPLINE</span>
-                <p className="text-sm font-medium text-gray-900">{roleTitle}</p>
-              </div>
-              <div>
-                <span className="block text-[11px] font-mono text-gray-400 uppercase tracking-wider mb-1">TECH STACK</span>
-                <p className="text-sm font-medium text-gray-900">React, Next.js, TypeScript, ESP32, Supabase</p>
-              </div>
-              <div>
-                <span className="block text-[11px] font-mono text-gray-400 uppercase tracking-wider mb-1">EDUCATION</span>
-                <p className="text-sm font-medium text-gray-900">Teknik Informatika · Universitas Kuningan</p>
-              </div>
-              <div>
-                <span className="block text-[11px] font-mono text-gray-400 uppercase tracking-wider mb-1">VENTURE</span>
-                <p className="text-sm font-medium text-gray-900">Skillstreak.id (Founder)</p>
-              </div>
-            </div>
-
-            {/* Clean CTAs */}
-            <div className="pt-4 flex flex-wrap items-center gap-3">
-              <button
-                onClick={() => openContactModal('About Me & Collaboration')}
-                className="bg-[#141414] hover:bg-black text-white font-medium text-[13px] px-6 py-2.5 rounded-full transition-all active:scale-95 cursor-pointer"
-              >
-                Let&apos;s build together
-              </button>
-              {cvUrl && (
-                <a
-                  href={cvUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 border border-gray-300 hover:border-black text-gray-700 hover:text-black font-medium text-[13px] px-5 py-2.5 rounded-full transition-colors cursor-pointer"
+              {/* ACTION BUTTONS (Figma Button Component Style) */}
+              <div className="pt-4 flex flex-wrap items-center gap-3">
+                <button
+                  onClick={() => openContactModal('About Me & Collaboration')}
+                  className="bg-[#111111] hover:bg-black text-white font-medium text-[13px] px-6 py-2.5 rounded-full shadow-xs transition-all active:scale-95 cursor-pointer"
                 >
-                  <span>Download CV</span>
-                  <span className="font-mono text-xs">↓</span>
+                  Let&apos;s build together
+                </button>
+                {cvUrl && (
+                  <a
+                    href={cvUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 border border-gray-300 hover:border-black text-gray-700 hover:text-black font-medium text-[13px] px-5 py-2.5 rounded-full transition-colors cursor-pointer"
+                  >
+                    <span>Download CV</span>
+                    <span className="font-mono text-xs">↓</span>
+                  </a>
+                )}
+                <a
+                  href={`mailto:${emailAddress}`}
+                  className="inline-flex items-center gap-1 text-gray-500 hover:text-black font-medium text-[13px] px-3 py-2.5 transition-colors"
+                >
+                  <span>Get in touch</span>
+                  <span className="font-mono text-xs">&rarr;</span>
                 </a>
-              )}
-              <a
-                href={`mailto:${emailAddress}`}
-                className="inline-flex items-center gap-1 text-gray-500 hover:text-black font-medium text-[13px] px-3 py-2.5 transition-colors"
-              >
-                <span>Get in touch</span>
-                <span className="font-mono text-xs">&rarr;</span>
-              </a>
+              </div>
+
             </div>
 
           </div>
 
         </div>
+
       </section>
 
       {/* 3. THREE ROYAL BLUE GRID SERVICE CARDS */}
       <section className="py-20 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          
+
           {/* Service Card 1 */}
           <div className="flex flex-col">
             <div className="bg-royal-blue-grid rounded-2xl p-8 sm:p-10 text-white min-h-[380px] flex flex-col justify-between relative overflow-hidden group shadow-lg">
@@ -903,7 +930,7 @@ export default function Portfolio() {
       <section className="py-16 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto">
         <div className="rounded-[28px] bg-[#F5F6F8] border border-gray-200/70 overflow-hidden pt-12 pb-12 pl-8 sm:pl-16 pr-8 sm:pr-0">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            
+
             {/* Left Copy & Blue Pill CTA */}
             <div className="lg:col-span-6 space-y-5 pr-4">
               <div className="text-[11px] font-mono uppercase tracking-widest text-gray-400">
@@ -1038,7 +1065,7 @@ export default function Portfolio() {
       {/* 6. "DETAILS ARE NOT DETAILS" SECTION WITH LAYERED PORTRAIT CARDS */}
       <section className="py-24 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
+
           {/* Left Text */}
           <div className="lg:col-span-5 space-y-5">
             <h2 className="text-3xl sm:text-[42px] font-bold tracking-tight text-[#141414] leading-[1.12]">
@@ -1181,7 +1208,7 @@ export default function Portfolio() {
       {/* 9. BOTTOM "LET'S BUILD A PROJECT TOGETHER" CTA SECTION */}
       <section className="py-20 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
+
           {/* Left Mini Floating Collage */}
           <div className="lg:col-span-6 relative min-h-[280px] bg-square-grid rounded-3xl border border-gray-100 p-6 flex items-center justify-center overflow-hidden">
             {/* Handwritten style note */}

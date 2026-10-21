@@ -81,15 +81,15 @@ const cursorConfigs = [
       { x: 0.83, y: 0.46 }
     ]
   },
-  // Yellow Developer Cursor in transition area
+  // Yellow Developer Cursor in Hero Canvas (near center-right under title)
   {
     id: 'cursor-dev-yellow',
-    containerId: 'scroll-text-track',
+    containerId: 'hero-canvas',
     waypoints: [
-      { x: 0.615, y: 0.035 },
-      { x: 0.56, y: 0.065 },
-      { x: 0.66, y: 0.05 },
-      { x: 0.59, y: 0.03 }
+      { x: 0.58, y: 0.52 },
+      { x: 0.65, y: 0.46 },
+      { x: 0.54, y: 0.60 },
+      { x: 0.62, y: 0.56 }
     ]
   }
 ];
@@ -448,6 +448,16 @@ export default function Portfolio() {
             </div>
           </div>
 
+          {/* Developer (Yellow) */}
+          <div id="cursor-dev-yellow" className="live-cursor hidden sm:block">
+            <svg className="w-3.5 h-3.5 text-[#F5B800] -ml-1.5 mb-0.5 drop-shadow-xs" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M1 1L6.5 14.5L8.8 8.8L14.5 6.5L1 1Z" />
+            </svg>
+            <div className="bg-[#F5B800] text-[#111111] text-[11px] font-medium px-2.5 py-0.5 rounded-[5px] shadow-xs whitespace-nowrap">
+              Developer
+            </div>
+          </div>
+
           {/* 4. FLOATING TOOL ICONS */}
           
           {/* VS Code Icon */}
@@ -637,16 +647,6 @@ export default function Portfolio() {
 
       {/* 2. STICKY SCROLL-ANIMATED TEXT SECTION */}
       <section id="scroll-text-track" className="relative h-[260vh] bg-white bg-dot-matrix">
-        
-        {/* Yellow Developer Cursor in top transition space */}
-        <div id="cursor-dev-yellow" className="live-cursor hidden sm:block">
-          <svg className="w-3.5 h-3.5 text-[#F5B800] -ml-1.5 mb-0.5 drop-shadow-xs" viewBox="0 0 16 16" fill="currentColor">
-            <path d="M1 1L6.5 14.5L8.8 8.8L14.5 6.5L1 1Z" />
-          </svg>
-          <div className="bg-[#F5B800] text-[#111111] text-[11px] font-medium px-2.5 py-0.5 rounded-[5px] shadow-xs whitespace-nowrap">
-            Developer
-          </div>
-        </div>
 
         <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center px-6 overflow-hidden pt-16">
           <div className="max-w-[960px] mx-auto text-center relative z-10">

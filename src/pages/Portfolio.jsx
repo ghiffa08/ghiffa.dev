@@ -179,7 +179,7 @@ export default function Portfolio() {
       const windowHeight = window.innerHeight;
 
       // When the banner enters the central focal reading range of the viewport
-      const isInFocalRange = rect.top < windowHeight * 0.70 && rect.bottom > windowHeight * 0.30;
+      const isInFocalRange = rect.top < windowHeight * 0.60 && rect.bottom > windowHeight * 0.35;
       setIsBannerDark(isInFocalRange);
     };
 
@@ -2141,7 +2141,9 @@ export default function Portfolio() {
       <section
         ref={bannerRef}
         id="skillstreak-banner"
-        className="min-h-screen w-full flex flex-col justify-center items-center px-4 sm:px-8 lg:px-12 py-12 relative z-10 transition-colors duration-700 bg-black select-none"
+        className={`min-h-screen w-full flex flex-col justify-center items-center px-4 sm:px-8 lg:px-12 py-12 relative z-10 transition-colors duration-700 ease-in-out select-none ${
+          isBannerDark ? 'bg-black' : 'bg-white'
+        }`}
       >
         <div className="w-full max-w-[1140px] mx-auto">
           {/* Centered Dark Card (Exact Reference Proportions & Radius) */}

@@ -360,3 +360,107 @@ body {
   color: #666666 !important;
 }
 
+/* =========================================================
+   FIGMA CANVAS & CREATIVE STUDIO INTERACTIVE THEME
+   ========================================================= */
+
+/* Subtle light gray square grid matching canvas */
+.bg-square-grid {
+  background-size: 68px 68px;
+  background-position: center top;
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.042) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.042) 1px, transparent 1px);
+}
+
+/* Figma selection bounding box around hero title */
+.figma-bbox {
+  border: 1px dashed #B8BCC2;
+  position: relative;
+  transition: border-color 0.3s ease;
+}
+.figma-handle {
+  width: 7px;
+  height: 7px;
+  background: #FFFFFF;
+  border: 1.5px solid #9CA3AF;
+  position: absolute;
+  z-index: 20;
+  transition: border-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Floating card shadows */
+.soft-card-shadow {
+  box-shadow: 0 14px 34px -8px rgba(0, 0, 0, 0.065), 0 2px 6px -1px rgba(0, 0, 0, 0.035);
+}
+.comment-shadow {
+  box-shadow: 0 12px 32px -5px rgba(0, 0, 0, 0.08), 0 1px 4px -1px rgba(0, 0, 0, 0.04);
+}
+
+/* Draggable interactive items */
+.draggable-item {
+  cursor: grab;
+  user-select: none;
+  transition: box-shadow 0.2s ease;
+}
+.draggable-item:active {
+  cursor: grabbing;
+  z-index: 40 !important;
+  box-shadow: 0 22px 45px -10px rgba(0, 0, 0, 0.14);
+}
+
+/* 60fps requestAnimationFrame smooth live multiplayer cursor */
+.live-cursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 35;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* AI Mode active glow effect */
+.ai-mode-active #hero-title {
+  background: linear-gradient(90deg, #111111 0%, #1877F2 55%, #7C3AED 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.ai-mode-active .figma-bbox {
+  border-color: #3B82F6;
+}
+.ai-mode-active .figma-handle {
+  border-color: #3B82F6;
+}
+
+/* Royal Blue Grid Pattern for Service Cards & Laptop Screen */
+.bg-royal-blue-grid {
+  background-color: #0047CC;
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+}
+
+/* Subtle Dot Pattern for Scroll Text Section */
+.bg-dot-matrix {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.085) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+/* Word transition for scroll reveal - ALL words start faded light gray (#ECEEEF) */
+.reveal-word {
+  color: #ECEEEF;
+  transition: color 0.16s ease-out;
+}
+.reveal-word.active {
+  color: #141414;
+}
+.reveal-subword {
+  color: #ECEEEF;
+  transition: color 0.16s ease-out;
+}
+.reveal-subword.active {
+  color: #52525B;
+}
+
+

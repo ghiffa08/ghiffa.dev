@@ -1,2060 +1,1186 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import {
-  Mail,
-  Phone,
-  Globe,
-  Plus,
-  Minus,
-  CornerDownRight,
-  ExternalLink,
-  X,
-  ArrowUpRight
-} from 'lucide-react';
 import { useSupabaseSingle, useSupabaseList } from '../hooks/useSupabaseData';
-import { useInstagramFeed } from '../hooks/useInstagramFeed';
 import { SEO } from '../components/atoms/SEO';
 
-// Inline SVGs for Brand Icons
-const InstagramIcon = () => (
-  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-  </svg>
-);
+// Quintic ease-in-out for silky human-like cursor acceleration & deceleration
+function easeInOutQuint(t) {
+  return t < 0.5 ? 16 * t * t * t * t * t : 1 - Math.pow(-2 * t + 2, 5) / 2;
+}
 
-const GithubIcon = () => (
-  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
-    <path d="M9 18c-4.51 2-5-2-7-2" />
-  </svg>
-);
+// Quadratic Bézier interpolation for curved mouse trajectories
+function quadBezier(t, p0, p1, p2) {
+  const inv = 1 - t;
+  return inv * inv * p0 + 2 * inv * t * p1 + t * t * p2;
+}
 
-const LinkedinIcon = () => (
-  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-    <rect width="4" height="12" x="2" y="9" />
-    <circle cx="4" cy="4" r="2" />
-  </svg>
-);
+const cursorConfigs = [
+  // Creative Director (Green - above top-left of main text)
+  {
+    id: 'cursor-director',
+    containerId: 'hero-canvas',
+    waypoints: [
+      { x: 0.315, y: 0.23 },
+      { x: 0.385, y: 0.175 },
+      { x: 0.275, y: 0.27 },
+      { x: 0.34, y: 0.21 }
+    ]
+  },
+  // Developer (Cyan - near left side of main text)
+  {
+    id: 'cursor-dev-cyan',
+    containerId: 'hero-canvas',
+    waypoints: [
+      { x: 0.29, y: 0.42 },
+      { x: 0.35, y: 0.56 },
+      { x: 0.26, y: 0.48 },
+      { x: 0.315, y: 0.38 }
+    ]
+  },
+  // UI Designer (Purple - near laptop on left)
+  {
+    id: 'cursor-ui',
+    containerId: 'hero-canvas',
+    waypoints: [
+      { x: 0.055, y: 0.40 },
+      { x: 0.11, y: 0.47 },
+      { x: 0.045, y: 0.34 },
+      { x: 0.085, y: 0.42 }
+    ]
+  },
+  // UX Designer (Pink - inside bottom-left wireframe card)
+  {
+    id: 'cursor-ux',
+    containerId: 'hero-canvas',
+    waypoints: [
+      { x: 0.215, y: 0.62 },
+      { x: 0.265, y: 0.69 },
+      { x: 0.185, y: 0.57 },
+      { x: 0.235, y: 0.64 }
+    ]
+  },
+  // Project Manager (Blue - top right over sustainability card)
+  {
+    id: 'cursor-pm',
+    containerId: 'hero-canvas',
+    waypoints: [
+      { x: 0.835, y: 0.125 },
+      { x: 0.78, y: 0.21 },
+      { x: 0.87, y: 0.17 },
+      { x: 0.815, y: 0.14 }
+    ]
+  },
+  // Client (Orange - bottom right above code card)
+  {
+    id: 'cursor-client',
+    containerId: 'hero-canvas',
+    waypoints: [
+      { x: 0.852, y: 0.50 },
+      { x: 0.79, y: 0.58 },
+      { x: 0.88, y: 0.54 },
+      { x: 0.83, y: 0.46 }
+    ]
+  },
+  // Yellow Developer Cursor in transition area
+  {
+    id: 'cursor-dev-yellow',
+    containerId: 'scroll-text-track',
+    waypoints: [
+      { x: 0.615, y: 0.035 },
+      { x: 0.56, y: 0.065 },
+      { x: 0.66, y: 0.05 },
+      { x: 0.59, y: 0.03 }
+    ]
+  }
+];
 
-const CrosshairIcon = () => (
-  <svg width="46" height="46" viewBox="0 0 46 46" fill="none" className="opacity-75">
-    <circle cx="23" cy="23" r="14" stroke="#1c1c1a" strokeWidth="1" />
-    <circle cx="23" cy="23" r="7" stroke="#1c1c1a" strokeWidth="1" />
-    <line x1="23" y1="0" x2="23" y2="46" stroke="#1c1c1a" strokeWidth="1" />
-    <line x1="0" y1="23" x2="46" y2="23" stroke="#1c1c1a" strokeWidth="1" />
-  </svg>
-);
+// Draggable Interactive Item Wrapper
+function DraggableItem({ children, className = '', title = '', ...props }) {
+  const ref = useRef(null);
 
-const WireframeGlobe = () => (
-  <svg width="46" height="46" viewBox="0 0 46 46" fill="none" className="shrink-0">
-    <circle cx="23" cy="23" r="21" stroke="#1c1c1a" strokeWidth="1.2" />
-    <ellipse cx="23" cy="23" rx="10" ry="21" stroke="#1c1c1a" strokeWidth="1.2" />
-    <line x1="2" y1="23" x2="44" y2="23" stroke="#1c1c1a" strokeWidth="1.2" />
-    <path d="M5 13C15 16 31 16 41 13" stroke="#1c1c1a" strokeWidth="1.2" />
-    <path d="M5 33C15 30 31 30 41 33" stroke="#1c1c1a" strokeWidth="1.2" />
-    <line x1="23" y1="2" x2="23" y2="44" stroke="#1c1c1a" strokeWidth="1.2" />
-  </svg>
-);
+  const onPointerDown = (e) => {
+    if (e.target.tagName.toLowerCase() === 'button' || e.target.closest('button')) return;
+    const el = ref.current;
+    if (!el) return;
+    el.setPointerCapture(e.pointerId);
 
-const RotatingStamp = () => (
-  <div className="relative w-32 h-32 flex items-center justify-center select-none group">
-    <svg viewBox="0 0 120 120" className="w-full h-full animate-spin-slow">
-      <circle cx="60" cy="60" r="56" stroke="#EAE6DF" strokeWidth="1.2" fill="none" opacity="0.85" />
-      <circle cx="60" cy="60" r="38" stroke="#EAE6DF" strokeWidth="1" fill="none" opacity="0.6" />
-      <defs>
-        <path
-          id="stampTextPath"
-          d="M 60, 60 m -46, 0 a 46,46 0 1,1 92,0 a 46,46 0 1,1 -92,0"
-        />
-      </defs>
-      <text fill="#EAE6DF" fontSize="7.2" fontFamily="JetBrains Mono, monospace" letterSpacing="2.6px" fontWeight="600">
-        <textPath href="#stampTextPath" startOffset="0%">
-          STRATEGY • DESIGN • EXPERIENCE •
-        </textPath>
-      </text>
-    </svg>
-    {/* Center Geometric M Logo */}
-    <div className="absolute inset-0 flex items-center justify-center">
-      <svg width="34" height="30" viewBox="0 0 34 30" fill="none" className="transition-transform duration-300 group-hover:scale-110">
-        <path d="M2 28V2L17 16L32 2V28H25V14L17 22L9 14V28H2Z" fill="#E84E0F" />
-        <rect x="14" y="2" width="6" height="6" fill="#EAE6DF" />
-      </svg>
-    </div>
-  </div>
-);
+    const style = window.getComputedStyle(el);
+    const matrix = new DOMMatrixReadOnly(style.transform);
+    const initialX = matrix.m41;
+    const initialY = matrix.m42;
+    const startX = e.clientX - initialX;
+    const startY = e.clientY - initialY;
 
-const BarcodeGraphic = () => {
-  const bars = [2, 1, 3, 1, 1, 2, 4, 1, 2, 1, 3, 2, 1, 1, 3, 1, 2, 1, 4, 1, 2, 1, 3, 1, 2, 1, 1, 2, 3, 1, 2];
+    const onPointerMove = (ev) => {
+      const currentX = ev.clientX - startX;
+      const currentY = ev.clientY - startY;
+      el.style.transform = `translate(${currentX}px, ${currentY}px)`;
+    };
+
+    const onPointerUp = () => {
+      el.removeEventListener('pointermove', onPointerMove);
+      el.removeEventListener('pointerup', onPointerUp);
+    };
+
+    el.addEventListener('pointermove', onPointerMove);
+    el.addEventListener('pointerup', onPointerUp);
+  };
+
   return (
-    <div className="flex items-stretch h-8 gap-[2px] opacity-85 bg-[#141413] p-1">
-      {bars.map((width, idx) => (
-        <div
-          key={idx}
-          className="bg-[#EAE6DF]"
-          style={{ width: `${width * 1.6}px` }}
-        />
-      ))}
+    <div
+      ref={ref}
+      onPointerDown={onPointerDown}
+      className={`draggable-item ${className}`}
+      title={title}
+      {...props}
+    >
+      {children}
     </div>
   );
-};
-
-// Reusable hook for smooth under-sidebar horizontal dragging across all carousels
-function useDraggableScroll() {
-  const ref = useRef(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
-  const [hasDragged, setHasDragged] = useState(false);
-
-  const onMouseDown = (e) => {
-    if (!ref.current) return;
-    setIsDragging(true);
-    setHasDragged(false);
-    setStartX(e.pageX - ref.current.offsetLeft);
-    setScrollLeft(ref.current.scrollLeft);
-  };
-
-  const onMouseMove = (e) => {
-    if (!isDragging || !ref.current) return;
-    e.preventDefault();
-    const x = e.pageX - ref.current.offsetLeft;
-    const walk = (x - startX) * 1.6;
-    if (Math.abs(walk) > 6) {
-      setHasDragged(true);
-    }
-    ref.current.scrollLeft = scrollLeft - walk;
-  };
-
-  const onMouseUpOrLeave = () => {
-    setIsDragging(false);
-  };
-
-  return {
-    ref,
-    isDragging,
-    hasDragged,
-    handlers: {
-      onMouseDown,
-      onMouseMove,
-      onMouseUp: onMouseUpOrLeave,
-      onMouseLeave: onMouseUpOrLeave
-    }
-  };
 }
 
 export default function Portfolio() {
   const { data: info } = useSupabaseSingle('personal_info');
   const { data: settings } = useSupabaseSingle('general_settings');
   const { data: supabaseProjects } = useSupabaseList('projects');
-  const { data: supabaseQualifications } = useSupabaseList('qualifications');
-  const { data: supabaseExperiences } = useSupabaseList('experiences', {
-    order: { column: 'order_index', ascending: true }
-  });
   const { data: supabaseArticles } = useSupabaseList('articles');
-  const { data: instagramPosts, isLoading: igLoading } = useInstagramFeed();
 
-  // State management
-  const [expandedService, setExpandedService] = useState('01');
-  const [selectedProjectModal, setSelectedProjectModal] = useState(null);
-  const [selectedCert, setSelectedCert] = useState(null);
-  const [selectedExperienceModal, setSelectedExperienceModal] = useState(null);
-  const [certFilter, setCertFilter] = useState('all');
-  const [sideNavOpen, setSideNavOpen] = useState(false);
+  // Interactive AI Mode Toggle
+  const [aiActive, setAiActive] = useState(true);
 
-  // Draggable scroll instance for Latest Articles carousel
-  const articleScroll = useDraggableScroll();
+  // Contact Modal
+  const [contactModalOpen, setContactModalOpen] = useState(false);
+  const [modalTopic, setModalTopic] = useState('');
+  const [formSent, setFormSent] = useState(false);
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
 
-  // Close side nav drawer on Escape key
+  const openContactModal = (topic = '') => {
+    setModalTopic(topic);
+    if (topic) {
+      setFormData(prev => ({ ...prev, message: `Hi ghiffa.dev, I would like to talk about: ${topic}` }));
+    }
+    setContactModalOpen(true);
+    setFormSent(false);
+  };
+
+  const closeContactModal = () => {
+    setContactModalOpen(false);
+    setFormSent(false);
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    setFormSent(true);
+    setTimeout(() => {
+      closeContactModal();
+      setFormData({ name: '', email: '', message: '' });
+    }, 1500);
+  };
+
+  // Smooth 60fps Organic Multiplayer Cursors
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape') setSideNavOpen(false);
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    let animId;
+    const agents = cursorConfigs.map((cfg, idx) => {
+      const el = document.getElementById(cfg.id);
+      const container = document.getElementById(cfg.containerId);
+      if (!el || !container) return null;
+
+      const startWp = cfg.waypoints[0];
+      const nextWp = cfg.waypoints[1];
+      const midX = (startWp.x + nextWp.x) / 2 + (Math.random() - 0.5) * 0.06;
+      const midY = (startWp.y + nextWp.y) / 2 + (Math.random() - 0.5) * 0.06;
+
+      return {
+        el,
+        container,
+        waypoints: cfg.waypoints,
+        wpIndex: 1,
+        fromX: startWp.x,
+        fromY: startWp.y,
+        toX: nextWp.x,
+        toY: nextWp.y,
+        ctrlX: midX,
+        ctrlY: midY,
+        currX: startWp.x,
+        currY: startWp.y,
+        state: 'moving',
+        stateStartTime: performance.now() + idx * 220,
+        moveDuration: 2200 + Math.random() * 1100,
+        pauseDuration: 650 + Math.random() * 950,
+        seed: idx * 1.7 + Math.random() * 5
+      };
+    }).filter(Boolean);
+
+    function animateCursors(now) {
+      agents.forEach(agent => {
+        const w = agent.container.clientWidth;
+        const h = agent.container.clientHeight;
+
+        if (now < agent.stateStartTime) {
+          const px = agent.currX * w;
+          const py = agent.currY * h;
+          agent.el.style.transform = `translate3d(${px.toFixed(2)}px, ${py.toFixed(2)}px, 0)`;
+          return;
+        }
+
+        const elapsed = now - agent.stateStartTime;
+
+        if (agent.state === 'moving') {
+          const rawT = Math.min(1, elapsed / agent.moveDuration);
+          const easedT = easeInOutQuint(rawT);
+
+          agent.currX = quadBezier(easedT, agent.fromX, agent.ctrlX, agent.toX);
+          agent.currY = quadBezier(easedT, agent.fromY, agent.ctrlY, agent.toY);
+
+          if (rawT >= 1) {
+            agent.state = 'pausing';
+            agent.stateStartTime = now;
+            agent.pauseDuration = 500 + Math.random() * 1100;
+          }
+        } else if (agent.state === 'pausing') {
+          if (elapsed >= agent.pauseDuration) {
+            agent.fromX = agent.toX;
+            agent.fromY = agent.toY;
+            agent.wpIndex = (agent.wpIndex + 1) % agent.waypoints.length;
+            const target = agent.waypoints[agent.wpIndex];
+
+            agent.toX = target.x + (Math.random() - 0.5) * 0.018;
+            agent.toY = target.y + (Math.random() - 0.5) * 0.018;
+
+            const dx = agent.toX - agent.fromX;
+            const dy = agent.toY - agent.fromY;
+            const arc = (Math.random() - 0.5) * 0.075;
+            agent.ctrlX = (agent.fromX + agent.toX) / 2 - dy * arc * 4;
+            agent.ctrlY = (agent.fromY + agent.toY) / 2 + dx * arc * 4;
+
+            agent.moveDuration = 2100 + Math.random() * 1300;
+            agent.state = 'moving';
+            agent.stateStartTime = now;
+          }
+        }
+
+        const driftX = Math.sin(now * 0.0022 + agent.seed) * 3.5;
+        const driftY = Math.cos(now * 0.0018 + agent.seed) * 3.5;
+
+        const finalX = agent.currX * w + driftX;
+        const finalY = agent.currY * h + driftY;
+
+        agent.el.style.transform = `translate3d(${finalX.toFixed(2)}px, ${finalY.toFixed(2)}px, 0)`;
+      });
+
+      animId = requestAnimationFrame(animateCursors);
+    }
+
+    animId = requestAnimationFrame(animateCursors);
+    return () => cancelAnimationFrame(animId);
   }, []);
 
-  // UV-Coated Glossy HD Poster Specular Sheen
-  const posterRef = useRef(null);
-  const [glossPos, setGlossPos] = useState({ x: 50, y: 25, active: false });
+  // Word-by-Word Scroll Reveal Animation
+  useEffect(() => {
+    const updateScrollTextReveal = () => {
+      const track = document.getElementById('scroll-text-track');
+      if (!track) return;
 
-  const handlePosterMouseMove = (e) => {
-    if (!posterRef.current) return;
-    const rect = posterRef.current.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    setGlossPos({
-      x: Math.round(x * 10) / 10,
-      y: Math.round(y * 10) / 10,
-      active: true
-    });
-  };
+      const rect = track.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const totalScrollDistance = track.offsetHeight - windowHeight;
 
-  const handlePosterMouseLeave = () => {
-    setGlossPos(prev => ({ ...prev, active: false }));
-  };
+      const rawProgress = (-rect.top - windowHeight * 0.08) / (totalScrollDistance * 0.85 || 1);
+      const progress = Math.max(0, Math.min(1, rawProgress));
 
-  // Draggable slider state for Selected Work
-  const workSliderRef = useRef(null);
-  const [isWorkDragging, setIsWorkDragging] = useState(false);
-  const [workStartX, setWorkStartX] = useState(0);
-  const [workScrollLeft, setWorkScrollLeft] = useState(0);
-  const [workDragProgress, setWorkDragProgress] = useState(0);
-  const [workHasDragged, setWorkHasDragged] = useState(false);
+      const mainWords = document.querySelectorAll('#animated-scroll-title .reveal-word');
+      const subWords = document.querySelectorAll('#animated-scroll-subtitle .reveal-subword');
+      const allWords = [...mainWords, ...subWords];
 
-  const handleWorkMouseDown = (e) => {
-    if (!workSliderRef.current) return;
-    setIsWorkDragging(true);
-    setWorkHasDragged(false);
-    setWorkStartX(e.pageX - workSliderRef.current.offsetLeft);
-    setWorkScrollLeft(workSliderRef.current.scrollLeft);
-  };
+      const activeTarget = Math.floor(progress * (allWords.length + 1));
 
-  const handleWorkMouseMove = (e) => {
-    if (!isWorkDragging || !workSliderRef.current) return;
-    e.preventDefault();
-    const x = e.pageX - workSliderRef.current.offsetLeft;
-    const walk = (x - workStartX) * 1.6;
-    if (Math.abs(walk) > 6) {
-      setWorkHasDragged(true);
+      allWords.forEach((word, index) => {
+        if (index < activeTarget) {
+          word.classList.add('active');
+        } else {
+          word.classList.remove('active');
+        }
+      });
+    };
+
+    window.addEventListener('scroll', updateScrollTextReveal, { passive: true });
+    updateScrollTextReveal();
+
+    return () => window.removeEventListener('scroll', updateScrollTextReveal);
+  }, []);
+
+  // Sync AI mode class to body
+  useEffect(() => {
+    if (aiActive) {
+      document.body.classList.add('ai-mode-active');
+    } else {
+      document.body.classList.remove('ai-mode-active');
     }
-    workSliderRef.current.scrollLeft = workScrollLeft - walk;
-  };
+  }, [aiActive]);
 
-  const handleWorkMouseUpOrLeave = () => {
-    setIsWorkDragging(false);
-  };
-
-  const handleWorkScroll = () => {
-    if (!workSliderRef.current) return;
-    const { scrollLeft, scrollWidth, clientWidth } = workSliderRef.current;
-    const maxScroll = scrollWidth - clientWidth;
-    if (maxScroll > 0) {
-      setWorkDragProgress((scrollLeft / maxScroll) * 100);
-    }
-  };
-
-  // Draggable slider state for Credentials
-  const certSliderRef = useRef(null);
-  const [isCertDragging, setIsCertDragging] = useState(false);
-  const [certStartX, setCertStartX] = useState(0);
-  const [certScrollLeft, setCertScrollLeft] = useState(0);
-  const [certDragProgress, setCertDragProgress] = useState(0);
-  const [certHasDragged, setCertHasDragged] = useState(false);
-
-  const handleCertMouseDown = (e) => {
-    if (!certSliderRef.current) return;
-    setIsCertDragging(true);
-    setCertHasDragged(false);
-    setCertStartX(e.pageX - certSliderRef.current.offsetLeft);
-    setCertScrollLeft(certSliderRef.current.scrollLeft);
-  };
-
-  const handleCertMouseMove = (e) => {
-    if (!isCertDragging || !certSliderRef.current) return;
-    e.preventDefault();
-    const x = e.pageX - certSliderRef.current.offsetLeft;
-    const walk = (x - certStartX) * 1.6;
-    if (Math.abs(walk) > 6) {
-      setCertHasDragged(true);
-    }
-    certSliderRef.current.scrollLeft = certScrollLeft - walk;
-  };
-
-  const handleCertMouseUpOrLeave = () => {
-    setIsCertDragging(false);
-  };
-
-  const handleCertScroll = () => {
-    if (!certSliderRef.current) return;
-    const { scrollLeft, scrollWidth, clientWidth } = certSliderRef.current;
-    const maxScroll = scrollWidth - clientWidth;
-    if (maxScroll > 0) {
-      setCertDragProgress((scrollLeft / maxScroll) * 100);
-    }
-  };
-
-  // Draggable slider state for Instagram Dispatches
-  const igSliderRef = useRef(null);
-  const [isIgDragging, setIsIgDragging] = useState(false);
-  const [igStartX, setIgStartX] = useState(0);
-  const [igScrollLeft, setIgScrollLeft] = useState(0);
-  const [igDragProgress, setIgDragProgress] = useState(0);
-  const [igHasDragged, setIgHasDragged] = useState(false);
-
-  const handleIgMouseDown = (e) => {
-    if (!igSliderRef.current) return;
-    setIsIgDragging(true);
-    setIgHasDragged(false);
-    setIgStartX(e.pageX - igSliderRef.current.offsetLeft);
-    setIgScrollLeft(igSliderRef.current.scrollLeft);
-  };
-
-  const handleIgMouseMove = (e) => {
-    if (!isIgDragging || !igSliderRef.current) return;
-    e.preventDefault();
-    const x = e.pageX - igSliderRef.current.offsetLeft;
-    const walk = (x - igStartX) * 1.6;
-    if (Math.abs(walk) > 6) {
-      setIgHasDragged(true);
-    }
-    igSliderRef.current.scrollLeft = igScrollLeft - walk;
-  };
-
-  const handleIgMouseUpOrLeave = () => {
-    setIsIgDragging(false);
-  };
-
-  const handleIgScroll = () => {
-    if (!igSliderRef.current) return;
-    const { scrollLeft, scrollWidth, clientWidth } = igSliderRef.current;
-    const maxScroll = scrollWidth - clientWidth;
-    if (maxScroll > 0) {
-      setIgDragProgress((scrollLeft / maxScroll) * 100);
-    }
-  };
-
-  // Dynamic Identity Data
-  const fullName = info?.full_name || 'Haikal Jibran Al-Ghiffarry';
-  const roleTitle = info?.role || 'IoT Engineer & Full-stack Developer';
   const emailAddress = info?.email || 'hello@ghiffa.dev';
-  const phone = settings?.phone || '+62 895 385 108 008';
-  const location = info?.location || 'Kuningan, Indonesia';
-  const availability = info?.availability_status || 'AVAILABLE FOR NEW PROJECTS';
-
-  const toggleService = (id) => {
-    setExpandedService(expandedService === id ? null : id);
-  };
-
-  // Keyboard escape listener
-  useEffect(() => {
-    const handleKey = (e) => {
-      if (e.key === 'Escape') {
-        setSelectedProjectModal(null);
-        setSelectedCert(null);
-      }
-    };
-    window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
-  }, []);
-
-  // Services Data
-  const servicesData = [
-    {
-      id: '01',
-      title: 'WEB ARCHITECTURE & DEV',
-      desc: 'High-performance React, Next.js, and modern full-stack web applications engineered for speed, clean UX, and deterministic scale.'
-    },
-    {
-      id: '02',
-      title: 'EMBEDDED IOT SYSTEMS',
-      desc: 'End-to-end hardware telemetry, ESP32 microcontrollers, custom sensor networks, LoRa long-range protocols, and edge computing.'
-    },
-    {
-      id: '03',
-      title: 'UI/UX & EDITORIAL DESIGN',
-      desc: 'Bold, brutalist visual identities, typographic design systems, and responsive layouts that cut through generic digital noise.'
-    },
-    {
-      id: '04',
-      title: 'FULL-STACK BACKENDS',
-      desc: 'Secure REST APIs, Supabase / PostgreSQL schemas, real-time telemetry streaming, and automated backend infrastructure.'
-    },
-    {
-      id: '05',
-      title: 'HARDWARE & PCB DESIGN',
-      desc: 'From circuit schematics to physical fabrication — bridging digital code (Bits) with real-world physical devices (Atoms).'
-    },
-    {
-      id: '06',
-      title: 'PERFORMANCE & AUDIT',
-      desc: 'Ongoing system audits, memory-leak debugging, Core Web Vitals optimization, and long-term infrastructure maintenance.'
-    },
-  ];
-
-  // Tech Stack Data
-  const techStack = (info?.skills && Array.isArray(info.skills) && info.skills.length > 0)
-    ? info.skills.slice(0, 9)
-    : [
-      'REACT / NEXT.JS',
-      'TAILWIND CSS',
-      'JAVASCRIPT (ES6+)',
-      'LARAVEL / PHP',
-      'ESP32 / IOT FIRMWARE',
-      'POSTGRESQL & SUPABASE',
-      'GSAP ANIMATION',
-      'LORA TELEMETRY',
-      'FIGMA & UI/UX'
-    ];
-
-  // Projects Data with graceful fallbacks
-  const defaultProjects = [
-    {
-      num: '01/',
-      title: 'NEXUS ARCHITECTURE',
-      category: 'WEBSITE DESIGN · 2026',
-      desc: 'A brutalist 3D architectural and creative direction studio website featuring WebGL shaders and smooth scroll choreography.',
-      link: '#',
-      img: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80',
-      client: 'NEXUS LABS',
-      stat: '+140% International Inquiries'
-    },
-    {
-      num: '02/',
-      title: 'ELEVATE DIGITAL',
-      category: 'BRAND & PLATFORM · 2025',
-      desc: 'Complete rebrand and interactive web platform for a next-generation digital product agency.',
-      link: '#',
-      img: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80',
-      client: 'ELEVATE AGENCY',
-      stat: '3.8× Direct Conversions'
-    },
-    {
-      num: '03/',
-      title: 'SMART SOIL TELEMETRY',
-      category: 'IOT HARDWARE & CLOUD · 2025',
-      desc: 'Autonomous solar-powered IoT soil moisture and ambient telemetry node with LoRa long-range transmission and web dashboard.',
-      link: '#',
-      img: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80',
-      client: 'AGRICULTURAL RESEARCH LAB',
-      stat: '15km Transmission Range'
-    }
-  ];
-
-  const allProjects = (supabaseProjects && supabaseProjects.length > 0)
-    ? supabaseProjects.map((p, idx) => ({
-      id: p.id,
-      num: `${String(idx + 1).padStart(2, '0')}/`,
-      title: (p.title || `PROJECT 0${idx + 1}`).toUpperCase(),
-      category: (p.category || 'FULL-STACK & IOT').toUpperCase(),
-      desc: p.description || 'Full-stack engineering commission built with modern architectural rigor.',
-      link: p.live_url || p.github_url || '#',
-      img: p.image_url || defaultProjects[idx % defaultProjects.length]?.img,
-      client: p.client || 'COMMISSION WORK',
-      stat: p.metrics || 'Engineered for Performance'
-    }))
-    : defaultProjects;
-
-  // Certifications data processing from Supabase
-  const allCertifications = (supabaseQualifications && supabaseQualifications.length > 0)
-    ? supabaseQualifications
-      .filter(q => q.type === 'certification')
-      .sort((a, b) => (a.order_index ?? 999) - (b.order_index ?? 999))
-    : [
-      {
-        id: "cert-01",
-        title: "Piagam Penghargaan Mahasiswa Berprestasi Universitas Kuningan 2026",
-        institution: "Universitas Kuningan",
-        period: "May 2026",
-        certificate_url: "https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1783714135/f2p9oyiqe0hvurgsevhx.jpg",
-        description: "Rank 1 Outstanding Student Award across University level."
-      },
-      {
-        id: "cert-02",
-        title: "2nd Runner Up of the Business Plan (Canva Design) Competition",
-        institution: "Universitas Pancasakti",
-        period: "2026",
-        certificate_url: "https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1790349503/o6nrysdsqeq6qmcrbouh.jpg",
-        description: "National business innovation and digital presentation design."
-      },
-      {
-        id: "cert-03",
-        title: "Junior Web Developer",
-        institution: "BNSP & Kominfo",
-        period: "Okt 2024",
-        certificate_url: "https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1783626185/dbbffblvvangiizxkudh.jpg",
-        description: "Certified professional competence in modern web software engineering."
-      }
-    ];
-
-  const filteredCerts = allCertifications.filter(cert => {
-    if (certFilter === 'verified') return Boolean(cert.certificate_url);
-    if (certFilter === 'national') {
-      const text = `${cert.title || ''} ${cert.institution || ''}`.toLowerCase();
-      return text.includes('bnsp') || text.includes('kominfo') || text.includes('kemenkominfo') || text.includes('cipta') || text.includes('intelektual') || text.includes('astra');
-    }
-    if (certFilter === 'competition') {
-      const text = `${cert.title || ''} ${cert.institution || ''}`.toLowerCase();
-      return text.includes('competition') || text.includes('juara') || text.includes('winner') || text.includes('runner up') || text.includes('pilmapres');
-    }
-    return true;
-  });
-
-  // Instagram date formatter
-  const formatIgDate = (timestamp) => {
-    if (!timestamp) return '';
-    try {
-      const date = new Date(timestamp);
-      return date.toLocaleDateString('en-GB', {
-        day: '2-digit',
-        month: 'short',
-        year: 'numeric'
-      }).toUpperCase();
-    } catch {
-      return '';
-    }
-  };
-
-  const fallbackInstagramPosts = [
-    {
-      id: "ig-1",
-      permalink: "https://www.instagram.com/p/DDS_AlvTWUy/",
-      caption: "Merupakan sebuah kehormatan bisa bertemu langsung dengan sosok yang sangat berpengaruh dalam perjalanan saya, Bapak Sandhika Galih di DevFest Bandung 2024.",
-      media_type: "CAROUSEL_ALBUM",
-      media_url: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80",
-      timestamp: "2024-12-08T00:05:47+0000"
-    },
-    {
-      id: "ig-2",
-      permalink: "https://www.instagram.com/p/C6vZglurhj1/",
-      caption: "Tiga tahun, ribuan baris kode. Meraih predikat nilai tertinggi Uji Kompetensi Keahlian (UKK) di SMKN 2 Kuningan jurusan Rekayasa Perangkat Lunak.",
-      media_type: "CAROUSEL_ALBUM",
-      media_url: "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=800&q=80",
-      timestamp: "2024-05-09T08:13:32+0000"
-    },
-    {
-      id: "ig-3",
-      permalink: "https://www.instagram.com/p/CvUx7g2LQmt/",
-      caption: "Program Astra Voca Preneur di Desa Sejahtera Astra, Mangunan Yogyakarta. Membawa ide lingkungan RETHREEE ke panggung nasional bersama PT Astra International Tbk.",
-      media_type: "CAROUSEL_ALBUM",
-      media_url: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80",
-      timestamp: "2023-07-30T14:22:06+0000"
-    },
-    {
-      id: "ig-4",
-      permalink: "https://www.instagram.com/p/CqQBrFXL-LN/",
-      caption: "Marketplace digital REThreee untuk pengrajin daur ulang dan eco-friendly diapresiasi Juara 1.",
-      media_type: "CAROUSEL_ALBUM",
-      media_url: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=800&q=80",
-      timestamp: "2023-03-26T11:26:30+0000"
-    }
-  ];
-
-  // Professional Experiences Data
-  const defaultExperiences = [
-    {
-      id: 'exp-1',
-      company: 'PT. Bengkel Aplikasi Nusantara',
-      role: 'WEB DEVELOPER',
-      period: 'OKT 2024 - FEB 2025',
-      type: 'FULL-TIME',
-      description: 'Mengembangkan modul aplikasi web dinamis sesuai kebutuhan spesifik klien perusahaan. Merancang dan mengoptimalkan API internal serta pemeliharaan database.'
-    },
-    {
-      id: 'exp-2',
-      company: 'LSP-P1 SMKN 2 Kuningan',
-      role: 'TECHNICAL ASSESSOR & WEB ADMIN',
-      period: 'MEI 2024 - JUN 2024',
-      type: 'APPRENTICESHIP',
-      description: 'Asisten teknis sertifikasi kompetensi kejuruan rekayasa perangkat lunak dan manajemen sistem pengujian digital.'
-    },
-    {
-      id: 'exp-3',
-      company: 'PT BPR Raksa Wacana Agri Purnama',
-      role: 'IT INFRASTRUCTURE & SUPPORT INTERN',
-      period: 'SEP 2023 - DEC 2023',
-      type: 'INTERNSHIP',
-      description: 'Pemeliharaan perangkat keras, jaringan kantor perbankan mikro, dan otomatisasi administrasi sistem inventaris digital.'
-    },
-    {
-      id: 'exp-4',
-      company: 'PT BPR Raksa Wacana Agri Purnama',
-      role: 'CORE BANKING MIGRATION ASSISTANT',
-      period: 'SEP 2023',
-      type: 'SPECIAL PROJECT',
-      description: 'Dukungan validasi integritas data dan migrasi basis data perbankan inti.'
-    }
-  ];
-
-  const allExperiences = (supabaseExperiences && supabaseExperiences.length > 0)
-    ? supabaseExperiences.map((e, idx) => ({
-      id: e.id || `exp-${idx}`,
-      company: (e.company || 'TECH COMMISSION').toUpperCase(),
-      role: (e.role || 'SOFTWARE ENGINEER').toUpperCase(),
-      period: (e.period || '2024 - 2025').toUpperCase(),
-      description: e.description || 'Delivering high-performance software and systems engineering.',
-      type: e.role?.toLowerCase().includes('intern') ? 'INTERNSHIP' : 'PROFESSIONAL'
-    }))
-    : defaultExperiences;
-
-  // Education Data
-  const defaultEducation = [
-    {
-      id: 'edu-1',
-      title: 'TEKNIK INFORMATIKA',
-      institution: 'UNIVERSITAS KUNINGAN',
-      period: '2024 - PRESENT',
-      degree: "BACHELOR'S DEGREE (S.KOM CANDIDATE)",
-      description: 'Fokus pada Sistem Tertanam (IoT), Rekayasa Perangkat Lunak Web & Mobile, Arsitektur Basis Data, dan Riset Kecerdasan Buatan.'
-    },
-    {
-      id: 'edu-2',
-      title: 'REKAYASA PERANGKAT LUNAK',
-      institution: 'SMKN 2 KUNINGAN',
-      period: '2021 - 2024',
-      degree: 'VOCATIONAL DIPLOMA (RPL)',
-      description: 'Peringkat 1 Uji Kompetensi Keahlian (UKK) Rekayasa Perangkat Lunak se-sekolah. Fokus pada Full-stack Web Development dan Microcontrollers.'
-    }
-  ];
-
-  const allEducation = (supabaseQualifications && supabaseQualifications.length > 0)
-    ? (() => {
-      const edu = supabaseQualifications.filter(q => q.type === 'education');
-      return edu.length > 0 ? edu.map((e, idx) => ({
-        id: e.id || `edu-${idx}`,
-        title: (e.title || 'INFORMATICS ENGINEERING').toUpperCase(),
-        institution: (e.institution || 'UNIVERSITAS KUNINGAN').toUpperCase(),
-        period: (e.period || '2024 - PRESENT').toUpperCase(),
-        description: e.description || (idx === 0
-          ? 'Fokus pada Sistem Tertanam (IoT), Rekayasa Web & Cloud, dan Arsitektur Komputasi.'
-          : 'Peringkat 1 Uji Kompetensi Keahlian (UKK). Fokus pada Software Engineering.'),
-        degree: idx === 0 ? "BACHELOR'S DEGREE (S.KOM)" : 'VOCATIONAL DIPLOMA (RPL)'
-      })) : defaultEducation;
-    })()
-    : defaultEducation;
-
-  // Honors & Awards Data
-  const defaultHonors = [
-    {
-      id: 'honor-1',
-      title: 'JUARA 1 PILMAPRES UNIVERSITAS KUNINGAN',
-      institution: 'UNIVERSITAS KUNINGAN',
-      period: '2026',
-      badge: 'RANK 1 WINNER',
-      description: 'Pemilihan Mahasiswa Berprestasi tingkat Universitas — dianugerahi predikat Juara 1 atas inovasi riset teknologi dan keunggulan akademik.',
-      certificate_url: 'https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1783714135/f2p9oyiqe0hvurgsevhx.jpg'
-    },
-    {
-      id: 'honor-2',
-      title: '2ND RUNNER UP BUSINESS PLAN COMPETITION',
-      institution: 'UNIVERSITAS PANCASAKTI',
-      period: '2026',
-      badge: '2ND RUNNER UP',
-      description: 'Kompetisi perancangan model bisnis dan inovasi teknologi digital berskala nasional.',
-      certificate_url: 'https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1790349503/o6nrysdsqeq6qmcrbouh.jpg'
-    },
-    {
-      id: 'honor-3',
-      title: '2ND PLACE WINNER – INT. DIGITAL MATH GAME COMPETITION',
-      institution: 'UNIVERSITAS SYIAH KUALA',
-      period: '2025',
-      badge: 'INTERNATIONAL 2ND',
-      description: 'Kompetisi internasional pengembangan game matematika digital interaktif.',
-      certificate_url: 'https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1783626185/dbbffblvvangiizxkudh.jpg'
-    },
-    {
-      id: 'honor-4',
-      title: 'NILAI TERTINGGI PERTAMA UJI KOMPETENSI KEAHLIAN RPL',
-      institution: 'SMKN 2 KUNINGAN',
-      period: '2024',
-      badge: 'PERINGKAT 1 UKK',
-      description: 'Mencapai nilai tertinggi 100% sempurna dalam uji kompetensi pembuatan sistem aplikasi web terintegrasi.',
-      certificate_url: null
-    },
-    {
-      id: 'honor-5',
-      title: 'JUARA 1 BUSINESS PLAN COMPETITION',
-      institution: 'UNIKU BUSINESS COMMUNITY',
-      period: '2023',
-      badge: 'CHAMPION 1',
-      description: 'Juara pertama perancangan strategi bisnis teknologi digital.',
-      certificate_url: null
-    },
-    {
-      id: 'honor-6',
-      title: 'FINALIST ASTRA VOCAPRENEUR PROGRAM',
-      institution: 'PT ASTRA INTERNATIONAL TBK',
-      period: '2023',
-      badge: 'NATIONAL FINALIST',
-      description: 'Program inkubasi dan akselerasi wirausaha teknologi vokasi terpilih dari PT Astra International Tbk.',
-      certificate_url: null
-    }
-  ];
-
-  const allHonors = (supabaseQualifications && supabaseQualifications.length > 0)
-    ? (() => {
-      const honors = supabaseQualifications.filter(q => q.type === 'honor');
-      return honors.length > 0 ? honors.map((h, idx) => ({
-        id: h.id || `honor-${idx}`,
-        title: (h.title || 'HONOR & AWARD').toUpperCase(),
-        institution: (h.institution || 'ACADEMIC & INDUSTRY INSTITUTION').toUpperCase(),
-        period: h.period || '2024 - 2026',
-        description: h.description || 'Awarded for exceptional technical innovation, academic rigor, and competitive problem solving.',
-        certificate_url: h.certificate_url,
-        badge: h.title?.toLowerCase().includes('juara 1') || h.title?.toLowerCase().includes('rank 1') || h.title?.toLowerCase().includes('tertinggi') ? 'RANK 1' : 'AWARD'
-      })) : defaultHonors;
-    })()
-    : defaultHonors;
-
-  // Latest Articles Data
-  const defaultArticles = [
-    {
-      id: 'art-1',
-      title: 'WELCOME TO GHIFFA.DEV',
-      slug: 'welcome-to-ghiffa.dev',
-      cover_image: 'https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1786879160/oslgl5w432fjmnojpeqj.png',
-      description: 'Welcome to my digital playground. A quick dive into who I am, the vibes behind this site, and the tech stack running the show.',
-      published_at: '2026-08-05'
-    },
-    {
-      id: 'art-2',
-      title: 'MENYAMBUT SKILLSTREAK.WEB.ID: PLATFORM BELAJAR CODING GAK BIKIN BOSAN',
-      slug: 'menyambut-skillstreak-web-id-beta',
-      cover_image: 'https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1786878850/oydozz6hekvhctyio9yg.png',
-      description: 'Versi Beta Segera Hadir untuk Mengubah Cara Kita Belajar Software Engineering dengan gamified streaks dan live code evaluator.',
-      published_at: '2026-08-16'
-    }
-  ];
-
-  const allArticles = (supabaseArticles && supabaseArticles.length > 0)
-    ? supabaseArticles.map((a, idx) => ({
-      id: a.id || `art-${idx}`,
-      title: (a.title || 'ENGINEERING DISPATCH').toUpperCase(),
-      slug: a.slug || '#',
-      cover_image: a.cover_image || defaultArticles[idx % defaultArticles.length]?.cover_image,
-      description: a.description || 'Editorial insights on modern web development, IoT telemetry, and brutalist design systems.',
-      published_at: a.published_at || '2026'
-    }))
-    : defaultArticles;
-
-  const formatArticleDate = (timestamp) => {
-    if (!timestamp) return 'AUG 2026';
-    try {
-      const date = new Date(timestamp);
-      return date.toLocaleDateString('en-GB', {
-        day: '2-digit',
-        month: 'short',
-        year: 'numeric'
-      }).toUpperCase();
-    } catch {
-      return '2026';
-    }
-  };
-
-  const displayedInstagramPosts = (instagramPosts && instagramPosts.length > 0)
-    ? instagramPosts
-    : fallbackInstagramPosts;
 
   return (
-    <div className="min-h-screen bg-[#111110] py-0 sm:py-8 px-0 sm:px-4 flex justify-center items-start font-mono text-[#1c1c1a] selection:bg-[#E84E0F] selection:text-[#EAE6DF]">
+    <div className={`min-h-screen bg-white text-[#111111] font-sans overflow-x-hidden antialiased selection:bg-blue-600 selection:text-white ${aiActive ? 'ai-mode-active' : ''}`}>
       <SEO
-        title={`${fullName} — IoT Engineer & Full-stack Developer`}
-        description="Official poster portfolio of Haikal Jibran Al-Ghiffarry (Ghiffa). Bridging bits and atoms through modern web architecture and embedded IoT systems."
+        title="ghiffa.dev — Custom Web Design & Development"
+        description="Official portfolio of Haikal Jibran Al-Ghiffarry (ghiffa.dev). Building the bridge between bits and atoms for companies, governments, and organizations."
+        url="https://ghiffa.dev/"
       />
 
-      {/* SVG Filters for Paper Noise & Grunge Distress */}
-      <svg className="absolute w-0 h-0 overflow-hidden pointer-events-none" aria-hidden="true">
-        <filter id="paper-grain">
-          <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch" result="noise" />
-          <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.08 0" in="noise" result="coloredNoise" />
-          <feComposite operator="in" in2="SourceGraphic" />
-        </filter>
-        <filter id="ink-edge" x="-2%" y="-2%" width="104%" height="104%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.25" numOctaves="3" result="roughNoise" />
-          <feDisplacementMap in="SourceGraphic" in2="roughNoise" scale="1.5" xChannelSelector="R" yChannelSelector="G" />
-        </filter>
-      </svg>
+      {/* FULL-WIDTH HEADER */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100/80">
+        <div className="w-full px-6 sm:px-16 lg:px-[12.8vw] h-[72px] flex items-center justify-between">
+          <a
+            href="#"
+            className="text-[20px] font-bold tracking-tight text-[#111111] border border-gray-800 px-1.5 py-0.5 leading-none hover:opacity-80 transition-opacity"
+          >
+            ghiffa.dev
+          </a>
+          <button
+            onClick={() => openContactModal('Header Inquiry')}
+            className="bg-[#18181B] hover:bg-[#2a2a2a] text-white text-[12.5px] font-medium px-5 py-2 rounded-full transition-all active:scale-95 cursor-pointer shadow-xs"
+          >
+            Let&apos;s talk
+          </button>
+        </div>
+      </header>
 
-      {/* MAIN POSTER CONTAINER - UV-COATED GLOSSY HD PRINT */}
-      <div
-        ref={posterRef}
-        onMouseMove={handlePosterMouseMove}
-        onMouseLeave={handlePosterMouseLeave}
-        className="w-full max-w-[1080px] bg-[#EAE6DF] relative shadow-[0_30px_90px_rgba(0,0,0,0.92),0_0_0_1px_rgba(255,255,255,0.08),inset_0_1px_2px_rgba(255,255,255,0.5),inset_0_-1px_2px_rgba(0,0,0,0.6)] overflow-hidden border border-[#2c2c2a] transition-all duration-300"
-      >
+      {/* FULL-SCREEN HERO SECTION (100vw x 100vh) */}
+      <section className="relative w-screen h-screen min-h-[700px] pt-[72px] bg-square-grid overflow-hidden select-none">
+        
+        {/* Edge-to-Edge Full Viewport Interactive Canvas */}
+        <div id="hero-canvas" className="relative w-full h-full">
 
-        {/* =========================================================
-            UV-COATED GLOSSY HD POSTER PRINT FINISH OVERLAYS (CRISP & CLEAR)
-        ========================================================= */}
+          {/* 1. TOP CENTER: AI Mode Toggle Pill */}
+          <DraggableItem className="absolute top-[21.5%] left-1/2 -translate-x-1/2 z-30 bg-white rounded-full px-4 py-2 soft-card-shadow border border-gray-100/90 flex items-center gap-3">
+            <span className="text-[12px] font-medium text-gray-800">AI Mode</span>
+            <button
+              onClick={() => setAiActive(!aiActive)}
+              aria-label="AI Mode"
+              className={`w-11 h-6 rounded-full p-0.5 transition-colors duration-200 flex items-center cursor-pointer ${aiActive ? 'bg-[#1877F2] justify-end' : 'bg-gray-300 justify-start'}`}
+            >
+              <span className="w-5 h-5 rounded-full bg-white shadow-md transition-transform duration-200" />
+            </button>
+          </DraggableItem>
 
-        {/* Layer 1: Global HD Print Grain & Micro-Stipple (Subtle 1200 DPI Paper Grain) */}
-        <div
-          className="pointer-events-none absolute inset-0 z-40 opacity-[0.14] mix-blend-multiply select-none"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='uvGrain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.12 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23uvGrain)'/%3E%3C/svg%3E")`
-          }}
-        />
+          {/* 2. CENTER: Giant "ghiffa.dev" inside dashed Figma bounding box */}
+          <div className="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 px-4">
+            <div id="hero-bbox" className="figma-bbox px-6 sm:px-11 py-3 sm:py-5">
+              {/* 8 Figma resize handles */}
+              <span className="figma-handle -top-1 -left-1" />
+              <span className="figma-handle -top-1 left-1/2 -translate-x-1/2" />
+              <span className="figma-handle -top-1 -right-1" />
+              <span className="figma-handle top-1/2 -translate-y-1/2 -left-1" />
+              <span className="figma-handle top-1/2 -translate-y-1/2 -right-1" />
+              <span className="figma-handle -bottom-1 -left-1" />
+              <span className="figma-handle -bottom-1 left-1/2 -translate-x-1/2" />
+              <span className="figma-handle -bottom-1 -right-1" />
 
-        {/* Layer 2: Subtle Ambient Diagonal Studio Specular (Zero Fog) */}
-        <div
-          className="pointer-events-none absolute inset-0 z-45 opacity-25 mix-blend-soft-light select-none"
-          style={{
-            background: 'linear-gradient(135deg, rgba(255,255,255,0.25) 0%, transparent 28%, transparent 55%, rgba(255,255,255,0.18) 65%, transparent 80%)'
-          }}
-        />
-
-        {/* Layer 3: Interactive Dynamic Specular UV Glare (Follows Cursor - Only when Active) */}
-        <div
-          className="pointer-events-none absolute inset-0 z-50 transition-opacity duration-300 select-none"
-          style={{
-            background: glossPos.active
-              ? `radial-gradient(800px circle at ${glossPos.x}% ${glossPos.y}%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.04) 35%, transparent 70%)`
-              : 'none',
-            mixBlendMode: 'screen',
-            opacity: glossPos.active ? 0.75 : 0
-          }}
-        />
-
-        {/* Layer 4: Spot-UV Lacquer Lamination Edge Glare (Micro Bevel) */}
-        <div className="pointer-events-none absolute inset-0 z-50 shadow-[inset_0_1px_1px_rgba(255,255,255,0.45),inset_1px_0_1px_rgba(255,255,255,0.2),inset_-1px_0_1px_rgba(255,255,255,0.15),inset_0_-1px_2px_rgba(0,0,0,0.5)] select-none" />
-
-        {/* =========================================================
-            1. TOP NAVIGATION / STATUS BAR
-        ========================================================= */}
-        <header className="relative z-20 px-6 sm:px-12 pt-7 pb-4 flex justify-between items-start text-[11px] sm:text-xs leading-[1.35] tracking-[0.06em] font-mono-tech font-medium uppercase border-b border-[#1c1c1a]/15 antialiased">
-          {/* Top Left */}
-          <div>
-            <div className="w-3.5 h-[3px] bg-[#E84E0F] mb-2" />
-            <p className="text-[#1c1c1a] font-bold">FULL-STACK DEVELOPER</p>
-            <p className="text-[#4a4946]">IOT TELEMETRY ENGINEER</p>
+              <h1
+                id="hero-title"
+                className="text-[48px] sm:text-[92px] md:text-[118px] lg:text-[138px] font-bold tracking-[-0.045em] leading-[0.92] text-[#141414] select-none whitespace-nowrap"
+              >
+                ghiffa.dev
+              </h1>
+            </div>
           </div>
 
-          {/* Top Center Clean Identity */}
-          <div className="text-center hidden sm:block">
-            <div className="h-[3px] mb-2 opacity-0" />
-            <p className="text-[#1c1c1a] font-bold">BASED IN</p>
-            <p className="text-[#4a4946] font-medium">INDONESIA / REMOTE</p>
+          {/* 3. LIVE ROAMING MULTIPLAYER CURSORS */}
+          
+          {/* Creative Director (Green) */}
+          <div id="cursor-director" className="live-cursor hidden sm:block">
+            <svg className="w-3.5 h-3.5 text-[#1FC77E] -ml-1.5 mb-0.5 drop-shadow-xs" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M1 1L6.5 14.5L8.8 8.8L14.5 6.5L1 1Z" />
+            </svg>
+            <div className="bg-[#1FC77E] text-white text-[11px] font-medium px-2.5 py-0.5 rounded-[5px] shadow-sm whitespace-nowrap">
+              Creative Director
+            </div>
           </div>
 
-          {/* Top Right */}
-          <div className="text-right flex flex-col items-end">
-            <div className="w-3.5 h-[3px] bg-[#E84E0F] mb-2" />
-            <p className="text-[#1c1c1a] font-bold">BASE: {location.toUpperCase()}</p>
-            <p className="text-[#E84E0F] font-semibold">{availability.toUpperCase()}</p>
+          {/* Developer (Cyan) */}
+          <div id="cursor-dev-cyan" className="live-cursor hidden sm:block">
+            <svg className="w-3.5 h-3.5 text-[#06B6D4] -ml-1.5 mb-0.5 drop-shadow-xs" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M1 1L6.5 14.5L8.8 8.8L14.5 6.5L1 1Z" />
+            </svg>
+            <div className="bg-[#06B6D4] text-white text-[11px] font-medium px-2.5 py-0.5 rounded-[5px] shadow-sm whitespace-nowrap">
+              Developer
+            </div>
           </div>
-        </header>
 
-        {/* =========================================================
-            2. HERO SECTION (TYPOGRAPHY + PORTRAIT + ABOUT ME)
-        ========================================================= */}
-        <section className="relative z-10 pl-6 sm:pl-12 pr-6 sm:pr-12 lg:pr-0 pt-3 pb-0 overflow-hidden">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 items-start lg:items-end relative">
+          {/* UI Designer (Purple) */}
+          <div id="cursor-ui" className="live-cursor hidden sm:block">
+            <svg className="w-3.5 h-3.5 text-[#7B7FEF] -ml-1.5 mb-0.5 drop-shadow-xs" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M1 1L6.5 14.5L8.8 8.8L14.5 6.5L1 1Z" />
+            </svg>
+            <div className="bg-[#7B7FEF] text-white text-[11px] font-medium px-2.5 py-0.5 rounded-[5px] shadow-sm whitespace-nowrap">
+              UI Designer
+            </div>
+          </div>
 
-            {/* LEFT COLUMN: STACKED BRUTALIST HEADLINE & ABOUT ME */}
-            <div className="lg:col-span-7 relative z-20 flex flex-col justify-between pt-1 pb-6 lg:pb-10 pr-4 sm:pr-6 lg:pr-0">
+          {/* UX Designer (Pink) */}
+          <div id="cursor-ux" className="live-cursor hidden sm:block">
+            <svg className="w-3.5 h-3.5 text-[#F452B8] -ml-2 mb-0.5 drop-shadow-xs" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M1 1L6.5 14.5L8.8 8.8L14.5 6.5L1 1Z" />
+            </svg>
+            <div className="bg-[#F452B8] text-white text-[11px] font-medium px-2.5 py-0.5 rounded-[5px] shadow-sm whitespace-nowrap">
+              UX Designer
+            </div>
+          </div>
 
-              {/* Giant Stacked Brutalist Headline - 100% RAZOR-SHARP HD VECTOR */}
-              <div className="select-none pt-1 antialiased">
-                <h1 className="font-anton uppercase tracking-[-0.02em] flex flex-col [text-rendering:optimizeLegibility]">
-                  <span
-                    className="text-[10.5vw] sm:text-[68px] md:text-[80px] lg:text-[88px] xl:text-[94px] leading-[0.88] select-none block"
-                    style={{
-                      backgroundImage: `radial-gradient(circle at center, rgba(234, 230, 223, 0.20) 1.2px, transparent 1.2px), linear-gradient(180deg, #222220 0%, #141413 100%)`,
-                      backgroundSize: '5px 5px, 100% 100%',
-                      WebkitBackgroundClip: 'text',
-                      backgroundClip: 'text',
-                      color: 'transparent',
-                    }}
-                  >
-                    BUILDING THE
-                  </span>
-                  <span
-                    className="text-[10.5vw] sm:text-[68px] md:text-[80px] lg:text-[88px] xl:text-[94px] leading-[0.88] select-none block mt-1"
-                    style={{
-                      backgroundImage: `radial-gradient(circle at center, rgba(234, 230, 223, 0.20) 1.2px, transparent 1.2px), linear-gradient(180deg, #222220 0%, #141413 100%)`,
-                      backgroundSize: '5px 5px, 100% 100%',
-                      WebkitBackgroundClip: 'text',
-                      backgroundClip: 'text',
-                      color: 'transparent',
-                    }}
-                  >
-                    BRIDGE BETWEEN
-                  </span>
-                  <span
-                    className="text-[10.5vw] sm:text-[68px] md:text-[80px] lg:text-[88px] xl:text-[94px] leading-[0.88] select-none inline-flex items-baseline mt-1"
-                  >
-                    <span
-                      style={{
-                        backgroundImage: `radial-gradient(circle at center, rgba(234, 230, 223, 0.22) 1.2px, transparent 1.2px), linear-gradient(180deg, #EB5310 0%, #D84508 100%)`,
-                        backgroundSize: '5px 5px, 100% 100%',
-                        WebkitBackgroundClip: 'text',
-                        backgroundClip: 'text',
-                        color: 'transparent',
-                      }}
-                    >
-                      BITS AND ATOMS.
-                    </span>
-                    {/* Distinct crisp black square block next to the orange period */}
-                    <span
-                      className="inline-block w-4 h-4 sm:w-5 sm:h-5 lg:w-[22px] lg:h-[22px] bg-[#1c1c1a] ml-2 sm:ml-3 mb-1 sm:mb-2 shrink-0 shadow-xs"
-                    />
-                  </span>
-                </h1>
+          {/* Project Manager (Blue) */}
+          <div id="cursor-pm" className="live-cursor hidden sm:block">
+            <svg className="w-3.5 h-3.5 text-[#1D8CF8] -ml-1.5 mb-0.5 drop-shadow-xs" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M1 1L6.5 14.5L8.8 8.8L14.5 6.5L1 1Z" />
+            </svg>
+            <div className="bg-[#1D8CF8] text-white text-[11px] font-medium px-2.5 py-0.5 rounded-[5px] shadow-sm whitespace-nowrap">
+              Project Manager
+            </div>
+          </div>
+
+          {/* Client (Orange) */}
+          <div id="cursor-client" className="live-cursor hidden md:block">
+            <svg className="w-3.5 h-3.5 text-[#F05228] -ml-1.5 mb-0.5 drop-shadow-xs" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M1 1L6.5 14.5L8.8 8.8L14.5 6.5L1 1Z" />
+            </svg>
+            <div className="bg-[#F05228] text-white text-[11px] font-medium px-2.5 py-0.5 rounded-[5px] shadow-sm whitespace-nowrap">
+              Client
+            </div>
+          </div>
+
+          {/* 4. FLOATING TOOL ICONS */}
+          
+          {/* VS Code Icon */}
+          <DraggableItem className="absolute top-[15.5%] left-[22.2%] z-20 w-12 h-12 rounded-2xl bg-white soft-card-shadow border border-gray-100 flex items-center justify-center" title="VS Code">
+            <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none">
+              <path d="M17.5 2L7.2 11.4L3.2 8.3L1.5 9.2V14.8L3.2 15.7L7.2 12.6L17.5 22L22.5 19.9V4.1L17.5 2ZM17.5 17.2L10.8 12L17.5 6.8V17.2Z" fill="#007ACC" />
+            </svg>
+          </DraggableItem>
+
+          {/* Notion Icon */}
+          <DraggableItem className="absolute top-[38.5%] left-[15.5%] z-20 w-12 h-12 rounded-2xl bg-white soft-card-shadow border border-gray-100 flex items-center justify-center" title="Notion">
+            <svg className="w-6 h-6 text-black" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.933-.748-.887l-15.177.887c-.56.047-.747.327-.747.933zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933z" />
+            </svg>
+          </DraggableItem>
+
+          {/* Next.js Icon */}
+          <DraggableItem className="absolute top-[64.5%] left-[13.8%] z-20 w-12 h-12 rounded-2xl bg-white soft-card-shadow border border-gray-100 flex items-center justify-center" title="NextJS">
+            <div className="w-6 h-6 rounded-full bg-black text-white flex items-center justify-center font-bold text-[12px] tracking-tighter">N</div>
+          </DraggableItem>
+
+          {/* WordPress Icon */}
+          <DraggableItem className="absolute top-[80.5%] left-[48.1%] z-20 w-12 h-12 rounded-2xl bg-white soft-card-shadow border border-gray-100 flex items-center justify-center" title="WordPress">
+            <svg className="w-6 h-6 text-[#222]" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zM3.443 12c0-1.227.263-2.392.73-3.447l4.027 11.035C5.388 18.223 3.443 15.34 3.443 12zm8.557 8.557c-.84 0-1.652-.126-2.42-.355l2.571-7.468 2.634 7.22c.017.042.038.08.06.117-.888.313-1.844.486-2.845.486zm1.179-12.56c.516-.027.98-.082.98-.082.462-.055.407-.733-.054-.707 0 0-1.388.109-2.285.109-.842 0-2.257-.109-2.257-.109-.462-.026-.517.68-.055.707 0 0 .437.055.899.082l1.335 3.661-1.876 5.625-3.122-9.286c.516-.027.98-.082.98-.082.461-.055.406-.733-.055-.707 0 0-1.388.109-2.285.109-.161 0-.35-.004-.551-.011C6.33 4.864 8.967 3.443 12 3.443c2.226 0 4.252.852 5.774 2.246-.037-.002-.072-.008-.11-.008-.842 0-1.44.733-1.44 1.521 0 .706.407 1.304.842 2.01.326.571.706 1.304.706 2.364 0 .733-.281 1.584-.652 2.771l-.855 2.855-3.086-9.199zm4.961 11.219l2.616-7.562c.489-1.222.652-2.199.652-3.069 0-.315-.021-.609-.06-.883.428 1.012.666 2.125.666 3.298 0 3.551-2.167 6.6-5.252 7.893l1.378-.677z" />
+            </svg>
+          </DraggableItem>
+
+          {/* Figma Icon */}
+          <DraggableItem className="absolute top-[15%] right-[19.8%] z-20 w-12 h-12 rounded-2xl bg-white soft-card-shadow border border-gray-100 flex items-center justify-center" title="Figma">
+            <svg className="w-5 h-5" viewBox="0 0 38 57" fill="none">
+              <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE" />
+              <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83" />
+              <path d="M19 0V19H28.5C33.7467 19 38 14.7467 38 9.5C38 4.25329 33.7467 0 28.5 0H19Z" fill="#FF7262" />
+              <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E" />
+              <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF" />
+            </svg>
+          </DraggableItem>
+
+          {/* 5. FLOATING COMMENTS */}
+          <DraggableItem className="absolute top-[28.5%] right-[10%] z-30 bg-white/95 backdrop-blur-md rounded-2xl rounded-bl-sm px-4 py-3 comment-shadow border border-gray-100 flex items-start gap-3 max-w-[260px]">
+            <div className="w-7 h-7 rounded-full bg-[#111] text-white flex items-center justify-center text-[7px] font-bold shrink-0 mt-0.5">ghiffa</div>
+            <div>
+              <div className="flex items-center gap-1.5 text-[11px]">
+                <span className="font-semibold text-gray-900">ghiffa.dev</span>
+                <span className="text-gray-400">just now</span>
               </div>
+              <p className="text-[12px] text-gray-800 mt-0.5 leading-snug">Let&apos;s build your new website.</p>
+            </div>
+          </DraggableItem>
 
-              {/* ABOUT ME & WORLDWIDE COLLABS ROW */}
-              <div className="mt-8 sm:mt-10 grid grid-cols-1 sm:grid-cols-12 gap-6 items-end antialiased">
-                {/* About Me Text */}
-                <div className="sm:col-span-6">
-                  <div className="flex items-center gap-3 mb-3">
-                    <h2 className="font-syne font-extrabold text-xl sm:text-[22px] tracking-tight uppercase text-[#1c1c1a]">
-                      ABOUT ME
-                    </h2>
-                    <span className="w-6 h-[2.5px] bg-[#1c1c1a]" />
-                  </div>
-                  <p className="text-[11.5px] leading-[1.55] text-[#2b2b29] font-mono-tech mb-4 max-w-[260px] font-medium">
-                    Translating digital architecture and lines of code (Bits) into physical hardware that impacts the real world (Atoms).
-                  </p>
-                  <p className="text-[11.5px] leading-[1.5] text-[#1c1c1a] font-mono-tech font-bold">
-                    Small by conviction.<br />
-                    Rigorous by execution.
-                  </p>
-                </div>
+          <DraggableItem className="absolute top-[65%] left-[52.1%] z-30 bg-white/95 backdrop-blur-md rounded-2xl rounded-bl-sm px-4 py-3 comment-shadow border border-gray-100 flex items-start gap-3 max-w-[290px]">
+            <div className="w-7 h-7 rounded-full bg-[#111] text-white flex items-center justify-center text-[7px] font-bold shrink-0 mt-0.5">ghiffa</div>
+            <div>
+              <div className="flex items-center gap-1.5 text-[11px]">
+                <span className="font-semibold text-gray-900">ghiffa.dev</span>
+                <span className="text-gray-400">just now</span>
+              </div>
+              <p className="text-[12px] text-gray-800 mt-0.5 leading-snug">Custom designed and developed.</p>
+            </div>
+          </DraggableItem>
 
-                {/* Available Worldwide Globe Badge */}
-                <div className="sm:col-span-6 flex flex-col justify-end">
-                  <div className="w-full h-[1px] bg-[#1c1c1a]/60 mb-4" />
-                  <div className="flex items-center gap-3.5">
-                    <WireframeGlobe />
-                    <div className="text-[10px] leading-[1.45] font-mono-tech uppercase tracking-[0.04em] text-[#1c1c1a] font-semibold">
-                      <p>AVAILABLE WORLDWIDE</p>
-                      <p>FOR ENGINEERING</p>
-                      <p>&amp; HARDWARE COLLABS</p>
-                    </div>
-                  </div>
+          {/* 6. EDGE-TO-EDGE SURROUNDING MOCKUPS */}
+
+          {/* Top-Left Wireframe Window */}
+          <DraggableItem className="hidden md:block absolute top-[20.5%] left-[1.6%] z-10 w-[185px] bg-white rounded-xl border border-gray-200 soft-card-shadow rotate-[4deg] overflow-hidden">
+            <div className="px-2.5 py-1.5 border-b border-gray-100 flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full border border-gray-300" />
+              <span className="w-1.5 h-1.5 rounded-full border border-gray-300" />
+              <span className="w-1.5 h-1.5 rounded-full border border-gray-300" />
+            </div>
+            <div className="p-3.5 grid grid-cols-12 gap-2.5">
+              <div className="col-span-4 space-y-2">
+                <div className="w-7 h-7 rounded-full bg-gray-200/80" />
+                <div className="w-full h-1.5 rounded bg-gray-200" />
+                <div className="w-3/4 h-1.5 rounded bg-gray-200" />
+              </div>
+              <div className="col-span-8 grid grid-cols-2 gap-2">
+                <div className="h-16 rounded bg-gray-200/80" />
+                <div className="space-y-2">
+                  <div className="h-7 rounded bg-gray-200/80" />
+                  <div className="h-7 rounded bg-gray-200/80" />
                 </div>
               </div>
             </div>
+          </DraggableItem>
 
-            {/* RIGHT COLUMN: PORTRAIT WITH GEOMETRIC ORANGE BACKDROP - FULL BLEED TO RIGHT & BOTTOM */}
-            <div className="lg:col-span-5 relative w-full h-[520px] sm:h-[620px] lg:h-[720px] flex items-end justify-center lg:justify-end self-end">
-
-              {/* Crosshair Target Graphic Top Right */}
-              <div className="absolute top-10 sm:top-14 right-4 sm:right-8 z-20">
-                <CrosshairIcon />
-              </div>
-
-              {/* Bold Orange Brutalist Geometric Shapes Behind Subject - CRISP HD */}
-              <div
-                className="w-[220px] sm:w-[260px] lg:w-[280px] h-[130px] sm:h-[150px] absolute top-[25px] sm:top-[35px] left-[-20px] sm:left-[0px] lg:left-[20px] z-0"
-                style={{
-                  clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
-                  backgroundColor: '#E84E0F',
-                  backgroundImage: `radial-gradient(circle at center, rgba(255,255,255,0.14) 1px, transparent 1px), linear-gradient(180deg, #eb5310 0%, #dc4708 100%)`,
-                  backgroundSize: '6px 6px, 100% 100%',
-                }}
-              />
-              <div
-                className="w-[150px] sm:w-[180px] lg:w-[200px] h-[220px] sm:h-[260px] absolute top-[140px] sm:top-[160px] right-0 z-0"
-                style={{
-                  clipPath: 'polygon(0 0, 75% 0, 100% 25%, 100% 100%, 0 100%)',
-                  backgroundColor: '#E84E0F',
-                  backgroundImage: `radial-gradient(circle at center, rgba(255,255,255,0.14) 1px, transparent 1px), linear-gradient(180deg, #eb5310 0%, #dc4708 100%)`,
-                  backgroundSize: '6px 6px, 100% 100%',
-                }}
-              />
-
-              {/* High-Contrast B&W Editorial Portrait of Haikal - 100% HD CRISP */}
-              <div className="relative z-10 w-full h-full flex items-end justify-center lg:justify-end pointer-events-none select-none">
+          {/* Middle-Left Laptop Mockup (Bleeds off left edge) */}
+          <DraggableItem className="hidden lg:block absolute top-[50%] -left-[22px] z-20 w-[235px] -rotate-[4deg]">
+            <div className="bg-[#111] p-2 rounded-t-xl border-2 border-gray-300 shadow-xl">
+              <div className="overflow-hidden rounded-xs h-[150px] bg-zinc-900 relative">
                 <img
-                  src="/ghiffa.png"
-                  alt={fullName}
-                  draggable={false}
-                  className="h-full w-auto max-w-none object-contain object-bottom lg:object-bottom-right grayscale contrast-125 brightness-100 select-none [image-rendering:-webkit-optimize-contrast] drop-shadow-[0_12px_24px_rgba(0,0,0,0.25)]"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1000&q=85';
-                  }}
+                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80"
+                  alt="Laptop screen"
+                  className="w-full h-full object-cover grayscale contrast-125 pointer-events-none select-none"
                 />
               </div>
+            </div>
+            <div className="h-3.5 bg-gradient-to-b from-gray-200 to-gray-400 rounded-b-xl mx-[-12px] shadow-md flex items-center justify-center">
+              <div className="w-10 h-1 bg-gray-500/40 rounded-full" />
+            </div>
+          </DraggableItem>
 
-              {/* Floating Dark Name Tag Card */}
-              <div className="absolute bottom-[40px] sm:bottom-[60px] lg:bottom-[80px] right-4 sm:right-8 z-30 bg-[#181817]/95 border border-[#2e2e2c] px-5 py-3.5 shadow-2xl backdrop-blur-xs antialiased">
-                <div className="w-8 h-[2px] bg-[#EAE6DF] mb-2 opacity-80" />
-                <p className="font-mono-tech text-[#EAE6DF] text-xs sm:text-[13px] tracking-[0.14em] leading-tight uppercase font-medium">
-                  HAIKAL JIBRAN<br />
-                  AL-GHIFFARRY
-                </p>
-                <p className="font-mono-tech text-[#E84E0F] text-[10px] tracking-[0.14em] uppercase mt-1.5 font-semibold">
-                  IOT &amp; FULL-STACK ENGINEER
-                </p>
+          {/* Bottom-Left UX Wireframe Window */}
+          <DraggableItem className="hidden md:block absolute top-[65%] left-[18%] z-10 w-[188px] bg-white rounded-xl border border-gray-200 soft-card-shadow rotate-[4deg] overflow-hidden">
+            <div className="px-2.5 py-1.5 border-b border-gray-100 flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full border border-gray-300" />
+              <span className="w-1.5 h-1.5 rounded-full border border-gray-300" />
+              <span className="w-1.5 h-1.5 rounded-full border border-gray-300" />
+            </div>
+            <div className="p-3.5 space-y-2.5">
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-gray-200 shrink-0" />
+                <div className="w-16 h-2 rounded bg-gray-200" />
               </div>
-            </div>
-
-          </div>
-        </section>
-
-        {/* =========================================================
-            3. SELECTED WORK BAR (CLEAN BRUTALIST BAND)
-        ========================================================= */}
-        <section id="work" className="relative z-20 bg-[#181816] text-[#EAE6DF] border-t border-b border-[#2b2b28] overflow-hidden">
-
-          {/* Left Vertical Orange Sidebar - SITS ON TOP (z-30) */}
-          <div className="md:absolute md:left-0 md:top-0 md:bottom-0 z-30 bg-[#E84E0F] text-[#181816] md:w-[68px] py-3.5 px-6 md:py-6 md:px-0 flex items-center justify-between md:justify-center shrink-0 select-none shadow-[16px_0_32px_rgba(0,0,0,0.95)] border-b md:border-b-0 md:border-r border-[#181816]">
-            <div className="font-mono-tech font-bold text-xs sm:text-[13px] tracking-[0.24em] uppercase flex items-center gap-2.5 md:[writing-mode:vertical-rl] md:rotate-180">
-              <span>SELECTED WORK</span>
-              <span className="inline-block w-[10px] h-[2px] md:w-[2.5px] md:h-[12px] bg-[#181816]" />
-            </div>
-          </div>
-
-          {/* Depth Shadow Layer Behind Sidebar Edge */}
-          <div className="hidden md:block absolute left-[68px] top-0 bottom-0 w-14 bg-gradient-to-r from-black/90 via-black/40 to-transparent pointer-events-none z-20" />
-
-          {/* Project Cards Draggable Slider - SLIDES UNDERNEATH ORANGE SIDEBAR */}
-          <div className="flex flex-col py-5 sm:py-6 lg:py-7 px-6 sm:px-8 lg:px-10 md:pl-0 overflow-hidden relative z-10">
-            <div
-              ref={workSliderRef}
-              onMouseDown={handleWorkMouseDown}
-              onMouseMove={handleWorkMouseMove}
-              onMouseUp={handleWorkMouseUpOrLeave}
-              onMouseLeave={handleWorkMouseUpOrLeave}
-              onScroll={handleWorkScroll}
-              className="flex items-start gap-6 sm:gap-7 overflow-x-auto scrollbar-none cursor-grab active:cursor-grabbing select-none pt-0.5 pb-1 md:pl-[96px] pr-8"
-              style={{
-                scrollbarWidth: 'none',
-                msOverflowStyle: 'none'
-              }}
-            >
-              {allProjects.map((proj, pIdx) => (
-                <div
-                  key={proj.id || pIdx}
-                  onClick={() => {
-                    if (!workHasDragged) setSelectedProjectModal(proj);
-                  }}
-                  className="w-[280px] sm:w-[310px] md:w-[325px] shrink-0 group flex flex-col cursor-pointer"
-                >
-                  {/* Clean Orange Index */}
-                  <span className="text-[#E84E0F] font-mono-tech text-xs sm:text-sm font-semibold mb-2.5 tracking-wider block">
-                    {proj.num}
-                  </span>
-
-                  {/* Clean Cover Thumbnail - ZERO TEXT ON IMAGE */}
-                  <div className="relative aspect-[16/10] w-full bg-[#0d0d0d] border border-[#2e2e2b] overflow-hidden mb-3.5">
-                    <img
-                      src={proj.img}
-                      alt={proj.title}
-                      draggable={false}
-                      className="w-full h-full object-cover grayscale contrast-125 transition-transform duration-500 group-hover:scale-105 group-hover:grayscale-0 pointer-events-none select-none"
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80';
-                      }}
-                    />
-
-                    {/* Bottom Right Orange Action Tag */}
-                    <div className="absolute bottom-0 right-0 w-7 h-7 sm:w-8 sm:h-8 bg-[#E84E0F] flex items-center justify-center transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                      <CornerDownRight className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#181816] stroke-[2.5]" />
-                    </div>
-                  </div>
-
-                  {/* Clean Titles Below Thumbnail */}
-                  <h3 className="font-mono-tech text-xs sm:text-[13px] font-bold tracking-wider text-[#EAE6DF] group-hover:text-[#E84E0F] transition-colors uppercase truncate">
-                    {proj.title}
-                  </h3>
-                  <p className="font-mono-tech text-[10px] sm:text-[11px] tracking-wider text-[#8e8d87] uppercase mt-1 truncate">
-                    {proj.category}
-                  </p>
+              <div className="flex items-start gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-gray-200 shrink-0 mt-0.5" />
+                <div className="space-y-1.5 flex-1">
+                  <div className="w-full h-2 rounded bg-gray-200" />
+                  <div className="w-4/5 h-2 rounded bg-gray-200" />
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* =========================================================
-            02. SERVICES / DESIGN MANIFESTO / TECH STACK (3 COLUMNS)
-            DIRECTLY UNDER SELECTED WORKS
-        ========================================================= */}
-        <section id="services" className="relative z-20 grid grid-cols-1 lg:grid-cols-12 bg-[#EAE6DF] border-b border-[#1c1c1a]/20">
-
-          {/* COLUMN 1: SERVICES ACCORDION LIST */}
-          <div className="lg:col-span-4 p-6 sm:p-10 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-[#1c1c1a]/20">
-            <div>
-              <div className="flex items-center gap-3.5 mb-6">
-                <h2 className="font-syne font-extrabold text-2xl sm:text-[28px] tracking-tight uppercase text-[#1c1c1a]">
-                  SERVICES
-                </h2>
-                <span className="w-6 h-[2.5px] bg-[#1c1c1a]" />
               </div>
-
-              <div className="divide-y divide-[#1c1c1a]/30 border-b border-[#1c1c1a]/30">
-                {servicesData.map((item) => {
-                  const isOpen = expandedService === item.id;
-                  return (
-                    <div key={item.id} className="py-2.5">
-                      <button
-                        onClick={() => toggleService(item.id)}
-                        className="w-full flex items-center justify-between text-left group focus:outline-none cursor-pointer"
-                      >
-                        <div className="flex items-center gap-3.5">
-                          <span className="font-mono-tech text-xs font-extrabold text-[#1c1c1a]">
-                            {item.id}
-                          </span>
-                          <span className="font-mono-tech text-[11px] sm:text-xs font-medium tracking-wider text-[#1c1c1a] group-hover:text-[#E84E0F] transition-colors">
-                            {item.title}
-                          </span>
-                        </div>
-                        <span className="text-[#1c1c1a] group-hover:text-[#E84E0F] transition-colors">
-                          {isOpen ? <Minus className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
-                        </span>
-                      </button>
-                      {isOpen && (
-                        <p className="mt-2 pl-7 text-[11px] leading-relaxed text-[#4a4946] font-mono-tech">
-                          {item.desc}
-                        </p>
-                      )}
-                    </div>
-                  );
-                })}
+              <div className="pt-1 flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-gray-200 shrink-0" />
+                <div className="w-full h-4 rounded border border-gray-200" />
               </div>
             </div>
-          </div>
+          </DraggableItem>
 
-          {/* COLUMN 2: DESIGN MANIFESTO (ORANGE BLOCK) */}
-          <div className="lg:col-span-4 bg-[#E84E0F] text-[#181816] p-6 sm:p-10 relative flex flex-col justify-between overflow-hidden border-b lg:border-b-0 lg:border-r border-[#1c1c1a]/20">
-            <div>
-              <div className="flex items-end gap-3 mb-5">
-                <h2 className="font-syne font-extrabold text-xl sm:text-[23px] leading-[1.08] tracking-tight uppercase text-[#181816]">
-                  ENGINEERING<br />
-                  MANIFESTO
-                </h2>
-                <span className="w-5 h-[2px] bg-[#181816] mb-1.5" />
+          {/* Top-Right Sustainability Mockup */}
+          <DraggableItem className="hidden lg:block absolute top-[15.5%] -right-[14px] z-10 w-[235px] bg-white p-1.5 rounded-2xl border border-gray-200 soft-card-shadow -rotate-[4deg]">
+            <div className="relative rounded-xl overflow-hidden h-[178px] bg-stone-800">
+              <img
+                src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80"
+                alt="Custom design"
+                className="w-full h-full object-cover opacity-40 pointer-events-none select-none"
+              />
+              <div className="absolute inset-3 bg-[#F6F4EE] rounded-lg p-3 flex flex-col items-center justify-center text-center shadow-inner border border-stone-300">
+                <span className="text-[8px] uppercase tracking-widest text-stone-500 mb-1">Sustainability</span>
+                <p className="font-serif text-[16px] leading-tight text-stone-800">Care today, for<br />the future</p>
+                <span className="mt-2 px-2 py-0.5 rounded-full bg-rose-500/10 text-rose-600 text-[7px] font-semibold">● Project</span>
               </div>
+            </div>
+          </DraggableItem>
 
-              <div className="font-mono-tech text-[11px] leading-[1.55] tracking-[0.02em] uppercase space-y-4 font-medium text-[#181816]">
-                <p>
-                  GOOD TECHNOLOGY ISN&apos;T JUST<br />
-                  ABOUT HOW IT LOOKS.<br />
-                  IT&apos;S ABOUT HOW IT PERFORMS,<br />
-                  HOW RELIABLE IT RUNS, AND<br />
-                  WHAT PROBLEM IT SOLVES.
-                </p>
-                <p>
-                  FROM BITS TO ATOMS.<br />
-                  I ARCHITECT WITH PURPOSE.<br />
-                  I BUILD WITH PRECISION.<br />
-                  I DELIVER WITH PRIDE.
+          {/* Bottom-Right Code Editor Window */}
+          <DraggableItem className="hidden md:block absolute top-[66.5%] right-[9.8%] z-10 w-[188px] bg-[#FAFAFA] rounded-xl border border-gray-200 soft-card-shadow -rotate-[4deg] overflow-hidden">
+            <div className="px-2.5 py-1.5 border-b border-gray-200/80 flex items-center gap-1 bg-white">
+              <span className="w-1.5 h-1.5 rounded-full border border-gray-300" />
+              <span className="w-1.5 h-1.5 rounded-full border border-gray-300" />
+              <span className="w-1.5 h-1.5 rounded-full border border-gray-300" />
+            </div>
+            <div className="p-3 font-mono text-[8.5px] leading-relaxed text-gray-400 select-none">
+              <div>&lt;!DOCTYPE html&gt;</div>
+              <div>&lt;html lang=&quot;en&quot;&gt;</div>
+              <div>&lt;head&gt;</div>
+              <div className="pl-2">&lt;meta charset=&quot;UTF-8&quot;&gt;</div>
+              <div className="pl-2">&lt;title&gt;ghiffa.dev&lt;/title&gt;</div>
+              <div>&lt;/head&gt;</div>
+              <div>&lt;body&gt;</div>
+              <div>&lt;/body&gt;</div>
+              <div>&lt;/html&gt;</div>
+            </div>
+          </DraggableItem>
+
+          {/* Middle-Right 3D Chair Smartphone Mockup */}
+          <DraggableItem className="hidden lg:block absolute top-[49.5%] right-[12px] z-20 w-[112px] bg-[#141414] p-1.5 rounded-[24px] shadow-xl rotate-[4deg]">
+            <div className="bg-white rounded-[19px] h-[205px] flex flex-col items-center justify-between p-2.5 relative overflow-hidden">
+              <div className="w-8 h-2 bg-black rounded-full" />
+              <div className="my-auto flex flex-col items-center">
+                <img
+                  src="https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=300&q=80"
+                  alt="3D Mobile View"
+                  className="w-20 h-24 object-contain pointer-events-none select-none"
+                />
+              </div>
+              <div className="pb-1 text-gray-500">
+                <svg className="w-6 h-4" viewBox="0 0 24 14" fill="none" stroke="currentColor" strokeWidth="1.3">
+                  <path d="M3 5C1 6.5 1 9.5 5 11C9 12.5 15 12.5 19 11C23 9.5 23 6.5 21 5" strokeLinecap="round" />
+                </svg>
+              </div>
+            </div>
+          </DraggableItem>
+
+        </div>
+      </section>
+
+      {/* 2. STICKY SCROLL-ANIMATED TEXT SECTION */}
+      <section id="scroll-text-track" className="relative h-[260vh] bg-white bg-dot-matrix">
+        
+        {/* Yellow Developer Cursor in top transition space */}
+        <div id="cursor-dev-yellow" className="live-cursor hidden sm:block">
+          <svg className="w-3.5 h-3.5 text-[#F5B800] -ml-1.5 mb-0.5 drop-shadow-xs" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M1 1L6.5 14.5L8.8 8.8L14.5 6.5L1 1Z" />
+          </svg>
+          <div className="bg-[#F5B800] text-[#111111] text-[11px] font-medium px-2.5 py-0.5 rounded-[5px] shadow-xs whitespace-nowrap">
+            Developer
+          </div>
+        </div>
+
+        <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center px-6 overflow-hidden pt-16">
+          <div className="max-w-[960px] mx-auto text-center relative z-10">
+            {/* Main Animated Headline: ALL words start in faded gray (#ECEEEF) */}
+            <h2 id="animated-scroll-title" className="text-[38px] sm:text-[56px] md:text-[68px] lg:text-[76px] font-bold tracking-[-0.035em] leading-[1.08]">
+              <span className="reveal-word">Building</span>{' '}
+              <span className="reveal-word">the</span>{' '}
+              <span className="reveal-word">bridge</span>{' '}
+              <span className="reveal-word">between</span>{' '}
+              <span className="reveal-word">bits</span>{' '}
+              <span className="reveal-word">and</span>{' '}
+              <span className="reveal-word">atoms</span>{' '}
+              <span className="reveal-word">for</span>{' '}
+              <span className="reveal-word">companies,</span>{' '}
+              <span className="reveal-word">governments,</span>{' '}
+              <span className="reveal-word">and</span>{' '}
+              <span className="reveal-word">organizations.</span>
+            </h2>
+
+            {/* Subtext Below Headline */}
+            <p id="animated-scroll-subtitle" className="mt-10 text-[18px] sm:text-[23px] font-semibold tracking-[-0.015em] leading-[1.35] max-w-[520px] mx-auto">
+              <span className="reveal-subword">Following</span>{' '}
+              <span className="reveal-subword">our</span>{' '}
+              <span className="reveal-subword">goal</span>{' '}
+              <span className="reveal-subword">of</span>{' '}
+              <span className="reveal-subword">making</span>{' '}
+              <span className="reveal-subword">the</span>{' '}
+              <span className="reveal-subword">internet</span>{' '}
+              <span className="reveal-subword">a</span>{' '}
+              <span className="reveal-subword">better</span>{' '}
+              <span className="reveal-subword">place.</span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. THREE ROYAL BLUE GRID SERVICE CARDS */}
+      <section className="py-20 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          
+          {/* Service Card 1 */}
+          <div className="flex flex-col">
+            <div className="bg-royal-blue-grid rounded-2xl p-8 sm:p-10 text-white min-h-[380px] flex flex-col justify-between relative overflow-hidden group shadow-lg">
+              <div className="relative z-10">
+                <h3 className="text-2xl sm:text-[26px] font-bold leading-[1.18] tracking-tight mb-5">
+                  Experience &amp;<br />interface design
+                </h3>
+                <p className="text-white/85 text-[14.5px] leading-relaxed">
+                  Users are at the center of our experience creation process. We design pixel-by-pixel relevant digital products that people love to use.
                 </p>
               </div>
-            </div>
-
-            <div className="mt-8 pt-2">
-              <p className="font-mono-tech text-[10.5px] leading-[1.4] uppercase italic font-semibold text-[#181816]">
-                NO TRENDS.<br />
-                ONLY WORKING SYSTEMS.
-              </p>
-            </div>
-
-            {/* Signature Black Cutout Triangle in Bottom Right */}
-            <div
-              className="w-20 h-11 bg-[#181816] absolute bottom-2.5 right-3"
-              style={{
-                clipPath: 'polygon(100% 0, 0 100%, 100% 100%)'
-              }}
-            />
-          </div>
-
-          {/* COLUMN 3: TECH STACK */}
-          <div className="lg:col-span-4 p-6 sm:p-10 flex flex-col justify-between">
-            <div>
-              <div className="flex items-center gap-3.5 mb-6">
-                <h2 className="font-syne font-extrabold text-2xl sm:text-[26px] tracking-tight uppercase text-[#1c1c1a]">
-                  TECH STACK
-                </h2>
-                <span className="w-5 h-[2.5px] bg-[#1c1c1a]" />
-              </div>
-
-              <ul className="space-y-2.5">
-                {techStack.map((tech) => (
-                  <li
-                    key={tech}
-                    className="flex items-center justify-between font-mono-tech text-[11.5px] tracking-wider font-medium text-[#1c1c1a] group cursor-default"
-                  >
-                    <span className="group-hover:translate-x-1 transition-transform group-hover:text-[#E84E0F]">
-                      {tech}
-                    </span>
-                    <span className="w-1.5 h-1.5 bg-[#1c1c1a] group-hover:bg-[#E84E0F] transition-colors" />
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        {/* =========================================================
-            03. LATEST ARTICLES (HORIZONTAL DRAGGABLE CAROUSEL)
-        ========================================================= */}
-        <section id="articles" className="relative z-20 bg-[#161614] text-[#EAE6DF] border-t border-b border-[#2b2b28] overflow-hidden">
-          {/* Left Vertical Orange Sidebar - SITS ON TOP (z-30) */}
-          <div className="md:absolute md:left-0 md:top-0 md:bottom-0 z-30 bg-[#E84E0F] text-[#181816] md:w-[68px] py-3.5 px-6 md:py-6 md:px-0 flex items-center justify-between md:justify-center shrink-0 select-none shadow-[16px_0_32px_rgba(0,0,0,0.95)] border-b md:border-b-0 md:border-r border-[#181816]">
-            <div className="font-mono-tech font-bold text-xs sm:text-[13px] tracking-[0.24em] uppercase flex items-center gap-2.5 md:[writing-mode:vertical-rl] md:rotate-180">
-              <span>ARTICLES</span>
-              <span className="inline-block w-[10px] h-[2px] md:w-[2.5px] md:h-[12px] bg-[#181816]" />
-            </div>
-          </div>
-
-          {/* Depth Shadow Layer Behind Sidebar Edge */}
-          <div className="hidden md:block absolute left-[68px] top-0 bottom-0 w-14 bg-gradient-to-r from-black/90 via-black/40 to-transparent pointer-events-none z-20" />
-
-          {/* Draggable Slider */}
-          <div className="flex flex-col py-5 sm:py-6 lg:py-7 px-6 sm:px-8 lg:px-10 md:pl-0 overflow-hidden relative z-10">
-            <div
-              ref={articleScroll.ref}
-              onMouseDown={articleScroll.handlers.onMouseDown}
-              onMouseMove={articleScroll.handlers.onMouseMove}
-              onMouseUp={articleScroll.handlers.onMouseUp}
-              onMouseLeave={articleScroll.handlers.onMouseLeave}
-              className="flex items-start gap-6 sm:gap-7 overflow-x-auto scrollbar-none cursor-grab active:cursor-grabbing select-none pt-0.5 pb-1 md:pl-[96px] pr-8"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-            >
-              {allArticles.map((article, aIdx) => (
-                <Link
-                  key={article.id || aIdx}
-                  to={`/article/${article.slug}`}
-                  onClick={(e) => {
-                    if (articleScroll.hasDragged) e.preventDefault();
-                  }}
-                  className="w-[280px] sm:w-[310px] md:w-[325px] shrink-0 group flex flex-col cursor-pointer"
-                >
-                  {/* Clean Orange Index */}
-                  <span className="text-[#E84E0F] font-mono-tech text-xs sm:text-sm font-semibold mb-2.5 tracking-wider block">
-                    {String(aIdx + 1).padStart(2, '0')}/
-                  </span>
-
-                  {/* Thumbnail */}
-                  <div className="relative aspect-[16/10] w-full bg-[#0d0d0d] border border-[#2e2e2b] overflow-hidden mb-3.5 group-hover:border-[#E84E0F] transition-colors">
-                    <img
-                      src={article.cover_image}
-                      alt={article.title}
-                      draggable={false}
-                      className="w-full h-full object-cover grayscale contrast-125 transition-transform duration-500 group-hover:scale-105 group-hover:grayscale-0 pointer-events-none select-none"
-                    />
-
-                    {/* Bottom Right Orange Action Tag */}
-                    <div className="absolute bottom-0 right-0 w-7 h-7 sm:w-8 sm:h-8 bg-[#E84E0F] flex items-center justify-center transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                      <CornerDownRight className="w-4 h-4 text-[#181816] stroke-[2.5]" />
-                    </div>
-                  </div>
-
-                  {/* Clean Titles Below Thumbnail */}
-                  <h3 className="font-mono-tech text-xs sm:text-[13px] font-bold tracking-wider text-[#EAE6DF] group-hover:text-[#E84E0F] transition-colors uppercase truncate">
-                    {article.title}
-                  </h3>
-                  <p className="font-mono-tech text-[10px] sm:text-[11px] tracking-wider text-[#8e8d87] uppercase mt-1 truncate">
-                    DISPATCH · {formatArticleDate(article.published_at)}
-                  </p>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* =========================================================
-            04. PROFESSIONAL JOURNEY (EDITORIAL LEDGER - NON-CAROUSEL)
-        ========================================================= */}
-        <section id="journey" className="relative z-20 bg-[#EAE6DF] text-[#181816] border-t border-b border-[#1c1c1a]/20 p-6 sm:p-10 lg:p-12">
-          {/* Header Bar */}
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-[#1c1c1a]/20 mb-8">
-            <div>
-              <div className="flex items-center gap-2.5 mb-2">
-                <span className="w-2.5 h-2.5 bg-[#E84E0F]" />
-                <span className="font-mono-tech text-[10.5px] font-bold tracking-widest text-[#E84E0F] uppercase">
-                  [ 04 // CAREER TRAJECTORY & INDUSTRY DISPATCHES ]
-                </span>
-              </div>
-              <h2 className="font-syne font-extrabold text-2xl sm:text-3xl lg:text-4xl uppercase tracking-tight text-[#181816]">
-                PROFESSIONAL JOURNEY
-              </h2>
-            </div>
-            <div className="font-mono-tech text-[10.5px] tracking-widest uppercase text-[#5e5c56] font-semibold">
-              {allExperiences.length} COMMISSIONS · INDUSTRIAL ATTESTATION
-            </div>
-          </div>
-
-          {/* Brutalist Editorial Ledger List */}
-          <div className="divide-y divide-[#1c1c1a]/20 border-b border-[#1c1c1a]/20">
-            {allExperiences.map((exp, eIdx) => (
-              <div
-                key={exp.id || eIdx}
-                onClick={() => setSelectedExperienceModal(exp)}
-                className="py-5 sm:py-6 group cursor-pointer transition-colors hover:bg-black/[0.02]"
-              >
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6 items-start md:items-center">
-                  {/* Index & Period Badge */}
-                  <div className="md:col-span-3 flex items-center gap-3">
-                    <span className="text-[#E84E0F] font-mono-tech text-sm sm:text-base font-bold tracking-wider">
-                      {String(eIdx + 1).padStart(2, '0')}/
-                    </span>
-                    <span className="font-mono-tech text-[10px] tracking-wider uppercase px-2 py-0.5 bg-[#181816] text-[#EAE6DF] font-bold">
-                      {exp.period}
-                    </span>
-                  </div>
-
-                  {/* Company & Role */}
-                  <div className="md:col-span-5">
-                    <h3 className="font-sans font-bold text-base sm:text-lg lg:text-xl uppercase tracking-tight text-[#181816] group-hover:text-[#E84E0F] transition-colors leading-snug">
-                      {exp.company}
-                    </h3>
-                    <p className="font-mono-tech text-[11px] font-bold tracking-widest uppercase text-[#E84E0F] mt-0.5">
-                      {exp.role}
-                    </p>
-                  </div>
-
-                  {/* Description Excerpt & Action Link */}
-                  <div className="md:col-span-4 flex items-center justify-between gap-4">
-                    <p className="font-mono-tech text-[10.5px] leading-relaxed text-[#4a4946] uppercase line-clamp-2">
-                      {exp.description}
-                    </p>
-                    <div className="w-8 h-8 shrink-0 bg-[#181816] text-[#EAE6DF] group-hover:bg-[#E84E0F] group-hover:text-[#181816] flex items-center justify-center transition-all group-hover:translate-x-0.5">
-                      <CornerDownRight className="w-4 h-4 stroke-[2.5]" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* =========================================================
-            05. CREDENTIALS & LICENSES (HORIZONTAL DRAGGABLE CAROUSEL)
-        ========================================================= */}
-        <section id="credentials" className="relative z-20 bg-[#181816] text-[#EAE6DF] border-t border-b border-[#2b2b28] overflow-hidden">
-          {/* Left Vertical Orange Sidebar - SITS ON TOP (z-30) */}
-          <div className="md:absolute md:left-0 md:top-0 md:bottom-0 z-30 bg-[#E84E0F] text-[#181816] md:w-[68px] py-3.5 px-6 md:py-6 md:px-0 flex items-center justify-between md:justify-center shrink-0 select-none shadow-[16px_0_32px_rgba(0,0,0,0.95)] border-b md:border-b-0 md:border-r border-[#181816]">
-            <div className="font-mono-tech font-bold text-xs sm:text-[13px] tracking-[0.24em] uppercase flex items-center gap-2.5 md:[writing-mode:vertical-rl] md:rotate-180">
-              <span>CREDENTIALS</span>
-              <span className="inline-block w-[10px] h-[2px] md:w-[2.5px] md:h-[12px] bg-[#181816]" />
-            </div>
-          </div>
-
-          {/* Depth Shadow Layer Behind Sidebar Edge */}
-          <div className="hidden md:block absolute left-[68px] top-0 bottom-0 w-14 bg-gradient-to-r from-black/90 via-black/40 to-transparent pointer-events-none z-20" />
-
-          {/* Draggable Slider */}
-          <div className="flex flex-col p-6 sm:p-8 lg:p-10 md:pl-0 pb-5 sm:pb-6 lg:pb-6 overflow-hidden relative z-10">
-            <div
-              ref={certSliderRef}
-              onMouseDown={handleCertMouseDown}
-              onMouseMove={handleCertMouseMove}
-              onMouseUp={handleCertMouseUpOrLeave}
-              onMouseLeave={handleCertMouseUpOrLeave}
-              onScroll={handleCertScroll}
-              className="flex items-start gap-6 sm:gap-7 overflow-x-auto scrollbar-none cursor-grab active:cursor-grabbing select-none pb-2 pt-1 md:pl-[96px] pr-8"
-              style={{
-                scrollbarWidth: 'none',
-                msOverflowStyle: 'none'
-              }}
-            >
-              {filteredCerts.map((cert, cIdx) => (
-                <div
-                  key={cert.id || cIdx}
-                  onClick={() => {
-                    if (!certHasDragged) setSelectedCert(cert);
-                  }}
-                  className="w-[280px] sm:w-[310px] md:w-[325px] shrink-0 group flex flex-col cursor-pointer"
-                >
-                  {/* Clean Orange Index */}
-                  <span className="text-[#E84E0F] font-mono-tech text-xs sm:text-sm font-semibold mb-2.5 tracking-wider block">
-                    {String(cIdx + 1).padStart(2, '0')}/
-                  </span>
-
-                  {/* Clean Certificate Thumbnail */}
-                  <div className="relative aspect-[16/10] w-full bg-[#0d0d0d] border border-[#2e2e2b] overflow-hidden mb-3.5 group-hover:border-[#E84E0F] transition-colors">
-                    {cert.certificate_url ? (
-                      <img
-                        src={cert.certificate_url}
-                        alt={cert.title}
-                        draggable={false}
-                        className="w-full h-full object-cover grayscale contrast-125 transition-transform duration-500 group-hover:scale-105 group-hover:grayscale-0 pointer-events-none select-none"
-                        onError={(e) => {
-                          e.target.style.display = 'none';
-                        }}
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-[#141413] p-4 flex flex-col justify-between text-[#8e8d87] font-mono-tech text-[9px] uppercase pointer-events-none select-none">
-                        <div className="flex justify-between items-center text-[#E84E0F]">
-                          <span>[ARCHIVE ATTESTATION]</span>
-                          <span>OFFICIAL</span>
-                        </div>
-                        <div className="text-xs font-bold text-[#EAE6DF] truncate">{cert.institution}</div>
-                        <div>VALIDATED RECORD</div>
-                      </div>
-                    )}
-
-                    {/* Bottom Right Orange Action Tag */}
-                    <div className="absolute bottom-0 right-0 w-7 h-7 sm:w-8 sm:h-8 bg-[#E84E0F] flex items-center justify-center transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                      <CornerDownRight className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#181816] stroke-[2.5]" />
-                    </div>
-                  </div>
-
-                  {/* Clean Titles Below Thumbnail */}
-                  <h3 className="font-mono-tech text-xs sm:text-[13px] font-bold tracking-wider text-[#EAE6DF] group-hover:text-[#E84E0F] transition-colors uppercase truncate">
-                    {cert.title}
-                  </h3>
-                  <p className="font-mono-tech text-[10px] sm:text-[11px] tracking-wider text-[#8e8d87] uppercase mt-1 truncate">
-                    {cert.institution} · {cert.period}
-                  </p>
-                </div>
-              ))}
-            </div>
-
-            {/* Subtle Minimal Bottom Bar: Category Filters & Progress */}
-            <div className="mt-4 pt-3 flex flex-wrap items-center justify-between gap-3 border-t border-[#232320]/60 md:ml-[96px] mr-8">
-              <div className="flex flex-wrap items-center gap-2 font-mono-tech text-[10px] text-[#8e8d87] uppercase tracking-wider">
-                <span className="text-[#8e8d87]">CATEGORY:</span>
-                {['all', 'verified', 'national', 'competition'].map((tab) => (
-                  <button
-                    key={tab}
-                    onClick={() => {
-                      setCertFilter(tab);
-                      if (certSliderRef.current) certSliderRef.current.scrollLeft = 0;
-                      setCertDragProgress(0);
-                    }}
-                    className={`px-2 py-0.5 border cursor-pointer transition-colors ${certFilter === tab ? 'border-[#E84E0F] text-[#E84E0F] font-bold' : 'border-transparent text-[#8e8d87] hover:text-[#EAE6DF]'}`}
-                  >
-                    {tab.toUpperCase()}
-                  </button>
-                ))}
-              </div>
-
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2 font-mono-tech text-[9.5px] uppercase tracking-widest text-[#66655f]">
-                  <span>[ DRAG ARCHIVE // {filteredCerts.length} RECORDS ]</span>
-                  <span className="text-[#E84E0F]">→</span>
-                </div>
-                <div className="w-20 sm:w-28 h-[2px] bg-[#262624] overflow-hidden rounded-full relative">
-                  <div
-                    className="h-full bg-[#E84E0F] transition-all duration-150"
-                    style={{
-                      width: '32%',
-                      transform: `translateX(${certDragProgress * 2.1}%)`
-                    }}
-                  />
-                </div>
+              <div className="relative z-10 pt-8">
+                <span className="inline-block w-8 h-[1.5px] bg-white/40 group-hover:w-14 transition-all" />
               </div>
             </div>
-          </div>
-        </section>
-
-        {/* =========================================================
-            06. EDUCATION & HONORS / AWARDS (DUAL EDITORIAL LEDGER)
-        ========================================================= */}
-        <section id="education" className="relative z-20 bg-[#EAE6DF] text-[#181816] border-t border-b border-[#1c1c1a]/20 p-6 sm:p-10 lg:p-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12">
-
-            {/* LEFT COLUMN: FORMAL ACADEMICS */}
-            <div className="lg:col-span-6 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center gap-2.5 mb-2">
-                  <span className="w-2.5 h-2.5 bg-[#E84E0F]" />
-                  <span className="font-mono-tech text-[10.5px] font-bold tracking-widest text-[#E84E0F] uppercase">
-                    [ 06A // ACADEMIC PEDIGREE ]
-                  </span>
-                </div>
-                <h2 className="font-syne font-extrabold text-2xl sm:text-3xl uppercase tracking-tight text-[#181816] mb-6">
-                  FORMAL EDUCATION
-                </h2>
-
-                <div className="space-y-6">
-                  {allEducation.map((edu, edIdx) => (
-                    <div
-                      key={edu.id || edIdx}
-                      className="p-5 bg-white/70 border border-[#1c1c1a]/20 hover:border-[#E84E0F] transition-colors relative group"
-                    >
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-[#E84E0F] font-mono-tech text-xs font-bold tracking-wider">
-                          {String(edIdx + 1).padStart(2, '0')}/
-                        </span>
-                        <span className="font-mono-tech text-[9.5px] tracking-wider uppercase px-2 py-0.5 bg-[#181816] text-[#EAE6DF] font-bold">
-                          {edu.period}
-                        </span>
-                      </div>
-                      <h3 className="font-sans font-bold text-base sm:text-lg uppercase tracking-tight text-[#181816] group-hover:text-[#E84E0F] transition-colors leading-snug">
-                        {edu.title}
-                      </h3>
-                      <p className="font-mono-tech text-xs font-bold tracking-wide text-[#4a4946] uppercase mt-1">
-                        {edu.institution}
-                      </p>
-                      <div className="mt-3 pt-3 border-t border-[#1c1c1a]/10 flex items-center justify-between">
-                        <span className="font-mono-tech text-[10.5px] uppercase tracking-wider text-[#E84E0F] font-semibold">
-                          {edu.degree}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* RIGHT COLUMN: HONORS & AWARDS */}
-            <div id="honors" className="lg:col-span-6 flex flex-col justify-between border-t lg:border-t-0 lg:border-l border-[#1c1c1a]/20 pt-8 lg:pt-0 lg:pl-10">
-              <div>
-                <div className="flex items-center gap-2.5 mb-2">
-                  <span className="w-2.5 h-2.5 bg-[#E84E0F]" />
-                  <span className="font-mono-tech text-[10.5px] font-bold tracking-widest text-[#E84E0F] uppercase">
-                    [ 06B // MERIT CITATIONS ]
-                  </span>
-                </div>
-                <h2 className="font-syne font-extrabold text-2xl sm:text-3xl uppercase tracking-tight text-[#181816] mb-6">
-                  HONORS & AWARDS
-                </h2>
-
-                <div className="space-y-4">
-                  {allHonors.map((honor, hIdx) => (
-                    <div
-                      key={honor.id || hIdx}
-                      onClick={() => {
-                        if (honor.certificate_url) setSelectedCert(honor);
-                      }}
-                      className={`p-4 sm:p-5 bg-white/70 border border-[#1c1c1a]/20 transition-all relative group ${honor.certificate_url ? 'cursor-pointer hover:border-[#E84E0F]' : ''}`}
-                    >
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-[#E84E0F] font-mono-tech text-xs font-bold tracking-wider">
-                          {String(hIdx + 1).padStart(2, '0')}/
-                        </span>
-                        <span className="font-mono-tech text-[9.5px] tracking-wider uppercase px-2 py-0.5 bg-[#E84E0F] text-[#181816] font-bold">
-                          {honor.badge || 'AWARD'}
-                        </span>
-                      </div>
-                      <h3 className="font-sans font-bold text-sm sm:text-[15px] leading-snug uppercase tracking-tight text-[#181816] group-hover:text-[#E84E0F] transition-colors">
-                        {honor.title}
-                      </h3>
-                      <p className="font-mono-tech text-[11px] uppercase tracking-wide text-[#55534e] mt-1">
-                        {honor.institution} · {honor.period}
-                      </p>
-                      {honor.certificate_url && (
-                        <div className="mt-2.5 flex items-center gap-1.5 font-mono-tech text-[10px] text-[#E84E0F] font-bold uppercase">
-                          <span>VIEW CERTIFICATE ATTESTATION</span>
-                          <CornerDownRight className="w-3.5 h-3.5 stroke-[2.5]" />
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </section>
-
-        {/* =========================================================
-            6. SPECIAL FEATURE: SKILLSTREAK.ID CTA BANNER
-        ========================================================= */}
-        <section className="relative z-20 bg-[#EAE6DF] text-[#181816] border-t border-b border-[#1c1c1a]/20 p-6 sm:p-10 lg:p-12">
-          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
-            <div className="max-w-2xl">
-              <div className="flex items-center gap-3 mb-3">
-                <span className="w-2.5 h-2.5 bg-[#E84E0F]" />
-                <span className="font-mono-tech text-[11px] font-bold tracking-widest text-[#E84E0F] uppercase">
-                  [ CODING EDUCATION PLATFORM · FOUNDED BY GHIFFA ]
-                </span>
-              </div>
-              <h2 className="font-syne font-black text-3xl sm:text-5xl lg:text-6xl uppercase tracking-tight text-[#181816] leading-[0.95] mb-3">
-                SKILLSTREAK.ID
-              </h2>
-              <p className="font-mono-tech text-xs sm:text-[13px] leading-relaxed text-[#3a3935] uppercase font-medium max-w-xl">
-                The fastest path from zero to deployable software engineer. Built with gamified streaks, live code evaluators, and production-grade curriculum.
-              </p>
-              <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-4 font-mono-tech text-[10px] uppercase text-[#6e6c64] font-semibold">
-                <span>⚡ XP REWARD SYSTEM</span>
-                <span className="hidden sm:inline">•</span>
-                <span>🔥 DAILY STREAK ENGINE</span>
-                <span className="hidden sm:inline">•</span>
-                <span>💻 LIVE CODE EVALUATOR</span>
-              </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full lg:w-auto shrink-0">
-              <a
-                href="https://skillstreak.web.id"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-3 bg-[#181816] text-[#EAE6DF] hover:bg-[#E84E0F] hover:text-[#181816] px-7 py-4 font-mono-tech text-xs font-bold uppercase tracking-wider transition-colors group cursor-pointer border border-[#181816]"
-              >
-                <span>EXPLORE SKILLSTREAK.ID</span>
-                <CornerDownRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-transform stroke-[2.5]" />
-              </a>
-            </div>
-          </div>
-        </section>
-
-        {/* =========================================================
-            7. VISUAL DISPATCHES (EXACTLY MATCHING SELECTED WORK)
-        ========================================================= */}
-        <section id="dispatches" className="relative z-20 bg-[#181816] text-[#EAE6DF] border-t border-b border-[#2b2b28] overflow-hidden">
-
-          {/* Left Vertical Orange Sidebar - SITS ON TOP (z-30) */}
-          <div className="md:absolute md:left-0 md:top-0 md:bottom-0 z-30 bg-[#E84E0F] text-[#181816] md:w-[68px] py-3.5 px-6 md:py-6 md:px-0 flex items-center justify-between md:justify-center shrink-0 select-none shadow-[16px_0_32px_rgba(0,0,0,0.95)] border-b md:border-b-0 md:border-r border-[#181816]">
-            <div className="font-mono-tech font-bold text-xs sm:text-[13px] tracking-[0.24em] uppercase flex items-center gap-2.5 md:[writing-mode:vertical-rl] md:rotate-180">
-              <span>DISPATCHES</span>
-              <span className="inline-block w-[10px] h-[2px] md:w-[2.5px] md:h-[12px] bg-[#181816]" />
-            </div>
+            <p className="text-[12.5px] text-gray-500 mt-4 leading-relaxed pr-2">
+              Our design thinking process helps empower your project from day zero.
+            </p>
           </div>
 
-          {/* Depth Shadow Layer Behind Sidebar Edge */}
-          <div className="hidden md:block absolute left-[68px] top-0 bottom-0 w-14 bg-gradient-to-r from-black/90 via-black/40 to-transparent pointer-events-none z-20" />
-
-          {/* Visual Dispatches Draggable Slider - SLIDES UNDERNEATH ORANGE SIDEBAR */}
-          <div className="flex flex-col p-6 sm:p-8 lg:p-10 md:pl-0 pb-5 sm:pb-6 lg:pb-6 overflow-hidden relative z-10">
-            <div
-              ref={igSliderRef}
-              onMouseDown={handleIgMouseDown}
-              onMouseMove={handleIgMouseMove}
-              onMouseUp={handleIgMouseUpOrLeave}
-              onMouseLeave={handleIgMouseUpOrLeave}
-              onScroll={handleIgScroll}
-              className="flex items-start gap-6 sm:gap-7 overflow-x-auto scrollbar-none cursor-grab active:cursor-grabbing select-none pb-2 pt-1 md:pl-[96px] pr-8"
-              style={{
-                scrollbarWidth: 'none',
-                msOverflowStyle: 'none'
-              }}
-            >
-              {displayedInstagramPosts.map((post, pIdx) => {
-                const mediaUrl = post.media_type === 'VIDEO' ? (post.thumbnail_url || post.media_url) : post.media_url;
-                return (
-                  <a
-                    key={post.id || pIdx}
-                    href={post.permalink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => {
-                      if (igHasDragged) e.preventDefault();
-                    }}
-                    className="w-[280px] sm:w-[310px] md:w-[325px] shrink-0 group flex flex-col cursor-pointer"
-                  >
-                    {/* Clean Orange Index */}
-                    <span className="text-[#E84E0F] font-mono-tech text-xs sm:text-sm font-semibold mb-2.5 tracking-wider block">
-                      {String(pIdx + 1).padStart(2, '0')}/
-                    </span>
-
-                    {/* Clean Instagram Photo Thumbnail - ZERO TEXT ON IMAGE */}
-                    <div className="relative aspect-[16/10] w-full bg-[#0d0d0d] border border-[#2e2e2b] overflow-hidden mb-3.5">
-                      <img
-                        src={mediaUrl}
-                        alt={post.caption || 'Instagram dispatch'}
-                        draggable={false}
-                        className="w-full h-full object-cover grayscale contrast-125 transition-transform duration-500 group-hover:scale-105 group-hover:grayscale-0 pointer-events-none select-none"
-                        onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.src = 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80';
-                        }}
-                      />
-
-                      {/* Bottom Right Orange Action Tag */}
-                      <div className="absolute bottom-0 right-0 w-7 h-7 sm:w-8 sm:h-8 bg-[#E84E0F] flex items-center justify-center transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                        <CornerDownRight className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#181816] stroke-[2.5]" />
-                      </div>
-                    </div>
-
-                    {/* Clean Titles Below Thumbnail */}
-                    <h3 className="font-mono-tech text-xs sm:text-[13px] font-bold tracking-wider text-[#EAE6DF] group-hover:text-[#E84E0F] transition-colors uppercase truncate">
-                      {post.caption ? post.caption.split('\n')[0] : 'FIELD TELEMETRY & LAB NOTES'}
-                    </h3>
-                    <p className="font-mono-tech text-[10px] sm:text-[11px] tracking-wider text-[#8e8d87] uppercase mt-1 truncate">
-                      INSTAGRAM · {formatIgDate(post.timestamp)}
-                    </p>
-                  </a>
-                );
-              })}
-            </div>
-
-            {/* Subtle Minimal Bottom Bar */}
-            <div className="mt-4 pt-3 flex items-center justify-between border-t border-[#232320]/60 md:ml-[96px] mr-8">
-              <a
-                href="https://www.instagram.com/haikaljibraan/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-[#E84E0F] transition-colors flex items-center gap-1.5 font-mono-tech text-[10.5px] uppercase font-bold tracking-wider text-[#8e8d87]"
-              >
-                <span>@HAIKALJIBRAAN</span>
-                <ExternalLink className="w-3 h-3" />
-              </a>
-
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2 font-mono-tech text-[9.5px] uppercase tracking-widest text-[#66655f]">
-                  <span>[ DRAG ARCHIVE // {displayedInstagramPosts.length} POSTS ]</span>
-                  <span className="text-[#E84E0F]">→</span>
-                </div>
-                <div className="w-20 sm:w-28 h-[2px] bg-[#262624] overflow-hidden rounded-full relative">
-                  <div
-                    className="h-full bg-[#E84E0F] transition-all duration-150"
-                    style={{
-                      width: '32%',
-                      transform: `translateX(${igDragProgress * 2.1}%)`
-                    }}
-                  />
-                </div>
+          {/* Service Card 2 */}
+          <div className="flex flex-col">
+            <div className="bg-royal-blue-grid rounded-2xl p-8 sm:p-10 text-white min-h-[380px] flex flex-col justify-between relative overflow-hidden group shadow-lg">
+              <div className="relative z-10">
+                <h3 className="text-2xl sm:text-[26px] font-bold leading-[1.18] tracking-tight mb-5">
+                  Custom website<br />development
+                </h3>
+                <p className="text-white/85 text-[14.5px] leading-relaxed">
+                  Our team specializes in developing fully self-manageable websites built on the latest technologies to achieve top performance, quality, and security.
+                </p>
+              </div>
+              <div className="relative z-10 pt-8">
+                <span className="inline-block w-8 h-[1.5px] bg-white/40 group-hover:w-14 transition-all" />
               </div>
             </div>
+            <p className="text-[12.5px] text-gray-500 mt-4 leading-relaxed pr-2">
+              Every development is tailored to each client following international standards.
+            </p>
           </div>
-        </section>
 
+          {/* Service Card 3 */}
+          <div className="flex flex-col">
+            <div className="bg-royal-blue-grid rounded-2xl p-8 sm:p-10 text-white min-h-[380px] flex flex-col justify-between relative overflow-hidden group shadow-lg">
+              <div className="relative z-10">
+                <h3 className="text-2xl sm:text-[26px] font-bold leading-[1.18] tracking-tight mb-5">
+                  Tailored digital<br />services
+                </h3>
+                <p className="text-white/85 text-[14.5px] leading-relaxed">
+                  We take care of all the technical aspects every project requires: infrastructure, security, continuous support, and supervision over every detail.
+                </p>
+              </div>
+              <div className="relative z-10 pt-8">
+                <span className="inline-block w-8 h-[1.5px] bg-white/40 group-hover:w-14 transition-all" />
+              </div>
+            </div>
+            <p className="text-[12.5px] text-gray-500 mt-4 leading-relaxed pr-2">
+              Your website, our responsibility. Long-term partnerships tailored to each client.
+            </p>
+          </div>
 
+        </div>
+      </section>
 
-
-        {/* =========================================================
-            7. FOOTER (CLEAN BRUTALIST CTA: COMMUNICATION MATTERS TO START GOOD THINGS/)
-        ========================================================= */}
-        <footer id="contact" className="relative z-20 bg-[#141413] text-[#EAE6DF] px-6 sm:px-10 lg:px-12 py-12 sm:py-16 border-t border-[#2b2b28]">
+      {/* 4. "FROM ZERO TO ONE" SECTION WITH BLUE SCREEN LAPTOP MOCKUP */}
+      <section className="py-16 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto">
+        <div className="rounded-[28px] bg-[#F5F6F8] border border-gray-200/70 overflow-hidden pt-12 pb-12 pl-8 sm:pl-16 pr-8 sm:pr-0">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-
-            {/* LEFT: MONUMENTAL BRUTALIST CTA (COMMUNICATION MATTERS TO START GOOD THINGS/) */}
-            <div className="lg:col-span-6 flex flex-col justify-center">
-              {/* Available For Work Status Badge */}
-              <div className="inline-flex items-center gap-2.5 px-3 py-1.5 bg-[#1c1c1a] border border-[#2e2e2a] w-fit mb-5">
-                <span className="w-2 h-2 rounded-full bg-[#10b981] animate-pulse" />
-                <span className="font-mono-tech text-[10.5px] uppercase font-bold tracking-[0.2em] text-[#EAE6DF]">
-                  AVAILABLE FOR WORK
-                </span>
+            
+            {/* Left Copy & Blue Pill CTA */}
+            <div className="lg:col-span-6 space-y-5 pr-4">
+              <div className="text-[11px] font-mono uppercase tracking-widest text-gray-400">
+                // OUR METHODOLOGY &amp; PROCESS
               </div>
-
-              {/* Monumental Headline */}
-              <h2 className="font-anton text-4xl sm:text-6xl lg:text-[68px] leading-[0.88] tracking-tight uppercase text-[#EAE6DF] mb-4">
-                COMMUNICATION<br />
-                MATTERS<br />
-                TO START GOOD<br />
-                <span className="text-[#E84E0F]">THINGS/</span>
+              <h2 className="text-3xl sm:text-[42px] font-bold tracking-tight text-[#141414] leading-tight">
+                From zero to one
               </h2>
+              <p className="text-gray-600 text-[15px] leading-relaxed max-w-md">
+                We work under a collaborative methodology that allows us to build high-quality digital products designed specifically around our clients&apos; goals.
+              </p>
+              <p className="text-gray-500 text-[13.5px] leading-relaxed max-w-md">
+                From initial architecture and wireframing to custom code deployment, we bridge the gap between bits and atoms.
+              </p>
+              <div className="pt-3">
+                <button
+                  onClick={() => openContactModal('From zero to one')}
+                  className="bg-[#0055FF] hover:bg-[#0044CC] text-white font-medium text-[13px] px-7 py-3 rounded-full shadow-sm transition-all active:scale-95 cursor-pointer"
+                >
+                  Start a project
+                </button>
+              </div>
+            </div>
 
-              {/* Chalk/Brush White Underline Stroke */}
-              <svg className="w-52 h-3.5 my-2 opacity-85" viewBox="0 0 200 12" fill="none">
-                <path
-                  d="M2 7.5C45 3.5 135 2.5 198 6.5"
-                  stroke="#EAE6DF"
-                  strokeWidth="3.5"
-                  strokeLinecap="round"
+            {/* Right Bleed Laptop Mockup with Royal Blue Grid Screen */}
+            <div className="lg:col-span-6 flex justify-end">
+              <div className="w-full max-w-[520px] lg:translate-x-6">
+                <div className="bg-[#141414] p-3 rounded-t-2xl border-2 border-gray-300 shadow-2xl">
+                  {/* Camera notch */}
+                  <div className="w-12 h-1.5 bg-black mx-auto rounded-b-md mb-1" />
+                  {/* Blue Grid Display */}
+                  <div className="bg-royal-blue-grid h-[260px] sm:h-[300px] rounded-lg p-6 flex flex-col justify-between relative overflow-hidden">
+                    <div className="flex items-center justify-between text-white/60 text-xs font-mono">
+                      <span>ghiffa.dev // workspace</span>
+                      <span>v2.5</span>
+                    </div>
+                    <div className="my-auto text-center">
+                      <div className="inline-block border border-dashed border-white/40 px-5 py-2.5">
+                        <span className="text-white font-bold text-2xl sm:text-3xl tracking-tight">bits &amp; atoms.</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between text-[11px] text-white/70 font-mono">
+                      <span>STATUS: PRODUCTION READY</span>
+                      <span>100% CUSTOM</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="h-4 bg-gradient-to-b from-gray-200 to-gray-400 rounded-b-2xl -mx-4 shadow-md flex items-center justify-center">
+                  <div className="w-16 h-1.5 bg-gray-500/40 rounded-full" />
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <p className="text-[11.5px] text-gray-400 mt-4 pl-2">
+          * Every project includes dedicated UX/UI design, full-stack engineering, and QA testing.
+        </p>
+      </section>
+
+      {/* 5. "A TEAM THAT LOVES THE INTERNET" INTERACTIVE CANVAS SECTION */}
+      <section className="relative py-28 bg-square-grid overflow-hidden border-t border-b border-gray-100 my-10">
+        <div className="max-w-[1360px] mx-auto px-6 relative min-h-[460px] flex flex-col items-center justify-center">
+
+          {/* Floating Team Member Avatars & Chat Bubbles */}
+          <div className="hidden md:flex items-center gap-2.5 absolute top-[8%] left-[12%] bg-white px-3.5 py-2 rounded-2xl soft-card-shadow border border-gray-100">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" alt="Team" className="w-9 h-9 rounded-full object-cover" />
+            <div className="text-[11px]">
+              <div className="font-semibold text-gray-900">Sarah — UX Lead</div>
+              <div className="text-gray-400">Wireframes approved ✓</div>
+            </div>
+          </div>
+
+          <div className="hidden md:flex items-center gap-2.5 absolute top-[4%] left-[36%] bg-white px-3.5 py-2 rounded-2xl soft-card-shadow border border-gray-100">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80" alt="Team" className="w-9 h-9 rounded-full object-cover" />
+            <div className="text-[11px]">
+              <div className="font-semibold text-gray-900">Ghiffa — Tech Lead</div>
+              <div className="text-gray-400">Deploying to edge...</div>
+            </div>
+          </div>
+
+          <div className="hidden md:flex items-center gap-2.5 absolute top-[12%] right-[14%] bg-white px-3.5 py-2 rounded-2xl soft-card-shadow border border-gray-100">
+            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=120&q=80" alt="Team" className="w-9 h-9 rounded-full object-cover" />
+            <div className="text-[11px]">
+              <div className="font-semibold text-gray-900">Elena — Art Director</div>
+              <div className="text-gray-400">Typography refined</div>
+            </div>
+          </div>
+
+          <div className="hidden md:flex items-center gap-2.5 absolute bottom-[12%] left-[18%] bg-white px-3.5 py-2 rounded-2xl soft-card-shadow border border-gray-100">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80" alt="Team" className="w-9 h-9 rounded-full object-cover" />
+            <div className="text-[11px]">
+              <div className="font-semibold text-gray-900">Marco — Full-Stack</div>
+              <div className="text-gray-400">99.9% Lighthouse score</div>
+            </div>
+          </div>
+
+          <div className="hidden md:flex items-center gap-2.5 absolute bottom-[10%] right-[16%] bg-white px-3.5 py-2 rounded-2xl soft-card-shadow border border-gray-100">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=120&q=80" alt="Team" className="w-9 h-9 rounded-full object-cover" />
+            <div className="text-[11px]">
+              <div className="font-semibold text-gray-900">Nadia — PM</div>
+              <div className="text-gray-400">Sprint milestone ready</div>
+            </div>
+          </div>
+
+          {/* Center Highlighted Headline with Selection Box */}
+          <div className="text-center z-10 max-w-3xl px-4">
+            <h2 className="text-3xl sm:text-5xl lg:text-[54px] font-bold tracking-tight text-[#141414] leading-tight">
+              A team that{' '}
+              <span className="relative inline-block bg-[#DCE8FF] text-[#141414] px-3 py-0.5 mx-1 border border-[#3B82F6]">
+                {/* Corner selection squares */}
+                <span className="w-2 h-2 bg-white border border-[#3B82F6] absolute -top-1 -left-1" />
+                <span className="w-2 h-2 bg-white border border-[#3B82F6] absolute -top-1 -right-1" />
+                <span className="w-2 h-2 bg-white border border-[#3B82F6] absolute -bottom-1 -left-1" />
+                <span className="w-2 h-2 bg-white border border-[#3B82F6] absolute -bottom-1 -right-1" />
+                loves the internet.
+              </span>
+            </h2>
+            <div className="mt-8">
+              <button
+                onClick={() => openContactModal('Meet the team')}
+                className="bg-[#0055FF] hover:bg-[#0044CC] text-white font-medium text-[13px] px-7 py-2.5 rounded-full shadow-sm transition-all cursor-pointer"
+              >
+                Meet our studio
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* 6. "DETAILS ARE NOT DETAILS" SECTION WITH LAYERED PORTRAIT CARDS */}
+      <section className="py-24 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          {/* Left Text */}
+          <div className="lg:col-span-5 space-y-5">
+            <h2 className="text-3xl sm:text-[42px] font-bold tracking-tight text-[#141414] leading-[1.12]">
+              Details are<br />not details
+            </h2>
+            <p className="text-gray-600 text-[15px] leading-relaxed">
+              They make the product. We obsess over micro-interactions, typography, accessibility, and millisecond load times so your brand stands out effortlessly.
+            </p>
+            <div className="pt-2">
+              <button
+                onClick={() => openContactModal('Design & Craft')}
+                className="bg-[#0055FF] hover:bg-[#0044CC] text-white font-medium text-[13px] px-6 py-2.5 rounded-full transition-all cursor-pointer"
+              >
+                See our craft &rarr;
+              </button>
+            </div>
+          </div>
+
+          {/* Right Layered Visual Cards */}
+          <div className="lg:col-span-7 relative flex items-center justify-center min-h-[380px]">
+            {/* Left tilted background card */}
+            <div className="w-44 sm:w-52 h-64 sm:h-72 rounded-2xl overflow-hidden shadow-lg -rotate-6 -mr-10 z-10 border border-gray-200 bg-zinc-900">
+              <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=500&q=80" alt="Detail 1" className="w-full h-full object-cover opacity-85" />
+            </div>
+
+            {/* Center main portrait card */}
+            <div className="w-56 sm:w-64 h-80 sm:h-96 rounded-3xl overflow-hidden shadow-2xl z-20 border-2 border-white bg-zinc-950 relative">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=700&q=80" alt="Main Portrait" className="w-full h-full object-cover contrast-125" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+              <div className="absolute bottom-4 left-4 right-4 text-white">
+                <span className="text-[10px] uppercase tracking-widest text-blue-400 font-mono">Pixel Precision</span>
+                <p className="text-sm font-semibold mt-0.5">Crafted for human connection</p>
+              </div>
+            </div>
+
+            {/* Right tilted background card */}
+            <div className="w-44 sm:w-52 h-64 sm:h-72 rounded-2xl overflow-hidden shadow-lg rotate-6 -ml-10 z-10 border border-gray-200 bg-zinc-900">
+              <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=500&q=80" alt="Detail 2" className="w-full h-full object-cover opacity-85" />
+            </div>
+
+            {/* Floating Comment Tag Top-Right */}
+            <div className="hidden sm:flex items-center gap-2.5 absolute top-6 right-8 z-30 bg-white px-3.5 py-2 rounded-xl comment-shadow border border-gray-100">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#0055FF]" />
+              <span className="text-[11.5px] font-medium text-gray-800">60fps smooth animations</span>
+            </div>
+
+            {/* Floating Comment Tag Bottom */}
+            <div className="hidden sm:flex items-center gap-2.5 absolute -bottom-3 left-1/2 -translate-x-1/2 z-30 bg-white px-4 py-2 rounded-xl comment-shadow border border-gray-100">
+              <div className="w-5 h-5 rounded-full bg-black text-white text-[7px] font-bold flex items-center justify-center">gh</div>
+              <span className="text-[11.5px] font-medium text-gray-800">Every breakpoint tested</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* 7. CLIENT LOGOS STRIP */}
+      <section className="py-12 border-t border-b border-gray-100 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto">
+        <div className="flex flex-wrap items-center justify-between gap-8 opacity-45 grayscale">
+          <span className="text-lg font-bold tracking-tight">VERCEL</span>
+          <span className="text-lg font-bold tracking-widest">STRIPE</span>
+          <span className="text-lg font-semibold font-serif italic">Chronicle</span>
+          <span className="text-lg font-extrabold tracking-tighter">LINEAR</span>
+          <span className="text-lg font-mono font-bold">SUPABASE</span>
+          <span className="text-lg font-bold tracking-tight">RAYCAST</span>
+          <span className="text-lg font-semibold">NOTION</span>
+        </div>
+      </section>
+
+      {/* 8. THREE INSIGHTS / ARTICLES CARDS */}
+      <section className="py-24 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto">
+        <div className="flex items-center justify-between mb-10">
+          <div>
+            <div className="text-xs font-mono uppercase tracking-widest text-blue-600 font-semibold mb-1">
+              // PERSPECTIVES &amp; DISPATCHES
+            </div>
+            <h2 className="text-3xl font-bold tracking-tight text-[#141414]">
+              Selected insights &amp; publications
+            </h2>
+          </div>
+          <Link
+            to="/articles"
+            className="text-xs font-medium text-gray-600 hover:text-black border border-gray-200 px-4 py-2 rounded-full transition-colors hidden sm:inline-block"
+          >
+            View all articles &rarr;
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-7">
+          {/* Article 1 */}
+          <article
+            className="group cursor-pointer"
+            onClick={() => openContactModal('Design Systems')}
+          >
+            <div className="h-56 rounded-2xl overflow-hidden mb-5 bg-gradient-to-br from-amber-400 via-orange-500 to-red-600 relative shadow-sm">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.35),transparent_60%)] group-hover:scale-105 transition-transform duration-500" />
+            </div>
+            <h3 className="text-[18px] font-bold text-[#141414] leading-snug mb-2 group-hover:text-[#0055FF] transition-colors">
+              Scalable Design Systems for Modern Enterprises
+            </h3>
+            <p className="text-[13px] text-gray-500 leading-relaxed">
+              How we unify tokens, Figma libraries, and production React components to ship products twice as fast.
+            </p>
+          </article>
+
+          {/* Article 2 */}
+          <article
+            className="group cursor-pointer"
+            onClick={() => openContactModal('Web Performance')}
+          >
+            <div className="h-56 rounded-2xl overflow-hidden mb-5 bg-gradient-to-br from-blue-600 via-indigo-700 to-slate-900 relative shadow-sm">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(56,189,248,0.35),transparent_60%)] group-hover:scale-105 transition-transform duration-500" />
+            </div>
+            <h3 className="text-[18px] font-bold text-[#141414] leading-snug mb-2 group-hover:text-[#0055FF] transition-colors">
+              Engineering High-Performance Web Architecture
+            </h3>
+            <p className="text-[13px] text-gray-500 leading-relaxed">
+              Why Core Web Vitals, edge caching, and clean semantic markup are essential for conversion and SEO.
+            </p>
+          </article>
+
+          {/* Article 3 */}
+          <article
+            className="group cursor-pointer"
+            onClick={() => openContactModal('AI + Web')}
+          >
+            <div className="h-56 rounded-2xl overflow-hidden mb-5 bg-gradient-to-br from-red-700 via-rose-900 to-neutral-950 relative shadow-sm">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_70%,rgba(251,113,133,0.3),transparent_60%)] group-hover:scale-105 transition-transform duration-500" />
+            </div>
+            <h3 className="text-[18px] font-bold text-[#141414] leading-snug mb-2 group-hover:text-[#0055FF] transition-colors">
+              Bridging Bits and Atoms in the Age of AI
+            </h3>
+            <p className="text-[13px] text-gray-500 leading-relaxed">
+              Blending physical brand identity with intelligent digital interfaces that adapt to every user.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      {/* 9. BOTTOM "LET'S BUILD A PROJECT TOGETHER" CTA SECTION */}
+      <section className="py-20 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          {/* Left Mini Floating Collage */}
+          <div className="lg:col-span-6 relative min-h-[280px] bg-square-grid rounded-3xl border border-gray-100 p-6 flex items-center justify-center overflow-hidden">
+            {/* Handwritten style note */}
+            <div className="absolute top-6 left-8 -rotate-6 font-serif italic text-blue-600 text-lg">
+              Let&apos;s launch! &nearr;
+            </div>
+
+            {/* Mini photo 1 */}
+            <div className="w-40 h-28 rounded-xl overflow-hidden shadow-md rotate-3 border-2 border-white bg-zinc-800 z-10">
+              <img
+                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=400&q=80"
+                alt="Collaboration"
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+            {/* Mini photo 2 */}
+            <div className="w-36 h-24 rounded-xl overflow-hidden shadow-lg -rotate-6 -ml-6 mt-16 border-2 border-white bg-zinc-900 z-20">
+              <img
+                src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=400&q=80"
+                alt="Code"
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+            {/* Floating tool badges */}
+            <div className="absolute bottom-6 left-10 w-9 h-9 rounded-xl bg-white soft-card-shadow border border-gray-100 flex items-center justify-center">
+              <span className="text-xs font-bold text-blue-600">&lt;/&gt;</span>
+            </div>
+            <div className="absolute top-8 right-12 w-9 h-9 rounded-xl bg-white soft-card-shadow border border-gray-100 flex items-center justify-center">
+              <span className="w-3 h-3 rounded-full bg-rose-500" />
+            </div>
+          </div>
+
+          {/* Right CTA Heading & Button */}
+          <div className="lg:col-span-6 space-y-5">
+            <h2 className="text-3xl sm:text-[44px] font-bold tracking-tight text-[#141414] leading-[1.12]">
+              Let&apos;s build a<br />project together
+            </h2>
+            <p className="text-gray-500 text-[15px] leading-relaxed max-w-md">
+              Tell us about your vision, timeline, and goals. Our team is ready to design and engineer your next flagship web experience.
+            </p>
+            <div className="pt-2 flex items-center gap-4">
+              <button
+                onClick={() => openContactModal('New Project')}
+                className="bg-[#0055FF] hover:bg-[#0044CC] text-white font-medium text-[13.5px] px-8 py-3 rounded-full shadow-sm transition-all active:scale-95 cursor-pointer"
+              >
+                Let&apos;s talk
+              </button>
+              <a href={`mailto:${emailAddress}`} className="text-xs text-gray-400 font-mono hover:text-black transition-colors">
+                {emailAddress}
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="border-t border-gray-200/80 py-12 px-6 sm:px-16 lg:px-28 text-xs text-gray-500">
+        <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="space-y-1">
+            <div className="font-bold text-sm text-[#111111]">ghiffa.dev</div>
+            <p>2008&ndash;2026 All rights reserved. ghiffa.dev &mdash; Custom Web Design &amp; Development Studio.</p>
+          </div>
+          <div className="flex flex-wrap gap-6 text-gray-600">
+            <a href="#services" className="hover:text-black transition-colors">Services</a>
+            <Link to="/admin" className="hover:text-black transition-colors">Admin Panel</Link>
+            <a href={`mailto:${emailAddress}`} className="hover:text-black transition-colors">Contact</a>
+          </div>
+        </div>
+      </footer>
+
+      {/* CONTACT MODAL */}
+      {contactModalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-fade-in"
+          onClick={closeContactModal}
+        >
+          <div
+            className="bg-white border border-gray-200 rounded-3xl max-w-md w-full p-8 shadow-2xl relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={closeContactModal}
+              className="absolute top-5 right-5 text-gray-400 hover:text-black p-1 cursor-pointer"
+            >
+              ✕
+            </button>
+            <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">
+              ghiffa.dev
+            </div>
+            <h3 className="text-2xl font-bold text-[#111111] mb-2">
+              Let&apos;s build a project together
+            </h3>
+            <p className="text-xs text-gray-500 mb-6">
+              Leave us a message and we&apos;ll schedule a call.
+            </p>
+            <form onSubmit={handleFormSubmit} className="space-y-4">
+              <div>
+                <label className="block text-xs font-medium text-gray-700 mb-1">Name</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="Your name"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full rounded-xl bg-gray-50 border border-gray-200 px-3.5 py-2.5 text-sm focus:outline-none focus:border-black"
                 />
-              </svg>
-
-              <p className="font-mono-tech text-xs leading-relaxed tracking-wider text-[#b8b5ad] uppercase max-w-md mt-2 mb-6">
-                Whether you have an embedded IoT hardware challenge, a high-performance web architecture, or a creative commission — let&apos;s build something extraordinary together.
-              </p>
-
-              {/* Clean Brutalist CTA Button */}
-              <div className="flex flex-wrap items-center gap-4">
-                <a
-                  href={`mailto:${emailAddress}`}
-                  className="inline-flex items-center justify-center gap-3 bg-[#E84E0F] text-[#181816] hover:bg-[#EAE6DF] hover:text-[#181816] px-8 py-4 font-mono-tech text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-200 border-2 border-[#E84E0F] hover:border-[#EAE6DF] shadow-[4px_4px_0_#000] active:translate-x-0.5 active:translate-y-0.5"
-                >
-                  <span>LET&apos;S CONNECT WITH ME</span>
-                  <ArrowUpRight className="w-4 h-4 stroke-[3]" />
-                </a>
               </div>
-            </div>
-
-            {/* CENTER: DIRECT CONTACT DETAILS */}
-            <div className="lg:col-span-3 flex flex-col justify-center">
-              <h3 className="font-syne font-bold text-base tracking-wide uppercase text-[#EAE6DF] pb-2 mb-3 border-b border-[#EAE6DF]/20">
-                DIRECT CONTACT
-              </h3>
-
-              <ul className="space-y-2.5 font-mono-tech text-[10.5px] tracking-[0.06em] text-[#d6d3cb]">
-                <li>
-                  <a href={`mailto:${emailAddress}`} className="flex items-center gap-3 hover:text-[#E84E0F] transition-colors">
-                    <span className="w-5 h-5 rounded-full border border-[#EAE6DF]/40 flex items-center justify-center shrink-0">
-                      <Mail className="w-2.5 h-2.5" />
-                    </span>
-                    <span className="uppercase">{emailAddress}</span>
-                  </a>
-                </li>
-                <li>
-                  <a href={`tel:${phone}`} className="flex items-center gap-3 hover:text-[#E84E0F] transition-colors">
-                    <span className="w-5 h-5 rounded-full border border-[#EAE6DF]/40 flex items-center justify-center shrink-0">
-                      <Phone className="w-2.5 h-2.5" />
-                    </span>
-                    <span>{phone}</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="https://instagram.com/haikaljibraan" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-[#E84E0F] transition-colors">
-                    <span className="w-5 h-5 rounded-full border border-[#EAE6DF]/40 flex items-center justify-center shrink-0">
-                      <InstagramIcon />
-                    </span>
-                    <span>INSTAGRAM.COM/HAIKALJIBRAAN</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="https://github.com/ghiffa08" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-[#E84E0F] transition-colors">
-                    <span className="w-5 h-5 rounded-full border border-[#EAE6DF]/40 flex items-center justify-center shrink-0">
-                      <GithubIcon />
-                    </span>
-                    <span>GITHUB.COM/GHIFFA08</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="https://linkedin.com/in/haikaljibraan" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-[#E84E0F] transition-colors">
-                    <span className="w-5 h-5 rounded-full border border-[#EAE6DF]/40 flex items-center justify-center shrink-0">
-                      <LinkedinIcon />
-                    </span>
-                    <span>LINKEDIN.COM/IN/HAIKALJIBRAAN</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            {/* RIGHT: CIRCULAR STRATEGY STAMP & BARCODE */}
-            <div className="lg:col-span-3 flex flex-col items-center lg:items-end justify-between gap-6">
-              <RotatingStamp />
-              <BarcodeGraphic />
-              <div className="font-mono-tech text-[10px] uppercase text-[#66655f] text-center lg:text-right">
-                <p>© 2026 HAIKAL JIBRAN AL-GHIFFARRY</p>
-                <p className="text-[#8e8d87]">ALL RIGHTS RESERVED // VER. 4.0</p>
+              <div>
+                <label className="block text-xs font-medium text-gray-700 mb-1">Email</label>
+                <input
+                  type="email"
+                  required
+                  placeholder="hello@company.com"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className="w-full rounded-xl bg-gray-50 border border-gray-200 px-3.5 py-2.5 text-sm focus:outline-none focus:border-black"
+                />
               </div>
-            </div>
-
-          </div>
-        </footer>
-
-        {/* =========================================================
-            EXPERIENCE DETAIL MODAL
-        ========================================================= */}
-        {selectedExperienceModal && (
-          <div
-            className="fixed inset-0 z-50 bg-black/85 backdrop-blur-xs flex items-center justify-center p-4 animate-fade-in"
-            onClick={() => setSelectedExperienceModal(null)}
-          >
-            <div
-              className="bg-[#EAE6DF] border-2 border-[#181816] max-w-lg w-full p-6 sm:p-8 shadow-2xl relative"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="flex justify-between items-start mb-4">
-                <span className="font-mono-tech text-xs font-bold text-[#E84E0F] bg-[#181816] px-2.5 py-1">
-                  [{selectedExperienceModal.period}]
-                </span>
-                <button
-                  onClick={() => setSelectedExperienceModal(null)}
-                  className="font-mono-tech text-xs font-bold text-[#181816] hover:text-[#E84E0F] cursor-pointer"
-                >
-                  [CLOSE X]
-                </button>
+              <div>
+                <label className="block text-xs font-medium text-gray-700 mb-1">Message</label>
+                <textarea
+                  rows="3"
+                  required
+                  placeholder="Tell us about your project..."
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  className="w-full rounded-xl bg-gray-50 border border-gray-200 px-3.5 py-2.5 text-sm focus:outline-none focus:border-black"
+                />
               </div>
-              <div className="font-mono-tech text-xs font-bold text-[#E84E0F] uppercase mb-1">
-                {selectedExperienceModal.company}
-              </div>
-              <h3 className="font-syne font-bold text-xl sm:text-2xl uppercase tracking-tight text-[#181816] mb-4">
-                {selectedExperienceModal.role}
-              </h3>
-              <p className="font-mono-tech text-xs sm:text-[13px] leading-relaxed text-[#2b2b29] mb-6">
-                {selectedExperienceModal.description}
-              </p>
-              <div className="pt-4 border-t border-[#181816]/20 flex items-center justify-between font-mono-tech text-[10px] text-[#66655f] uppercase">
-                <span>VERIFIED CAREER RECORD</span>
-                <span className="text-[#181816] font-bold">PROFESSIONAL JOURNEY</span>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* =========================================================
-            INTERACTIVE PROJECT CASE STUDY PREVIEW MODAL
-        ========================================================= */}
-        {selectedProjectModal && (
-          <div
-            className="fixed inset-0 z-50 bg-black/85 backdrop-blur-xs flex items-center justify-center p-4 animate-fade-in"
-            onClick={() => setSelectedProjectModal(null)}
-          >
-            <div
-              className="bg-[#EAE6DF] border-2 border-[#181816] max-w-lg w-full p-6 sm:p-8 shadow-2xl relative"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="flex justify-between items-start mb-4">
-                <span className="font-mono-tech text-xs font-bold text-[#E84E0F] bg-[#181816] px-2.5 py-1">
-                  {selectedProjectModal.num} {selectedProjectModal.category}
-                </span>
-                <button
-                  onClick={() => setSelectedProjectModal(null)}
-                  className="font-mono-tech text-xs font-bold text-[#181816] hover:text-[#E84E0F] cursor-pointer"
-                >
-                  [CLOSE X]
-                </button>
-              </div>
-              <h3 className="font-syne font-bold text-2xl sm:text-3xl uppercase tracking-tight text-[#181816] mb-3">
-                {selectedProjectModal.title}
-              </h3>
-              {selectedProjectModal.img && (
-                <div className="aspect-[16/9] w-full bg-[#181816] mb-4 overflow-hidden border border-[#181816]">
-                  <img src={selectedProjectModal.img} alt={selectedProjectModal.title} className="w-full h-full object-cover" />
-                </div>
-              )}
-              <p className="font-mono-tech text-xs leading-relaxed text-[#2b2b29] mb-4">
-                {selectedProjectModal.desc}
-              </p>
-              <div className="font-mono-tech text-[10px] text-[#4a4946] mb-6 uppercase">
-                <span>CLIENT / IMPACT: </span>
-                <strong className="text-[#181816]">{selectedProjectModal.stat}</strong>
-              </div>
-              {selectedProjectModal.link && selectedProjectModal.link !== '#' && (
-                <a
-                  href={selectedProjectModal.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full py-3 bg-[#E84E0F] text-[#181816] font-mono-tech text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 hover:bg-[#181816] hover:text-[#EAE6DF] transition-colors"
-                >
-                  <span>VISIT LIVE SYSTEM</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* =========================================================
-            CERTIFICATE PREVIEW MODAL
-        ========================================================= */}
-        {selectedCert && (
-          <div
-            className="fixed inset-0 z-50 bg-black/85 backdrop-blur-xs flex items-center justify-center p-4 animate-fade-in"
-            onClick={() => setSelectedCert(null)}
-          >
-            <div
-              className="bg-[#EAE6DF] border-2 border-[#181816] max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative max-h-[92vh] overflow-y-auto"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="flex justify-between items-start mb-4">
-                <span className="font-mono-tech text-xs font-bold text-[#E84E0F] bg-[#181816] px-2.5 py-1">
-                  [CREDENTIAL: {selectedCert.period || 'OFFICIAL'}]
-                </span>
-                <button
-                  onClick={() => setSelectedCert(null)}
-                  className="font-mono-tech text-xs font-bold text-[#181816] hover:text-[#E84E0F] cursor-pointer"
-                >
-                  [CLOSE X]
-                </button>
-              </div>
-              <div className="font-mono-tech text-xs font-bold text-[#E84E0F] uppercase mb-1">
-                {selectedCert.institution}
-              </div>
-              <h3 className="font-syne font-bold text-xl sm:text-2xl uppercase tracking-tight text-[#181816] mb-4">
-                {selectedCert.title}
-              </h3>
-
-              {selectedCert.certificate_url && (
-                <div className="w-full bg-[#181816] border border-[#181816] mb-4 overflow-hidden flex items-center justify-center min-h-[300px]">
-                  {selectedCert.certificate_url.toLowerCase().endsWith('.pdf') ? (
-                    <iframe src={selectedCert.certificate_url} title={selectedCert.title} className="w-full h-[60vh] border-0" />
-                  ) : (
-                    <img src={selectedCert.certificate_url} alt={selectedCert.title} className="w-full h-auto max-h-[60vh] object-contain" />
-                  )}
-                </div>
-              )}
-
-              {selectedCert.description && (
-                <p className="font-mono-tech text-xs text-[#2b2b29] mb-4">
-                  {selectedCert.description}
+              <button
+                type="submit"
+                className="w-full bg-[#141414] hover:bg-black text-white font-medium py-3 rounded-full text-sm transition-all cursor-pointer"
+              >
+                Send message
+              </button>
+              {formSent && (
+                <p className="text-xs text-emerald-600 text-center pt-2 font-medium">
+                  Message sent! We will get back to you soon.
                 </p>
               )}
-
-              <div className="flex items-center justify-between pt-3 border-t border-[#1c1c1a]/20">
-                <span className="font-mono-tech text-[10px] text-[#4a4946] uppercase">OFFICIALLY RECORDED IN ARCHIVE</span>
-                {selectedCert.certificate_url && (
-                  <a
-                    href={selectedCert.certificate_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="py-2 px-4 bg-[#E84E0F] text-[#181816] font-mono-tech text-xs font-bold uppercase tracking-wider inline-flex items-center gap-1.5 hover:bg-[#181816] hover:text-[#EAE6DF] transition-colors"
-                  >
-                    <span>OPEN SOURCE</span>
-                    <ExternalLink className="w-3.5 h-3.5" />
-                  </a>
-                )}
-              </div>
-            </div>
+            </form>
           </div>
-        )}
+        </div>
+      )}
 
-        {/* =========================================================
-            FLOATING BRUTALIST SIDE TAB BUTTON & DRAWER
-        ========================================================= */}
-        {/* Floating Side Tab Button - Pinned to Right Viewport Edge */}
-        <button
-          onClick={() => setSideNavOpen(prev => !prev)}
-          className="fixed right-0 top-1/2 -translate-y-1/2 z-50 bg-[#181816] text-[#EAE6DF] hover:bg-[#E84E0F] hover:text-[#181816] border-l-2 border-y border-[#E84E0F] px-2.5 py-4 shadow-[0_12px_36px_rgba(0,0,0,0.85)] flex flex-col items-center gap-2.5 transition-all duration-200 group cursor-pointer"
-          aria-label="Toggle Navigation Index"
-          title="Navigation Index"
-        >
-          <span className="w-1.5 h-1.5 bg-[#E84E0F] group-hover:bg-[#181816] rounded-full transition-colors" />
-          <span className="font-mono-tech text-[10px] sm:text-[11px] font-bold tracking-[0.25em] uppercase [writing-mode:vertical-rl] rotate-180 select-none">
-            {sideNavOpen ? 'CLOSE ✕' : 'INDEX // NAV'}
-          </span>
-        </button>
-
-        {/* Slide-out Brutalist Index Drawer */}
-        {sideNavOpen && (
-          <div className="fixed inset-0 z-50 flex justify-end">
-            {/* Backdrop */}
-            <div
-              onClick={() => setSideNavOpen(false)}
-              className="absolute inset-0 bg-black/65 backdrop-blur-xs transition-opacity"
-            />
-
-            {/* Drawer Sheet */}
-            <div className="relative w-full max-w-[340px] bg-[#141413] border-l-2 border-[#E84E0F] text-[#EAE6DF] h-full p-6 sm:p-8 flex flex-col justify-between shadow-2xl z-10 animate-in slide-in-from-right duration-200">
-              {/* Top Section */}
-              <div>
-                <div className="flex items-center justify-between pb-5 border-b border-[#2b2b28]">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 bg-[#E84E0F]" />
-                    <span className="font-mono-tech text-xs font-bold tracking-wider uppercase text-[#EAE6DF]">
-                      NAVIGATION INDEX
-                    </span>
-                  </div>
-                  <button
-                    onClick={() => setSideNavOpen(false)}
-                    className="p-1 hover:text-[#E84E0F] text-[#8e8d87] transition-colors cursor-pointer"
-                    aria-label="Close Navigation Index"
-                  >
-                    <X className="w-5 h-5" />
-                  </button>
-                </div>
-
-                {/* Navigation Links */}
-                <nav className="mt-6 space-y-2.5 font-mono-tech">
-                  {[
-                    { num: '01', label: 'SELECTED WORK', href: '#work', sub: 'ENGINEERING COMMISSIONS' },
-                    { num: '02', label: 'SERVICES & STACK', href: '#services', sub: 'CAPABILITIES & MANIFESTO' },
-                    { num: '03', label: 'LATEST ARTICLES', href: '#articles', sub: 'WRITING & DISPATCHES' },
-                    { num: '04', label: 'JOURNEY', href: '#journey', sub: 'PROFESSIONAL EXPERIENCE' },
-                    { num: '05', label: 'CREDENTIALS', href: '#credentials', sub: 'OFFICIAL CERTIFICATIONS' },
-                    { num: '06', label: 'EDUCATION & HONORS', href: '#education', sub: 'ACADEMICS & MERIT' },
-                    { num: '07', label: 'DISPATCHES', href: '#dispatches', sub: 'FIELD NOTES & INSTAGRAM' },
-                    { num: '08', label: 'CONTACT', href: '#contact', sub: 'START A CONVERSATION' },
-                  ].map((item) => (
-                    <a
-                      key={item.num}
-                      href={item.href}
-                      onClick={() => setSideNavOpen(false)}
-                      className="group block p-3 border border-[#232320] hover:border-[#E84E0F] bg-[#181816]/70 hover:bg-[#181816] transition-all"
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="text-[#E84E0F] text-xs font-bold font-mono-tech tracking-wider">
-                          {item.num}/
-                        </span>
-                        <CornerDownRight className="w-3.5 h-3.5 text-[#66655f] group-hover:text-[#E84E0F] group-hover:translate-x-0.5 transition-all" />
-                      </div>
-                      <div className="font-mono-tech text-xs sm:text-[13px] font-bold uppercase tracking-wider text-[#EAE6DF] group-hover:text-[#E84E0F] transition-colors mt-1">
-                        {item.label}
-                      </div>
-                      <div className="font-mono-tech text-[9.5px] uppercase tracking-wider text-[#66655f] mt-0.5">
-                        {item.sub}
-                      </div>
-                    </a>
-                  ))}
-                </nav>
-              </div>
-
-              {/* Bottom Meta & Quick Contact */}
-              <div className="pt-6 border-t border-[#2b2b28] font-mono-tech text-[10px] uppercase text-[#8e8d87] space-y-2.5">
-                <div className="flex items-center justify-between">
-                  <span>LOCATION:</span>
-                  <span className="text-[#EAE6DF] font-bold">{location.toUpperCase()}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span>STATUS:</span>
-                  <span className="text-[#E84E0F] font-bold">AVAILABLE FOR COMMISSIONS</span>
-                </div>
-                <a
-                  href={`mailto:${emailAddress}`}
-                  className="mt-3 block w-full text-center py-3 bg-[#E84E0F] text-[#181816] font-bold hover:bg-[#ff5d1a] transition-colors tracking-wider"
-                >
-                  EMAIL DIRECTLY ↗
-                </a>
-              </div>
-            </div>
-          </div>
-        )}
-
-      </div>
     </div>
   );
 }

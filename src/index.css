@@ -397,6 +397,11 @@ body {
   box-shadow: 0 12px 32px -5px rgba(0, 0, 0, 0.08), 0 1px 4px -1px rgba(0, 0, 0, 0.04);
 }
 
+/* Stacking Cards 3D elevation shadow */
+.figma-stack-card {
+  box-shadow: 0 -16px 48px -12px rgba(0, 0, 0, 0.12), 0 24px 60px -16px rgba(0, 0, 0, 0.08);
+}
+
 /* Draggable interactive items */
 .draggable-item {
   cursor: grab;

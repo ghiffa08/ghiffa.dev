@@ -169,7 +169,6 @@ export default function Portfolio() {
 
   // Skillstreak.id Banner Section Dark Mode & Mockup Screen State
   const [isBannerDark, setIsBannerDark] = useState(false);
-  const [bannerScreenMode, setBannerScreenMode] = useState('blueprint'); // 'blueprint' (matching Gambar 2) or 'desktop'
   const bannerRef = useRef(null);
 
   // Scroll-triggered dark mode for Skillstreak.id banner section
@@ -2138,120 +2137,103 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* 4. SKILLSTREAK.ID PLATFORM BANNER WITH DARK THEME SCROLL TRANSITION (EXACT MATCH TO REFERENCE) */}
+      {/* 4. SKILLSTREAK.ID PLATFORM BANNER — EXACT 1:1 REFERENCE MATCH (ONLINES.COM.AR STYLE) */}
       <section
         ref={bannerRef}
         id="skillstreak-banner"
-        className="py-28 sm:py-36 px-6 sm:px-12 lg:px-20 transition-colors duration-700 ease-in-out relative z-10"
+        className="min-h-screen w-full flex flex-col justify-center items-center px-4 sm:px-8 lg:px-12 py-12 relative z-10 transition-colors duration-700 bg-black select-none"
       >
-        <div className="max-w-[1160px] mx-auto">
-          <div className="rounded-[30px] sm:rounded-[34px] bg-[#121214] border border-white/5 shadow-2xl pt-10 pb-8 sm:pt-14 sm:pb-12 pl-8 sm:pl-14 lg:pl-16 pr-0 relative overflow-hidden transition-all duration-500">
-            {/* Subtle background ambient blue glow behind the laptop */}
-            <div className="absolute right-[-60px] top-1/2 -translate-y-1/2 w-[520px] h-[400px] bg-[#0055FF]/15 rounded-full blur-[130px] pointer-events-none" />
+        <div className="w-full max-w-[1140px] mx-auto">
+          {/* Centered Dark Card (Exact Reference Proportions & Radius) */}
+          <div className="relative rounded-[32px] sm:rounded-[36px] bg-[#141414] border border-white/[0.08] shadow-2xl overflow-hidden min-h-[500px] lg:h-[530px] flex items-center">
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center relative z-10">
+            {/* Inner Grid: Left Content (52%) + Right Laptop (48%) */}
+            <div className="w-full h-full grid grid-cols-1 lg:grid-cols-12 items-center relative z-10">
 
-              {/* Left Column: Figma Bounding Box Title, Clean Typography & Blue CTA */}
-              <div className="lg:col-span-6 space-y-6 pr-6 lg:pr-2 py-2">
+              {/* Left Column: Typography, Figma selection box & Blue CTA */}
+              <div className="lg:col-span-6 px-8 sm:px-12 lg:pl-14 lg:pr-4 py-10 lg:py-12 flex flex-col justify-center">
 
-                {/* Figma Dashed Bounding Box with Corner & Midpoint Handles (Exact Gambar 2 styling) */}
-                <div className="relative inline-block border border-dashed border-[#555555] px-4 py-1.5 -ml-3 rounded-[1px] select-none">
+                {/* Figma Dashed Bounding Box with 8 Handles (Exact Reference) */}
+                <div className="relative inline-block border border-dashed border-[#555555] px-3.5 py-1.5 -ml-2 rounded-[1px] select-none self-start">
                   {/* 4 Corner Handles */}
-                  <span className="absolute -top-1 -left-1 w-1.5 h-1.5 bg-[#777777] border border-[#222222] rounded-[1px]" />
-                  <span className="absolute -top-1 -right-1 w-1.5 h-1.5 bg-[#777777] border border-[#222222] rounded-[1px]" />
-                  <span className="absolute -bottom-1 -left-1 w-1.5 h-1.5 bg-[#777777] border border-[#222222] rounded-[1px]" />
-                  <span className="absolute -bottom-1 -right-1 w-1.5 h-1.5 bg-[#777777] border border-[#222222] rounded-[1px]" />
+                  <span className="absolute -top-1 -left-1 w-1.5 h-1.5 bg-[#888888] border border-[#222222] rounded-[1px]" />
+                  <span className="absolute -top-1 -right-1 w-1.5 h-1.5 bg-[#888888] border border-[#222222] rounded-[1px]" />
+                  <span className="absolute -bottom-1 -left-1 w-1.5 h-1.5 bg-[#888888] border border-[#222222] rounded-[1px]" />
+                  <span className="absolute -bottom-1 -right-1 w-1.5 h-1.5 bg-[#888888] border border-[#222222] rounded-[1px]" />
                   {/* 4 Midpoint Handles */}
-                  <span className="absolute -top-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#777777] border border-[#222222] rounded-[1px]" />
-                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#777777] border border-[#222222] rounded-[1px]" />
-                  <span className="absolute top-1/2 -left-1 -translate-y-1/2 w-1.5 h-1.5 bg-[#777777] border border-[#222222] rounded-[1px]" />
-                  <span className="absolute top-1/2 -right-1 -translate-y-1/2 w-1.5 h-1.5 bg-[#777777] border border-[#222222] rounded-[1px]" />
+                  <span className="absolute -top-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#888888] border border-[#222222] rounded-[1px]" />
+                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#888888] border border-[#222222] rounded-[1px]" />
+                  <span className="absolute top-1/2 -left-1 -translate-y-1/2 w-1.5 h-1.5 bg-[#888888] border border-[#222222] rounded-[1px]" />
+                  <span className="absolute top-1/2 -right-1 -translate-y-1/2 w-1.5 h-1.5 bg-[#888888] border border-[#222222] rounded-[1px]" />
 
-                  <h2 className="text-4xl sm:text-5xl lg:text-[54px] font-bold tracking-tight text-white leading-none">
+                  <h2 className="text-[38px] sm:text-[46px] lg:text-[50px] font-bold tracking-tight text-white leading-none">
                     skillstreak.id
                   </h2>
                 </div>
 
                 {/* Primary bold lead text */}
-                <p className="text-white text-base sm:text-[18px] lg:text-[19px] font-normal leading-[1.5] max-w-[430px]">
+                <p className="text-white text-[16px] sm:text-[18px] font-normal leading-[1.48] mt-6 max-w-[430px]">
                   The fastest path from zero to deployable engineer, built like a game and engineered for the real world.
                 </p>
 
                 {/* Secondary muted text */}
-                <p className="text-[#888888] text-[13px] sm:text-[13.5px] leading-relaxed max-w-[420px]">
+                <p className="text-[#7c7c7c] text-[13px] sm:text-[13.5px] leading-[1.6] mt-4 max-w-[400px]">
                   Most developers quit because learning feels like a grind with no visible progress. skillstreak.id changes the feedback loop with XP rewards, daily streak accountability, and real-time code evaluations.
                 </p>
 
-                {/* Vibrant Blue Pill CTA (Exact match to Gambar 2) */}
-                <div className="pt-2">
+                {/* Solid Blue Pill CTA Button */}
+                <div className="mt-8">
                   <a
                     href="https://skillstreak.id"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-[#0055FF] hover:bg-[#0044CC] text-white font-medium text-[14px] px-8 py-3.5 rounded-full shadow-lg shadow-blue-600/25 transition-all active:scale-95 inline-block cursor-pointer"
+                    className="inline-block bg-[#0859d4] hover:bg-[#0648af] text-white text-[14px] font-medium px-8 py-3.5 rounded-full shadow-md shadow-blue-600/20 transition-all duration-200 active:scale-95 cursor-pointer"
                   >
                     Get Early Access
                   </a>
                 </div>
               </div>
 
-              {/* Right Column: Large Dark MacBook Mockup Bleeding to Right Edge (Exact Gambar 2 Proportion) */}
-              <div className="lg:col-span-6 flex justify-end relative overflow-visible">
-                <div className="w-[520px] sm:w-[580px] lg:w-[650px] xl:w-[680px] lg:translate-x-8 xl:translate-x-12 translate-y-3">
+              {/* Right Column: Dark Laptop with vibrant blue dot-grid screen (Exact Reference Position & Scale) */}
+              <div className="lg:col-span-6 h-full flex items-center justify-end relative overflow-hidden pl-4 pr-0">
+                {/* Laptop Mockup Wrapper — slightly bleeds off the right edge of the card */}
+                <div className="w-[480px] sm:w-[540px] xl:w-[580px] translate-x-4 lg:translate-x-6 xl:translate-x-8 pointer-events-none select-none">
 
-                  {/* Dark MacBook Frame */}
-                  <div className="bg-[#0c0c0e] p-2.5 sm:p-3 rounded-t-2xl border-2 border-[#222225] shadow-2xl relative">
+                  {/* Dark MacBook Lid / Screen Frame */}
+                  <div className="bg-[#0e0e10] p-2.5 sm:p-3 rounded-t-[20px] border-2 border-[#262628] shadow-2xl relative">
 
-                    {/* Camera notch */}
-                    <div className="w-16 h-2.5 bg-[#0c0c0e] mx-auto rounded-b-md mb-1 z-20 relative flex items-center justify-center">
-                      <div className="w-1.5 h-1.5 rounded-full bg-[#1c1c22]" />
+                    {/* Camera Notch protruding into screen */}
+                    <div className="w-14 h-2.5 bg-[#0e0e10] mx-auto rounded-b-md flex items-center justify-center -mt-1 mb-1 z-20 relative">
+                      <div className="w-1 h-1 rounded-full bg-[#1c1c20]" />
                     </div>
 
-                    {/* Screen Container */}
-                    <div className="h-[270px] sm:h-[320px] lg:h-[365px] rounded-lg overflow-hidden relative border border-[#1d1d20] shadow-inner group">
-
-                      {/* Screen View Toggle (Royal Blue Mesh vs Desktop Preview) */}
-                      <div className="absolute top-2.5 right-2.5 z-20 flex items-center bg-black/60 backdrop-blur-md rounded-full p-0.5 border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button
-                          type="button"
-                          onClick={() => setBannerScreenMode('blueprint')}
-                          className={`text-[9.5px] font-mono px-2.5 py-0.5 rounded-full transition-colors cursor-pointer ${
-                            bannerScreenMode === 'blueprint' ? 'bg-[#0055FF] text-white' : 'text-gray-400 hover:text-white'
-                          }`}
-                        >
-                          Blue Screen
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setBannerScreenMode('desktop')}
-                          className={`text-[9.5px] font-mono px-2.5 py-0.5 rounded-full transition-colors cursor-pointer ${
-                            bannerScreenMode === 'desktop' ? 'bg-[#0055FF] text-white' : 'text-gray-400 hover:text-white'
-                          }`}
-                        >
-                          App View
-                        </button>
-                      </div>
-
-                      {bannerScreenMode === 'desktop' ? (
-                        <img
-                          src="/skillstreak-dekstop.png"
-                          alt="Skillstreak Platform Desktop Preview"
-                          className="w-full h-full object-cover object-top select-none pointer-events-none"
-                          loading="eager"
-                          decoding="async"
-                        />
-                      ) : (
-                        /* Exact Gambar 2: Royal Blue Gradient Screen with subtle micro-dots */
-                        <div className="w-full h-full bg-gradient-to-b from-[#1C6FFF] via-[#0E5DEF] to-[#0444D0] relative overflow-hidden select-none">
-                          <div className="absolute inset-0 bg-[radial-gradient(#ffffff22_1px,transparent_1px)] [background-size:12px_12px]" />
-                        </div>
-                      )}
+                    {/* Screen with Vibrant Blue Gradient and Dot Grid Texture */}
+                    <div
+                      className="w-full rounded-[8px] overflow-hidden relative shadow-inner bg-gradient-to-br from-[#3998fd] via-[#2481f7] to-[#0c4faa]"
+                      style={{ aspectRatio: '16/10' }}
+                    >
+                      {/* Dot Grid Texture matching reference */}
+                      <div
+                        className="absolute inset-0 pointer-events-none"
+                        style={{
+                          backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.24) 1.2px, transparent 1.2px)',
+                          backgroundSize: '13px 13px',
+                        }}
+                      />
+                      {/* Subtle Inner Vignette / Depth */}
+                      <div
+                        className="absolute inset-0 pointer-events-none"
+                        style={{ boxShadow: 'inset 0 0 35px rgba(0, 0, 0, 0.28)' }}
+                      />
                     </div>
                   </div>
 
-                  {/* Dark Laptop Base with Center Notch */}
-                  <div className="h-4 bg-gradient-to-b from-[#242426] to-[#141416] rounded-b-2xl -mx-3 shadow-xl flex items-center justify-center border-t border-[#313134]">
-                    <div className="w-16 h-1 bg-[#09090b] rounded-full" />
+                  {/* Laptop Base / Deck with center thumb indent and hinge */}
+                  <div
+                    className="h-[16px] sm:h-[18px] -mx-2.5 rounded-b-[16px] border-t border-[#303034] shadow-xl flex items-center justify-center relative z-10"
+                    style={{ background: 'linear-gradient(to bottom, #242426 0%, #151517 100%)' }}
+                  >
+                    <div className="w-14 h-1 rounded-full bg-[#08080a]" />
                   </div>
                 </div>
               </div>
@@ -2259,8 +2241,8 @@ export default function Portfolio() {
             </div>
           </div>
 
-          {/* Subtext below card (Exact Gambar 2 styling) */}
-          <p className="text-[12.5px] text-[#666666] mt-5 pl-1 max-w-lg leading-relaxed font-normal transition-colors duration-700">
+          {/* Subtext below card — aligned with card left edge */}
+          <p className="text-[12px] text-[#666666] mt-4 pl-1 max-w-lg leading-relaxed">
             * Early members receive Founder Badge + lifetime discounted access on skillstreak.id
           </p>
         </div>

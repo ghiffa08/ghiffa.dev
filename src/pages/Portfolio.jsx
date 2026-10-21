@@ -874,18 +874,25 @@ export default function Portfolio() {
           </DraggableItem>
 
           {/* Middle-Left Laptop Mockup (Bleeds off left edge) */}
-          <DraggableItem className="hidden lg:block absolute top-[50%] -left-[22px] z-20 w-[235px] -rotate-[4deg]">
-            <div className="bg-[#111] p-2 rounded-t-xl border-2 border-gray-300 shadow-xl">
-              <div className="overflow-hidden rounded-xs h-[150px] bg-zinc-900 relative">
+          <DraggableItem className="hidden lg:block absolute top-[48%] -left-[18px] z-20 w-[275px] -rotate-[3deg]">
+            <div
+              className="bg-[#111] p-2.5 rounded-t-xl border-2 border-gray-300 shadow-xl overflow-hidden"
+              style={{ transform: 'translate3d(0, 0, 0)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
+            >
+              {/* Camera notch */}
+              <div className="w-8 h-1 bg-black mx-auto rounded-b-xs mb-1" />
+              <div className="overflow-hidden rounded-xs aspect-[16/10] bg-zinc-900 relative shadow-inner">
                 <img
-                  src="/skillstreak-dekstop.png"
-                  alt="Skillstreak Desktop"
+                  src="/skillstreak-hero-hd.png"
+                  srcSet="/skillstreak-hero-hd.png 1x, /skillstreak-dekstop.png 2x"
+                  alt="Skillstreak Desktop HD"
                   className="w-full h-full object-cover object-top pointer-events-none select-none"
+                  style={{ imageRendering: '-webkit-optimize-contrast', transform: 'translateZ(0)' }}
                 />
               </div>
             </div>
-            <div className="h-3.5 bg-gradient-to-b from-gray-200 to-gray-400 rounded-b-xl mx-[-12px] shadow-md flex items-center justify-center">
-              <div className="w-10 h-1 bg-gray-500/40 rounded-full" />
+            <div className="h-3.5 bg-gradient-to-b from-gray-200 to-gray-400 rounded-b-xl mx-[-10px] shadow-md flex items-center justify-center">
+              <div className="w-12 h-1 bg-gray-500/40 rounded-full" />
             </div>
           </DraggableItem>
 
@@ -2115,8 +2122,10 @@ export default function Portfolio() {
                   <div className="h-[260px] sm:h-[300px] rounded-lg overflow-hidden bg-zinc-950 relative border border-gray-700/60 shadow-inner">
                     <img
                       src="/skillstreak-dekstop.png"
+                      srcSet="/skillstreak-hero-hd.png 1x, /skillstreak-dekstop.png 2x"
                       alt="Skillstreak Platform Desktop Preview"
                       className="w-full h-full object-cover object-top"
+                      style={{ imageRendering: '-webkit-optimize-contrast' }}
                     />
                   </div>
                 </div>

@@ -169,7 +169,7 @@ export default function Portfolio() {
 
   // Skillstreak.id Banner Section Dark Mode & Mockup Screen State
   const [isBannerDark, setIsBannerDark] = useState(false);
-  const [bannerScreenMode, setBannerScreenMode] = useState('desktop'); // 'desktop' or 'blueprint'
+  const [bannerScreenMode, setBannerScreenMode] = useState('blueprint'); // 'blueprint' (matching Gambar 2) or 'desktop'
   const bannerRef = useRef(null);
 
   // Scroll-triggered dark mode for Skillstreak.id banner section
@@ -2138,81 +2138,89 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* 4. SKILLSTREAK.ID PLATFORM BANNER WITH DARK THEME SCROLL TRANSITION (MATCHING GAMBAR 1) */}
+      {/* 4. SKILLSTREAK.ID PLATFORM BANNER WITH DARK THEME SCROLL TRANSITION (EXACT MATCH TO REFERENCE) */}
       <section
         ref={bannerRef}
         id="skillstreak-banner"
-        className="py-20 sm:py-28 px-6 sm:px-12 lg:px-24 transition-colors duration-700 ease-in-out relative z-10"
+        className="py-28 sm:py-36 px-6 sm:px-12 lg:px-20 transition-colors duration-700 ease-in-out relative z-10"
       >
-        <div className="max-w-[1360px] mx-auto">
-          <div className="rounded-[32px] sm:rounded-[36px] bg-[#111113] border border-white/10 shadow-2xl p-8 sm:p-12 lg:p-16 relative overflow-hidden transition-all duration-500">
+        <div className="max-w-[1160px] mx-auto">
+          <div className="rounded-[30px] sm:rounded-[34px] bg-[#121214] border border-white/5 shadow-2xl pt-10 pb-8 sm:pt-14 sm:pb-12 pl-8 sm:pl-14 lg:pl-16 pr-0 relative overflow-hidden transition-all duration-500">
             {/* Subtle background ambient blue glow behind the laptop */}
-            <div className="absolute right-[-80px] top-1/2 -translate-y-1/2 w-[480px] h-[380px] bg-[#0055FF]/10 rounded-full blur-[110px] pointer-events-none" />
+            <div className="absolute right-[-60px] top-1/2 -translate-y-1/2 w-[520px] h-[400px] bg-[#0055FF]/15 rounded-full blur-[130px] pointer-events-none" />
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center relative z-10">
 
               {/* Left Column: Figma Bounding Box Title, Clean Typography & Blue CTA */}
-              <div className="lg:col-span-6 space-y-6 pr-0 lg:pr-4">
+              <div className="lg:col-span-6 space-y-6 pr-6 lg:pr-2 py-2">
 
-                {/* Figma Dashed Bounding Box with Corner & Midpoint Handles (Exact Gambar 1 styling) */}
-                <div className="relative inline-block border border-dashed border-white/35 px-5 py-2.5 -ml-2 rounded-xs select-none">
+                {/* Figma Dashed Bounding Box with Corner & Midpoint Handles (Exact Gambar 2 styling) */}
+                <div className="relative inline-block border border-dashed border-[#555555] px-4 py-1.5 -ml-3 rounded-[1px] select-none">
                   {/* 4 Corner Handles */}
-                  <span className="absolute -top-1 -left-1 w-2 h-2 bg-white border border-black rounded-[1px]" />
-                  <span className="absolute -top-1 -right-1 w-2 h-2 bg-white border border-black rounded-[1px]" />
-                  <span className="absolute -bottom-1 -left-1 w-2 h-2 bg-white border border-black rounded-[1px]" />
-                  <span className="absolute -bottom-1 -right-1 w-2 h-2 bg-white border border-black rounded-[1px]" />
+                  <span className="absolute -top-1 -left-1 w-1.5 h-1.5 bg-[#777777] border border-[#222222] rounded-[1px]" />
+                  <span className="absolute -top-1 -right-1 w-1.5 h-1.5 bg-[#777777] border border-[#222222] rounded-[1px]" />
+                  <span className="absolute -bottom-1 -left-1 w-1.5 h-1.5 bg-[#777777] border border-[#222222] rounded-[1px]" />
+                  <span className="absolute -bottom-1 -right-1 w-1.5 h-1.5 bg-[#777777] border border-[#222222] rounded-[1px]" />
                   {/* 4 Midpoint Handles */}
-                  <span className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-white border border-black rounded-[1px]" />
-                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-white border border-black rounded-[1px]" />
-                  <span className="absolute top-1/2 -left-1 -translate-y-1/2 w-2 h-2 bg-white border border-black rounded-[1px]" />
-                  <span className="absolute top-1/2 -right-1 -translate-y-1/2 w-2 h-2 bg-white border border-black rounded-[1px]" />
+                  <span className="absolute -top-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#777777] border border-[#222222] rounded-[1px]" />
+                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#777777] border border-[#222222] rounded-[1px]" />
+                  <span className="absolute top-1/2 -left-1 -translate-y-1/2 w-1.5 h-1.5 bg-[#777777] border border-[#222222] rounded-[1px]" />
+                  <span className="absolute top-1/2 -right-1 -translate-y-1/2 w-1.5 h-1.5 bg-[#777777] border border-[#222222] rounded-[1px]" />
 
-                  <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-tight">
+                  <h2 className="text-4xl sm:text-5xl lg:text-[54px] font-bold tracking-tight text-white leading-none">
                     skillstreak.id
                   </h2>
                 </div>
 
                 {/* Primary bold lead text */}
-                <p className="text-white text-base sm:text-lg font-medium leading-relaxed max-w-lg">
+                <p className="text-white text-base sm:text-[18px] lg:text-[19px] font-normal leading-[1.5] max-w-[430px]">
                   The fastest path from zero to deployable engineer, built like a game and engineered for the real world.
                 </p>
 
                 {/* Secondary muted text */}
-                <p className="text-[#9E9E9E] text-xs sm:text-[13.5px] leading-relaxed max-w-lg">
+                <p className="text-[#888888] text-[13px] sm:text-[13.5px] leading-relaxed max-w-[420px]">
                   Most developers quit because learning feels like a grind with no visible progress. skillstreak.id changes the feedback loop with XP rewards, daily streak accountability, and real-time code evaluations.
                 </p>
 
-                {/* Vibrant Blue Pill CTA */}
+                {/* Vibrant Blue Pill CTA (Exact match to Gambar 2) */}
                 <div className="pt-2">
                   <a
                     href="https://skillstreak.id"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-[#0055FF] hover:bg-[#0044CC] text-white font-medium text-[13.5px] px-8 py-3.5 rounded-full shadow-lg shadow-blue-600/30 transition-all active:scale-95 inline-flex items-center gap-2 cursor-pointer"
+                    className="bg-[#0055FF] hover:bg-[#0044CC] text-white font-medium text-[14px] px-8 py-3.5 rounded-full shadow-lg shadow-blue-600/25 transition-all active:scale-95 inline-block cursor-pointer"
                   >
-                    <span>Get Early Access</span>
-                    <span className="text-sm">&rarr;</span>
+                    Get Early Access
                   </a>
                 </div>
               </div>
 
-              {/* Right Column: Dark Space-Black MacBook Mockup (Exact Gambar 1 styling) */}
-              <div className="lg:col-span-6 flex justify-end">
-                <div className="w-full max-w-[530px] lg:translate-x-4">
+              {/* Right Column: Large Dark MacBook Mockup Bleeding to Right Edge (Exact Gambar 2 Proportion) */}
+              <div className="lg:col-span-6 flex justify-end relative overflow-visible">
+                <div className="w-[520px] sm:w-[580px] lg:w-[650px] xl:w-[680px] lg:translate-x-8 xl:translate-x-12 translate-y-3">
 
                   {/* Dark MacBook Frame */}
-                  <div className="bg-[#0b0b0d] p-2.5 sm:p-3 rounded-t-2xl border-2 border-[#222225] shadow-2xl relative">
+                  <div className="bg-[#0c0c0e] p-2.5 sm:p-3 rounded-t-2xl border-2 border-[#222225] shadow-2xl relative">
 
                     {/* Camera notch */}
-                    <div className="w-14 h-2 bg-[#0b0b0d] mx-auto rounded-b-md mb-1.5 flex items-center justify-center">
-                      <div className="w-1 h-1 rounded-full bg-[#1e1e24]" />
+                    <div className="w-16 h-2.5 bg-[#0c0c0e] mx-auto rounded-b-md mb-1 z-20 relative flex items-center justify-center">
+                      <div className="w-1.5 h-1.5 rounded-full bg-[#1c1c22]" />
                     </div>
 
                     {/* Screen Container */}
-                    <div className="h-[250px] sm:h-[295px] rounded-lg overflow-hidden bg-black relative border border-[#1d1d20] shadow-inner group">
+                    <div className="h-[270px] sm:h-[320px] lg:h-[365px] rounded-lg overflow-hidden relative border border-[#1d1d20] shadow-inner group">
 
-                      {/* Screen View Toggle (Live App Screenshot vs Royal Blue Blueprint) */}
-                      <div className="absolute top-2.5 right-2.5 z-20 flex items-center bg-black/70 backdrop-blur-md rounded-full p-0.5 border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity">
+                      {/* Screen View Toggle (Royal Blue Mesh vs Desktop Preview) */}
+                      <div className="absolute top-2.5 right-2.5 z-20 flex items-center bg-black/60 backdrop-blur-md rounded-full p-0.5 border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button
+                          type="button"
+                          onClick={() => setBannerScreenMode('blueprint')}
+                          className={`text-[9.5px] font-mono px-2.5 py-0.5 rounded-full transition-colors cursor-pointer ${
+                            bannerScreenMode === 'blueprint' ? 'bg-[#0055FF] text-white' : 'text-gray-400 hover:text-white'
+                          }`}
+                        >
+                          Blue Screen
+                        </button>
                         <button
                           type="button"
                           onClick={() => setBannerScreenMode('desktop')}
@@ -2221,15 +2229,6 @@ export default function Portfolio() {
                           }`}
                         >
                           App View
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setBannerScreenMode('blueprint')}
-                          className={`text-[9.5px] font-mono px-2.5 py-0.5 rounded-full transition-colors cursor-pointer ${
-                            bannerScreenMode === 'blueprint' ? 'bg-[#0055FF] text-white' : 'text-gray-400 hover:text-white'
-                          }`}
-                        >
-                          Blueprint
                         </button>
                       </div>
 
@@ -2242,20 +2241,9 @@ export default function Portfolio() {
                           decoding="async"
                         />
                       ) : (
-                        <div className="w-full h-full bg-royal-blue-grid p-6 flex flex-col justify-between relative overflow-hidden select-none">
-                          <div className="flex items-center justify-between text-white/70 text-xs font-mono">
-                            <span>skillstreak.id // workspace</span>
-                            <span>v1.0</span>
-                          </div>
-                          <div className="my-auto text-center">
-                            <div className="inline-block border border-dashed border-white/40 px-5 py-2.5 rounded-xs">
-                              <span className="text-white font-bold text-2xl sm:text-3xl tracking-tight">skillstreak.id</span>
-                            </div>
-                          </div>
-                          <div className="flex items-center justify-between text-[11px] text-white/70 font-mono">
-                            <span>STATUS: EARLY ACCESS</span>
-                            <span>100% HANDS-ON</span>
-                          </div>
+                        /* Exact Gambar 2: Royal Blue Gradient Screen with subtle micro-dots */
+                        <div className="w-full h-full bg-gradient-to-b from-[#1C6FFF] via-[#0E5DEF] to-[#0444D0] relative overflow-hidden select-none">
+                          <div className="absolute inset-0 bg-[radial-gradient(#ffffff22_1px,transparent_1px)] [background-size:12px_12px]" />
                         </div>
                       )}
                     </div>
@@ -2271,8 +2259,8 @@ export default function Portfolio() {
             </div>
           </div>
 
-          {/* Subtext below card */}
-          <p className="text-[12px] text-gray-400 mt-4 pl-2 font-normal transition-colors duration-700">
+          {/* Subtext below card (Exact Gambar 2 styling) */}
+          <p className="text-[12.5px] text-[#666666] mt-5 pl-1 max-w-lg leading-relaxed font-normal transition-colors duration-700">
             * Early members receive Founder Badge + lifetime discounted access on skillstreak.id
           </p>
         </div>

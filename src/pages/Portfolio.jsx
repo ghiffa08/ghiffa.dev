@@ -574,7 +574,7 @@ export default function Portfolio() {
     const getGroupKey = (item) => {
       const t = normalizeKey(item.title);
       const inst = normalizeKey(item.institution);
-      
+
       if (t.includes('pilmapres') || t.includes('mahasiswa berprestasi')) return 'pilmapres';
       if (t.includes('mathematics game') || t.includes('syiah kuala')) return 'intl_math_game';
       if (t.includes('pancasakti') || t.includes('canva design') || (t.includes('runner up') && t.includes('business plan'))) return 'pancasakti_bizplan';
@@ -1080,7 +1080,7 @@ export default function Portfolio() {
 
       {/* 2.5 FIGMA WORKSPACE CANVAS: STACKING CARDS WRAPPER */}
       <section id="workspace-stack" className="relative w-full py-16 px-4 sm:px-6 lg:px-12 bg-square-grid border-y border-gray-200/80">
-        
+
         {/* Canvas Stack Header */}
         <div className="max-w-[1360px] mx-auto mb-8 flex items-center justify-between text-xs font-mono text-gray-500 select-none">
           <div className="flex items-center gap-2">
@@ -1096,20 +1096,20 @@ export default function Portfolio() {
         </div>
 
         <div className="max-w-[1360px] mx-auto">
-          
+
           {/* CARD 1: ABOUT ME */}
           <div
             id="stack-card-about"
             className="lg:sticky lg:top-[84px] z-10 transition-all duration-200 will-change-transform"
           >
             <div id="about" className="absolute -top-24" />
-            
+
             {/* Figma Workspace Window */}
             <div className="figma-stack-card bg-white rounded-2xl border border-gray-200/90 shadow-xl overflow-hidden">
-              
+
               {/* 1. FIGMA TOP TOOLBAR / APP BAR */}
               <div className="h-11 bg-[#F9FAFB] border-b border-gray-200/80 px-4 flex items-center justify-between text-xs select-none">
-                
+
                 {/* Left: Figma Icon + Breadcrumb */}
                 <div className="flex items-center gap-3">
                   <div className="flex items-center gap-2">
@@ -1169,10 +1169,10 @@ export default function Portfolio() {
 
               {/* 2. MAIN WORKSPACE: CANVAS (LEFT) + FIGMA INSPECTOR SIDEBAR (RIGHT) */}
               <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[560px]">
-                
+
                 {/* CANVAS AREA (lg:col-span-8) */}
                 <div className="lg:col-span-8 bg-square-grid p-6 sm:p-10 lg:p-12 relative flex flex-col justify-center">
-                  
+
                   {/* Floating Figma Comment Bubble */}
                   <DraggableItem className="hidden md:flex absolute top-6 right-6 z-20 bg-white/95 backdrop-blur-md rounded-2xl rounded-bl-sm px-4 py-2.5 comment-shadow border border-gray-100 items-start gap-2.5 max-w-[270px]">
                     <div className="w-6 h-6 rounded-full bg-[#111] text-white flex items-center justify-center text-[7px] font-bold shrink-0 mt-0.5">ghiffa</div>
@@ -1189,7 +1189,7 @@ export default function Portfolio() {
 
                   {/* Selected Figma Artboard Frame */}
                   <div className="relative">
-                    
+
                     {/* Frame Name Tag at Top-Left */}
                     <div className="flex items-center gap-2 mb-2 select-none">
                       <span className="inline-flex items-center gap-1 bg-[#0D99FF] text-white text-[10.5px] font-medium font-mono px-2 py-0.5 rounded shadow-2xs">
@@ -1202,7 +1202,7 @@ export default function Portfolio() {
 
                     {/* The White Frame Canvas Box with Figma Selection Border & Handles */}
                     <div className="figma-bbox bg-white rounded-xl p-6 sm:p-8 md:p-10 shadow-sm border border-[#0D99FF] relative">
-                      
+
                       {/* 8 Figma resize handles */}
                       <span className="figma-handle !border-[#0D99FF] -top-1 -left-1" />
                       <span className="figma-handle !border-[#0D99FF] -top-1 left-1/2 -translate-x-1/2" />
@@ -1220,7 +1220,7 @@ export default function Portfolio() {
 
                       {/* Split: Avatar on left + Story Bio on right */}
                       <div className="grid grid-cols-1 sm:grid-cols-12 gap-8 items-start">
-                        
+
                         {/* Photo */}
                         <div className="sm:col-span-5 space-y-3">
                           <div className="relative rounded-xl overflow-hidden border border-gray-200/80 aspect-[4/5] bg-gray-100 group">
@@ -1266,9 +1266,9 @@ export default function Portfolio() {
 
                 {/* FIGMA DESIGN INSPECTOR SIDEBAR (lg:col-span-4) */}
                 <div className="lg:col-span-4 bg-[#F9FAFB] border-t lg:border-t-0 lg:border-l border-gray-200/90 p-6 sm:p-7 space-y-6 flex flex-col justify-between">
-                  
+
                   <div className="space-y-6">
-                    
+
                     {/* Tabs: Design / Prototype / Inspect */}
                     <div className="flex items-center gap-5 border-b border-gray-200 pb-3 text-xs font-medium">
                       <span className="text-[#0D99FF] font-semibold border-b-2 border-[#0D99FF] pb-3 -mb-3">Design</span>
@@ -1325,7 +1325,7 @@ export default function Portfolio() {
                   {/* Section: Export & CTAs */}
                   <div className="border-t border-gray-200/70 pt-5 space-y-2.5">
                     <div className="text-[11px] font-semibold text-gray-700 mb-2">Export</div>
-                    
+
                     <button
                       onClick={() => openContactModal('About Me Inquiry')}
                       className="w-full bg-[#18181B] hover:bg-black text-white text-xs font-medium py-2.5 rounded-lg transition-all active:scale-98 cursor-pointer shadow-xs flex items-center justify-center gap-2"
@@ -1369,13 +1369,13 @@ export default function Portfolio() {
           >
             <div id="journey" className="absolute -top-24" />
             <div id="experience" className="absolute -top-24" />
-            
+
             {/* Figma Workspace Window */}
             <div className="figma-stack-card bg-white rounded-2xl border border-gray-200/90 shadow-2xl overflow-hidden">
-              
+
               {/* 1. FIGMA TOP TOOLBAR / APP BAR */}
               <div className="h-11 bg-[#F9FAFB] border-b border-gray-200/80 px-4 flex items-center justify-between text-xs select-none">
-                
+
                 {/* Left: Figma Icon + Breadcrumb */}
                 <div className="flex items-center gap-3">
                   <div className="flex items-center gap-2">
@@ -1430,10 +1430,10 @@ export default function Portfolio() {
 
               {/* 2. MAIN WORKSPACE: CANVAS (LEFT) + FIGMA INSPECTOR SIDEBAR (RIGHT) */}
               <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[560px]">
-                
+
                 {/* CANVAS AREA (lg:col-span-8) */}
                 <div className="lg:col-span-8 bg-square-grid p-6 sm:p-10 lg:p-12 relative flex flex-col justify-center">
-                  
+
                   {/* Floating Figma Comment Bubble */}
                   <DraggableItem className="hidden md:flex absolute top-6 right-6 z-20 bg-white/95 backdrop-blur-md rounded-2xl rounded-bl-sm px-4 py-2.5 comment-shadow border border-gray-100 items-start gap-2.5 max-w-[270px]">
                     <div className="w-6 h-6 rounded-full bg-[#111] text-white flex items-center justify-center text-[7px] font-bold shrink-0 mt-0.5">ghiffa</div>
@@ -1474,11 +1474,10 @@ export default function Portfolio() {
                         <div
                           key={exp.id || idx}
                           onClick={() => setSelectedExpIdx(idx)}
-                          className={`relative rounded-xl p-5 sm:p-6 transition-all cursor-pointer ${
-                            isSelected
-                              ? 'figma-bbox bg-white shadow-sm border border-[#0D99FF]'
-                              : 'bg-white/90 hover:bg-white border border-gray-200/80 hover:border-gray-300 shadow-2xs'
-                          }`}
+                          className={`relative rounded-xl p-5 sm:p-6 transition-all cursor-pointer ${isSelected
+                            ? 'figma-bbox bg-white shadow-sm border border-[#0D99FF]'
+                            : 'bg-white/90 hover:bg-white border border-gray-200/80 hover:border-gray-300 shadow-2xs'
+                            }`}
                         >
                           {/* 8 Figma resize handles on selected item */}
                           {isSelected && (
@@ -1528,9 +1527,9 @@ export default function Portfolio() {
 
                 {/* FIGMA DESIGN INSPECTOR SIDEBAR (lg:col-span-4) */}
                 <div className="lg:col-span-4 bg-[#F9FAFB] border-t lg:border-t-0 lg:border-l border-gray-200/90 p-6 sm:p-7 space-y-6 flex flex-col justify-between">
-                  
+
                   <div className="space-y-6">
-                    
+
                     {/* Tabs: Layers / Design / Inspect */}
                     <div className="flex items-center gap-5 border-b border-gray-200 pb-3 text-xs font-medium">
                       <span className="text-[#0D99FF] font-semibold border-b-2 border-[#0D99FF] pb-3 -mb-3">Layers</span>
@@ -1551,11 +1550,10 @@ export default function Portfolio() {
                             <button
                               key={exp.id || idx}
                               onClick={() => setSelectedExpIdx(idx)}
-                              className={`w-full text-left flex items-center justify-between px-2.5 py-2 rounded-lg text-xs transition-colors cursor-pointer ${
-                                isSelected
-                                  ? 'bg-[#0D99FF]/10 text-[#0D99FF] font-medium border border-[#0D99FF]/30'
-                                  : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-                              }`}
+                              className={`w-full text-left flex items-center justify-between px-2.5 py-2 rounded-lg text-xs transition-colors cursor-pointer ${isSelected
+                                ? 'bg-[#0D99FF]/10 text-[#0D99FF] font-medium border border-[#0D99FF]/30'
+                                : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                                }`}
                             >
                               <div className="flex items-center gap-2 truncate pr-2">
                                 <span className="text-[11px]">❖</span>
@@ -1574,7 +1572,7 @@ export default function Portfolio() {
                     {activeExp && (
                       <div className="space-y-2.5 text-xs border-t border-gray-200/70 pt-4">
                         <div className="text-[11px] font-semibold text-gray-700">Instance Properties</div>
-                        
+
                         <div className="space-y-2 font-mono text-[11px]">
                           <div className="flex items-center justify-between bg-white border border-gray-200 px-2.5 py-1.5 rounded">
                             <span className="text-gray-400">Role</span>
@@ -1603,7 +1601,7 @@ export default function Portfolio() {
                   {/* Section: Export & CTAs */}
                   <div className="border-t border-gray-200/70 pt-5 space-y-2.5">
                     <div className="text-[11px] font-semibold text-gray-700 mb-2">Actions</div>
-                    
+
                     <button
                       onClick={() => openContactModal(`Experience Inquiry: ${activeExp?.role} @ ${activeExp?.company}`)}
                       className="w-full bg-[#18181B] hover:bg-black text-white text-xs font-medium py-2.5 rounded-lg transition-all active:scale-98 cursor-pointer shadow-xs flex items-center justify-center gap-2"
@@ -1640,13 +1638,13 @@ export default function Portfolio() {
             <div id="credentials" className="absolute -top-24" />
             <div id="achievements" className="absolute -top-24" />
             <div id="qualifications" className="absolute -top-24" />
-            
+
             {/* Figma Workspace Window */}
             <div className="figma-stack-card bg-white rounded-2xl border border-gray-200/90 shadow-2xl overflow-hidden">
-              
+
               {/* 1. FIGMA TOP TOOLBAR / APP BAR */}
               <div className="h-11 bg-[#F9FAFB] border-b border-gray-200/80 px-4 flex items-center justify-between text-xs select-none">
-                
+
                 {/* Left: Figma Icon + Breadcrumb */}
                 <div className="flex items-center gap-3">
                   <div className="flex items-center gap-2">
@@ -1701,10 +1699,10 @@ export default function Portfolio() {
 
               {/* 2. MAIN WORKSPACE: CANVAS (LEFT) + FIGMA INSPECTOR SIDEBAR (RIGHT) */}
               <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[560px]">
-                
+
                 {/* CANVAS AREA (lg:col-span-8) */}
                 <div className="lg:col-span-8 bg-square-grid p-6 sm:p-10 lg:p-12 relative flex flex-col justify-center">
-                  
+
                   {/* Floating Figma Comment Bubble */}
                   <DraggableItem className="hidden md:flex absolute top-6 right-6 z-20 bg-white/95 backdrop-blur-md rounded-2xl rounded-bl-sm px-4 py-2.5 comment-shadow border border-gray-100 items-start gap-2.5 max-w-[280px]">
                     <div className="w-6 h-6 rounded-full bg-[#111] text-white flex items-center justify-center text-[7px] font-bold shrink-0 mt-0.5">ghiffa</div>
@@ -1747,11 +1745,10 @@ export default function Portfolio() {
                         <div
                           key={cred.id || idx}
                           onClick={() => setSelectedCredIdx(idx)}
-                          className={`relative rounded-xl p-5 sm:p-6 transition-all cursor-pointer ${
-                            isSelected
-                              ? 'figma-bbox bg-white shadow-sm border border-[#0D99FF]'
-                              : 'bg-white/90 hover:bg-white border border-gray-200/80 hover:border-gray-300 shadow-2xs'
-                          }`}
+                          className={`relative rounded-xl p-5 sm:p-6 transition-all cursor-pointer ${isSelected
+                            ? 'figma-bbox bg-white shadow-sm border border-[#0D99FF]'
+                            : 'bg-white/90 hover:bg-white border border-gray-200/80 hover:border-gray-300 shadow-2xs'
+                            }`}
                         >
                           {/* 8 Figma resize handles on selected item */}
                           {isSelected && (
@@ -1778,9 +1775,8 @@ export default function Portfolio() {
                               <span className={`text-xs ${isHonor ? 'text-amber-500' : 'text-[#0D99FF]'}`}>
                                 {isHonor ? '★' : '❖'}
                               </span>
-                              <span className={`text-[10.5px] font-mono font-semibold px-2 py-0.5 rounded ${
-                                isHonor ? 'bg-amber-50 text-amber-800 border border-amber-200/70' : 'bg-blue-50 text-blue-800 border border-blue-200/70'
-                              }`}>
+                              <span className={`text-[10.5px] font-mono font-semibold px-2 py-0.5 rounded ${isHonor ? 'bg-amber-50 text-amber-800 border border-amber-200/70' : 'bg-blue-50 text-blue-800 border border-blue-200/70'
+                                }`}>
                                 {badgeLabel}
                               </span>
                             </div>
@@ -1833,9 +1829,9 @@ export default function Portfolio() {
 
                 {/* FIGMA DESIGN INSPECTOR SIDEBAR (lg:col-span-4) */}
                 <div className="lg:col-span-4 bg-[#F9FAFB] border-t lg:border-t-0 lg:border-l border-gray-200/90 p-6 sm:p-7 space-y-6 flex flex-col justify-between">
-                  
+
                   <div className="space-y-6">
-                    
+
                     {/* Tabs: Layers / Design / Inspect */}
                     <div className="flex items-center gap-5 border-b border-gray-200 pb-3 text-xs font-medium">
                       <span className="text-[#0D99FF] font-semibold border-b-2 border-[#0D99FF] pb-3 -mb-3">Layers</span>
@@ -1857,11 +1853,10 @@ export default function Portfolio() {
                             <button
                               key={cred.id || idx}
                               onClick={() => setSelectedCredIdx(idx)}
-                              className={`w-full text-left flex items-center justify-between px-2.5 py-2 rounded-lg text-xs transition-colors cursor-pointer ${
-                                isSelected
-                                  ? 'bg-[#0D99FF]/10 text-[#0D99FF] font-medium border border-[#0D99FF]/30'
-                                  : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-                              }`}
+                              className={`w-full text-left flex items-center justify-between px-2.5 py-2 rounded-lg text-xs transition-colors cursor-pointer ${isSelected
+                                ? 'bg-[#0D99FF]/10 text-[#0D99FF] font-medium border border-[#0D99FF]/30'
+                                : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                                }`}
                             >
                               <div className="flex items-center gap-2 truncate pr-2">
                                 <span className={isHonor ? 'text-amber-500' : 'text-[#0D99FF]'}>
@@ -1882,7 +1877,7 @@ export default function Portfolio() {
                     {activeCredential && (
                       <div className="space-y-2.5 text-xs border-t border-gray-200/70 pt-4">
                         <div className="text-[11px] font-semibold text-gray-700">Instance Properties</div>
-                        
+
                         <div className="space-y-2 font-mono text-[11px]">
                           <div className="flex items-center justify-between bg-white border border-gray-200 px-2.5 py-1.5 rounded">
                             <span className="text-gray-400">Award / Title</span>
@@ -1931,7 +1926,7 @@ export default function Portfolio() {
                   {/* Section: Export & CTAs */}
                   <div className="border-t border-gray-200/70 pt-5 space-y-2.5">
                     <div className="text-[11px] font-semibold text-gray-700 mb-2">Actions</div>
-                    
+
                     <button
                       onClick={() => openContactModal(`Credential Verification: ${activeCredential?.title}`)}
                       className="w-full bg-[#18181B] hover:bg-black text-white text-xs font-medium py-2.5 rounded-lg transition-all active:scale-98 cursor-pointer shadow-xs flex items-center justify-center gap-2"
@@ -1972,7 +1967,6 @@ export default function Portfolio() {
         <div className="flex items-center justify-between mb-10">
           <div>
             <div className="text-xs font-mono uppercase tracking-widest text-[#0D99FF] font-semibold mb-1">
-              // FEATURED ARCHITECTURE &amp; CASE STUDIES
             </div>
             <h2 className="text-3xl sm:text-[38px] font-bold tracking-tight text-[#141414]">
               Selected works
@@ -2036,7 +2030,7 @@ export default function Portfolio() {
                       />
                     )}
                     <div className={`absolute inset-0 ${theme.radial} group-hover:scale-105 transition-transform duration-500 pointer-events-none ${projImg ? 'opacity-30' : 'opacity-100'}`} />
-                    
+
                     {/* Category Tag Top-Left */}
                     <div className="absolute top-3.5 left-3.5 z-10">
                       <span className="bg-black/60 backdrop-blur-md text-white text-[10px] font-mono font-medium px-2.5 py-1 rounded-md border border-white/10 uppercase tracking-wider shadow-sm">
@@ -2080,7 +2074,7 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* 4. "FROM ZERO TO ONE" SECTION WITH BLUE SCREEN LAPTOP MOCKUP */}
+      {/* 4. SKILLSTREAK.ID PLATFORM BANNER WITH BLUE SCREEN LAPTOP MOCKUP */}
       <section className="py-16 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto">
         <div className="rounded-[28px] bg-[#F5F6F8] border border-gray-200/70 overflow-hidden pt-12 pb-12 pl-8 sm:pl-16 pr-8 sm:pr-0">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
@@ -2088,24 +2082,27 @@ export default function Portfolio() {
             {/* Left Copy & Blue Pill CTA */}
             <div className="lg:col-span-6 space-y-5 pr-4">
               <div className="text-[11px] font-mono uppercase tracking-widest text-gray-400">
-                // OUR METHODOLOGY &amp; PROCESS
+                // FEATURED PLATFORM • EDTECH VENTURE
               </div>
               <h2 className="text-3xl sm:text-[42px] font-bold tracking-tight text-[#141414] leading-tight">
-                From zero to one
+                skillstreak.id
               </h2>
               <p className="text-gray-600 text-[15px] leading-relaxed max-w-md">
-                We work under a collaborative methodology that allows us to build high-quality digital products designed specifically around our clients&apos; goals.
+                The fastest path from zero to deployable engineer, built like a game and engineered for the real world.
               </p>
               <p className="text-gray-500 text-[13.5px] leading-relaxed max-w-md">
-                From initial architecture and wireframing to custom code deployment, we bridge the gap between bits and atoms.
+                Most developers quit because learning feels like a grind with no visible progress. skillstreak.id changes the feedback loop with XP rewards, daily streak accountability, and real-time code evaluations.
               </p>
               <div className="pt-3">
-                <button
-                  onClick={() => openContactModal('From zero to one')}
-                  className="bg-[#0055FF] hover:bg-[#0044CC] text-white font-medium text-[13px] px-7 py-3 rounded-full shadow-sm transition-all active:scale-95 cursor-pointer"
+                <a
+                  href="https://skillstreak.web.id"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-[#0055FF] hover:bg-[#0044CC] text-white font-medium text-[13px] px-7 py-3 rounded-full shadow-sm transition-all active:scale-95 inline-flex items-center gap-2 cursor-pointer"
                 >
-                  Start a project
-                </button>
+                  <span>Get Early Access</span>
+                  <span className="text-sm">&rarr;</span>
+                </a>
               </div>
             </div>
 
@@ -2118,17 +2115,17 @@ export default function Portfolio() {
                   {/* Blue Grid Display */}
                   <div className="bg-royal-blue-grid h-[260px] sm:h-[300px] rounded-lg p-6 flex flex-col justify-between relative overflow-hidden">
                     <div className="flex items-center justify-between text-white/60 text-xs font-mono">
-                      <span>ghiffa.dev // workspace</span>
-                      <span>v2.5</span>
+                      <span>skillstreak.id // workspace</span>
+                      <span>v1.0</span>
                     </div>
                     <div className="my-auto text-center">
                       <div className="inline-block border border-dashed border-white/40 px-5 py-2.5">
-                        <span className="text-white font-bold text-2xl sm:text-3xl tracking-tight">bits &amp; atoms.</span>
+                        <span className="text-white font-bold text-2xl sm:text-3xl tracking-tight">skillstreak.id</span>
                       </div>
                     </div>
                     <div className="flex items-center justify-between text-[11px] text-white/70 font-mono">
-                      <span>STATUS: PRODUCTION READY</span>
-                      <span>100% CUSTOM</span>
+                      <span>STATUS: EARLY ACCESS</span>
+                      <span>100% HANDS-ON</span>
                     </div>
                   </div>
                 </div>
@@ -2141,7 +2138,7 @@ export default function Portfolio() {
           </div>
         </div>
         <p className="text-[11.5px] text-gray-400 mt-4 pl-2">
-          * Every project includes dedicated UX/UI design, full-stack engineering, and QA testing.
+          * Early members receive Founder Badge + lifetime discounted access on skillstreak.web.id
         </p>
       </section>
 

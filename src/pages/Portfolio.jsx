@@ -145,6 +145,12 @@ export default function Portfolio() {
   const { data: settings } = useSupabaseSingle('general_settings');
   const { data: supabaseProjects } = useSupabaseList('projects');
   const { data: supabaseArticles } = useSupabaseList('articles');
+  const { data: supabaseExperiences } = useSupabaseList('experiences', {
+    order: { column: 'order_index', ascending: true }
+  });
+
+  // Active Experience Index for Figma Workspace
+  const [selectedExpIdx, setSelectedExpIdx] = useState(0);
 
   // Interactive AI Mode Toggle (Default to solid black)
   const [aiActive, setAiActive] = useState(false);
@@ -328,6 +334,47 @@ export default function Portfolio() {
   const aboutBio = info?.about_content_en || info?.about_content;
   const skillsList = Array.isArray(info?.skills) ? info.skills : [];
   const availabilityStatus = info?.availability_status || 'Available for work';
+
+  const fallbackExperiences = [
+    {
+      id: "exp-1",
+      period: "OKT 2024 - FEB 2025",
+      role: "Web Developer",
+      company: "PT. Bengkel Aplikasi Nusantara",
+      description: "Mengembangkan modul aplikasi web dinamis sesuai kebutuhan spesifik klien perusahaan. Merancang dan mengoptimalkan API internal serta melakukan pemeliharaan database.",
+      order_index: 1
+    },
+    {
+      id: "exp-2",
+      period: "MEI 2024 - JUN 2024",
+      role: "Web Developer & System Designer",
+      company: "LSP-P1 SMKN 2 Kuningan",
+      description: "Merancang dan membangun aplikasi manajemen sertifikasi profesi online. Mengintegrasikan alur registrasi asesi, form pengisian asesmen mandiri, dan evaluasi portofolio.",
+      order_index: 2
+    },
+    {
+      id: "exp-3",
+      period: "Sep 2023 - Dec 2023",
+      role: "Website Developer",
+      company: "PT BPR Raksa Wacana Agri Purnama",
+      description: "Location: Cilimus, Jawa Barat, Indonesia",
+      order_index: 3
+    },
+    {
+      id: "exp-4",
+      period: "Sep 2023",
+      role: "IT Support Specialist",
+      company: "PT BPR Raksa Wacana Agri Purnama",
+      description: "Maintained IT infrastructure and provided technical support to ensure operational stability across the banking environment.",
+      order_index: 4
+    }
+  ];
+
+  const experiencesList = (Array.isArray(supabaseExperiences) && supabaseExperiences.length > 0)
+    ? supabaseExperiences
+    : fallbackExperiences;
+
+  const activeExp = experiencesList[selectedExpIdx] || experiencesList[0];
 
   return (
     <div className={`min-h-screen bg-white text-[#111111] font-sans overflow-x-clip antialiased selection:bg-blue-600 selection:text-white ${aiActive ? 'ai-mode-active' : ''}`}>
@@ -949,6 +996,272 @@ export default function Portfolio() {
                   <span>{emailAddress}</span>
                   <span>&rarr;</span>
                 </a>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      {/* 2.6 PROFESSIONAL JOURNEY SECTION (AUTHENTIC FIGMA CANVAS & TIMELINE WORKSPACE) */}
+      <section id="journey" className="relative w-full py-20 px-4 sm:px-6 lg:px-12 bg-square-grid border-b border-gray-200/80">
+        <div id="experience" className="absolute -top-16" />
+        
+        {/* Figma Workspace Window */}
+        <div className="max-w-[1360px] mx-auto bg-white rounded-2xl border border-gray-200/90 shadow-lg overflow-hidden">
+          
+          {/* 1. FIGMA TOP TOOLBAR / APP BAR */}
+          <div className="h-11 bg-[#F9FAFB] border-b border-gray-200/80 px-4 flex items-center justify-between text-xs select-none">
+            
+            {/* Left: Figma Icon + Breadcrumb */}
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
+                <svg className="w-3.5 h-5" viewBox="0 0 38 57" fill="none">
+                  <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE" />
+                  <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83" />
+                  <path d="M19 0V19H28.5C33.7467 19 38 14.7467 38 9.5C38 4.25329 33.7467 0 28.5 0H19Z" fill="#FF7262" />
+                  <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E" />
+                  <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF" />
+                </svg>
+                <span className="font-semibold text-gray-900">ghiffa.fig</span>
+                <span className="text-gray-400">/</span>
+                <span className="text-gray-500 font-mono text-[11px]">Professional Journey</span>
+              </div>
+            </div>
+
+            {/* Center: Real Figma Tools (Move V, Frame F, Component ❖, Text T, Comment C) */}
+            <div className="hidden md:flex items-center gap-1 bg-gray-200/60 p-0.5 rounded-lg">
+              <div className="w-7 h-7 rounded flex items-center justify-center text-gray-500 hover:text-gray-800" title="Move (V)">
+                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 16 16"><path d="M1 1L6.5 14.5L8.8 8.8L14.5 6.5L1 1Z" /></svg>
+              </div>
+              <div className="w-7 h-7 rounded flex items-center justify-center text-gray-500 hover:text-gray-800" title="Frame (F)">
+                <span className="font-mono text-[12px] font-bold">#</span>
+              </div>
+              <div className="w-7 h-7 rounded flex items-center justify-center bg-white shadow-2xs text-[#7B7FEF]" title="Component (❖)">
+                <span className="text-[12px] font-bold">❖</span>
+              </div>
+              <div className="w-7 h-7 rounded flex items-center justify-center text-gray-500 hover:text-gray-800" title="Text (T)">
+                <span className="font-serif font-bold text-[12px]">T</span>
+              </div>
+              <div className="w-7 h-7 rounded flex items-center justify-center text-gray-500 hover:text-gray-800" title="Comment (C)">
+                <svg className="w-3.5 h-3.5" viewBox="0 0 16 16" fill="currentColor">
+                  <path d="M2 3a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H6l-3.5 3V3z" />
+                </svg>
+              </div>
+            </div>
+
+            {/* Right: Layer Counter + Share */}
+            <div className="flex items-center gap-3">
+              <span className="font-mono text-[11px] text-gray-500 bg-gray-100 px-2.5 py-0.5 rounded border border-gray-200">
+                {experiencesList.length} Instances
+              </span>
+              <button
+                onClick={() => openContactModal('Professional Journey & Career')}
+                className="bg-[#0D99FF] hover:bg-[#0b82d8] text-white text-[11.5px] font-medium px-3.5 py-1.5 rounded-lg transition-colors cursor-pointer shadow-xs flex items-center gap-1.5"
+              >
+                <span>Connect</span>
+              </button>
+            </div>
+
+          </div>
+
+          {/* 2. MAIN WORKSPACE: CANVAS (LEFT) + FIGMA INSPECTOR SIDEBAR (RIGHT) */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[580px]">
+            
+            {/* CANVAS AREA (lg:col-span-8) */}
+            <div className="lg:col-span-8 bg-square-grid p-6 sm:p-10 lg:p-12 relative flex flex-col justify-center">
+              
+              {/* Floating Figma Comment Bubble */}
+              <DraggableItem className="hidden md:flex absolute top-6 right-6 z-20 bg-white/95 backdrop-blur-md rounded-2xl rounded-bl-sm px-4 py-2.5 comment-shadow border border-gray-100 items-start gap-2.5 max-w-[270px]">
+                <div className="w-6 h-6 rounded-full bg-[#111] text-white flex items-center justify-center text-[7px] font-bold shrink-0 mt-0.5">ghiffa</div>
+                <div>
+                  <div className="flex items-center gap-1.5 text-[11px]">
+                    <span className="font-semibold text-gray-900">ghiffa.dev</span>
+                    <span className="text-gray-400">verified</span>
+                  </div>
+                  <p className="text-[12px] text-gray-800 mt-0.5 leading-snug">
+                    Building production web apps &amp; systems since 2023.
+                  </p>
+                </div>
+              </DraggableItem>
+
+              {/* Canvas Frame Header */}
+              <div className="mb-6">
+                <div className="flex items-center gap-2 mb-2 select-none">
+                  <span className="inline-flex items-center gap-1 bg-[#0D99FF] text-white text-[10.5px] font-medium font-mono px-2 py-0.5 rounded shadow-2xs">
+                    # Frame: Career Timeline
+                  </span>
+                  <span className="text-[10px] font-mono text-gray-400">
+                    &darr; Auto Layout &bull; Gap: 16px
+                  </span>
+                </div>
+                <h2 className="text-2xl sm:text-3xl lg:text-[32px] font-bold text-[#141414] tracking-tight leading-[1.2]">
+                  Professional Journey
+                </h2>
+                <p className="text-gray-500 text-[13.5px] sm:text-[14px] mt-1">
+                  Proven experience in full-stack web applications, internal enterprise APIs, and system design.
+                </p>
+              </div>
+
+              {/* Auto Layout Stack of Experience Cards */}
+              <div className="space-y-4">
+                {experiencesList.map((exp, idx) => {
+                  const isSelected = selectedExpIdx === idx;
+                  return (
+                    <div
+                      key={exp.id || idx}
+                      onClick={() => setSelectedExpIdx(idx)}
+                      className={`relative rounded-xl p-5 sm:p-6 transition-all cursor-pointer ${
+                        isSelected
+                          ? 'figma-bbox bg-white shadow-sm border border-[#0D99FF]'
+                          : 'bg-white/90 hover:bg-white border border-gray-200/80 hover:border-gray-300 shadow-2xs'
+                      }`}
+                    >
+                      {/* 8 Figma resize handles on selected item */}
+                      {isSelected && (
+                        <>
+                          <span className="figma-handle !border-[#0D99FF] -top-1 -left-1" />
+                          <span className="figma-handle !border-[#0D99FF] -top-1 left-1/2 -translate-x-1/2" />
+                          <span className="figma-handle !border-[#0D99FF] -top-1 -right-1" />
+                          <span className="figma-handle !border-[#0D99FF] top-1/2 -translate-y-1/2 -left-1" />
+                          <span className="figma-handle !border-[#0D99FF] top-1/2 -translate-y-1/2 -right-1" />
+                          <span className="figma-handle !border-[#0D99FF] -bottom-1 -left-1" />
+                          <span className="figma-handle !border-[#0D99FF] -bottom-1 left-1/2 -translate-x-1/2" />
+                          <span className="figma-handle !border-[#0D99FF] -bottom-1 -right-1" />
+
+                          {/* Cursor badge on active card */}
+                          <div className="absolute -bottom-2.5 -right-2 flex items-center gap-1 bg-[#0D99FF] text-white text-[10px] font-medium font-mono px-2 py-0.5 rounded shadow-xs select-none z-10">
+                            <svg className="w-2.5 h-2.5 fill-current" viewBox="0 0 16 16"><path d="M1 1L6.5 14.5L8.8 8.8L14.5 6.5L1 1Z" /></svg>
+                            <span>ghiffa</span>
+                          </div>
+                        </>
+                      )}
+
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-1.5">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[#0D99FF] font-mono text-xs">❖</span>
+                          <h3 className="font-semibold text-gray-900 text-[15px] sm:text-[16px]">
+                            {exp.company}
+                          </h3>
+                        </div>
+                        <span className="font-mono text-[11px] sm:text-[12px] bg-gray-100 text-gray-700 px-2.5 py-0.5 rounded-md border border-gray-200/60 font-medium self-start sm:self-auto">
+                          {exp.period}
+                        </span>
+                      </div>
+
+                      <div className="text-[13.5px] font-medium text-[#0D99FF] mb-2">
+                        {exp.role}
+                      </div>
+
+                      <p className="text-[13px] sm:text-[13.5px] leading-relaxed text-gray-600 font-normal">
+                        {exp.description}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+
+            </div>
+
+            {/* FIGMA DESIGN INSPECTOR SIDEBAR (lg:col-span-4) */}
+            <div className="lg:col-span-4 bg-[#F9FAFB] border-t lg:border-t-0 lg:border-l border-gray-200/90 p-6 sm:p-7 space-y-6 flex flex-col justify-between">
+              
+              <div className="space-y-6">
+                
+                {/* Tabs: Layers / Design / Inspect */}
+                <div className="flex items-center gap-5 border-b border-gray-200 pb-3 text-xs font-medium">
+                  <span className="text-[#0D99FF] font-semibold border-b-2 border-[#0D99FF] pb-3 -mb-3">Layers</span>
+                  <span className="text-gray-400 hover:text-gray-600 cursor-pointer">Design</span>
+                  <span className="text-gray-400 hover:text-gray-600 cursor-pointer">Inspect</span>
+                </div>
+
+                {/* Section: Layer Tree */}
+                <div className="space-y-2">
+                  <div className="text-[11px] font-semibold text-gray-700 flex items-center justify-between">
+                    <span>Component Tree</span>
+                    <span className="text-[10px] text-gray-400 font-mono">{experiencesList.length} Items</span>
+                  </div>
+                  <div className="space-y-1">
+                    {experiencesList.map((exp, idx) => {
+                      const isSelected = selectedExpIdx === idx;
+                      return (
+                        <button
+                          key={exp.id || idx}
+                          onClick={() => setSelectedExpIdx(idx)}
+                          className={`w-full text-left flex items-center justify-between px-2.5 py-2 rounded-lg text-xs transition-colors cursor-pointer ${
+                            isSelected
+                              ? 'bg-[#0D99FF]/10 text-[#0D99FF] font-medium border border-[#0D99FF]/30'
+                              : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                          }`}
+                        >
+                          <div className="flex items-center gap-2 truncate pr-2">
+                            <span className="text-[11px]">❖</span>
+                            <span className="truncate">{exp.company}</span>
+                          </div>
+                          <span className="text-[10px] font-mono text-gray-400 shrink-0">
+                            #{exp.order_index || idx + 1}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Section: Active Selection Properties */}
+                {activeExp && (
+                  <div className="space-y-2.5 text-xs border-t border-gray-200/70 pt-4">
+                    <div className="text-[11px] font-semibold text-gray-700">Instance Properties</div>
+                    
+                    <div className="space-y-2 font-mono text-[11px]">
+                      <div className="flex items-center justify-between bg-white border border-gray-200 px-2.5 py-1.5 rounded">
+                        <span className="text-gray-400">Role</span>
+                        <span className="text-gray-800 font-medium font-sans text-[11.5px] truncate max-w-[170px] text-right">
+                          {activeExp.role}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between bg-white border border-gray-200 px-2.5 py-1.5 rounded">
+                        <span className="text-gray-400">Period</span>
+                        <span className="text-gray-800 font-medium">
+                          {activeExp.period}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between bg-white border border-gray-200 px-2.5 py-1.5 rounded">
+                        <span className="text-gray-400">Order</span>
+                        <span className="text-gray-800 font-medium">
+                          Index 0{activeExp.order_index}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+              </div>
+
+              {/* Section: Export & CTAs */}
+              <div className="border-t border-gray-200/70 pt-5 space-y-2.5">
+                <div className="text-[11px] font-semibold text-gray-700 mb-2">Actions</div>
+                
+                <button
+                  onClick={() => openContactModal(`Experience Inquiry: ${activeExp?.role} @ ${activeExp?.company}`)}
+                  className="w-full bg-[#18181B] hover:bg-black text-white text-xs font-medium py-2.5 rounded-lg transition-all active:scale-98 cursor-pointer shadow-xs flex items-center justify-center gap-2"
+                >
+                  <span>Inquire about this role</span>
+                </button>
+
+                {cvUrl && (
+                  <a
+                    href={cvUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full inline-flex items-center justify-center gap-1.5 bg-white hover:bg-gray-50 border border-gray-300 text-gray-800 text-xs font-medium py-2 rounded-lg transition-colors cursor-pointer"
+                  >
+                    <span>Download CV (PDF)</span>
+                    <span className="text-xs">&darr;</span>
+                  </a>
+                )}
               </div>
 
             </div>

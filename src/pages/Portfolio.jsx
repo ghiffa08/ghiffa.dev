@@ -458,42 +458,48 @@ export default function Portfolio() {
             </div>
           </div>
 
-          {/* 4. FLOATING TOOL ICONS */}
+          {/* 4. FLOATING TOOL ICONS (PROGRAMMING STACK + FIGMA SWAPPED) */}
           
           {/* VS Code Icon */}
-          <DraggableItem className="absolute top-[15.5%] left-[22.2%] z-20 w-12 h-12 rounded-2xl bg-white soft-card-shadow border border-gray-100 flex items-center justify-center" title="VS Code">
-            <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none">
+          <DraggableItem className="absolute top-[15.5%] left-[22.2%] z-20 w-12 h-12 rounded-2xl bg-white soft-card-shadow border border-gray-100 flex items-center justify-center group" title="VS Code">
+            <svg className="w-6 h-6 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none">
               <path d="M17.5 2L7.2 11.4L3.2 8.3L1.5 9.2V14.8L3.2 15.7L7.2 12.6L17.5 22L22.5 19.9V4.1L17.5 2ZM17.5 17.2L10.8 12L17.5 6.8V17.2Z" fill="#007ACC" />
             </svg>
           </DraggableItem>
 
-          {/* Notion Icon */}
-          <DraggableItem className="absolute top-[38.5%] left-[15.5%] z-20 w-12 h-12 rounded-2xl bg-white soft-card-shadow border border-gray-100 flex items-center justify-center" title="Notion">
-            <svg className="w-6 h-6 text-black" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.933-.748-.887l-15.177.887c-.56.047-.747.327-.747.933zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933z" />
-            </svg>
-          </DraggableItem>
-
-          {/* Next.js Icon */}
-          <DraggableItem className="absolute top-[64.5%] left-[13.8%] z-20 w-12 h-12 rounded-2xl bg-white soft-card-shadow border border-gray-100 flex items-center justify-center" title="NextJS">
-            <div className="w-6 h-6 rounded-full bg-black text-white flex items-center justify-center font-bold text-[12px] tracking-tighter">N</div>
-          </DraggableItem>
-
-          {/* WordPress Icon */}
-          <DraggableItem className="absolute top-[80.5%] left-[48.1%] z-20 w-12 h-12 rounded-2xl bg-white soft-card-shadow border border-gray-100 flex items-center justify-center" title="WordPress">
-            <svg className="w-6 h-6 text-[#222]" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zM3.443 12c0-1.227.263-2.392.73-3.447l4.027 11.035C5.388 18.223 3.443 15.34 3.443 12zm8.557 8.557c-.84 0-1.652-.126-2.42-.355l2.571-7.468 2.634 7.22c.017.042.038.08.06.117-.888.313-1.844.486-2.845.486zm1.179-12.56c.516-.027.98-.082.98-.082.462-.055.407-.733-.054-.707 0 0-1.388.109-2.285.109-.842 0-2.257-.109-2.257-.109-.462-.026-.517.68-.055.707 0 0 .437.055.899.082l1.335 3.661-1.876 5.625-3.122-9.286c.516-.027.98-.082.98-.082.461-.055.406-.733-.055-.707 0 0-1.388.109-2.285.109-.161 0-.35-.004-.551-.011C6.33 4.864 8.967 3.443 12 3.443c2.226 0 4.252.852 5.774 2.246-.037-.002-.072-.008-.11-.008-.842 0-1.44.733-1.44 1.521 0 .706.407 1.304.842 2.01.326.571.706 1.304.706 2.364 0 .733-.281 1.584-.652 2.771l-.855 2.855-3.086-9.199zm4.961 11.219l2.616-7.562c.489-1.222.652-2.199.652-3.069 0-.315-.021-.609-.06-.883.428 1.012.666 2.125.666 3.298 0 3.551-2.167 6.6-5.252 7.893l1.378-.677z" />
-            </svg>
-          </DraggableItem>
-
-          {/* Figma Icon */}
-          <DraggableItem className="absolute top-[15%] right-[19.8%] z-20 w-12 h-12 rounded-2xl bg-white soft-card-shadow border border-gray-100 flex items-center justify-center" title="Figma">
-            <svg className="w-5 h-5" viewBox="0 0 38 57" fill="none">
+          {/* Figma Icon (Swapped position from top-right to mid-left) */}
+          <DraggableItem className="absolute top-[38.5%] left-[15.5%] z-20 w-12 h-12 rounded-2xl bg-white soft-card-shadow border border-gray-100 flex items-center justify-center group" title="Figma">
+            <svg className="w-5 h-5 group-hover:scale-110 transition-transform" viewBox="0 0 38 57" fill="none">
               <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE" />
               <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83" />
               <path d="M19 0V19H28.5C33.7467 19 38 14.7467 38 9.5C38 4.25329 33.7467 0 28.5 0H19Z" fill="#FF7262" />
               <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E" />
               <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF" />
+            </svg>
+          </DraggableItem>
+
+          {/* Next.js Icon */}
+          <DraggableItem className="absolute top-[64.5%] left-[13.8%] z-20 w-12 h-12 rounded-2xl bg-white soft-card-shadow border border-gray-100 flex items-center justify-center group" title="Next.js">
+            <div className="w-6 h-6 rounded-full bg-black text-white flex items-center justify-center font-bold text-[12px] tracking-tighter group-hover:scale-110 transition-transform">N</div>
+          </DraggableItem>
+
+          {/* TypeScript Icon (Replaces WordPress at bottom-center) */}
+          <DraggableItem className="absolute top-[80.5%] left-[48.1%] z-20 w-12 h-12 rounded-2xl bg-white soft-card-shadow border border-gray-100 flex items-center justify-center group" title="TypeScript">
+            <svg className="w-6 h-6 rounded-md shadow-2xs group-hover:scale-110 transition-transform" viewBox="0 0 128 128">
+              <rect width="128" height="128" fill="#3178C6" rx="16" />
+              <path d="M57.6 74.4h-14v39.2h-13.6v-39.2h-14v-11.8h41.6v11.8zm23.2 27.6c3.2 2.2 7.2 3.6 11.6 3.6 6.2 0 9.8-3 9.8-7.6 0-5-4.2-6.8-11.4-9.8-10.4-4.4-15.6-9.6-15.6-18.8 0-10.8 8.6-18.4 22.8-18.4 6.8 0 12.6 1.8 16.8 4.8l-4.4 10.8c-3.6-2.2-8.2-3.6-12.4-3.6-5.8 0-8.8 2.8-8.8 6.6 0 4.6 3.8 6.4 11 9.4 11.2 4.6 16.2 10.2 16.2 19.4 0 11.4-8.8 19-24.2 19-7.8 0-15-2.2-19.6-6.2l4.2-11z" fill="#FFFFFF" />
+            </svg>
+          </DraggableItem>
+
+          {/* React Icon (New programming stack at top-right where Figma was) */}
+          <DraggableItem className="absolute top-[15%] right-[19.8%] z-20 w-12 h-12 rounded-2xl bg-white soft-card-shadow border border-gray-100 flex items-center justify-center group" title="React">
+            <svg className="w-7 h-7 text-[#00D8FE] transition-transform duration-700 group-hover:rotate-180" viewBox="-11.5 -10.23174 23 20.46348" fill="currentColor">
+              <circle cx="0" cy="0" r="2.05" fill="#00D8FE" />
+              <g stroke="#00D8FE" strokeWidth="1" fill="none">
+                <ellipse rx="11" ry="4.2" />
+                <ellipse rx="11" ry="4.2" transform="rotate(60)" />
+                <ellipse rx="11" ry="4.2" transform="rotate(120)" />
+              </g>
             </svg>
           </DraggableItem>
 

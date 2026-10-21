@@ -148,12 +148,15 @@ export default function Portfolio() {
   const { data: supabaseExperiences } = useSupabaseList('experiences', {
     order: { column: 'order_index', ascending: true }
   });
+  const { data: supabaseQualifications } = useSupabaseList('qualifications', {
+    order: { column: 'order_index', ascending: true }
+  });
 
   // Active Experience Index for Figma Workspace
   const [selectedExpIdx, setSelectedExpIdx] = useState(0);
 
-  // Active Project Index for Figma Selected Work
-  const [selectedProjectIdx, setSelectedProjectIdx] = useState(0);
+  // Active Credential Index for Figma Credentials & Achievements
+  const [selectedCredIdx, setSelectedCredIdx] = useState(0);
 
   // Interactive AI Mode Toggle (Default to solid black)
   const [aiActive, setAiActive] = useState(false);
@@ -336,7 +339,7 @@ export default function Portfolio() {
         window.requestAnimationFrame(() => {
           const cardAbout = document.getElementById('stack-card-about');
           const cardJourney = document.getElementById('stack-card-journey');
-          const cardProjects = document.getElementById('stack-card-projects');
+          const cardCredentials = document.getElementById('stack-card-credentials') || document.getElementById('stack-card-projects');
 
           if (!cardAbout || !cardJourney) {
             ticking = false;
@@ -364,17 +367,17 @@ export default function Portfolio() {
               cardAbout.style.filter = 'brightness(1)';
             }
 
-            // Card 2 (Journey) scales as Card 3 (Projects) approaches and stacks
-            if (cardProjects) {
-              const rectProjects = cardProjects.getBoundingClientRect();
-              if (rectProjects.top < vh && rectProjects.top > stickyTop + 12) {
-                const progress3 = (vh - rectProjects.top) / (vh - (stickyTop + 12));
+            // Card 2 (Journey) scales as Card 3 (Credentials) approaches and stacks
+            if (cardCredentials) {
+              const rectCreds = cardCredentials.getBoundingClientRect();
+              if (rectCreds.top < vh && rectCreds.top > stickyTop + 12) {
+                const progress3 = (vh - rectCreds.top) / (vh - (stickyTop + 12));
                 const scale3 = 1 - progress3 * 0.04;
                 const brightness3 = 1 - progress3 * 0.08;
                 cardJourney.style.transform = `scale(${scale3.toFixed(4)})`;
                 cardJourney.style.filter = `brightness(${brightness3.toFixed(3)})`;
                 cardJourney.style.transformOrigin = 'center top';
-              } else if (rectProjects.top <= stickyTop + 12) {
+              } else if (rectCreds.top <= stickyTop + 12) {
                 cardJourney.style.transform = 'scale(0.96)';
                 cardJourney.style.filter = 'brightness(0.92)';
               } else {
@@ -387,9 +390,9 @@ export default function Portfolio() {
             cardAbout.style.filter = 'none';
             cardJourney.style.transform = 'none';
             cardJourney.style.filter = 'none';
-            if (cardProjects) {
-              cardProjects.style.transform = 'none';
-              cardProjects.style.filter = 'none';
+            if (cardCredentials) {
+              cardCredentials.style.transform = 'none';
+              cardCredentials.style.filter = 'none';
             }
           }
 
@@ -460,50 +463,78 @@ export default function Portfolio() {
 
   const activeExp = experiencesList[selectedExpIdx] || experiencesList[0];
 
-  const fallbackProjects = [
+  const fallbackCredentials = [
     {
-      id: "9415be69-677e-45cc-95c2-00dcfb3904ae",
-      title: "AgriNex Smart Drip System",
-      category: "IoT & Smart Agriculture",
-      description: "Enterprise IoT irrigation system with ESP32/LoRa sensor network, real-time monitoring dashboard, and automated control for precision agriculture.",
-      tech_stack: ["ESP32", "LoRa", "Laravel 12", "WebSocket", "TailwindCSS", "FreeRTOS"],
-      image_url: "https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1784846736/d7kzkfu1sccczdhqojq8.png",
-      order_index: 1
+      id: "cred-1",
+      type: "honor",
+      title: "Juara 1 PILMAPRES Universitas Kuningan 2026",
+      institution: "Universitas Kuningan",
+      period: "2026",
+      badge: "UNIVERSITY HONOR",
+      description: "Pemilihan Mahasiswa Berprestasi tingkat universitas dengan riset inovasi rekayasa sistem terintegrasi (IoT & Web Ecosystem).",
+      certificate_url: "https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1783714135/f2p9oyiqe0hvurgsevhx.jpg"
     },
     {
-      id: "0bdd376e-49b4-4345-a20e-ea286ae347be",
-      title: "PASTII - Platform Absensi HIMA-TI",
-      category: "Mobile App & IoT",
-      description: "Modern attendance platform for HIMA-TI UNIKU with GPS geofencing, biometric authentication, and offline capability.",
-      tech_stack: ["Flutter", "Dart", "Supabase", "Edge Functions", "Biometric Auth"],
-      image_url: "https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1784846909/qsumtayddgs3kyyfzna1.png",
-      order_index: 2
+      id: "cred-2",
+      type: "honor",
+      title: "2nd Place Winner – International Digital Mathematics Game Competition",
+      institution: "Universitas Syiah Kuala",
+      period: "Jul 2025",
+      badge: "INTERNATIONAL AWARD",
+      description: "International competition award for innovative digital mathematics game development and computational logic design.",
+      certificate_url: "https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1783712546/h4bw2py6ldnxwzdfxmls.jpg"
     },
     {
-      id: "b91dcc5e-2969-4c43-8239-7476d8f028c6",
-      title: "HIMA-TI Official Website",
-      category: "Web Development & Organization",
-      description: "Official website for HIMA-TI Universitas Kuningan featuring AI assistant, organizational structure, and member portal.",
-      tech_stack: ["Next.js", "React", "TypeScript", "TailwindCSS", "AI Chatbot"],
-      image_url: "https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1784847169/pkqbivei2jssfpz0xi4t.png",
-      order_index: 3
+      id: "cred-3",
+      type: "certification",
+      title: "Junior Web Developer (BNSP Certified)",
+      institution: "Badan Nasional Sertifikasi Profesi & Kominfo",
+      period: "2024 - 2027",
+      badge: "NATIONAL CERTIFICATION",
+      description: "Standardized national software engineering competency certification covering responsive layouts, security, and web architecture.",
+      certificate_url: "https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1783626185/dbbffblvvangiizxkudh.jpg"
     },
     {
-      id: "648069f7-ca3b-4b21-a151-0244bae5b6d7",
-      title: "Game Edukasi Harta Karun Angka",
-      category: "Game Development & Education",
-      description: "Interactive RPG math-education game registered as official Intellectual Property under DGIP Indonesia.",
-      tech_stack: ["Game Dev", "RPG Design", "Educational Tech", "Copyright IP"],
-      image_url: "https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1784846871/kuoufsejrp60iwgrowbo.png",
-      order_index: 4
+      id: "cred-4",
+      type: "certification",
+      title: "Sertifikat Pencatatan Ciptaan (Hak Cipta / IP)",
+      institution: "Direktorat Jenderal Kekayaan Intelektual (DGIP)",
+      period: "Jul 2025",
+      badge: "INTELLECTUAL PROPERTY",
+      description: "Official IP Copyright registration under the Ministry of Law and Human Rights Republic of Indonesia for digital software product.",
+      certificate_url: "https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1783713349/qx9gf4vizsixumclht13.pdf"
+    },
+    {
+      id: "cred-5",
+      type: "honor",
+      title: "Peringkat Pertama Uji Kompetensi Keahlian (RPL)",
+      institution: "SMKN 2 Kuningan",
+      period: "May 2024",
+      badge: "VOCATIONAL EXCELLENCE",
+      description: "First highest academic and practical score in final software engineering vocational evaluation and RDBMS architecture.",
+      certificate_url: "https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1783714204/bnv45qjsh61acgc9xjcy.jpg"
+    },
+    {
+      id: "cred-6",
+      type: "honor",
+      title: "2nd Runner Up of the Business Plan Competition",
+      institution: "Universitas Pancasakti",
+      period: "2026",
+      badge: "COMPETITION AWARD",
+      description: "National business plan and product architecture competition award for viable technological innovation.",
+      certificate_url: "https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1790349503/o6nrysdsqeq6qmcrbouh.jpg"
     }
   ];
 
-  const projectsList = (Array.isArray(supabaseProjects) && supabaseProjects.length > 0)
-    ? supabaseProjects
-    : fallbackProjects;
+  const rawQualifications = (Array.isArray(supabaseQualifications) && supabaseQualifications.length > 0)
+    ? supabaseQualifications
+    : fallbackCredentials;
 
-  const activeProject = projectsList[selectedProjectIdx] || projectsList[0];
+  const credentialsList = rawQualifications.filter(q => q.type !== 'education').length > 0
+    ? rawQualifications.filter(q => q.type !== 'education')
+    : rawQualifications;
+
+  const activeCredential = credentialsList[selectedCredIdx] || credentialsList[0];
 
   return (
     <div className={`min-h-screen bg-white text-[#111111] font-sans overflow-x-clip antialiased selection:bg-blue-600 selection:text-white ${aiActive ? 'ai-mode-active' : ''}`}>
@@ -1428,13 +1459,14 @@ export default function Portfolio() {
 
           </div>
 
-          {/* CARD 3: SELECTED WORK (CASE STUDIES) */}
+          {/* CARD 3: CREDENTIALS & ACHIEVEMENTS */}
           <div
-            id="stack-card-projects"
+            id="stack-card-credentials"
             className="lg:sticky lg:top-[108px] z-30 transition-all duration-200 will-change-transform mt-12 lg:mt-24"
           >
-            <div id="work" className="absolute -top-24" />
-            <div id="projects" className="absolute -top-24" />
+            <div id="credentials" className="absolute -top-24" />
+            <div id="achievements" className="absolute -top-24" />
+            <div id="qualifications" className="absolute -top-24" />
             
             {/* Figma Workspace Window */}
             <div className="figma-stack-card bg-white rounded-2xl border border-gray-200/90 shadow-2xl overflow-hidden">
@@ -1454,11 +1486,11 @@ export default function Portfolio() {
                     </svg>
                     <span className="font-semibold text-gray-900">ghiffa.fig</span>
                     <span className="text-gray-400">/</span>
-                    <span className="text-gray-500 font-mono text-[11px]">Selected Work</span>
+                    <span className="text-gray-500 font-mono text-[11px]">Credentials &amp; Achievements</span>
                   </div>
                 </div>
 
-                {/* Center: Real Figma Tools (Move V, Frame F, Rectangle R, Text T, Comment C) */}
+                {/* Center: Real Figma Tools (Move V, Frame F, Achievement ★, Text T, Comment C) */}
                 <div className="hidden md:flex items-center gap-1 bg-gray-200/60 p-0.5 rounded-lg">
                   <div className="w-7 h-7 rounded flex items-center justify-center text-gray-500 hover:text-gray-800" title="Move (V)">
                     <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 16 16"><path d="M1 1L6.5 14.5L8.8 8.8L14.5 6.5L1 1Z" /></svg>
@@ -1466,8 +1498,8 @@ export default function Portfolio() {
                   <div className="w-7 h-7 rounded flex items-center justify-center text-gray-500 hover:text-gray-800" title="Frame (F)">
                     <span className="font-mono text-[12px] font-bold">#</span>
                   </div>
-                  <div className="w-7 h-7 rounded flex items-center justify-center bg-white shadow-2xs text-[#0D99FF]" title="Rectangle (R)">
-                    <div className="w-3 h-3 border border-current rounded-xs" />
+                  <div className="w-7 h-7 rounded flex items-center justify-center bg-white shadow-2xs text-[#E17900]" title="Achievement (★)">
+                    <span className="text-[12px] font-bold">★</span>
                   </div>
                   <div className="w-7 h-7 rounded flex items-center justify-center text-gray-500 hover:text-gray-800" title="Text (T)">
                     <span className="font-serif font-bold text-[12px]">T</span>
@@ -1479,16 +1511,16 @@ export default function Portfolio() {
                   </div>
                 </div>
 
-                {/* Right: Counter + Explore */}
+                {/* Right: Counter + Verify */}
                 <div className="flex items-center gap-3">
                   <span className="font-mono text-[11px] text-gray-500 bg-gray-100 px-2.5 py-0.5 rounded border border-gray-200">
-                    {projectsList.length} Case Studies
+                    {credentialsList.length} Credentials
                   </span>
                   <button
-                    onClick={() => openContactModal('Selected Work & Portfolio')}
+                    onClick={() => openContactModal('Credentials & Qualifications Verification')}
                     className="bg-[#0D99FF] hover:bg-[#0b82d8] text-white text-[11.5px] font-medium px-3.5 py-1.5 rounded-lg transition-colors cursor-pointer shadow-xs flex items-center gap-1.5"
                   >
-                    <span>Explore</span>
+                    <span>Verify</span>
                   </button>
                 </div>
 
@@ -1501,15 +1533,15 @@ export default function Portfolio() {
                 <div className="lg:col-span-8 bg-square-grid p-6 sm:p-10 lg:p-12 relative flex flex-col justify-center">
                   
                   {/* Floating Figma Comment Bubble */}
-                  <DraggableItem className="hidden md:flex absolute top-6 right-6 z-20 bg-white/95 backdrop-blur-md rounded-2xl rounded-bl-sm px-4 py-2.5 comment-shadow border border-gray-100 items-start gap-2.5 max-w-[270px]">
+                  <DraggableItem className="hidden md:flex absolute top-6 right-6 z-20 bg-white/95 backdrop-blur-md rounded-2xl rounded-bl-sm px-4 py-2.5 comment-shadow border border-gray-100 items-start gap-2.5 max-w-[280px]">
                     <div className="w-6 h-6 rounded-full bg-[#111] text-white flex items-center justify-center text-[7px] font-bold shrink-0 mt-0.5">ghiffa</div>
                     <div>
                       <div className="flex items-center gap-1.5 text-[11px]">
                         <span className="font-semibold text-gray-900">ghiffa.dev</span>
-                        <span className="text-gray-400">craft</span>
+                        <span className="text-gray-400">verified</span>
                       </div>
                       <p className="text-[12px] text-gray-800 mt-0.5 leading-snug">
-                        Bridging digital software and physical IoT hardware.
+                        Certified software competencies, IP copyrights, and university honors.
                       </p>
                     </div>
                   </DraggableItem>
@@ -1518,29 +1550,31 @@ export default function Portfolio() {
                   <div className="mb-6">
                     <div className="flex items-center gap-2 mb-2 select-none">
                       <span className="inline-flex items-center gap-1 bg-[#0D99FF] text-white text-[10.5px] font-medium font-mono px-2 py-0.5 rounded shadow-2xs">
-                        # Frame: Selected Work
+                        # Frame: Credentials &amp; Achievements
                       </span>
                       <span className="text-[10px] font-mono text-gray-400">
                         &darr; Auto Layout &bull; Gap: 16px
                       </span>
                     </div>
                     <h2 className="text-2xl sm:text-3xl lg:text-[32px] font-bold text-[#141414] tracking-tight leading-[1.2]">
-                      Selected Work &amp; Case Studies
+                      Credentials &amp; Achievements
                     </h2>
                     <p className="text-gray-500 text-[13.5px] sm:text-[14px] mt-1">
-                      Engineering precision web platforms, IoT sensor telemetries, and distributed systems.
+                      Recognized excellence in national informatics competitions, government certifications, and intellectual property.
                     </p>
                   </div>
 
-                  {/* Stack of Project Cards */}
+                  {/* Stack of Credential Cards */}
                   <div className="space-y-4">
-                    {projectsList.slice(0, 4).map((proj, idx) => {
-                      const isSelected = selectedProjectIdx === idx;
+                    {credentialsList.slice(0, 4).map((cred, idx) => {
+                      const isSelected = selectedCredIdx === idx;
+                      const isHonor = cred.type === 'honor';
+                      const badgeLabel = cred.badge || (isHonor ? 'HONOR & AWARD' : 'CERTIFICATION');
                       return (
                         <div
-                          key={proj.id || idx}
-                          onClick={() => setSelectedProjectIdx(idx)}
-                          className={`relative rounded-xl p-4 sm:p-5 transition-all cursor-pointer ${
+                          key={cred.id || idx}
+                          onClick={() => setSelectedCredIdx(idx)}
+                          className={`relative rounded-xl p-5 sm:p-6 transition-all cursor-pointer ${
                             isSelected
                               ? 'figma-bbox bg-white shadow-sm border border-[#0D99FF]'
                               : 'bg-white/90 hover:bg-white border border-gray-200/80 hover:border-gray-300 shadow-2xs'
@@ -1566,55 +1600,55 @@ export default function Portfolio() {
                             </>
                           )}
 
-                          <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center">
-                            {/* Project Thumbnail Image */}
-                            {proj.image_url && (
-                              <div className="sm:col-span-4 aspect-[16/10] rounded-lg overflow-hidden bg-gray-100 border border-gray-200/80">
-                                <img
-                                  src={proj.image_url}
-                                  alt={proj.title}
-                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                  onError={(e) => {
-                                    e.currentTarget.style.display = 'none';
-                                  }}
-                                />
-                              </div>
-                            )}
-
-                            {/* Content details */}
-                            <div className={proj.image_url ? "sm:col-span-8" : "sm:col-span-12"}>
-                              <div className="flex flex-wrap items-center justify-between gap-1.5 mb-1">
-                                <h3 className="font-semibold text-gray-900 text-[15px] sm:text-[16px]">
-                                  {proj.title}
-                                </h3>
-                                <span className="text-[10.5px] font-mono text-gray-500 bg-gray-100 px-2 py-0.5 rounded border border-gray-200">
-                                  {proj.category}
-                                </span>
-                              </div>
-
-                              <p className="text-[13px] leading-relaxed text-gray-600 line-clamp-2 mb-2.5">
-                                {proj.description}
-                              </p>
-
-                              {/* Tech Stack variants */}
-                              {Array.isArray(proj.tech_stack) && proj.tech_stack.length > 0 && (
-                                <div className="flex flex-wrap gap-1">
-                                  {proj.tech_stack.slice(0, 4).map((tech, tIdx) => (
-                                    <span
-                                      key={tIdx}
-                                      className="px-2 py-0.5 rounded bg-gray-50 border border-gray-200/80 text-gray-700 text-[10px] font-mono"
-                                    >
-                                      {tech}
-                                    </span>
-                                  ))}
-                                  {proj.tech_stack.length > 4 && (
-                                    <span className="text-[10px] text-gray-400 font-mono py-0.5">
-                                      +{proj.tech_stack.length - 4}
-                                    </span>
-                                  )}
-                                </div>
-                              )}
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+                            <div className="flex items-center gap-2">
+                              <span className={`text-xs ${isHonor ? 'text-amber-500' : 'text-[#0D99FF]'}`}>
+                                {isHonor ? '★' : '❖'}
+                              </span>
+                              <span className={`text-[10.5px] font-mono font-semibold px-2 py-0.5 rounded ${
+                                isHonor ? 'bg-amber-50 text-amber-800 border border-amber-200/70' : 'bg-blue-50 text-blue-800 border border-blue-200/70'
+                              }`}>
+                                {badgeLabel}
+                              </span>
                             </div>
+                            <span className="font-mono text-[11px] sm:text-[12px] bg-gray-100 text-gray-700 px-2.5 py-0.5 rounded-md border border-gray-200/60 font-medium self-start sm:self-auto">
+                              {cred.period}
+                            </span>
+                          </div>
+
+                          <h3 className="font-semibold text-gray-900 text-[15px] sm:text-[16px] mb-1">
+                            {cred.title}
+                          </h3>
+
+                          <div className="text-[13px] font-medium text-gray-600 mb-2 flex items-center gap-1.5">
+                            <span className="text-gray-400">Issuer:</span>
+                            <span className="text-gray-900 font-medium">{cred.institution}</span>
+                          </div>
+
+                          {cred.description && (
+                            <p className="text-[13px] leading-relaxed text-gray-600 mb-3 font-normal">
+                              {cred.description}
+                            </p>
+                          )}
+
+                          <div className="flex items-center justify-between pt-2 border-t border-gray-100 text-xs">
+                            <div className="flex items-center gap-1.5 text-emerald-700 font-medium text-[11.5px]">
+                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                              <span>Verified Credential</span>
+                            </div>
+
+                            {cred.certificate_url && (
+                              <a
+                                href={cred.certificate_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={(e) => e.stopPropagation()}
+                                className="inline-flex items-center gap-1 text-[11.5px] font-mono text-[#0D99FF] hover:underline"
+                              >
+                                <span>View Document</span>
+                                <span>&rarr;</span>
+                              </a>
+                            )}
                           </div>
 
                         </div>
@@ -1639,16 +1673,17 @@ export default function Portfolio() {
                     {/* Section: Layer Tree */}
                     <div className="space-y-2">
                       <div className="text-[11px] font-semibold text-gray-700 flex items-center justify-between">
-                        <span>Projects Tree</span>
-                        <span className="text-[10px] text-gray-400 font-mono">{projectsList.length} Items</span>
+                        <span>Credentials Tree</span>
+                        <span className="text-[10px] text-gray-400 font-mono">{credentialsList.length} Items</span>
                       </div>
-                      <div className="space-y-1">
-                        {projectsList.slice(0, 4).map((proj, idx) => {
-                          const isSelected = selectedProjectIdx === idx;
+                      <div className="space-y-1 max-h-[220px] overflow-y-auto pr-1">
+                        {credentialsList.map((cred, idx) => {
+                          const isSelected = selectedCredIdx === idx;
+                          const isHonor = cred.type === 'honor';
                           return (
                             <button
-                              key={proj.id || idx}
-                              onClick={() => setSelectedProjectIdx(idx)}
+                              key={cred.id || idx}
+                              onClick={() => setSelectedCredIdx(idx)}
                               className={`w-full text-left flex items-center justify-between px-2.5 py-2 rounded-lg text-xs transition-colors cursor-pointer ${
                                 isSelected
                                   ? 'bg-[#0D99FF]/10 text-[#0D99FF] font-medium border border-[#0D99FF]/30'
@@ -1656,8 +1691,10 @@ export default function Portfolio() {
                               }`}
                             >
                               <div className="flex items-center gap-2 truncate pr-2">
-                                <span className="text-[11px]">❖</span>
-                                <span className="truncate">{proj.title}</span>
+                                <span className={isHonor ? 'text-amber-500' : 'text-[#0D99FF]'}>
+                                  {isHonor ? '★' : '❖'}
+                                </span>
+                                <span className="truncate">{cred.title}</span>
                               </div>
                               <span className="text-[10px] font-mono text-gray-400 shrink-0">
                                 #{idx + 1}
@@ -1669,35 +1706,48 @@ export default function Portfolio() {
                     </div>
 
                     {/* Section: Active Selection Properties */}
-                    {activeProject && (
+                    {activeCredential && (
                       <div className="space-y-2.5 text-xs border-t border-gray-200/70 pt-4">
-                        <div className="text-[11px] font-semibold text-gray-700">Project Properties</div>
+                        <div className="text-[11px] font-semibold text-gray-700">Instance Properties</div>
                         
                         <div className="space-y-2 font-mono text-[11px]">
                           <div className="flex items-center justify-between bg-white border border-gray-200 px-2.5 py-1.5 rounded">
-                            <span className="text-gray-400">Name</span>
+                            <span className="text-gray-400">Award / Title</span>
                             <span className="text-gray-800 font-medium font-sans text-[11.5px] truncate max-w-[170px] text-right">
-                              {activeProject.title}
+                              {activeCredential.title}
                             </span>
                           </div>
                           <div className="flex items-center justify-between bg-white border border-gray-200 px-2.5 py-1.5 rounded">
-                            <span className="text-gray-400">Category</span>
+                            <span className="text-gray-400">Issuer</span>
                             <span className="text-gray-800 font-medium font-sans text-[11px] truncate max-w-[170px] text-right">
-                              {activeProject.category}
+                              {activeCredential.institution}
+                            </span>
+                          </div>
+                          <div className="flex items-center justify-between bg-white border border-gray-200 px-2.5 py-1.5 rounded">
+                            <span className="text-gray-400">Period</span>
+                            <span className="text-gray-800 font-medium">
+                              {activeCredential.period}
+                            </span>
+                          </div>
+                          <div className="flex items-center justify-between bg-white border border-gray-200 px-2.5 py-1.5 rounded">
+                            <span className="text-gray-400">Type</span>
+                            <span className="text-gray-800 font-medium uppercase text-[10px]">
+                              {activeCredential.type || 'Credential'}
                             </span>
                           </div>
                         </div>
 
-                        {Array.isArray(activeProject.tech_stack) && activeProject.tech_stack.length > 0 && (
+                        {activeCredential.certificate_url && (
                           <div className="pt-2">
-                            <span className="text-[10px] text-gray-400 font-mono block mb-1.5">STACK TOKENS</span>
-                            <div className="flex flex-wrap gap-1 max-h-[110px] overflow-y-auto pr-1">
-                              {activeProject.tech_stack.map((t, i) => (
-                                <span key={i} className="px-2 py-0.5 rounded bg-white border border-gray-200 text-gray-700 text-[10px] font-mono shadow-2xs">
-                                  {t}
-                                </span>
-                              ))}
-                            </div>
+                            <a
+                              href={activeCredential.certificate_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="w-full inline-flex items-center justify-center gap-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300/80 text-[11.5px] font-medium py-1.5 rounded-md transition-colors"
+                            >
+                              <span>Open Official Certificate</span>
+                              <span>&rarr;</span>
+                            </a>
                           </div>
                         )}
                       </div>
@@ -1710,18 +1760,23 @@ export default function Portfolio() {
                     <div className="text-[11px] font-semibold text-gray-700 mb-2">Actions</div>
                     
                     <button
-                      onClick={() => openContactModal(`Project Collaboration: ${activeProject?.title}`)}
+                      onClick={() => openContactModal(`Credential Verification: ${activeCredential?.title}`)}
                       className="w-full bg-[#18181B] hover:bg-black text-white text-xs font-medium py-2.5 rounded-lg transition-all active:scale-98 cursor-pointer shadow-xs flex items-center justify-center gap-2"
                     >
-                      <span>Inquire about this project</span>
+                      <span>Request qualification info</span>
                     </button>
 
-                    <button
-                      onClick={() => openContactModal('Custom System Architecture')}
-                      className="w-full inline-flex items-center justify-center gap-1.5 bg-white hover:bg-gray-50 border border-gray-300 text-gray-800 text-xs font-medium py-2 rounded-lg transition-colors cursor-pointer"
-                    >
-                      <span>Build something similar &rarr;</span>
-                    </button>
+                    {cvUrl && (
+                      <a
+                        href={cvUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full inline-flex items-center justify-center gap-1.5 bg-white hover:bg-gray-50 border border-gray-300 text-gray-800 text-xs font-medium py-2 rounded-lg transition-colors cursor-pointer"
+                      >
+                        <span>Download Full CV (PDF)</span>
+                        <span className="text-xs">&darr;</span>
+                      </a>
+                    )}
                   </div>
 
                 </div>

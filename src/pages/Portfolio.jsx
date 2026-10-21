@@ -2146,27 +2146,27 @@ export default function Portfolio() {
         }`}
       >
         <div className="w-full max-w-[1140px] mx-auto">
-          {/* Centered Dark Card (Exact Reference Proportions & Radius) */}
-          <div className="relative rounded-[32px] sm:rounded-[36px] bg-[#141414] border border-white/[0.08] shadow-2xl overflow-hidden min-h-[500px] lg:h-[530px] flex items-center">
+          {/* Skillstreak Orange Card */}
+          <div className="relative rounded-[32px] sm:rounded-[36px] bg-gradient-to-br from-[#FF5E1E] via-[#FF5500] to-[#E54800] border border-orange-400/40 shadow-2xl shadow-orange-950/40 overflow-hidden min-h-[500px] lg:h-[530px] flex items-center">
 
             {/* Inner Grid: Left Content (52%) + Right Laptop (48%) */}
             <div className="w-full h-full grid grid-cols-1 lg:grid-cols-12 items-center relative z-10">
 
-              {/* Left Column: Typography, Figma selection box & Blue CTA */}
+              {/* Left Column: Typography, Figma selection box & Black CTA */}
               <div className="lg:col-span-6 px-8 sm:px-12 lg:pl-14 lg:pr-4 py-10 lg:py-12 flex flex-col justify-center">
 
-                {/* Figma Dashed Bounding Box with 8 Handles (Exact Reference) */}
-                <div className="relative inline-block border border-dashed border-[#555555] px-3.5 py-1.5 -ml-2 rounded-[1px] select-none self-start">
+                {/* Figma Dashed Bounding Box with 8 White Handles */}
+                <div className="relative inline-block border border-dashed border-white/70 px-3.5 py-1.5 -ml-2 rounded-[1px] select-none self-start">
                   {/* 4 Corner Handles */}
-                  <span className="absolute -top-1 -left-1 w-1.5 h-1.5 bg-[#888888] border border-[#222222] rounded-[1px]" />
-                  <span className="absolute -top-1 -right-1 w-1.5 h-1.5 bg-[#888888] border border-[#222222] rounded-[1px]" />
-                  <span className="absolute -bottom-1 -left-1 w-1.5 h-1.5 bg-[#888888] border border-[#222222] rounded-[1px]" />
-                  <span className="absolute -bottom-1 -right-1 w-1.5 h-1.5 bg-[#888888] border border-[#222222] rounded-[1px]" />
+                  <span className="absolute -top-1 -left-1 w-1.5 h-1.5 bg-white border border-[#FF5500] rounded-[1px]" />
+                  <span className="absolute -top-1 -right-1 w-1.5 h-1.5 bg-white border border-[#FF5500] rounded-[1px]" />
+                  <span className="absolute -bottom-1 -left-1 w-1.5 h-1.5 bg-white border border-[#FF5500] rounded-[1px]" />
+                  <span className="absolute -bottom-1 -right-1 w-1.5 h-1.5 bg-white border border-[#FF5500] rounded-[1px]" />
                   {/* 4 Midpoint Handles */}
-                  <span className="absolute -top-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#888888] border border-[#222222] rounded-[1px]" />
-                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#888888] border border-[#222222] rounded-[1px]" />
-                  <span className="absolute top-1/2 -left-1 -translate-y-1/2 w-1.5 h-1.5 bg-[#888888] border border-[#222222] rounded-[1px]" />
-                  <span className="absolute top-1/2 -right-1 -translate-y-1/2 w-1.5 h-1.5 bg-[#888888] border border-[#222222] rounded-[1px]" />
+                  <span className="absolute -top-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-white border border-[#FF5500] rounded-[1px]" />
+                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-white border border-[#FF5500] rounded-[1px]" />
+                  <span className="absolute top-1/2 -left-1 -translate-y-1/2 w-1.5 h-1.5 bg-white border border-[#FF5500] rounded-[1px]" />
+                  <span className="absolute top-1/2 -right-1 -translate-y-1/2 w-1.5 h-1.5 bg-white border border-[#FF5500] rounded-[1px]" />
 
                   <h2 className="text-[38px] sm:text-[46px] lg:text-[50px] font-bold tracking-tight text-white leading-none">
                     skillstreak.id
@@ -2174,29 +2174,29 @@ export default function Portfolio() {
                 </div>
 
                 {/* Primary bold lead text */}
-                <p className="text-white text-[16px] sm:text-[18px] font-normal leading-[1.48] mt-6 max-w-[430px]">
+                <p className="text-white text-[16px] sm:text-[18px] font-medium leading-[1.48] mt-6 max-w-[430px]">
                   The fastest path from zero to deployable engineer, built like a game and engineered for the real world.
                 </p>
 
-                {/* Secondary muted text */}
-                <p className="text-[#7c7c7c] text-[13px] sm:text-[13.5px] leading-[1.6] mt-4 max-w-[400px]">
+                {/* Secondary text */}
+                <p className="text-white/90 text-[13px] sm:text-[13.5px] leading-[1.6] mt-4 max-w-[400px]">
                   Most developers quit because learning feels like a grind with no visible progress. skillstreak.id changes the feedback loop with XP rewards, daily streak accountability, and real-time code evaluations.
                 </p>
 
-                {/* Solid Blue Pill CTA Button */}
+                {/* Solid Black Pill CTA Button */}
                 <div className="mt-8">
                   <a
                     href="https://skillstreak.id"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block bg-[#0859d4] hover:bg-[#0648af] text-white text-[14px] font-medium px-8 py-3.5 rounded-full shadow-md shadow-blue-600/20 transition-all duration-200 active:scale-95 cursor-pointer"
+                    className="inline-block bg-[#111111] hover:bg-black text-white text-[14px] font-semibold px-8 py-3.5 rounded-full shadow-lg shadow-black/20 transition-all duration-200 active:scale-95 cursor-pointer"
                   >
                     Get Early Access
                   </a>
                 </div>
               </div>
 
-              {/* Right Column: Dark Laptop with vibrant blue dot-grid screen (Exact Reference Position & Scale) */}
+              {/* Right Column: Dark Laptop with skillstreak-dekstop.png on screen */}
               <div className="lg:col-span-6 h-full flex items-center justify-end relative overflow-hidden pl-4 pr-0">
                 {/* Laptop Mockup Wrapper — slightly bleeds off the right edge of the card */}
                 <div className="w-[480px] sm:w-[540px] xl:w-[580px] translate-x-4 lg:translate-x-6 xl:translate-x-8 pointer-events-none select-none">
@@ -2209,23 +2209,17 @@ export default function Portfolio() {
                       <div className="w-1 h-1 rounded-full bg-[#1c1c20]" />
                     </div>
 
-                    {/* Screen with Vibrant Blue Gradient and Dot Grid Texture */}
+                    {/* Screen with skillstreak-dekstop.png */}
                     <div
-                      className="w-full rounded-[8px] overflow-hidden relative shadow-inner bg-gradient-to-br from-[#3998fd] via-[#2481f7] to-[#0c4faa]"
+                      className="w-full rounded-[8px] overflow-hidden relative shadow-inner bg-[#141416]"
                       style={{ aspectRatio: '16/10' }}
                     >
-                      {/* Dot Grid Texture matching reference */}
-                      <div
-                        className="absolute inset-0 pointer-events-none"
-                        style={{
-                          backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.24) 1.2px, transparent 1.2px)',
-                          backgroundSize: '13px 13px',
-                        }}
-                      />
-                      {/* Subtle Inner Vignette / Depth */}
-                      <div
-                        className="absolute inset-0 pointer-events-none"
-                        style={{ boxShadow: 'inset 0 0 35px rgba(0, 0, 0, 0.28)' }}
+                      <img
+                        src="/skillstreak-dekstop.png"
+                        alt="Skillstreak Desktop Platform"
+                        className="w-full h-full object-cover object-top select-none pointer-events-none"
+                        loading="eager"
+                        decoding="async"
                       />
                     </div>
                   </div>

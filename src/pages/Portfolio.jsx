@@ -463,6 +463,40 @@ export default function Portfolio() {
 
   const activeExp = experiencesList[selectedExpIdx] || experiencesList[0];
 
+  const fallbackProjects = [
+    {
+      id: "proj-1",
+      title: "Kredit Raksa Analytica",
+      category: "COMMERCIAL PLATFORM",
+      description: "Otomatisasi Analisis Kelayakan Kredit yang Presisi dan Objektif berbasis algoritma rasio finansial terintegrasi.",
+      tech_stack: ["Laravel", "PHP", "MySQL", "System Design"],
+      image_url: "https://myciozcwwvziuqlqxhpq.supabase.co/storage/v1/object/public/portfolio-media/projects/0.2161669911915305.avif",
+      link: "#"
+    },
+    {
+      id: "proj-2",
+      title: "Digital Bank Raksa",
+      category: "ENTERPRISE BANKING",
+      description: "Sistem perbankan online modern untuk penanganan pengaduan nasabah, pengajuan kredit secara digital, serta pembukaan rekening.",
+      tech_stack: ["PHP", "Laravel", "MySQL", "TailwindCSS"],
+      image_url: "https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1783668568/cpezjuo93lqirexqkvzb.png",
+      link: "https://e-digital-bank.rwap.co.id/"
+    },
+    {
+      id: "proj-3",
+      title: "Game Edukasi Harta Karun Angka",
+      category: "GAME DEV & IP",
+      description: "Interactive RPG math-education game registered as official Intellectual Property (Hak Cipta) under DGIP Indonesia.",
+      tech_stack: ["Game Dev", "Educational Tech", "RPG Design", "DGIP Copyright"],
+      image_url: "https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1784846871/kuoufsejrp60iwgrowbo.png",
+      link: "#"
+    }
+  ];
+
+  const projectsList = (Array.isArray(supabaseProjects) && supabaseProjects.length > 0)
+    ? supabaseProjects
+    : fallbackProjects;
+
   const fallbackCredentials = [
     {
       id: "cred-1",
@@ -974,6 +1008,122 @@ export default function Portfolio() {
               <span className="reveal-subword">place.</span>
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* 2.25 SELECTED WORKS (3-CARD GRID DESIGN BEFORE ABOUT / STACKING CARDS) */}
+      <section id="works" className="relative py-20 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto border-t border-gray-100/90">
+        <div id="work" className="absolute -top-24" />
+        <div id="projects" className="absolute -top-24" />
+
+        <div className="flex items-center justify-between mb-10">
+          <div>
+            <div className="text-xs font-mono uppercase tracking-widest text-[#0D99FF] font-semibold mb-1">
+              // FEATURED ARCHITECTURE &amp; CASE STUDIES
+            </div>
+            <h2 className="text-3xl sm:text-[38px] font-bold tracking-tight text-[#141414]">
+              Selected works
+            </h2>
+          </div>
+          <button
+            onClick={() => openContactModal('Explore All Works')}
+            className="text-xs font-medium text-gray-600 hover:text-black border border-gray-200 px-4 py-2 rounded-full transition-colors hidden sm:inline-block cursor-pointer shadow-2xs hover:border-gray-300"
+          >
+            Explore all works &rarr;
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-7">
+          {projectsList.slice(0, 3).map((proj, idx) => {
+            const cardThemes = [
+              {
+                gradient: "from-amber-400 via-orange-500 to-red-600",
+                radial: "bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.35),transparent_60%)]"
+              },
+              {
+                gradient: "from-blue-600 via-indigo-700 to-slate-900",
+                radial: "bg-[radial-gradient(circle_at_70%_30%,rgba(56,189,248,0.35),transparent_60%)]"
+              },
+              {
+                gradient: "from-red-700 via-rose-900 to-neutral-950",
+                radial: "bg-[radial-gradient(circle_at_25%_70%,rgba(251,113,133,0.3),transparent_60%)]"
+              }
+            ];
+            const theme = cardThemes[idx % cardThemes.length];
+            const projImg = proj.image_url || (Array.isArray(proj.image_urls) && proj.image_urls.length > 0 ? proj.image_urls[0] : null);
+            const techList = Array.isArray(proj.tech_stack)
+              ? proj.tech_stack
+              : typeof proj.tech_stack === 'string'
+                ? proj.tech_stack.split(',').map(s => s.trim()).filter(Boolean)
+                : [];
+
+            return (
+              <article
+                key={proj.id || idx}
+                className="group cursor-pointer flex flex-col justify-between"
+                onClick={() => {
+                  if (proj.link && proj.link !== '#' && proj.link.startsWith('http')) {
+                    window.open(proj.link, '_blank', 'noopener,noreferrer');
+                  } else {
+                    openContactModal(`Project Inquiry: ${proj.title}`);
+                  }
+                }}
+              >
+                <div>
+                  {/* Card Visual / Thumbnail */}
+                  <div className={`h-56 rounded-2xl overflow-hidden mb-5 relative shadow-sm border border-gray-100/80 bg-gradient-to-br ${theme.gradient}`}>
+                    {projImg && (
+                      <img
+                        src={projImg}
+                        alt={proj.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                        }}
+                      />
+                    )}
+                    <div className={`absolute inset-0 ${theme.radial} group-hover:scale-105 transition-transform duration-500 pointer-events-none ${projImg ? 'opacity-30' : 'opacity-100'}`} />
+                    
+                    {/* Category Tag Top-Left */}
+                    <div className="absolute top-3.5 left-3.5 z-10">
+                      <span className="bg-black/60 backdrop-blur-md text-white text-[10px] font-mono font-medium px-2.5 py-1 rounded-md border border-white/10 uppercase tracking-wider shadow-sm">
+                        {proj.category || 'CASE STUDY'}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="text-[18px] sm:text-[19px] font-bold text-[#141414] leading-snug mb-2 group-hover:text-[#0D99FF] transition-colors">
+                    {proj.title}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="text-[13px] text-gray-500 leading-relaxed line-clamp-2 mb-3">
+                    {proj.description}
+                  </p>
+                </div>
+
+                {/* Tech Stack Pills */}
+                {techList.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 pt-1">
+                    {techList.slice(0, 3).map((tech, tIdx) => (
+                      <span
+                        key={tIdx}
+                        className="px-2.5 py-0.5 rounded-md bg-gray-50 border border-gray-200/80 text-gray-600 text-[10.5px] font-mono"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                    {techList.length > 3 && (
+                      <span className="text-[10px] text-gray-400 font-mono py-0.5">
+                        +{techList.length - 3}
+                      </span>
+                    )}
+                  </div>
+                )}
+              </article>
+            );
+          })}
         </div>
       </section>
 

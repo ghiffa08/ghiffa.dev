@@ -23,6 +23,25 @@ const ArticlesManager = lazy(() => import('./pages/admin/ArticlesManager'));
 const ArticlesPage = lazy(() => import('./pages/ArticlesPage'));
 const ArticleDetailPage = lazy(() => import('./pages/ArticleDetailPage'));
 
+// Brand Splash Screen matching identical hero coordinates down to the subpixel
+const BrandSplashScreen = () => (
+  <div className="fixed inset-0 z-[9999] bg-white select-none pointer-events-none">
+    <div className="relative w-full h-screen min-h-[700px] pt-[72px] overflow-hidden select-none">
+      <div className="relative w-full h-full">
+        <div className="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 px-4">
+          <div className="will-change-transform">
+            <div className="px-6 sm:px-12 pt-3 sm:pt-4 pb-4 sm:pb-6 overflow-visible relative border border-transparent">
+              <h1 className="text-[48px] sm:text-[92px] md:text-[118px] lg:text-[138px] font-bold tracking-[-0.04em] leading-[1.08] text-[#141414] select-none whitespace-nowrap block pb-1 sm:pb-2">
+                ghiffa.dev
+              </h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
 // Admin Loading Fallback
 const AdminLoader = () => (
   <div className="min-h-screen flex items-center justify-center bg-[#FAFAFA]">
@@ -33,13 +52,12 @@ const AdminLoader = () => (
 export default function App() {
   const { isMaintenanceMode, loading } = useMaintenanceMode();
 
-  // Show loading while checking maintenance mode
+  // Show splash screen while checking maintenance mode (replaces loading spinner)
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-[#FAFAFA]">
-        <div className="w-8 h-8 border-4 border-[#111111] border-t-transparent rounded-full animate-spin"></div>
-      </div>
-    );
+    if (typeof window !== 'undefined' && window.location.pathname.startsWith('/admin')) {
+      return <AdminLoader />;
+    }
+    return <BrandSplashScreen />;
   }
 
   // If maintenance mode is active, show maintenance page for all public routes
@@ -83,12 +101,12 @@ export default function App() {
       {/* Public Route */}
       <Route path="/" element={<Portfolio />} />
       <Route path="/article/:slug" element={
-        <Suspense fallback={<AdminLoader />}>
+        <Suspense fallback={<BrandSplashScreen />}>
           <ArticleDetailPage />
         </Suspense>
       } />
       <Route path="/articles" element={
-        <Suspense fallback={<AdminLoader />}>
+        <Suspense fallback={<BrandSplashScreen />}>
           <ArticlesPage />
         </Suspense>
       } />

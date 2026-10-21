@@ -364,29 +364,31 @@ body {
    FIGMA CANVAS & CREATIVE STUDIO INTERACTIVE THEME
    ========================================================= */
 
-/* Subtle light gray square grid matching canvas */
-.bg-square-grid {
-  background-size: 68px 68px;
+/* Architectural Dot-Grid: Clean, modern, populated canvas dot matrix */
+.bg-architectural-dots {
+  background-size: 24px 24px;
   background-position: center top;
-  background-image: 
-    linear-gradient(to right, rgba(0, 0, 0, 0.042) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.042) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(0, 0, 0, 0.12) 1.3px, transparent 1.3px);
 }
 
-/* Figma selection bounding box around hero title */
+/* Figma Canvas Selection Bounding Box (Skillstreak Signature Edition) */
 .figma-bbox {
-  border: 1px dashed #B8BCC2;
+  border: 1.5px solid #FF5500;
+  border-radius: 6px;
   position: relative;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
 }
+
 .figma-handle {
-  width: 7px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
   background: #FFFFFF;
-  border: 1.5px solid #9CA3AF;
+  border: 1.5px solid #FF5500;
+  border-radius: 2px;
   position: absolute;
   z-index: 20;
-  transition: border-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
 }
 
 /* Floating card shadows */
@@ -424,25 +426,26 @@ body {
   will-change: transform;
 }
 
-/* AI Mode active effect (keeps solid title, highlights bounding box and handles) */
+/* AI Mode active effect (Skillstreak Flame Orange Glow) */
 #hero-title {
   color: #141414;
 }
 .ai-mode-active .figma-bbox {
-  border-color: #3B82F6;
-  box-shadow: 0 0 20px -3px rgba(59, 130, 246, 0.25);
+  border-color: #FF5500;
+  box-shadow: 0 0 26px -2px rgba(255, 85, 0, 0.42);
 }
 .ai-mode-active .figma-handle {
-  border-color: #3B82F6;
+  border-color: #FF4500;
+  box-shadow: 0 0 10px rgba(255, 85, 0, 0.7);
 }
 
-/* Royal Blue Grid Pattern for Service Cards & Laptop Screen */
-.bg-royal-blue-grid {
-  background-color: #0047CC;
+/* Skillstreak Flame Orange Grid Pattern for Service Cards */
+.bg-skillstreak-orange-grid {
+  background-color: #FF5500;
   background-size: 32px 32px;
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
 }
 
 /* Subtle Dot Pattern for Scroll Text Section */
@@ -451,69 +454,77 @@ body {
   background-size: 16px 16px;
 }
 
-/* Word transition for scroll reveal - ALL words start faded light gray (#ECEEEF) */
+/* Word transition for scroll reveal - Inactive words are visible light-gray (#D4D4D8), activating to deep ink */
 .reveal-word {
-  color: #ECEEEF;
-  transition: color 0.16s ease-out;
+  color: #D4D4D8;
+  transition: color 0.18s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .reveal-word.active {
   color: #141414;
 }
 .reveal-subword {
-  color: #ECEEEF;
-  transition: color 0.16s ease-out;
+  color: #D4D4D8;
+  transition: color 0.18s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .reveal-subword.active {
   color: #52525B;
 }
 
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
 /* ==========================================================================
-   FIGMA NATIVE HARDWARE-ACCELERATED CURSOR SYSTEM
+   FIGMA NATIVE HARDWARE-ACCELERATED CURSOR SYSTEM (Desktop pointer: fine only)
    ========================================================================== */
 
-/* 1. Figma Default Selection Arrow (Dark Charcoal with Crisp White Outline) */
-html,
-body,
-* {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M3 3L9.5 18.5L12 12L18.5 9.5L3 3Z' fill='%23141414' stroke='%23FFFFFF' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 3 3, auto;
-}
+@media (pointer: fine) {
+  /* 1. Figma Default Selection Arrow (Dark Charcoal with Crisp White Outline) */
+  html,
+  body,
+  * {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M3 3L9.5 18.5L12 12L18.5 9.5L3 3Z' fill='%23141414' stroke='%23FFFFFF' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 3 3, auto;
+  }
 
-/* 2. Figma Interactive / Pointer Cursor (Signature Figma Blue #0D99FF) */
-a,
-a *,
-button,
-button *,
-[role="button"],
-[role="button"] *,
-input[type="submit"],
-input[type="button"],
-input[type="reset"],
-select,
-summary,
-.cursor-pointer,
-.cursor-pointer *,
-[onclick] {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M3 3L9.5 18.5L12 12L18.5 9.5L3 3Z' fill='%230D99FF' stroke='%23FFFFFF' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 3 3, pointer !important;
-}
+  /* 2. Figma Interactive / Pointer Cursor (Skillstreak Flame Orange #FF5500) */
+  a,
+  a *,
+  button,
+  button *,
+  [role="button"],
+  [role="button"] *,
+  input[type="submit"],
+  input[type="button"],
+  input[type="reset"],
+  select,
+  summary,
+  .cursor-pointer,
+  .cursor-pointer *,
+  [onclick] {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M3 3L9.5 18.5L12 12L18.5 9.5L3 3Z' fill='%23FF5500' stroke='%23FFFFFF' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 3 3, pointer !important;
+  }
 
-/* 3. Text inputs preserve clean text cursor */
-input[type="text"],
-input[type="email"],
-input[type="search"],
-input[type="password"],
-input[type="number"],
-input[type="tel"],
-input[type="url"],
-textarea,
-[contenteditable="true"] {
-  cursor: text !important;
-}
+  /* 3. Text inputs preserve clean text cursor */
+  input[type="text"],
+  input[type="email"],
+  input[type="search"],
+  input[type="password"],
+  input[type="number"],
+  input[type="tel"],
+  input[type="url"],
+  textarea,
+  [contenteditable="true"] {
+    cursor: text !important;
+  }
 
-/* 4. Disabled states */
-[disabled],
-.disabled,
-.cursor-not-allowed {
-  cursor: not-allowed !important;
+  /* 4. Disabled states */
+  [disabled],
+  .disabled,
+  .cursor-not-allowed {
+    cursor: not-allowed !important;
+  }
 }
 
 /* Smooth background transition for dark mode banner scroll */

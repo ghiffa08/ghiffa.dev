@@ -8,6 +8,13 @@ import { ScrollReveal } from '../components/atoms/ScrollReveal';
 import { slugify } from '../utils/slugify';
 import { WorksHeader, PortfolioFooter } from '../components/organisms/portfolio';
 
+const parseTechStack = (tech) => {
+  if (!tech) return [];
+  if (Array.isArray(tech)) return tech.map((t) => String(t).trim()).filter(Boolean);
+  if (typeof tech === 'string') return tech.split(',').map((t) => t.trim()).filter(Boolean);
+  return [];
+};
+
 export default function WorksPage() {
   const { data: settings } = useSupabaseSingle('general_settings');
   const { data: info } = useSupabaseSingle('personal_info');
@@ -58,11 +65,15 @@ export default function WorksPage() {
 
       if (!searchQuery.trim()) return true;
       const q = searchQuery.toLowerCase();
+      const stackStr = Array.isArray(proj.tech_stack)
+        ? proj.tech_stack.join(' ').toLowerCase()
+        : String(proj.tech_stack || '').toLowerCase();
+
       return (
         proj.title?.toLowerCase().includes(q) ||
         proj.description?.toLowerCase().includes(q) ||
         proj.category?.toLowerCase().includes(q) ||
-        proj.tech_stack?.toLowerCase().includes(q)
+        stackStr.includes(q)
       );
     });
   }, [projects, selectedCategory, searchQuery]);
@@ -251,18 +262,27 @@ export default function WorksPage() {
                     </p>
 
                     {/* Tech stack badges snippet */}
-                    {proj.tech_stack && (
-                      <div className="flex flex-wrap gap-1.5 mb-3">
-                        {proj.tech_stack.split(',').slice(0, 3).map((tech, i) => (
-                          <span
-                            key={i}
-                            className="font-mono text-[10px] px-2 py-0.5 rounded bg-gray-100 text-gray-600 border border-gray-200/60"
-                          >
-                            {tech.trim()}
-                          </span>
-                        ))}
-                      </div>
-                    )}
+                    {(() => {
+                      const stack = parseTechStack(proj.tech_stack);
+                      if (stack.length === 0) return null;
+                      return (
+                        <div className="flex flex-wrap gap-1.5 mb-3">
+                          {stack.slice(0, 3).map((tech, i) => (
+                            <span
+                              key={i}
+                              className="font-mono text-[10px] px-2 py-0.5 rounded bg-gray-100 text-gray-600 border border-gray-200/60"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                          {stack.length > 3 && (
+                            <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-gray-50 text-gray-400">
+                              +{stack.length - 3}
+                            </span>
+                          )}
+                        </div>
+                      );
+                    })()}
 
                     {/* Action Link */}
                     <div className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-[#141414] group-hover:text-[#FF5500] transition-colors mt-auto pt-1">

@@ -123,9 +123,11 @@ export default function ProjectDetailPage() {
     ? project.image_urls
     : (project.image_url ? [project.image_url] : []);
 
-  const techStackList = project.tech_stack
-    ? project.tech_stack.split(',').map((t) => t.trim()).filter(Boolean)
-    : [];
+  const techStackList = Array.isArray(project.tech_stack)
+    ? project.tech_stack.map((t) => String(t).trim()).filter(Boolean)
+    : (typeof project.tech_stack === 'string'
+      ? project.tech_stack.split(',').map((t) => t.trim()).filter(Boolean)
+      : []);
 
   return (
     <div className="min-h-screen bg-white text-[#141414] flex flex-col selection:bg-[#FF5500] selection:text-white">

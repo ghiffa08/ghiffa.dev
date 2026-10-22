@@ -642,7 +642,7 @@ export default function Portfolio() {
   const emailAddress = info?.email || 'hello@ghiffa.dev';
   const fullName = info?.full_name || info?.name || 'Haikal Jibran Al-Ghiffarry';
   const roleTitle = info?.role || 'IoT Engineer & Full-stack Developer';
-  const avatarImage = info?.avatar_url || '/ghiffa.jpeg';
+  const avatarImage = info?.avatar_url || '/ghiffa.svg';
   const cvUrl = info?.cv_url || '/cv.pdf';
   const aboutHeadline = info?.headline || 'Building the bridge between bits and atoms.';
   const aboutBio = info?.about_content_en || info?.about_content;
@@ -1507,31 +1507,27 @@ export default function Portfolio() {
       <section id="about" className="relative py-20 sm:py-28 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start sm:items-center">
 
-          {/* LEFT COLUMN: Photo + Floating Tech Dock */}
-          <div className="lg:col-span-5 flex flex-col items-center">
-            {/* Portrait Photo Container */}
-            <div className="relative w-full max-w-[340px] sm:max-w-[390px] aspect-[4/5] sm:aspect-[3/4] rounded-3xl overflow-hidden bg-gradient-to-b from-gray-50 to-gray-100 shadow-[0_16px_40px_rgba(0,0,0,0.06)] border border-gray-200/70 group">
+          {/* LEFT COLUMN: Uncropped Full-Height Person Cutout + Floating Tech Dock (No Background) */}
+          <div className="lg:col-span-5 flex flex-col items-center justify-end relative self-stretch">
+            {/* Person Cutout: Full height, uncropped, zero background */}
+            <div className="relative flex items-end justify-center w-full flex-1">
               <img
                 src={avatarImage}
                 alt={fullName}
-                className="w-full h-full object-cover object-top grayscale-15 group-hover:grayscale-0 transition-all duration-500 scale-[1.02] group-hover:scale-105"
+                className="w-auto h-auto max-h-[520px] sm:max-h-[600px] lg:max-h-[680px] xl:max-h-[740px] object-contain object-bottom select-none pointer-events-none drop-shadow-xs transition-transform duration-500 hover:scale-[1.01]"
                 onError={(e) => {
                   e.currentTarget.onerror = null;
-                  e.currentTarget.src = '/ghiffa.jpeg';
+                  if (e.currentTarget.src.includes('.svg')) {
+                    e.currentTarget.src = '/ghiffa.png';
+                  } else {
+                    e.currentTarget.src = '/ghiffa.jpeg';
+                  }
                 }}
               />
-              {/* Subtle Name Tag */}
-              <div className="absolute bottom-3.5 left-3.5 right-3.5 bg-white/95 backdrop-blur-md rounded-2xl p-3 border border-gray-100/90 flex items-center justify-between shadow-xs">
-                <div>
-                  <div className="font-bold text-gray-900 text-sm">{fullName}</div>
-                  <div className="text-gray-500 text-xs font-medium">{roleTitle}</div>
-                </div>
-                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="Available for work" />
-              </div>
             </div>
 
-            {/* FLOATING TECH DOCK (Matching Reference Gambar 1) */}
-            <div className="mt-4 sm:-mt-6 relative z-10 bg-white/95 backdrop-blur-md border border-gray-200/90 shadow-[0_10px_35px_rgba(0,0,0,0.08)] rounded-full px-4 sm:px-5 py-2.5 flex items-center justify-center gap-3 sm:gap-3.5 select-none hover:shadow-lg transition-shadow">
+            {/* FLOATING TECH DOCK (Positioned directly underneath person, matching Gambar 1) */}
+            <div className="-mt-5 sm:-mt-7 relative z-10 bg-white/95 backdrop-blur-md border border-gray-200/90 shadow-[0_10px_35px_rgba(0,0,0,0.08)] rounded-full px-4 sm:px-5 py-2.5 flex items-center justify-center gap-3 sm:gap-3.5 select-none hover:shadow-lg transition-shadow">
               {/* React */}
               <div className="hover:scale-115 transition-transform cursor-pointer" title="React">
                 <svg className="w-5 h-5 text-[#00D8FE]" viewBox="-11.5 -10.23174 23 20.46348" fill="currentColor">

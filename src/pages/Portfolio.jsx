@@ -2531,13 +2531,13 @@ export default function Portfolio() {
                   }
                 }}
               >
-                {/* Clean Card Visual / Thumbnail matching Gambar 2 */}
-                <div className="aspect-[16/10] rounded-2xl overflow-hidden mb-4 sm:mb-5 relative bg-gray-100">
+                {/* Clean Card Visual matching Gambar 2 (Tall 4:3 aspect ratio, rounded-2xl) */}
+                <div className="aspect-[4/3] rounded-2xl overflow-hidden mb-5 relative bg-[#F4F4F5] select-none">
                   {projImg ? (
                     <img
                       src={projImg}
                       alt={proj.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out"
                       onError={(e) => {
                         e.currentTarget.style.display = 'none';
                       }}
@@ -2547,13 +2547,13 @@ export default function Portfolio() {
                   )}
                 </div>
 
-                {/* Title */}
-                <h3 className="text-[18px] sm:text-[20px] font-semibold text-[#141414] leading-[1.3] mb-2.5 group-hover:text-[#FF5500] transition-colors">
+                {/* Title (2 lines max with clean leading, matching Gambar 2) */}
+                <h3 className="text-[19px] sm:text-[20px] lg:text-[21px] font-semibold text-[#141414] leading-[1.3] mb-2.5 group-hover:text-[#FF5500] transition-colors line-clamp-2">
                   {proj.title}
                 </h3>
 
-                {/* Description */}
-                <p className="text-[13.5px] sm:text-[14px] text-gray-500 leading-relaxed line-clamp-3">
+                {/* Description (3 lines clean, matching Gambar 2) */}
+                <p className="text-[13px] sm:text-[13.5px] text-[#71717A] leading-[1.6] line-clamp-3 font-normal">
                   {proj.description}
                 </p>
               </article>

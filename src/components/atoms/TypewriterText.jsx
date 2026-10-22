@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 /**
  * TypewriterText Atom
  * Types out text letter-by-letter once triggered, with layout stability and a sleek cursor.
+ * Guarantees zero line-wrapping with whitespace-nowrap.
  */
 export function TypewriterText({
   text = 'about me',
@@ -10,7 +11,7 @@ export function TypewriterText({
   speed = 90,
   trigger = true,
   cursorClassName = 'w-[3px] h-[0.85em] bg-[#FF5500] ml-1 sm:ml-1.5',
-  fadeCursorAfterMs = 3000
+  fadeCursorAfterMs = 2500
 }) {
   const [displayText, setDisplayText] = useState('');
   const [showCursor, setShowCursor] = useState(true);
@@ -48,16 +49,17 @@ export function TypewriterText({
   }, [trigger, text, delay, speed, fadeCursorAfterMs]);
 
   return (
-    <span className="relative inline-flex items-center">
+    <span className="relative inline-flex items-center whitespace-nowrap">
       {/* Invisible layout placeholder to prevent handle/container layout shift */}
-      <span className="invisible select-none" aria-hidden="true">
-        {text}
+      <span className="invisible select-none whitespace-nowrap flex items-center" aria-hidden="true">
+        <span>{text}</span>
+        <span className={`inline-block ${cursorClassName} shrink-0`} />
       </span>
       {/* Active typing text layer */}
-      <span className="absolute left-0 top-0 bottom-0 flex items-center">
-        <span>{displayText}</span>
+      <span className="absolute inset-0 flex items-center whitespace-nowrap">
+        <span className="whitespace-nowrap">{displayText}</span>
         <span
-          className={`inline-block ${cursorClassName} transition-opacity duration-300 ${
+          className={`inline-block ${cursorClassName} shrink-0 transition-opacity duration-300 ${
             showCursor ? 'opacity-100 animate-pulse' : 'opacity-0'
           }`}
         />

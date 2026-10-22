@@ -13,10 +13,6 @@ import {
   SkillstreakBannerSection,
   SelectedArticlesSection,
   InstagramPostsSection,
-  TeamCanvasSection,
-  CraftDetailsSection,
-  ClientLogosStrip,
-  BottomCtaSection,
   PortfolioFooter,
   ContactModal,
   CertificateModal
@@ -437,23 +433,8 @@ export default function Portfolio() {
         isBannerDark={isBannerDark}
       />
 
-      {/* Instagram Posts Draggable Carousel Section (Right Below Selected Articles) */}
+      {/* Instagram Posts Section */}
       <InstagramPostsSection isBannerDark={isBannerDark} />
-
-      {/* Team Canvas Section */}
-      <TeamCanvasSection onOpenContact={openContactModal} />
-
-      {/* Craft Details Section */}
-      <CraftDetailsSection onOpenContact={openContactModal} />
-
-      {/* Client Logos Strip */}
-      <ClientLogosStrip />
-
-      {/* Bottom CTA Section */}
-      <BottomCtaSection
-        emailAddress={emailAddress}
-        onOpenContact={openContactModal}
-      />
 
       {/* Footer */}
       <PortfolioFooter emailAddress={emailAddress} />

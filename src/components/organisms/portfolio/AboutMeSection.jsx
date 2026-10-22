@@ -128,10 +128,10 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
             </div>
 
             {/* Selection highlight box with text */}
-            <div className="bg-[#FFF2EB] border-y border-[#FF5500]/30 px-5 sm:px-7 py-2 sm:py-2.5">
+            <div className="bg-[#FFF2EB] border-y border-[#FF5500]/30 px-5 sm:px-7 py-2 sm:py-2.5 flex items-center whitespace-nowrap">
               <h2
                 aria-label="about me"
-                className="text-3xl sm:text-4xl lg:text-[46px] font-bold tracking-tight text-[#141414] lowercase leading-none"
+                className="text-3xl sm:text-4xl lg:text-[46px] font-bold tracking-tight text-[#141414] lowercase leading-none whitespace-nowrap flex items-center"
               >
                 <TypewriterText text="about me" trigger={isHeaderInView} delay={650} speed={90} />
               </h2>

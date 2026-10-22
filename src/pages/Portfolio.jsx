@@ -255,25 +255,36 @@ export default function Portfolio() {
   const [isBannerDark, setIsBannerDark] = useState(false);
   const bannerRef = useRef(null);
 
-  // Scroll-triggered dark mode for Skillstreak.id banner section
+  // Scroll-triggered dark mode for Skillstreak.id banner section (Performance-optimized with rAF)
   useEffect(() => {
+    let rafId = null;
+
     const handleBannerScroll = () => {
       if (!bannerRef.current) return;
       const rect = bannerRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
 
       // When the banner enters the central focal reading range of the viewport
-      const isInFocalRange = rect.top < windowHeight * 0.60 && rect.bottom > windowHeight * 0.35;
-      setIsBannerDark(isInFocalRange);
+      const isInFocalRange = rect.top < windowHeight * 0.55 && rect.bottom > windowHeight * 0.25;
+      setIsBannerDark(prev => (prev !== isInFocalRange ? isInFocalRange : prev));
     };
 
-    window.addEventListener('scroll', handleBannerScroll, { passive: true });
-    window.addEventListener('resize', handleBannerScroll, { passive: true });
+    const onScroll = () => {
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        handleBannerScroll();
+        rafId = null;
+      });
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
     handleBannerScroll();
 
     return () => {
-      window.removeEventListener('scroll', handleBannerScroll);
-      window.removeEventListener('resize', handleBannerScroll);
+      if (rafId) cancelAnimationFrame(rafId);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
     };
   }, []);
 
@@ -1952,7 +1963,7 @@ export default function Portfolio() {
       </section>
 
       {/* 3. SELECTED WORKS (DRAGGABLE CAROUSEL SHOWING ALL PROJECTS) */}
-      <section id="works" className="relative py-14 sm:py-20 px-4 sm:px-8 lg:px-16 max-w-[1360px] mx-auto overflow-hidden">
+      <section id="works" className="relative py-14 sm:py-20 px-4 sm:px-8 lg:px-16 max-w-[1360px] mx-auto overflow-hidden transition-colors duration-700 ease-in-out">
         <div id="work" className="absolute -top-24" />
         <div id="projects" className="absolute -top-24" />
 
@@ -1960,7 +1971,7 @@ export default function Portfolio() {
           <div>
             <div className="text-xs font-mono uppercase tracking-widest text-[#FF5500] font-semibold mb-1">
             </div>
-            <h2 className="text-2xl sm:text-[38px] font-bold tracking-tight text-[#141414]">
+            <h2 className={`text-2xl sm:text-[38px] font-bold tracking-tight transition-colors duration-700 ${isBannerDark ? 'text-black' : 'text-[#141414]'}`}>
               Selected works
             </h2>
           </div>
@@ -1971,7 +1982,10 @@ export default function Portfolio() {
                 type="button"
                 onClick={() => scrollWorksCarousel('left')}
                 aria-label="Previous project"
-                className="w-9 h-9 rounded-full border border-gray-200 hover:border-gray-900 bg-white hover:bg-gray-50 flex items-center justify-center text-gray-700 hover:text-black transition-all cursor-pointer shadow-2xs active:scale-95"
+                className={`w-9 h-9 rounded-full border bg-white flex items-center justify-center transition-all cursor-pointer shadow-2xs active:scale-95 ${isBannerDark
+                  ? 'border-black/20 text-black hover:bg-black hover:text-white'
+                  : 'border-gray-200 hover:border-gray-900 text-gray-700 hover:text-black'
+                  }`}
               >
                 <span className="text-base leading-none">&larr;</span>
               </button>
@@ -1979,7 +1993,10 @@ export default function Portfolio() {
                 type="button"
                 onClick={() => scrollWorksCarousel('right')}
                 aria-label="Next project"
-                className="w-9 h-9 rounded-full border border-gray-200 hover:border-gray-900 bg-white hover:bg-gray-50 flex items-center justify-center text-gray-700 hover:text-black transition-all cursor-pointer shadow-2xs active:scale-95"
+                className={`w-9 h-9 rounded-full border bg-white flex items-center justify-center transition-all cursor-pointer shadow-2xs active:scale-95 ${isBannerDark
+                  ? 'border-black/20 text-black hover:bg-black hover:text-white'
+                  : 'border-gray-200 hover:border-gray-900 text-gray-700 hover:text-black'
+                  }`}
               >
                 <span className="text-base leading-none">&rarr;</span>
               </button>
@@ -1987,7 +2004,10 @@ export default function Portfolio() {
 
             <button
               onClick={() => openContactModal('Explore All Works')}
-              className="text-xs font-medium text-gray-600 hover:text-black border border-gray-200 px-4 py-2 rounded-full transition-colors hidden sm:inline-block cursor-pointer shadow-2xs hover:border-gray-300"
+              className={`text-xs font-medium border px-4 py-2 rounded-full transition-colors duration-500 hidden sm:inline-block cursor-pointer shadow-2xs ${isBannerDark
+                ? 'bg-white text-black border-black/20 hover:bg-black hover:text-white'
+                : 'text-gray-600 hover:text-black border-gray-200 hover:border-gray-300'
+                }`}
             >
               Explore all works &rarr;
             </button>
@@ -2021,7 +2041,7 @@ export default function Portfolio() {
                 }}
               >
                 {/* Clean Card Visual matching Gambar 2 (Tall 4:3 aspect ratio, rounded-2xl) */}
-                <div className="aspect-[4/3] rounded-2xl overflow-hidden mb-5 relative bg-[#F4F4F5] select-none pointer-events-none">
+                <div className="aspect-[4/3] rounded-2xl overflow-hidden mb-5 relative bg-[#F4F4F5] shadow-xs border border-black/5 select-none pointer-events-none">
                   {projImg ? (
                     <img
                       src={projImg}
@@ -2038,12 +2058,18 @@ export default function Portfolio() {
                 </div>
 
                 {/* Title (2 lines max with clean leading, matching Gambar 2) */}
-                <h3 className="text-[19px] sm:text-[20px] lg:text-[21px] font-semibold text-[#141414] leading-[1.3] mb-2.5 group-hover:text-[#FF5500] transition-colors line-clamp-2">
+                <h3 className={`text-[19px] sm:text-[20px] lg:text-[21px] font-semibold leading-[1.3] mb-2.5 transition-colors duration-500 line-clamp-2 ${isBannerDark
+                  ? 'text-black group-hover:text-black/75'
+                  : 'text-[#141414] group-hover:text-[#FF5500]'
+                  }`}>
                   {proj.title}
                 </h3>
 
                 {/* Description (3 lines clean, matching Gambar 2) */}
-                <p className="text-[13px] sm:text-[13.5px] text-[#71717A] leading-[1.6] line-clamp-3 font-normal">
+                <p className={`text-[13px] sm:text-[13.5px] leading-[1.6] line-clamp-3 font-normal transition-colors duration-500 ${isBannerDark
+                  ? 'text-neutral-900 font-medium'
+                  : 'text-[#71717A]'
+                  }`}>
                   {proj.description}
                 </p>
               </article>
@@ -2159,7 +2185,7 @@ export default function Portfolio() {
       </section>
 
       {/* 5. "A TEAM THAT LOVES THE INTERNET" INTERACTIVE CANVAS SECTION */}
-      <section className="relative py-16 sm:py-28 bg-square-grid overflow-hidden border-t border-b border-gray-100 my-8 sm:my-10">
+      <section className="relative py-16 sm:py-24 overflow-hidden">
         <div className="max-w-[1360px] mx-auto px-4 sm:px-6 relative min-h-[360px] sm:min-h-[460px] flex flex-col items-center justify-center">
 
           {/* Floating Team Member Avatars & Chat Bubbles */}

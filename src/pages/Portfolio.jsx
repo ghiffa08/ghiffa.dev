@@ -1711,40 +1711,11 @@ export default function Portfolio() {
       <section id="journey" className="relative py-20 sm:py-28 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto border-t border-gray-100">
         <div id="experience" className="absolute -top-24" />
 
-        {/* Section Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-16 sm:mb-20 pb-8 sm:pb-12 border-b border-gray-200">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-xs font-mono font-medium mb-4">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#FF5500]" />
-              <span>career timeline &bull; {experiencesList.length} experiences</span>
-            </div>
-            <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-[84px] font-bold text-[#141414] tracking-tight leading-[0.92] lowercase">
-              professional journey
-            </h2>
-            <p className="text-gray-500 text-base sm:text-lg mt-4 max-w-2xl leading-relaxed">
-              Proven track record in scalable web ecosystems, internal enterprise APIs, and hardware-resilient IoT systems.
-            </p>
-          </div>
-
-          <div className="flex items-center gap-3 shrink-0">
-            <button
-              onClick={() => openContactModal('Career & Collaboration')}
-              className="bg-[#18181B] hover:bg-[#FF5500] text-white text-xs sm:text-sm font-medium px-6 py-3 rounded-full transition-all active:scale-95 cursor-pointer shadow-xs"
-            >
-              Let&apos;s build together
-            </button>
-            {cvUrl && (
-              <a
-                href={cvUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 bg-white hover:bg-gray-50 border border-gray-200 text-gray-800 text-xs sm:text-sm font-medium px-5 py-3 rounded-full transition-colors cursor-pointer shadow-2xs"
-              >
-                <span>Download CV</span>
-                <span>&darr;</span>
-              </a>
-            )}
-          </div>
+        {/* Section Header: Pure single title like 'table of content' in reference */}
+        <div className="mb-12 sm:mb-16">
+          <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-[88px] font-bold text-[#141414] tracking-tight leading-[0.92] lowercase">
+            professional journey
+          </h2>
         </div>
 
         {/* Clean Editorial Experience List (Non-card, consistent with theme) */}

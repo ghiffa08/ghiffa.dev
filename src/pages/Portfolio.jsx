@@ -976,8 +976,8 @@ export default function Portfolio() {
       <header
         className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b transition-all duration-700 ease-in-out ${heroRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-3 pointer-events-none'
           } ${isBannerDark
-          ? 'bg-[#F8A065]/85 border-black/10 text-[#111111]'
-          : 'bg-white/95 border-gray-100/80 text-[#111111]'
+            ? 'bg-[#F8A065]/85 border-black/10 text-[#111111]'
+            : 'bg-white/95 border-gray-100/80 text-[#111111]'
           }`}
       >
         <div className="w-full px-4 sm:px-16 lg:px-[12.8vw] h-[64px] sm:h-[72px] flex items-center justify-between">
@@ -1013,9 +1013,8 @@ export default function Portfolio() {
             <div id="hero-title-inner" className="will-change-transform">
               <div
                 id="hero-bbox"
-                className={`px-3 min-[400px]:px-6 sm:px-12 pt-2 sm:pt-4 pb-2.5 sm:pb-6 overflow-visible transition-all duration-700 ease-out relative ${
-                  heroRevealed ? 'figma-bbox' : 'border border-transparent'
-                }`}
+                className={`px-3 min-[400px]:px-6 sm:px-12 pt-2 sm:pt-4 pb-2.5 sm:pb-6 overflow-visible transition-all duration-700 ease-out relative ${heroRevealed ? 'figma-bbox' : 'border border-transparent'
+                  }`}
               >
                 {/* 8 Figma Selection Handles with Skillstreak Orange stroke */}
                 <span className={`figma-handle -top-1 -left-1 transition-all duration-500 ${heroRevealed ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`} />
@@ -1483,20 +1482,6 @@ export default function Portfolio() {
       {/* 2.5 FIGMA WORKSPACE CANVAS: STACKING CARDS WRAPPER */}
       <section id="workspace-stack" className="relative w-full py-16 px-4 sm:px-6 lg:px-12 bg-square-grid border-y border-gray-200/80">
 
-        {/* Canvas Stack Header */}
-        <div className="max-w-[1360px] mx-auto mb-8 flex items-center justify-between text-xs text-gray-500 select-none font-medium">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#FF5500] animate-pulse" />
-            <span className="font-semibold text-gray-900">Figma Canvas Workspace</span>
-            <span className="text-gray-300">/</span>
-            <span>Interactive Stacking Artboards</span>
-          </div>
-          <div className="hidden sm:flex items-center gap-2 text-gray-400">
-            <span>Scroll to stack artboards</span>
-            <span>&darr;</span>
-          </div>
-        </div>
-
         <div className="max-w-[1360px] mx-auto">
 
           {/* CARD 1: ABOUT ME */}
@@ -1507,10 +1492,10 @@ export default function Portfolio() {
             <div id="about" className="absolute -top-24" />
 
             {/* Figma Workspace Window */}
-            <div className="figma-stack-card bg-white rounded-2xl border border-gray-200/90 shadow-xl overflow-hidden">
+            <div className="figma-stack-card bg-white rounded-2xl border border-gray-200/90 shadow-2xl overflow-hidden flex flex-col lg:h-[680px]">
 
               {/* 1. FIGMA TOP TOOLBAR / APP BAR */}
-              <div className="h-11 bg-[#F9FAFB] border-b border-gray-200/80 px-4 flex items-center justify-between text-xs select-none">
+              <div className="h-11 shrink-0 bg-[#F9FAFB] border-b border-gray-200/80 px-4 flex items-center justify-between text-xs select-none">
 
                 {/* Left: Figma Icon + Breadcrumb */}
                 <div className="flex items-center gap-3">
@@ -1570,10 +1555,10 @@ export default function Portfolio() {
               </div>
 
               {/* 2. MAIN WORKSPACE: CANVAS (LEFT) + FIGMA INSPECTOR SIDEBAR (RIGHT) */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[560px]">
+              <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12">
 
                 {/* CANVAS AREA (lg:col-span-8) */}
-                <div className="lg:col-span-8 bg-square-grid p-3.5 sm:p-8 lg:p-12 relative flex flex-col justify-center">
+                <div className="lg:col-span-8 bg-square-grid p-3.5 sm:p-6 lg:p-8 relative flex flex-col justify-center overflow-y-auto">
 
                   {/* Floating Figma Comment Bubble */}
                   <DraggableItem className="hidden md:flex absolute top-6 right-6 z-20 bg-white/95 backdrop-blur-md rounded-2xl rounded-bl-sm px-4 py-2.5 comment-shadow border border-gray-100 items-start gap-2.5 max-w-[270px]">
@@ -1667,7 +1652,7 @@ export default function Portfolio() {
                 </div>
 
                 {/* FIGMA DESIGN INSPECTOR SIDEBAR (lg:col-span-4) */}
-                <div className="lg:col-span-4 bg-[#F9FAFB] border-t lg:border-t-0 lg:border-l border-gray-200/90 p-6 sm:p-7 space-y-6 flex flex-col justify-between">
+                <div className="lg:col-span-4 bg-[#F9FAFB] border-t lg:border-t-0 lg:border-l border-gray-200/90 p-5 sm:p-6 space-y-5 flex flex-col justify-between overflow-y-auto">
 
                   <div className="space-y-6">
 
@@ -1773,10 +1758,10 @@ export default function Portfolio() {
             <div id="experience" className="absolute -top-24" />
 
             {/* Figma Workspace Window */}
-            <div className="figma-stack-card bg-white rounded-2xl border border-gray-200/90 shadow-2xl overflow-hidden">
+            <div className="figma-stack-card bg-white rounded-2xl border border-gray-200/90 shadow-2xl overflow-hidden flex flex-col lg:h-[680px]">
 
               {/* 1. FIGMA TOP TOOLBAR / APP BAR */}
-              <div className="h-11 bg-[#F9FAFB] border-b border-gray-200/80 px-4 flex items-center justify-between text-xs select-none">
+              <div className="h-11 shrink-0 bg-[#F9FAFB] border-b border-gray-200/80 px-4 flex items-center justify-between text-xs select-none">
 
                 {/* Left: Figma Icon + Breadcrumb */}
                 <div className="flex items-center gap-3">
@@ -1831,10 +1816,10 @@ export default function Portfolio() {
               </div>
 
               {/* 2. MAIN WORKSPACE: CANVAS (LEFT) + FIGMA INSPECTOR SIDEBAR (RIGHT) */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[560px]">
+              <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12">
 
                 {/* CANVAS AREA (lg:col-span-8) */}
-                <div className="lg:col-span-8 bg-square-grid p-3.5 sm:p-8 lg:p-12 relative flex flex-col justify-center">
+                <div className="lg:col-span-8 bg-square-grid p-3.5 sm:p-6 lg:p-8 relative flex flex-col justify-center overflow-y-auto">
 
                   {/* Floating Figma Comment Bubble */}
                   <DraggableItem className="hidden md:flex absolute top-6 right-6 z-20 bg-white/95 backdrop-blur-md rounded-2xl rounded-bl-sm px-4 py-2.5 comment-shadow border border-gray-100 items-start gap-2.5 max-w-[270px]">
@@ -1928,7 +1913,7 @@ export default function Portfolio() {
                 </div>
 
                 {/* FIGMA DESIGN INSPECTOR SIDEBAR (lg:col-span-4) */}
-                <div className="lg:col-span-4 bg-[#F9FAFB] border-t lg:border-t-0 lg:border-l border-gray-200/90 p-6 sm:p-7 space-y-6 flex flex-col justify-between">
+                <div className="lg:col-span-4 bg-[#F9FAFB] border-t lg:border-t-0 lg:border-l border-gray-200/90 p-5 sm:p-6 space-y-5 flex flex-col justify-between overflow-y-auto">
 
                   <div className="space-y-6">
 
@@ -2042,10 +2027,10 @@ export default function Portfolio() {
             <div id="qualifications" className="absolute -top-24" />
 
             {/* Figma Workspace Window */}
-            <div className="figma-stack-card bg-white rounded-2xl border border-gray-200/90 shadow-2xl overflow-hidden">
+            <div className="figma-stack-card bg-white rounded-2xl border border-gray-200/90 shadow-2xl overflow-hidden flex flex-col lg:h-[680px]">
 
               {/* 1. FIGMA TOP TOOLBAR / APP BAR */}
-              <div className="h-11 bg-[#F9FAFB] border-b border-gray-200/80 px-4 flex items-center justify-between text-xs select-none">
+              <div className="h-11 shrink-0 bg-[#F9FAFB] border-b border-gray-200/80 px-4 flex items-center justify-between text-xs select-none">
 
                 {/* Left: Figma Icon + Breadcrumb */}
                 <div className="flex items-center gap-3">
@@ -2100,10 +2085,10 @@ export default function Portfolio() {
               </div>
 
               {/* 2. MAIN WORKSPACE: CANVAS (LEFT) + FIGMA INSPECTOR SIDEBAR (RIGHT) */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[560px]">
+              <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12">
 
                 {/* CANVAS AREA (lg:col-span-8) */}
-                <div className="lg:col-span-8 bg-square-grid p-3.5 sm:p-8 lg:p-12 relative flex flex-col justify-center">
+                <div className="lg:col-span-8 bg-square-grid p-3.5 sm:p-6 lg:p-8 relative flex flex-col justify-center overflow-y-auto">
 
                   {/* Floating Figma Comment Bubble */}
                   <DraggableItem className="hidden md:flex absolute top-6 right-6 z-20 bg-white/95 backdrop-blur-md rounded-2xl rounded-bl-sm px-4 py-2.5 comment-shadow border border-gray-100 items-start gap-2.5 max-w-[280px]">
@@ -2139,7 +2124,7 @@ export default function Portfolio() {
 
                   {/* Stack of Credential Cards */}
                   <div className="space-y-4">
-                    {credentialsList.slice(0, 4).map((cred, idx) => {
+                    {credentialsList.slice(0, 3).map((cred, idx) => {
                       const isSelected = selectedCredIdx === idx;
                       const isHonor = cred.type === 'honor';
                       const badgeLabel = cred.badge || (isHonor ? 'HONOR & AWARD' : 'CERTIFICATION');
@@ -2230,7 +2215,7 @@ export default function Portfolio() {
                 </div>
 
                 {/* FIGMA DESIGN INSPECTOR SIDEBAR (lg:col-span-4) */}
-                <div className="lg:col-span-4 bg-[#F9FAFB] border-t lg:border-t-0 lg:border-l border-gray-200/90 p-6 sm:p-7 space-y-6 flex flex-col justify-between">
+                <div className="lg:col-span-4 bg-[#F9FAFB] border-t lg:border-t-0 lg:border-l border-gray-200/90 p-5 sm:p-6 space-y-5 flex flex-col justify-between overflow-y-auto">
 
                   <div className="space-y-6">
 
@@ -2247,7 +2232,7 @@ export default function Portfolio() {
                         <span>Credentials Tree</span>
                         <span className="text-[10.5px] text-gray-400 font-medium">{credentialsList.length} Items</span>
                       </div>
-                      <div className="space-y-1 max-h-[220px] overflow-y-auto pr-1">
+                      <div className="space-y-1 max-h-[160px] overflow-y-auto pr-1">
                         {credentialsList.map((cred, idx) => {
                           const isSelected = selectedCredIdx === idx;
                           const isHonor = cred.type === 'honor';

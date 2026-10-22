@@ -22,6 +22,8 @@ const QRCodeGenerator = lazy(() => import('./pages/admin/QRCodeGenerator'));
 const ArticlesManager = lazy(() => import('./pages/admin/ArticlesManager'));
 const ArticlesPage = lazy(() => import('./pages/ArticlesPage'));
 const ArticleDetailPage = lazy(() => import('./pages/ArticleDetailPage'));
+const WorksPage = lazy(() => import('./pages/WorksPage'));
+const ProjectDetailPage = lazy(() => import('./pages/ProjectDetailPage'));
 
 // Brand Splash Screen matching identical hero coordinates down to the subpixel
 const BrandSplashScreen = () => (
@@ -98,7 +100,7 @@ export default function App() {
 
   return (
     <Routes>
-      {/* Public Route */}
+      {/* Public Routes */}
       <Route path="/" element={<Portfolio />} />
       <Route path="/article/:slug" element={
         <Suspense fallback={<BrandSplashScreen />}>
@@ -110,7 +112,22 @@ export default function App() {
           <ArticlesPage />
         </Suspense>
       } />
-      <Route path="/project/:slug" element={<Portfolio />} />
+      <Route path="/works" element={
+        <Suspense fallback={<BrandSplashScreen />}>
+          <WorksPage />
+        </Suspense>
+      } />
+      <Route path="/projects" element={<Navigate to="/works" replace />} />
+      <Route path="/project/:slug" element={
+        <Suspense fallback={<BrandSplashScreen />}>
+          <ProjectDetailPage />
+        </Suspense>
+      } />
+      <Route path="/work/:slug" element={
+        <Suspense fallback={<BrandSplashScreen />}>
+          <ProjectDetailPage />
+        </Suspense>
+      } />
       
       {/* Short URL Redirect */}
       <Route path="/s/:shortCode" element={<ShortURLRedirect />} />

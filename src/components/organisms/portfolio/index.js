@@ -1,5 +1,6 @@
 export { PortfolioHeader } from './PortfolioHeader';
 export { ArticlesHeader } from './ArticlesHeader';
+export { WorksHeader } from './WorksHeader';
 export { PortfolioHero } from './PortfolioHero';
 export { StickyScrollText } from './StickyScrollText';
 export { ServiceCardsSection } from './ServiceCardsSection';

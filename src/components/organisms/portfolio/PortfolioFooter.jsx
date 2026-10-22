@@ -11,11 +11,11 @@ export function PortfolioFooter({ emailAddress, onOpenContact }) {
   };
 
   const navLinks = [
-    { label: 'About', href: '#about' },
-    { label: 'Experience', href: '#experience' },
-    { label: 'Selected Works', href: '#works' },
-    { label: 'Articles', href: '#articles' },
-    { label: 'Contact', href: '#contact' },
+    { label: 'About', href: '/#about' },
+    { label: 'Experience', href: '/#experience' },
+    { label: 'Selected Works', href: '/works' },
+    { label: 'Articles', href: '/articles' },
+    { label: 'Contact', href: '/#contact' },
   ];
 
   const socialLinks = [

@@ -1,4 +1,6 @@
 import React, { useRef } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { slugify } from '../../../utils/slugify';
 import { ScrollReveal } from '../../atoms/ScrollReveal';
 
 export function SelectedWorksSection({
@@ -6,6 +8,7 @@ export function SelectedWorksSection({
   isBannerDark,
   onOpenContact
 }) {
+  const navigate = useNavigate();
   const worksCarouselRef = useRef(null);
   const isDraggingWorksRef = useRef(false);
   const startXWorksRef = useRef(0);
@@ -108,15 +111,15 @@ export function SelectedWorksSection({
               </button>
             </div>
 
-            <button
-              onClick={() => onOpenContact('Explore All Works')}
+            <Link
+              to="/works"
               className={`text-xs font-medium border px-4 py-2 rounded-full transition-colors duration-500 hidden sm:inline-block cursor-pointer shadow-2xs ${isBannerDark
                   ? 'bg-white text-black border-black/20 hover:bg-black hover:text-white'
                   : 'text-gray-600 hover:text-black border-gray-200 hover:border-gray-300'
                 }`}
             >
               Explore all works →
-            </button>
+            </Link>
           </div>
         </div>
       </ScrollReveal>
@@ -146,11 +149,8 @@ export function SelectedWorksSection({
               className="w-[85vw] sm:w-[380px] md:w-[410px] lg:w-[430px] shrink-0 group cursor-pointer flex flex-col select-none"
               onClick={() => {
                 if (hasDraggedWorksRef.current) return;
-                if (proj.link && proj.link !== '#' && proj.link.startsWith('http')) {
-                  window.open(proj.link, '_blank', 'noopener,noreferrer');
-                } else {
-                  onOpenContact(`Project Inquiry: ${proj.title}`);
-                }
+                const projectSlug = slugify(proj.title);
+                navigate(`/project/${projectSlug}`);
               }}
             >
               {/* Clean Card Visual (Tall 4:3 aspect ratio, rounded-2xl) */}

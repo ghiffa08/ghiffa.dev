@@ -299,34 +299,58 @@ export default function Portfolio() {
     };
   }, [isBannerDark]);
 
-  // Draggable Carousel logic for Selected Works
+  // Draggable Carousel logic for Selected Works (High-Performance 120fps)
   const worksCarouselRef = useRef(null);
   const isDraggingWorksRef = useRef(false);
   const startXWorksRef = useRef(0);
   const scrollLeftWorksRef = useRef(0);
   const hasDraggedWorksRef = useRef(false);
+  const rafDragRef = useRef(null);
 
-  const handleWorksMouseDown = (e) => {
-    if (!worksCarouselRef.current) return;
+  const handleWorksPointerDown = (e) => {
+    if (e.button !== 0 || !worksCarouselRef.current) return;
     isDraggingWorksRef.current = true;
     hasDraggedWorksRef.current = false;
-    startXWorksRef.current = e.pageX - worksCarouselRef.current.offsetLeft;
+    startXWorksRef.current = e.clientX;
     scrollLeftWorksRef.current = worksCarouselRef.current.scrollLeft;
+
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch {
+      // fallback if pointer capture unsupported
+    }
   };
 
-  const handleWorksMouseMove = (e) => {
+  const handleWorksPointerMove = (e) => {
     if (!isDraggingWorksRef.current || !worksCarouselRef.current) return;
-    e.preventDefault();
-    const x = e.pageX - worksCarouselRef.current.offsetLeft;
-    const walk = (x - startXWorksRef.current) * 1.5;
-    if (Math.abs(walk) > 6) {
+    const walk = e.clientX - startXWorksRef.current;
+    if (Math.abs(walk) > 5) {
       hasDraggedWorksRef.current = true;
     }
-    worksCarouselRef.current.scrollLeft = scrollLeftWorksRef.current - walk;
+
+    if (!rafDragRef.current) {
+      rafDragRef.current = requestAnimationFrame(() => {
+        if (worksCarouselRef.current) {
+          worksCarouselRef.current.scrollLeft = scrollLeftWorksRef.current - walk;
+        }
+        rafDragRef.current = null;
+      });
+    }
   };
 
-  const handleWorksMouseUpOrLeave = () => {
+  const handleWorksPointerUp = (e) => {
     isDraggingWorksRef.current = false;
+    if (rafDragRef.current) {
+      cancelAnimationFrame(rafDragRef.current);
+      rafDragRef.current = null;
+    }
+    try {
+      if (e.currentTarget.hasPointerCapture(e.pointerId)) {
+        e.currentTarget.releasePointerCapture(e.pointerId);
+      }
+    } catch {
+      // ignore
+    }
   };
 
   const scrollWorksCarousel = (direction) => {
@@ -2017,12 +2041,17 @@ export default function Portfolio() {
         {/* Draggable Carousel */}
         <div
           ref={worksCarouselRef}
-          onMouseDown={handleWorksMouseDown}
-          onMouseMove={handleWorksMouseMove}
-          onMouseUp={handleWorksMouseUpOrLeave}
-          onMouseLeave={handleWorksMouseUpOrLeave}
-          className="flex gap-6 lg:gap-8 overflow-x-auto scrollbar-none cursor-grab active:cursor-grabbing select-none pb-4 -mx-4 sm:-mx-8 lg:-mx-16 px-4 sm:px-8 lg:px-16 scroll-smooth"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          onPointerDown={handleWorksPointerDown}
+          onPointerMove={handleWorksPointerMove}
+          onPointerUp={handleWorksPointerUp}
+          onPointerCancel={handleWorksPointerUp}
+          className="flex gap-6 lg:gap-8 overflow-x-auto scrollbar-none cursor-grab active:cursor-grabbing select-none pb-4 -mx-4 sm:-mx-8 lg:-mx-16 px-4 sm:px-8 lg:px-16 touch-pan-y"
+          style={{
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+            WebkitOverflowScrolling: 'touch',
+            overscrollBehaviorX: 'contain'
+          }}
         >
           {projectsList.map((proj, idx) => {
             const projImg = proj.image_url || (Array.isArray(proj.image_urls) && proj.image_urls.length > 0 ? proj.image_urls[0] : null);

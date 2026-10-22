@@ -26,12 +26,12 @@ const ArticleDetailPage = lazy(() => import('./pages/ArticleDetailPage'));
 // Brand Splash Screen matching identical hero coordinates down to the subpixel
 const BrandSplashScreen = () => (
   <div className="fixed inset-0 z-[9999] bg-white select-none pointer-events-none">
-    <div className="relative w-full h-screen min-h-[700px] pt-[72px] overflow-hidden select-none">
-      <div className="relative w-full h-full">
-        <div className="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 px-4">
+    <div className="relative w-full h-screen overflow-hidden select-none">
+      <div className="relative w-full h-full flex items-center justify-center">
+        <div className="z-20 px-4 w-full flex justify-center items-center">
           <div className="will-change-transform">
-            <div className="px-6 sm:px-12 pt-3 sm:pt-4 pb-4 sm:pb-6 overflow-visible relative border border-transparent">
-              <h1 className="text-[48px] sm:text-[92px] md:text-[118px] lg:text-[138px] font-bold tracking-[-0.04em] leading-[1.08] text-[#141414] select-none whitespace-nowrap block pb-1 sm:pb-2">
+            <div className="px-6 sm:px-14 py-3 sm:py-6 overflow-visible relative border border-transparent flex items-center justify-center text-center">
+              <h1 className="text-[36px] min-[360px]:text-[44px] min-[400px]:text-[52px] sm:text-[88px] md:text-[116px] lg:text-[144px] font-bold tracking-[-0.04em] leading-none text-[#141414] select-none whitespace-nowrap block text-center m-0 p-0">
                 ghiffa.dev
               </h1>
             </div>

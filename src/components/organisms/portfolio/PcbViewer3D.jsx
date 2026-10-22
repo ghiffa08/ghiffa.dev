@@ -21,10 +21,12 @@ export function PcbViewer3D() {
 
     // ─── SCENE & CAMERA ───────────────────────────────────────────────
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 100);
-    // Isometric angle showing top components & side profiles clearly
-    camera.position.set(2.4, 2.5, 3.8);
-    camera.lookAt(0, 0, 0);
+    const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
+    // Camera positioned to view PCB with comfortable perspective
+    camera.position.set(0, 2.5, 4.3);
+    // Framing target slightly lower so PCB is visually elevated and never cut off at bottom
+    const targetY = -0.28;
+    camera.lookAt(0, targetY, 0);
 
     // ─── RENDERER ─────────────────────────────────────────────────────
     const renderer = new THREE.WebGLRenderer({
@@ -47,7 +49,7 @@ export function PcbViewer3D() {
     controls.rotateSpeed = 0.85;
     controls.minPolarAngle = Math.PI * 0.15; // Don't flip to straight top view
     controls.maxPolarAngle = Math.PI * 0.55; // Don't go underneath
-    controls.target.set(0, 0, 0);
+    controls.target.set(0, targetY, 0);
     controls.update();
 
     // ─── LIGHTING ─────────────────────────────────────────────────────
@@ -68,6 +70,9 @@ export function PcbViewer3D() {
 
     // ─── ROOT & INNER GROUPS ──────────────────────────────────────────
     const rootGroup = new THREE.Group();
+    // Default initial pose: tilt forward (0.48) and rotate diagonally (0.85) matching showcase screenshot
+    rootGroup.rotation.x = 0.48;
+    rootGroup.rotation.y = 0.85;
     scene.add(rootGroup);
 
     // Lay PCB flat (+Z up so components face upward)
@@ -91,8 +96,8 @@ export function PcbViewer3D() {
         const size = box.getSize(new THREE.Vector3());
         const maxDim = Math.max(size.x, size.y, size.z);
 
-        // Scale to fill showcase area prominently
-        const targetSize = 3.8;
+        // Optimal scale so all diagonal edges remain fully within bounds
+        const targetSize = 3.4;
         const scale = maxDim > 0 ? targetSize / maxDim : 1;
 
         model.scale.set(scale, scale, scale);
@@ -154,7 +159,7 @@ export function PcbViewer3D() {
   }, []);
 
   return (
-    <div className="relative w-full h-[220px] sm:h-[250px] xl:h-[270px] mt-4 flex items-center justify-center select-none overflow-hidden">
+    <div className="relative w-full h-[220px] sm:h-[250px] xl:h-[270px] mt-2 sm:mt-3 flex items-center justify-center select-none overflow-hidden">
       {/* 3D Canvas with drag-to-rotate cursor */}
       <div
         ref={containerRef}

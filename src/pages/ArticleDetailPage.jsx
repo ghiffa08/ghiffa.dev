@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -44,6 +44,74 @@ const formatDate = (timestamp) => {
   }).toUpperCase();
 };
 
+/**
+ * Clean and normalize article markdown/rich text.
+ * Fixes raw unparsed markdown inside HTML tags (e.g. single-line <p> containing ### and bullet points).
+ */
+const cleanArticleMarkdown = (raw) => {
+  if (!raw || typeof raw !== 'string') return { isHtml: false, content: '' };
+  const trimmed = raw.trim();
+
+  // If already full semantic HTML (with multiple h2, p, blockquote, table, etc.) and no markdown symbols
+  const hasBlockHtml = /<(h[1-6]|table|blockquote|pre)[\s>]/i.test(trimmed);
+  const hasMarkdownHeadings = /###|##|#\s/.test(trimmed);
+  const hasNumberedBold = /\*\*\d+\.\s+[^*]+?\*\*/.test(trimmed);
+
+  if (hasBlockHtml && !hasMarkdownHeadings && !hasNumberedBold) {
+    return { isHtml: true, content: trimmed };
+  }
+
+  let text = trimmed;
+
+  // Decode common HTML entities
+  text = text
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
+
+  // Strip wrapping and inner <p>
+  text = text.replace(/^<p[^>]*>/i, '').replace(/<\/p>$/i, '');
+  text = text.replace(/<\/p>\s*<p[^>]*>/gi, '\n\n');
+  text = text.replace(/<br\s*\/?>/gi, '\n\n');
+
+  // Format ### Headings ending with ?: "### What's the vibe here? I wanted..."
+  text = text.replace(/###\s*([^?\n]+?\?)\s*([A-Z])/g, '\n\n### $1\n\n$2');
+
+  // Format other ### Headings: "### Under the Hood Since we're..."
+  text = text.replace(
+    /###\s*([A-Za-z0-9\s'&,-]+?)(?=\s+[A-Z][a-z]+ (?:we|you|I|they|it|is|are|was|were|all|about|have|can|will|would|could|should|bukan|dan|di|ke|ini|itu)\b|\n|$)/g,
+    '\n\n### $1\n\n'
+  );
+
+  // Also catch any remaining ### that already have newlines or at end
+  text = text.replace(/([^\n])\s*(###\s+[^\n]+)/g, '$1\n\n$2\n\n');
+
+  // Format bold numbered items like "**1. Sistem Reward XP dan Leveling** Setiap kali..."
+  text = text.replace(/([^\n]|^)\s*(\*\*\d+\.\s+[^*]+?\*\*)\s*([A-Z])/g, '$1\n\n### $2\n\n$3');
+  // Clean up ### **1. ...** into ### 1. ...
+  text = text.replace(/###\s*\*\*(\d+\.\s+[^*]+?)\*\*/g, '### $1');
+
+  // Format bullet points "- **Frontend Core:** ..."
+  text = text.replace(/([^\n])\s*(-\s+\*\*[^*]+?\*\*)/g, '$1\n\n$2');
+
+  // Add paragraph breaks before key sentence transitions if stuck in giant block
+  text = text.replace(/(\.|\?)\s+(Perkenalkan,\s+\*\*Skillstreak)/g, '$1\n\n$2');
+  text = text.replace(/(\.|\?)\s+(Tujuan utamanya)/g, '$1\n\n$2');
+  text = text.replace(/(\.|\?)\s+(Lalu, apa saja yang membedakan)/g, '$1\n\n$2');
+  text = text.replace(/(\.|\?)\s+(Saat ini,\s+Skillstreak)/g, '$1\n\n$2');
+  text = text.replace(/(\.|\?)\s+(Khusus untuk para member)/g, '$1\n\n$2');
+  text = text.replace(/(\.|\?)\s+(Jadi, pastikan kamu)/g, '$1\n\n$2');
+  text = text.replace(/(\.|\?)\s+(So yeah, feel free to stick around)/g, '$1\n\n$2');
+  text = text.replace(/(\.|\?)\s+(Here's what's powering this setup:)/g, '$1\n\n$2');
+
+  // Clean excessive newlines
+  text = text.replace(/\n{3,}/g, '\n\n').trim();
+
+  return { isHtml: false, content: text };
+};
+
 export default function ArticleDetailPage() {
   const { slug } = useParams();
   const { data: settings } = useSupabaseSingle('general_settings');
@@ -64,6 +132,10 @@ export default function ArticleDetailPage() {
   const authorAvatar = info?.avatar_url || '/ghiffa.png';
 
   const articleUrl = typeof window !== 'undefined' ? window.location.href : `https://ghiffa.dev/article/${slug}`;
+
+  const processedContent = useMemo(() => {
+    return cleanArticleMarkdown(article?.content);
+  }, [article?.content]);
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(articleUrl);
@@ -179,7 +251,7 @@ export default function ArticleDetailPage() {
 
       <main className="flex-1 w-full">
         {/* Article Header Container */}
-        <div className="max-w-3xl mx-auto px-4 sm:px-8 pt-8 sm:pt-14 pb-8">
+        <div className="max-w-5xl mx-auto px-4 sm:px-8 lg:px-12 pt-8 sm:pt-14 pb-8">
           <ScrollReveal delay={0.05} y={16}>
             {/* Back Link */}
             <Link
@@ -191,7 +263,7 @@ export default function ArticleDetailPage() {
             </Link>
 
             {/* Meta Tags line */}
-            <div className="flex flex-wrap items-center gap-3 font-mono text-[11px] uppercase tracking-wider text-gray-400 font-medium mb-4 select-none">
+            <div className="flex flex-wrap items-center gap-3 font-mono text-[11px] uppercase tracking-wider text-gray-400 font-medium mb-5 select-none">
               <span className="inline-flex items-center gap-1.5 text-gray-600">
                 <Calendar className="w-3.5 h-3.5 text-gray-400" />
                 <span>{formatDateLong(article.published_at)}</span>
@@ -209,34 +281,34 @@ export default function ArticleDetailPage() {
             </div>
 
             {/* Article Headline */}
-            <h1 className="text-2xl min-[400px]:text-3xl sm:text-5xl font-bold tracking-tight text-[#141414] leading-[1.12] mb-5">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#141414] leading-[1.08] mb-6">
               {article.title}
             </h1>
 
             {/* Description Subtitle */}
             {article.description && (
-              <p className="text-base sm:text-lg text-gray-600 leading-relaxed font-normal mb-6">
+              <p className="text-lg sm:text-xl text-gray-600 leading-relaxed font-normal mb-8 max-w-4xl">
                 {article.description}
               </p>
             )}
 
             {/* Author Profile Bar + Share Trigger */}
-            <div className="pt-4 pb-2 border-t border-gray-100 flex items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
+            <div className="pt-6 pb-2 border-t border-gray-100 flex items-center justify-between gap-4">
+              <div className="flex items-center gap-3.5">
                 <img
                   src={authorAvatar}
                   alt={authorName}
-                  className="w-10 h-10 rounded-full object-cover border border-gray-200"
+                  className="w-11 h-11 rounded-full object-cover border border-gray-200"
                   onError={(e) => {
                     e.currentTarget.src = '/ghiffa.png';
                   }}
                 />
                 <div>
-                  <div className="text-xs sm:text-sm font-semibold text-[#141414] flex items-center gap-1.5">
+                  <div className="text-sm font-semibold text-[#141414] flex items-center gap-1.5">
                     <span>{authorName}</span>
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" title="Verified author" />
                   </div>
-                  <p className="text-[11px] text-gray-500 font-mono">
+                  <p className="text-xs text-gray-500 font-mono">
                     Fullstack Web Developer &amp; IoT Engineer
                   </p>
                 </div>
@@ -246,7 +318,7 @@ export default function ArticleDetailPage() {
               <button
                 type="button"
                 onClick={() => setShowShareModal(true)}
-                className="inline-flex items-center gap-1.5 text-xs font-mono px-3.5 py-1.5 rounded-full border border-gray-200 hover:border-black text-gray-700 hover:text-black transition-all cursor-pointer shadow-2xs select-none active:scale-95"
+                className="inline-flex items-center gap-1.5 text-xs font-mono px-4 py-2 rounded-full border border-gray-200 hover:border-black text-gray-700 hover:text-black transition-all cursor-pointer shadow-2xs select-none active:scale-95"
               >
                 <Share2 className="w-3.5 h-3.5" />
                 <span>Share</span>
@@ -255,27 +327,31 @@ export default function ArticleDetailPage() {
           </ScrollReveal>
         </div>
 
-        {/* Article Cover Image */}
+        {/* Article Cover Image - Natural height and spacious */}
         {article.cover_image && (
-          <div className="max-w-4xl mx-auto px-4 sm:px-8 mb-10 sm:mb-14">
+          <div className="max-w-5xl mx-auto px-4 sm:px-8 lg:px-12 mb-12 sm:mb-16">
             <ScrollReveal delay={0.1} y={24}>
-              <div className="aspect-[16/9] rounded-2xl sm:rounded-3xl overflow-hidden bg-gray-100 border border-black/5 shadow-xs">
+              <div className="rounded-2xl sm:rounded-3xl overflow-hidden bg-gray-50 border border-black/5 shadow-xs">
                 <img
                   src={article.cover_image}
                   alt={article.title}
-                  className="w-full h-full object-cover"
+                  className="w-full max-h-[640px] object-cover sm:object-center"
                 />
               </div>
             </ScrollReveal>
           </div>
         )}
 
-        {/* Article Markdown Content */}
-        <article className="max-w-3xl mx-auto px-4 sm:px-8 pb-16">
+        {/* Article Content Container */}
+        <article className="max-w-4xl mx-auto px-4 sm:px-8 lg:px-12 pb-20">
           <div className="prose-portfolio">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
-              {article.content}
-            </ReactMarkdown>
+            {processedContent.isHtml ? (
+              <div dangerouslySetInnerHTML={{ __html: processedContent.content }} />
+            ) : (
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {processedContent.content}
+              </ReactMarkdown>
+            )}
           </div>
 
           {/* End of article actions */}

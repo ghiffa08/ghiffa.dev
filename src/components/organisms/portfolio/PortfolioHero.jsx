@@ -187,9 +187,8 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
           <div id="hero-title-inner" className="will-change-transform">
             <div
               id="hero-bbox"
-              className={`px-3 min-[400px]:px-6 sm:px-12 pt-2 sm:pt-4 pb-2.5 sm:pb-6 overflow-visible transition-all duration-700 ease-out relative ${
-                heroRevealed ? 'figma-bbox' : 'border border-transparent'
-              }`}
+              className={`px-3 min-[400px]:px-6 sm:px-12 pt-2 sm:pt-4 pb-2.5 sm:pb-6 overflow-visible transition-all duration-700 ease-out relative ${heroRevealed ? 'figma-bbox' : 'border border-transparent'
+                }`}
             >
               {/* 8 Figma Selection Handles with Skillstreak Orange stroke */}
               <span className={`figma-handle -top-1 -left-1 transition-all duration-500 ${heroRevealed ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`} />
@@ -216,9 +215,8 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
         {/* 2. SURROUNDING WORKSPACE ITEMS (Hidden on refresh, reveals smoothly) */}
         <div
           id="hero-workspace-items"
-          className={`absolute inset-0 transition-all duration-1000 ease-out will-change-transform ${
-            heroRevealed ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-[0.98] pointer-events-none'
-          }`}
+          className={`absolute inset-0 transition-all duration-1000 ease-out will-change-transform ${heroRevealed ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-[0.98] pointer-events-none'
+            }`}
         >
           {/* Top Center: AI Mode Toggle Pill */}
           <DraggableItem className="absolute top-[20%] sm:top-[21.5%] left-1/2 -translate-x-1/2 z-30 bg-white rounded-full px-3.5 py-1.5 sm:px-4 sm:py-2 soft-card-shadow border border-gray-100/90 flex items-center gap-2.5 sm:gap-3 select-none">
@@ -228,14 +226,12 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
             <button
               onClick={() => setAiActive(!aiActive)}
               aria-label="AI Mode"
-              className={`w-9 sm:w-11 h-5 sm:h-6 rounded-full p-0.5 transition-colors duration-300 flex items-center cursor-pointer shadow-inner ${
-                aiActive ? 'bg-[#FF5500]' : 'bg-gray-300'
-              }`}
+              className={`w-9 sm:w-11 h-5 sm:h-6 rounded-full p-0.5 transition-colors duration-300 flex items-center cursor-pointer shadow-inner ${aiActive ? 'bg-[#FF5500]' : 'bg-gray-300'
+                }`}
             >
               <span
-                className={`w-4 sm:w-5 h-4 sm:h-5 rounded-full bg-white shadow-md transform transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
-                  aiActive ? 'translate-x-4 sm:translate-x-5' : 'translate-x-0'
-                }`}
+                className={`w-4 sm:w-5 h-4 sm:h-5 rounded-full bg-white shadow-md transform transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${aiActive ? 'translate-x-4 sm:translate-x-5' : 'translate-x-0'
+                  }`}
               />
             </button>
           </DraggableItem>
@@ -382,7 +378,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
                 rel="noopener noreferrer"
                 className="text-[12px] text-gray-800 mt-0.5 leading-snug block hover:text-black transition-colors"
               >
-                Connect on LinkedIn <span className="font-semibold text-gray-900 underline decoration-gray-300 underline-offset-2">Haikal Jibran</span>
+                Connect on LinkedIn <span className="font-semibold text-gray-900 underline decoration-gray-300 underline-offset-2">Haikal Jibran Al-Ghiffarry</span>
               </a>
             </div>
           </DraggableItem>

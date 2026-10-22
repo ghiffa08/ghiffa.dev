@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
+import { useInView } from 'framer-motion';
 import { ScrollReveal } from '../../atoms/ScrollReveal';
+import { TypewriterText } from '../../atoms/TypewriterText';
 
 export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList }) {
+  const headerRef = useRef(null);
+  const isHeaderInView = useInView(headerRef, { once: true, margin: '-60px 0px -40px 0px' });
+
   return (
     <section id="about" className="relative py-20 sm:py-28 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start sm:items-center">
@@ -115,7 +120,7 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
         {/* RIGHT COLUMN: Selection Highlight Header, Bio, Education, Languages */}
         <ScrollReveal delay={0.25} y={36} className="lg:col-span-7 flex flex-col justify-center space-y-7 sm:space-y-8">
           {/* SELECTION-HIGHLIGHTED HEADER */}
-          <div className="inline-flex items-center relative select-none self-start">
+          <div ref={headerRef} className="inline-flex items-center relative select-none self-start">
             {/* Left selection handle with top circle pin */}
             <div className="absolute -left-[2px] top-0 bottom-0 flex flex-col items-center">
               <div className="w-2.5 h-2.5 rounded-full bg-[#FF5500] ring-2 ring-white -translate-y-1/2" />
@@ -124,8 +129,11 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
 
             {/* Selection highlight box with text */}
             <div className="bg-[#FFF2EB] border-y border-[#FF5500]/30 px-5 sm:px-7 py-2 sm:py-2.5">
-              <h2 className="text-3xl sm:text-4xl lg:text-[46px] font-bold tracking-tight text-[#141414] lowercase leading-none">
-                about me
+              <h2
+                aria-label="about me"
+                className="text-3xl sm:text-4xl lg:text-[46px] font-bold tracking-tight text-[#141414] lowercase leading-none"
+              >
+                <TypewriterText text="about me" trigger={isHeaderInView} delay={650} speed={90} />
               </h2>
             </div>
 

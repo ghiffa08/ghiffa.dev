@@ -2349,7 +2349,7 @@ export default function Portfolio() {
       {/* 2.75 VERIFIED HAKI & CERTIFICATIONS: FULL SHARP CERTIFICATES WITH SHOW ALL */}
       <section
         id="haki-certifications"
-        className="relative py-12 sm:py-16 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto border-t border-gray-100/90"
+        className="relative py-12 sm:py-16 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto"
       >
         <div id="credentials" className="absolute -top-24" />
         <div id="certifications" className="absolute -top-24" />
@@ -2480,7 +2480,7 @@ export default function Portfolio() {
       </section>
 
       {/* 3. SELECTED WORKS (3-CARD GRID DESIGN BELOW STACKING CARDS) */}
-      <section id="works" className="relative py-14 sm:py-20 px-4 sm:px-8 lg:px-16 max-w-[1360px] mx-auto border-t border-gray-100/90">
+      <section id="works" className="relative py-14 sm:py-20 px-4 sm:px-8 lg:px-16 max-w-[1360px] mx-auto">
         <div id="work" className="absolute -top-24" />
         <div id="projects" className="absolute -top-24" />
 

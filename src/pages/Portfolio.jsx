@@ -1711,93 +1711,67 @@ export default function Portfolio() {
       <section id="journey" className="relative py-20 sm:py-28 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto border-t border-gray-100">
         <div id="experience" className="absolute -top-24" />
 
-        {/* Section Header: Exact match to reference image 'table of content' */}
-        <div className="text-center mb-16 sm:mb-20">
-          <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-[92px] font-bold text-[#141414] tracking-tight leading-none lowercase">
+        {/* Section Header: Pure single title like 'table of content' in reference */}
+        <div className="mb-12 sm:mb-16">
+          <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-[88px] font-bold text-[#141414] tracking-tight leading-[0.92] lowercase">
             professional journey
           </h2>
         </div>
 
-        {/* Full Exact Match to Reference Image: (01) on top, Gray Capsule, Colored Pill at bottom */}
-        <div className={`grid grid-cols-1 sm:grid-cols-2 ${experiencesList.length === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-4'} gap-8 lg:gap-6 xl:gap-8 max-w-7xl mx-auto`}>
+        {/* Clean Editorial Experience List (Non-card, consistent with theme) */}
+        <div className="divide-y divide-gray-200/80">
           {experiencesList.map((exp, idx) => {
             const indexNumber = String(idx + 1).padStart(2, '0');
-            const pillPalettes = [
-              { bg: 'bg-[#FEEF85]', text: 'text-[#141414]' }, // Yellow like 'Branding' in image
-              { bg: 'bg-[#B4F48A]', text: 'text-[#141414]' }, // Neon Green like 'Social Media' in image
-              { bg: 'bg-[#F9A8D4]', text: 'text-[#141414]' }, // Pink like 'photography' in image
-              { bg: 'bg-[#FED7AA]', text: 'text-[#141414]' }, // Soft Peach/Orange
-              { bg: 'bg-[#DDD6FE]', text: 'text-[#141414]' }, // Soft Lavender
-            ];
-            const currentPalette = pillPalettes[idx % pillPalettes.length];
-
-            // Category tag for pill
-            const roleLower = (exp.role || exp.position || '').toLowerCase();
-            let pillLabel = 'Development';
-            if (roleLower.includes('system') || roleLower.includes('designer')) pillLabel = 'System Design';
-            else if (roleLower.includes('support') || roleLower.includes('it')) pillLabel = 'IT Operations';
-            else if (roleLower.includes('iot')) pillLabel = 'IoT & Hardware';
-            else if (roleLower.includes('web')) pillLabel = idx === 0 ? 'Web Development' : 'Enterprise Web';
-            else if (Array.isArray(exp.skills) && exp.skills.length > 0) pillLabel = exp.skills[0];
-
             return (
-              <div key={exp.id || idx} className="flex flex-col items-center group">
-                {/* (01), (02), (03) centered on top */}
-                <span className="font-mono text-xs sm:text-[13px] font-bold text-gray-400 group-hover:text-[#FF5500] transition-colors mb-4">
-                  ({indexNumber})
-                </span>
-
-                {/* Gray Rounded Capsule Backdrop */}
-                <div className="w-full bg-[#ECEEF2] group-hover:bg-[#E5E8EE] rounded-[36px] sm:rounded-[44px] p-7 sm:p-8 flex flex-col justify-between min-h-[380px] sm:min-h-[420px] transition-all duration-300 shadow-2xs group-hover:shadow-md">
+              <div
+                key={exp.id || idx}
+                className="group py-8 sm:py-12 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-start hover:bg-gray-50/60 -mx-4 sm:-mx-6 px-4 sm:px-6 rounded-2xl transition-all duration-200"
+              >
+                {/* Column 1: Index Number (01), (02) & Period */}
+                <div className="md:col-span-3 flex md:flex-col items-center md:items-start justify-between md:justify-start gap-2">
+                  <span className="text-xs sm:text-sm font-mono font-bold text-gray-400 group-hover:text-[#FF5500] transition-colors">
+                    ({indexNumber})
+                  </span>
                   <div>
-                    {/* Period & Location */}
-                    <div className="flex items-center justify-between gap-2 mb-4">
-                      <span className="text-[11px] sm:text-xs font-mono font-semibold text-gray-500 uppercase tracking-wider">
-                        {exp.period || '2023 - Present'}
+                    <span className="text-xs sm:text-[13px] font-mono font-medium text-gray-600 block">
+                      {exp.period || '2023 - Present'}
+                    </span>
+                    {exp.location && (
+                      <span className="text-[12px] text-gray-400 font-normal block mt-0.5">
+                        {exp.location}
                       </span>
-                      {exp.location && (
-                        <span className="text-[11px] text-gray-400 font-medium">
-                          {exp.location}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Role Title */}
-                    <h3 className="text-xl sm:text-2xl font-bold text-[#141414] group-hover:text-[#FF5500] transition-colors leading-snug">
-                      {exp.role || exp.position}
-                    </h3>
-
-                    {/* Company */}
-                    <div className="text-sm font-semibold text-gray-700 mt-1.5">
-                      {exp.company}
-                    </div>
-
-                    {/* Description */}
-                    <p className="text-[13px] sm:text-[13.5px] text-gray-600 leading-relaxed mt-4">
-                      {exp.description}
-                    </p>
+                    )}
                   </div>
+                </div>
 
-                  {/* Skills / Tech badges inside capsule */}
+                {/* Column 2: Role & Company */}
+                <div className="md:col-span-4">
+                  <h3 className="text-xl sm:text-2xl font-bold text-[#141414] group-hover:text-[#FF5500] transition-colors leading-snug">
+                    {exp.role || exp.position}
+                  </h3>
+                  <div className="text-sm sm:text-base font-semibold text-gray-700 mt-1.5 flex items-center gap-2">
+                    <span>{exp.company}</span>
+                  </div>
+                </div>
+
+                {/* Column 3: Description & Tech Stack */}
+                <div className="md:col-span-5 space-y-3">
+                  <p className="text-sm sm:text-[15px] text-gray-600 leading-relaxed font-normal">
+                    {exp.description}
+                  </p>
+
                   {exp.skills && Array.isArray(exp.skills) && exp.skills.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5 pt-4 mt-auto">
+                    <div className="flex flex-wrap gap-1.5 pt-2">
                       {exp.skills.map((skill, sIdx) => (
                         <span
                           key={sIdx}
-                          className="text-[11px] font-mono font-medium bg-white/90 text-gray-700 px-2.5 py-1 rounded-lg border border-gray-200/60 shadow-2xs"
+                          className="text-[11px] font-mono font-medium bg-white text-gray-600 px-2.5 py-1 rounded-md border border-gray-200/80 shadow-2xs"
                         >
                           {skill}
                         </span>
                       ))}
                     </div>
                   )}
-                </div>
-
-                {/* Vibrant Colored Pill Tag Centered Below Capsule */}
-                <div className="mt-4">
-                  <span className={`inline-block px-5 py-1.5 rounded-full text-xs sm:text-[13px] font-semibold tracking-tight shadow-xs ${currentPalette.bg} ${currentPalette.text}`}>
-                    {pillLabel}
-                  </span>
                 </div>
               </div>
             );

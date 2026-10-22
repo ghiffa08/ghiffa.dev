@@ -1711,9 +1711,9 @@ export default function Portfolio() {
       <section id="journey" className="relative py-20 sm:py-28 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto border-t border-gray-100">
         <div id="experience" className="absolute -top-24" />
 
-        {/* Section Header: Pure single title like 'table of content' in reference */}
-        <div className="mb-12 sm:mb-16">
-          <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-[88px] font-bold text-[#141414] tracking-tight leading-[0.92] lowercase">
+        {/* Section Header: Full-width display title matching reference */}
+        <div className="mb-14 sm:mb-20">
+          <h2 className="text-4xl min-[400px]:text-5xl sm:text-7xl md:text-8xl lg:text-[110px] xl:text-[124px] 2xl:text-[130px] lg:whitespace-nowrap font-bold text-[#141414] tracking-tight sm:tracking-tighter leading-[0.88] lowercase select-none">
             professional journey
           </h2>
         </div>

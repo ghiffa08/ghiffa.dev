@@ -12,6 +12,7 @@ import {
   SelectedWorksSection,
   SkillstreakBannerSection,
   SelectedArticlesSection,
+  InstagramPostsSection,
   TeamCanvasSection,
   CraftDetailsSection,
   ClientLogosStrip,
@@ -435,6 +436,9 @@ export default function Portfolio() {
         articlesList={articlesList}
         isBannerDark={isBannerDark}
       />
+
+      {/* Instagram Posts Draggable Carousel Section (Right Below Selected Articles) */}
+      <InstagramPostsSection isBannerDark={isBannerDark} />
 
       {/* Team Canvas Section */}
       <TeamCanvasSection onOpenContact={openContactModal} />

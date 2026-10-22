@@ -288,6 +288,45 @@ export default function Portfolio() {
     };
   }, [isBannerDark]);
 
+  // Draggable Carousel logic for Selected Works
+  const worksCarouselRef = useRef(null);
+  const isDraggingWorksRef = useRef(false);
+  const startXWorksRef = useRef(0);
+  const scrollLeftWorksRef = useRef(0);
+  const hasDraggedWorksRef = useRef(false);
+
+  const handleWorksMouseDown = (e) => {
+    if (!worksCarouselRef.current) return;
+    isDraggingWorksRef.current = true;
+    hasDraggedWorksRef.current = false;
+    startXWorksRef.current = e.pageX - worksCarouselRef.current.offsetLeft;
+    scrollLeftWorksRef.current = worksCarouselRef.current.scrollLeft;
+  };
+
+  const handleWorksMouseMove = (e) => {
+    if (!isDraggingWorksRef.current || !worksCarouselRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - worksCarouselRef.current.offsetLeft;
+    const walk = (x - startXWorksRef.current) * 1.5;
+    if (Math.abs(walk) > 6) {
+      hasDraggedWorksRef.current = true;
+    }
+    worksCarouselRef.current.scrollLeft = scrollLeftWorksRef.current - walk;
+  };
+
+  const handleWorksMouseUpOrLeave = () => {
+    isDraggingWorksRef.current = false;
+  };
+
+  const scrollWorksCarousel = (direction) => {
+    if (!worksCarouselRef.current) return;
+    const scrollAmount = worksCarouselRef.current.clientWidth * 0.75;
+    worksCarouselRef.current.scrollBy({
+      left: direction === 'left' ? -scrollAmount : scrollAmount,
+      behavior: 'smooth'
+    });
+  };
+
   const openContactModal = (topic = '') => {
     setModalTopic(topic);
     if (topic) {
@@ -1912,8 +1951,8 @@ export default function Portfolio() {
         )}
       </section>
 
-      {/* 3. SELECTED WORKS (3-CARD GRID DESIGN BELOW STACKING CARDS) */}
-      <section id="works" className="relative py-14 sm:py-20 px-4 sm:px-8 lg:px-16 max-w-[1360px] mx-auto">
+      {/* 3. SELECTED WORKS (DRAGGABLE CAROUSEL SHOWING ALL PROJECTS) */}
+      <section id="works" className="relative py-14 sm:py-20 px-4 sm:px-8 lg:px-16 max-w-[1360px] mx-auto overflow-hidden">
         <div id="work" className="absolute -top-24" />
         <div id="projects" className="absolute -top-24" />
 
@@ -1925,23 +1964,55 @@ export default function Portfolio() {
               Selected works
             </h2>
           </div>
-          <button
-            onClick={() => openContactModal('Explore All Works')}
-            className="text-xs font-medium text-gray-600 hover:text-black border border-gray-200 px-4 py-2 rounded-full transition-colors hidden sm:inline-block cursor-pointer shadow-2xs hover:border-gray-300"
-          >
-            Explore all works &rarr;
-          </button>
+          <div className="flex items-center gap-3">
+            {/* Carousel Navigation Buttons */}
+            <div className="flex items-center gap-1.5">
+              <button
+                type="button"
+                onClick={() => scrollWorksCarousel('left')}
+                aria-label="Previous project"
+                className="w-9 h-9 rounded-full border border-gray-200 hover:border-gray-900 bg-white hover:bg-gray-50 flex items-center justify-center text-gray-700 hover:text-black transition-all cursor-pointer shadow-2xs active:scale-95"
+              >
+                <span className="text-base leading-none">&larr;</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollWorksCarousel('right')}
+                aria-label="Next project"
+                className="w-9 h-9 rounded-full border border-gray-200 hover:border-gray-900 bg-white hover:bg-gray-50 flex items-center justify-center text-gray-700 hover:text-black transition-all cursor-pointer shadow-2xs active:scale-95"
+              >
+                <span className="text-base leading-none">&rarr;</span>
+              </button>
+            </div>
+
+            <button
+              onClick={() => openContactModal('Explore All Works')}
+              className="text-xs font-medium text-gray-600 hover:text-black border border-gray-200 px-4 py-2 rounded-full transition-colors hidden sm:inline-block cursor-pointer shadow-2xs hover:border-gray-300"
+            >
+              Explore all works &rarr;
+            </button>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-          {projectsList.slice(0, 3).map((proj, idx) => {
+        {/* Draggable Carousel */}
+        <div
+          ref={worksCarouselRef}
+          onMouseDown={handleWorksMouseDown}
+          onMouseMove={handleWorksMouseMove}
+          onMouseUp={handleWorksMouseUpOrLeave}
+          onMouseLeave={handleWorksMouseUpOrLeave}
+          className="flex gap-6 lg:gap-8 overflow-x-auto scrollbar-none cursor-grab active:cursor-grabbing select-none pb-4 -mx-4 sm:-mx-8 lg:-mx-16 px-4 sm:px-8 lg:px-16 scroll-smooth"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          {projectsList.map((proj, idx) => {
             const projImg = proj.image_url || (Array.isArray(proj.image_urls) && proj.image_urls.length > 0 ? proj.image_urls[0] : null);
 
             return (
               <article
                 key={proj.id || idx}
-                className="group cursor-pointer flex flex-col"
+                className="w-[85vw] sm:w-[380px] md:w-[410px] lg:w-[430px] shrink-0 group cursor-pointer flex flex-col select-none"
                 onClick={() => {
+                  if (hasDraggedWorksRef.current) return;
                   if (proj.link && proj.link !== '#' && proj.link.startsWith('http')) {
                     window.open(proj.link, '_blank', 'noopener,noreferrer');
                   } else {
@@ -1950,12 +2021,13 @@ export default function Portfolio() {
                 }}
               >
                 {/* Clean Card Visual matching Gambar 2 (Tall 4:3 aspect ratio, rounded-2xl) */}
-                <div className="aspect-[4/3] rounded-2xl overflow-hidden mb-5 relative bg-[#F4F4F5] select-none">
+                <div className="aspect-[4/3] rounded-2xl overflow-hidden mb-5 relative bg-[#F4F4F5] select-none pointer-events-none">
                   {projImg ? (
                     <img
                       src={projImg}
                       alt={proj.title}
-                      className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out"
+                      draggable={false}
+                      className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out pointer-events-none"
                       onError={(e) => {
                         e.currentTarget.style.display = 'none';
                       }}

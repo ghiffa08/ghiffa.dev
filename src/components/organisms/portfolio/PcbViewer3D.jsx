@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 /**
  * 3D Custom PCB Hardware Showcase.
- * Loads the user's exported PCB model, properly centers and scales it to fill
- * the card showcase area, and applies a clean, smooth continuous rotation.
+ * Loads the user's exported PCB model, properly centers and scales it,
+ * keeps it stationary by default, and allows the user to drag to rotate.
  */
 export function PcbViewer3D() {
   const containerRef = useRef(null);
@@ -21,7 +22,8 @@ export function PcbViewer3D() {
     // ─── SCENE & CAMERA ───────────────────────────────────────────────
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 100);
-    camera.position.set(0, 2.6, 4.2);
+    // Isometric angle showing top components & side profiles clearly
+    camera.position.set(2.4, 2.5, 3.8);
     camera.lookAt(0, 0, 0);
 
     // ─── RENDERER ─────────────────────────────────────────────────────
@@ -35,6 +37,18 @@ export function PcbViewer3D() {
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.1;
     container.appendChild(renderer.domElement);
+
+    // ─── ORBIT CONTROLS (DRAG TO ROTATE, STATIONARY BY DEFAULT) ───────
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
+    controls.enableZoom = false; // Disable scroll zoom so page scroll works naturally
+    controls.enablePan = false;  // Keep model centered
+    controls.rotateSpeed = 0.85;
+    controls.minPolarAngle = Math.PI * 0.15; // Don't flip to straight top view
+    controls.maxPolarAngle = Math.PI * 0.55; // Don't go underneath
+    controls.target.set(0, 0, 0);
+    controls.update();
 
     // ─── LIGHTING ─────────────────────────────────────────────────────
     const ambientLight = new THREE.AmbientLight(0xffffff, 1.8);
@@ -52,15 +66,12 @@ export function PcbViewer3D() {
     rimLight.position.set(0, -3, -4);
     scene.add(rimLight);
 
-    // ─── ROOT GROUP FOR CONTINUOUS ROTATION ────────────────────────────
+    // ─── ROOT & INNER GROUPS ──────────────────────────────────────────
     const rootGroup = new THREE.Group();
-    // Tilt slightly forward so top components are clearly visible
-    rootGroup.rotation.x = 0.48;
     scene.add(rootGroup);
 
-    // ─── INNER GROUP TO LAY PCB FLAT (+Z UP) ──────────────────────────
+    // Lay PCB flat (+Z up so components face upward)
     const innerGroup = new THREE.Group();
-    // PCB was modeled with Z as height/components and XY as board plane
     innerGroup.rotation.x = -Math.PI / 2;
     rootGroup.add(innerGroup);
 
@@ -80,7 +91,7 @@ export function PcbViewer3D() {
         const size = box.getSize(new THREE.Vector3());
         const maxDim = Math.max(size.x, size.y, size.z);
 
-        // Scale to fill the showcase prominently (target ~3.8 units)
+        // Scale to fill showcase area prominently
         const targetSize = 3.8;
         const scale = maxDim > 0 ? targetSize / maxDim : 1;
 
@@ -107,20 +118,12 @@ export function PcbViewer3D() {
       }
     );
 
-    // ─── SIMPLE SMOOTH ANIMATION LOOP ─────────────────────────────────
+    // ─── RENDER LOOP (STATIONARY UNLESS DRAGGED) ──────────────────────
     let animId;
-    const clock = new THREE.Clock();
 
     const animate = () => {
       animId = requestAnimationFrame(animate);
-      const elapsedTime = clock.getElapsedTime();
-
-      // Simple, steady turntable spin
-      rootGroup.rotation.y += 0.009;
-
-      // Subtle gentle vertical float
-      rootGroup.position.y = Math.sin(elapsedTime * 1.5) * 0.08;
-
+      controls.update(); // Handles damping deceleration after dragging
       renderer.render(scene, camera);
     };
 
@@ -142,6 +145,7 @@ export function PcbViewer3D() {
       isDisposed = true;
       cancelAnimationFrame(animId);
       window.removeEventListener('resize', handleResize);
+      controls.dispose();
       renderer.dispose();
       if (renderer.domElement && container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
@@ -151,10 +155,11 @@ export function PcbViewer3D() {
 
   return (
     <div className="relative w-full h-[220px] sm:h-[250px] xl:h-[270px] mt-4 flex items-center justify-center select-none overflow-hidden">
-      {/* 3D Canvas */}
+      {/* 3D Canvas with drag-to-rotate cursor */}
       <div
         ref={containerRef}
-        className="w-full h-full transition-transform duration-500 ease-out group-hover:scale-105 pointer-events-none"
+        className="w-full h-full cursor-grab active:cursor-grabbing transition-transform duration-500 ease-out group-hover:scale-105"
+        style={{ touchAction: 'pan-y' }}
       />
 
       {/* Loading Indicator */}

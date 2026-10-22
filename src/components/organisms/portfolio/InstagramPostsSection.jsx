@@ -2,16 +2,6 @@ import React, { useState } from 'react';
 import { useInstagramFeed } from '../../../hooks/useInstagramFeed';
 import { ScrollReveal } from '../../atoms/ScrollReveal';
 
-const formatDate = (timestamp) => {
-  if (!timestamp) return '';
-  const date = new Date(timestamp);
-  return date.toLocaleDateString('en-US', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric'
-  }).toUpperCase();
-};
-
 const POSTS_PER_PAGE = 6;
 
 export function InstagramPostsSection({ isBannerDark }) {
@@ -68,10 +58,10 @@ export function InstagramPostsSection({ isBannerDark }) {
 
       {/* Loading Skeleton */}
       {isLoading && allPosts.length === 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
           {[1, 2, 3, 4, 5, 6].map((n) => (
             <div key={n} className="animate-pulse">
-              <div className="aspect-[4/3] rounded-2xl bg-gray-100 mb-5" />
+              <div className="aspect-square rounded-2xl bg-gray-100 mb-5" />
               <div className="h-4 bg-gray-100 rounded-md w-3/4 mb-2.5" />
               <div className="h-3 bg-gray-100 rounded-md w-1/2" />
             </div>
@@ -80,7 +70,7 @@ export function InstagramPostsSection({ isBannerDark }) {
       ) : (
         <>
           {/* Responsive 3-Column Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
             {currentPosts.map((post, idx) => {
               const imgSrc = post.media_type === 'VIDEO' ? (post.thumbnail_url || post.media_url) : post.media_url;
 
@@ -98,35 +88,23 @@ export function InstagramPostsSection({ isBannerDark }) {
                       }
                     }}
                   >
-                    {/* Clean Card Visual (Tall 4:3 aspect ratio matching Selected Works & Articles) */}
-                    <div className="aspect-[4/3] rounded-2xl overflow-hidden mb-5 relative bg-[#F4F4F5] shadow-xs border border-black/5 select-none pointer-events-none">
+                    {/* Clean Card Visual: Original uncropped aspect ratio without badges */}
+                    <div className="rounded-2xl overflow-hidden mb-4 relative bg-[#F4F4F5] shadow-xs border border-black/5 select-none pointer-events-none">
                       {imgSrc ? (
                         <img
                           src={imgSrc}
                           alt={post.caption || 'Instagram Post'}
                           loading="lazy"
-                          className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out pointer-events-none"
+                          className="w-full h-auto block object-cover group-hover:scale-[1.02] transition-transform duration-500 ease-out pointer-events-none"
                           onError={(e) => {
                             e.currentTarget.style.display = 'none';
                           }}
                         />
                       ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-pink-500 via-rose-500 to-amber-500 flex items-center justify-center text-white font-mono text-xs">
+                        <div className="w-full aspect-square bg-gradient-to-br from-pink-500 via-rose-500 to-amber-500 flex items-center justify-center text-white font-mono text-xs">
                           Instagram Post
                         </div>
                       )}
-
-                      {/* Media Type & Date Badge */}
-                      <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between pointer-events-none">
-                        <span className="bg-black/60 backdrop-blur-md text-white font-mono text-[9px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider">
-                          {post.media_type === 'CAROUSEL_ALBUM' ? 'Album' : post.media_type === 'VIDEO' ? 'Reel' : 'Post'}
-                        </span>
-                        {post.timestamp && (
-                          <span className="bg-white/80 backdrop-blur-md text-gray-900 font-mono text-[9px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider">
-                            {formatDate(post.timestamp)}
-                          </span>
-                        )}
-                      </div>
                     </div>
 
                     {/* Caption Title */}
@@ -146,12 +124,6 @@ export function InstagramPostsSection({ isBannerDark }) {
                     }`}>
                       {post.caption || 'View full post and discussion on Instagram.'}
                     </p>
-
-                    {/* Action Link */}
-                    <div className="mt-3 flex items-center gap-1.5 text-xs font-semibold text-[#FF5500] group-hover:underline">
-                      <span>View on Instagram</span>
-                      <span>&rarr;</span>
-                    </div>
                   </article>
                 </ScrollReveal>
               );

@@ -444,7 +444,10 @@ export default function Portfolio() {
       />
 
       {/* Footer */}
-      <PortfolioFooter emailAddress={emailAddress} />
+      <PortfolioFooter
+        emailAddress={emailAddress}
+        onOpenContact={openContactModal}
+      />
 
       {/* Contact Modal */}
       <ContactModal

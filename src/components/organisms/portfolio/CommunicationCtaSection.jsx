@@ -53,20 +53,8 @@ export function CommunicationCtaSection({ emailAddress, onOpenContact }) {
             <span className="text-base leading-none">&nearr;</span>
           </button>
 
-          {/* Email Direct Mailto Pill */}
-          <a
-            href={`mailto:${email}`}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-800 font-mono text-xs sm:text-[13px] font-medium px-6 py-3.5 sm:py-4 rounded-full border border-gray-200/90 shadow-2xs hover:border-gray-400 transition-all cursor-pointer"
-          >
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span>{email}</span>
-          </a>
         </div>
 
-        {/* Live response footnote */}
-        <div className="mt-6 flex items-center justify-center gap-2 text-[11.5px] font-mono text-gray-400">
-          <span>// usually responds within 24 hours</span>
-        </div>
       </ScrollReveal>
     </section>
   );

@@ -1,15 +1,14 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { Search, X, ArrowUpRight, BookOpen } from 'lucide-react';
 import { ArticleRepository } from '../repositories/ArticleRepository';
 import { useSupabaseSingle } from '../hooks/useSupabaseData';
-import { useSmoothScroll } from '../hooks/useSmoothScroll';
-import { Header } from '../components/organisms/Header';
-import { Footer } from '../components/organisms/Footer';
 import { SEO } from '../components/atoms/SEO';
+import { ScrollReveal } from '../components/atoms/ScrollReveal';
+import { ArticlesHeader, PortfolioFooter } from '../components/organisms/portfolio';
 
 /**
- * Format ISO timestamp into editorial-friendly format.
+ * Format ISO timestamp into clean editorial format (e.g., "12 OKT 2024").
  */
 const formatDate = (timestamp) => {
   if (!timestamp) return '';
@@ -21,25 +20,20 @@ const formatDate = (timestamp) => {
   }).toUpperCase();
 };
 
-/**
- * Truncate text to a max length.
- */
-const truncate = (text, maxLength = 120) => {
-  if (!text) return '';
-  if (text.length <= maxLength) return text;
-  return text.slice(0, maxLength) + '...';
-};
-
 export default function ArticlesPage() {
-  useSmoothScroll();
-  const { t } = useTranslation();
   const { data: settings } = useSupabaseSingle('general_settings');
+  const { data: info } = useSupabaseSingle('personal_info');
 
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
 
+  const email = info?.email || 'hello@ghiffa.dev';
+  const appName = settings?.app_name || 'ghiffa.dev';
+
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     async function fetchArticles() {
       try {
         const data = await ArticleRepository.getAllArticles();
@@ -54,7 +48,7 @@ export default function ArticlesPage() {
   }, []);
 
   // Filter articles by search query
-  const filtered = articles.filter(article => {
+  const filtered = articles.filter((article) => {
     if (!searchQuery.trim()) return true;
     const q = searchQuery.toLowerCase();
     return (
@@ -63,181 +57,167 @@ export default function ArticlesPage() {
     );
   });
 
-  const appName = settings?.app_name || 'ghiffa.dev';
-
   return (
-    <>
+    <div className="min-h-screen bg-white text-[#141414] flex flex-col selection:bg-[#FF5500] selection:text-white">
       <SEO
-        title={`${t('articles.title')} | ${appName}`}
-        description={t('articles.subtitle')}
+        title={`Articles & Insights | ${appName}`}
+        description="Engineering deep-dives, architectural notes, and tutorials on fullstack web development, IoT systems, and modern software design by Haikal Jibran Al-Ghiffarry."
         url="https://ghiffa.dev/articles"
       />
 
-      <style dangerouslySetInnerHTML={{__html: `
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800;900&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
-        
-        :root {
-          --bg-light: #FAFAFA;
-          --bg-card: #FFFFFF;
-          --text-dark: #111111;
-          --border: #E5E5E5;
-          --accent: #666666;
-        }
+      {/* Reusable Portfolio-Styled Header */}
+      <ArticlesHeader emailAddress={email} />
 
-        body {
-          background-color: var(--bg-light);
-          color: var(--text-dark);
-          font-family: 'Inter', sans-serif;
-          -webkit-font-smoothing: antialiased;
-          overflow-x: hidden;
-        }
-
-        .font-mono { font-family: 'JetBrains Mono', monospace; }
-        .font-serif-editorial { font-family: 'Playfair Display', serif; }
-        
-        .hairline-b { border-bottom: 1px solid var(--border); }
-        .hairline-t { border-top: 1px solid var(--border); }
-        
-        ::selection { background: var(--text-dark); color: var(--bg-light); }
-
-        .animate-fade-in { animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-      `}} />
-
-      <main className="relative w-full z-10 min-h-screen flex flex-col selection:bg-[#111111] selection:text-[#FAFAFA]">
-        <Header />
-
-        {/* Hero Banner */}
-        <section className="w-full pt-32 pb-16 md:pt-40 md:pb-24 bg-[#FAFAFA] border-b border-[#E5E5E5]">
-          <div className="max-w-screen-2xl mx-auto px-6 md:px-12">
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-              <div>
-                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-[#666666] mb-4">
-                  [ {t('articles.subtitle')} ]
-                </p>
-                <h1 className="text-6xl md:text-8xl lg:text-9xl font-serif-editorial font-bold tracking-tight leading-[0.9] text-[#111111]">
-                  {t('articles.title')}
-                </h1>
-              </div>
-              <div className="md:pb-2">
-                <span className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#666666]">
-                  {filtered.length} {filtered.length === 1 ? 'ARTICLE' : 'ARTICLES'}
-                </span>
-              </div>
+      <main className="flex-1 w-full max-w-[1360px] mx-auto px-4 sm:px-8 lg:px-16 pt-10 sm:pt-16 pb-20 sm:pb-28">
+        {/* Section Header */}
+        <ScrollReveal delay={0.05} y={24}>
+          <div className="max-w-3xl mb-10 sm:mb-14">
+            <div className="flex items-center gap-2 mb-4 select-none">
+              <span className="w-2 h-2 rounded-full bg-[#FF5500]" />
+              <span className="font-mono text-xs uppercase tracking-[0.2em] font-semibold text-gray-500">
+                Writings &amp; Insights
+              </span>
             </div>
-          </div>
-        </section>
 
-        {/* Search Bar */}
-        <section className="w-full bg-white border-b border-[#E5E5E5] py-6">
-          <div className="max-w-screen-2xl mx-auto px-6 md:px-12">
-            <div className="relative max-w-xl">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                <svg className="w-4 h-4 text-[#666666]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </div>
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#141414] leading-[1.05] mb-4">
+              articles
+            </h1>
+
+            <p className="text-sm sm:text-base text-gray-600 leading-relaxed max-w-2xl font-normal">
+              Thoughts, engineering deep-dives, and behind-the-scenes on building scalable web applications, embedded IoT systems, and interactive digital products.
+            </p>
+          </div>
+        </ScrollReveal>
+
+        {/* Search & Meta Toolbar */}
+        <ScrollReveal delay={0.1} y={20}>
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 mb-10 sm:mb-12 pb-6 border-b border-gray-100">
+            {/* Search Input Box */}
+            <div className="relative flex-1 max-w-md">
+              <Search className="w-4 h-4 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={t('articles.search_placeholder')}
-                className="w-full pl-11 pr-4 py-3 border border-[#E5E5E5] bg-[#FAFAFA] text-[#111111] font-mono text-sm tracking-wide focus:outline-none focus:border-[#111111] transition-colors duration-200 placeholder:text-gray-400"
+                placeholder="Search articles by title or topic..."
+                className="w-full pl-11 pr-10 py-2.5 rounded-full border border-gray-200 bg-[#FAFAFA] text-sm text-[#141414] placeholder:text-gray-400 focus:outline-none focus:border-black focus:bg-white transition-all font-mono"
               />
               {searchQuery && (
                 <button
+                  type="button"
                   onClick={() => setSearchQuery('')}
-                  className="absolute inset-y-0 right-0 flex items-center pr-4 font-mono text-xs text-[#666666] hover:text-[#111111] transition-colors uppercase tracking-wider font-bold"
+                  aria-label="Clear search"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black transition-colors"
                 >
-                  Clear
+                  <X className="w-4 h-4" />
                 </button>
               )}
             </div>
-          </div>
-        </section>
 
-        {/* Articles Grid */}
-        <section className="flex-1 w-full bg-[#FAFAFA] py-12 md:py-16">
-          <div className="max-w-screen-2xl mx-auto px-6 md:px-12">
-            {loading ? (
-              <div className="flex justify-center items-center py-24">
-                <div className="flex flex-col items-center gap-4">
-                  <div className="w-8 h-8 border-4 border-[#111111] border-t-transparent rounded-full animate-spin"></div>
-                  <p className="font-mono text-xs uppercase tracking-widest text-[#111111] animate-pulse">
-                    Loading Articles...
-                  </p>
-                </div>
+            {/* Total count pill */}
+            <div className="flex items-center gap-2 self-start sm:self-auto">
+              <span className="font-mono text-xs text-gray-500">
+                Showing <strong className="text-black font-semibold">{filtered.length}</strong> {filtered.length === 1 ? 'article' : 'articles'}
+              </span>
+            </div>
+          </div>
+        </ScrollReveal>
+
+        {/* Articles Grid or States */}
+        {loading ? (
+          /* Loading Skeletons matching Card Dimensions */
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
+            {[1, 2, 3, 4, 5, 6].map((idx) => (
+              <div key={idx} className="flex flex-col animate-pulse">
+                <div className="aspect-[4/3] rounded-2xl bg-gray-100 mb-5" />
+                <div className="h-3 bg-gray-100 rounded-md w-1/3 mb-3" />
+                <div className="h-5 bg-gray-100 rounded-md w-4/5 mb-2.5" />
+                <div className="h-3.5 bg-gray-100 rounded-md w-full mb-1.5" />
+                <div className="h-3.5 bg-gray-100 rounded-md w-2/3" />
               </div>
-            ) : filtered.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-24 text-center">
-                <div className="w-16 h-16 border-2 border-[#E5E5E5] flex items-center justify-center mb-6">
-                  <svg className="w-8 h-8 text-[#E5E5E5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-                  </svg>
-                </div>
-                <p className="font-mono text-xs uppercase tracking-widest text-gray-400 font-bold">
-                  {t('articles.no_results')}
-                </p>
-                {searchQuery && (
-                  <button
-                    onClick={() => setSearchQuery('')}
-                    className="mt-4 font-mono text-[10px] uppercase tracking-[0.2em] font-bold text-[#111111] border-b border-[#111111] pb-0.5 hover:text-[#666666] hover:border-[#666666] transition-colors"
+            ))}
+          </div>
+        ) : filtered.length === 0 ? (
+          /* Empty Search Results */
+          <div className="py-20 text-center flex flex-col items-center justify-center">
+            <div className="w-14 h-14 rounded-2xl bg-gray-50 border border-gray-200 flex items-center justify-center mb-4">
+              <BookOpen className="w-6 h-6 text-gray-400" />
+            </div>
+            <h3 className="text-lg font-semibold text-[#141414] mb-1">No articles found</h3>
+            <p className="text-xs sm:text-sm text-gray-500 max-w-xs mb-5">
+              We couldn&apos;t find any articles matching &ldquo;{searchQuery}&rdquo;. Try another search term.
+            </p>
+            <button
+              onClick={() => setSearchQuery('')}
+              className="text-xs font-mono font-medium text-black underline underline-offset-4 hover:text-[#FF5500] transition-colors"
+            >
+              Clear search filter
+            </button>
+          </div>
+        ) : (
+          /* Real Articles Grid */
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
+            {filtered.map((article, idx) => {
+              const articleImg = article.cover_image || article.image_url;
+
+              return (
+                <ScrollReveal key={article.id || idx} delay={idx * 0.05} y={24}>
+                  <Link
+                    to={`/article/${article.slug}`}
+                    className="group flex flex-col cursor-pointer select-none"
                   >
-                    Clear Search
-                  </button>
-                )}
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                {filtered.map((article, idx) => (
-                  <article key={article.id} className="group relative flex flex-col bg-white hover:bg-[#FAFAFA] transition-all duration-300 border border-[#E5E5E5] animate-fade-in" style={{ animationDelay: `${idx * 80}ms`, opacity: 0 }}>
-                    <Link
-                      to={`/article/${article.slug}`}
-                      className="flex flex-col h-full w-full outline-none focus:ring-2 focus:ring-[#111111]"
-                    >
-                      {/* Cover Image */}
-                      <div className="w-full aspect-[16/10] overflow-hidden bg-[#E5E5E5] relative">
+                    {/* Visual Cover (matching Selected Works & Selected Articles) */}
+                    <div className="aspect-[4/3] rounded-2xl overflow-hidden mb-4 relative bg-[#F4F4F5] shadow-xs border border-black/5">
+                      {articleImg ? (
                         <img
-                          src={article.cover_image}
+                          src={articleImg}
                           alt={article.title}
                           loading="lazy"
-                          className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out"
+                          className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out"
                         />
-                      </div>
-
-                      {/* Text Content */}
-                      <div className="flex flex-col flex-1 p-6 md:p-8">
-                        <div className="flex justify-between items-center mb-4">
-                          <span className="font-mono text-[10px] font-bold tracking-[0.2em] text-[#666666]">
-                            {formatDate(article.published_at)}
-                          </span>
-                          <span className="font-mono text-[9px] text-gray-400 font-bold uppercase tracking-[0.15em] border border-[#E5E5E5] px-2 py-0.5 bg-[#FAFAFA]">
-                            {article.read_time}
-                          </span>
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-neutral-800 to-neutral-950 flex items-center justify-center text-white/40 font-mono text-xs uppercase tracking-wider">
+                          ghiffa.dev editorial
                         </div>
+                      )}
+                    </div>
 
-                        <h2 className="text-base md:text-lg font-serif-editorial font-bold tracking-tight mb-4 leading-snug text-[#111111] group-hover:text-[#666666] transition-colors line-clamp-2">
-                          {article.title}
-                        </h2>
+                    {/* Metadata line */}
+                    <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-gray-400 font-medium mb-2">
+                      <span>{formatDate(article.published_at)}</span>
+                      {article.read_time && (
+                        <>
+                          <span className="text-gray-300">&middot;</span>
+                          <span>{article.read_time}</span>
+                        </>
+                      )}
+                    </div>
 
-                        <p className="text-sm text-[#666666] leading-relaxed mb-6 font-light line-clamp-3 flex-1">
-                          {truncate(article.description, 150)}
-                        </p>
+                    {/* Title */}
+                    <h2 className="text-lg sm:text-[19.5px] font-semibold leading-[1.3] mb-2 text-[#141414] group-hover:text-[#FF5500] transition-colors line-clamp-2">
+                      {article.title}
+                    </h2>
 
-                        <div className="mt-auto pt-4 border-t border-dashed border-[#E5E5E5] flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#111111] group-hover:text-[#666666] transition-colors">
-                          {t('articles.read_more')} <span className="transform group-hover:translate-x-1.5 transition-transform text-sm leading-none">→</span>
-                        </div>
-                      </div>
-                    </Link>
-                  </article>
-                ))}
-              </div>
-            )}
+                    {/* Description */}
+                    <p className="text-[13px] sm:text-[13.5px] leading-relaxed text-[#71717A] line-clamp-3 font-normal mb-3">
+                      {article.description}
+                    </p>
+
+                    {/* Read Article Pill Action */}
+                    <div className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-[#141414] group-hover:text-[#FF5500] transition-colors mt-auto pt-1">
+                      <span>Read article</span>
+                      <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </div>
+                  </Link>
+                </ScrollReveal>
+              );
+            })}
           </div>
-        </section>
-
-        <Footer />
+        )}
       </main>
-    </>
+
+      {/* Reusable Portfolio Footer */}
+      <PortfolioFooter emailAddress={email} />
+    </div>
   );
 }

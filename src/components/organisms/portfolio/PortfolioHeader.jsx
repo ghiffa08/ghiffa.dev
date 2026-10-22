@@ -47,11 +47,7 @@ export function PortfolioHeader({
         <div className="w-full px-4 sm:px-16 lg:px-[12.8vw] h-[64px] sm:h-[72px] flex items-center justify-between">
           <a
             href="#"
-            className={`text-[18px] sm:text-[20px] font-bold tracking-tight border px-1.5 py-0.5 leading-none transition-colors duration-700 ${
-              isBannerDark
-                ? 'text-[#111111] border-[#111111] hover:opacity-80'
-                : 'text-[#111111] border-gray-800 hover:opacity-80'
-            }`}
+            className="text-[18px] sm:text-[20px] font-bold tracking-tight leading-none text-[#111111] hover:opacity-80 transition-opacity duration-300"
           >
             ghiffa.dev
           </a>

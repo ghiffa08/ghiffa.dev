@@ -1639,7 +1639,7 @@ export default function Portfolio() {
             </div>
 
             {/* Bio Narrative Paragraph */}
-            <div className="text-[14.5px] sm:text-[15.5px] text-gray-600 leading-relaxed space-y-3 font-normal max-w-2xl [&>p]:leading-relaxed [&>strong]:text-gray-900 [&>strong]:font-semibold">
+            <div className="text-[14.5px] sm:text-[15.5px] text-gray-600 leading-relaxed space-y-3 font-normal max-w-2xl text-justify [&>p]:leading-relaxed [&>p]:text-justify [&>strong]:text-gray-900 [&>strong]:font-semibold">
               {aboutBio ? (
                 <ReactMarkdown>{aboutBio}</ReactMarkdown>
               ) : (
@@ -1667,7 +1667,7 @@ export default function Portfolio() {
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="font-bold text-[14px] sm:text-[14.5px] text-gray-900 leading-snug">
-                        &bull; {edu.title}
+                        {edu.title}
                       </div>
                       <div className="text-[12.5px] sm:text-[13px] text-gray-500 italic mt-0.5">
                         {edu.institution} {edu.period && <span>({edu.period})</span>}

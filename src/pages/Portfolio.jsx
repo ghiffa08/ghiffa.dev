@@ -1487,12 +1487,12 @@ export default function Portfolio() {
           {/* CARD 1: ABOUT ME */}
           <div
             id="stack-card-about"
-            className="lg:sticky lg:top-[80px] z-10 will-change-transform mb-16 lg:mb-32"
+            className="lg:sticky lg:top-[76px] z-10 will-change-transform mb-20 lg:mb-48"
           >
             <div id="about" className="absolute -top-24" />
 
             {/* Figma Workspace Window */}
-            <div className="figma-stack-card bg-white rounded-2xl border border-gray-200/90 shadow-2xl overflow-hidden flex flex-col lg:h-[680px]">
+            <div className="figma-stack-card bg-white rounded-2xl border border-gray-200/90 shadow-2xl overflow-hidden flex flex-col lg:h-[calc(100vh-100px)] min-h-[700px]">
 
               {/* 1. FIGMA TOP TOOLBAR / APP BAR */}
               <div className="h-11 shrink-0 bg-[#F9FAFB] border-b border-gray-200/80 px-4 flex items-center justify-between text-xs select-none">
@@ -1561,7 +1561,7 @@ export default function Portfolio() {
                 <div className="lg:col-span-8 bg-square-grid p-3.5 sm:p-6 lg:p-8 relative flex flex-col justify-center overflow-y-auto">
 
                   {/* Floating Figma Comment Bubble */}
-                  <DraggableItem className="hidden md:flex absolute top-6 right-6 z-20 bg-white/95 backdrop-blur-md rounded-2xl rounded-bl-sm px-4 py-2.5 comment-shadow border border-gray-100 items-start gap-2.5 max-w-[270px]">
+                  <DraggableItem className="hidden md:flex absolute top-4 right-4 z-20 bg-white/95 backdrop-blur-md rounded-2xl rounded-bl-sm px-3.5 py-2 comment-shadow border border-gray-100 items-start gap-2.5 max-w-[250px]">
                     <div className="w-6 h-6 rounded-full bg-[#111] text-white flex items-center justify-center text-[7px] font-bold shrink-0 mt-0.5">ghiffa</div>
                     <div>
                       <div className="flex items-center gap-1.5 text-[11px]">
@@ -1601,7 +1601,7 @@ export default function Portfolio() {
                       <span className="figma-handle !border-[#FF5500] -bottom-1 -right-1" />
 
                       {/* Headline */}
-                      <h2 className="text-xl min-[400px]:text-2xl sm:text-3xl lg:text-[32px] font-bold text-[#141414] tracking-tight leading-[1.2] mb-6 sm:mb-8">
+                      <h2 className="text-xl min-[400px]:text-2xl sm:text-3xl lg:text-[32px] font-bold text-[#141414] tracking-tight leading-[1.2] mb-6 sm:mb-8 max-w-[70%] sm:max-w-[75%]">
                         {aboutHeadline}
                       </h2>
 
@@ -1752,13 +1752,13 @@ export default function Portfolio() {
           {/* CARD 2: PROFESSIONAL JOURNEY */}
           <div
             id="stack-card-journey"
-            className="lg:sticky lg:top-[104px] z-20 will-change-transform mb-16 lg:mb-32"
+            className="lg:sticky lg:top-[88px] z-20 will-change-transform mb-20 lg:mb-48"
           >
             <div id="journey" className="absolute -top-24" />
             <div id="experience" className="absolute -top-24" />
 
             {/* Figma Workspace Window */}
-            <div className="figma-stack-card bg-white rounded-2xl border border-gray-200/90 shadow-2xl overflow-hidden flex flex-col lg:h-[680px]">
+            <div className="figma-stack-card bg-white rounded-2xl border border-gray-200/90 shadow-2xl overflow-hidden flex flex-col lg:h-[calc(100vh-100px)] min-h-[700px]">
 
               {/* 1. FIGMA TOP TOOLBAR / APP BAR */}
               <div className="h-11 shrink-0 bg-[#F9FAFB] border-b border-gray-200/80 px-4 flex items-center justify-between text-xs select-none">
@@ -1822,7 +1822,7 @@ export default function Portfolio() {
                 <div className="lg:col-span-8 bg-square-grid p-3.5 sm:p-6 lg:p-8 relative flex flex-col justify-center overflow-y-auto">
 
                   {/* Floating Figma Comment Bubble */}
-                  <DraggableItem className="hidden md:flex absolute top-6 right-6 z-20 bg-white/95 backdrop-blur-md rounded-2xl rounded-bl-sm px-4 py-2.5 comment-shadow border border-gray-100 items-start gap-2.5 max-w-[270px]">
+                  <DraggableItem className="hidden md:flex absolute top-4 right-4 z-20 bg-white/95 backdrop-blur-md rounded-2xl rounded-bl-sm px-3.5 py-2 comment-shadow border border-gray-100 items-start gap-2.5 max-w-[250px]">
                     <div className="w-6 h-6 rounded-full bg-[#111] text-white flex items-center justify-center text-[7px] font-bold shrink-0 mt-0.5">ghiffa</div>
                     <div>
                       <div className="flex items-center gap-1.5 text-[11px]">
@@ -1845,10 +1845,10 @@ export default function Portfolio() {
                         &darr; Auto Layout &bull; Gap: 16px
                       </span>
                     </div>
-                    <h2 className="text-2xl sm:text-3xl lg:text-[32px] font-bold text-[#141414] tracking-tight leading-[1.2]">
+                    <h2 className="text-2xl sm:text-3xl lg:text-[32px] font-bold text-[#141414] tracking-tight leading-[1.2] max-w-[70%] sm:max-w-[75%]">
                       Professional Journey
                     </h2>
-                    <p className="text-gray-500 text-[13.5px] sm:text-[14px] mt-1">
+                    <p className="text-gray-500 text-[13.5px] sm:text-[14px] mt-1 max-w-[70%] sm:max-w-[75%]">
                       Proven experience in full-stack web applications, internal enterprise APIs, and system design.
                     </p>
                   </div>
@@ -2020,14 +2020,14 @@ export default function Portfolio() {
           {/* CARD 3: CREDENTIALS & ACHIEVEMENTS */}
           <div
             id="stack-card-credentials"
-            className="lg:sticky lg:top-[128px] z-30 will-change-transform"
+            className="lg:sticky lg:top-[100px] z-30 will-change-transform"
           >
             <div id="credentials" className="absolute -top-24" />
             <div id="achievements" className="absolute -top-24" />
             <div id="qualifications" className="absolute -top-24" />
 
             {/* Figma Workspace Window */}
-            <div className="figma-stack-card bg-white rounded-2xl border border-gray-200/90 shadow-2xl overflow-hidden flex flex-col lg:h-[680px]">
+            <div className="figma-stack-card bg-white rounded-2xl border border-gray-200/90 shadow-2xl overflow-hidden flex flex-col lg:h-[calc(100vh-100px)] min-h-[700px]">
 
               {/* 1. FIGMA TOP TOOLBAR / APP BAR */}
               <div className="h-11 shrink-0 bg-[#F9FAFB] border-b border-gray-200/80 px-4 flex items-center justify-between text-xs select-none">
@@ -2091,7 +2091,7 @@ export default function Portfolio() {
                 <div className="lg:col-span-8 bg-square-grid p-3.5 sm:p-6 lg:p-8 relative flex flex-col justify-center overflow-y-auto">
 
                   {/* Floating Figma Comment Bubble */}
-                  <DraggableItem className="hidden md:flex absolute top-6 right-6 z-20 bg-white/95 backdrop-blur-md rounded-2xl rounded-bl-sm px-4 py-2.5 comment-shadow border border-gray-100 items-start gap-2.5 max-w-[280px]">
+                  <DraggableItem className="hidden md:flex absolute top-4 right-4 z-20 bg-white/95 backdrop-blur-md rounded-2xl rounded-bl-sm px-3.5 py-2 comment-shadow border border-gray-100 items-start gap-2.5 max-w-[250px]">
                     <div className="w-6 h-6 rounded-full bg-[#111] text-white flex items-center justify-center text-[7px] font-bold shrink-0 mt-0.5">ghiffa</div>
                     <div>
                       <div className="flex items-center gap-1.5 text-[11px]">
@@ -2114,10 +2114,10 @@ export default function Portfolio() {
                         &darr; Auto Layout &bull; Gap: 16px
                       </span>
                     </div>
-                    <h2 className="text-2xl sm:text-3xl lg:text-[32px] font-bold text-[#141414] tracking-tight leading-[1.2]">
+                    <h2 className="text-2xl sm:text-3xl lg:text-[32px] font-bold text-[#141414] tracking-tight leading-[1.2] max-w-[70%] sm:max-w-[75%]">
                       Credentials &amp; Achievements
                     </h2>
-                    <p className="text-gray-500 text-[13.5px] sm:text-[14px] mt-1">
+                    <p className="text-gray-500 text-[13.5px] sm:text-[14px] mt-1 max-w-[70%] sm:max-w-[75%]">
                       Recognized excellence in national informatics competitions, government certifications, and intellectual property.
                     </p>
                   </div>

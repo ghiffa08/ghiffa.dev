@@ -11,10 +11,10 @@ import {
   CertificationsSection,
   SelectedWorksSection,
   SkillstreakBannerSection,
+  SelectedArticlesSection,
   TeamCanvasSection,
   CraftDetailsSection,
   ClientLogosStrip,
-  ArticlesPreviewSection,
   BottomCtaSection,
   PortfolioFooter,
   ContactModal,
@@ -25,6 +25,9 @@ export default function Portfolio() {
   // Supabase Data Queries
   const { data: info } = useSupabaseSingle('personal_info');
   const { data: supabaseProjects } = useSupabaseList('projects');
+  const { data: supabaseArticles } = useSupabaseList('articles', {
+    order: { column: 'published_at', ascending: false }
+  });
   const { data: supabaseExperiences } = useSupabaseList('experiences', {
     order: { column: 'order_index', ascending: true }
   });
@@ -267,6 +270,39 @@ export default function Portfolio() {
     ? supabaseProjects
     : fallbackProjects;
 
+  // Dynamic Articles List from Supabase Database
+  const fallbackArticles = [
+    {
+      id: "art-1",
+      title: "Welcome to ghiffa.dev",
+      slug: "welcome-to-ghiffa.dev",
+      cover_image: "https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1786879160/oslgl5w432fjmnojpeqj.png",
+      description: "Welcome to my digital playground. A quick dive into who I am, the vibes behind this site, and the tech stack running the show."
+    },
+    {
+      id: "art-2",
+      title: "Menyambut Skillstreak.web.id: Platform Belajar Coding yang Gak Bikin Bosan",
+      slug: "menyambut-skillstreak-web-id-beta",
+      cover_image: "https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1786878850/oydozz6hekvhctyio9yg.png",
+      description: "Versi Beta Segera Hadir untuk Mengubah Cara Kita Belajar Software Engineering"
+    },
+    {
+      id: "art-3",
+      title: "Scalable Design Systems for Modern Enterprises",
+      slug: "scalable-design-systems",
+      cover_image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
+      description: "How we unify tokens, Figma libraries, and production React components to ship products twice as fast."
+    }
+  ];
+
+  const articlesList = useMemo(() => {
+    if (Array.isArray(supabaseArticles) && supabaseArticles.length > 0) {
+      const published = supabaseArticles.filter((a) => a.status === 'published' || !a.status);
+      if (published.length > 0) return published;
+    }
+    return fallbackArticles;
+  }, [supabaseArticles]);
+
   // Bento Certificates List from Supabase Database
   const bentoCertificates = useMemo(() => {
     const raw = (Array.isArray(supabaseQualifications) && supabaseQualifications.length > 0)
@@ -331,8 +367,9 @@ export default function Portfolio() {
 
   return (
     <div
-      className={`min-h-screen font-sans antialiased selection:bg-[#FF5500] selection:text-white transition-colors duration-700 ease-in-out ${isBannerDark ? 'bg-[#F8A065] text-[#111111]' : 'bg-white text-[#111111]'
-        } ${aiActive ? 'ai-mode-active' : ''}`}
+      className={`min-h-screen font-sans antialiased selection:bg-[#FF5500] selection:text-white transition-colors duration-700 ease-in-out ${
+        isBannerDark ? 'bg-[#F8A065] text-[#111111]' : 'bg-white text-[#111111]'
+      } ${aiActive ? 'ai-mode-active' : ''}`}
     >
       <SEO
         title="Haikal Jibran Al-Ghiffarry | Portofolio &amp; Resume"
@@ -393,6 +430,12 @@ export default function Portfolio() {
         isBannerDark={isBannerDark}
       />
 
+      {/* Selected Articles Draggable Carousel Section (Right Below Banner Gambar 1) */}
+      <SelectedArticlesSection
+        articlesList={articlesList}
+        isBannerDark={isBannerDark}
+      />
+
       {/* Team Canvas Section */}
       <TeamCanvasSection onOpenContact={openContactModal} />
 
@@ -401,9 +444,6 @@ export default function Portfolio() {
 
       {/* Client Logos Strip */}
       <ClientLogosStrip />
-
-      {/* Selected Insights Articles Section */}
-      <ArticlesPreviewSection onOpenContact={openContactModal} />
 
       {/* Bottom CTA Section */}
       <BottomCtaSection

@@ -6,6 +6,7 @@ export { AboutMeSection } from './AboutMeSection';
 export { ProfessionalJourneySection } from './ProfessionalJourneySection';
 export { CertificationsSection } from './CertificationsSection';
 export { SelectedWorksSection } from './SelectedWorksSection';
+export { SelectedArticlesSection } from './SelectedArticlesSection';
 export { SkillstreakBannerSection } from './SkillstreakBannerSection';
 export { TeamCanvasSection } from './TeamCanvasSection';
 export { CraftDetailsSection } from './CraftDetailsSection';

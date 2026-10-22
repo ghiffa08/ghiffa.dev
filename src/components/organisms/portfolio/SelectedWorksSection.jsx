@@ -76,7 +76,7 @@ export function SelectedWorksSection({
         <div>
           <div className="text-xs font-mono uppercase tracking-widest text-[#FF5500] font-semibold mb-1" />
           <h2 className={`text-2xl sm:text-[38px] font-bold tracking-tight transition-colors duration-700 ${isBannerDark ? 'text-black' : 'text-[#141414]'}`}>
-            Selected works
+            selected works
           </h2>
         </div>
         <div className="flex items-center gap-3">
@@ -86,11 +86,10 @@ export function SelectedWorksSection({
               type="button"
               onClick={() => scrollWorksCarousel('left')}
               aria-label="Previous project"
-              className={`w-9 h-9 rounded-full border bg-white flex items-center justify-center transition-all cursor-pointer shadow-2xs active:scale-95 ${
-                isBannerDark
+              className={`w-9 h-9 rounded-full border bg-white flex items-center justify-center transition-all cursor-pointer shadow-2xs active:scale-95 ${isBannerDark
                   ? 'border-black/20 text-black hover:bg-black hover:text-white'
                   : 'border-gray-200 hover:border-gray-900 text-gray-700 hover:text-black'
-              }`}
+                }`}
             >
               <span className="text-base leading-none">&larr;</span>
             </button>
@@ -98,11 +97,10 @@ export function SelectedWorksSection({
               type="button"
               onClick={() => scrollWorksCarousel('right')}
               aria-label="Next project"
-              className={`w-9 h-9 rounded-full border bg-white flex items-center justify-center transition-all cursor-pointer shadow-2xs active:scale-95 ${
-                isBannerDark
+              className={`w-9 h-9 rounded-full border bg-white flex items-center justify-center transition-all cursor-pointer shadow-2xs active:scale-95 ${isBannerDark
                   ? 'border-black/20 text-black hover:bg-black hover:text-white'
                   : 'border-gray-200 hover:border-gray-900 text-gray-700 hover:text-black'
-              }`}
+                }`}
             >
               <span className="text-base leading-none">&rarr;</span>
             </button>
@@ -110,11 +108,10 @@ export function SelectedWorksSection({
 
           <button
             onClick={() => onOpenContact('Explore All Works')}
-            className={`text-xs font-medium border px-4 py-2 rounded-full transition-colors duration-500 hidden sm:inline-block cursor-pointer shadow-2xs ${
-              isBannerDark
+            className={`text-xs font-medium border px-4 py-2 rounded-full transition-colors duration-500 hidden sm:inline-block cursor-pointer shadow-2xs ${isBannerDark
                 ? 'bg-white text-black border-black/20 hover:bg-black hover:text-white'
                 : 'text-gray-600 hover:text-black border-gray-200 hover:border-gray-300'
-            }`}
+              }`}
           >
             Explore all works &rarr;
           </button>
@@ -170,20 +167,18 @@ export function SelectedWorksSection({
               </div>
 
               {/* Title */}
-              <h3 className={`text-[19px] sm:text-[20px] lg:text-[21px] font-semibold leading-[1.3] mb-2.5 transition-colors duration-500 line-clamp-2 ${
-                isBannerDark
+              <h3 className={`text-[19px] sm:text-[20px] lg:text-[21px] font-semibold leading-[1.3] mb-2.5 transition-colors duration-500 line-clamp-2 ${isBannerDark
                   ? 'text-black group-hover:text-black/75'
                   : 'text-[#141414] group-hover:text-[#FF5500]'
-              }`}>
+                }`}>
                 {proj.title}
               </h3>
 
               {/* Description */}
-              <p className={`text-[13px] sm:text-[13.5px] leading-[1.6] line-clamp-3 font-normal transition-colors duration-500 ${
-                isBannerDark
+              <p className={`text-[13px] sm:text-[13.5px] leading-[1.6] line-clamp-3 font-normal transition-colors duration-500 ${isBannerDark
                   ? 'text-neutral-900 font-medium'
                   : 'text-[#71717A]'
-              }`}>
+                }`}>
                 {proj.description}
               </p>
             </article>

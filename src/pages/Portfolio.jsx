@@ -331,12 +331,11 @@ export default function Portfolio() {
 
   return (
     <div
-      className={`min-h-screen font-sans antialiased selection:bg-[#FF5500] selection:text-white transition-colors duration-700 ease-in-out ${
-        isBannerDark ? 'bg-[#F8A065] text-[#111111]' : 'bg-white text-[#111111]'
-      } ${aiActive ? 'ai-mode-active' : ''}`}
+      className={`min-h-screen font-sans antialiased selection:bg-[#FF5500] selection:text-white transition-colors duration-700 ease-in-out ${isBannerDark ? 'bg-[#F8A065] text-[#111111]' : 'bg-white text-[#111111]'
+        } ${aiActive ? 'ai-mode-active' : ''}`}
     >
       <SEO
-        title="ghiffa.dev — Custom Web Design & Development"
+        title="Haikal Jibran Al-Ghiffarry | Portofolio &amp; Resume"
         description="Official portfolio of Haikal Jibran Al-Ghiffarry (ghiffa.dev). Building the bridge between bits and atoms for companies, governments, and organizations."
         url="https://ghiffa.dev/"
       />

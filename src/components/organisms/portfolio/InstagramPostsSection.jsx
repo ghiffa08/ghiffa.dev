@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useInstagramFeed } from '../../../hooks/useInstagramFeed';
+import { ScrollReveal } from '../../atoms/ScrollReveal';
 
 const formatDate = (timestamp) => {
   if (!timestamp) return '';
@@ -39,29 +40,31 @@ export function InstagramPostsSection({ isBannerDark }) {
       <div id="instagram" className="absolute -top-24" />
 
       {/* Header without // VISUAL JOURNAL */}
-      <div className="flex items-center justify-between mb-8 sm:mb-10">
-        <div>
-          <h2 className={`text-2xl sm:text-[38px] font-bold tracking-tight transition-colors duration-700 ${isBannerDark ? 'text-black' : 'text-[#141414]'}`}>
-            instagram posts
-          </h2>
-        </div>
+      <ScrollReveal delay={0.05} y={28}>
+        <div className="flex items-center justify-between mb-8 sm:mb-10">
+          <div>
+            <h2 className={`text-2xl sm:text-[38px] font-bold tracking-tight transition-colors duration-700 ${isBannerDark ? 'text-black' : 'text-[#141414]'}`}>
+              instagram posts
+            </h2>
+          </div>
 
-        <div className="flex items-center gap-3">
-          <a
-            href="https://instagram.com/haikaljibraan"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`text-xs font-medium border px-4 py-2 rounded-full transition-colors duration-500 inline-flex items-center gap-1.5 cursor-pointer shadow-2xs ${
-              isBannerDark
-                ? 'bg-white text-black border-black/20 hover:bg-black hover:text-white'
-                : 'text-gray-600 hover:text-black border-gray-200 hover:border-gray-300'
-            }`}
-          >
-            <span>@haikaljibraan</span>
-            <span>&nearr;</span>
-          </a>
+          <div className="flex items-center gap-3">
+            <a
+              href="https://instagram.com/haikaljibraan"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`text-xs font-medium border px-4 py-2 rounded-full transition-colors duration-500 inline-flex items-center gap-1.5 cursor-pointer shadow-2xs ${
+                isBannerDark
+                  ? 'bg-white text-black border-black/20 hover:bg-black hover:text-white'
+                  : 'text-gray-600 hover:text-black border-gray-200 hover:border-gray-300'
+              }`}
+            >
+              <span>@haikaljibraan</span>
+              <span>&nearr;</span>
+            </a>
+          </div>
         </div>
-      </div>
+      </ScrollReveal>
 
       {/* Loading Skeleton */}
       {isLoading && allPosts.length === 0 ? (
@@ -82,115 +85,122 @@ export function InstagramPostsSection({ isBannerDark }) {
               const imgSrc = post.media_type === 'VIDEO' ? (post.thumbnail_url || post.media_url) : post.media_url;
 
               return (
-                <article
+                <ScrollReveal
                   key={post.id || idx}
-                  className="group cursor-pointer flex flex-col select-none"
-                  onClick={() => {
-                    if (post.permalink) {
-                      window.open(post.permalink, '_blank', 'noopener,noreferrer');
-                    }
-                  }}
+                  delay={(idx % 3) * 0.1}
+                  y={28}
                 >
-                  {/* Clean Card Visual (Tall 4:3 aspect ratio matching Selected Works & Articles) */}
-                  <div className="aspect-[4/3] rounded-2xl overflow-hidden mb-5 relative bg-[#F4F4F5] shadow-xs border border-black/5 select-none pointer-events-none">
-                    {imgSrc ? (
-                      <img
-                        src={imgSrc}
-                        alt={post.caption || 'Instagram Post'}
-                        loading="lazy"
-                        className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out pointer-events-none"
-                        onError={(e) => {
-                          e.currentTarget.style.display = 'none';
-                        }}
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-pink-500 via-rose-500 to-amber-500 flex items-center justify-center text-white font-mono text-xs">
-                        Instagram Post
-                      </div>
-                    )}
-
-                    {/* Media Type & Date Badge */}
-                    <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between pointer-events-none">
-                      <span className="bg-black/60 backdrop-blur-md text-white font-mono text-[9px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider">
-                        {post.media_type === 'CAROUSEL_ALBUM' ? 'Album' : post.media_type === 'VIDEO' ? 'Reel' : 'Post'}
-                      </span>
-                      {post.timestamp && (
-                        <span className="bg-white/80 backdrop-blur-md text-gray-900 font-mono text-[9px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider">
-                          {formatDate(post.timestamp)}
-                        </span>
+                  <article
+                    className="group cursor-pointer flex flex-col select-none h-full"
+                    onClick={() => {
+                      if (post.permalink) {
+                        window.open(post.permalink, '_blank', 'noopener,noreferrer');
+                      }
+                    }}
+                  >
+                    {/* Clean Card Visual (Tall 4:3 aspect ratio matching Selected Works & Articles) */}
+                    <div className="aspect-[4/3] rounded-2xl overflow-hidden mb-5 relative bg-[#F4F4F5] shadow-xs border border-black/5 select-none pointer-events-none">
+                      {imgSrc ? (
+                        <img
+                          src={imgSrc}
+                          alt={post.caption || 'Instagram Post'}
+                          loading="lazy"
+                          className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out pointer-events-none"
+                          onError={(e) => {
+                            e.currentTarget.style.display = 'none';
+                          }}
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-pink-500 via-rose-500 to-amber-500 flex items-center justify-center text-white font-mono text-xs">
+                          Instagram Post
+                        </div>
                       )}
+
+                      {/* Media Type & Date Badge */}
+                      <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between pointer-events-none">
+                        <span className="bg-black/60 backdrop-blur-md text-white font-mono text-[9px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                          {post.media_type === 'CAROUSEL_ALBUM' ? 'Album' : post.media_type === 'VIDEO' ? 'Reel' : 'Post'}
+                        </span>
+                        {post.timestamp && (
+                          <span className="bg-white/80 backdrop-blur-md text-gray-900 font-mono text-[9px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                            {formatDate(post.timestamp)}
+                          </span>
+                        )}
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Caption Title */}
-                  <h3 className={`text-[17px] sm:text-[18px] lg:text-[19px] font-semibold leading-[1.35] mb-2 transition-colors duration-500 line-clamp-2 ${
-                    isBannerDark
-                      ? 'text-black group-hover:text-black/75'
-                      : 'text-[#141414] group-hover:text-[#FF5500]'
-                  }`}>
-                    {post.caption ? post.caption.split('\n')[0] : 'Instagram Update'}
-                  </h3>
+                    {/* Caption Title */}
+                    <h3 className={`text-[17px] sm:text-[18px] lg:text-[19px] font-semibold leading-[1.35] mb-2 transition-colors duration-500 line-clamp-2 ${
+                      isBannerDark
+                        ? 'text-black group-hover:text-black/75'
+                        : 'text-[#141414] group-hover:text-[#FF5500]'
+                    }`}>
+                      {post.caption ? post.caption.split('\n')[0] : 'Instagram Update'}
+                    </h3>
 
-                  {/* Caption Snippet */}
-                  <p className={`text-[13px] sm:text-[13.5px] leading-[1.6] line-clamp-2 font-normal transition-colors duration-500 ${
-                    isBannerDark
-                      ? 'text-neutral-900 font-medium'
-                      : 'text-[#71717A]'
-                  }`}>
-                    {post.caption || 'View full post and discussion on Instagram.'}
-                  </p>
+                    {/* Caption Snippet */}
+                    <p className={`text-[13px] sm:text-[13.5px] leading-[1.6] line-clamp-2 font-normal transition-colors duration-500 ${
+                      isBannerDark
+                        ? 'text-neutral-900 font-medium'
+                        : 'text-[#71717A]'
+                    }`}>
+                      {post.caption || 'View full post and discussion on Instagram.'}
+                    </p>
 
-                  {/* Action Link */}
-                  <div className="mt-3 flex items-center gap-1.5 text-xs font-semibold text-[#FF5500] group-hover:underline">
-                    <span>View on Instagram</span>
-                    <span>&rarr;</span>
-                  </div>
-                </article>
+                    {/* Action Link */}
+                    <div className="mt-3 flex items-center gap-1.5 text-xs font-semibold text-[#FF5500] group-hover:underline">
+                      <span>View on Instagram</span>
+                      <span>&rarr;</span>
+                    </div>
+                  </article>
+                </ScrollReveal>
               );
             })}
           </div>
 
           {/* Pagination Controls */}
           {totalPages > 1 && (
-            <div className="mt-12 sm:mt-16 flex items-center justify-center gap-2 select-none">
-              <button
-                type="button"
-                onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
-                disabled={currentPage === 1}
-                aria-label="Previous page"
-                className="px-3.5 py-1.5 rounded-full border border-gray-200 text-xs font-medium text-gray-700 disabled:opacity-30 disabled:cursor-not-allowed hover:border-black transition-all bg-white shadow-2xs cursor-pointer active:scale-95"
-              >
-                &larr; Prev
-              </button>
+            <ScrollReveal delay={0.1} y={20}>
+              <div className="mt-12 sm:mt-16 flex items-center justify-center gap-2 select-none">
+                <button
+                  type="button"
+                  onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+                  disabled={currentPage === 1}
+                  aria-label="Previous page"
+                  className="px-3.5 py-1.5 rounded-full border border-gray-200 text-xs font-medium text-gray-700 disabled:opacity-30 disabled:cursor-not-allowed hover:border-black transition-all bg-white shadow-2xs cursor-pointer active:scale-95"
+                >
+                  &larr; Prev
+                </button>
 
-              <div className="flex items-center gap-1">
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
-                  <button
-                    key={pageNum}
-                    type="button"
-                    onClick={() => handlePageChange(pageNum)}
-                    aria-label={`Go to page ${pageNum}`}
-                    className={`w-8 h-8 rounded-full text-xs font-semibold transition-all cursor-pointer ${
-                      currentPage === pageNum
-                        ? 'bg-[#141414] text-white shadow-xs'
-                        : 'bg-white border border-gray-200 text-gray-700 hover:border-black hover:text-black'
-                    }`}
-                  >
-                    {pageNum}
-                  </button>
-                ))}
+                <div className="flex items-center gap-1">
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                    <button
+                      key={pageNum}
+                      type="button"
+                      onClick={() => handlePageChange(pageNum)}
+                      aria-label={`Go to page ${pageNum}`}
+                      className={`w-8 h-8 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                        currentPage === pageNum
+                          ? 'bg-[#141414] text-white shadow-xs'
+                          : 'bg-white border border-gray-200 text-gray-700 hover:border-black hover:text-black'
+                      }`}
+                    >
+                      {pageNum}
+                    </button>
+                  ))}
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
+                  disabled={currentPage === totalPages}
+                  aria-label="Next page"
+                  className="px-3.5 py-1.5 rounded-full border border-gray-200 text-xs font-medium text-gray-700 disabled:opacity-30 disabled:cursor-not-allowed hover:border-black transition-all bg-white shadow-2xs cursor-pointer active:scale-95"
+                >
+                  Next &rarr;
+                </button>
               </div>
-
-              <button
-                type="button"
-                onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
-                disabled={currentPage === totalPages}
-                aria-label="Next page"
-                className="px-3.5 py-1.5 rounded-full border border-gray-200 text-xs font-medium text-gray-700 disabled:opacity-30 disabled:cursor-not-allowed hover:border-black transition-all bg-white shadow-2xs cursor-pointer active:scale-95"
-              >
-                Next &rarr;
-              </button>
-            </div>
+            </ScrollReveal>
           )}
         </>
       )}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { ScrollReveal } from '../../atoms/ScrollReveal';
 
 export function SkillstreakBannerSection({ bannerRef, isBannerDark }) {
   return (
@@ -10,8 +11,9 @@ export function SkillstreakBannerSection({ bannerRef, isBannerDark }) {
       }`}
     >
       <div className="w-full max-w-[1140px] mx-auto">
-        {/* Centered White Card (Clean, modern aesthetic on soft orange background) */}
-        <div className="relative rounded-[28px] sm:rounded-[36px] bg-white border border-black/[0.06] shadow-2xl shadow-orange-950/15 overflow-hidden min-h-[460px] lg:h-[530px] flex items-center">
+        <ScrollReveal delay={0.05} y={36}>
+          {/* Centered White Card (Clean, modern aesthetic on soft orange background) */}
+          <div className="relative rounded-[28px] sm:rounded-[36px] bg-white border border-black/[0.06] shadow-2xl shadow-orange-950/15 overflow-hidden min-h-[460px] lg:h-[530px] flex items-center">
           {/* Inner Grid: Left Content (52%) + Right Laptop (48%) */}
           <div className="w-full h-full grid grid-cols-1 lg:grid-cols-12 items-center relative z-10">
             {/* Left Column: Clean Typography, Figma selection box & Skillstreak Orange CTA */}
@@ -99,6 +101,7 @@ export function SkillstreakBannerSection({ bannerRef, isBannerDark }) {
         <p className="text-[12px] text-neutral-900/80 font-medium mt-4 pl-1 max-w-lg leading-relaxed">
           * Early members receive Founder Badge + lifetime discounted access on skillstreak.id
         </p>
+        </ScrollReveal>
       </div>
     </section>
   );

@@ -1,4 +1,5 @@
 import React from 'react';
+import { ScrollReveal } from '../../atoms/ScrollReveal';
 
 export function ProfessionalJourneySection({ experiencesList }) {
   return (
@@ -6,21 +7,25 @@ export function ProfessionalJourneySection({ experiencesList }) {
       <div id="experience" className="absolute -top-24" />
 
       {/* Section Header: Full-width display title matching reference */}
-      <div className="mb-14 sm:mb-20">
+      <ScrollReveal delay={0.05} y={30} className="mb-14 sm:mb-20">
         <h2 className="text-4xl min-[400px]:text-5xl sm:text-7xl md:text-8xl lg:text-[110px] xl:text-[124px] 2xl:text-[130px] lg:whitespace-nowrap font-bold text-[#141414] tracking-tight sm:tracking-tighter leading-[0.88] lowercase select-none">
           professional journey
         </h2>
-      </div>
+      </ScrollReveal>
 
       {/* Clean Editorial Experience List (Non-card, consistent with theme) */}
       <div className="divide-y divide-gray-200/80">
         {experiencesList.map((exp, idx) => {
           const indexNumber = String(idx + 1).padStart(2, '0');
           return (
-            <div
+            <ScrollReveal
               key={exp.id || idx}
-              className="group py-8 sm:py-12 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-start hover:bg-gray-50/60 -mx-4 sm:-mx-6 px-4 sm:px-6 rounded-2xl transition-all duration-200"
+              delay={Math.min(idx * 0.08, 0.4)}
+              y={24}
             >
+              <div
+                className="group py-8 sm:py-12 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-start hover:bg-gray-50/60 -mx-4 sm:-mx-6 px-4 sm:px-6 rounded-2xl transition-all duration-200"
+              >
               {/* Column 1: Index Number (01), (02) & Period */}
               <div className="md:col-span-3 flex md:flex-col items-center md:items-start justify-between md:justify-start gap-2">
                 <span className="text-xs sm:text-sm font-mono font-bold text-gray-400 group-hover:text-[#FF5500] transition-colors">
@@ -68,8 +73,9 @@ export function ProfessionalJourneySection({ experiencesList }) {
                 )}
               </div>
             </div>
-          );
-        })}
+          </ScrollReveal>
+        );
+      })}
       </div>
     </section>
   );

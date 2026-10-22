@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ScrollReveal } from '../../atoms/ScrollReveal';
 
 export function CertificationsSection({ bentoCertificates, onSelectCert }) {
   const [showAllCerts, setShowAllCerts] = useState(false);
@@ -62,42 +63,46 @@ export function CertificationsSection({ bentoCertificates, onSelectCert }) {
       {/* 3-Column Bento Grid: Dynamic 8 Initial / All Database Certificates */}
       <div className="space-y-7 sm:space-y-9">
         {/* Row 1: Left Portrait (0), Middle 2 Landscapes (1 & 3), Right Portrait (2) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 sm:gap-9 items-stretch">
-          {/* Left: Pilmapres (Portrait) */}
-          <div className="flex flex-col">
-            {renderCertCard(bentoCertificates[0])}
-          </div>
+        <ScrollReveal delay={0.05} y={32}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 sm:gap-9 items-stretch">
+            {/* Left: Pilmapres (Portrait) */}
+            <div className="flex flex-col">
+              {renderCertCard(bentoCertificates[0])}
+            </div>
 
-          {/* Middle: 2 Landscapes (Height matches 1 portrait) */}
-          <div className="flex flex-col justify-between gap-4 sm:gap-5 h-full">
-            {renderCertCard(bentoCertificates[1])}
-            {renderCertCard(bentoCertificates[3])}
-          </div>
+            {/* Middle: 2 Landscapes (Height matches 1 portrait) */}
+            <div className="flex flex-col justify-between gap-4 sm:gap-5 h-full">
+              {renderCertCard(bentoCertificates[1])}
+              {renderCertCard(bentoCertificates[3])}
+            </div>
 
-          {/* Right: BNSP (Portrait) */}
-          <div className="flex flex-col">
-            {renderCertCard(bentoCertificates[2])}
+            {/* Right: BNSP (Portrait) */}
+            <div className="flex flex-col">
+              {renderCertCard(bentoCertificates[2])}
+            </div>
           </div>
-        </div>
+        </ScrollReveal>
 
         {/* Row 2: Left Portrait (5), Middle 2 Landscapes (6 & 7), Right Portrait (4) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 sm:gap-9 items-stretch">
-          {/* Left: Cakrawala (Portrait) */}
-          <div className="flex flex-col">
-            {renderCertCard(bentoCertificates[5])}
-          </div>
+        <ScrollReveal delay={0.15} y={32}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 sm:gap-9 items-stretch">
+            {/* Left: Cakrawala (Portrait) */}
+            <div className="flex flex-col">
+              {renderCertCard(bentoCertificates[5])}
+            </div>
 
-          {/* Middle: 2 Landscapes (Height matches 1 portrait) */}
-          <div className="flex flex-col justify-between gap-4 sm:gap-5 h-full">
-            {renderCertCard(bentoCertificates[6])}
-            {renderCertCard(bentoCertificates[7])}
-          </div>
+            {/* Middle: 2 Landscapes (Height matches 1 portrait) */}
+            <div className="flex flex-col justify-between gap-4 sm:gap-5 h-full">
+              {renderCertCard(bentoCertificates[6])}
+              {renderCertCard(bentoCertificates[7])}
+            </div>
 
-          {/* Right: HAKI Ciptaan (Portrait) */}
-          <div className="flex flex-col">
-            {renderCertCard(bentoCertificates[4])}
+            {/* Right: HAKI Ciptaan (Portrait) */}
+            <div className="flex flex-col">
+              {renderCertCard(bentoCertificates[4])}
+            </div>
           </div>
-        </div>
+        </ScrollReveal>
 
         {/* Show All: Additional certificates from database */}
         {showAllCerts && bentoCertificates.length > 8 && (

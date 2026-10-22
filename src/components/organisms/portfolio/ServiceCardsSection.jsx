@@ -1,4 +1,5 @@
 import React from 'react';
+import { ScrollReveal } from '../../atoms/ScrollReveal';
 
 export function ServiceCardsSection() {
   return (
@@ -6,7 +7,7 @@ export function ServiceCardsSection() {
       <div className="w-full max-w-[1400px] mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-7 items-stretch">
           {/* Service Card 1 */}
-          <div className="flex flex-col">
+          <ScrollReveal delay={0.1} y={40} className="flex flex-col h-full">
             <div className="bg-skillstreak-orange-grid rounded-3xl p-6 sm:p-10 lg:p-12 text-white min-h-[380px] sm:min-h-[480px] lg:min-h-[540px] xl:min-h-[580px] flex flex-col justify-start relative overflow-hidden group shadow-lg">
               <div className="relative z-10">
                 <h3 className="text-2xl sm:text-[28px] lg:text-[32px] xl:text-[36px] font-semibold leading-[1.12] tracking-tight mb-4 sm:mb-6">
@@ -20,10 +21,10 @@ export function ServiceCardsSection() {
             <p className="text-[12.5px] sm:text-[13px] text-gray-500 mt-3 sm:mt-4 leading-relaxed pr-2">
               Our design thinking process helps empower your project from day zero.
             </p>
-          </div>
+          </ScrollReveal>
 
           {/* Service Card 2 */}
-          <div className="flex flex-col">
+          <ScrollReveal delay={0.25} y={40} className="flex flex-col h-full">
             <div className="bg-skillstreak-orange-grid rounded-3xl p-6 sm:p-10 lg:p-12 text-white min-h-[380px] sm:min-h-[480px] lg:min-h-[540px] xl:min-h-[580px] flex flex-col justify-start relative overflow-hidden group shadow-lg">
               <div className="relative z-10">
                 <h3 className="text-2xl sm:text-[28px] lg:text-[32px] xl:text-[36px] font-semibold leading-[1.12] tracking-tight mb-4 sm:mb-6">
@@ -37,10 +38,10 @@ export function ServiceCardsSection() {
             <p className="text-[12.5px] sm:text-[13px] text-gray-500 mt-3 sm:mt-4 leading-relaxed pr-2">
               Every development is tailored to each client following international standards.
             </p>
-          </div>
+          </ScrollReveal>
 
           {/* Service Card 3 */}
-          <div className="flex flex-col">
+          <ScrollReveal delay={0.4} y={40} className="flex flex-col h-full">
             <div className="bg-skillstreak-orange-grid rounded-3xl p-6 sm:p-10 lg:p-12 text-white min-h-[380px] sm:min-h-[480px] lg:min-h-[540px] xl:min-h-[580px] flex flex-col justify-start relative overflow-hidden group shadow-lg">
               <div className="relative z-10">
                 <h3 className="text-2xl sm:text-[28px] lg:text-[32px] xl:text-[36px] font-semibold leading-[1.12] tracking-tight mb-4 sm:mb-6">
@@ -54,7 +55,7 @@ export function ServiceCardsSection() {
             <p className="text-[12.5px] sm:text-[13px] text-gray-500 mt-3 sm:mt-4 leading-relaxed pr-2">
               Your website, our responsibility. Long-term partnerships tailored to each client.
             </p>
-          </div>
+          </ScrollReveal>
         </div>
       </div>
     </section>

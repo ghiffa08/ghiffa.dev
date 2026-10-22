@@ -1,11 +1,12 @@
 import React from 'react';
+import { ScrollReveal } from '../../atoms/ScrollReveal';
 
 export function CraftDetailsSection({ onOpenContact }) {
   return (
     <section className="py-16 sm:py-24 px-4 sm:px-8 lg:px-16 max-w-[1360px] mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
         {/* Left Text */}
-        <div className="lg:col-span-5 space-y-4 sm:space-y-5">
+        <ScrollReveal delay={0.05} y={32} className="lg:col-span-5 space-y-4 sm:space-y-5">
           <h2 className="text-2xl min-[360px]:text-3xl sm:text-[42px] font-bold tracking-tight text-[#141414] leading-[1.12]">
             Details are<br />not details
           </h2>
@@ -20,10 +21,10 @@ export function CraftDetailsSection({ onOpenContact }) {
               See our craft &rarr;
             </button>
           </div>
-        </div>
+        </ScrollReveal>
 
         {/* Right Layered Visual Cards */}
-        <div className="lg:col-span-7 relative flex items-center justify-center min-h-[300px] sm:min-h-[380px] overflow-hidden sm:overflow-visible py-4">
+        <ScrollReveal delay={0.2} y={36} className="lg:col-span-7 relative flex items-center justify-center min-h-[300px] sm:min-h-[380px] overflow-hidden sm:overflow-visible py-4">
           {/* Left tilted background card */}
           <div className="w-28 min-[380px]:w-36 sm:w-52 h-44 min-[380px]:h-56 sm:h-72 rounded-2xl overflow-hidden shadow-lg -rotate-6 -mr-6 min-[380px]:-mr-8 sm:-mr-10 z-10 border border-gray-200 bg-zinc-900 shrink-0">
             <img
@@ -67,7 +68,7 @@ export function CraftDetailsSection({ onOpenContact }) {
             <div className="w-5 h-5 rounded-full bg-black text-white text-[7px] font-bold flex items-center justify-center">gh</div>
             <span className="text-[11.5px] font-medium text-gray-800">Every breakpoint tested</span>
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );

@@ -1,11 +1,12 @@
 import React from 'react';
+import { ScrollReveal } from '../../atoms/ScrollReveal';
 
 export function BottomCtaSection({ emailAddress, onOpenContact }) {
   return (
     <section className="py-14 sm:py-20 px-4 sm:px-8 lg:px-16 max-w-[1360px] mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
         {/* Left Mini Floating Collage */}
-        <div className="lg:col-span-6 relative min-h-[240px] sm:min-h-[280px] bg-square-grid rounded-3xl border border-gray-100 p-6 flex items-center justify-center overflow-hidden">
+        <ScrollReveal delay={0.05} y={32} className="lg:col-span-6 relative min-h-[240px] sm:min-h-[280px] bg-square-grid rounded-3xl border border-gray-100 p-6 flex items-center justify-center overflow-hidden">
           {/* Handwritten style note */}
           <div className="absolute top-5 sm:top-6 left-6 sm:left-8 -rotate-6 font-serif italic text-[#FF5500] text-base sm:text-lg">
             Let&apos;s launch! &nearr;
@@ -36,10 +37,10 @@ export function BottomCtaSection({ emailAddress, onOpenContact }) {
           <div className="absolute top-6 sm:top-8 right-6 sm:right-12 w-8 sm:w-9 h-8 sm:h-9 rounded-xl bg-white soft-card-shadow border border-gray-100 flex items-center justify-center">
             <span className="w-2.5 sm:w-3 h-2.5 sm:h-3 rounded-full bg-rose-500" />
           </div>
-        </div>
+        </ScrollReveal>
 
         {/* Right CTA Heading & Button */}
-        <div className="lg:col-span-6 space-y-4 sm:space-y-5">
+        <ScrollReveal delay={0.2} y={32} className="lg:col-span-6 space-y-4 sm:space-y-5">
           <h2 className="text-2xl min-[360px]:text-3xl sm:text-[44px] font-bold tracking-tight text-[#141414] leading-[1.12]">
             Let&apos;s build a<br />project together
           </h2>
@@ -57,7 +58,7 @@ export function BottomCtaSection({ emailAddress, onOpenContact }) {
               {emailAddress}
             </a>
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );

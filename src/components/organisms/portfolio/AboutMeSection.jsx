@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
+import { ScrollReveal } from '../../atoms/ScrollReveal';
 
 export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList }) {
   return (
     <section id="about" className="relative py-20 sm:py-28 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start sm:items-center">
         {/* LEFT COLUMN: Uncropped Full-Height Person Cutout + Floating Tech Dock (No Background) */}
-        <div className="lg:col-span-5 flex flex-col items-center justify-end relative self-stretch">
+        <ScrollReveal delay={0.1} y={36} className="lg:col-span-5 flex flex-col items-center justify-end relative self-stretch">
           {/* Person Cutout: Full height, uncropped, zero background */}
           <div className="relative flex items-end justify-center w-full flex-1">
             <img
@@ -109,10 +110,10 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
               </svg>
             </div>
           </div>
-        </div>
+        </ScrollReveal>
 
         {/* RIGHT COLUMN: Selection Highlight Header, Bio, Education, Languages */}
-        <div className="lg:col-span-7 flex flex-col justify-center space-y-7 sm:space-y-8">
+        <ScrollReveal delay={0.25} y={36} className="lg:col-span-7 flex flex-col justify-center space-y-7 sm:space-y-8">
           {/* SELECTION-HIGHLIGHTED HEADER */}
           <div className="inline-flex items-center relative select-none self-start">
             {/* Left selection handle with top circle pin */}
@@ -195,7 +196,7 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
               </div>
             </div>
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );

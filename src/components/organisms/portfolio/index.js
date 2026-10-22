@@ -14,6 +14,7 @@ export { CraftDetailsSection } from './CraftDetailsSection';
 export { ClientLogosStrip } from './ClientLogosStrip';
 export { ArticlesPreviewSection } from './ArticlesPreviewSection';
 export { BottomCtaSection } from './BottomCtaSection';
+export { CommunicationCtaSection } from './CommunicationCtaSection';
 export { PortfolioFooter } from './PortfolioFooter';
 export { ContactModal } from './ContactModal';
 export { CertificateModal } from './CertificateModal';

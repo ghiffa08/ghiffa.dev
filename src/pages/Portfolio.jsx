@@ -13,6 +13,7 @@ import {
   SkillstreakBannerSection,
   SelectedArticlesSection,
   InstagramPostsSection,
+  CommunicationCtaSection,
   PortfolioFooter,
   ContactModal,
   CertificateModal
@@ -435,6 +436,12 @@ export default function Portfolio() {
 
       {/* Instagram Posts Section */}
       <InstagramPostsSection isBannerDark={isBannerDark} />
+
+      {/* Communication Matters CTA Section */}
+      <CommunicationCtaSection
+        emailAddress={emailAddress}
+        onOpenContact={openContactModal}
+      />
 
       {/* Footer */}
       <PortfolioFooter emailAddress={emailAddress} />

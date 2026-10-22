@@ -17,7 +17,7 @@ export function ArticlesPreviewSection({ onOpenContact }) {
           to="/articles"
           className="text-xs font-medium text-gray-600 hover:text-black border border-gray-200 px-4 py-2 rounded-full transition-colors hidden sm:inline-block"
         >
-          View all articles &rarr;
+          View all articles →
         </Link>
       </div>
 

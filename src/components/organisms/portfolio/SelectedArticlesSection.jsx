@@ -95,7 +95,7 @@ export function SelectedArticlesSection({
                     : 'border-gray-200 hover:border-gray-900 text-gray-700 hover:text-black'
                 }`}
               >
-                <span className="text-base leading-none">&larr;</span>
+                <span className="text-base leading-none">←</span>
               </button>
               <button
                 type="button"
@@ -107,7 +107,7 @@ export function SelectedArticlesSection({
                     : 'border-gray-200 hover:border-gray-900 text-gray-700 hover:text-black'
                 }`}
               >
-                <span className="text-base leading-none">&rarr;</span>
+                <span className="text-base leading-none">→</span>
               </button>
             </div>
 
@@ -119,7 +119,7 @@ export function SelectedArticlesSection({
                   : 'text-gray-600 hover:text-black border-gray-200 hover:border-gray-300'
               }`}
             >
-              Explore all articles &rarr;
+              Explore all articles →
             </Link>
           </div>
         </div>

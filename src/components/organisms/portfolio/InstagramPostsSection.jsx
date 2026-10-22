@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ArrowUpRight } from 'lucide-react';
 import { useInstagramFeed } from '../../../hooks/useInstagramFeed';
 import { ScrollReveal } from '../../atoms/ScrollReveal';
 
@@ -43,14 +44,14 @@ export function InstagramPostsSection({ isBannerDark }) {
               href="https://instagram.com/haikaljibraan"
               target="_blank"
               rel="noopener noreferrer"
-              className={`text-xs font-medium border px-4 py-2 rounded-full transition-colors duration-500 inline-flex items-center gap-1.5 cursor-pointer shadow-2xs ${
+              className={`group text-xs font-medium border px-4 py-2 rounded-full transition-colors duration-500 inline-flex items-center gap-1.5 cursor-pointer shadow-2xs ${
                 isBannerDark
                   ? 'bg-white text-black border-black/20 hover:bg-black hover:text-white'
                   : 'text-gray-600 hover:text-black border-gray-200 hover:border-gray-300'
               }`}
             >
               <span>@haikaljibraan</span>
-              <span>&nearr;</span>
+              <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
           </div>
         </div>
@@ -141,7 +142,7 @@ export function InstagramPostsSection({ isBannerDark }) {
                   aria-label="Previous page"
                   className="px-3.5 py-1.5 rounded-full border border-gray-200 text-xs font-medium text-gray-700 disabled:opacity-30 disabled:cursor-not-allowed hover:border-black transition-all bg-white shadow-2xs cursor-pointer active:scale-95"
                 >
-                  &larr; Prev
+                  ← Prev
                 </button>
 
                 <div className="flex items-center gap-1">
@@ -169,7 +170,7 @@ export function InstagramPostsSection({ isBannerDark }) {
                   aria-label="Next page"
                   className="px-3.5 py-1.5 rounded-full border border-gray-200 text-xs font-medium text-gray-700 disabled:opacity-30 disabled:cursor-not-allowed hover:border-black transition-all bg-white shadow-2xs cursor-pointer active:scale-95"
                 >
-                  Next &rarr;
+                  Next →
                 </button>
               </div>
             </ScrollReveal>

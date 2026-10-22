@@ -77,7 +77,7 @@ export function CertificateModal({ item, onClose }) {
             className="text-xs font-semibold text-[#FF5500] hover:underline flex items-center gap-1"
           >
             <span>Open Full Resolution</span>
-            <span>&rarr;</span>
+            <span>→</span>
           </a>
         </div>
       </div>

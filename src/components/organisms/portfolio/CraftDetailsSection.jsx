@@ -18,7 +18,7 @@ export function CraftDetailsSection({ onOpenContact }) {
               onClick={() => onOpenContact('Design & Craft')}
               className="bg-[#FF5500] hover:bg-[#E04B00] text-white font-medium text-[13px] px-6 py-2.5 rounded-full transition-all cursor-pointer"
             >
-              See our craft &rarr;
+              See our craft →
             </button>
           </div>
         </ScrollReveal>

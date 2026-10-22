@@ -93,7 +93,7 @@ export function SelectedWorksSection({
                     : 'border-gray-200 hover:border-gray-900 text-gray-700 hover:text-black'
                   }`}
               >
-                <span className="text-base leading-none">&larr;</span>
+                <span className="text-base leading-none">←</span>
               </button>
               <button
                 type="button"
@@ -104,7 +104,7 @@ export function SelectedWorksSection({
                     : 'border-gray-200 hover:border-gray-900 text-gray-700 hover:text-black'
                   }`}
               >
-                <span className="text-base leading-none">&rarr;</span>
+                <span className="text-base leading-none">→</span>
               </button>
             </div>
 
@@ -115,7 +115,7 @@ export function SelectedWorksSection({
                   : 'text-gray-600 hover:text-black border-gray-200 hover:border-gray-300'
                 }`}
             >
-              Explore all works &rarr;
+              Explore all works →
             </button>
           </div>
         </div>

@@ -9,7 +9,7 @@ export function BottomCtaSection({ emailAddress, onOpenContact }) {
         <ScrollReveal delay={0.05} y={32} className="lg:col-span-6 relative min-h-[240px] sm:min-h-[280px] bg-square-grid rounded-3xl border border-gray-100 p-6 flex items-center justify-center overflow-hidden">
           {/* Handwritten style note */}
           <div className="absolute top-5 sm:top-6 left-6 sm:left-8 -rotate-6 font-serif italic text-[#FF5500] text-base sm:text-lg">
-            Let&apos;s launch! &nearr;
+            Let&apos;s launch! ↗
           </div>
 
           {/* Mini photo 1 */}

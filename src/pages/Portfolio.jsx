@@ -1383,35 +1383,35 @@ export default function Portfolio() {
       {/* 2. STICKY SCROLL-ANIMATED TEXT SECTION (Matching Reference onlines.com.ar 1:1) */}
       <section id="scroll-text-track" className="relative h-[185vh] sm:h-[190vh] bg-white">
 
-        <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center pt-[64px] sm:pt-[72px] pb-4 sm:pb-6 px-4 sm:px-8 overflow-hidden bg-architectural-dots">
-          <div className="max-w-[920px] w-full mx-auto text-center relative z-10 flex flex-col items-center justify-center my-auto">
+        <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center pt-[64px] sm:pt-[72px] pb-4 sm:pb-6 px-4 sm:px-8 overflow-hidden bg-white">
+          <div className="max-w-[1080px] w-full mx-auto text-center relative z-10 flex flex-col items-center justify-center my-auto">
             {/* Main Animated Headline: ALL words start in faded gray (#D4D4D8), smoothly activating to rich ink */}
-            <h2 id="animated-scroll-title" className="text-[26px] min-[360px]:text-[32px] min-[420px]:text-[38px] sm:text-[50px] md:text-[60px] lg:text-[68px] xl:text-[76px] font-bold tracking-[-0.035em] leading-[1.08] sm:leading-[1.12] text-center max-w-[880px] mx-auto text-balance">
+            <h2 id="animated-scroll-title" className="text-[32px] sm:text-[48px] md:text-[60px] lg:text-[70px] xl:text-[76px] font-bold tracking-[-0.035em] leading-[1.08] sm:leading-[1.12] text-center max-w-[1060px] mx-auto">
               <span className="reveal-word">Building</span>{' '}
               <span className="reveal-word">the</span>{' '}
-              <span className="reveal-word">bridge</span><br className="hidden sm:inline" />{' '}
+              <span className="reveal-word">bridge</span><br className="hidden md:inline" />{' '}
               <span className="reveal-word">between</span>{' '}
               <span className="reveal-word">bits</span>{' '}
               <span className="reveal-word">and</span>{' '}
               <span className="reveal-word">atoms</span>{' '}
-              <span className="reveal-word">for</span><br className="hidden sm:inline" />{' '}
+              <span className="reveal-word">for</span><br className="hidden md:inline" />{' '}
               <span className="reveal-word">companies,</span>{' '}
-              <span className="reveal-word">governments,</span><br className="hidden sm:inline" />{' '}
+              <span className="reveal-word">governments,</span><br className="hidden md:inline" />{' '}
               <span className="reveal-word">and</span>{' '}
               <span className="reveal-word">organizations.</span>
             </h2>
 
             {/* Subtext Below Headline */}
-            <p id="animated-scroll-subtitle" className="mt-5 sm:mt-7 text-[14px] min-[360px]:text-[15px] sm:text-[18px] md:text-[22px] lg:text-[25px] font-semibold tracking-[-0.02em] leading-[1.25] max-w-[580px] mx-auto text-center text-balance">
+            <p id="animated-scroll-subtitle" className="mt-7 sm:mt-9 text-[15px] sm:text-[18px] md:text-[21px] lg:text-[23px] font-semibold tracking-[-0.015em] leading-[1.35] max-w-[620px] mx-auto text-center">
               <span className="reveal-subword">Following</span>{' '}
               <span className="reveal-subword">our</span>{' '}
               <span className="reveal-subword">goal</span>{' '}
               <span className="reveal-subword">of</span>{' '}
-              <span className="reveal-subword">making</span><br className="hidden sm:inline" />{' '}
+              <span className="reveal-subword">making</span>{' '}
               <span className="reveal-subword">the</span>{' '}
               <span className="reveal-subword">internet</span>{' '}
               <span className="reveal-subword">a</span>{' '}
-              <span className="reveal-subword">better</span>{' '}
+              <span className="reveal-subword">better</span><br className="hidden sm:inline" />{' '}
               <span className="reveal-subword">place.</span>
             </p>
           </div>

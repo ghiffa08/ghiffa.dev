@@ -1,34 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { ArrowUpRight, ArrowRight, ArrowUp } from 'lucide-react';
 import { ScrollReveal } from '../../atoms/ScrollReveal';
 
 export function PortfolioFooter({ emailAddress, onOpenContact }) {
   const email = emailAddress || 'hello@ghiffa.dev';
   const currentYear = new Date().getFullYear();
-
-  // Live Local Time in Kuningan, West Java (Asia/Jakarta, UTC+7)
-  const [localTime, setLocalTime] = useState('');
-
-  useEffect(() => {
-    const updateTime = () => {
-      try {
-        const timeStr = new Intl.DateTimeFormat('en-US', {
-          timeZone: 'Asia/Jakarta',
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-          hour12: false
-        }).format(new Date());
-        setLocalTime(`${timeStr} WIB`);
-      } catch {
-        setLocalTime('UTC+7');
-      }
-    };
-
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
-  }, []);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -80,20 +56,6 @@ export function PortfolioFooter({ emailAddress, onOpenContact }) {
                 Crafting robust web applications, responsive digital products, and connected IoT systems from Kuningan, West Java.
               </p>
 
-              {/* Status / Live Availability Badge */}
-              <div className="pt-2 flex flex-wrap items-center gap-3 select-none">
-                <div className="inline-flex items-center gap-2 bg-[#FAFAFA] border border-gray-200/80 rounded-full px-3 py-1 font-mono text-[11px] text-gray-700">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span>Available for freelance worldwide</span>
-                </div>
-
-                {localTime && (
-                  <div className="inline-flex items-center gap-1.5 font-mono text-[11px] text-gray-500 px-1 py-1">
-                    <span className="text-gray-400">Local:</span>
-                    <span className="font-medium text-gray-700">{localTime}</span>
-                  </div>
-                )}
-              </div>
             </div>
 
             {/* Navigation Column */}

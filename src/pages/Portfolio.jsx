@@ -1658,11 +1658,11 @@ export default function Portfolio() {
               <div className="space-y-3.5">
                 {educationList.map((edu, idx) => (
                   <div key={edu.id || idx} className="flex items-start gap-3.5 group">
-                    {/* Clean Folder Icon matching Reference Gambar 1 */}
+                    {/* Clean Folder Icon matching Reference Gambar 1 (Themed Orange) */}
                     <div className="shrink-0 pt-0.5">
                       <svg className="w-9 h-7 sm:w-10 sm:h-8 drop-shadow-2xs group-hover:scale-105 transition-transform" viewBox="0 0 48 38" fill="none">
-                        <path d="M4 6C4 3.79086 5.79086 2 8 2H18.5858C19.6466 2 20.664 2.42143 21.4142 3.17157L24.8284 6.58579C25.5786 7.33593 26.596 7.75736 27.6569 7.75736H40C42.2091 7.75736 44 9.54822 44 11.7574V14H4V6Z" fill="#75C6FF" />
-                        <rect x="2" y="10" width="44" height="26" rx="4" fill="#4DA8FF" />
+                        <path d="M4 6C4 3.79086 5.79086 2 8 2H18.5858C19.6466 2 20.664 2.42143 21.4142 3.17157L24.8284 6.58579C25.5786 7.33593 26.596 7.75736 27.6569 7.75736H40C42.2091 7.75736 44 9.54822 44 11.7574V14H4V6Z" fill="#FFA06B" />
+                        <rect x="2" y="10" width="44" height="26" rx="4" fill="#FF5500" />
                       </svg>
                     </div>
                     <div className="min-w-0 flex-1">
@@ -1686,12 +1686,12 @@ export default function Portfolio() {
               <div className="flex flex-col sm:flex-row flex-wrap gap-2.5 sm:gap-3 items-start sm:items-center">
                 {/* Speech Bubble Pill 1 */}
                 <div className="relative inline-flex items-center gap-2 bg-[#FF5500] text-white text-[12px] sm:text-[12.5px] font-medium px-4 py-2 rounded-2xl rounded-br-xs shadow-xs hover:bg-[#E04B00] transition-colors cursor-default select-none">
-                  <span>Bahasa Indonesia — Native</span>
+                  <span>Bahasa Indonesia - Native</span>
                 </div>
 
                 {/* Speech Bubble Pill 2 */}
                 <div className="relative inline-flex items-center gap-2 bg-[#18181B] text-white text-[12px] sm:text-[12.5px] font-medium px-4 py-2 rounded-2xl rounded-bl-xs shadow-xs hover:bg-black transition-colors cursor-default select-none">
-                  <span>English — Professional Working</span>
+                  <span>English - Professional Working</span>
                 </div>
 
                 {/* Speech Bubble Pill 3 */}

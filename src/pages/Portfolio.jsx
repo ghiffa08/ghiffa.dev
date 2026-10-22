@@ -1526,7 +1526,7 @@ export default function Portfolio() {
               />
             </div>
 
-            {/* FLOATING TECH DOCK (Positioned directly underneath person, matching Gambar 1) */}
+            {/* FLOATING TECH DOCK (All Official Tech Brand Logos) */}
             <div className="-mt-5 sm:-mt-7 relative z-10 bg-white/95 backdrop-blur-md border border-gray-200/90 shadow-[0_10px_35px_rgba(0,0,0,0.08)] rounded-full px-4 sm:px-5 py-2.5 flex items-center justify-center gap-3 sm:gap-3.5 select-none hover:shadow-lg transition-shadow">
               {/* React */}
               <div className="hover:scale-115 transition-transform cursor-pointer" title="React">
@@ -1551,7 +1551,10 @@ export default function Portfolio() {
 
               {/* TypeScript */}
               <div className="hover:scale-115 transition-transform cursor-pointer" title="TypeScript">
-                <div className="w-5 h-5 rounded-xs bg-[#3178C6] text-white flex items-center justify-center text-[9.5px] font-bold font-mono">TS</div>
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
+                  <rect width="24" height="24" rx="4" fill="#3178C6" />
+                  <path d="M11.75 8.25H6.25v1.88h1.8v8.62h2.2v-8.62h1.5V8.25zm5.55 3.3c-1.3-.4-2.1-.8-2.1-1.6 0-.7.7-1.2 1.8-1.2 1.1 0 1.9.5 2.2 1.3l1.8-.8c-.6-1.4-1.9-2.3-3.9-2.3-2.4 0-4.1 1.5-4.1 3.5 0 2 1.4 2.8 3.3 3.4 1.4.4 2.1.9 2.1 1.7 0 .8-.8 1.4-2 1.4-1.5 0-2.3-.7-2.7-1.6l-1.9.8c.6 1.7 2.2 2.7 4.5 2.7 2.6 0 4.3-1.4 4.3-3.6 0-2.1-1.3-3-3.3-3.7z" fill="white" />
+                </svg>
               </div>
 
               {/* Tailwind CSS */}
@@ -1563,8 +1566,23 @@ export default function Portfolio() {
 
               {/* Node.js */}
               <div className="hover:scale-115 transition-transform cursor-pointer" title="Node.js">
-                <svg className="w-5 h-5 text-[#5FA04E]" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2l9 5.2v10.4L12 23l-9-5.4V7.2L12 2zm0 2.3L4.8 8.5v7.4L12 20.1l7.2-4.2V8.5L12 4.3z" />
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="#5FA04E">
+                  <path d="M11.998 1.5L2.616 6.92v10.84l9.382 5.42 9.386-5.42V6.92L11.998 1.5zm-.088 2.378l7.26 4.195v8.384l-7.26 4.191-7.256-4.191V8.073l7.256-4.195zm.088 3.513l-4.75 2.742v5.485l4.75 2.743 4.75-2.743V10.133l-4.75-2.742z" />
+                </svg>
+              </div>
+
+              {/* Python */}
+              <div className="hover:scale-115 transition-transform cursor-pointer" title="Python">
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
+                  <path d="M11.914 2c-5.042 0-4.726 2.186-4.726 2.186l.006 2.264h4.79v.678H5.196S2 6.764 2 11.838c0 5.075 2.784 4.887 2.784 4.887h1.66v-2.336s-.09-2.784 2.723-2.784h4.698v-.706H9.281s-2.66-.027-2.66-2.607c0-2.58 2.308-2.527 2.308-2.527h5.666S17.067 5.6 17.067 8.2v.735h1.737V4.24S18.995 2 11.914 2zm-2.583 1.488a.86.86 0 1 1 0 1.72.86.86 0 0 1 0-1.72z" fill="#3776AB" />
+                  <path d="M12.086 22c5.042 0 4.726-2.186 4.726-2.186l-.006-2.264h-4.79v-.678h6.788S22 17.236 22 12.162c0-5.075-2.784-4.887-2.784-4.887h-1.66v2.336s.09 2.784-2.723 2.784h-4.698v.706h4.582s2.66.027 2.66 2.607c0 2.58-2.308 2.527-2.308 2.527H7.405S4.933 18.4 4.933 15.8v-.735H3.196v4.695S5.005 22 12.086 22zm2.583-1.488a.86.86 0 1 1 0-1.72.86.86 0 0 1 0 1.72z" fill="#FFD43B" />
+                </svg>
+              </div>
+
+              {/* Arduino */}
+              <div className="hover:scale-115 transition-transform cursor-pointer" title="Arduino & Embedded IoT">
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="#00979C">
+                  <path d="M17.03 7C14.71 7 12.79 8.5 12 10.61 11.21 8.5 9.29 7 6.97 7 3.67 7 1 9.69 1 13s2.67 6 5.97 6c2.32 0 4.24-1.5 5.03-3.61.79 2.11 2.71 3.61 5.03 3.61 3.3 0 5.97-2.69 5.97-6s-2.67-6-5.97-6zm-10.06 9.6c-1.99 0-3.6-1.61-3.6-3.6 0-1.99 1.61-3.6 3.6-3.6 1.99 0 3.6 1.61 3.6 3.6 0 1.99-1.61 3.6-3.6 3.6zm10.06 0c-1.99 0-3.6-1.61-3.6-3.6 0-1.99 1.61-3.6 3.6-3.6 1.99 0 3.6 1.61 3.6 3.6 0 1.99-1.61 3.6-3.6 3.6zm-11.86-4.4h3.6v1.6H5.17v-1.6zm10.26-1.8h1.6v1.8h1.8v1.6h-1.8v1.8h-1.6v-1.8h-1.8v-1.6h1.8v-1.8z" />
                 </svg>
               </div>
 
@@ -1579,15 +1597,6 @@ export default function Portfolio() {
               <div className="hover:scale-115 transition-transform cursor-pointer" title="Supabase">
                 <svg className="w-5 h-5 text-[#3ECF8E]" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M13.4 2.1a1 1 0 0 0-1.6.4L5.2 14.8a1 1 0 0 0 .9 1.4h5.3v5.7a1 1 0 0 0 1.6.8l7.6-11.8a1 1 0 0 0-.9-1.5h-6.3V2.1z" />
-                </svg>
-              </div>
-
-              {/* IoT / Microcontroller */}
-              <div className="hover:scale-115 transition-transform cursor-pointer" title="IoT & Embedded Hardware">
-                <svg className="w-5 h-5 text-[#FF5500]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="4" y="4" width="16" height="16" rx="2" />
-                  <rect x="9" y="9" width="6" height="6" />
-                  <path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3" />
                 </svg>
               </div>
 

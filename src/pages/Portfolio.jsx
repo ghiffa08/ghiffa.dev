@@ -2515,34 +2515,14 @@ export default function Portfolio() {
           </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-7">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {projectsList.slice(0, 3).map((proj, idx) => {
-            const cardThemes = [
-              {
-                gradient: "from-amber-400 via-orange-500 to-red-600",
-                radial: "bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.35),transparent_60%)]"
-              },
-              {
-                gradient: "from-[#FF5500] via-amber-600 to-zinc-900",
-                radial: "bg-[radial-gradient(circle_at_70%_30%,rgba(255,85,0,0.35),transparent_60%)]"
-              },
-              {
-                gradient: "from-red-700 via-rose-900 to-neutral-950",
-                radial: "bg-[radial-gradient(circle_at_25%_70%,rgba(251,113,133,0.3),transparent_60%)]"
-              }
-            ];
-            const theme = cardThemes[idx % cardThemes.length];
             const projImg = proj.image_url || (Array.isArray(proj.image_urls) && proj.image_urls.length > 0 ? proj.image_urls[0] : null);
-            const techList = Array.isArray(proj.tech_stack)
-              ? proj.tech_stack
-              : typeof proj.tech_stack === 'string'
-                ? proj.tech_stack.split(',').map(s => s.trim()).filter(Boolean)
-                : [];
 
             return (
               <article
                 key={proj.id || idx}
-                className="group cursor-pointer flex flex-col justify-between"
+                className="group cursor-pointer flex flex-col"
                 onClick={() => {
                   if (proj.link && proj.link !== '#' && proj.link.startsWith('http')) {
                     window.open(proj.link, '_blank', 'noopener,noreferrer');
@@ -2551,58 +2531,31 @@ export default function Portfolio() {
                   }
                 }}
               >
-                <div>
-                  {/* Card Visual / Thumbnail */}
-                  <div className={`h-48 sm:h-56 rounded-2xl overflow-hidden mb-4 sm:mb-5 relative shadow-sm border border-gray-100/80 bg-gradient-to-br ${theme.gradient}`}>
-                    {projImg && (
-                      <img
-                        src={projImg}
-                        alt={proj.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        onError={(e) => {
-                          e.currentTarget.style.display = 'none';
-                        }}
-                      />
-                    )}
-                    <div className={`absolute inset-0 ${theme.radial} group-hover:scale-105 transition-transform duration-500 pointer-events-none ${projImg ? 'opacity-30' : 'opacity-100'}`} />
-
-                    {/* Category Tag Top-Left */}
-                    <div className="absolute top-3.5 left-3.5 z-10">
-                      <span className="bg-black/60 backdrop-blur-md text-white text-[10px] font-mono font-medium px-2.5 py-1 rounded-md border border-white/10 uppercase tracking-wider shadow-sm">
-                        {proj.category || 'CASE STUDY'}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Title */}
-                  <h3 className="text-[17px] sm:text-[19px] font-bold text-[#141414] leading-snug mb-2 group-hover:text-[#FF5500] transition-colors">
-                    {proj.title}
-                  </h3>
-
-                  {/* Description */}
-                  <p className="text-[13px] text-gray-500 leading-relaxed line-clamp-2 mb-3">
-                    {proj.description}
-                  </p>
+                {/* Clean Card Visual / Thumbnail matching Gambar 2 */}
+                <div className="aspect-[16/10] rounded-2xl overflow-hidden mb-4 sm:mb-5 relative bg-gray-100">
+                  {projImg ? (
+                    <img
+                      src={projImg}
+                      alt={proj.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                      }}
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-amber-500 to-[#FF5500]" />
+                  )}
                 </div>
 
-                {/* Tech Stack Pills */}
-                {techList.length > 0 && (
-                  <div className="flex flex-wrap gap-1.5 pt-1">
-                    {techList.slice(0, 3).map((tech, tIdx) => (
-                      <span
-                        key={tIdx}
-                        className="px-2.5 py-0.5 rounded-md bg-gray-50 border border-gray-200/80 text-gray-600 text-[10.5px] font-mono"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                    {techList.length > 3 && (
-                      <span className="text-[10px] text-gray-400 font-mono py-0.5">
-                        +{techList.length - 3}
-                      </span>
-                    )}
-                  </div>
-                )}
+                {/* Title */}
+                <h3 className="text-[18px] sm:text-[20px] font-semibold text-[#141414] leading-[1.3] mb-2.5 group-hover:text-[#FF5500] transition-colors">
+                  {proj.title}
+                </h3>
+
+                {/* Description */}
+                <p className="text-[13.5px] sm:text-[14px] text-gray-500 leading-relaxed line-clamp-3">
+                  {proj.description}
+                </p>
               </article>
             );
           })}

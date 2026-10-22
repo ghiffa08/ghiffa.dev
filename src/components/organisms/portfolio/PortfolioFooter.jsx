@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { ArrowUpRight, ArrowRight, ArrowUp } from 'lucide-react';
 import { ScrollReveal } from '../../atoms/ScrollReveal';
 
 export function PortfolioFooter({ emailAddress, onOpenContact }) {
@@ -129,9 +130,7 @@ export function PortfolioFooter({ emailAddress, onOpenContact }) {
                       className="group inline-flex items-center gap-1.5 text-gray-600 hover:text-black font-medium transition-colors"
                     >
                       <span>{item.label}</span>
-                      <span className="text-[11px] text-gray-400 group-hover:text-[#FF5500] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all">
-                        &nearr;
-                      </span>
+                      <ArrowUpRight className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#FF5500] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
                     </a>
                   </li>
                 ))}
@@ -141,9 +140,7 @@ export function PortfolioFooter({ emailAddress, onOpenContact }) {
                     className="group inline-flex items-center gap-1.5 text-gray-600 hover:text-black font-medium transition-colors"
                   >
                     <span>Email Me</span>
-                    <span className="text-[11px] text-gray-400 group-hover:text-[#FF5500] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all">
-                      &nearr;
-                    </span>
+                    <ArrowUpRight className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#FF5500] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
                   </a>
                 </li>
               </ul>
@@ -152,10 +149,10 @@ export function PortfolioFooter({ emailAddress, onOpenContact }) {
                 <div className="pt-2">
                   <button
                     onClick={() => onOpenContact('Footer Inquiry')}
-                    className="inline-flex items-center gap-2 text-xs font-mono font-medium text-[#141414] hover:text-[#FF5500] transition-colors cursor-pointer select-none"
+                    className="group inline-flex items-center gap-2 text-xs font-mono font-medium text-[#141414] hover:text-[#FF5500] transition-colors cursor-pointer select-none"
                   >
                     <span>Start a conversation</span>
-                    <span>&rarr;</span>
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </button>
                 </div>
               )}
@@ -179,9 +176,7 @@ export function PortfolioFooter({ emailAddress, onOpenContact }) {
                 aria-label="Back to top"
               >
                 <span>Back to top</span>
-                <span className="group-hover:-translate-y-0.5 transition-transform duration-200">
-                  &uarr;
-                </span>
+                <ArrowUp className="w-3.5 h-3.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
               </button>
             </div>
           </div>

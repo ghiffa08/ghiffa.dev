@@ -450,9 +450,9 @@ export default function Portfolio() {
           const mainWords = document.querySelectorAll('#animated-scroll-title .reveal-word');
           const subWords = document.querySelectorAll('#animated-scroll-subtitle .reveal-subword');
 
-          // Phase 1: Headline words reveal sequentially from progress 0.04 to 0.54
-          const headlineStart = 0.04;
-          const headlineEnd = 0.54;
+          // Phase 1: Headline words reveal sequentially from progress 0.05 to 0.58
+          const headlineStart = 0.05;
+          const headlineEnd = 0.58;
           const headlineProgress = Math.max(0, Math.min(1, (progress - headlineStart) / (headlineEnd - headlineStart)));
           const activeMainCount = Math.floor(headlineProgress * (mainWords.length + 1));
 
@@ -464,9 +464,9 @@ export default function Portfolio() {
             }
           });
 
-          // Phase 2: Subtitle words reveal sequentially from progress 0.50 to 0.90
-          const subStart = 0.50;
-          const subEnd = 0.90;
+          // Phase 2: Subtitle words reveal sequentially from progress 0.52 to 0.95
+          const subStart = 0.52;
+          const subEnd = 0.95;
           const subProgress = Math.max(0, Math.min(1, (progress - subStart) / (subEnd - subStart)));
           const activeSubCount = Math.floor(subProgress * (subWords.length + 1));
 
@@ -573,8 +573,8 @@ export default function Portfolio() {
 
           if (window.innerWidth >= 1024) {
             const vh = window.innerHeight;
-            const topJourney = 98;
-            const topCreds = 120;
+            const topJourney = 104;
+            const topCreds = 128;
 
             const rectJourney = cardJourney.getBoundingClientRect();
             const rectCreds = cardCredentials ? cardCredentials.getBoundingClientRect() : null;
@@ -956,12 +956,12 @@ export default function Portfolio() {
             }`}
           aria-hidden={splashFade}
         >
-          <div className="relative w-full h-screen overflow-hidden select-none">
-            <div className="relative w-full h-full flex items-center justify-center">
-              <div className="z-20 px-4 w-full flex justify-center items-center">
+          <div className="relative w-full h-screen min-h-[600px] sm:min-h-[700px] pt-[64px] sm:pt-[72px] overflow-hidden select-none">
+            <div className="relative w-full h-full">
+              <div className="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 px-2 sm:px-4 w-full max-w-[96vw] sm:max-w-none flex justify-center">
                 <div className="will-change-transform">
-                  <div className="px-6 sm:px-14 py-3 sm:py-6 overflow-visible relative border border-transparent flex items-center justify-center text-center">
-                    <h1 className="text-[36px] min-[360px]:text-[44px] min-[400px]:text-[52px] sm:text-[88px] md:text-[116px] lg:text-[144px] font-bold tracking-[-0.04em] leading-none text-[#141414] select-none whitespace-nowrap block text-center m-0 p-0">
+                  <div className="px-3 min-[400px]:px-6 sm:px-12 pt-2 sm:pt-4 pb-2.5 sm:pb-6 overflow-visible relative border border-transparent">
+                    <h1 className="text-[34px] min-[360px]:text-[40px] min-[400px]:text-[48px] sm:text-[84px] md:text-[112px] lg:text-[138px] font-bold tracking-[-0.04em] leading-[1.08] text-[#141414] select-none whitespace-nowrap block pb-1 sm:pb-2">
                       ghiffa.dev
                     </h1>
                   </div>
@@ -983,9 +983,9 @@ export default function Portfolio() {
         <div className="w-full px-4 sm:px-16 lg:px-[12.8vw] h-[64px] sm:h-[72px] flex items-center justify-between">
           <a
             href="#"
-            className={`text-[18px] sm:text-[20px] font-bold tracking-tight px-1.5 py-0.5 leading-none transition-colors duration-700 hover:opacity-80 ${isBannerDark
-              ? 'text-[#111111]'
-              : 'text-[#111111]'
+            className={`text-[18px] sm:text-[20px] font-bold tracking-tight border px-1.5 py-0.5 leading-none transition-colors duration-700 ${isBannerDark
+              ? 'text-[#111111] border-[#111111] hover:opacity-80'
+              : 'text-[#111111] border-gray-800 hover:opacity-80'
               }`}
           >
             ghiffa.dev
@@ -1003,17 +1003,17 @@ export default function Portfolio() {
       </header>
 
       {/* FULL-SCREEN HERO SECTION (Architectural Dot-Grid) */}
-      <section className="relative w-full h-screen min-h-[600px] sm:min-h-[700px] bg-architectural-dots overflow-hidden select-none">
+      <section className="relative w-full h-screen min-h-[600px] sm:min-h-[700px] pt-[64px] sm:pt-[72px] bg-architectural-dots overflow-hidden select-none">
 
         {/* Edge-to-Edge Full Viewport Interactive Canvas */}
         <div id="hero-canvas" className="relative w-full h-full will-change-transform">
 
           {/* 1. CENTER: Giant "ghiffa.dev" (Figma Canvas Selection with Skillstreak Orange Accent & Layer Badge) */}
-          <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none px-4">
-            <div id="hero-title-inner" className="will-change-transform pointer-events-auto">
+          <div className="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 px-2 sm:px-4 w-full max-w-[96vw] sm:max-w-none flex justify-center">
+            <div id="hero-title-inner" className="will-change-transform">
               <div
                 id="hero-bbox"
-                className={`px-6 sm:px-14 py-3 sm:py-6 overflow-visible transition-all duration-700 ease-out relative flex items-center justify-center text-center ${
+                className={`px-3 min-[400px]:px-6 sm:px-12 pt-2 sm:pt-4 pb-2.5 sm:pb-6 overflow-visible transition-all duration-700 ease-out relative ${
                   heroRevealed ? 'figma-bbox' : 'border border-transparent'
                 }`}
               >
@@ -1027,9 +1027,11 @@ export default function Portfolio() {
                 <span className={`figma-handle -bottom-1 left-1/2 -translate-x-1/2 transition-all duration-500 ${heroRevealed ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`} />
                 <span className={`figma-handle -bottom-1 -right-1 transition-all duration-500 ${heroRevealed ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`} />
 
+
+
                 <h1
                   id="hero-title"
-                  className="text-[36px] min-[360px]:text-[44px] min-[400px]:text-[52px] sm:text-[88px] md:text-[116px] lg:text-[144px] font-bold tracking-[-0.04em] leading-none text-[#141414] select-none whitespace-nowrap block text-center cursor-pointer m-0 p-0"
+                  className="text-[34px] min-[360px]:text-[40px] min-[400px]:text-[48px] sm:text-[84px] md:text-[112px] lg:text-[138px] font-bold tracking-[-0.04em] leading-[1.08] text-[#141414] select-none whitespace-nowrap block pb-1 sm:pb-2 cursor-pointer"
                   title="Click to toggle canvas items"
                   onClick={() => setHeroRevealed(prev => !prev)}
                 >
@@ -1380,29 +1382,29 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* 2. STICKY SCROLL-ANIMATED TEXT SECTION (Matching Reference onlines.com.ar 1:1) */}
-      <section id="scroll-text-track" className="relative h-[185vh] sm:h-[190vh] bg-white">
+      {/* 2. STICKY SCROLL-ANIMATED TEXT SECTION (Clean pure white, no dots) */}
+      <section id="scroll-text-track" className="relative h-[260vh] bg-white">
 
-        <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center pt-[64px] sm:pt-[72px] pb-4 sm:pb-6 px-4 sm:px-8 overflow-hidden bg-white">
-          <div className="max-w-[1080px] w-full mx-auto text-center relative z-10 flex flex-col items-center justify-center my-auto">
-            {/* Main Animated Headline: ALL words start in faded gray (#D4D4D8), smoothly activating to rich ink */}
-            <h2 id="animated-scroll-title" className="text-[32px] sm:text-[48px] md:text-[60px] lg:text-[70px] xl:text-[76px] font-bold tracking-[-0.035em] leading-[1.08] sm:leading-[1.12] text-center max-w-[1060px] mx-auto">
+        <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center px-4 sm:px-6">
+          <div className="max-w-[960px] mx-auto text-center relative z-10">
+            {/* Main Animated Headline: ALL words start in faded gray (#ECEEEF) */}
+            <h2 id="animated-scroll-title" className="text-[28px] min-[360px]:text-[34px] min-[420px]:text-[40px] sm:text-[56px] md:text-[68px] lg:text-[76px] font-bold tracking-[-0.035em] leading-[1.1]">
               <span className="reveal-word">Building</span>{' '}
               <span className="reveal-word">the</span>{' '}
-              <span className="reveal-word">bridge</span><br className="hidden md:inline" />{' '}
+              <span className="reveal-word">bridge</span>{' '}
               <span className="reveal-word">between</span>{' '}
               <span className="reveal-word">bits</span>{' '}
               <span className="reveal-word">and</span>{' '}
               <span className="reveal-word">atoms</span>{' '}
-              <span className="reveal-word">for</span><br className="hidden md:inline" />{' '}
+              <span className="reveal-word">for</span>{' '}
               <span className="reveal-word">companies,</span>{' '}
-              <span className="reveal-word">governments,</span><br className="hidden md:inline" />{' '}
+              <span className="reveal-word">governments,</span>{' '}
               <span className="reveal-word">and</span>{' '}
               <span className="reveal-word">organizations.</span>
             </h2>
 
             {/* Subtext Below Headline */}
-            <p id="animated-scroll-subtitle" className="mt-7 sm:mt-9 text-[15px] sm:text-[18px] md:text-[21px] lg:text-[23px] font-semibold tracking-[-0.015em] leading-[1.35] max-w-[620px] mx-auto text-center">
+            <p id="animated-scroll-subtitle" className="mt-6 sm:mt-10 text-[16px] sm:text-[22px] font-semibold tracking-[-0.015em] leading-[1.35] max-w-[520px] mx-auto">
               <span className="reveal-subword">Following</span>{' '}
               <span className="reveal-subword">our</span>{' '}
               <span className="reveal-subword">goal</span>{' '}
@@ -1411,7 +1413,7 @@ export default function Portfolio() {
               <span className="reveal-subword">the</span>{' '}
               <span className="reveal-subword">internet</span>{' '}
               <span className="reveal-subword">a</span>{' '}
-              <span className="reveal-subword">better</span><br className="hidden sm:inline" />{' '}
+              <span className="reveal-subword">better</span>{' '}
               <span className="reveal-subword">place.</span>
             </p>
           </div>
@@ -1500,15 +1502,15 @@ export default function Portfolio() {
           {/* CARD 1: ABOUT ME */}
           <div
             id="stack-card-about"
-            className="lg:sticky lg:top-[76px] z-10 will-change-transform mb-[24vh] lg:mb-[45vh]"
+            className="lg:sticky lg:top-[80px] z-10 will-change-transform mb-16 lg:mb-32"
           >
             <div id="about" className="absolute -top-24" />
 
             {/* Figma Workspace Window */}
-            <div className="figma-stack-card bg-white rounded-2xl border border-gray-200/90 shadow-xl overflow-hidden max-h-[calc(100vh-96px)] flex flex-col">
+            <div className="figma-stack-card bg-white rounded-2xl border border-gray-200/90 shadow-xl overflow-hidden">
 
               {/* 1. FIGMA TOP TOOLBAR / APP BAR */}
-              <div className="h-11 bg-[#F9FAFB] border-b border-gray-200/80 px-4 flex items-center justify-between text-xs select-none shrink-0">
+              <div className="h-11 bg-[#F9FAFB] border-b border-gray-200/80 px-4 flex items-center justify-between text-xs select-none">
 
                 {/* Left: Figma Icon + Breadcrumb */}
                 <div className="flex items-center gap-3">
@@ -1568,10 +1570,10 @@ export default function Portfolio() {
               </div>
 
               {/* 2. MAIN WORKSPACE: CANVAS (LEFT) + FIGMA INSPECTOR SIDEBAR (RIGHT) */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 flex-1 min-h-0 overflow-y-auto lg:overflow-hidden">
+              <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[560px]">
 
                 {/* CANVAS AREA (lg:col-span-8) */}
-                <div className="lg:col-span-8 bg-square-grid p-3.5 sm:p-5 lg:p-7 relative flex flex-col justify-center overflow-y-auto">
+                <div className="lg:col-span-8 bg-square-grid p-3.5 sm:p-8 lg:p-12 relative flex flex-col justify-center">
 
                   {/* Floating Figma Comment Bubble */}
                   <DraggableItem className="hidden md:flex absolute top-6 right-6 z-20 bg-white/95 backdrop-blur-md rounded-2xl rounded-bl-sm px-4 py-2.5 comment-shadow border border-gray-100 items-start gap-2.5 max-w-[270px]">
@@ -1601,7 +1603,7 @@ export default function Portfolio() {
                     </div>
 
                     {/* The White Frame Canvas Box with Figma Selection Border & Handles */}
-                    <div className="figma-bbox bg-white rounded-xl p-4 sm:p-5 md:p-6 shadow-sm border border-[#FF5500] relative">
+                    <div className="figma-bbox bg-white rounded-xl p-4 min-[400px]:p-6 sm:p-8 md:p-10 shadow-sm border border-[#FF5500] relative">
 
                       {/* 8 Figma resize handles */}
                       <span className="figma-handle !border-[#FF5500] -top-1 -left-1" />
@@ -1614,16 +1616,16 @@ export default function Portfolio() {
                       <span className="figma-handle !border-[#FF5500] -bottom-1 -right-1" />
 
                       {/* Headline */}
-                      <h2 className="text-lg min-[400px]:text-xl sm:text-2xl lg:text-[24px] font-bold text-[#141414] tracking-tight leading-[1.2] mb-3 sm:mb-5">
+                      <h2 className="text-xl min-[400px]:text-2xl sm:text-3xl lg:text-[32px] font-bold text-[#141414] tracking-tight leading-[1.2] mb-6 sm:mb-8">
                         {aboutHeadline}
                       </h2>
 
                       {/* Split: Avatar on left + Story Bio on right */}
-                      <div className="grid grid-cols-1 sm:grid-cols-12 gap-5 sm:gap-6 items-start">
+                      <div className="grid grid-cols-1 sm:grid-cols-12 gap-6 sm:gap-8 items-start">
 
                         {/* Photo */}
-                        <div className="sm:col-span-5 space-y-2.5 max-w-[180px] sm:max-w-[200px] mx-auto sm:mx-0 w-full">
-                          <div className="relative rounded-xl overflow-hidden border border-gray-200/80 aspect-[4/5] max-h-[220px] bg-gray-100 group">
+                        <div className="sm:col-span-5 space-y-3 max-w-[240px] sm:max-w-none mx-auto sm:mx-0 w-full">
+                          <div className="relative rounded-xl overflow-hidden border border-gray-200/80 aspect-[4/5] bg-gray-100 group">
                             <img
                               src={avatarImage}
                               alt={fullName}
@@ -1641,14 +1643,14 @@ export default function Portfolio() {
                           </div>
 
                           <div>
-                            <div className="font-semibold text-gray-900 text-[13.5px]">{fullName}</div>
-                            <div className="text-gray-500 text-[11.5px]">{roleTitle}</div>
-                            <div className="text-gray-400 text-[11px] font-medium mt-0.5">&bull; Kuningan, Indonesia</div>
+                            <div className="font-semibold text-gray-900 text-[14px]">{fullName}</div>
+                            <div className="text-gray-500 text-[12px]">{roleTitle}</div>
+                            <div className="text-gray-400 text-[11.5px] font-medium mt-0.5">&bull; Kuningan, Indonesia</div>
                           </div>
                         </div>
 
                         {/* Bio Story from database (ReactMarkdown) */}
-                        <div className="sm:col-span-7 text-[13px] sm:text-[13.5px] leading-relaxed text-gray-600 space-y-2.5 font-normal [&>p]:leading-relaxed [&>strong]:text-gray-900 [&>strong]:font-semibold">
+                        <div className="sm:col-span-7 text-[14px] leading-relaxed text-gray-600 space-y-3 font-normal [&>p]:leading-relaxed [&>strong]:text-gray-900 [&>strong]:font-semibold">
                           {aboutBio ? (
                             <ReactMarkdown>{aboutBio}</ReactMarkdown>
                           ) : (
@@ -1665,26 +1667,26 @@ export default function Portfolio() {
                 </div>
 
                 {/* FIGMA DESIGN INSPECTOR SIDEBAR (lg:col-span-4) */}
-                <div className="lg:col-span-4 bg-[#F9FAFB] border-t lg:border-t-0 lg:border-l border-gray-200/90 p-4 sm:p-5 space-y-3.5 flex flex-col justify-between overflow-y-auto">
+                <div className="lg:col-span-4 bg-[#F9FAFB] border-t lg:border-t-0 lg:border-l border-gray-200/90 p-6 sm:p-7 space-y-6 flex flex-col justify-between">
 
-                  <div className="space-y-3.5">
+                  <div className="space-y-6">
 
                     {/* Tabs: Design / Prototype / Inspect */}
-                    <div className="flex items-center gap-5 border-b border-gray-200 pb-2.5 text-xs font-medium">
-                      <span className="text-[#FF5500] font-semibold border-b-2 border-[#FF5500] pb-2.5 -mb-2.5">Design</span>
+                    <div className="flex items-center gap-5 border-b border-gray-200 pb-3 text-xs font-medium">
+                      <span className="text-[#FF5500] font-semibold border-b-2 border-[#FF5500] pb-3 -mb-3">Design</span>
                       <span className="text-gray-400 hover:text-gray-600 cursor-pointer">Prototype</span>
                       <span className="text-gray-400 hover:text-gray-600 cursor-pointer">Inspect</span>
                     </div>
 
                     {/* Section: Frame Info */}
-                    <div className="space-y-2 text-xs">
+                    <div className="space-y-2.5 text-xs">
                       <div className="text-[11px] font-semibold text-gray-700">Frame</div>
                       <div className="grid grid-cols-2 gap-2 text-[11.5px]">
-                        <div className="flex items-center justify-between bg-white border border-gray-200 px-2 py-1.5 rounded">
+                        <div className="flex items-center justify-between bg-white border border-gray-200 px-2.5 py-1.5 rounded">
                           <span className="text-gray-400">W</span>
                           <span className="text-gray-800 font-medium">880</span>
                         </div>
-                        <div className="flex items-center justify-between bg-white border border-gray-200 px-2 py-1.5 rounded">
+                        <div className="flex items-center justify-between bg-white border border-gray-200 px-2.5 py-1.5 rounded">
                           <span className="text-gray-400">H</span>
                           <span className="text-gray-800 font-medium">Auto</span>
                         </div>
@@ -1692,9 +1694,9 @@ export default function Portfolio() {
                     </div>
 
                     {/* Section: Status */}
-                    <div className="space-y-1.5 text-xs border-t border-gray-200/70 pt-3">
+                    <div className="space-y-2 text-xs border-t border-gray-200/70 pt-4">
                       <div className="text-[11px] font-semibold text-gray-700">Status</div>
-                      <div className="flex items-center gap-2 bg-emerald-50 border border-emerald-200/80 text-emerald-800 px-2.5 py-1.5 rounded-lg font-medium text-xs">
+                      <div className="flex items-center gap-2 bg-emerald-50 border border-emerald-200/80 text-emerald-800 px-3 py-1.5 rounded-lg font-medium text-xs">
                         <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                         <span>{availabilityStatus}</span>
                       </div>
@@ -1702,16 +1704,16 @@ export default function Portfolio() {
 
                     {/* Section: Skills & Tech Stack (Dynamic from database) */}
                     {skillsList.length > 0 && (
-                      <div className="space-y-2 border-t border-gray-200/70 pt-3">
+                      <div className="space-y-2.5 border-t border-gray-200/70 pt-4">
                         <div className="flex items-center justify-between text-xs">
                           <span className="text-[11px] font-semibold text-gray-700">Component Variants ({skillsList.length})</span>
                           <span className="text-[10.5px] text-gray-400 font-medium">Skills</span>
                         </div>
-                        <div className="flex flex-wrap gap-1.5 max-h-[100px] overflow-y-auto pr-1">
+                        <div className="flex flex-wrap gap-1.5 max-h-[160px] overflow-y-auto pr-1">
                           {skillsList.map((skill, idx) => (
                             <span
                               key={idx}
-                              className="px-2.5 py-0.5 rounded-md bg-white border border-gray-200/90 text-gray-700 text-[11px] font-medium shadow-2xs hover:border-[#FF5500] transition-colors cursor-default"
+                              className="px-2.5 py-1 rounded-md bg-white border border-gray-200/90 text-gray-700 text-[11px] font-medium shadow-2xs hover:border-[#FF5500] transition-colors cursor-default"
                             >
                               {skill}
                             </span>
@@ -1723,8 +1725,8 @@ export default function Portfolio() {
                   </div>
 
                   {/* Section: Export & CTAs */}
-                  <div className="border-t border-gray-200/70 pt-3.5 space-y-2">
-                    <div className="text-[11px] font-semibold text-gray-700 mb-1.5">Export</div>
+                  <div className="border-t border-gray-200/70 pt-5 space-y-2.5">
+                    <div className="text-[11px] font-semibold text-gray-700 mb-2">Export</div>
 
                     <button
                       onClick={() => openContactModal('About Me Inquiry')}
@@ -1765,16 +1767,16 @@ export default function Portfolio() {
           {/* CARD 2: PROFESSIONAL JOURNEY */}
           <div
             id="stack-card-journey"
-            className="lg:sticky lg:top-[98px] z-20 will-change-transform mb-[24vh] lg:mb-[45vh]"
+            className="lg:sticky lg:top-[104px] z-20 will-change-transform mb-16 lg:mb-32"
           >
             <div id="journey" className="absolute -top-24" />
             <div id="experience" className="absolute -top-24" />
 
             {/* Figma Workspace Window */}
-            <div className="figma-stack-card bg-white rounded-2xl border border-gray-200/90 shadow-2xl overflow-hidden max-h-[calc(100vh-114px)] flex flex-col">
+            <div className="figma-stack-card bg-white rounded-2xl border border-gray-200/90 shadow-2xl overflow-hidden">
 
               {/* 1. FIGMA TOP TOOLBAR / APP BAR */}
-              <div className="h-11 bg-[#F9FAFB] border-b border-gray-200/80 px-4 flex items-center justify-between text-xs select-none shrink-0">
+              <div className="h-11 bg-[#F9FAFB] border-b border-gray-200/80 px-4 flex items-center justify-between text-xs select-none">
 
                 {/* Left: Figma Icon + Breadcrumb */}
                 <div className="flex items-center gap-3">
@@ -1829,10 +1831,10 @@ export default function Portfolio() {
               </div>
 
               {/* 2. MAIN WORKSPACE: CANVAS (LEFT) + FIGMA INSPECTOR SIDEBAR (RIGHT) */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 flex-1 min-h-0 overflow-y-auto lg:overflow-hidden">
+              <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[560px]">
 
                 {/* CANVAS AREA (lg:col-span-8) */}
-                <div className="lg:col-span-8 bg-square-grid p-3.5 sm:p-5 lg:p-7 relative flex flex-col justify-center overflow-y-auto">
+                <div className="lg:col-span-8 bg-square-grid p-3.5 sm:p-8 lg:p-12 relative flex flex-col justify-center">
 
                   {/* Floating Figma Comment Bubble */}
                   <DraggableItem className="hidden md:flex absolute top-6 right-6 z-20 bg-white/95 backdrop-blur-md rounded-2xl rounded-bl-sm px-4 py-2.5 comment-shadow border border-gray-100 items-start gap-2.5 max-w-[270px]">
@@ -1849,8 +1851,8 @@ export default function Portfolio() {
                   </DraggableItem>
 
                   {/* Canvas Frame Header */}
-                  <div className="mb-4 sm:mb-5">
-                    <div className="flex items-center gap-2 mb-1.5 select-none">
+                  <div className="mb-6">
+                    <div className="flex items-center gap-2 mb-2 select-none">
                       <span className="inline-flex items-center gap-1 bg-[#FF5500] text-white text-[10.5px] font-medium px-2 py-0.5 rounded shadow-2xs">
                         # Frame: Career Timeline
                       </span>
@@ -1858,23 +1860,23 @@ export default function Portfolio() {
                         &darr; Auto Layout &bull; Gap: 16px
                       </span>
                     </div>
-                    <h2 className="text-xl sm:text-2xl lg:text-[26px] font-bold text-[#141414] tracking-tight leading-[1.2]">
+                    <h2 className="text-2xl sm:text-3xl lg:text-[32px] font-bold text-[#141414] tracking-tight leading-[1.2]">
                       Professional Journey
                     </h2>
-                    <p className="text-gray-500 text-[13px] sm:text-[13.5px] mt-0.5">
+                    <p className="text-gray-500 text-[13.5px] sm:text-[14px] mt-1">
                       Proven experience in full-stack web applications, internal enterprise APIs, and system design.
                     </p>
                   </div>
 
                   {/* Auto Layout Stack of Experience Cards */}
-                  <div className="space-y-3 max-h-[360px] overflow-y-auto pr-1.5">
+                  <div className="space-y-4">
                     {experiencesList.map((exp, idx) => {
                       const isSelected = selectedExpIdx === idx;
                       return (
                         <div
                           key={exp.id || idx}
                           onClick={() => setSelectedExpIdx(idx)}
-                          className={`relative rounded-xl p-3.5 sm:p-5 transition-all cursor-pointer ${isSelected
+                          className={`relative rounded-xl p-4 sm:p-6 transition-all cursor-pointer ${isSelected
                             ? 'figma-bbox bg-white shadow-sm border border-[#FF5500]'
                             : 'bg-white/90 hover:bg-white border border-gray-200/80 hover:border-gray-300 shadow-2xs'
                             }`}
@@ -1899,23 +1901,23 @@ export default function Portfolio() {
                             </>
                           )}
 
-                          <div className="flex flex-col min-[480px]:flex-row min-[480px]:items-center justify-between gap-1.5 min-[480px]:gap-2 mb-1">
+                          <div className="flex flex-col min-[480px]:flex-row min-[480px]:items-center justify-between gap-1.5 min-[480px]:gap-2 mb-1.5">
                             <div className="flex items-center gap-2">
                               <span className="text-[#FF5500] text-xs">❖</span>
-                              <h3 className="font-semibold text-gray-900 text-[14.5px] sm:text-[15.5px]">
+                              <h3 className="font-semibold text-gray-900 text-[15px] sm:text-[16px]">
                                 {exp.company}
                               </h3>
                             </div>
-                            <span className="text-[11px] sm:text-[11.5px] bg-gray-100 text-gray-700 px-2.5 py-0.5 rounded-md border border-gray-200/60 font-medium self-start min-[480px]:self-auto">
+                            <span className="text-[11px] sm:text-[12px] bg-gray-100 text-gray-700 px-2.5 py-0.5 rounded-md border border-gray-200/60 font-medium self-start min-[480px]:self-auto">
                               {exp.period}
                             </span>
                           </div>
 
-                          <div className="text-[13px] font-medium text-[#FF5500] mb-1.5">
+                          <div className="text-[13.5px] font-medium text-[#FF5500] mb-2">
                             {exp.role}
                           </div>
 
-                          <p className="text-[12.5px] sm:text-[13px] leading-relaxed text-gray-600 font-normal">
+                          <p className="text-[13px] sm:text-[13.5px] leading-relaxed text-gray-600 font-normal">
                             {exp.description}
                           </p>
                         </div>
@@ -1926,31 +1928,31 @@ export default function Portfolio() {
                 </div>
 
                 {/* FIGMA DESIGN INSPECTOR SIDEBAR (lg:col-span-4) */}
-                <div className="lg:col-span-4 bg-[#F9FAFB] border-t lg:border-t-0 lg:border-l border-gray-200/90 p-4 sm:p-5 space-y-3.5 flex flex-col justify-between overflow-y-auto">
+                <div className="lg:col-span-4 bg-[#F9FAFB] border-t lg:border-t-0 lg:border-l border-gray-200/90 p-6 sm:p-7 space-y-6 flex flex-col justify-between">
 
-                  <div className="space-y-3.5">
+                  <div className="space-y-6">
 
                     {/* Tabs: Layers / Design / Inspect */}
-                    <div className="flex items-center gap-5 border-b border-gray-200 pb-2.5 text-xs font-medium">
-                      <span className="text-[#FF5500] font-semibold border-b-2 border-[#FF5500] pb-2.5 -mb-2.5">Layers</span>
+                    <div className="flex items-center gap-5 border-b border-gray-200 pb-3 text-xs font-medium">
+                      <span className="text-[#FF5500] font-semibold border-b-2 border-[#FF5500] pb-3 -mb-3">Layers</span>
                       <span className="text-gray-400 hover:text-gray-600 cursor-pointer">Design</span>
                       <span className="text-gray-400 hover:text-gray-600 cursor-pointer">Inspect</span>
                     </div>
 
                     {/* Section: Layer Tree */}
-                    <div className="space-y-1.5">
+                    <div className="space-y-2">
                       <div className="text-[11px] font-semibold text-gray-700 flex items-center justify-between">
                         <span>Component Tree</span>
                         <span className="text-[10.5px] text-gray-400 font-medium">{experiencesList.length} Items</span>
                       </div>
-                      <div className="space-y-1 max-h-[140px] overflow-y-auto pr-1">
+                      <div className="space-y-1">
                         {experiencesList.map((exp, idx) => {
                           const isSelected = selectedExpIdx === idx;
                           return (
                             <button
                               key={exp.id || idx}
                               onClick={() => setSelectedExpIdx(idx)}
-                              className={`w-full text-left flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs transition-colors cursor-pointer ${isSelected
+                              className={`w-full text-left flex items-center justify-between px-2.5 py-2 rounded-lg text-xs transition-colors cursor-pointer ${isSelected
                                 ? 'bg-[#FF5500]/10 text-[#FF5500] font-medium border border-[#FF5500]/30'
                                 : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                                 }`}
@@ -1970,23 +1972,23 @@ export default function Portfolio() {
 
                     {/* Section: Active Selection Properties */}
                     {activeExp && (
-                      <div className="space-y-2 text-xs border-t border-gray-200/70 pt-3">
+                      <div className="space-y-2.5 text-xs border-t border-gray-200/70 pt-4">
                         <div className="text-[11px] font-semibold text-gray-700">Instance Properties</div>
 
-                        <div className="space-y-1.5 text-[11.5px]">
-                          <div className="flex items-center justify-between bg-white border border-gray-200 px-2 py-1.5 rounded">
+                        <div className="space-y-2 text-[11.5px]">
+                          <div className="flex items-center justify-between bg-white border border-gray-200 px-2.5 py-1.5 rounded">
                             <span className="text-gray-400">Role</span>
                             <span className="text-gray-800 font-medium text-[11.5px] truncate max-w-[170px] text-right">
                               {activeExp.role}
                             </span>
                           </div>
-                          <div className="flex items-center justify-between bg-white border border-gray-200 px-2 py-1.5 rounded">
+                          <div className="flex items-center justify-between bg-white border border-gray-200 px-2.5 py-1.5 rounded">
                             <span className="text-gray-400">Period</span>
                             <span className="text-gray-800 font-medium">
                               {activeExp.period}
                             </span>
                           </div>
-                          <div className="flex items-center justify-between bg-white border border-gray-200 px-2 py-1.5 rounded">
+                          <div className="flex items-center justify-between bg-white border border-gray-200 px-2.5 py-1.5 rounded">
                             <span className="text-gray-400">Order</span>
                             <span className="text-gray-800 font-medium">
                               Index 0{activeExp.order_index}
@@ -1999,8 +2001,8 @@ export default function Portfolio() {
                   </div>
 
                   {/* Section: Export & CTAs */}
-                  <div className="border-t border-gray-200/70 pt-3.5 space-y-2">
-                    <div className="text-[11px] font-semibold text-gray-700 mb-1.5">Actions</div>
+                  <div className="border-t border-gray-200/70 pt-5 space-y-2.5">
+                    <div className="text-[11px] font-semibold text-gray-700 mb-2">Actions</div>
 
                     <button
                       onClick={() => openContactModal(`Experience Inquiry: ${activeExp?.role} @ ${activeExp?.company}`)}
@@ -2033,17 +2035,17 @@ export default function Portfolio() {
           {/* CARD 3: CREDENTIALS & ACHIEVEMENTS */}
           <div
             id="stack-card-credentials"
-            className="lg:sticky lg:top-[120px] z-30 will-change-transform mb-12"
+            className="lg:sticky lg:top-[128px] z-30 will-change-transform"
           >
             <div id="credentials" className="absolute -top-24" />
             <div id="achievements" className="absolute -top-24" />
             <div id="qualifications" className="absolute -top-24" />
 
             {/* Figma Workspace Window */}
-            <div className="figma-stack-card bg-white rounded-2xl border border-gray-200/90 shadow-2xl overflow-hidden max-h-[calc(100vh-136px)] flex flex-col">
+            <div className="figma-stack-card bg-white rounded-2xl border border-gray-200/90 shadow-2xl overflow-hidden">
 
               {/* 1. FIGMA TOP TOOLBAR / APP BAR */}
-              <div className="h-11 bg-[#F9FAFB] border-b border-gray-200/80 px-4 flex items-center justify-between text-xs select-none shrink-0">
+              <div className="h-11 bg-[#F9FAFB] border-b border-gray-200/80 px-4 flex items-center justify-between text-xs select-none">
 
                 {/* Left: Figma Icon + Breadcrumb */}
                 <div className="flex items-center gap-3">
@@ -2098,10 +2100,10 @@ export default function Portfolio() {
               </div>
 
               {/* 2. MAIN WORKSPACE: CANVAS (LEFT) + FIGMA INSPECTOR SIDEBAR (RIGHT) */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 flex-1 min-h-0 overflow-y-auto lg:overflow-hidden">
+              <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[560px]">
 
                 {/* CANVAS AREA (lg:col-span-8) */}
-                <div className="lg:col-span-8 bg-square-grid p-3.5 sm:p-5 lg:p-7 relative flex flex-col justify-center overflow-y-auto">
+                <div className="lg:col-span-8 bg-square-grid p-3.5 sm:p-8 lg:p-12 relative flex flex-col justify-center">
 
                   {/* Floating Figma Comment Bubble */}
                   <DraggableItem className="hidden md:flex absolute top-6 right-6 z-20 bg-white/95 backdrop-blur-md rounded-2xl rounded-bl-sm px-4 py-2.5 comment-shadow border border-gray-100 items-start gap-2.5 max-w-[280px]">
@@ -2118,8 +2120,8 @@ export default function Portfolio() {
                   </DraggableItem>
 
                   {/* Canvas Frame Header */}
-                  <div className="mb-4 sm:mb-5">
-                    <div className="flex items-center gap-2 mb-1.5 select-none">
+                  <div className="mb-6">
+                    <div className="flex items-center gap-2 mb-2 select-none">
                       <span className="inline-flex items-center gap-1 bg-[#FF5500] text-white text-[10.5px] font-medium px-2 py-0.5 rounded shadow-2xs">
                         # Frame: Credentials &amp; Achievements
                       </span>
@@ -2127,16 +2129,16 @@ export default function Portfolio() {
                         &darr; Auto Layout &bull; Gap: 16px
                       </span>
                     </div>
-                    <h2 className="text-xl sm:text-2xl lg:text-[26px] font-bold text-[#141414] tracking-tight leading-[1.2]">
+                    <h2 className="text-2xl sm:text-3xl lg:text-[32px] font-bold text-[#141414] tracking-tight leading-[1.2]">
                       Credentials &amp; Achievements
                     </h2>
-                    <p className="text-gray-500 text-[13px] sm:text-[13.5px] mt-0.5">
+                    <p className="text-gray-500 text-[13.5px] sm:text-[14px] mt-1">
                       Recognized excellence in national informatics competitions, government certifications, and intellectual property.
                     </p>
                   </div>
 
                   {/* Stack of Credential Cards */}
-                  <div className="space-y-3 max-h-[360px] overflow-y-auto pr-1.5">
+                  <div className="space-y-4">
                     {credentialsList.slice(0, 4).map((cred, idx) => {
                       const isSelected = selectedCredIdx === idx;
                       const isHonor = cred.type === 'honor';
@@ -2145,7 +2147,7 @@ export default function Portfolio() {
                         <div
                           key={cred.id || idx}
                           onClick={() => setSelectedCredIdx(idx)}
-                          className={`relative rounded-xl p-3.5 sm:p-5 transition-all cursor-pointer ${isSelected
+                          className={`relative rounded-xl p-4 sm:p-6 transition-all cursor-pointer ${isSelected
                             ? 'figma-bbox bg-white shadow-sm border border-[#FF5500]'
                             : 'bg-white/90 hover:bg-white border border-gray-200/80 hover:border-gray-300 shadow-2xs'
                             }`}
@@ -2170,7 +2172,7 @@ export default function Portfolio() {
                             </>
                           )}
 
-                          <div className="flex flex-col min-[480px]:flex-row min-[480px]:items-center justify-between gap-1.5 min-[480px]:gap-2 mb-1.5">
+                          <div className="flex flex-col min-[480px]:flex-row min-[480px]:items-center justify-between gap-1.5 min-[480px]:gap-2 mb-2">
                             <div className="flex items-center gap-2">
                               <span className={`text-xs ${isHonor ? 'text-amber-500' : 'text-[#FF5500]'}`}>
                                 {isHonor ? '★' : '❖'}
@@ -2180,27 +2182,27 @@ export default function Portfolio() {
                                 {badgeLabel}
                               </span>
                             </div>
-                            <span className="text-[11px] sm:text-[11.5px] bg-gray-100 text-gray-700 px-2.5 py-0.5 rounded-md border border-gray-200/60 font-medium self-start min-[480px]:self-auto">
+                            <span className="text-[11px] sm:text-[12px] bg-gray-100 text-gray-700 px-2.5 py-0.5 rounded-md border border-gray-200/60 font-medium self-start min-[480px]:self-auto">
                               {cred.period}
                             </span>
                           </div>
 
-                          <h3 className="font-semibold text-gray-900 text-[14.5px] sm:text-[15.5px] mb-0.5">
+                          <h3 className="font-semibold text-gray-900 text-[15px] sm:text-[16px] mb-1">
                             {cred.title}
                           </h3>
 
-                          <div className="text-[12.5px] font-medium text-gray-600 mb-1.5 flex items-center gap-1.5">
+                          <div className="text-[13px] font-medium text-gray-600 mb-2 flex items-center gap-1.5">
                             <span className="text-gray-400">Issuer:</span>
                             <span className="text-gray-900 font-medium">{cred.institution}</span>
                           </div>
 
                           {cred.description && (
-                            <p className="text-[12.5px] leading-relaxed text-gray-600 mb-2.5 font-normal">
+                            <p className="text-[13px] leading-relaxed text-gray-600 mb-3 font-normal">
                               {cred.description}
                             </p>
                           )}
 
-                          <div className="flex items-center justify-between pt-1.5 border-t border-gray-100 text-xs">
+                          <div className="flex items-center justify-between pt-2 border-t border-gray-100 text-xs">
                             <div className="flex items-center gap-1.5 text-emerald-700 font-medium text-[11.5px]">
                               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                               <span>Verified Credential</span>
@@ -2228,24 +2230,24 @@ export default function Portfolio() {
                 </div>
 
                 {/* FIGMA DESIGN INSPECTOR SIDEBAR (lg:col-span-4) */}
-                <div className="lg:col-span-4 bg-[#F9FAFB] border-t lg:border-t-0 lg:border-l border-gray-200/90 p-4 sm:p-5 space-y-3.5 flex flex-col justify-between overflow-y-auto">
+                <div className="lg:col-span-4 bg-[#F9FAFB] border-t lg:border-t-0 lg:border-l border-gray-200/90 p-6 sm:p-7 space-y-6 flex flex-col justify-between">
 
-                  <div className="space-y-3.5">
+                  <div className="space-y-6">
 
                     {/* Tabs: Layers / Design / Inspect */}
-                    <div className="flex items-center gap-5 border-b border-gray-200 pb-2.5 text-xs font-medium">
-                      <span className="text-[#FF5500] font-semibold border-b-2 border-[#FF5500] pb-2.5 -mb-2.5">Layers</span>
+                    <div className="flex items-center gap-5 border-b border-gray-200 pb-3 text-xs font-medium">
+                      <span className="text-[#FF5500] font-semibold border-b-2 border-[#FF5500] pb-3 -mb-3">Layers</span>
                       <span className="text-gray-400 hover:text-gray-600 cursor-pointer">Design</span>
                       <span className="text-gray-400 hover:text-gray-600 cursor-pointer">Inspect</span>
                     </div>
 
                     {/* Section: Layer Tree */}
-                    <div className="space-y-1.5">
+                    <div className="space-y-2">
                       <div className="text-[11px] font-semibold text-gray-700 flex items-center justify-between">
                         <span>Credentials Tree</span>
                         <span className="text-[10.5px] text-gray-400 font-medium">{credentialsList.length} Items</span>
                       </div>
-                      <div className="space-y-1 max-h-[140px] overflow-y-auto pr-1">
+                      <div className="space-y-1 max-h-[220px] overflow-y-auto pr-1">
                         {credentialsList.map((cred, idx) => {
                           const isSelected = selectedCredIdx === idx;
                           const isHonor = cred.type === 'honor';
@@ -2253,7 +2255,7 @@ export default function Portfolio() {
                             <button
                               key={cred.id || idx}
                               onClick={() => setSelectedCredIdx(idx)}
-                              className={`w-full text-left flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs transition-colors cursor-pointer ${isSelected
+                              className={`w-full text-left flex items-center justify-between px-2.5 py-2 rounded-lg text-xs transition-colors cursor-pointer ${isSelected
                                 ? 'bg-[#FF5500]/10 text-[#FF5500] font-medium border border-[#FF5500]/30'
                                 : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                                 }`}
@@ -2275,29 +2277,29 @@ export default function Portfolio() {
 
                     {/* Section: Active Selection Properties */}
                     {activeCredential && (
-                      <div className="space-y-2 text-xs border-t border-gray-200/70 pt-3">
+                      <div className="space-y-2.5 text-xs border-t border-gray-200/70 pt-4">
                         <div className="text-[11px] font-semibold text-gray-700">Instance Properties</div>
 
-                        <div className="space-y-1.5 text-[11.5px]">
-                          <div className="flex items-center justify-between bg-white border border-gray-200 px-2 py-1.5 rounded">
+                        <div className="space-y-2 text-[11.5px]">
+                          <div className="flex items-center justify-between bg-white border border-gray-200 px-2.5 py-1.5 rounded">
                             <span className="text-gray-400">Award / Title</span>
                             <span className="text-gray-800 font-medium text-[11.5px] truncate max-w-[170px] text-right">
                               {activeCredential.title}
                             </span>
                           </div>
-                          <div className="flex items-center justify-between bg-white border border-gray-200 px-2 py-1.5 rounded">
+                          <div className="flex items-center justify-between bg-white border border-gray-200 px-2.5 py-1.5 rounded">
                             <span className="text-gray-400">Issuer</span>
                             <span className="text-gray-800 font-medium text-[11px] truncate max-w-[170px] text-right">
                               {activeCredential.institution}
                             </span>
                           </div>
-                          <div className="flex items-center justify-between bg-white border border-gray-200 px-2 py-1.5 rounded">
+                          <div className="flex items-center justify-between bg-white border border-gray-200 px-2.5 py-1.5 rounded">
                             <span className="text-gray-400">Period</span>
                             <span className="text-gray-800 font-medium">
                               {activeCredential.period}
                             </span>
                           </div>
-                          <div className="flex items-center justify-between bg-white border border-gray-200 px-2 py-1.5 rounded">
+                          <div className="flex items-center justify-between bg-white border border-gray-200 px-2.5 py-1.5 rounded">
                             <span className="text-gray-400">Type</span>
                             <span className="text-gray-800 font-medium uppercase text-[10px]">
                               {activeCredential.type || 'Credential'}
@@ -2306,7 +2308,7 @@ export default function Portfolio() {
                         </div>
 
                         {activeCredential.certificate_url && (
-                          <div className="pt-1.5">
+                          <div className="pt-2">
                             <a
                               href={activeCredential.certificate_url}
                               target="_blank"
@@ -2324,8 +2326,8 @@ export default function Portfolio() {
                   </div>
 
                   {/* Section: Export & CTAs */}
-                  <div className="border-t border-gray-200/70 pt-3.5 space-y-2">
-                    <div className="text-[11px] font-semibold text-gray-700 mb-1.5">Actions</div>
+                  <div className="border-t border-gray-200/70 pt-5 space-y-2.5">
+                    <div className="text-[11px] font-semibold text-gray-700 mb-2">Actions</div>
 
                     <button
                       onClick={() => openContactModal(`Credential Verification: ${activeCredential?.title}`)}

@@ -1707,29 +1707,29 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* 2.6 PROFESSIONAL JOURNEY SECTION (Clean Experience Timeline) */}
-      <section id="journey" className="relative py-20 sm:py-24 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto border-t border-gray-100">
+      {/* 2.6 PROFESSIONAL JOURNEY SECTION (Clean Editorial Experience Timeline) */}
+      <section id="journey" className="relative py-20 sm:py-28 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto border-t border-gray-100">
         <div id="experience" className="absolute -top-24" />
 
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 sm:mb-16">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-16 sm:mb-20 pb-8 sm:pb-12 border-b border-gray-200">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-xs font-mono font-medium mb-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-xs font-mono font-medium mb-4">
               <span className="w-1.5 h-1.5 rounded-full bg-[#FF5500]" />
-              <span>Career Timeline &bull; {experiencesList.length} Experiences</span>
+              <span>career timeline &bull; {experiencesList.length} experiences</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-bold text-[#141414] tracking-tight">
-              Professional Journey
+            <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-[84px] font-bold text-[#141414] tracking-tight leading-[0.92] lowercase">
+              professional journey
             </h2>
-            <p className="text-gray-500 text-[14px] sm:text-[15px] mt-2 max-w-xl">
+            <p className="text-gray-500 text-base sm:text-lg mt-4 max-w-2xl leading-relaxed">
               Proven track record in scalable web ecosystems, internal enterprise APIs, and hardware-resilient IoT systems.
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 shrink-0">
             <button
               onClick={() => openContactModal('Career & Collaboration')}
-              className="bg-[#18181B] hover:bg-black text-white text-xs font-medium px-5 py-2.5 rounded-full transition-all active:scale-95 cursor-pointer shadow-xs"
+              className="bg-[#18181B] hover:bg-[#FF5500] text-white text-xs sm:text-sm font-medium px-6 py-3 rounded-full transition-all active:scale-95 cursor-pointer shadow-xs"
             >
               Let&apos;s build together
             </button>
@@ -1738,7 +1738,7 @@ export default function Portfolio() {
                 href={cvUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 bg-white hover:bg-gray-50 border border-gray-200 text-gray-800 text-xs font-medium px-4 py-2.5 rounded-full transition-colors cursor-pointer shadow-2xs"
+                className="inline-flex items-center gap-1.5 bg-white hover:bg-gray-50 border border-gray-200 text-gray-800 text-xs sm:text-sm font-medium px-5 py-3 rounded-full transition-colors cursor-pointer shadow-2xs"
               >
                 <span>Download CV</span>
                 <span>&darr;</span>
@@ -1747,49 +1747,64 @@ export default function Portfolio() {
           </div>
         </div>
 
-        {/* Clean Experience Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {experiencesList.map((exp, idx) => (
-            <div
-              key={exp.id || idx}
-              className="bg-white rounded-2xl border border-gray-200/80 p-6 sm:p-7 shadow-xs hover:border-gray-300 hover:shadow-md transition-all flex flex-col justify-between group"
-            >
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-2">
-                  <span className="text-xs font-mono font-semibold text-[#FF5500] bg-[#FF5500]/10 px-2.5 py-0.5 rounded-md">
-                    {exp.period || '2023 - Present'}
+        {/* Clean Editorial Experience List (Non-card, consistent with theme) */}
+        <div className="divide-y divide-gray-200/80">
+          {experiencesList.map((exp, idx) => {
+            const indexNumber = String(idx + 1).padStart(2, '0');
+            return (
+              <div
+                key={exp.id || idx}
+                className="group py-8 sm:py-12 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-start hover:bg-gray-50/60 -mx-4 sm:-mx-6 px-4 sm:px-6 rounded-2xl transition-all duration-200"
+              >
+                {/* Column 1: Index Number (01), (02) & Period */}
+                <div className="md:col-span-3 flex md:flex-col items-center md:items-start justify-between md:justify-start gap-2">
+                  <span className="text-xs sm:text-sm font-mono font-bold text-gray-400 group-hover:text-[#FF5500] transition-colors">
+                    ({indexNumber})
                   </span>
-                  {exp.location && (
-                    <span className="text-[11.5px] text-gray-400 font-medium">
-                      {exp.location}
+                  <div>
+                    <span className="text-xs sm:text-[13px] font-mono font-medium text-gray-600 block">
+                      {exp.period || '2023 - Present'}
                     </span>
+                    {exp.location && (
+                      <span className="text-[12px] text-gray-400 font-normal block mt-0.5">
+                        {exp.location}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Column 2: Role & Company */}
+                <div className="md:col-span-4">
+                  <h3 className="text-xl sm:text-2xl font-bold text-[#141414] group-hover:text-[#FF5500] transition-colors leading-snug">
+                    {exp.role || exp.position}
+                  </h3>
+                  <div className="text-sm sm:text-base font-semibold text-gray-700 mt-1.5 flex items-center gap-2">
+                    <span>{exp.company}</span>
+                  </div>
+                </div>
+
+                {/* Column 3: Description & Tech Stack */}
+                <div className="md:col-span-5 space-y-3">
+                  <p className="text-sm sm:text-[15px] text-gray-600 leading-relaxed font-normal">
+                    {exp.description}
+                  </p>
+
+                  {exp.skills && Array.isArray(exp.skills) && exp.skills.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 pt-2">
+                      {exp.skills.map((skill, sIdx) => (
+                        <span
+                          key={sIdx}
+                          className="text-[11px] font-mono font-medium bg-white text-gray-600 px-2.5 py-1 rounded-md border border-gray-200/80 shadow-2xs"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
                   )}
                 </div>
-                <h3 className="text-lg sm:text-xl font-bold text-gray-900 group-hover:text-[#FF5500] transition-colors leading-snug">
-                  {exp.role || exp.position}
-                </h3>
-                <div className="text-[13.5px] font-medium text-gray-600 mb-3">
-                  {exp.company}
-                </div>
-                <p className="text-[13px] sm:text-[13.5px] text-gray-500 leading-relaxed mb-4">
-                  {exp.description}
-                </p>
               </div>
-
-              {exp.skills && Array.isArray(exp.skills) && exp.skills.length > 0 && (
-                <div className="flex flex-wrap gap-1.5 pt-3 border-t border-gray-100">
-                  {exp.skills.map((skill, sIdx) => (
-                    <span
-                      key={sIdx}
-                      className="text-[11px] font-medium bg-gray-50 text-gray-600 px-2 py-0.5 rounded border border-gray-200/60"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 

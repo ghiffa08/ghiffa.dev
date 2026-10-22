@@ -690,6 +690,30 @@ export default function Portfolio() {
 
   const activeExp = experiencesList[selectedExpIdx] || experiencesList[0];
 
+  // Education list for About Me section (matching reference Gambar 1)
+  const educationList = useMemo(() => {
+    const raw = (Array.isArray(supabaseQualifications) && supabaseQualifications.length > 0)
+      ? supabaseQualifications
+      : [];
+    const list = raw.filter(item => item.type === 'education');
+    if (list.length > 0) return list;
+
+    return [
+      {
+        id: 'edu-1',
+        title: 'S1 Teknik Informatika (Informatics Engineering)',
+        institution: 'Universitas Kuningan, Kuningan, Jawa Barat, Indonesia',
+        period: '2021 — Present'
+      },
+      {
+        id: 'edu-2',
+        title: 'Rekayasa Perangkat Lunak (Software Engineering)',
+        institution: 'SMK Negeri 1 Kuningan, Indonesia',
+        period: '2018 — 2021'
+      }
+    ];
+  }, [supabaseQualifications]);
+
   const fallbackProjects = [
     {
       id: "proj-1",
@@ -1479,871 +1503,289 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* 2.5 FIGMA WORKSPACE CANVAS: STACKING CARDS WRAPPER */}
-      <section id="workspace-stack" className="relative w-full py-16 px-4 sm:px-6 lg:px-12 bg-square-grid border-y border-gray-200/80">
+      {/* 2.5 ABOUT ME SECTION (Clean Concept Matching Reference Gambar 1 & Theme) */}
+      <section id="about" className="relative py-20 sm:py-28 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start sm:items-center">
 
-        <div className="max-w-[1360px] mx-auto">
-
-          {/* CARD 1: ABOUT ME */}
-          <div
-            id="stack-card-about"
-            className="lg:sticky lg:top-[76px] z-10 will-change-transform mb-20 lg:mb-48"
-          >
-            <div id="about" className="absolute -top-24" />
-
-            {/* Figma Workspace Window */}
-            <div className="figma-stack-card bg-white rounded-2xl border border-gray-200/90 shadow-2xl overflow-hidden flex flex-col lg:h-[calc(100vh-100px)] min-h-[700px]">
-
-              {/* 1. FIGMA TOP TOOLBAR / APP BAR */}
-              <div className="h-11 shrink-0 bg-[#F9FAFB] border-b border-gray-200/80 px-4 flex items-center justify-between text-xs select-none">
-
-                {/* Left: Figma Icon + Breadcrumb */}
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-2">
-                    <svg className="w-3.5 h-5" viewBox="0 0 38 57" fill="none">
-                      <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE" />
-                      <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83" />
-                      <path d="M19 0V19H28.5C33.7467 19 38 14.7467 38 9.5C38 4.25329 33.7467 0 28.5 0H19Z" fill="#FF7262" />
-                      <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E" />
-                      <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF" />
-                    </svg>
-                    <span className="font-semibold text-gray-900">ghiffa.fig</span>
-                    <span className="text-gray-400">/</span>
-                    <span className="text-gray-500 font-medium text-[11.5px]">About Me</span>
-                  </div>
+          {/* LEFT COLUMN: Photo + Floating Tech Dock */}
+          <div className="lg:col-span-5 flex flex-col items-center">
+            {/* Portrait Photo Container */}
+            <div className="relative w-full max-w-[340px] sm:max-w-[390px] aspect-[4/5] sm:aspect-[3/4] rounded-3xl overflow-hidden bg-gradient-to-b from-gray-50 to-gray-100 shadow-[0_16px_40px_rgba(0,0,0,0.06)] border border-gray-200/70 group">
+              <img
+                src={avatarImage}
+                alt={fullName}
+                className="w-full h-full object-cover object-top grayscale-15 group-hover:grayscale-0 transition-all duration-500 scale-[1.02] group-hover:scale-105"
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = '/ghiffa.jpeg';
+                }}
+              />
+              {/* Subtle Name Tag */}
+              <div className="absolute bottom-3.5 left-3.5 right-3.5 bg-white/95 backdrop-blur-md rounded-2xl p-3 border border-gray-100/90 flex items-center justify-between shadow-xs">
+                <div>
+                  <div className="font-bold text-gray-900 text-sm">{fullName}</div>
+                  <div className="text-gray-500 text-xs font-medium">{roleTitle}</div>
                 </div>
-
-                {/* Center: Real Figma Tools (Move V, Frame F, Rectangle R, Text T, Comment C) */}
-                <div className="hidden md:flex items-center gap-1 bg-gray-200/60 p-0.5 rounded-lg">
-                  <div className="w-7 h-7 rounded flex items-center justify-center bg-white shadow-2xs text-[#FF5500]" title="Move (V)">
-                    <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 16 16"><path d="M1 1L6.5 14.5L8.8 8.8L14.5 6.5L1 1Z" /></svg>
-                  </div>
-                  <div className="w-7 h-7 rounded flex items-center justify-center text-gray-500 hover:text-gray-800" title="Frame (F)">
-                    <span className="text-[12px] font-bold">#</span>
-                  </div>
-                  <div className="w-7 h-7 rounded flex items-center justify-center text-gray-500 hover:text-gray-800" title="Rectangle (R)">
-                    <div className="w-3 h-3 border border-current rounded-xs" />
-                  </div>
-                  <div className="w-7 h-7 rounded flex items-center justify-center text-gray-500 hover:text-gray-800" title="Text (T)">
-                    <span className="font-bold text-[12px]">T</span>
-                  </div>
-                  <div className="w-7 h-7 rounded flex items-center justify-center text-gray-500 hover:text-gray-800" title="Comment (C)">
-                    <svg className="w-3.5 h-3.5" viewBox="0 0 16 16" fill="currentColor">
-                      <path d="M2 3a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H6l-3.5 3V3z" />
-                    </svg>
-                  </div>
-                </div>
-
-                {/* Right: Multiplayer Presence + Zoom + Share */}
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center -space-x-1.5" title="Collaborators active">
-                    <div className="w-6 h-6 rounded-full bg-[#FF5500] text-white flex items-center justify-center text-[9px] font-bold ring-2 ring-white">H</div>
-                    <div className="w-6 h-6 rounded-full bg-[#1FC77E] text-white flex items-center justify-center text-[9px] font-bold ring-2 ring-white">CD</div>
-                    <div className="w-6 h-6 rounded-full bg-[#F452B8] text-white flex items-center justify-center text-[9px] font-bold ring-2 ring-white">UX</div>
-                  </div>
-
-                  <span className="hidden sm:inline text-[11px] font-medium text-gray-400">100%</span>
-
-                  <button
-                    onClick={() => openContactModal('About Me & Collaboration')}
-                    className="bg-[#FF5500] hover:bg-[#E04B00] text-white text-[11.5px] font-medium px-3.5 py-1.5 rounded-lg transition-colors cursor-pointer shadow-xs flex items-center gap-1.5"
-                  >
-                    <span>Share</span>
-                  </button>
-                </div>
-
+                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="Available for work" />
               </div>
-
-              {/* 2. MAIN WORKSPACE: CANVAS (LEFT) + FIGMA INSPECTOR SIDEBAR (RIGHT) */}
-              <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12">
-
-                {/* CANVAS AREA (lg:col-span-8) */}
-                <div className="lg:col-span-8 bg-square-grid p-3.5 sm:p-6 lg:p-8 relative flex flex-col justify-center overflow-y-auto">
-
-                  {/* Floating Figma Comment Bubble */}
-                  <DraggableItem className="hidden md:flex absolute top-4 right-4 z-20 bg-white/95 backdrop-blur-md rounded-2xl rounded-bl-sm px-3.5 py-2 comment-shadow border border-gray-100 items-start gap-2.5 max-w-[250px]">
-                    <div className="w-6 h-6 rounded-full bg-[#111] text-white flex items-center justify-center text-[7px] font-bold shrink-0 mt-0.5">ghiffa</div>
-                    <div>
-                      <div className="flex items-center gap-1.5 text-[11px]">
-                        <span className="font-semibold text-gray-900">ghiffa.dev</span>
-                        <span className="text-gray-400 font-medium text-[10px]">just now</span>
-                      </div>
-                      <p className="text-[12px] text-gray-800 mt-0.5 leading-snug">
-                        Translating digital bits into real-world atoms.
-                      </p>
-                    </div>
-                  </DraggableItem>
-
-                  {/* Selected Figma Artboard Frame */}
-                  <div className="relative">
-
-                    {/* Frame Name Tag at Top-Left */}
-                    <div className="flex items-center gap-2 mb-2 select-none">
-                      <span className="inline-flex items-center gap-1 bg-[#FF5500] text-white text-[10.5px] font-medium px-2 py-0.5 rounded shadow-2xs">
-                        # About Me
-                      </span>
-                      <span className="text-[10.5px] font-medium text-gray-400">
-                        880 &times; 520
-                      </span>
-                    </div>
-
-                    {/* The White Frame Canvas Box with Figma Selection Border & Handles */}
-                    <div className="figma-bbox bg-white rounded-xl p-4 min-[400px]:p-6 sm:p-8 md:p-10 shadow-sm border border-[#FF5500] relative">
-
-                      {/* 8 Figma resize handles */}
-                      <span className="figma-handle !border-[#FF5500] -top-1 -left-1" />
-                      <span className="figma-handle !border-[#FF5500] -top-1 left-1/2 -translate-x-1/2" />
-                      <span className="figma-handle !border-[#FF5500] -top-1 -right-1" />
-                      <span className="figma-handle !border-[#FF5500] top-1/2 -translate-y-1/2 -left-1" />
-                      <span className="figma-handle !border-[#FF5500] top-1/2 -translate-y-1/2 -right-1" />
-                      <span className="figma-handle !border-[#FF5500] -bottom-1 -left-1" />
-                      <span className="figma-handle !border-[#FF5500] -bottom-1 left-1/2 -translate-x-1/2" />
-                      <span className="figma-handle !border-[#FF5500] -bottom-1 -right-1" />
-
-                      {/* Headline */}
-                      <h2 className="text-xl min-[400px]:text-2xl sm:text-3xl lg:text-[32px] font-bold text-[#141414] tracking-tight leading-[1.2] mb-6 sm:mb-8 max-w-[70%] sm:max-w-[75%]">
-                        {aboutHeadline}
-                      </h2>
-
-                      {/* Split: Avatar on left + Story Bio on right */}
-                      <div className="grid grid-cols-1 sm:grid-cols-12 gap-6 sm:gap-8 items-start">
-
-                        {/* Photo */}
-                        <div className="sm:col-span-5 space-y-3 max-w-[240px] sm:max-w-none mx-auto sm:mx-0 w-full">
-                          <div className="relative rounded-xl overflow-hidden border border-gray-200/80 aspect-[4/5] bg-gray-100 group">
-                            <img
-                              src={avatarImage}
-                              alt={fullName}
-                              className="w-full h-full object-cover grayscale contrast-110 group-hover:grayscale-0 transition-all duration-500"
-                              onError={(e) => {
-                                e.currentTarget.onerror = null;
-                                e.currentTarget.src = '/ghiffa.jpeg';
-                              }}
-                            />
-                            {/* Cursor pointing at photo */}
-                            <div className="absolute bottom-2.5 right-2.5 flex items-center gap-1.5 bg-[#FF5500] text-white text-[10px] font-medium px-2 py-0.5 rounded shadow-sm">
-                              <svg className="w-2.5 h-2.5 fill-current" viewBox="0 0 16 16"><path d="M1 1L6.5 14.5L8.8 8.8L14.5 6.5L1 1Z" /></svg>
-                              <span>ghiffa</span>
-                            </div>
-                          </div>
-
-                          <div>
-                            <div className="font-semibold text-gray-900 text-[14px]">{fullName}</div>
-                            <div className="text-gray-500 text-[12px]">{roleTitle}</div>
-                            <div className="text-gray-400 text-[11.5px] font-medium mt-0.5">&bull; Kuningan, Indonesia</div>
-                          </div>
-                        </div>
-
-                        {/* Bio Story from database (ReactMarkdown) */}
-                        <div className="sm:col-span-7 text-[14px] leading-relaxed text-gray-600 space-y-3 font-normal [&>p]:leading-relaxed [&>strong]:text-gray-900 [&>strong]:font-semibold">
-                          {aboutBio ? (
-                            <ReactMarkdown>{aboutBio}</ReactMarkdown>
-                          ) : (
-                            <p>Building scalable web architectures and resilient IoT hardware systems.</p>
-                          )}
-                        </div>
-
-                      </div>
-
-                    </div>
-
-                  </div>
-
-                </div>
-
-                {/* FIGMA DESIGN INSPECTOR SIDEBAR (lg:col-span-4) */}
-                <div className="lg:col-span-4 bg-[#F9FAFB] border-t lg:border-t-0 lg:border-l border-gray-200/90 p-5 sm:p-6 space-y-5 flex flex-col justify-between overflow-y-auto">
-
-                  <div className="space-y-6">
-
-                    {/* Tabs: Design / Prototype / Inspect */}
-                    <div className="flex items-center gap-5 border-b border-gray-200 pb-3 text-xs font-medium">
-                      <span className="text-[#FF5500] font-semibold border-b-2 border-[#FF5500] pb-3 -mb-3">Design</span>
-                      <span className="text-gray-400 hover:text-gray-600 cursor-pointer">Prototype</span>
-                      <span className="text-gray-400 hover:text-gray-600 cursor-pointer">Inspect</span>
-                    </div>
-
-                    {/* Section: Frame Info */}
-                    <div className="space-y-2.5 text-xs">
-                      <div className="text-[11px] font-semibold text-gray-700">Frame</div>
-                      <div className="grid grid-cols-2 gap-2 text-[11.5px]">
-                        <div className="flex items-center justify-between bg-white border border-gray-200 px-2.5 py-1.5 rounded">
-                          <span className="text-gray-400">W</span>
-                          <span className="text-gray-800 font-medium">880</span>
-                        </div>
-                        <div className="flex items-center justify-between bg-white border border-gray-200 px-2.5 py-1.5 rounded">
-                          <span className="text-gray-400">H</span>
-                          <span className="text-gray-800 font-medium">Auto</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Section: Status */}
-                    <div className="space-y-2 text-xs border-t border-gray-200/70 pt-4">
-                      <div className="text-[11px] font-semibold text-gray-700">Status</div>
-                      <div className="flex items-center gap-2 bg-emerald-50 border border-emerald-200/80 text-emerald-800 px-3 py-1.5 rounded-lg font-medium text-xs">
-                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                        <span>{availabilityStatus}</span>
-                      </div>
-                    </div>
-
-                    {/* Section: Skills & Tech Stack (Dynamic from database) */}
-                    {skillsList.length > 0 && (
-                      <div className="space-y-2.5 border-t border-gray-200/70 pt-4">
-                        <div className="flex items-center justify-between text-xs">
-                          <span className="text-[11px] font-semibold text-gray-700">Component Variants ({skillsList.length})</span>
-                          <span className="text-[10.5px] text-gray-400 font-medium">Skills</span>
-                        </div>
-                        <div className="flex flex-wrap gap-1.5 max-h-[160px] overflow-y-auto pr-1">
-                          {skillsList.map((skill, idx) => (
-                            <span
-                              key={idx}
-                              className="px-2.5 py-1 rounded-md bg-white border border-gray-200/90 text-gray-700 text-[11px] font-medium shadow-2xs hover:border-[#FF5500] transition-colors cursor-default"
-                            >
-                              {skill}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                  </div>
-
-                  {/* Section: Export & CTAs */}
-                  <div className="border-t border-gray-200/70 pt-5 space-y-2.5">
-                    <div className="text-[11px] font-semibold text-gray-700 mb-2">Export</div>
-
-                    <button
-                      onClick={() => openContactModal('About Me Inquiry')}
-                      className="w-full bg-[#18181B] hover:bg-black text-white text-xs font-medium py-2.5 rounded-lg transition-all active:scale-98 cursor-pointer shadow-xs flex items-center justify-center gap-2"
-                    >
-                      <span>Let&apos;s build together</span>
-                    </button>
-
-                    {cvUrl && (
-                      <a
-                        href={cvUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-full inline-flex items-center justify-center gap-1.5 bg-white hover:bg-gray-50 border border-gray-300 text-gray-800 text-xs font-medium py-2 rounded-lg transition-colors cursor-pointer"
-                      >
-                        <span>Download CV (PDF)</span>
-                        <span className="text-xs">&darr;</span>
-                      </a>
-                    )}
-
-                    <a
-                      href={`mailto:${emailAddress}`}
-                      className="w-full inline-flex items-center justify-center gap-1 text-gray-500 hover:text-black text-[11.5px] font-medium py-1 transition-colors"
-                    >
-                      <span>{emailAddress}</span>
-                      <span>&rarr;</span>
-                    </a>
-                  </div>
-
-                </div>
-
-              </div>
-
             </div>
 
+            {/* FLOATING TECH DOCK (Matching Reference Gambar 1) */}
+            <div className="mt-4 sm:-mt-6 relative z-10 bg-white/95 backdrop-blur-md border border-gray-200/90 shadow-[0_10px_35px_rgba(0,0,0,0.08)] rounded-full px-4 sm:px-5 py-2.5 flex items-center justify-center gap-3 sm:gap-3.5 select-none hover:shadow-lg transition-shadow">
+              {/* React */}
+              <div className="hover:scale-115 transition-transform cursor-pointer" title="React">
+                <svg className="w-5 h-5 text-[#00D8FE]" viewBox="-11.5 -10.23174 23 20.46348" fill="currentColor">
+                  <circle cx="0" cy="0" r="2.05" fill="#00D8FE" />
+                  <g stroke="#00D8FE" strokeWidth="1" fill="none">
+                    <ellipse rx="11" ry="4.2" />
+                    <ellipse rx="11" ry="4.2" transform="rotate(60)" />
+                    <ellipse rx="11" ry="4.2" transform="rotate(120)" />
+                  </g>
+                </svg>
+              </div>
+
+              {/* Next.js */}
+              <div className="hover:scale-115 transition-transform cursor-pointer" title="Next.js">
+                <svg className="w-5 h-5 text-black" viewBox="0 0 180 180" fill="none">
+                  <circle cx="90" cy="90" r="90" fill="black" />
+                  <path d="M149.508 157.52L69.142 54H54V125.97H66.1136V69.3836L139.999 164.845C143.333 162.614 146.509 160.165 149.508 157.52Z" fill="white" />
+                  <rect x="115" y="54" width="12" height="72" fill="white" />
+                </svg>
+              </div>
+
+              {/* TypeScript */}
+              <div className="hover:scale-115 transition-transform cursor-pointer" title="TypeScript">
+                <div className="w-5 h-5 rounded-xs bg-[#3178C6] text-white flex items-center justify-center text-[9.5px] font-bold font-mono">TS</div>
+              </div>
+
+              {/* Tailwind CSS */}
+              <div className="hover:scale-115 transition-transform cursor-pointer" title="Tailwind CSS">
+                <svg className="w-5 h-5 text-[#38BDF8]" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12.001,4.8c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 C13.666,10.618,15.027,12,18.001,12c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C16.337,6.182,14.976,4.8,12.001,4.8z M6.001,12c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 c1.177,1.194,2.538,2.576,5.512,2.576c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C10.337,13.382,8.976,12,6.001,12z" />
+                </svg>
+              </div>
+
+              {/* Node.js */}
+              <div className="hover:scale-115 transition-transform cursor-pointer" title="Node.js">
+                <svg className="w-5 h-5 text-[#5FA04E]" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2l9 5.2v10.4L12 23l-9-5.4V7.2L12 2zm0 2.3L4.8 8.5v7.4L12 20.1l7.2-4.2V8.5L12 4.3z" />
+                </svg>
+              </div>
+
+              {/* Laravel */}
+              <div className="hover:scale-115 transition-transform cursor-pointer" title="Laravel">
+                <svg className="w-5 h-5 text-[#FF2D20]" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M8.2 2.5L2 6.1l6.2 3.6 6.2-3.6-6.2-3.6zm0 18.9l-6.2-3.6V10.3l6.2 3.6v7.5zm7.6-7.5l6.2-3.6V2.5l-6.2 3.6v7.7zm0 7.5l6.2-3.6v-7.5l-6.2 3.6v7.5z" />
+                </svg>
+              </div>
+
+              {/* Supabase */}
+              <div className="hover:scale-115 transition-transform cursor-pointer" title="Supabase">
+                <svg className="w-5 h-5 text-[#3ECF8E]" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M13.4 2.1a1 1 0 0 0-1.6.4L5.2 14.8a1 1 0 0 0 .9 1.4h5.3v5.7a1 1 0 0 0 1.6.8l7.6-11.8a1 1 0 0 0-.9-1.5h-6.3V2.1z" />
+                </svg>
+              </div>
+
+              {/* IoT / Microcontroller */}
+              <div className="hover:scale-115 transition-transform cursor-pointer" title="IoT & Embedded Hardware">
+                <svg className="w-5 h-5 text-[#FF5500]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <rect x="4" y="4" width="16" height="16" rx="2" />
+                  <rect x="9" y="9" width="6" height="6" />
+                  <path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3" />
+                </svg>
+              </div>
+
+              {/* Figma */}
+              <div className="hover:scale-115 transition-transform cursor-pointer" title="Figma UI/UX">
+                <svg className="w-4 h-5" viewBox="0 0 38 57" fill="none">
+                  <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE" />
+                  <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83" />
+                  <path d="M19 0V19H28.5C33.7467 19 38 14.7467 38 9.5C38 4.25329 33.7467 0 28.5 0H19Z" fill="#FF7262" />
+                  <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E" />
+                  <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF" />
+                </svg>
+              </div>
+            </div>
           </div>
 
-          {/* CARD 2: PROFESSIONAL JOURNEY */}
-          <div
-            id="stack-card-journey"
-            className="lg:sticky lg:top-[88px] z-20 will-change-transform mb-20 lg:mb-48"
-          >
-            <div id="journey" className="absolute -top-24" />
-            <div id="experience" className="absolute -top-24" />
+          {/* RIGHT COLUMN: Selection Highlight Header, Bio, Education, Languages */}
+          <div className="lg:col-span-7 flex flex-col justify-center space-y-7 sm:space-y-8">
 
-            {/* Figma Workspace Window */}
-            <div className="figma-stack-card bg-white rounded-2xl border border-gray-200/90 shadow-2xl overflow-hidden flex flex-col lg:h-[calc(100vh-100px)] min-h-[700px]">
-
-              {/* 1. FIGMA TOP TOOLBAR / APP BAR */}
-              <div className="h-11 shrink-0 bg-[#F9FAFB] border-b border-gray-200/80 px-4 flex items-center justify-between text-xs select-none">
-
-                {/* Left: Figma Icon + Breadcrumb */}
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-2">
-                    <svg className="w-3.5 h-5" viewBox="0 0 38 57" fill="none">
-                      <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE" />
-                      <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83" />
-                      <path d="M19 0V19H28.5C33.7467 19 38 14.7467 38 9.5C38 4.25329 33.7467 0 28.5 0H19Z" fill="#FF7262" />
-                      <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E" />
-                      <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF" />
-                    </svg>
-                    <span className="font-semibold text-gray-900">ghiffa.fig</span>
-                    <span className="text-gray-400">/</span>
-                    <span className="text-gray-500 font-medium text-[11.5px]">Professional Journey</span>
-                  </div>
-                </div>
-
-                {/* Center: Real Figma Tools (Move V, Frame F, Component ❖, Text T, Comment C) */}
-                <div className="hidden md:flex items-center gap-1 bg-gray-200/60 p-0.5 rounded-lg">
-                  <div className="w-7 h-7 rounded flex items-center justify-center text-gray-500 hover:text-gray-800" title="Move (V)">
-                    <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 16 16"><path d="M1 1L6.5 14.5L8.8 8.8L14.5 6.5L1 1Z" /></svg>
-                  </div>
-                  <div className="w-7 h-7 rounded flex items-center justify-center text-gray-500 hover:text-gray-800" title="Frame (F)">
-                    <span className="text-[12px] font-bold">#</span>
-                  </div>
-                  <div className="w-7 h-7 rounded flex items-center justify-center bg-white shadow-2xs text-[#7B7FEF]" title="Component (❖)">
-                    <span className="text-[12px] font-bold">❖</span>
-                  </div>
-                  <div className="w-7 h-7 rounded flex items-center justify-center text-gray-500 hover:text-gray-800" title="Text (T)">
-                    <span className="font-bold text-[12px]">T</span>
-                  </div>
-                  <div className="w-7 h-7 rounded flex items-center justify-center text-gray-500 hover:text-gray-800" title="Comment (C)">
-                    <svg className="w-3.5 h-3.5" viewBox="0 0 16 16" fill="currentColor">
-                      <path d="M2 3a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H6l-3.5 3V3z" />
-                    </svg>
-                  </div>
-                </div>
-
-                {/* Right: Layer Counter + Share */}
-                <div className="flex items-center gap-3">
-                  <span className="text-[11px] font-medium text-gray-500 bg-gray-100 px-2.5 py-0.5 rounded border border-gray-200">
-                    {experiencesList.length} Instances
-                  </span>
-                  <button
-                    onClick={() => openContactModal('Professional Journey & Career')}
-                    className="bg-[#FF5500] hover:bg-[#E04B00] text-white text-[11.5px] font-medium px-3.5 py-1.5 rounded-lg transition-colors cursor-pointer shadow-xs flex items-center gap-1.5"
-                  >
-                    <span>Connect</span>
-                  </button>
-                </div>
-
+            {/* SELECTION-HIGHLIGHTED HEADER (Matching Reference Gambar 1 with Theme Accent) */}
+            <div className="inline-flex items-center relative select-none self-start">
+              {/* Left selection handle with top circle pin */}
+              <div className="absolute -left-[2px] top-0 bottom-0 flex flex-col items-center">
+                <div className="w-2.5 h-2.5 rounded-full bg-[#FF5500] ring-2 ring-white -translate-y-1/2" />
+                <div className="w-[2.5px] flex-1 bg-[#FF5500]" />
               </div>
 
-              {/* 2. MAIN WORKSPACE: CANVAS (LEFT) + FIGMA INSPECTOR SIDEBAR (RIGHT) */}
-              <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12">
-
-                {/* CANVAS AREA (lg:col-span-8) */}
-                <div className="lg:col-span-8 bg-square-grid p-3.5 sm:p-6 lg:p-8 relative flex flex-col justify-center overflow-y-auto">
-
-                  {/* Floating Figma Comment Bubble */}
-                  <DraggableItem className="hidden md:flex absolute top-4 right-4 z-20 bg-white/95 backdrop-blur-md rounded-2xl rounded-bl-sm px-3.5 py-2 comment-shadow border border-gray-100 items-start gap-2.5 max-w-[250px]">
-                    <div className="w-6 h-6 rounded-full bg-[#111] text-white flex items-center justify-center text-[7px] font-bold shrink-0 mt-0.5">ghiffa</div>
-                    <div>
-                      <div className="flex items-center gap-1.5 text-[11px]">
-                        <span className="font-semibold text-gray-900">ghiffa.dev</span>
-                        <span className="text-gray-400 font-medium text-[10px]">verified</span>
-                      </div>
-                      <p className="text-[12px] text-gray-800 mt-0.5 leading-snug">
-                        Building production web apps &amp; systems since 2023.
-                      </p>
-                    </div>
-                  </DraggableItem>
-
-                  {/* Canvas Frame Header */}
-                  <div className="mb-6">
-                    <div className="flex items-center gap-2 mb-2 select-none">
-                      <span className="inline-flex items-center gap-1 bg-[#FF5500] text-white text-[10.5px] font-medium px-2 py-0.5 rounded shadow-2xs">
-                        # Frame: Career Timeline
-                      </span>
-                      <span className="text-[10.5px] font-medium text-gray-400">
-                        &darr; Auto Layout &bull; Gap: 16px
-                      </span>
-                    </div>
-                    <h2 className="text-2xl sm:text-3xl lg:text-[32px] font-bold text-[#141414] tracking-tight leading-[1.2] max-w-[70%] sm:max-w-[75%]">
-                      Professional Journey
-                    </h2>
-                    <p className="text-gray-500 text-[13.5px] sm:text-[14px] mt-1 max-w-[70%] sm:max-w-[75%]">
-                      Proven experience in full-stack web applications, internal enterprise APIs, and system design.
-                    </p>
-                  </div>
-
-                  {/* Auto Layout Stack of Experience Cards */}
-                  <div className="space-y-4">
-                    {experiencesList.map((exp, idx) => {
-                      const isSelected = selectedExpIdx === idx;
-                      return (
-                        <div
-                          key={exp.id || idx}
-                          onClick={() => setSelectedExpIdx(idx)}
-                          className={`relative rounded-xl p-4 sm:p-6 transition-all cursor-pointer ${isSelected
-                            ? 'figma-bbox bg-white shadow-sm border border-[#FF5500]'
-                            : 'bg-white/90 hover:bg-white border border-gray-200/80 hover:border-gray-300 shadow-2xs'
-                            }`}
-                        >
-                          {/* 8 Figma resize handles on selected item */}
-                          {isSelected && (
-                            <>
-                              <span className="figma-handle !border-[#FF5500] -top-1 -left-1" />
-                              <span className="figma-handle !border-[#FF5500] -top-1 left-1/2 -translate-x-1/2" />
-                              <span className="figma-handle !border-[#FF5500] -top-1 -right-1" />
-                              <span className="figma-handle !border-[#FF5500] top-1/2 -translate-y-1/2 -left-1" />
-                              <span className="figma-handle !border-[#FF5500] top-1/2 -translate-y-1/2 -right-1" />
-                              <span className="figma-handle !border-[#FF5500] -bottom-1 -left-1" />
-                              <span className="figma-handle !border-[#FF5500] -bottom-1 left-1/2 -translate-x-1/2" />
-                              <span className="figma-handle !border-[#FF5500] -bottom-1 -right-1" />
-
-                              {/* Cursor badge on active card */}
-                              <div className="absolute -bottom-2.5 -right-2 flex items-center gap-1 bg-[#FF5500] text-white text-[10px] font-medium px-2 py-0.5 rounded shadow-xs select-none z-10">
-                                <svg className="w-2.5 h-2.5 fill-current" viewBox="0 0 16 16"><path d="M1 1L6.5 14.5L8.8 8.8L14.5 6.5L1 1Z" /></svg>
-                                <span>ghiffa</span>
-                              </div>
-                            </>
-                          )}
-
-                          <div className="flex flex-col min-[480px]:flex-row min-[480px]:items-center justify-between gap-1.5 min-[480px]:gap-2 mb-1.5">
-                            <div className="flex items-center gap-2">
-                              <span className="text-[#FF5500] text-xs">❖</span>
-                              <h3 className="font-semibold text-gray-900 text-[15px] sm:text-[16px]">
-                                {exp.company}
-                              </h3>
-                            </div>
-                            <span className="text-[11px] sm:text-[12px] bg-gray-100 text-gray-700 px-2.5 py-0.5 rounded-md border border-gray-200/60 font-medium self-start min-[480px]:self-auto">
-                              {exp.period}
-                            </span>
-                          </div>
-
-                          <div className="text-[13.5px] font-medium text-[#FF5500] mb-2">
-                            {exp.role}
-                          </div>
-
-                          <p className="text-[13px] sm:text-[13.5px] leading-relaxed text-gray-600 font-normal">
-                            {exp.description}
-                          </p>
-                        </div>
-                      );
-                    })}
-                  </div>
-
-                </div>
-
-                {/* FIGMA DESIGN INSPECTOR SIDEBAR (lg:col-span-4) */}
-                <div className="lg:col-span-4 bg-[#F9FAFB] border-t lg:border-t-0 lg:border-l border-gray-200/90 p-5 sm:p-6 space-y-5 flex flex-col justify-between overflow-y-auto">
-
-                  <div className="space-y-6">
-
-                    {/* Tabs: Layers / Design / Inspect */}
-                    <div className="flex items-center gap-5 border-b border-gray-200 pb-3 text-xs font-medium">
-                      <span className="text-[#FF5500] font-semibold border-b-2 border-[#FF5500] pb-3 -mb-3">Layers</span>
-                      <span className="text-gray-400 hover:text-gray-600 cursor-pointer">Design</span>
-                      <span className="text-gray-400 hover:text-gray-600 cursor-pointer">Inspect</span>
-                    </div>
-
-                    {/* Section: Layer Tree */}
-                    <div className="space-y-2">
-                      <div className="text-[11px] font-semibold text-gray-700 flex items-center justify-between">
-                        <span>Component Tree</span>
-                        <span className="text-[10.5px] text-gray-400 font-medium">{experiencesList.length} Items</span>
-                      </div>
-                      <div className="space-y-1">
-                        {experiencesList.map((exp, idx) => {
-                          const isSelected = selectedExpIdx === idx;
-                          return (
-                            <button
-                              key={exp.id || idx}
-                              onClick={() => setSelectedExpIdx(idx)}
-                              className={`w-full text-left flex items-center justify-between px-2.5 py-2 rounded-lg text-xs transition-colors cursor-pointer ${isSelected
-                                ? 'bg-[#FF5500]/10 text-[#FF5500] font-medium border border-[#FF5500]/30'
-                                : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-                                }`}
-                            >
-                              <div className="flex items-center gap-2 truncate pr-2">
-                                <span className="text-[11px]">❖</span>
-                                <span className="truncate">{exp.company}</span>
-                              </div>
-                              <span className="text-[10.5px] text-gray-400 font-medium shrink-0">
-                                #{exp.order_index || idx + 1}
-                              </span>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-
-                    {/* Section: Active Selection Properties */}
-                    {activeExp && (
-                      <div className="space-y-2.5 text-xs border-t border-gray-200/70 pt-4">
-                        <div className="text-[11px] font-semibold text-gray-700">Instance Properties</div>
-
-                        <div className="space-y-2 text-[11.5px]">
-                          <div className="flex items-center justify-between bg-white border border-gray-200 px-2.5 py-1.5 rounded">
-                            <span className="text-gray-400">Role</span>
-                            <span className="text-gray-800 font-medium text-[11.5px] truncate max-w-[170px] text-right">
-                              {activeExp.role}
-                            </span>
-                          </div>
-                          <div className="flex items-center justify-between bg-white border border-gray-200 px-2.5 py-1.5 rounded">
-                            <span className="text-gray-400">Period</span>
-                            <span className="text-gray-800 font-medium">
-                              {activeExp.period}
-                            </span>
-                          </div>
-                          <div className="flex items-center justify-between bg-white border border-gray-200 px-2.5 py-1.5 rounded">
-                            <span className="text-gray-400">Order</span>
-                            <span className="text-gray-800 font-medium">
-                              Index 0{activeExp.order_index}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-
-                  </div>
-
-                  {/* Section: Export & CTAs */}
-                  <div className="border-t border-gray-200/70 pt-5 space-y-2.5">
-                    <div className="text-[11px] font-semibold text-gray-700 mb-2">Actions</div>
-
-                    <button
-                      onClick={() => openContactModal(`Experience Inquiry: ${activeExp?.role} @ ${activeExp?.company}`)}
-                      className="w-full bg-[#18181B] hover:bg-black text-white text-xs font-medium py-2.5 rounded-lg transition-all active:scale-98 cursor-pointer shadow-xs flex items-center justify-center gap-2"
-                    >
-                      <span>Inquire about this role</span>
-                    </button>
-
-                    {cvUrl && (
-                      <a
-                        href={cvUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-full inline-flex items-center justify-center gap-1.5 bg-white hover:bg-gray-50 border border-gray-300 text-gray-800 text-xs font-medium py-2 rounded-lg transition-colors cursor-pointer"
-                      >
-                        <span>Download CV (PDF)</span>
-                        <span className="text-xs">&darr;</span>
-                      </a>
-                    )}
-                  </div>
-
-                </div>
-
+              {/* Selection highlight box with text */}
+              <div className="bg-[#FFF2EB] border-y border-[#FF5500]/30 px-5 sm:px-7 py-2 sm:py-2.5">
+                <h2 className="text-3xl sm:text-4xl lg:text-[46px] font-bold tracking-tight text-[#141414] lowercase leading-none">
+                  about me
+                </h2>
               </div>
 
+              {/* Right selection handle with bottom circle pin */}
+              <div className="absolute -right-[2px] top-0 bottom-0 flex flex-col items-center">
+                <div className="w-[2.5px] flex-1 bg-[#FF5500]" />
+                <div className="w-2.5 h-2.5 rounded-full bg-[#FF5500] ring-2 ring-white translate-y-1/2" />
+              </div>
             </div>
 
-          </div>
+            {/* Bio Narrative Paragraph */}
+            <div className="text-[14.5px] sm:text-[15.5px] text-gray-600 leading-relaxed space-y-3 font-normal max-w-2xl [&>p]:leading-relaxed [&>strong]:text-gray-900 [&>strong]:font-semibold">
+              {aboutBio ? (
+                <ReactMarkdown>{aboutBio}</ReactMarkdown>
+              ) : (
+                <p>
+                  As a Fullstack Web Developer and IoT Engineer, I design end-to-end technological solutions from the ground up. My technical scope encompasses scalable cloud architectures, high-performance web applications, edge computing, LoRa network telemetry, and custom PCB hardware design.
+                </p>
+              )}
+            </div>
 
-          {/* CARD 3: CREDENTIALS & ACHIEVEMENTS */}
-          <div
-            id="stack-card-credentials"
-            className="lg:sticky lg:top-[100px] z-30 will-change-transform"
-          >
-            <div id="credentials" className="absolute -top-24" />
-            <div id="achievements" className="absolute -top-24" />
-            <div id="qualifications" className="absolute -top-24" />
-
-            {/* Figma Workspace Window */}
-            <div className="figma-stack-card bg-white rounded-2xl border border-gray-200/90 shadow-2xl overflow-hidden flex flex-col lg:h-[calc(100vh-100px)] min-h-[700px]">
-
-              {/* 1. FIGMA TOP TOOLBAR / APP BAR */}
-              <div className="h-11 shrink-0 bg-[#F9FAFB] border-b border-gray-200/80 px-4 flex items-center justify-between text-xs select-none">
-
-                {/* Left: Figma Icon + Breadcrumb */}
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-2">
-                    <svg className="w-3.5 h-5" viewBox="0 0 38 57" fill="none">
-                      <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE" />
-                      <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83" />
-                      <path d="M19 0V19H28.5C33.7467 19 38 14.7467 38 9.5C38 4.25329 33.7467 0 28.5 0H19Z" fill="#FF7262" />
-                      <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E" />
-                      <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF" />
-                    </svg>
-                    <span className="font-semibold text-gray-900">ghiffa.fig</span>
-                    <span className="text-gray-400">/</span>
-                    <span className="text-gray-500 font-medium text-[11.5px]">Credentials &amp; Achievements</span>
+            {/* EDUCACIÓN / EDUCATION (Matching Reference Gambar 1 with Folder Icons) */}
+            <div className="pt-2">
+              <h3 className="text-[15px] sm:text-[16px] font-bold text-gray-900 tracking-tight mb-4 flex items-center gap-2">
+                <span>Educación</span>
+                <span className="text-xs font-normal text-gray-400 font-mono">/ Education</span>
+              </h3>
+              <div className="space-y-3.5">
+                {educationList.map((edu, idx) => (
+                  <div key={edu.id || idx} className="flex items-start gap-3.5 group">
+                    {/* Clean Folder Icon matching Reference Gambar 1 */}
+                    <div className="shrink-0 pt-0.5">
+                      <svg className="w-9 h-7 sm:w-10 sm:h-8 drop-shadow-2xs group-hover:scale-105 transition-transform" viewBox="0 0 48 38" fill="none">
+                        <path d="M4 6C4 3.79086 5.79086 2 8 2H18.5858C19.6466 2 20.664 2.42143 21.4142 3.17157L24.8284 6.58579C25.5786 7.33593 26.596 7.75736 27.6569 7.75736H40C42.2091 7.75736 44 9.54822 44 11.7574V14H4V6Z" fill="#75C6FF" />
+                        <rect x="2" y="10" width="44" height="26" rx="4" fill="#4DA8FF" />
+                      </svg>
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="font-bold text-[14px] sm:text-[14.5px] text-gray-900 leading-snug">
+                        &bull; {edu.title}
+                      </div>
+                      <div className="text-[12.5px] sm:text-[13px] text-gray-500 italic mt-0.5">
+                        {edu.institution} {edu.period && <span>({edu.period})</span>}
+                      </div>
+                    </div>
                   </div>
-                </div>
-
-                {/* Center: Real Figma Tools (Move V, Frame F, Achievement ★, Text T, Comment C) */}
-                <div className="hidden md:flex items-center gap-1 bg-gray-200/60 p-0.5 rounded-lg">
-                  <div className="w-7 h-7 rounded flex items-center justify-center text-gray-500 hover:text-gray-800" title="Move (V)">
-                    <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 16 16"><path d="M1 1L6.5 14.5L8.8 8.8L14.5 6.5L1 1Z" /></svg>
-                  </div>
-                  <div className="w-7 h-7 rounded flex items-center justify-center text-gray-500 hover:text-gray-800" title="Frame (F)">
-                    <span className="text-[12px] font-bold">#</span>
-                  </div>
-                  <div className="w-7 h-7 rounded flex items-center justify-center bg-white shadow-2xs text-[#E17900]" title="Achievement (★)">
-                    <span className="text-[12px] font-bold">★</span>
-                  </div>
-                  <div className="w-7 h-7 rounded flex items-center justify-center text-gray-500 hover:text-gray-800" title="Text (T)">
-                    <span className="font-bold text-[12px]">T</span>
-                  </div>
-                  <div className="w-7 h-7 rounded flex items-center justify-center text-gray-500 hover:text-gray-800" title="Comment (C)">
-                    <svg className="w-3.5 h-3.5" viewBox="0 0 16 16" fill="currentColor">
-                      <path d="M2 3a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H6l-3.5 3V3z" />
-                    </svg>
-                  </div>
-                </div>
-
-                {/* Right: Counter + Verify */}
-                <div className="flex items-center gap-3">
-                  <span className="text-[11px] font-medium text-gray-500 bg-gray-100 px-2.5 py-0.5 rounded border border-gray-200">
-                    {credentialsList.length} Credentials
-                  </span>
-                  <button
-                    onClick={() => openContactModal('Credentials & Qualifications Verification')}
-                    className="bg-[#FF5500] hover:bg-[#E04B00] text-white text-[11.5px] font-medium px-3.5 py-1.5 rounded-lg transition-colors cursor-pointer shadow-xs flex items-center gap-1.5"
-                  >
-                    <span>Verify</span>
-                  </button>
-                </div>
-
+                ))}
               </div>
+            </div>
 
-              {/* 2. MAIN WORKSPACE: CANVAS (LEFT) + FIGMA INSPECTOR SIDEBAR (RIGHT) */}
-              <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12">
-
-                {/* CANVAS AREA (lg:col-span-8) */}
-                <div className="lg:col-span-8 bg-square-grid p-3.5 sm:p-6 lg:p-8 relative flex flex-col justify-center overflow-y-auto">
-
-                  {/* Floating Figma Comment Bubble */}
-                  <DraggableItem className="hidden md:flex absolute top-4 right-4 z-20 bg-white/95 backdrop-blur-md rounded-2xl rounded-bl-sm px-3.5 py-2 comment-shadow border border-gray-100 items-start gap-2.5 max-w-[250px]">
-                    <div className="w-6 h-6 rounded-full bg-[#111] text-white flex items-center justify-center text-[7px] font-bold shrink-0 mt-0.5">ghiffa</div>
-                    <div>
-                      <div className="flex items-center gap-1.5 text-[11px]">
-                        <span className="font-semibold text-gray-900">ghiffa.dev</span>
-                        <span className="text-gray-400 font-medium text-[10px]">verified</span>
-                      </div>
-                      <p className="text-[12px] text-gray-800 mt-0.5 leading-snug">
-                        Certified software competencies, IP copyrights, and university honors.
-                      </p>
-                    </div>
-                  </DraggableItem>
-
-                  {/* Canvas Frame Header */}
-                  <div className="mb-6">
-                    <div className="flex items-center gap-2 mb-2 select-none">
-                      <span className="inline-flex items-center gap-1 bg-[#FF5500] text-white text-[10.5px] font-medium px-2 py-0.5 rounded shadow-2xs">
-                        # Frame: Credentials &amp; Achievements
-                      </span>
-                      <span className="text-[10.5px] font-medium text-gray-400">
-                        &darr; Auto Layout &bull; Gap: 16px
-                      </span>
-                    </div>
-                    <h2 className="text-2xl sm:text-3xl lg:text-[32px] font-bold text-[#141414] tracking-tight leading-[1.2] max-w-[70%] sm:max-w-[75%]">
-                      Credentials &amp; Achievements
-                    </h2>
-                    <p className="text-gray-500 text-[13.5px] sm:text-[14px] mt-1 max-w-[70%] sm:max-w-[75%]">
-                      Recognized excellence in national informatics competitions, government certifications, and intellectual property.
-                    </p>
-                  </div>
-
-                  {/* Stack of Credential Cards */}
-                  <div className="space-y-4">
-                    {credentialsList.slice(0, 3).map((cred, idx) => {
-                      const isSelected = selectedCredIdx === idx;
-                      const isHonor = cred.type === 'honor';
-                      const badgeLabel = cred.badge || (isHonor ? 'HONOR & AWARD' : 'CERTIFICATION');
-                      return (
-                        <div
-                          key={cred.id || idx}
-                          onClick={() => setSelectedCredIdx(idx)}
-                          className={`relative rounded-xl p-4 sm:p-6 transition-all cursor-pointer ${isSelected
-                            ? 'figma-bbox bg-white shadow-sm border border-[#FF5500]'
-                            : 'bg-white/90 hover:bg-white border border-gray-200/80 hover:border-gray-300 shadow-2xs'
-                            }`}
-                        >
-                          {/* 8 Figma resize handles on selected item */}
-                          {isSelected && (
-                            <>
-                              <span className="figma-handle !border-[#FF5500] -top-1 -left-1" />
-                              <span className="figma-handle !border-[#FF5500] -top-1 left-1/2 -translate-x-1/2" />
-                              <span className="figma-handle !border-[#FF5500] -top-1 -right-1" />
-                              <span className="figma-handle !border-[#FF5500] top-1/2 -translate-y-1/2 -left-1" />
-                              <span className="figma-handle !border-[#FF5500] top-1/2 -translate-y-1/2 -right-1" />
-                              <span className="figma-handle !border-[#FF5500] -bottom-1 -left-1" />
-                              <span className="figma-handle !border-[#FF5500] -bottom-1 left-1/2 -translate-x-1/2" />
-                              <span className="figma-handle !border-[#FF5500] -bottom-1 -right-1" />
-
-                              {/* Cursor badge on active card */}
-                              <div className="absolute -bottom-2.5 -right-2 flex items-center gap-1 bg-[#FF5500] text-white text-[10px] font-medium px-2 py-0.5 rounded shadow-xs select-none z-10">
-                                <svg className="w-2.5 h-2.5 fill-current" viewBox="0 0 16 16"><path d="M1 1L6.5 14.5L8.8 8.8L14.5 6.5L1 1Z" /></svg>
-                                <span>ghiffa</span>
-                              </div>
-                            </>
-                          )}
-
-                          <div className="flex flex-col min-[480px]:flex-row min-[480px]:items-center justify-between gap-1.5 min-[480px]:gap-2 mb-2">
-                            <div className="flex items-center gap-2">
-                              <span className={`text-xs ${isHonor ? 'text-amber-500' : 'text-[#FF5500]'}`}>
-                                {isHonor ? '★' : '❖'}
-                              </span>
-                              <span className={`text-[10px] uppercase tracking-wider font-semibold px-2 py-0.5 rounded ${isHonor ? 'bg-amber-50 text-amber-800 border border-amber-200/70' : 'bg-orange-50 text-[#FF5500] border border-orange-200/70'
-                                }`}>
-                                {badgeLabel}
-                              </span>
-                            </div>
-                            <span className="text-[11px] sm:text-[12px] bg-gray-100 text-gray-700 px-2.5 py-0.5 rounded-md border border-gray-200/60 font-medium self-start min-[480px]:self-auto">
-                              {cred.period}
-                            </span>
-                          </div>
-
-                          <h3 className="font-semibold text-gray-900 text-[15px] sm:text-[16px] mb-1">
-                            {cred.title}
-                          </h3>
-
-                          <div className="text-[13px] font-medium text-gray-600 mb-2 flex items-center gap-1.5">
-                            <span className="text-gray-400">Issuer:</span>
-                            <span className="text-gray-900 font-medium">{cred.institution}</span>
-                          </div>
-
-                          {cred.description && (
-                            <p className="text-[13px] leading-relaxed text-gray-600 mb-3 font-normal">
-                              {cred.description}
-                            </p>
-                          )}
-
-                          <div className="flex items-center justify-between pt-2 border-t border-gray-100 text-xs">
-                            <div className="flex items-center gap-1.5 text-emerald-700 font-medium text-[11.5px]">
-                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                              <span>Verified Credential</span>
-                            </div>
-
-                            {cred.certificate_url && (
-                              <a
-                                href={cred.certificate_url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                onClick={(e) => e.stopPropagation()}
-                                className="inline-flex items-center gap-1 text-[11.5px] font-medium text-[#FF5500] hover:underline"
-                              >
-                                <span>View Document</span>
-                                <span>&rarr;</span>
-                              </a>
-                            )}
-                          </div>
-
-                        </div>
-                      );
-                    })}
-                  </div>
-
+            {/* IDIOMAS / LANGUAGES & SPECIALIZATION (Speech-bubble pills matching Gambar 1) */}
+            <div className="pt-2">
+              <h3 className="text-[15px] sm:text-[16px] font-bold text-gray-900 tracking-tight mb-3 flex items-center gap-2">
+                <span>Idiomas &amp; Specialization</span>
+              </h3>
+              <div className="flex flex-col sm:flex-row flex-wrap gap-2.5 sm:gap-3 items-start sm:items-center">
+                {/* Speech Bubble Pill 1 */}
+                <div className="relative inline-flex items-center gap-2 bg-[#FF5500] text-white text-[12px] sm:text-[12.5px] font-medium px-4 py-2 rounded-2xl rounded-br-xs shadow-xs hover:bg-[#E04B00] transition-colors cursor-default select-none">
+                  <span>Bahasa Indonesia — Native</span>
                 </div>
 
-                {/* FIGMA DESIGN INSPECTOR SIDEBAR (lg:col-span-4) */}
-                <div className="lg:col-span-4 bg-[#F9FAFB] border-t lg:border-t-0 lg:border-l border-gray-200/90 p-5 sm:p-6 space-y-5 flex flex-col justify-between overflow-y-auto">
-
-                  <div className="space-y-6">
-
-                    {/* Tabs: Layers / Design / Inspect */}
-                    <div className="flex items-center gap-5 border-b border-gray-200 pb-3 text-xs font-medium">
-                      <span className="text-[#FF5500] font-semibold border-b-2 border-[#FF5500] pb-3 -mb-3">Layers</span>
-                      <span className="text-gray-400 hover:text-gray-600 cursor-pointer">Design</span>
-                      <span className="text-gray-400 hover:text-gray-600 cursor-pointer">Inspect</span>
-                    </div>
-
-                    {/* Section: Layer Tree */}
-                    <div className="space-y-2">
-                      <div className="text-[11px] font-semibold text-gray-700 flex items-center justify-between">
-                        <span>Credentials Tree</span>
-                        <span className="text-[10.5px] text-gray-400 font-medium">{credentialsList.length} Items</span>
-                      </div>
-                      <div className="space-y-1 max-h-[160px] overflow-y-auto pr-1">
-                        {credentialsList.map((cred, idx) => {
-                          const isSelected = selectedCredIdx === idx;
-                          const isHonor = cred.type === 'honor';
-                          return (
-                            <button
-                              key={cred.id || idx}
-                              onClick={() => setSelectedCredIdx(idx)}
-                              className={`w-full text-left flex items-center justify-between px-2.5 py-2 rounded-lg text-xs transition-colors cursor-pointer ${isSelected
-                                ? 'bg-[#FF5500]/10 text-[#FF5500] font-medium border border-[#FF5500]/30'
-                                : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-                                }`}
-                            >
-                              <div className="flex items-center gap-2 truncate pr-2">
-                                <span className={isHonor ? 'text-amber-500' : 'text-[#FF5500]'}>
-                                  {isHonor ? '★' : '❖'}
-                                </span>
-                                <span className="truncate">{cred.title}</span>
-                              </div>
-                              <span className="text-[10.5px] text-gray-400 font-medium shrink-0">
-                                #{idx + 1}
-                              </span>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-
-                    {/* Section: Active Selection Properties */}
-                    {activeCredential && (
-                      <div className="space-y-2.5 text-xs border-t border-gray-200/70 pt-4">
-                        <div className="text-[11px] font-semibold text-gray-700">Instance Properties</div>
-
-                        <div className="space-y-2 text-[11.5px]">
-                          <div className="flex items-center justify-between bg-white border border-gray-200 px-2.5 py-1.5 rounded">
-                            <span className="text-gray-400">Award / Title</span>
-                            <span className="text-gray-800 font-medium text-[11.5px] truncate max-w-[170px] text-right">
-                              {activeCredential.title}
-                            </span>
-                          </div>
-                          <div className="flex items-center justify-between bg-white border border-gray-200 px-2.5 py-1.5 rounded">
-                            <span className="text-gray-400">Issuer</span>
-                            <span className="text-gray-800 font-medium text-[11px] truncate max-w-[170px] text-right">
-                              {activeCredential.institution}
-                            </span>
-                          </div>
-                          <div className="flex items-center justify-between bg-white border border-gray-200 px-2.5 py-1.5 rounded">
-                            <span className="text-gray-400">Period</span>
-                            <span className="text-gray-800 font-medium">
-                              {activeCredential.period}
-                            </span>
-                          </div>
-                          <div className="flex items-center justify-between bg-white border border-gray-200 px-2.5 py-1.5 rounded">
-                            <span className="text-gray-400">Type</span>
-                            <span className="text-gray-800 font-medium uppercase text-[10px]">
-                              {activeCredential.type || 'Credential'}
-                            </span>
-                          </div>
-                        </div>
-
-                        {activeCredential.certificate_url && (
-                          <div className="pt-2">
-                            <a
-                              href={activeCredential.certificate_url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="w-full inline-flex items-center justify-center gap-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300/80 text-[11.5px] font-medium py-1.5 rounded-md transition-colors"
-                            >
-                              <span>Open Official Certificate</span>
-                              <span>&rarr;</span>
-                            </a>
-                          </div>
-                        )}
-                      </div>
-                    )}
-
-                  </div>
-
-                  {/* Section: Export & CTAs */}
-                  <div className="border-t border-gray-200/70 pt-5 space-y-2.5">
-                    <div className="text-[11px] font-semibold text-gray-700 mb-2">Actions</div>
-
-                    <button
-                      onClick={() => openContactModal(`Credential Verification: ${activeCredential?.title}`)}
-                      className="w-full bg-[#18181B] hover:bg-black text-white text-xs font-medium py-2.5 rounded-lg transition-all active:scale-98 cursor-pointer shadow-xs flex items-center justify-center gap-2"
-                    >
-                      <span>Request qualification info</span>
-                    </button>
-
-                    {cvUrl && (
-                      <a
-                        href={cvUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-full inline-flex items-center justify-center gap-1.5 bg-white hover:bg-gray-50 border border-gray-300 text-gray-800 text-xs font-medium py-2 rounded-lg transition-colors cursor-pointer"
-                      >
-                        <span>Download Full CV (PDF)</span>
-                        <span className="text-xs">&darr;</span>
-                      </a>
-                    )}
-                  </div>
-
+                {/* Speech Bubble Pill 2 */}
+                <div className="relative inline-flex items-center gap-2 bg-[#18181B] text-white text-[12px] sm:text-[12.5px] font-medium px-4 py-2 rounded-2xl rounded-bl-xs shadow-xs hover:bg-black transition-colors cursor-default select-none">
+                  <span>English — Professional Working</span>
                 </div>
 
+                {/* Speech Bubble Pill 3 */}
+                <div className="relative inline-flex items-center gap-2 bg-white text-gray-800 text-[12px] sm:text-[12.5px] font-medium px-4 py-2 rounded-2xl border border-gray-200/90 shadow-2xs hover:border-gray-300 transition-colors select-none">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span>Available for Full-Time &amp; Contracts</span>
+                </div>
               </div>
-
             </div>
 
           </div>
 
         </div>
+      </section>
 
+      {/* 2.6 PROFESSIONAL JOURNEY SECTION (Clean Experience Timeline) */}
+      <section id="journey" className="relative py-20 sm:py-24 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto border-t border-gray-100">
+        <div id="experience" className="absolute -top-24" />
+
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 sm:mb-16">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-xs font-mono font-medium mb-3">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#FF5500]" />
+              <span>Career Timeline &bull; {experiencesList.length} Experiences</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-bold text-[#141414] tracking-tight">
+              Professional Journey
+            </h2>
+            <p className="text-gray-500 text-[14px] sm:text-[15px] mt-2 max-w-xl">
+              Proven track record in scalable web ecosystems, internal enterprise APIs, and hardware-resilient IoT systems.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => openContactModal('Career & Collaboration')}
+              className="bg-[#18181B] hover:bg-black text-white text-xs font-medium px-5 py-2.5 rounded-full transition-all active:scale-95 cursor-pointer shadow-xs"
+            >
+              Let&apos;s build together
+            </button>
+            {cvUrl && (
+              <a
+                href={cvUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 bg-white hover:bg-gray-50 border border-gray-200 text-gray-800 text-xs font-medium px-4 py-2.5 rounded-full transition-colors cursor-pointer shadow-2xs"
+              >
+                <span>Download CV</span>
+                <span>&darr;</span>
+              </a>
+            )}
+          </div>
+        </div>
+
+        {/* Clean Experience Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {experiencesList.map((exp, idx) => (
+            <div
+              key={exp.id || idx}
+              className="bg-white rounded-2xl border border-gray-200/80 p-6 sm:p-7 shadow-xs hover:border-gray-300 hover:shadow-md transition-all flex flex-col justify-between group"
+            >
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <span className="text-xs font-mono font-semibold text-[#FF5500] bg-[#FF5500]/10 px-2.5 py-0.5 rounded-md">
+                    {exp.period || '2023 - Present'}
+                  </span>
+                  {exp.location && (
+                    <span className="text-[11.5px] text-gray-400 font-medium">
+                      {exp.location}
+                    </span>
+                  )}
+                </div>
+                <h3 className="text-lg sm:text-xl font-bold text-gray-900 group-hover:text-[#FF5500] transition-colors leading-snug">
+                  {exp.role || exp.position}
+                </h3>
+                <div className="text-[13.5px] font-medium text-gray-600 mb-3">
+                  {exp.company}
+                </div>
+                <p className="text-[13px] sm:text-[13.5px] text-gray-500 leading-relaxed mb-4">
+                  {exp.description}
+                </p>
+              </div>
+
+              {exp.skills && Array.isArray(exp.skills) && exp.skills.length > 0 && (
+                <div className="flex flex-wrap gap-1.5 pt-3 border-t border-gray-100">
+                  {exp.skills.map((skill, sIdx) => (
+                    <span
+                      key={sIdx}
+                      className="text-[11px] font-medium bg-gray-50 text-gray-600 px-2 py-0.5 rounded border border-gray-200/60"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* 2.75 VERIFIED HAKI & CERTIFICATIONS: FULL SHARP CERTIFICATES WITH SHOW ALL */}

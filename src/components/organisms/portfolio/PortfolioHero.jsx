@@ -464,10 +464,12 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
 
           {/* Bottom-Right: Web skillstreak.id */}
           <DraggableItem className="hidden md:flex absolute top-[62%] right-[6%] z-30 bg-white/95 backdrop-blur-md rounded-2xl rounded-bl-sm px-4 py-2.5 comment-shadow border border-gray-100 items-start gap-3 max-w-[270px] hover:border-gray-200 transition-colors group">
-            <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-[#FF4500] via-[#FF5500] to-[#FFA116] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-xs shadow-orange-500/20">
-              <svg className="w-3.5 h-3.5 fill-white stroke-white" viewBox="0 0 24 24" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
-              </svg>
+            <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-[#FF4500] via-[#FF5500] to-[#FFA116] flex items-center justify-center shrink-0 mt-0.5 shadow-xs shadow-orange-500/20">
+              <img
+                src="/skillstreak-white.svg"
+                alt="Skillstreak"
+                className="w-4 h-4 object-contain select-none pointer-events-none"
+              />
             </div>
             <div>
               <div className="flex items-center gap-1.5 text-[11px]">

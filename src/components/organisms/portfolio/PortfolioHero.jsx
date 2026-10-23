@@ -312,7 +312,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
             <svg className="w-3.5 h-3.5 text-[#059669] -ml-1.5 mb-0.5 drop-shadow-xs" viewBox="0 0 16 16" fill="currentColor">
               <path d="M1 1L6.5 14.5L8.8 8.8L14.5 6.5L1 1Z" />
             </svg>
-            <CursorBadge color="#059669" humanLabel="Luffy (PM)" aiModel="GPT-4o" aiActive={aiActive} />
+            <CursorBadge color="#059669" humanLabel="Project Manager" aiModel="GPT-4o" aiActive={aiActive} />
           </div>
 
           {/* Client PT Raksa (Orange) -> Claude 3.7 Sonnet */}

@@ -10,43 +10,69 @@ export function CertificationsSection({ bentoCertificates, onSelectCert }) {
       <div
         key={cert.id}
         onClick={() => onSelectCert(cert)}
-        className="group relative overflow-hidden bg-white shadow-[0_4px_22px_rgba(0,0,0,0.06)] hover:shadow-[0_20px_45px_rgba(0,0,0,0.14)] transition-all duration-300 hover:-translate-y-1 cursor-pointer select-none"
+        className="group relative rounded-xl overflow-visible bg-white border border-gray-200/90 hover:border-[#FF5500] shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_18px_40px_rgba(255,85,0,0.12)] transition-all duration-300 hover:-translate-y-1 cursor-pointer select-none"
       >
-        {/* Full Sharp Uncropped Certificate Image */}
-        <img
-          src={cert.image}
-          alt={cert.title}
-          className="w-full h-auto block select-none"
-          loading="lazy"
-        />
+        {/* 4 Corner Figma Selection Handles */}
+        <span className="w-2.5 h-2.5 bg-white border-[1.5px] border-[#FF5500] rounded-[2px] absolute -top-1.5 -left-1.5 z-30 opacity-0 group-hover:opacity-100 scale-50 group-hover:scale-100 transition-all duration-200 pointer-events-none shadow-xs" />
+        <span className="w-2.5 h-2.5 bg-white border-[1.5px] border-[#FF5500] rounded-[2px] absolute -top-1.5 -right-1.5 z-30 opacity-0 group-hover:opacity-100 scale-50 group-hover:scale-100 transition-all duration-200 pointer-events-none shadow-xs" />
+        <span className="w-2.5 h-2.5 bg-white border-[1.5px] border-[#FF5500] rounded-[2px] absolute -bottom-1.5 -left-1.5 z-30 opacity-0 group-hover:opacity-100 scale-50 group-hover:scale-100 transition-all duration-200 pointer-events-none shadow-xs" />
+        <span className="w-2.5 h-2.5 bg-white border-[1.5px] border-[#FF5500] rounded-[2px] absolute -bottom-1.5 -right-1.5 z-30 opacity-0 group-hover:opacity-100 scale-50 group-hover:scale-100 transition-all duration-200 pointer-events-none shadow-xs" />
 
-        {/* Clean Theme Hover Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/25 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-between p-5 sm:p-6 text-white">
-          {/* Top: Tag & Period */}
-          <div className="flex items-center justify-between gap-2 transform -translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-            <span className="bg-white/20 text-white text-[10px] font-mono font-bold px-2.5 py-1 rounded-full uppercase tracking-wider backdrop-blur-md">
-              {cert.tag || 'CRT'}
-            </span>
-            <span className="font-mono text-[11px] text-white/75 tracking-wider uppercase">
-              {cert.period}
-            </span>
-          </div>
+        {/* Card Content Wrapper with overflow-hidden for image & overlay */}
+        <div className="relative w-full h-full rounded-xl overflow-hidden">
+          {/* Full Sharp Uncropped Certificate Image */}
+          <img
+            src={cert.image}
+            alt={cert.title}
+            className="w-full h-auto block select-none transition-transform duration-500 group-hover:scale-[1.015]"
+            loading="lazy"
+          />
 
-          {/* Bottom: Institution, Title & Action */}
-          <div className="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-            <div className="text-xs text-white/80 font-medium mb-1 truncate">
-              {cert.institution}
-            </div>
-            <h3 className="text-sm sm:text-base font-bold text-white tracking-tight leading-snug line-clamp-2 sm:line-clamp-3">
-              {cert.title}
-            </h3>
-            <div className="mt-3 pt-2.5 border-t border-white/20 flex items-center justify-between text-[11px] text-white/90 font-medium">
-              <span>View Full Document</span>
-              <svg className="w-3.5 h-3.5 stroke-current" viewBox="0 0 24 24" fill="none" strokeWidth="2.5">
-                <path d="M7 17L17 7M17 7H7M17 7V17" />
+          {/* Top Figma Layer Badges (Reveal on Hover) */}
+          <div className="absolute top-3 inset-x-3 z-20 flex items-center justify-between gap-2 pointer-events-none">
+            {/* Left: Figma Frame Tag */}
+            <div className="inline-flex items-center gap-1.5 bg-[#FF5500] text-white text-[10px] font-mono font-bold px-2.5 py-1 rounded-md shadow-sm uppercase tracking-wider transform -translate-y-2 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-250">
+              <svg className="w-3 h-3 stroke-current shrink-0" viewBox="0 0 24 24" fill="none" strokeWidth="2.5">
+                <path d="M4 8h16M4 16h16M8 4v16M16 4v16" />
               </svg>
+              <span>{cert.badge || cert.tag || 'CREDENTIAL'}</span>
+            </div>
+
+            {/* Right: Figma Canvas Period / Year */}
+            {cert.period && (
+              <div className="bg-[#18181B]/85 backdrop-blur-md text-white font-mono text-[10px] font-medium px-2.5 py-1 rounded-md shadow-sm uppercase tracking-wider transform -translate-y-2 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-250">
+                {cert.period}
+              </div>
+            )}
+          </div>
+
+          {/* Bottom Figma Floating Inspector Card */}
+          <div className="absolute inset-x-2.5 sm:inset-x-3 bottom-2.5 sm:bottom-3 z-20 opacity-0 group-hover:opacity-100 translate-y-3 group-hover:translate-y-0 transition-all duration-300">
+            <div className="bg-white/95 backdrop-blur-md rounded-xl p-3 sm:p-3.5 border border-gray-200/90 shadow-[0_12px_32px_rgba(0,0,0,0.12)]">
+              <div className="text-[11px] text-gray-500 font-medium truncate mb-1">
+                {cert.institution}
+              </div>
+              <h3 className="text-xs sm:text-[13.5px] font-bold text-gray-950 leading-snug line-clamp-2">
+                {cert.title}
+              </h3>
+
+              <div className="mt-2.5 pt-2 border-t border-gray-100 flex items-center justify-between">
+                <div className="inline-flex items-center gap-1.5 text-[10px] font-mono font-bold text-[#FF5500] uppercase tracking-wider">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#FF5500] animate-pulse" />
+                  <span>Inspect</span>
+                </div>
+                <div className="inline-flex items-center gap-1 text-[11px] font-semibold text-gray-800 group-hover:text-[#FF5500] transition-colors">
+                  <span>View Document</span>
+                  <svg className="w-3.5 h-3.5 stroke-current" viewBox="0 0 24 24" fill="none" strokeWidth="2.5">
+                    <path d="M7 17L17 7M17 7H7M17 7V17" />
+                  </svg>
+                </div>
+              </div>
             </div>
           </div>
+
+          {/* Gentle Bottom Gradient Scrim to ensure Floating Card Contrast */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
         </div>
       </div>
     );

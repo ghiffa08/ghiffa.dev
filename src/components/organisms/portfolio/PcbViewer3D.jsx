@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
+import { PcbSkeleton } from '../../atoms/PcbSkeleton';
 
 /**
  * 3D Custom PCB Hardware Showcase.
@@ -27,7 +29,7 @@ export function PcbViewer3D() {
           observer.disconnect();
         }
       },
-      { rootMargin: '250px' }
+      { rootMargin: '450px' }
     );
     observer.observe(el);
     return () => observer.disconnect();
@@ -108,6 +110,7 @@ export function PcbViewer3D() {
 
     // ─── LOAD PCB GLB ─────────────────────────────────────────────────
     const loader = new GLTFLoader();
+    loader.setMeshoptDecoder(MeshoptDecoder);
     let isDisposed = false;
 
     loader.load(
@@ -204,17 +207,14 @@ export function PcbViewer3D() {
       {/* 3D Canvas with drag-to-rotate cursor */}
       <div
         ref={containerRef}
-        className="w-full h-full cursor-grab active:cursor-grabbing transition-transform duration-500 ease-out group-hover:-translate-y-2"
+        className={`w-full h-full cursor-grab active:cursor-grabbing transition-all duration-700 ease-out group-hover:-translate-y-2 ${loading ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'}`}
         style={{ touchAction: 'pan-y' }}
       />
 
-      {/* Loading Indicator */}
+      {/* PCB Hardware Skeleton Loader (No spinner) */}
       {loading && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-          <div className="w-8 h-8 rounded-full border-2 border-white/60 border-t-white animate-spin mb-2" />
-          <span className="font-mono text-[10px] text-white/80 uppercase tracking-widest animate-pulse">
-            Loading 3D PCB...
-          </span>
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-500">
+          <PcbSkeleton />
         </div>
       )}
     </div>

@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from 'react';
 import { ScrollReveal } from '../../atoms/ScrollReveal';
+import { PcbSkeleton } from '../../atoms/PcbSkeleton';
 
 const PcbViewer3D = lazy(() =>
   import('./PcbViewer3D').then((m) => ({ default: m.PcbViewer3D }))
@@ -83,8 +84,8 @@ export function ServiceCardsSection() {
               {/* Interactive 3D Custom PCB Showcase */}
               <Suspense
                 fallback={
-                  <div className="relative w-full h-[220px] sm:h-[250px] xl:h-[270px] mt-4 flex items-center justify-center">
-                    <div className="w-7 h-7 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <div className="relative w-full h-[220px] sm:h-[250px] xl:h-[270px] mt-2 sm:mt-3 -translate-y-2 sm:-translate-y-3 flex items-center justify-center">
+                    <PcbSkeleton />
                   </div>
                 }
               >

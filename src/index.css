@@ -688,4 +688,8 @@ body {
   letter-spacing: 0.05em;
   color: #52525B;
 }
-
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}

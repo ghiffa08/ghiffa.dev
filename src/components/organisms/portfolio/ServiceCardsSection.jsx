@@ -19,13 +19,13 @@ export function ServiceCardsSection() {
                 </p>
               </div>
 
-              {/* Phone Mockup Showcase - Fully visible, uncropped */}
-              <div className="relative w-full h-[220px] sm:h-[250px] xl:h-[270px] mt-4 flex items-center justify-center">
-                <div className="relative h-full flex items-center justify-center transition-transform duration-500 ease-out group-hover:-translate-y-1 group-hover:scale-[1.03]">
+              {/* Phone Mockup Showcase - Large like original, top unclipped on hover */}
+              <div className="relative w-full h-[220px] sm:h-[250px] xl:h-[270px] mt-4 flex items-start justify-center pt-2 sm:pt-3">
+                <div className="relative w-[205px] sm:w-[225px] lg:w-[238px] transition-transform duration-500 ease-out group-hover:-translate-y-2 group-hover:scale-[1.02]">
                   <img
                     src="/mobile.svg"
                     alt="Mobile App Services Mockup"
-                    className="h-full max-h-[215px] sm:max-h-[245px] xl:max-h-[265px] w-auto object-contain drop-shadow-2xl select-none pointer-events-none"
+                    className="w-full h-auto drop-shadow-2xl select-none pointer-events-none"
                     loading="lazy"
                   />
                 </div>

@@ -23,7 +23,7 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
               decoding="async"
               onError={(e) => {
                 e.currentTarget.onerror = null;
-                e.currentTarget.src = '/ghiffa.webp';
+                e.currentTarget.src = '/ghiffa.svg';
               }}
             />
           </div>

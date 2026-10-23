@@ -160,7 +160,7 @@ export default function Portfolio() {
   // Personal Info data
   const emailAddress = info?.email || 'hello@ghiffa.dev';
   const fullName = info?.full_name || info?.name || 'Haikal Jibran Al-Ghiffarry';
-  const avatarImage = info?.avatar_url || '/ghiffa.webp';
+  const avatarImage = info?.avatar_url || '/ghiffa.svg';
   const aboutBio = info?.about_content_en || info?.about_content;
 
   // Fallback Experiences

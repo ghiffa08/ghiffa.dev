@@ -46,19 +46,35 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
       })
       .filter(Boolean);
 
+    let cachedW = window.innerWidth;
+    let cachedH = window.innerHeight;
+
+    const updateDimensions = () => {
+      const container = document.getElementById('hero-canvas');
+      if (container) {
+        cachedW = container.clientWidth || window.innerWidth;
+        cachedH = container.clientHeight || window.innerHeight;
+      } else {
+        cachedW = window.innerWidth;
+        cachedH = window.innerHeight;
+      }
+    };
+    updateDimensions();
+    window.addEventListener('resize', updateDimensions, { passive: true });
+
     function animateCursors(now) {
+      const w = cachedW;
+      const h = cachedH;
+      const isMobile = w < 640;
+      const maxX = isMobile ? Math.max(0, w - 120) : Math.max(0, w - 160);
+      const minX = 8;
+      const maxY = Math.max(0, h - 35);
+      const minY = 8;
+
+      const clampX = (x) => Math.max(minX, Math.min(maxX, x * w));
+      const clampY = (y) => Math.max(minY, Math.min(maxY, y * h));
+
       agents.forEach((agent) => {
-        const w = agent.container.clientWidth;
-        const h = agent.container.clientHeight;
-        const isMobile = w < 640;
-
-        const maxX = isMobile ? Math.max(0, w - 120) : Math.max(0, w - 160);
-        const minX = 8;
-        const maxY = Math.max(0, h - 35);
-        const minY = 8;
-
-        const clampX = (x) => Math.max(minX, Math.min(maxX, x * w));
-        const clampY = (y) => Math.max(minY, Math.min(maxY, y * h));
 
         if (now < agent.stateStartTime) {
           const px = clampX(agent.currX);
@@ -135,8 +151,15 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
       animId = requestAnimationFrame(animateCursors);
     }
 
-    animId = requestAnimationFrame(animateCursors);
-    return () => cancelAnimationFrame(animId);
+    let startTimer = setTimeout(() => {
+      animId = requestAnimationFrame(animateCursors);
+    }, 120);
+
+    return () => {
+      clearTimeout(startTimer);
+      cancelAnimationFrame(animId);
+      window.removeEventListener('resize', updateDimensions);
+    };
   }, []);
 
   // Parallax Scroll Animation for Hero Components (Floating upwards on scroll)

@@ -37,7 +37,7 @@ export default function Portfolio() {
   const [aiActive, setAiActive] = useState(false);
 
   // Dedicated Splash Screen state
-  const [splashActive, setSplashActive] = useState(true);
+  const [splashActive, setSplashActive] = useState(false);
   const [splashFade, setSplashFade] = useState(false);
   const [heroRevealed, setHeroRevealed] = useState(true);
 

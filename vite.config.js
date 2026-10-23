@@ -55,20 +55,42 @@ export default defineConfig(({ mode }) => {
         output: {
           manualChunks: (id) => {
             if (id.includes('node_modules')) {
-              if (id.includes('react') || id.includes('react-dom') || id.includes('react-router-dom')) {
-                return 'vendor-react';
+              // 1. Core runtime & shared helpers FIRST so other chunks never hold shared primitives
+              if (
+                id.includes('/node_modules/react/') ||
+                id.includes('/node_modules/react-dom/') ||
+                id.includes('/node_modules/react-router/') ||
+                id.includes('/node_modules/react-router-dom/') ||
+                id.includes('/node_modules/scheduler/') ||
+                id.includes('/node_modules/use-sync-external-store/') ||
+                id.includes('/node_modules/shallowequal/') ||
+                id.includes('/node_modules/tslib/') ||
+                id.includes('/node_modules/@babel/') ||
+                id.includes('/node_modules/regenerator-runtime/')
+              ) {
+                return 'vendor-core';
               }
-              if (id.includes('framer-motion') || id.includes('lucide-react')) {
-                return 'vendor-ui';
+
+              // 2. Heavy admin-only libraries
+              if (id.includes('@react-pdf') || id.includes('pdfkit') || id.includes('fontkit') || id.includes('png-js') || id.includes('restructure') || id.includes('yoga-layout')) {
+                return 'vendor-pdf';
               }
+              if (id.includes('@tiptap') || id.includes('prosemirror') || id.includes('easymde') || id.includes('simplemde') || id.includes('react-simplemde-editor') || id.includes('marked')) {
+                return 'vendor-editor';
+              }
+
+              // 3. Isolated heavy features
               if (id.includes('three')) {
                 return 'vendor-three';
               }
               if (id.includes('@supabase')) {
                 return 'vendor-supabase';
               }
-              if (id.includes('@tiptap')) {
-                return 'vendor-editor';
+              if (id.includes('framer-motion')) {
+                return 'vendor-motion';
+              }
+              if (id.includes('lucide-react')) {
+                return 'vendor-icons';
               }
             }
           },

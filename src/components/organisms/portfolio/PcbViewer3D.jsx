@@ -13,8 +13,30 @@ import { PcbSkeleton } from '../../atoms/PcbSkeleton';
 export function PcbViewer3D() {
   const containerRef = useRef(null);
   const [loading, setLoading] = useState(true);
+  const [inView, setInView] = useState(false);
 
   useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    if (!('IntersectionObserver' in window)) {
+      setInView(true);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '300px' }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!inView) return;
     const container = containerRef.current;
     if (!container) return;
 
@@ -182,7 +204,7 @@ export function PcbViewer3D() {
         container.removeChild(renderer.domElement);
       }
     };
-  }, []);
+  }, [inView]);
 
   return (
     <div className="relative w-full h-[220px] sm:h-[250px] xl:h-[270px] mt-2 sm:mt-3 -translate-y-2 sm:-translate-y-3 flex items-center justify-center select-none">

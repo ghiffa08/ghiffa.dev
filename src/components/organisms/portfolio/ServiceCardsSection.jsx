@@ -2,9 +2,7 @@ import React, { Suspense, lazy } from 'react';
 import { ScrollReveal } from '../../atoms/ScrollReveal';
 import { PcbSkeleton } from '../../atoms/PcbSkeleton';
 
-const PcbViewer3D = lazy(() =>
-  import('./PcbViewer3D').then((m) => ({ default: m.PcbViewer3D }))
-);
+const PcbViewer3D = lazy(() => import('./PcbViewer3D'));
 
 export function ServiceCardsSection() {
   return (

@@ -13,31 +13,10 @@ import { PcbSkeleton } from '../../atoms/PcbSkeleton';
 export function PcbViewer3D() {
   const containerRef = useRef(null);
   const [loading, setLoading] = useState(true);
-  const [inView, setInView] = useState(false);
-
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-    if (!('IntersectionObserver' in window)) {
-      setInView(true);
-      return;
-    }
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setInView(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: '450px' }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
 
   useEffect(() => {
     const container = containerRef.current;
-    if (!container || !inView) return;
+    if (!container) return;
 
     const width = container.clientWidth || 320;
     const height = container.clientHeight || 260;
@@ -181,19 +160,22 @@ export function PcbViewer3D() {
     // ─── RESIZE LISTENER ──────────────────────────────────────────────
     const handleResize = () => {
       if (!container) return;
-      const newWidth = container.clientWidth;
-      const newHeight = container.clientHeight;
+      const newWidth = container.clientWidth || 320;
+      const newHeight = container.clientHeight || 260;
       camera.aspect = newWidth / newHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(newWidth, newHeight);
     };
 
     window.addEventListener('resize', handleResize);
+    const resizeObserver = new ResizeObserver(handleResize);
+    resizeObserver.observe(container);
 
     return () => {
       isDisposed = true;
       cancelAnimationFrame(animId);
       window.removeEventListener('resize', handleResize);
+      resizeObserver.disconnect();
       controls.dispose();
       renderer.dispose();
       if (renderer.domElement && container.contains(renderer.domElement)) {
@@ -220,3 +202,5 @@ export function PcbViewer3D() {
     </div>
   );
 }
+
+export default PcbViewer3D;

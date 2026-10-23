@@ -13,7 +13,7 @@ export function PortfolioHeader({
       {splashActive && (
         <div
           id="splash-screen"
-          className={`fixed inset-0 z-[9999] bg-white transition-opacity duration-700 ease-out select-none pointer-events-none ${
+          className={`fixed inset-0 z-[9999] bg-white transition-opacity duration-300 ease-out select-none pointer-events-none ${
             splashFade ? 'opacity-0' : 'opacity-100'
           }`}
           aria-hidden={splashFade}

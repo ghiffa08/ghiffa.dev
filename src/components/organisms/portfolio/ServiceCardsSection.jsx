@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { ScrollReveal } from '../../atoms/ScrollReveal';
-import { PcbViewer3D } from './PcbViewer3D';
+
+const PcbViewer3D = lazy(() =>
+  import('./PcbViewer3D').then((m) => ({ default: m.PcbViewer3D }))
+);
 
 export function ServiceCardsSection() {
   return (
@@ -78,7 +81,15 @@ export function ServiceCardsSection() {
               </div>
 
               {/* Interactive 3D Custom PCB Showcase */}
-              <PcbViewer3D />
+              <Suspense
+                fallback={
+                  <div className="relative w-full h-[220px] sm:h-[250px] xl:h-[270px] mt-4 flex items-center justify-center">
+                    <div className="w-7 h-7 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  </div>
+                }
+              >
+                <PcbViewer3D />
+              </Suspense>
             </div>
             <p className="text-[12.5px] sm:text-[13px] text-gray-500 mt-3 sm:mt-4 leading-relaxed pr-2">
               Bridging hardware and software from prototype to reliable physical production.

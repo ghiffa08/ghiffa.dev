@@ -366,7 +366,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
             <div className="min-w-0">
               <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px]">
                 <span className="font-semibold text-gray-900">Email</span>
-                <span className="text-gray-400 font-mono text-[9px] sm:text-[10px] hidden min-[360px]:inline">just now</span>
+                <span className="text-gray-500 font-mono text-[9px] sm:text-[10px] hidden min-[360px]:inline">just now</span>
               </div>
               <a href="mailto:hello@ghiffa.dev" className="text-[10px] sm:text-[12px] text-gray-800 mt-0.5 leading-snug block hover:text-black transition-colors truncate">
                 <span className="hidden sm:inline">Drop a message at </span><span className="font-semibold text-gray-900 underline decoration-gray-300 underline-offset-2">hello@ghiffa.dev</span>
@@ -384,7 +384,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
             <div className="min-w-0">
               <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px]">
                 <span className="font-semibold text-gray-900">LinkedIn</span>
-                <span className="text-gray-400 font-mono text-[9px] sm:text-[10px] hidden min-[360px]:inline">just now</span>
+                <span className="text-gray-500 font-mono text-[9px] sm:text-[10px] hidden min-[360px]:inline">just now</span>
               </div>
               <a
                 href="https://www.linkedin.com/in/haikal-jibran-al-ghiffarry?utm_source=share_via&utm_content=profile&utm_medium=member_android"
@@ -463,7 +463,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
             <div className="min-w-0">
               <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px]">
                 <span className="font-semibold text-gray-900">Instagram</span>
-                <span className="text-gray-400 font-mono text-[9px] sm:text-[10px] hidden min-[360px]:inline">just now</span>
+                <span className="text-gray-500 font-mono text-[9px] sm:text-[10px] hidden min-[360px]:inline">just now</span>
               </div>
               <a
                 href="https://instagram.com/haikaljibraan"
@@ -488,7 +488,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
             <div className="min-w-0">
               <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px]">
                 <span className="font-semibold text-gray-900">Skillstreak</span>
-                <span className="text-gray-400 font-mono text-[9px] sm:text-[10px] hidden min-[360px]:inline">just now</span>
+                <span className="text-gray-500 font-mono text-[9px] sm:text-[10px] hidden min-[360px]:inline">just now</span>
               </div>
               <a
                 href="https://skillstreak.id"
@@ -511,7 +511,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
             <div className="min-w-0">
               <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px]">
                 <span className="font-semibold text-gray-900">GitHub</span>
-                <span className="text-gray-400 font-mono text-[9px] sm:text-[10px] hidden min-[360px]:inline">just now</span>
+                <span className="text-gray-500 font-mono text-[9px] sm:text-[10px] hidden min-[360px]:inline">just now</span>
               </div>
               <a
                 href="https://github.com/ghiffa08"

@@ -76,11 +76,15 @@ export function SkillstreakBannerSection({ bannerRef, isBannerDark }) {
                     style={{ aspectRatio: '16/10' }}
                   >
                     <img
-                      src="/skillstreak-dekstop.png"
+                      src="/skillstreak-dekstop.webp"
                       alt="Skillstreak Desktop Platform"
                       className="w-full h-full object-cover object-top select-none pointer-events-none"
-                      loading="eager"
+                      loading="lazy"
                       decoding="async"
+                      onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = '/skillstreak-dekstop.png';
+                      }}
                     />
                   </div>
                 </div>

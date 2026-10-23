@@ -54,12 +54,9 @@ const AdminLoader = () => (
 export default function App() {
   const { isMaintenanceMode, loading } = useMaintenanceMode();
 
-  // Show splash screen while checking maintenance mode (replaces loading spinner)
-  if (loading) {
-    if (typeof window !== 'undefined' && window.location.pathname.startsWith('/admin')) {
-      return <AdminLoader />;
-    }
-    return <BrandSplashScreen />;
+  // Only block admin routes while checking maintenance mode; public pages render immediately
+  if (loading && typeof window !== 'undefined' && window.location.pathname.startsWith('/admin')) {
+    return <AdminLoader />;
   }
 
   // If maintenance mode is active, show maintenance page for all public routes

@@ -39,27 +39,21 @@ export default function Portfolio() {
   // Dedicated Splash Screen state
   const [splashActive, setSplashActive] = useState(true);
   const [splashFade, setSplashFade] = useState(false);
-  const [heroRevealed, setHeroRevealed] = useState(false);
+  const [heroRevealed, setHeroRevealed] = useState(true);
 
   useEffect(() => {
-    const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    window.scrollTo(0, 0);
-
+    // Fast, seamless splash exit to achieve immediate First Contentful Paint & LCP
     const fadeTimer = setTimeout(() => {
       setSplashFade(true);
-      setHeroRevealed(true);
-    }, 950);
+    }, 120);
 
     const cleanupTimer = setTimeout(() => {
       setSplashActive(false);
-      document.body.style.overflow = originalOverflow || '';
-    }, 1700);
+    }, 380);
 
     return () => {
       clearTimeout(fadeTimer);
       clearTimeout(cleanupTimer);
-      document.body.style.overflow = originalOverflow || '';
     };
   }, []);
 
@@ -166,7 +160,7 @@ export default function Portfolio() {
   // Personal Info data
   const emailAddress = info?.email || 'hello@ghiffa.dev';
   const fullName = info?.full_name || info?.name || 'Haikal Jibran Al-Ghiffarry';
-  const avatarImage = info?.avatar_url || '/ghiffa.svg';
+  const avatarImage = info?.avatar_url || '/ghiffa.webp';
   const aboutBio = info?.about_content_en || info?.about_content;
 
   // Fallback Experiences

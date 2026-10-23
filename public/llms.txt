@@ -1,0 +1,21 @@
+# Haikal Jibran Al-Ghiffarry (ghiffa.dev)
+
+> Official digital portfolio and resume of Haikal Jibran Al-Ghiffarry, an IoT Engineer and Fullstack Web Developer based in Indonesia. Bridging the gap between bits and atoms for companies, governments, and organizations.
+
+## Information
+- Name: Haikal Jibran Al-Ghiffarry
+- Title: IoT Engineer & Fullstack Web Developer
+- Website: https://ghiffa.dev
+- Email: hello@ghiffa.dev
+- GitHub: https://github.com/ghiffa08
+- LinkedIn: https://www.linkedin.com/in/haikal-jibran-al-ghiffarry
+
+## Core Services
+- Mobile App Services: Crafting intuitive, responsive, and high-performance mobile applications across iOS & Android tailored to elevate user experience.
+- Web Development Services: Modern, scalable, and secure fullstack web applications built on cutting-edge stacks for top performance.
+- IoT & Hardware Services: Custom PCB schematic & layout design, embedded firmware, sensor telemetry, and end-to-end hardware-software integration.
+
+## Key Links
+- [Portfolio Home](https://ghiffa.dev/): Main interactive portfolio canvas and projects overview.
+- [Articles](https://ghiffa.dev/articles): Published technical writings, tutorials, and engineering notes.
+- [Selected Works](https://ghiffa.dev/works): Showcase of featured engineering and design projects.

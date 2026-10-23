@@ -19,13 +19,11 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
               src={avatarImage}
               alt={fullName}
               className="w-auto h-auto max-h-[520px] sm:max-h-[600px] lg:max-h-[680px] xl:max-h-[740px] object-contain object-bottom select-none pointer-events-none drop-shadow-xs transition-transform duration-500 hover:scale-[1.01]"
+              loading="lazy"
+              decoding="async"
               onError={(e) => {
                 e.currentTarget.onerror = null;
-                if (e.currentTarget.src.includes('.svg')) {
-                  e.currentTarget.src = '/ghiffa.png';
-                } else {
-                  e.currentTarget.src = '/ghiffa.jpeg';
-                }
+                e.currentTarget.src = '/ghiffa.webp';
               }}
             />
           </div>

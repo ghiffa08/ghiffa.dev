@@ -25,7 +25,7 @@ export function PcbViewer3D() {
     // Camera positioned to view PCB with comfortable perspective
     camera.position.set(0, 2.5, 4.3);
     // Framing target slightly lower so PCB is visually elevated and never cut off at bottom
-    const targetY = -0.28;
+    const targetY = -0.22;
     camera.lookAt(0, targetY, 0);
 
     // ─── RENDERER ─────────────────────────────────────────────────────
@@ -97,7 +97,7 @@ export function PcbViewer3D() {
         const maxDim = Math.max(size.x, size.y, size.z);
 
         // Optimal scale so all diagonal edges remain fully within bounds at any rotation angle
-        const targetSize = 3.0;
+        const targetSize = 3.2;
         const scale = maxDim > 0 ? targetSize / maxDim : 1;
 
         model.scale.set(scale, scale, scale);
@@ -159,11 +159,11 @@ export function PcbViewer3D() {
   }, []);
 
   return (
-    <div className="relative w-full h-[220px] sm:h-[250px] xl:h-[270px] mt-2 sm:mt-3 flex items-center justify-center select-none overflow-hidden">
+    <div className="relative w-full h-[220px] sm:h-[250px] xl:h-[270px] mt-2 sm:mt-3 flex items-center justify-center select-none">
       {/* 3D Canvas with drag-to-rotate cursor */}
       <div
         ref={containerRef}
-        className="w-full h-full cursor-grab active:cursor-grabbing transition-transform duration-500 ease-out group-hover:scale-105"
+        className="w-full h-full cursor-grab active:cursor-grabbing transition-transform duration-500 ease-out group-hover:-translate-y-2"
         style={{ touchAction: 'pan-y' }}
       />
 

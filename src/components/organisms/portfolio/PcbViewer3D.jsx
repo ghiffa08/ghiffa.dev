@@ -23,10 +23,8 @@ export function PcbViewer3D() {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
     // Camera positioned to view PCB with comfortable perspective
-    camera.position.set(0, 2.5, 4.3);
-    // Framing target slightly lower so PCB is visually elevated and never cut off at bottom
-    const targetY = -0.22;
-    camera.lookAt(0, targetY, 0);
+    camera.position.set(0, 2.4, 4.2);
+    camera.lookAt(0, 0, 0);
 
     // ─── RENDERER ─────────────────────────────────────────────────────
     const renderer = new THREE.WebGLRenderer({
@@ -47,9 +45,11 @@ export function PcbViewer3D() {
     controls.enableZoom = false; // Disable scroll zoom so page scroll works naturally
     controls.enablePan = false;  // Keep model centered
     controls.rotateSpeed = 0.85;
-    controls.minPolarAngle = Math.PI * 0.15; // Don't flip to straight top view
-    controls.maxPolarAngle = Math.PI * 0.55; // Don't go underneath
-    controls.target.set(0, targetY, 0);
+    // Allow full 360-degree orbital rotation to inspect both top components and bottom logo uniku
+    controls.minPolarAngle = 0.08;
+    controls.maxPolarAngle = Math.PI - 0.08;
+    // Anchor target is locked precisely to the true geometric center of the PCB board
+    controls.target.set(0, 0, 0);
     controls.update();
 
     // ─── LIGHTING ─────────────────────────────────────────────────────
@@ -67,6 +67,11 @@ export function PcbViewer3D() {
     const rimLight = new THREE.DirectionalLight(0xff9944, 2.2);
     rimLight.position.set(0, -3, -4);
     scene.add(rimLight);
+
+    // Bottom light so the underside (silkscreen & logo uniku) is well illuminated
+    const bottomLight = new THREE.DirectionalLight(0xffffff, 1.4);
+    bottomLight.position.set(0, -6, 0);
+    scene.add(bottomLight);
 
     // ─── ROOT & INNER GROUPS ──────────────────────────────────────────
     const rootGroup = new THREE.Group();
@@ -90,18 +95,33 @@ export function PcbViewer3D() {
         if (isDisposed) return;
         const model = gltf.scene;
 
-        // Calculate bounding box and scale
-        const box = new THREE.Box3().setFromObject(model);
-        const center = box.getCenter(new THREE.Vector3());
-        const size = box.getSize(new THREE.Vector3());
-        const maxDim = Math.max(size.x, size.y, size.z);
+        // Find the actual PCB board substrate mesh (the largest flat mesh)
+        // so the anchor/pivot is locked precisely at the center of the board
+        let boardMesh = null;
+        let maxArea = 0;
+        model.traverse((child) => {
+          if (child.isMesh) {
+            const b = new THREE.Box3().setFromObject(child);
+            const s = b.getSize(new THREE.Vector3());
+            const area = s.x * s.y;
+            if (area > maxArea) {
+              maxArea = area;
+              boardMesh = child;
+            }
+          }
+        });
+
+        const boardBox = new THREE.Box3().setFromObject(boardMesh || model);
+        const center = boardBox.getCenter(new THREE.Vector3());
+        const size = boardBox.getSize(new THREE.Vector3());
+        const maxDim = Math.max(size.x, size.y);
 
         // Optimal scale so all diagonal edges remain fully within bounds at any rotation angle
         const targetSize = 3.2;
         const scale = maxDim > 0 ? targetSize / maxDim : 1;
 
         model.scale.set(scale, scale, scale);
-        // Correct centering accounting for scale
+        // Correct centering so the exact geometric center of the PCB board substrate sits at (0, 0, 0)
         model.position.set(-center.x * scale, -center.y * scale, -center.z * scale);
 
         // Enhance materials
@@ -159,7 +179,7 @@ export function PcbViewer3D() {
   }, []);
 
   return (
-    <div className="relative w-full h-[220px] sm:h-[250px] xl:h-[270px] mt-2 sm:mt-3 flex items-center justify-center select-none">
+    <div className="relative w-full h-[220px] sm:h-[250px] xl:h-[270px] mt-2 sm:mt-3 -translate-y-2 sm:-translate-y-3 flex items-center justify-center select-none">
       {/* 3D Canvas with drag-to-rotate cursor */}
       <div
         ref={containerRef}

@@ -275,12 +275,12 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
 
           {/* 3. LIVE ROAMING MULTIPLAYER CURSORS */}
 
-          {/* Ghiffa (Tech Lead - Green) -> Project Astra */}
+          {/* Ghiffa (Tech Lead - Green) -> Hermes Agent */}
           <div id="cursor-director" className="live-cursor block">
             <svg className="w-3.5 h-3.5 text-[#10B981] -ml-1.5 mb-0.5 drop-shadow-xs" viewBox="0 0 16 16" fill="currentColor">
               <path d="M1 1L6.5 14.5L8.8 8.8L14.5 6.5L1 1Z" />
             </svg>
-            <CursorBadge color="#10B981" humanLabel="Ghiffa (Tech Lead)" aiModel="Project Astra" aiActive={aiActive} />
+            <CursorBadge color="#10B981" humanLabel="Ghiffa (Tech Lead)" aiModel="Hermes Agent" aiActive={aiActive} />
           </div>
 
           {/* CI/CD Bot (Emerald) -> OpenAI o3-mini */}

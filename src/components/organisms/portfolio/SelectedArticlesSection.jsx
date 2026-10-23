@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { slugify } from '../../../utils/slugify';
 import { ScrollReveal } from '../../atoms/ScrollReveal';
 
 export function SelectedArticlesSection({
@@ -20,18 +21,12 @@ export function SelectedArticlesSection({
     hasDraggedRef.current = false;
     startXRef.current = e.clientX;
     scrollLeftRef.current = articlesCarouselRef.current.scrollLeft;
-
-    try {
-      e.currentTarget.setPointerCapture(e.pointerId);
-    } catch {
-      // fallback
-    }
   };
 
   const handlePointerMove = (e) => {
     if (!isDraggingRef.current || !articlesCarouselRef.current) return;
     const walk = e.clientX - startXRef.current;
-    if (Math.abs(walk) > 5) {
+    if (Math.abs(walk) > 8) {
       hasDraggedRef.current = true;
     }
 
@@ -45,19 +40,15 @@ export function SelectedArticlesSection({
     }
   };
 
-  const handlePointerUp = (e) => {
+  const handlePointerUp = () => {
     isDraggingRef.current = false;
     if (rafDragRef.current) {
       cancelAnimationFrame(rafDragRef.current);
       rafDragRef.current = null;
     }
-    try {
-      if (e.currentTarget.hasPointerCapture(e.pointerId)) {
-        e.currentTarget.releasePointerCapture(e.pointerId);
-      }
-    } catch {
-      // ignore
-    }
+    setTimeout(() => {
+      hasDraggedRef.current = false;
+    }, 100);
   };
 
   const scrollArticlesCarousel = (direction) => {
@@ -143,22 +134,12 @@ export function SelectedArticlesSection({
         >
         {articlesList.map((article, idx) => {
           const articleImg = article.cover_image || article.image_url;
+          const articleSlug = article.slug || (article.title ? slugify(article.title) : '');
+          const isExternal = !article.slug && article.link && article.link.startsWith('http');
+          const targetUrl = isExternal ? article.link : (articleSlug ? `/article/${articleSlug}` : '/articles');
 
-          return (
-            <article
-              key={article.id || idx}
-              className="w-[85vw] sm:w-[380px] md:w-[410px] lg:w-[430px] shrink-0 group cursor-pointer flex flex-col select-none"
-              onClick={() => {
-                if (hasDraggedRef.current) return;
-                if (article.slug) {
-                  navigate(`/article/${article.slug}`);
-                } else if (article.link && article.link.startsWith('http')) {
-                  window.open(article.link, '_blank', 'noopener,noreferrer');
-                } else {
-                  navigate('/articles');
-                }
-              }}
-            >
+          const cardContent = (
+            <article className="w-full flex flex-col select-none">
               {/* Clean Card Visual (Tall 4:3 aspect ratio matching Selected Works) */}
               <div className="aspect-[4/3] rounded-2xl overflow-hidden mb-5 relative bg-[#F4F4F5] shadow-xs border border-black/5 select-none pointer-events-none">
                 {articleImg ? (
@@ -196,6 +177,40 @@ export function SelectedArticlesSection({
                 {article.description}
               </p>
             </article>
+          );
+
+          if (isExternal) {
+            return (
+              <a
+                key={article.id || idx}
+                href={targetUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-[85vw] sm:w-[380px] md:w-[410px] lg:w-[430px] shrink-0 group cursor-pointer flex flex-col select-none no-underline"
+                onClick={(e) => {
+                  if (hasDraggedRef.current) {
+                    e.preventDefault();
+                  }
+                }}
+              >
+                {cardContent}
+              </a>
+            );
+          }
+
+          return (
+            <Link
+              key={article.id || idx}
+              to={targetUrl}
+              className="w-[85vw] sm:w-[380px] md:w-[410px] lg:w-[430px] shrink-0 group cursor-pointer flex flex-col select-none no-underline"
+              onClick={(e) => {
+                if (hasDraggedRef.current) {
+                  e.preventDefault();
+                }
+              }}
+            >
+              {cardContent}
+            </Link>
           );
         })}
         </div>

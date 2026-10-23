@@ -22,18 +22,12 @@ export function SelectedWorksSection({
     hasDraggedWorksRef.current = false;
     startXWorksRef.current = e.clientX;
     scrollLeftWorksRef.current = worksCarouselRef.current.scrollLeft;
-
-    try {
-      e.currentTarget.setPointerCapture(e.pointerId);
-    } catch {
-      // fallback if pointer capture unsupported
-    }
   };
 
   const handleWorksPointerMove = (e) => {
     if (!isDraggingWorksRef.current || !worksCarouselRef.current) return;
     const walk = e.clientX - startXWorksRef.current;
-    if (Math.abs(walk) > 5) {
+    if (Math.abs(walk) > 8) {
       hasDraggedWorksRef.current = true;
     }
 
@@ -47,19 +41,15 @@ export function SelectedWorksSection({
     }
   };
 
-  const handleWorksPointerUp = (e) => {
+  const handleWorksPointerUp = () => {
     isDraggingWorksRef.current = false;
     if (rafDragRef.current) {
       cancelAnimationFrame(rafDragRef.current);
       rafDragRef.current = null;
     }
-    try {
-      if (e.currentTarget.hasPointerCapture(e.pointerId)) {
-        e.currentTarget.releasePointerCapture(e.pointerId);
-      }
-    } catch {
-      // ignore
-    }
+    setTimeout(() => {
+      hasDraggedWorksRef.current = false;
+    }, 100);
   };
 
   const scrollWorksCarousel = (direction) => {
@@ -142,50 +132,54 @@ export function SelectedWorksSection({
         >
         {projectsList.map((proj, idx) => {
           const projImg = proj.image_url || (Array.isArray(proj.image_urls) && proj.image_urls.length > 0 ? proj.image_urls[0] : null);
+          const projectSlug = proj.slug || slugify(proj.title);
 
           return (
-            <article
+            <Link
               key={proj.id || idx}
-              className="w-[85vw] sm:w-[380px] md:w-[410px] lg:w-[430px] shrink-0 group cursor-pointer flex flex-col select-none"
-              onClick={() => {
-                if (hasDraggedWorksRef.current) return;
-                const projectSlug = slugify(proj.title);
-                navigate(`/project/${projectSlug}`);
+              to={`/project/${projectSlug}`}
+              className="w-[85vw] sm:w-[380px] md:w-[410px] lg:w-[430px] shrink-0 group cursor-pointer flex flex-col select-none no-underline"
+              onClick={(e) => {
+                if (hasDraggedWorksRef.current) {
+                  e.preventDefault();
+                }
               }}
             >
-              {/* Clean Card Visual (Tall 4:3 aspect ratio, rounded-2xl) */}
-              <div className="aspect-[4/3] rounded-2xl overflow-hidden mb-5 relative bg-[#F4F4F5] shadow-xs border border-black/5 select-none pointer-events-none">
-                {projImg ? (
-                  <img
-                    src={projImg}
-                    alt={proj.title}
-                    draggable={false}
-                    className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out pointer-events-none"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                    }}
-                  />
-                ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-amber-500 to-[#FF5500]" />
-                )}
-              </div>
+              <article className="w-full flex flex-col select-none">
+                {/* Clean Card Visual (Tall 4:3 aspect ratio, rounded-2xl) */}
+                <div className="aspect-[4/3] rounded-2xl overflow-hidden mb-5 relative bg-[#F4F4F5] shadow-xs border border-black/5 select-none pointer-events-none">
+                  {projImg ? (
+                    <img
+                      src={projImg}
+                      alt={proj.title}
+                      draggable={false}
+                      className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out pointer-events-none"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                      }}
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-amber-500 to-[#FF5500]" />
+                  )}
+                </div>
 
-              {/* Title */}
-              <h3 className={`text-[19px] sm:text-[20px] lg:text-[21px] font-semibold leading-[1.3] mb-2.5 transition-colors duration-500 line-clamp-2 ${isBannerDark
-                  ? 'text-black group-hover:text-black/75'
-                  : 'text-[#141414] group-hover:text-[#FF5500]'
-                }`}>
-                {proj.title}
-              </h3>
+                {/* Title */}
+                <h3 className={`text-[19px] sm:text-[20px] lg:text-[21px] font-semibold leading-[1.3] mb-2.5 transition-colors duration-500 line-clamp-2 ${isBannerDark
+                    ? 'text-black group-hover:text-black/75'
+                    : 'text-[#141414] group-hover:text-[#FF5500]'
+                  }`}>
+                  {proj.title}
+                </h3>
 
-              {/* Description */}
-              <p className={`text-[13px] sm:text-[13.5px] leading-[1.6] line-clamp-3 font-normal transition-colors duration-500 ${isBannerDark
-                  ? 'text-neutral-900 font-medium'
-                  : 'text-[#71717A]'
-                }`}>
-                {proj.description}
-              </p>
-            </article>
+                {/* Description */}
+                <p className={`text-[13px] sm:text-[13.5px] leading-[1.6] line-clamp-3 font-normal transition-colors duration-500 ${isBannerDark
+                    ? 'text-neutral-900 font-medium'
+                    : 'text-[#71717A]'
+                  }`}>
+                  {proj.description}
+                </p>
+              </article>
+            </Link>
           );
         })}
         </div>

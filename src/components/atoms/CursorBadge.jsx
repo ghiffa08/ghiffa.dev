@@ -6,7 +6,7 @@ import React from 'react';
 export function CursorBadge({ color, humanLabel, aiModel, aiActive, isYellow = false }) {
   return (
     <div
-      className={`text-[11px] font-medium px-2.5 py-0.5 rounded-[5px] whitespace-nowrap transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] select-none overflow-hidden ${
+      className={`text-[10px] sm:text-[11px] font-medium px-2 sm:px-2.5 py-0.5 rounded-[5px] whitespace-nowrap transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] select-none overflow-hidden ${
         isYellow ? 'text-[#111111]' : 'text-white'
       } ${
         aiActive

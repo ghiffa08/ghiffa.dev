@@ -20,10 +20,6 @@ export default function BioLinksManager() {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
 
-  useEffect(() => {
-    fetchLinks();
-  }, []);
-
   const fetchLinks = async () => {
     setLoading(true);
     try {
@@ -35,6 +31,10 @@ export default function BioLinksManager() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchLinks();
+  }, []);
 
   const resetForm = () => {
     setFormData({

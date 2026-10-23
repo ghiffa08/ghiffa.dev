@@ -4,7 +4,6 @@ import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css';
 import { ProjectRepository } from '../../repositories/ProjectRepository';
 import { uploadToCloudinary } from '../../utils/cloudinary';
-import { slugify } from '../../utils/slugify';
 
 // Monochromatic UI elements
 import Button from '../../components/admin-ui/Button';
@@ -28,14 +27,6 @@ export default function ProjectsManager() {
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState('');
 
-  useEffect(() => {
-    fetchProjects();
-    // Cleanup Object URLs on unmount
-    return () => {
-      previews.forEach(p => URL.revokeObjectURL(p.url));
-    };
-  }, []);
-
   const fetchProjects = async () => {
     setLoading(true);
     try {
@@ -47,6 +38,16 @@ export default function ProjectsManager() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      previews.forEach(p => URL.revokeObjectURL(p.url));
+    };
+  }, [previews]);
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);

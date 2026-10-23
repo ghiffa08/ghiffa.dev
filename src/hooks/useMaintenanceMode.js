@@ -9,6 +9,24 @@ export function useMaintenanceMode() {
   const [isMaintenanceMode, setIsMaintenanceMode] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  const checkMaintenanceMode = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('general_settings')
+        .select('maintenance_mode')
+        .single();
+
+      if (error) throw error;
+
+      setIsMaintenanceMode(data?.maintenance_mode || false);
+    } catch (error) {
+      console.error('Error checking maintenance mode:', error);
+      setIsMaintenanceMode(false);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     checkMaintenanceMode();
 
@@ -34,24 +52,6 @@ export function useMaintenanceMode() {
       supabase.removeChannel(channel);
     };
   }, []);
-
-  const checkMaintenanceMode = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('general_settings')
-        .select('maintenance_mode')
-        .single();
-
-      if (error) throw error;
-
-      setIsMaintenanceMode(data?.maintenance_mode || false);
-    } catch (error) {
-      console.error('Error checking maintenance mode:', error);
-      setIsMaintenanceMode(false);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return { isMaintenanceMode, loading };
 }

@@ -1,16 +1,17 @@
 import React, { useEffect } from 'react';
 
 export function CertificateModal({ item, onClose }) {
-  if (!item) return null;
-
   // Close on Escape key
   useEffect(() => {
+    if (!item) return;
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') onClose();
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [onClose]);
+  }, [item, onClose]);
+
+  if (!item) return null;
 
   return (
     <div

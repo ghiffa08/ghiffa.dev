@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { URLRepository } from '../../repositories/URLRepository';
-import { QrCode as QrIcon, Download, Copy, Upload, Sparkles, Palette, RefreshCw } from 'lucide-react';
+import { QrCode as QrIcon, Download, Upload, Sparkles, Palette, RefreshCw } from 'lucide-react';
 import Button from '../../components/admin-ui/Button';
 import { Input } from '../../components/admin-ui/Input';
 import Label from '../../components/admin-ui/Label';
@@ -37,6 +37,24 @@ export default function QRCodeGenerator() {
   const fileInputRef = useRef(null);
   const QRCodeStylingRef = useRef(null);
 
+  const showMessage = useCallback((msg, type = 'success') => {
+    setMessage(msg);
+    setMessageType(type);
+    setTimeout(() => setMessage(''), 5000);
+  }, []);
+
+  const fetchURLs = useCallback(async () => {
+    setLoading(true);
+    try {
+      const data = await URLRepository.getAllURLs();
+      setUrls(data.filter(u => u.is_active));
+    } catch (err) {
+      showMessage('Error loading URLs: ' + err.message, 'error');
+    } finally {
+      setLoading(false);
+    }
+  }, [showMessage]);
+
   // Preload QR library on mount
   useEffect(() => {
     const loadLibrary = async () => {
@@ -52,25 +70,7 @@ export default function QRCodeGenerator() {
 
   useEffect(() => {
     fetchURLs();
-  }, []);
-
-  const fetchURLs = async () => {
-    setLoading(true);
-    try {
-      const data = await URLRepository.getAllURLs();
-      setUrls(data.filter(u => u.is_active));
-    } catch (err) {
-      showMessage('Error loading URLs: ' + err.message, 'error');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const showMessage = useCallback((msg, type = 'success') => {
-    setMessage(msg);
-    setMessageType(type);
-    setTimeout(() => setMessage(''), 5000);
-  }, []);
+  }, [fetchURLs]);
 
   const generateQRCode = useCallback(async () => {
     const urlToEncode = selectedURL 

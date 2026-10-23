@@ -13,15 +13,12 @@ import { PcbSkeleton } from '../../atoms/PcbSkeleton';
 export function PcbViewer3D() {
   const containerRef = useRef(null);
   const [loading, setLoading] = useState(true);
-  const [inView, setInView] = useState(false);
+  const [inView, setInView] = useState(() => typeof window !== 'undefined' && !('IntersectionObserver' in window));
 
   useEffect(() => {
     const el = containerRef.current;
-    if (!el) return;
-    if (!('IntersectionObserver' in window)) {
-      setInView(true);
-      return;
-    }
+    if (!el || inView) return;
+    if (!('IntersectionObserver' in window)) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -33,7 +30,7 @@ export function PcbViewer3D() {
     );
     observer.observe(el);
     return () => observer.disconnect();
-  }, []);
+  }, [inView]);
 
   useEffect(() => {
     if (!inView) return;

@@ -19,6 +19,98 @@ import {
   CertificateModal
 } from '../components/organisms/portfolio';
 
+// Fallback Experiences
+const fallbackExperiences = [
+  {
+    id: "exp-1",
+    period: "OKT 2024 - FEB 2025",
+    role: "Web Developer",
+    company: "PT. Bengkel Aplikasi Nusantara",
+    description: "Mengembangkan modul aplikasi web dinamis sesuai kebutuhan spesifik klien perusahaan. Merancang dan mengoptimalkan API internal serta melakukan pemeliharaan database.",
+    order_index: 1
+  },
+  {
+    id: "exp-2",
+    period: "MEI 2024 - JUN 2024",
+    role: "Web Developer & System Designer",
+    company: "LSP-P1 SMKN 2 Kuningan",
+    description: "Merancang dan membangun aplikasi manajemen sertifikasi profesi online. Mengintegrasikan alur registrasi asesi, form pengisian asesmen mandiri, dan evaluasi portofolio.",
+    order_index: 2
+  },
+  {
+    id: "exp-3",
+    period: "Sep 2023 - Dec 2023",
+    role: "Website Developer",
+    company: "PT BPR Raksa Wacana Agri Purnama",
+    description: "Location: Cilimus, Jawa Barat, Indonesia",
+    order_index: 3
+  },
+  {
+    id: "exp-4",
+    period: "Sep 2023",
+    role: "IT Support Specialist",
+    company: "PT BPR Raksa Wacana Agri Purnama",
+    description: "Maintained IT infrastructure and provided technical support to ensure operational stability across the banking environment.",
+    order_index: 4
+  }
+];
+
+// Fallback Projects
+const fallbackProjects = [
+  {
+    id: "proj-1",
+    title: "Kredit Raksa Analytica",
+    category: "COMMERCIAL PLATFORM",
+    description: "Otomatisasi Analisis Kelayakan Kredit yang Presisi dan Objektif berbasis algoritma rasio finansial terintegrasi.",
+    tech_stack: ["Laravel", "PHP", "MySQL", "System Design"],
+    image_url: "https://myciozcwwvziuqlqxhpq.supabase.co/storage/v1/object/public/portfolio-media/projects/0.2161669911915305.avif",
+    link: "#"
+  },
+  {
+    id: "proj-2",
+    title: "Digital Bank Raksa",
+    category: "ENTERPRISE BANKING",
+    description: "Sistem perbankan online modern untuk penanganan pengaduan nasabah, pengajuan kredit secara digital, serta pembukaan rekening.",
+    tech_stack: ["PHP", "Laravel", "MySQL", "TailwindCSS"],
+    image_url: "https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1783668568/cpezjuo93lqirexqkvzb.png",
+    link: "https://e-digital-bank.rwap.co.id/"
+  },
+  {
+    id: "proj-3",
+    title: "Game Edukasi Harta Karun Angka",
+    category: "GAME DEV & IP",
+    description: "Interactive RPG math-education game registered as official Intellectual Property (Hak Cipta) under DGIP Indonesia.",
+    tech_stack: ["Game Dev", "Educational Tech", "RPG Design", "DGIP Copyright"],
+    image_url: "https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1784846871/kuoufsejrp60iwgrowbo.png",
+    link: "#"
+  }
+];
+
+// Dynamic Articles Fallback
+const fallbackArticles = [
+  {
+    id: "art-1",
+    title: "Welcome to ghiffa.dev",
+    slug: "welcome-to-ghiffa.dev",
+    cover_image: "https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1786879160/oslgl5w432fjmnojpeqj.png",
+    description: "Welcome to my digital playground. A quick dive into who I am, the vibes behind this site, and the tech stack running the show."
+  },
+  {
+    id: "art-2",
+    title: "Menyambut Skillstreak.web.id: Platform Belajar Coding yang Gak Bikin Bosan",
+    slug: "menyambut-skillstreak-web-id-beta",
+    cover_image: "https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1786878850/oydozz6hekvhctyio9yg.png",
+    description: "Versi Beta Segera Hadir untuk Mengubah Cara Kita Belajar Software Engineering"
+  },
+  {
+    id: "art-3",
+    title: "Scalable Design Systems for Modern Enterprises",
+    slug: "scalable-design-systems",
+    cover_image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
+    description: "How we unify tokens, Figma libraries, and production React components to ship products twice as fast."
+  }
+];
+
 export default function Portfolio() {
   // Supabase Data Queries
   const { data: info } = useSupabaseSingle('personal_info');
@@ -163,42 +255,6 @@ export default function Portfolio() {
   const avatarImage = info?.avatar_url || '/ghiffa.svg';
   const aboutBio = info?.about_content_en || info?.about_content;
 
-  // Fallback Experiences
-  const fallbackExperiences = [
-    {
-      id: "exp-1",
-      period: "OKT 2024 - FEB 2025",
-      role: "Web Developer",
-      company: "PT. Bengkel Aplikasi Nusantara",
-      description: "Mengembangkan modul aplikasi web dinamis sesuai kebutuhan spesifik klien perusahaan. Merancang dan mengoptimalkan API internal serta melakukan pemeliharaan database.",
-      order_index: 1
-    },
-    {
-      id: "exp-2",
-      period: "MEI 2024 - JUN 2024",
-      role: "Web Developer & System Designer",
-      company: "LSP-P1 SMKN 2 Kuningan",
-      description: "Merancang dan membangun aplikasi manajemen sertifikasi profesi online. Mengintegrasikan alur registrasi asesi, form pengisian asesmen mandiri, dan evaluasi portofolio.",
-      order_index: 2
-    },
-    {
-      id: "exp-3",
-      period: "Sep 2023 - Dec 2023",
-      role: "Website Developer",
-      company: "PT BPR Raksa Wacana Agri Purnama",
-      description: "Location: Cilimus, Jawa Barat, Indonesia",
-      order_index: 3
-    },
-    {
-      id: "exp-4",
-      period: "Sep 2023",
-      role: "IT Support Specialist",
-      company: "PT BPR Raksa Wacana Agri Purnama",
-      description: "Maintained IT infrastructure and provided technical support to ensure operational stability across the banking environment.",
-      order_index: 4
-    }
-  ];
-
   const experiencesList = (Array.isArray(supabaseExperiences) && supabaseExperiences.length > 0)
     ? supabaseExperiences
     : fallbackExperiences;
@@ -227,65 +283,9 @@ export default function Portfolio() {
     ];
   }, [supabaseQualifications]);
 
-  // Projects list
-  const fallbackProjects = [
-    {
-      id: "proj-1",
-      title: "Kredit Raksa Analytica",
-      category: "COMMERCIAL PLATFORM",
-      description: "Otomatisasi Analisis Kelayakan Kredit yang Presisi dan Objektif berbasis algoritma rasio finansial terintegrasi.",
-      tech_stack: ["Laravel", "PHP", "MySQL", "System Design"],
-      image_url: "https://myciozcwwvziuqlqxhpq.supabase.co/storage/v1/object/public/portfolio-media/projects/0.2161669911915305.avif",
-      link: "#"
-    },
-    {
-      id: "proj-2",
-      title: "Digital Bank Raksa",
-      category: "ENTERPRISE BANKING",
-      description: "Sistem perbankan online modern untuk penanganan pengaduan nasabah, pengajuan kredit secara digital, serta pembukaan rekening.",
-      tech_stack: ["PHP", "Laravel", "MySQL", "TailwindCSS"],
-      image_url: "https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1783668568/cpezjuo93lqirexqkvzb.png",
-      link: "https://e-digital-bank.rwap.co.id/"
-    },
-    {
-      id: "proj-3",
-      title: "Game Edukasi Harta Karun Angka",
-      category: "GAME DEV & IP",
-      description: "Interactive RPG math-education game registered as official Intellectual Property (Hak Cipta) under DGIP Indonesia.",
-      tech_stack: ["Game Dev", "Educational Tech", "RPG Design", "DGIP Copyright"],
-      image_url: "https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1784846871/kuoufsejrp60iwgrowbo.png",
-      link: "#"
-    }
-  ];
-
   const projectsList = (Array.isArray(supabaseProjects) && supabaseProjects.length > 0)
     ? supabaseProjects
     : fallbackProjects;
-
-  // Dynamic Articles List from Supabase Database
-  const fallbackArticles = [
-    {
-      id: "art-1",
-      title: "Welcome to ghiffa.dev",
-      slug: "welcome-to-ghiffa.dev",
-      cover_image: "https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1786879160/oslgl5w432fjmnojpeqj.png",
-      description: "Welcome to my digital playground. A quick dive into who I am, the vibes behind this site, and the tech stack running the show."
-    },
-    {
-      id: "art-2",
-      title: "Menyambut Skillstreak.web.id: Platform Belajar Coding yang Gak Bikin Bosan",
-      slug: "menyambut-skillstreak-web-id-beta",
-      cover_image: "https://res.cloudinary.com/tabpnp3a/image/upload/f_auto,q_auto/v1786878850/oydozz6hekvhctyio9yg.png",
-      description: "Versi Beta Segera Hadir untuk Mengubah Cara Kita Belajar Software Engineering"
-    },
-    {
-      id: "art-3",
-      title: "Scalable Design Systems for Modern Enterprises",
-      slug: "scalable-design-systems",
-      cover_image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
-      description: "How we unify tokens, Figma libraries, and production React components to ship products twice as fast."
-    }
-  ];
 
   const articlesList = useMemo(() => {
     if (Array.isArray(supabaseArticles) && supabaseArticles.length > 0) {

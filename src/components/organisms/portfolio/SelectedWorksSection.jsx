@@ -1,14 +1,12 @@
 import React, { useRef } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { slugify } from '../../../utils/slugify';
 import { ScrollReveal } from '../../atoms/ScrollReveal';
 
 export function SelectedWorksSection({
   projectsList,
-  isBannerDark,
-  onOpenContact
+  isBannerDark
 }) {
-  const navigate = useNavigate();
   const worksCarouselRef = useRef(null);
   const isDraggingWorksRef = useRef(false);
   const startXWorksRef = useRef(0);

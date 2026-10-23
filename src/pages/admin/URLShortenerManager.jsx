@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { URLRepository } from '../../repositories/URLRepository';
-import { Link2, Plus, Edit2, Trash2, Copy, ExternalLink, BarChart2, QrCode as QrIcon } from 'lucide-react';
+import { Link2, Edit2, Trash2, Copy, ExternalLink, BarChart2 } from 'lucide-react';
 import Button from '../../components/admin-ui/Button';
 import { Input } from '../../components/admin-ui/Input';
 import Label from '../../components/admin-ui/Label';
@@ -20,11 +20,13 @@ export default function URLShortenerManager() {
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState(''); // 'success' | 'error'
 
-  useEffect(() => {
-    fetchURLs();
+  const showMessage = useCallback((msg, type = 'success') => {
+    setMessage(msg);
+    setMessageType(type);
+    setTimeout(() => setMessage(''), 5000);
   }, []);
 
-  const fetchURLs = async () => {
+  const fetchURLs = useCallback(async () => {
     setLoading(true);
     try {
       const data = await URLRepository.getAllURLs();
@@ -34,13 +36,11 @@ export default function URLShortenerManager() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [showMessage]);
 
-  const showMessage = (msg, type = 'success') => {
-    setMessage(msg);
-    setMessageType(type);
-    setTimeout(() => setMessage(''), 5000);
-  };
+  useEffect(() => {
+    fetchURLs();
+  }, [fetchURLs]);
 
   const resetForm = () => {
     setFormData({
@@ -82,7 +82,7 @@ export default function URLShortenerManager() {
     try {
       await navigator.clipboard.writeText(fullURL);
       showMessage('Short URL copied to clipboard!', 'success');
-    } catch (err) {
+    } catch {
       showMessage('Failed to copy URL', 'error');
     }
   };

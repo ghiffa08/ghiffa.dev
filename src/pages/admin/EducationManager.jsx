@@ -11,11 +11,9 @@ import {
   useSensors,
 } from '@dnd-kit/core';
 import {
-  arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
-  rectSortingStrategy,
   useSortable
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -212,15 +210,6 @@ export default function EducationManager() {
     })
   );
 
-  useEffect(() => {
-    fetchQualifications();
-    return () => {
-      if (preview && preview.startsWith('blob:')) {
-        URL.revokeObjectURL(preview);
-      }
-    };
-  }, []);
-
   const fetchQualifications = async () => {
     setLoading(true);
     try {
@@ -232,6 +221,18 @@ export default function EducationManager() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchQualifications();
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (preview && preview.startsWith('blob:')) {
+        URL.revokeObjectURL(preview);
+      }
+    };
+  }, [preview]);
 
   const filteredData = [...qualifications]
     .filter(q => {

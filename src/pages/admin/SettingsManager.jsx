@@ -20,11 +20,6 @@ export default function SettingsManager() {
   const timerRef = useRef(null);
   const firstRender = useRef(true);
 
-  useEffect(() => {
-    fetchSettings();
-    return () => clearTimeout(timerRef.current);
-  }, []);
-
   const fetchSettings = async () => {
     try {
       const data = await SettingsRepository.getSettings();
@@ -43,6 +38,11 @@ export default function SettingsManager() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchSettings();
+    return () => clearTimeout(timerRef.current);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;

@@ -34,13 +34,6 @@ export default function ArticlesManager() {
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState('');
 
-  useEffect(() => {
-    fetchArticles();
-    return () => {
-      if (preview) URL.revokeObjectURL(preview);
-    };
-  }, []);
-
   const fetchArticles = async () => {
     setLoading(true);
     try {
@@ -52,6 +45,16 @@ export default function ArticlesManager() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchArticles();
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (preview) URL.revokeObjectURL(preview);
+    };
+  }, [preview]);
 
   // Auto-generate slug from title
   const handleTitleChange = (e) => {

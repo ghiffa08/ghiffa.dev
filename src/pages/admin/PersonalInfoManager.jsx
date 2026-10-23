@@ -29,15 +29,6 @@ export default function PersonalInfoManager() {
   const timerRef = useRef(null);
   const firstRender = useRef(true);
 
-  useEffect(() => {
-    fetchInfo();
-    return () => clearTimeout(timerRef.current);
-  }, []);
-
-  useEffect(() => {
-    firstRender.current = false;
-  }, []);
-
   const fetchInfo = async () => {
     try {
       const data = await SettingsRepository.getPersonalInfo();
@@ -55,6 +46,15 @@ export default function PersonalInfoManager() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchInfo();
+    return () => clearTimeout(timerRef.current);
+  }, []);
+
+  useEffect(() => {
+    firstRender.current = false;
+  }, []);
 
   const scheduleSave = (payload) => {
     if (firstRender.current) return;

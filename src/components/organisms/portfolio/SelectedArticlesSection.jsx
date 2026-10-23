@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { slugify } from '../../../utils/slugify';
 import { ScrollReveal } from '../../atoms/ScrollReveal';
 
@@ -7,7 +7,6 @@ export function SelectedArticlesSection({
   articlesList,
   isBannerDark
 }) {
-  const navigate = useNavigate();
   const articlesCarouselRef = useRef(null);
   const isDraggingRef = useRef(false);
   const startXRef = useRef(0);

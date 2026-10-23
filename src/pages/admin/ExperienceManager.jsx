@@ -24,10 +24,6 @@ export default function ExperienceManager() {
     order_index: 0
   });
 
-  useEffect(() => {
-    fetchExperiences();
-  }, []);
-
   const fetchExperiences = async () => {
     setLoading(true);
     try {
@@ -39,6 +35,10 @@ export default function ExperienceManager() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchExperiences();
+  }, []);
 
   const handleEdit = (exp) => {
     setFormData(exp);

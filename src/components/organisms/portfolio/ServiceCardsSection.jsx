@@ -48,9 +48,9 @@ export function ServiceCardsSection() {
                 </p>
               </div>
 
-              {/* Desktop Mockup Showcase - Unclipped natural bottom alignment */}
-              <div className="relative w-full h-[220px] sm:h-[250px] xl:h-[270px] mt-4 flex items-end justify-center">
-                <div className="relative w-[110%] -mx-[5%] transition-transform duration-500 ease-out group-hover:-translate-y-2 group-hover:scale-[1.02]">
+              {/* Desktop Mockup Showcase - Elevated above bottom edge */}
+              <div className="relative w-full h-[220px] sm:h-[250px] xl:h-[270px] mt-4 flex items-end justify-center pb-3 sm:pb-5">
+                <div className="relative w-[108%] -mx-[4%] transition-transform duration-500 ease-out group-hover:-translate-y-2 group-hover:scale-[1.02]">
                   <img
                     src="/dekstop.svg"
                     alt="Web Development Services Desktop Mockup"

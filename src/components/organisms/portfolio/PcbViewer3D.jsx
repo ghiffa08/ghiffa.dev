@@ -96,8 +96,8 @@ export function PcbViewer3D() {
         const size = box.getSize(new THREE.Vector3());
         const maxDim = Math.max(size.x, size.y, size.z);
 
-        // Optimal scale so all diagonal edges remain fully within bounds
-        const targetSize = 3.4;
+        // Optimal scale so all diagonal edges remain fully within bounds at any rotation angle
+        const targetSize = 3.0;
         const scale = maxDim > 0 ? targetSize / maxDim : 1;
 
         model.scale.set(scale, scale, scale);

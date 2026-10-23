@@ -379,7 +379,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
           {/* 5. FLOATING SOCIAL CARDS & BUBBLES */}
 
           {/* Top-Left: Email hello@ghiffa.dev */}
-          <DraggableItem className="flex absolute top-[8%] sm:top-[14%] left-[3%] sm:left-[4%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start gap-2 sm:gap-3 max-w-[170px] min-[390px]:max-w-[210px] sm:max-w-[270px] hover:border-gray-200 transition-colors group">
+          <DraggableItem className="flex absolute top-[8%] sm:top-[14%] left-[3%] sm:left-[4%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start gap-2 sm:gap-3 hover:border-gray-200 transition-colors group">
             <div className="w-5.5 h-5.5 sm:w-7 sm:h-7 rounded-full bg-[#EA4335] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
               <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                 <rect width="20" height="16" x="2" y="4" rx="2" />
@@ -391,14 +391,14 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
                 <span className="font-semibold text-gray-900">Email</span>
                 <span className="text-gray-500 font-mono text-[9px] sm:text-[10px] hidden min-[360px]:inline">just now</span>
               </div>
-              <a href="mailto:hello@ghiffa.dev" className="text-[10px] sm:text-[12px] text-gray-800 mt-0.5 leading-snug block hover:text-black transition-colors truncate">
+              <a href="mailto:hello@ghiffa.dev" className="text-[10px] sm:text-[12px] text-gray-800 mt-0.5 leading-snug block hover:text-black transition-colors whitespace-nowrap">
                 <span className="hidden sm:inline">Drop a message at </span><span className="font-semibold text-gray-900 underline decoration-gray-300 underline-offset-2">hello@ghiffa.dev</span>
               </a>
             </div>
           </DraggableItem>
 
           {/* Bottom-Left: LinkedIn Haikal Jibran */}
-          <DraggableItem className="flex absolute top-[55%] sm:top-[62%] left-[3%] sm:left-[6%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start gap-2 sm:gap-3 max-w-[170px] min-[390px]:max-w-[200px] sm:max-w-[270px] hover:border-gray-200 transition-colors group">
+          <DraggableItem className="flex absolute top-[55%] sm:top-[62%] left-[3%] sm:left-[6%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start gap-2 sm:gap-3 hover:border-gray-200 transition-colors group">
             <div className="w-5.5 h-5.5 sm:w-7 sm:h-7 rounded-full bg-[#0A66C2] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
               <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-white" viewBox="0 0 24 24">
                 <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
@@ -413,7 +413,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
                 href="https://www.linkedin.com/in/haikal-jibran-al-ghiffarry?utm_source=share_via&utm_content=profile&utm_medium=member_android"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[10px] sm:text-[12px] text-gray-800 mt-0.5 leading-snug block hover:text-black transition-colors truncate"
+                className="text-[10px] sm:text-[12px] text-gray-800 mt-0.5 leading-snug block hover:text-black transition-colors whitespace-nowrap"
               >
                 <span className="hidden sm:inline">Connect on LinkedIn </span><span className="font-semibold text-gray-900 underline decoration-gray-300 underline-offset-2">Haikal Jibran</span>
               </a>
@@ -477,7 +477,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
           </DraggableItem>
 
           {/* Mid-Right: Instagram @haikaljibraan */}
-          <DraggableItem className="flex absolute top-[27%] sm:top-[38%] right-[3%] sm:right-[5%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start gap-2 sm:gap-3 max-w-[165px] min-[390px]:max-w-[195px] sm:max-w-[260px] hover:border-gray-200 transition-colors group">
+          <DraggableItem className="flex absolute top-[27%] sm:top-[38%] right-[3%] sm:right-[5%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start gap-2 sm:gap-3 hover:border-gray-200 transition-colors group">
             <div className="w-5.5 h-5.5 sm:w-7 sm:h-7 rounded-full bg-gradient-to-tr from-[#FD1D1D] via-[#E1306C] to-[#C13584] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
               <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-white" viewBox="0 0 24 24">
                 <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
@@ -492,7 +492,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
                 href="https://instagram.com/haikaljibraan"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[10px] sm:text-[12px] text-gray-800 mt-0.5 leading-snug block hover:text-black transition-colors truncate"
+                className="text-[10px] sm:text-[12px] text-gray-800 mt-0.5 leading-snug block hover:text-black transition-colors whitespace-nowrap"
               >
                 <span className="hidden sm:inline">Connect on Instagram </span><span className="font-semibold text-gray-900 underline decoration-gray-300 underline-offset-2">@haikaljibraan</span>
               </a>
@@ -500,7 +500,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
           </DraggableItem>
 
           {/* Bottom-Right: Web skillstreak.id */}
-          <DraggableItem className="flex absolute top-[55%] sm:top-[62%] right-[3%] sm:right-[6%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start gap-2 sm:gap-3 max-w-[170px] min-[390px]:max-w-[200px] sm:max-w-[270px] hover:border-gray-200 transition-colors group">
+          <DraggableItem className="flex absolute top-[55%] sm:top-[62%] right-[3%] sm:right-[6%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start gap-2 sm:gap-3 hover:border-gray-200 transition-colors group">
             <div className="w-5.5 h-5.5 sm:w-7 sm:h-7 rounded-full bg-gradient-to-tr from-[#FF4500] via-[#FF5500] to-[#FFA116] flex items-center justify-center shrink-0 mt-0.5 shadow-xs shadow-orange-500/20">
               <img
                 src="/skillstreak-white.svg"
@@ -517,7 +517,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
                 href="https://skillstreak.id"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[10px] sm:text-[12px] text-gray-800 mt-0.5 leading-snug block hover:text-black transition-colors truncate"
+                className="text-[10px] sm:text-[12px] text-gray-800 mt-0.5 leading-snug block hover:text-black transition-colors whitespace-nowrap"
               >
                 <span className="hidden sm:inline">Gamified platform </span><span className="font-semibold text-[#FF5500] underline decoration-orange-300 underline-offset-2">skillstreak.id</span>
               </a>
@@ -525,7 +525,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
           </DraggableItem>
 
           {/* Bottom-Center: GitHub ghiffa08 */}
-          <DraggableItem className="flex absolute top-[68%] sm:top-[69%] left-1/2 -translate-x-1/2 sm:translate-x-0 sm:left-[40%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-3 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-center sm:items-start gap-2 sm:gap-3 max-w-[220px] sm:max-w-[270px] hover:border-gray-200 transition-colors group">
+          <DraggableItem className="flex absolute top-[68%] sm:top-[69%] left-1/2 -translate-x-1/2 sm:translate-x-0 sm:left-[40%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-3 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-center sm:items-start gap-2 sm:gap-3 hover:border-gray-200 transition-colors group">
             <div className="w-5.5 h-5.5 sm:w-7 sm:h-7 rounded-full bg-[#18181B] text-white flex items-center justify-center shrink-0 shadow-xs">
               <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-white" viewBox="0 0 24 24">
                 <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
@@ -540,7 +540,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
                 href="https://github.com/ghiffa08"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[10px] sm:text-[12px] text-gray-800 mt-0.5 leading-snug block hover:text-black transition-colors truncate"
+                className="text-[10px] sm:text-[12px] text-gray-800 mt-0.5 leading-snug block hover:text-black transition-colors whitespace-nowrap"
               >
                 <span className="hidden sm:inline">Repositories at </span><span className="font-semibold text-gray-900 underline decoration-gray-300 underline-offset-2">ghiffa08</span>
               </a>

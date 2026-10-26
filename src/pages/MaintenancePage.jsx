@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Settings, Clock, AlertCircle, Mail, CheckCircle2, ShieldAlert, ArrowUpRight, Lock } from 'lucide-react';
-import { DraggableItem } from '../components/atoms/DraggableItem';
+import { Settings, Clock, Mail, ArrowUpRight, Lock } from 'lucide-react';
 
 export default function MaintenancePage() {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -37,7 +36,7 @@ export default function MaintenancePage() {
         <div className="flex items-center gap-2 sm:gap-3">
           {/* Status Indicator Pill */}
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-50 border border-amber-200/80 rounded-full text-[11px] font-mono font-medium text-amber-800 shadow-xs">
-            <span className="w-2 h-2 rounded-full bg-[#FF5500] animate-pulse"></span>
+            <span className="w-2 h-2 rounded-full bg-[#FF5500] animate-pulse" />
             <span className="font-semibold">SCHEDULED UPDATE</span>
           </div>
 
@@ -54,73 +53,38 @@ export default function MaintenancePage() {
       </header>
 
       {/* 2. MAIN FIGMA CANVAS WORKSPACE */}
-      <main className="relative flex-1 flex items-center justify-center py-12 sm:py-20 px-4 sm:px-6">
-        {/* Floating Figma Multiplayer Cursors */}
-        
+      <main className="relative flex-1 flex items-center justify-center py-12 sm:py-16 px-4 sm:px-6">
+        {/* Subtle, Clean Multiplayer Cursors (Authentic to Portfolio Hero, No Chat Clutter) */}
         {/* Cursor 1: Ghiffa (Tech Lead) - Top Left */}
-        <div className="hidden md:block absolute top-[18%] left-[10%] z-20 pointer-events-none animate-bounce" style={{ animationDuration: '4s' }}>
-          <div className="relative">
-            <svg className="w-4 h-4 text-[#10B981] drop-shadow-sm -ml-1 -mt-1" viewBox="0 0 16 16" fill="currentColor">
-              <path d="M1 1L6.5 14.5L8.8 8.8L14.5 6.5L1 1Z" />
-            </svg>
-            <div className="inline-block bg-[#10B981] text-white text-[10px] font-mono font-bold px-2 py-0.5 rounded-sm shadow-sm whitespace-nowrap ml-2">
-              Ghiffa (Tech Lead)
-            </div>
-            <div className="mt-1 ml-4 bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-xl rounded-tl-xs comment-shadow border border-gray-100 text-xs text-gray-800 font-sans max-w-[200px]">
-              Deploying updates & fine-tuning CMS ✨
-            </div>
+        <div className="hidden md:flex items-start gap-1 absolute top-[24%] left-[12%] z-10 pointer-events-none select-none animate-pulse" style={{ animationDuration: '4s' }}>
+          <svg className="w-3.5 h-3.5 text-[#10B981] drop-shadow-xs -ml-1 -mt-0.5" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M1 1L6.5 14.5L8.8 8.8L14.5 6.5L1 1Z" />
+          </svg>
+          <div className="bg-[#10B981] text-white text-[10px] font-mono font-medium px-2 py-0.5 rounded-[4px] shadow-xs">
+            Ghiffa (Tech Lead)
           </div>
         </div>
 
-        {/* Cursor 2: DevOps CI/CD - Bottom Right */}
-        <div className="hidden lg:block absolute bottom-[22%] right-[10%] z-20 pointer-events-none animate-pulse" style={{ animationDuration: '3s' }}>
-          <div className="relative">
-            <svg className="w-4 h-4 text-[#FF5500] drop-shadow-sm -ml-1 -mt-1" viewBox="0 0 16 16" fill="currentColor">
-              <path d="M1 1L6.5 14.5L8.8 8.8L14.5 6.5L1 1Z" />
-            </svg>
-            <div className="inline-block bg-[#FF5500] text-white text-[10px] font-mono font-bold px-2 py-0.5 rounded-sm shadow-sm whitespace-nowrap ml-2">
-              DevOps CI/CD
-            </div>
-            <div className="mt-1 ml-4 bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-xl rounded-tl-xs comment-shadow border border-gray-100 text-xs text-gray-800 font-sans">
-              Build #108 running • Tests passing ✓
-            </div>
+        {/* Cursor 2: CI/CD System - Bottom Right */}
+        <div className="hidden lg:flex items-start gap-1 absolute bottom-[26%] right-[14%] z-10 pointer-events-none select-none animate-pulse" style={{ animationDuration: '3s' }}>
+          <svg className="w-3.5 h-3.5 text-[#FF5500] drop-shadow-xs -ml-1 -mt-0.5" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M1 1L6.5 14.5L8.8 8.8L14.5 6.5L1 1Z" />
+          </svg>
+          <div className="bg-[#FF5500] text-white text-[10px] font-mono font-medium px-2 py-0.5 rounded-[4px] shadow-xs flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+            <span>Deploying Updates</span>
           </div>
         </div>
 
-        {/* Floating Draggable Tool Chips */}
-        {/* Chip 1: Urgent Contact */}
-        <DraggableItem className="hidden sm:flex absolute top-[12%] right-[6%] z-30 bg-white/95 backdrop-blur-md rounded-2xl rounded-bl-xs px-3.5 py-2 comment-shadow border border-gray-100 items-start gap-2.5 hover:border-gray-200 transition-colors group">
-          <div className="w-6 h-6 rounded-full bg-[#EA4335] text-white flex items-center justify-center shrink-0 shadow-xs">
-            <Mail size={12} />
+        {/* SIGNATURE CLEAN CENTERPIECE */}
+        <div className="max-w-2xl w-full mx-auto text-center relative z-20">
+          {/* Brand Icon */}
+          <div className="w-14 h-14 bg-[#141414] text-white rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-md border border-gray-800">
+            <Settings className="animate-spin text-white" size={26} style={{ animationDuration: '8s' }} />
           </div>
-          <div>
-            <div className="flex items-center gap-1.5 text-[10px]">
-              <span className="font-semibold text-gray-900">Urgent Inquiries?</span>
-              <span className="text-gray-400 font-mono text-[9px]">live</span>
-            </div>
-            <a
-              href="mailto:hello@ghiffa.dev"
-              className="text-[11px] text-gray-700 font-medium hover:text-[#FF5500] transition-colors block mt-0.5"
-            >
-              hello@ghiffa.dev
-            </a>
-          </div>
-        </DraggableItem>
 
-        {/* Chip 2: Clock */}
-        <DraggableItem className="hidden sm:flex absolute bottom-[14%] left-[6%] z-30 bg-white/95 backdrop-blur-md rounded-2xl rounded-bl-xs px-3.5 py-2 comment-shadow border border-gray-100 items-center gap-2.5 hover:border-gray-200 transition-colors group">
-          <div className="w-6 h-6 rounded-full bg-[#111111] text-white flex items-center justify-center shrink-0">
-            <Clock size={12} />
-          </div>
-          <div className="text-left font-mono">
-            <span className="text-[9px] uppercase font-bold text-gray-400 block leading-tight">Server Time</span>
-            <span className="text-xs font-bold text-[#141414]">{formattedTime}</span>
-          </div>
-        </DraggableItem>
-
-        {/* CENTRAL HERO SELECTION BOUNDING BOX */}
-        <div className="max-w-3xl w-full mx-auto relative z-20">
-          <div className="relative figma-bbox bg-white/90 backdrop-blur-md p-6 sm:p-12 md:p-16 soft-card-shadow text-center">
+          {/* Snug Figma Selection Bounding Box around Title */}
+          <div className="inline-block relative figma-bbox px-4 min-[400px]:px-8 sm:px-12 py-3 sm:py-5 mb-5 bg-white/50 backdrop-blur-xs">
             {/* 8 Signature Figma Handles */}
             <span className="figma-handle -top-1 -left-1" />
             <span className="figma-handle -top-1 left-1/2 -translate-x-1/2" />
@@ -132,73 +96,42 @@ export default function MaintenancePage() {
             <span className="figma-handle -bottom-1 -right-1" />
 
             {/* Figma Frame Layer Tag */}
-            <div className="absolute -top-3.5 left-6 bg-[#FF5500] text-white text-[10px] font-mono px-2.5 py-0.5 rounded-[3px] font-bold uppercase tracking-wider shadow-xs flex items-center gap-1.5">
-              <span>FRAME: SYSTEM_UPDATE</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+            <div className="absolute -top-3.5 left-4 bg-[#FF5500] text-white text-[9px] sm:text-[10px] font-mono px-2.5 py-0.5 rounded-[3px] font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-xs">
+              <span>SYSTEM UPDATE</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
             </div>
 
-            {/* Spinning Brand Icon */}
-            <div className="flex justify-center mb-6">
-              <div className="relative">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[#141414] rounded-2xl flex items-center justify-center shadow-lg border border-gray-800">
-                  <Settings className="text-white animate-spin" size={36} style={{ animationDuration: '6s' }} />
-                </div>
-                <div className="absolute -top-1.5 -right-1.5 w-6 h-6 bg-[#FF5500] rounded-full flex items-center justify-center shadow-sm">
-                  <AlertCircle className="text-white" size={14} />
-                </div>
-              </div>
-            </div>
-
-            {/* Giant Title */}
-            <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-[-0.04em] text-[#141414] mb-4 leading-[1.08]">
+            <h1 className="text-3xl min-[400px]:text-4xl sm:text-5xl md:text-6xl font-bold tracking-[-0.04em] text-[#141414] leading-[1.08] select-none">
               Under Maintenance
             </h1>
+          </div>
 
-            {/* Descriptive Body */}
-            <p className="text-sm sm:text-base md:text-lg text-gray-600 mb-8 max-w-xl mx-auto leading-relaxed">
-              We're currently fine-tuning core services, optimizing assets, and deploying updates. Everything will be back online shortly.
-            </p>
+          {/* Clean Descriptive Message */}
+          <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-lg mx-auto font-normal leading-relaxed mb-8 px-4">
+            We're currently fine-tuning core services, optimizing assets, and deploying updates. Everything will be back online shortly.
+          </p>
 
-            {/* Time / Status Monospace Pill for mobile */}
-            <div className="inline-flex items-center gap-2 bg-gray-50 border border-gray-200/90 rounded-full px-4 sm:px-5 py-2 font-mono text-xs text-gray-700 shadow-2xs mb-8">
-              <Clock size={14} className="text-[#FF5500]" />
-              <span className="font-semibold text-gray-500">LIVE TIME:</span>
-              <span className="font-bold text-gray-900">{formattedTime}</span>
+          {/* Minimalist Centered Info Pill Dock */}
+          <div className="inline-flex flex-wrap items-center justify-center gap-2 sm:gap-3 p-1.5 bg-white/90 backdrop-blur-md rounded-2xl border border-gray-200/90 soft-card-shadow font-mono text-xs max-w-full">
+            <div className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-gray-50 text-gray-700">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+              <span className="text-gray-400 text-[10px] uppercase font-bold">Status:</span>
+              <span className="font-bold text-[#141414]">In Progress</span>
             </div>
 
-            {/* Bento Detail Cards (Inside Selection) */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-left border-t border-gray-100 pt-8">
-              <div className="p-3.5 bg-gray-50/80 rounded-xl border border-gray-100">
-                <div className="font-mono text-[10px] uppercase font-bold text-gray-400 mb-1">
-                  Status
-                </div>
-                <div className="text-xs sm:text-sm font-bold text-[#141414] flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0"></span>
-                  Maintenance Mode
-                </div>
-              </div>
-
-              <div className="p-3.5 bg-gray-50/80 rounded-xl border border-gray-100">
-                <div className="font-mono text-[10px] uppercase font-bold text-gray-400 mb-1">
-                  Duration
-                </div>
-                <div className="text-xs sm:text-sm font-bold text-[#141414]">
-                  A few moments
-                </div>
-              </div>
-
-              <div className="p-3.5 bg-gray-50/80 rounded-xl border border-gray-100">
-                <div className="font-mono text-[10px] uppercase font-bold text-gray-400 mb-1">
-                  Direct Line
-                </div>
-                <a 
-                  href="mailto:hello@ghiffa.dev" 
-                  className="text-xs sm:text-sm font-bold text-[#FF5500] hover:underline truncate block"
-                >
-                  hello@ghiffa.dev
-                </a>
-              </div>
+            <div className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-gray-50 text-gray-700">
+              <Clock size={13} className="text-[#FF5500]" />
+              <span className="text-gray-400 text-[10px] uppercase font-bold">Live:</span>
+              <span className="font-bold text-[#141414]">{formattedTime}</span>
             </div>
+
+            <a
+              href="mailto:hello@ghiffa.dev"
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#141414] text-white hover:bg-[#FF5500] transition-colors font-medium cursor-pointer"
+            >
+              <Mail size={13} />
+              <span>hello@ghiffa.dev</span>
+            </a>
           </div>
         </div>
       </main>

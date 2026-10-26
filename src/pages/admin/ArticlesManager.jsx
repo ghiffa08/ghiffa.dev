@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Trash2, Edit, Plus, Image as ImageIcon, Eye, EyeOff } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Trash2, Edit, Plus, Image as ImageIcon, Eye, EyeOff, MessageSquare } from 'lucide-react';
 import RichTextEditor from '../../components/admin-ui/RichTextEditor';
 import { ArticleRepository } from '../../repositories/ArticleRepository';
 import { uploadToCloudinary } from '../../utils/cloudinary';
@@ -171,7 +172,15 @@ export default function ArticlesManager() {
 
   return (
     <div>
-      <h2 className="text-2xl font-black mb-6 uppercase border-b border-[#E5E5E5] pb-4">Articles Manager</h2>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 border-b border-[#E5E5E5] pb-4">
+        <h2 className="text-2xl font-black uppercase">Articles Manager</h2>
+        <Link to="/admin/panel/comments">
+          <Button variant="outline" className="flex items-center gap-1.5 text-xs font-mono">
+            <MessageSquare size={14} className="text-[#FF5500]" />
+            MANAGE COMMENTS & RESPONSES
+          </Button>
+        </Link>
+      </div>
 
       {/* Form */}
       <form onSubmit={handleSubmit} className="mb-12 bg-white p-6 border border-[#E5E5E5] rounded-none shadow-sm">

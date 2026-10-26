@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ProjectRepository } from '../../repositories/ProjectRepository';
 import { BioLinksRepository } from '../../repositories/BioLinksRepository';
 import { ContactRepository } from '../../repositories/ContactRepository';
+import { ArticleRepository } from '../../repositories/ArticleRepository';
 import { supabase } from '../../lib/supabaseClient';
 import { 
   Briefcase, 
@@ -14,7 +15,8 @@ import {
   ArrowRight,
   RefreshCw,
   FileText,
-  Mail
+  Mail,
+  MessageSquare
 } from 'lucide-react';
 
 export default function DashboardHome() {
@@ -22,7 +24,8 @@ export default function DashboardHome() {
     projects: 0,
     links: 0,
     messages: 0,
-    unreadMessages: 0
+    unreadMessages: 0,
+    comments: 0
   });
   const [loading, setLoading] = useState(true);
   const [resumeData, setResumeData] = useState(null);
@@ -92,10 +95,11 @@ export default function DashboardHome() {
   useEffect(() => {
     async function fetchStats() {
       try {
-        const [projectsData, linksData, messagesData] = await Promise.all([
+        const [projectsData, linksData, messagesData, commentsData] = await Promise.all([
           ProjectRepository.getAllProjects().catch(() => []),
           BioLinksRepository.getAllLinks().catch(() => []),
-          ContactRepository.getAllMessages().catch(() => [])
+          ContactRepository.getAllMessages().catch(() => []),
+          ArticleRepository.getAllResponsesAdmin().catch(() => [])
         ]);
 
         const unreadCount = (messagesData || []).filter(m => m.status === 'unread').length;
@@ -104,7 +108,8 @@ export default function DashboardHome() {
           projects: projectsData.length,
           links: linksData.length,
           messages: messagesData.length,
-          unreadMessages: unreadCount
+          unreadMessages: unreadCount,
+          comments: commentsData.length
         });
       } catch (error) {
         console.error('Error fetching stats:', error);
@@ -132,6 +137,22 @@ export default function DashboardHome() {
       path: '/admin/panel/messages',
       status: 'active',
       color: 'bg-amber-50 text-amber-600'
+    },
+    {
+      name: 'Story Comments',
+      description: 'Review and moderate community reader responses across your articles.',
+      icon: MessageSquare,
+      path: '/admin/panel/comments',
+      status: 'active',
+      color: 'bg-orange-50 text-[#FF5500]'
+    },
+    {
+      name: 'Articles Manager',
+      description: 'Create and publish Medium-style markdown articles with SEO tags.',
+      icon: FileText,
+      path: '/admin/panel/articles',
+      status: 'active',
+      color: 'bg-emerald-50 text-emerald-600'
     },
     {
       name: 'Link in Bio',
@@ -179,7 +200,7 @@ export default function DashboardHome() {
       {/* Stats Overview */}
       <div>
         <h3 className="text-sm font-bold tracking-wider text-gray-700 mb-4 uppercase">System Overview</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="bg-white p-6 rounded-none border border-black/10 shadow-sm flex items-center justify-between">
             <div>
               <p className="text-xs text-gray-500 uppercase tracking-widest mb-1">Total Projects</p>
@@ -219,6 +240,23 @@ export default function DashboardHome() {
             </div>
             <div className="bg-amber-50 p-3 rounded-full text-amber-600 group-hover:bg-amber-100 transition-colors">
               <Mail size={24} />
+            </div>
+          </Link>
+
+          <Link 
+            to="/admin/panel/comments"
+            className="bg-white p-6 rounded-none border border-black/10 shadow-sm flex items-center justify-between hover:border-black transition-colors group"
+          >
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <p className="text-xs text-gray-500 uppercase tracking-widest">Responses</p>
+              </div>
+              <h4 className="text-3xl font-black group-hover:text-[#FF5500] transition-colors">
+                {loading ? '-' : stats.comments}
+              </h4>
+            </div>
+            <div className="bg-orange-50 p-3 rounded-full text-[#FF5500] group-hover:bg-orange-100 transition-colors">
+              <MessageSquare size={24} />
             </div>
           </Link>
         </div>

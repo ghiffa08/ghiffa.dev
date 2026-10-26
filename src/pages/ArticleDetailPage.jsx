@@ -21,10 +21,12 @@ import {
   SkipBack,
   SkipForward,
   Languages,
-  Sparkles
+  Sparkles,
+  Trash2
 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { supabase } from '../lib/supabaseClient';
 import { ArticleRepository } from '../repositories/ArticleRepository';
 import { useSupabaseSingle } from '../hooks/useSupabaseData';
 import { SEO } from '../components/atoms/SEO';
@@ -210,6 +212,7 @@ export default function ArticleDetailPage() {
   const [responses, setResponses] = useState([]);
   const [submittingResponse, setSubmittingResponse] = useState(false);
   const [newResponse, setNewResponse] = useState({ name: '', content: '' });
+  const [isAdmin, setIsAdmin] = useState(false);
 
   // Share Modal & Toast
   const [showShareModal, setShowShareModal] = useState(false);
@@ -743,6 +746,27 @@ export default function ArticleDetailPage() {
       showToast('Response posted!');
     } finally {
       setSubmittingResponse(false);
+    }
+  };
+
+  // Check if admin is authenticated to enable comment moderation
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      if (data?.session) {
+        setIsAdmin(true);
+      }
+    });
+  }, []);
+
+  // Admin delete response
+  const handleDeleteResponse = async (responseId) => {
+    if (!window.confirm('Are you sure you want to delete this response permanently?')) return;
+    try {
+      await ArticleRepository.deleteResponse(responseId);
+      setResponses(prev => prev.filter(r => r.id !== responseId));
+      showToast('Response deleted.');
+    } catch (err) {
+      alert('Failed to delete response: ' + (err.message || 'Unknown error'));
     }
   };
 
@@ -1512,9 +1536,21 @@ export default function ArticleDetailPage() {
                         </div>
                         <span className="text-xs font-bold text-[#141414]">{resp.author_name}</span>
                       </div>
-                      <span className="text-[10px] font-mono text-gray-400">
-                        {getRelativeTime(resp.created_at)}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-[10px] font-mono text-gray-400">
+                          {getRelativeTime(resp.created_at)}
+                        </span>
+                        {isAdmin && (
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteResponse(resp.id)}
+                            className="text-gray-400 hover:text-red-500 p-1 rounded transition-colors cursor-pointer"
+                            title="Admin: Delete comment"
+                          >
+                            <Trash2 size={12} />
+                          </button>
+                        )}
+                      </div>
                     </div>
                     <p className="text-xs text-gray-700 leading-relaxed pl-8 whitespace-pre-wrap">
                       {resp.content}

@@ -169,5 +169,49 @@ export const ArticleRepository = {
 
     if (error) throw new Error(error.message);
     return data?.[0] || null;
+  },
+
+  /**
+   * Deletes a community response/comment by ID.
+   * @param {string} responseId
+   * @returns {Promise<boolean>}
+   */
+  async deleteResponse(responseId) {
+    const { error } = await supabase
+      .from('article_responses')
+      .delete()
+      .eq('id', responseId);
+
+    if (error) throw new Error(error.message);
+    return true;
+  },
+
+  /**
+   * Fetches all responses across all articles with article details for admin CMS.
+   * @returns {Promise<Array>}
+   */
+  async getAllResponsesAdmin() {
+    const { data, error } = await supabase
+      .from('article_responses')
+      .select(`
+        id,
+        article_id,
+        author_name,
+        author_email,
+        content,
+        created_at,
+        articles (
+          id,
+          title,
+          slug
+        )
+      `)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching admin responses:', error);
+      throw new Error(error.message);
+    }
+    return data || [];
   }
 };

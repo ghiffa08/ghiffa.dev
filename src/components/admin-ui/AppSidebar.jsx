@@ -10,7 +10,8 @@ import {
   GraduationCap, 
   Link as LinkIcon,
   FileText,
-  Mail
+  Mail,
+  MessageSquare
 } from 'lucide-react';
 
 const navItems = [
@@ -22,6 +23,7 @@ const navItems = [
   { name: 'Projects', path: '/admin/panel/projects', icon: Briefcase },
   { name: 'Education', path: '/admin/panel/qualifications', icon: GraduationCap },
   { name: 'Articles', path: '/admin/panel/articles', icon: FileText },
+  { name: 'Comments', path: '/admin/panel/comments', icon: MessageSquare },
   { name: 'Bio Links', path: '/admin/panel/links', icon: LinkIcon },
 ];
 

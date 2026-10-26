@@ -26,15 +26,17 @@ async function generateSEO() {
   console.log("Fetching dynamic data for sitemap...");
   
   // Fetch Projects
-  const { data: projects } = await supabase
+  const { data: projects, error: projErr } = await supabase
     .from('projects')
-    .select('title, updated_at');
+    .select('title, created_at');
+  if (projErr) console.warn("Projects fetch warning:", projErr.message);
     
   // Fetch Articles
-  const { data: articles } = await supabase
+  const { data: articles, error: artErr } = await supabase
     .from('articles')
-    .select('slug, updated_at')
+    .select('slug, published_at, created_at')
     .eq('status', 'published');
+  if (artErr) console.warn("Articles fetch warning:", artErr.message);
 
   const today = new Date().toISOString().split('T')[0];
 
@@ -47,13 +49,25 @@ async function generateSEO() {
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+  <url>
+    <loc>${DOMAIN}/articles</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>${DOMAIN}/works</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
 `;
 
   if (projects) {
     projects.forEach((project) => {
       sitemap += `  <url>
-    <loc>${DOMAIN}/project/${slugify(project.title)}</loc>
-    <lastmod>${(project.updated_at || today).split('T')[0]}</lastmod>
+    <loc>${DOMAIN}/work/${slugify(project.title)}</loc>
+    <lastmod>${(project.created_at || today).split('T')[0]}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>\n`;
@@ -64,7 +78,7 @@ async function generateSEO() {
     articles.forEach((article) => {
       sitemap += `  <url>
     <loc>${DOMAIN}/article/${article.slug}</loc>
-    <lastmod>${(article.updated_at || today).split('T')[0]}</lastmod>
+    <lastmod>${(article.published_at || article.created_at || today).split('T')[0]}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>\n`;

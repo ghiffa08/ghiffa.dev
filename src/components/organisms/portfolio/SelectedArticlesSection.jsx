@@ -64,7 +64,7 @@ export function SelectedArticlesSection({
       <div id="insights" className="absolute -top-24" />
       <div id="blog" className="absolute -top-24" />
 
-      <ScrollReveal delay={0.05} y={28}>
+      <ScrollReveal margin="250px 0px 50px 0px" duration={0.3} delay={0} y={12}>
         <div className="flex items-center justify-between mb-8 sm:mb-10">
           <div>
             <div className="text-xs font-mono uppercase tracking-widest text-[#FF5500] font-semibold mb-1" />
@@ -116,7 +116,7 @@ export function SelectedArticlesSection({
       </ScrollReveal>
 
       {/* Draggable Carousel */}
-      <ScrollReveal delay={0.15} y={32}>
+      <ScrollReveal margin="350px 0px 50px 0px" duration={0.3} delay={0} y={16}>
         <div
           ref={articlesCarouselRef}
           onPointerDown={handlePointerDown}
@@ -146,6 +146,8 @@ export function SelectedArticlesSection({
                     src={articleImg}
                     alt={article.title}
                     draggable={false}
+                    loading="eager"
+                    decoding="async"
                     className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out pointer-events-none"
                     onError={(e) => {
                       e.currentTarget.style.display = 'none';

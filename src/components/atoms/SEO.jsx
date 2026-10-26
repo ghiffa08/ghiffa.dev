@@ -10,10 +10,15 @@ export function SEO({
   image = 'https://ghiffa.dev/og-image.jpg',
   author = 'Haikal Jibran Al Ghiffarry',
   publishedDate,
+  modifiedDate,
+  keywords,
+  section,
+  tags = [],
   jsonLd,
 }) {
   const isArticle = type === 'article';
   const siteTitle = title ? `${title} | ${name}` : name;
+  const keywordsString = Array.isArray(keywords) ? keywords.join(', ') : (keywords || (Array.isArray(tags) ? tags.join(', ') : ''));
 
   return (
     <Helmet>
@@ -21,6 +26,7 @@ export function SEO({
       <title>{siteTitle}</title>
       <meta name="description" content={description} />
       <meta name="author" content={author} />
+      {keywordsString && <meta name="keywords" content={keywordsString} />}
       <link rel="canonical" href={url} />
 
       {/* Open Graph (Facebook/LinkedIn) */}
@@ -42,6 +48,18 @@ export function SEO({
       {isArticle && publishedDate && (
         <meta property="article:published_time" content={publishedDate} />
       )}
+      {isArticle && (modifiedDate || publishedDate) && (
+        <meta property="article:modified_time" content={modifiedDate || publishedDate} />
+      )}
+      {isArticle && author && (
+        <meta property="article:author" content={author} />
+      )}
+      {isArticle && section && (
+        <meta property="article:section" content={section} />
+      )}
+      {isArticle && Array.isArray(tags) && tags.map((t, idx) => (
+        <meta key={idx} property="article:tag" content={t} />
+      ))}
 
       {/* JSON-LD Structured Data Schema Markup */}
       <script type="application/ld+json">

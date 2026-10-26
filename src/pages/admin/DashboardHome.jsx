@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ProjectRepository } from '../../repositories/ProjectRepository';
 import { BioLinksRepository } from '../../repositories/BioLinksRepository';
+import { ContactRepository } from '../../repositories/ContactRepository';
 import { supabase } from '../../lib/supabaseClient';
 import { 
   Briefcase, 
@@ -12,13 +13,16 @@ import {
   BarChart3,
   ArrowRight,
   RefreshCw,
-  FileText
+  FileText,
+  Mail
 } from 'lucide-react';
 
 export default function DashboardHome() {
   const [stats, setStats] = useState({
     projects: 0,
-    links: 0
+    links: 0,
+    messages: 0,
+    unreadMessages: 0
   });
   const [loading, setLoading] = useState(true);
   const [resumeData, setResumeData] = useState(null);
@@ -88,14 +92,19 @@ export default function DashboardHome() {
   useEffect(() => {
     async function fetchStats() {
       try {
-        const [projectsData, linksData] = await Promise.all([
-          ProjectRepository.getAllProjects(),
-          BioLinksRepository.getAllLinks()
+        const [projectsData, linksData, messagesData] = await Promise.all([
+          ProjectRepository.getAllProjects().catch(() => []),
+          BioLinksRepository.getAllLinks().catch(() => []),
+          ContactRepository.getAllMessages().catch(() => [])
         ]);
+
+        const unreadCount = (messagesData || []).filter(m => m.status === 'unread').length;
 
         setStats({
           projects: projectsData.length,
-          links: linksData.length
+          links: linksData.length,
+          messages: messagesData.length,
+          unreadMessages: unreadCount
         });
       } catch (error) {
         console.error('Error fetching stats:', error);
@@ -115,6 +124,14 @@ export default function DashboardHome() {
       path: '/admin/panel/personal',
       status: 'active',
       color: 'bg-blue-50 text-blue-600'
+    },
+    {
+      name: 'Inquiries & Messages',
+      description: 'Manage incoming messages and inquiries from your portfolio visitors.',
+      icon: Mail,
+      path: '/admin/panel/messages',
+      status: 'active',
+      color: 'bg-amber-50 text-amber-600'
     },
     {
       name: 'Link in Bio',
@@ -162,7 +179,7 @@ export default function DashboardHome() {
       {/* Stats Overview */}
       <div>
         <h3 className="text-sm font-bold tracking-wider text-gray-700 mb-4 uppercase">System Overview</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-white p-6 rounded-none border border-black/10 shadow-sm flex items-center justify-between">
             <div>
               <p className="text-xs text-gray-500 uppercase tracking-widest mb-1">Total Projects</p>
@@ -182,6 +199,28 @@ export default function DashboardHome() {
               <LinkIcon size={24} />
             </div>
           </div>
+
+          <Link 
+            to="/admin/panel/messages"
+            className="bg-white p-6 rounded-none border border-black/10 shadow-sm flex items-center justify-between hover:border-black transition-colors group"
+          >
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <p className="text-xs text-gray-500 uppercase tracking-widest">Inquiries</p>
+                {stats.unreadMessages > 0 && (
+                  <span className="bg-amber-500 text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full">
+                    {stats.unreadMessages} NEW
+                  </span>
+                )}
+              </div>
+              <h4 className="text-3xl font-black group-hover:text-amber-600 transition-colors">
+                {loading ? '-' : stats.messages}
+              </h4>
+            </div>
+            <div className="bg-amber-50 p-3 rounded-full text-amber-600 group-hover:bg-amber-100 transition-colors">
+              <Mail size={24} />
+            </div>
+          </Link>
         </div>
       </div>
 

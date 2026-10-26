@@ -9,11 +9,13 @@ import {
   Briefcase, 
   GraduationCap, 
   Link as LinkIcon,
-  FileText
+  FileText,
+  Mail
 } from 'lucide-react';
 
 const navItems = [
   { name: 'Dashboard', path: '/admin/panel/dashboard', icon: LayoutDashboard },
+  { name: 'Messages', path: '/admin/panel/messages', icon: Mail },
   { name: 'Settings', path: '/admin/panel/settings', icon: Settings },
   { name: 'Personal Info', path: '/admin/panel/personal', icon: User },
   { name: 'Experiences', path: '/admin/panel/experiences', icon: History },

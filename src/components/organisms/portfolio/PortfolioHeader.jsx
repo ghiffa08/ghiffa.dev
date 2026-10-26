@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Menu, X } from 'lucide-react';
 
 export function PortfolioHeader({
   splashActive,
@@ -7,6 +9,15 @@ export function PortfolioHeader({
   isBannerDark,
   onOpenContact
 }) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const navItems = [
+    { label: 'Works', href: '/works' },
+    { label: 'Articles', href: '/articles' },
+    { label: 'About', href: '/#about' },
+    { label: 'Links', href: '/links' },
+  ];
+
   return (
     <>
       {/* SEAMLESS SPLASH SCREEN: ONLY ghiffa.dev IN IDENTICAL PIXEL-PERFECT POSITION */}
@@ -34,7 +45,7 @@ export function PortfolioHeader({
         </div>
       )}
 
-      {/* FULL-WIDTH HEADER */}
+      {/* FULL-WIDTH HEADER WITH SEMANTIC NAVIGATION */}
       <header
         className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b transition-all duration-700 ease-in-out ${
           heroRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-3 pointer-events-none'
@@ -45,23 +56,91 @@ export function PortfolioHeader({
         }`}
       >
         <div className="w-full px-4 sm:px-16 lg:px-[12.8vw] h-[64px] sm:h-[72px] flex items-center justify-between">
-          <a
-            href="#"
-            className="text-[18px] sm:text-[20px] font-bold tracking-tight leading-none text-[#111111] hover:opacity-80 transition-opacity duration-300"
+          {/* Logo */}
+          <Link
+            to="/"
+            className="text-[18px] sm:text-[20px] font-bold tracking-tight leading-none text-[#111111] hover:opacity-80 transition-opacity duration-300 select-none"
           >
             ghiffa.dev
-          </a>
-          <button
-            onClick={() => onOpenContact('Header Inquiry')}
-            className={`text-[12px] sm:text-[12.5px] font-medium px-4 sm:px-5 py-1.5 sm:py-2 rounded-full transition-all active:scale-95 cursor-pointer shadow-xs ${
-              isBannerDark
-                ? 'bg-[#18181B] text-white hover:bg-black'
-                : 'bg-[#18181B] text-white hover:bg-[#2a2a2a]'
-            }`}
-          >
-            Let&apos;s talk
-          </button>
+          </Link>
+
+          {/* Desktop & Tablet Sitelinks Navigation (Crucial for Google Sitelinks Algorithm) */}
+          <nav aria-label="Main Navigation" className="hidden md:flex items-center gap-8 font-mono text-xs uppercase tracking-wider font-semibold">
+            {navItems.map((item) => (
+              item.href.startsWith('/#') ? (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  className="text-gray-600 hover:text-black hover:underline underline-offset-4 transition-colors"
+                >
+                  {item.label}
+                </a>
+              ) : (
+                <Link
+                  key={item.label}
+                  to={item.href}
+                  className="text-gray-600 hover:text-black hover:underline underline-offset-4 transition-colors"
+                >
+                  {item.label}
+                </Link>
+              )
+            ))}
+          </nav>
+
+          {/* Right Action: Let's talk + Mobile Hamburger */}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => onOpenContact('Header Inquiry')}
+              className={`text-[12px] sm:text-[12.5px] font-medium px-4 sm:px-5 py-1.5 sm:py-2 rounded-full transition-all active:scale-95 cursor-pointer shadow-xs ${
+                isBannerDark
+                  ? 'bg-[#18181B] text-white hover:bg-black'
+                  : 'bg-[#18181B] text-white hover:bg-[#2a2a2a]'
+              }`}
+            >
+              Let&apos;s talk
+            </button>
+
+            {/* Mobile Menu Button */}
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2 text-gray-700 hover:text-black transition-colors"
+              aria-label="Toggle navigation menu"
+            >
+              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </div>
         </div>
+
+        {/* Mobile Navigation Drawer */}
+        {mobileMenuOpen && (
+          <nav
+            aria-label="Mobile Navigation"
+            className="md:hidden bg-white border-b border-gray-200 px-6 py-4 space-y-3 font-mono text-xs uppercase tracking-wider font-bold animate-in slide-in-from-top-2 duration-200"
+          >
+            {navItems.map((item) => (
+              item.href.startsWith('/#') ? (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block py-2 text-gray-700 hover:text-[#FF5500] border-b border-gray-100 last:border-b-0"
+                >
+                  {item.label}
+                </a>
+              ) : (
+                <Link
+                  key={item.label}
+                  to={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block py-2 text-gray-700 hover:text-[#FF5500] border-b border-gray-100 last:border-b-0"
+                >
+                  {item.label}
+                </Link>
+              )
+            ))}
+          </nav>
+        )}
       </header>
     </>
   );

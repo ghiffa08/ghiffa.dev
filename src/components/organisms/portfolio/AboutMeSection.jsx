@@ -1,10 +1,47 @@
 import React, { useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { useInView } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { ScrollReveal } from '../../atoms/ScrollReveal';
 import { TypewriterText } from '../../atoms/TypewriterText';
+import { slugify } from '../../../utils/slugify';
 
-export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList }) {
+const titleTranslations = {
+  'teknik informatika': 'Informatics Engineering',
+  'rekayasa perangkat lunak': 'Software Engineering',
+  's1 teknik informatika': 'B.S. in Informatics Engineering',
+  'sistem informasi': 'Information Systems',
+  'ilmu komputer': 'Computer Science'
+};
+
+const formatPeriod = (period) => {
+  if (!period) return '';
+  return period.replace(/\bsekarang\b/gi, 'PRESENT');
+};
+
+const formatTitle = (rawTitle, t) => {
+  if (!rawTitle) return '';
+  const key = `education.${slugify(rawTitle)}.title`;
+  if (t) {
+    const val = t(key, '');
+    if (val && val !== key) return val;
+  }
+  const clean = rawTitle.trim().toLowerCase();
+  return titleTranslations[clean] || rawTitle;
+};
+
+const formatInstitution = (rawInst, rawTitle, t) => {
+  if (!rawInst) return '';
+  if (rawTitle && t) {
+    const key = `education.${slugify(rawTitle)}.institution`;
+    const val = t(key, '');
+    if (val && val !== key) return val;
+  }
+  return rawInst.replace(/\buniversitas kuningan\b/gi, 'Universitas Kuningan');
+};
+
+export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList = [] }) {
+  const { t } = useTranslation();
   const headerRef = useRef(null);
   const isHeaderInView = useInView(headerRef, { once: true, margin: '-60px 0px -40px 0px' });
 
@@ -153,11 +190,10 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
             )}
           </div>
 
-          {/* EDUCACIÓN / EDUCATION */}
+          {/* EDUCATION */}
           <div className="pt-2">
             <h3 className="text-[15px] sm:text-[16px] font-bold text-gray-900 tracking-tight mb-4 flex items-center gap-2">
-              <span>Educación</span>
-              <span className="text-xs font-normal text-gray-400 font-mono">/ Education</span>
+              <span>Education</span>
             </h3>
             <div className="space-y-3.5">
               {educationList.map((edu, idx) => (
@@ -171,10 +207,11 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="font-bold text-[14px] sm:text-[14.5px] text-gray-900 leading-snug">
-                      {edu.title}
+                      {formatTitle(edu.title, t)}
                     </div>
                     <div className="text-[12.5px] sm:text-[13px] text-gray-500 italic mt-0.5">
-                      {edu.institution} {edu.period && <span>({edu.period})</span>}
+                      {formatInstitution(edu.institution, edu.title, t)}{' '}
+                      {edu.period && <span>({formatPeriod(edu.period)})</span>}
                     </div>
                   </div>
                 </div>
@@ -182,20 +219,25 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
             </div>
           </div>
 
-          {/* IDIOMAS / LANGUAGES & SPECIALIZATION */}
-          <div className="pt-2">
-            <h3 className="text-[15px] sm:text-[16px] font-bold text-gray-900 tracking-tight mb-3 flex items-center gap-2">
-              <span>Idiomas &amp; Specialization</span>
+          {/* LANGUAGES & SPECIALIZATION */}
+          <div className="pt-2 space-y-2.5 sm:space-y-3">
+            <h3 className="text-[15px] sm:text-[16px] font-bold text-gray-900 tracking-tight flex items-center gap-2">
+              <span>Languages &amp; Specialization</span>
             </h3>
-            <div className="flex flex-col sm:flex-row flex-wrap gap-2.5 sm:gap-3 items-start sm:items-center">
+
+            {/* Languages Row */}
+            <div className="flex flex-wrap gap-2.5 sm:gap-3 items-center">
               <div className="relative inline-flex items-center gap-2 bg-[#FF5500] text-white text-[12px] sm:text-[12.5px] font-medium px-4 py-2 rounded-2xl rounded-br-xs shadow-xs hover:bg-[#E04B00] transition-colors cursor-default select-none">
-                <span>Bahasa Indonesia - Native</span>
+                <span>Indonesian - Native</span>
               </div>
 
               <div className="relative inline-flex items-center gap-2 bg-[#18181B] text-white text-[12px] sm:text-[12.5px] font-medium px-4 py-2 rounded-2xl rounded-bl-xs shadow-xs hover:bg-black transition-colors cursor-default select-none">
                 <span>English - Professional Working</span>
               </div>
+            </div>
 
+            {/* Availability Badge Row */}
+            <div className="pt-0.5">
               <div className="relative inline-flex items-center gap-2 bg-white text-gray-800 text-[12px] sm:text-[12.5px] font-medium px-4 py-2 rounded-2xl border border-gray-200/90 shadow-2xs hover:border-gray-300 transition-colors select-none">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                 <span>Available for Full-Time &amp; Contracts</span>

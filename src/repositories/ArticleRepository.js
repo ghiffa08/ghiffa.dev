@@ -106,5 +106,68 @@ export const ArticleRepository = {
       .eq('id', id);
     if (error) throw new Error(error.message);
     return true;
+  },
+
+  /**
+   * Increments the clap count for an article.
+   * @param {string} id 
+   * @param {number} amount
+   */
+  async incrementClaps(id, amount = 1) {
+    try {
+      // Fetch current claps
+      const { data: current } = await supabase
+        .from('articles')
+        .select('claps_count')
+        .eq('id', id)
+        .single();
+      
+      const newCount = (current?.claps_count || 0) + amount;
+      await supabase
+        .from('articles')
+        .update({ claps_count: newCount })
+        .eq('id', id);
+      return newCount;
+    } catch (err) {
+      console.warn('Could not increment claps in Supabase, using optimistic count:', err);
+      return null;
+    }
+  },
+
+  /**
+   * Fetches community responses for an article.
+   * @param {string} articleId
+   */
+  async getResponses(articleId) {
+    const { data, error } = await supabase
+      .from('article_responses')
+      .select('*')
+      .eq('article_id', articleId)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching responses:', error);
+      return [];
+    }
+    return data || [];
+  },
+
+  /**
+   * Submits a community response/comment to an article.
+   * @param {Object} payload { articleId, authorName, authorEmail, content }
+   */
+  async submitResponse({ articleId, authorName, authorEmail, content }) {
+    const { data, error } = await supabase
+      .from('article_responses')
+      .insert([{
+        article_id: articleId,
+        author_name: authorName,
+        author_email: authorEmail || null,
+        content: content
+      }])
+      .select();
+
+    if (error) throw new Error(error.message);
+    return data?.[0] || null;
   }
 };

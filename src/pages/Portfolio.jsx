@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useSupabaseSingle, useSupabaseList } from '../hooks/useSupabaseData';
+import { ContactRepository } from '../repositories/ContactRepository';
 import { SEO } from '../components/atoms/SEO';
 import {
   PortfolioHeader,
@@ -151,7 +152,7 @@ export default function Portfolio() {
 
   // Contact Modal State
   const [contactModalOpen, setContactModalOpen] = useState(false);
-  const [, setModalTopic] = useState('');
+  const [modalTopic, setModalTopic] = useState('');
   const [formSent, setFormSent] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
 
@@ -226,6 +227,9 @@ export default function Portfolio() {
     }
   }, [aiActive]);
 
+  const [isSubmittingContact, setIsSubmittingContact] = useState(false);
+  const [contactErrorMessage, setContactErrorMessage] = useState('');
+
   const openContactModal = (topic = '') => {
     setModalTopic(topic);
     if (topic) {
@@ -233,20 +237,41 @@ export default function Portfolio() {
     }
     setContactModalOpen(true);
     setFormSent(false);
+    setContactErrorMessage('');
   };
 
   const closeContactModal = () => {
     setContactModalOpen(false);
     setFormSent(false);
+    setContactErrorMessage('');
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    setFormSent(true);
-    setTimeout(() => {
-      closeContactModal();
-      setFormData({ name: '', email: '', message: '' });
-    }, 1500);
+    if (!formData.name || !formData.email || !formData.message) return;
+
+    setIsSubmittingContact(true);
+    setContactErrorMessage('');
+
+    try {
+      await ContactRepository.submitMessage({
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+        topic: modalTopic || 'General Inquiry'
+      });
+
+      setFormSent(true);
+      setTimeout(() => {
+        closeContactModal();
+        setFormData({ name: '', email: '', message: '' });
+      }, 1800);
+    } catch (err) {
+      console.error('Failed to submit contact message:', err);
+      setContactErrorMessage('Failed to send message. Please try again or reach out directly.');
+    } finally {
+      setIsSubmittingContact(false);
+    }
   };
 
   // Personal Info data
@@ -270,15 +295,15 @@ export default function Portfolio() {
     return [
       {
         id: 'edu-1',
-        title: 'S1 Teknik Informatika (Informatics Engineering)',
-        institution: 'Universitas Kuningan, Kuningan, Jawa Barat, Indonesia',
-        period: '2021 — Present'
+        title: 'Informatics Engineering',
+        institution: 'Universitas Kuningan, West Java, Indonesia',
+        period: '2024 — Present'
       },
       {
         id: 'edu-2',
-        title: 'Rekayasa Perangkat Lunak (Software Engineering)',
-        institution: 'SMK Negeri 1 Kuningan, Indonesia',
-        period: '2018 — 2021'
+        title: 'Software Engineering',
+        institution: 'SMKN 2 Kuningan, Indonesia',
+        period: '2021 — 2024'
       }
     ];
   }, [supabaseQualifications]);
@@ -357,6 +382,97 @@ export default function Portfolio() {
     return list;
   }, [supabaseQualifications]);
 
+  const homepageSchema = useMemo(() => ({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebSite',
+        '@id': 'https://ghiffa.dev/#website',
+        url: 'https://ghiffa.dev',
+        name: 'ghiffa.dev',
+        alternateName: 'Haikal Jibran Al-Ghiffarry Portfolio',
+        description: 'Official digital portfolio and resume of Haikal Jibran Al-Ghiffarry, an IoT Engineer and Fullstack Web Developer.',
+        hasPart: [
+          {
+            '@type': 'WebPage',
+            '@id': 'https://ghiffa.dev/articles',
+            url: 'https://ghiffa.dev/articles',
+            name: 'Articles',
+            description: 'Engineering articles, technical insights, and software architecture writings.'
+          },
+          {
+            '@type': 'WebPage',
+            '@id': 'https://ghiffa.dev/works',
+            url: 'https://ghiffa.dev/works',
+            name: 'Selected Works',
+            description: 'Featured fullstack web applications, IoT systems, and commercial engineering projects.'
+          },
+          {
+            '@type': 'WebPage',
+            '@id': 'https://ghiffa.dev/#about',
+            url: 'https://ghiffa.dev/#about',
+            name: 'About Haikal Jibran',
+            description: 'Biography, professional qualifications, education, and career milestones.'
+          },
+          {
+            '@type': 'WebPage',
+            '@id': 'https://ghiffa.dev/links',
+            url: 'https://ghiffa.dev/links',
+            name: 'Bio Links',
+            description: 'Curated links, contact channels, and social media profiles.'
+          }
+        ]
+      },
+      {
+        '@type': 'ItemList',
+        name: 'Main Sitelinks Navigation',
+        itemListElement: [
+          {
+            '@type': 'SiteNavigationElement',
+            position: 1,
+            name: 'Articles',
+            url: 'https://ghiffa.dev/articles',
+            description: 'Technical insights and software engineering articles.'
+          },
+          {
+            '@type': 'SiteNavigationElement',
+            position: 2,
+            name: 'Selected Works',
+            url: 'https://ghiffa.dev/works',
+            description: 'Engineering portfolio and client project case studies.'
+          },
+          {
+            '@type': 'SiteNavigationElement',
+            position: 3,
+            name: 'About',
+            url: 'https://ghiffa.dev/#about',
+            description: 'Personal background, certifications, and experience.'
+          },
+          {
+            '@type': 'SiteNavigationElement',
+            position: 4,
+            name: 'Bio Links',
+            url: 'https://ghiffa.dev/links',
+            description: 'Connect across social platforms and links.'
+          }
+        ]
+      },
+      {
+        '@type': 'Person',
+        '@id': 'https://ghiffa.dev/#person',
+        name: fullName,
+        url: 'https://ghiffa.dev',
+        image: avatarImage,
+        jobTitle: ['Fullstack Web Developer', 'IoT Engineer'],
+        sameAs: [
+          'https://github.com/ghiffa08',
+          'https://www.linkedin.com/in/haikal-jibran-al-ghiffarry',
+          'https://www.instagram.com/haikaljibraan'
+        ]
+      }
+    ]
+  }), [fullName, avatarImage]);
+
   return (
     <div
       className={`min-h-screen font-sans antialiased selection:bg-[#FF5500] selection:text-white transition-colors duration-700 ease-in-out ${
@@ -367,6 +483,7 @@ export default function Portfolio() {
         title="Haikal Jibran Al-Ghiffarry | Portofolio &amp; Resume"
         description="Official portfolio of Haikal Jibran Al-Ghiffarry (ghiffa.dev). Building the bridge between bits and atoms for companies, governments, and organizations."
         url="https://ghiffa.dev/"
+        jsonLd={homepageSchema}
       />
 
       {/* Header & Splash Screen Overlay */}
@@ -451,6 +568,8 @@ export default function Portfolio() {
         setFormData={setFormData}
         onSubmit={handleFormSubmit}
         formSent={formSent}
+        isSubmitting={isSubmittingContact}
+        errorMessage={contactErrorMessage}
       />
 
       {/* Certificate Modal */}

@@ -20,6 +20,7 @@ const BioLinksManager = lazy(() => import('./pages/admin/BioLinksManager'));
 const URLShortenerManager = lazy(() => import('./pages/admin/URLShortenerManager'));
 const QRCodeGenerator = lazy(() => import('./pages/admin/QRCodeGenerator'));
 const ArticlesManager = lazy(() => import('./pages/admin/ArticlesManager'));
+const MessagesManager = lazy(() => import('./pages/admin/MessagesManager'));
 const ArticlesPage = lazy(() => import('./pages/ArticlesPage'));
 const ArticleDetailPage = lazy(() => import('./pages/ArticleDetailPage'));
 const WorksPage = lazy(() => import('./pages/WorksPage'));
@@ -85,6 +86,7 @@ export default function App() {
           <Route path="qualifications" element={<EducationManager />} />
           <Route path="links" element={<BioLinksManager />} />
           <Route path="articles" element={<ArticlesManager />} />
+          <Route path="messages" element={<MessagesManager />} />
           <Route path="url-shortener" element={<URLShortenerManager />} />
           <Route path="qr-generator" element={<QRCodeGenerator />} />
         </Route>
@@ -150,6 +152,7 @@ export default function App() {
         <Route path="qualifications" element={<EducationManager />} />
         <Route path="links" element={<BioLinksManager />} />
         <Route path="articles" element={<ArticlesManager />} />
+        <Route path="messages" element={<MessagesManager />} />
         <Route path="url-shortener" element={<URLShortenerManager />} />
         <Route path="qr-generator" element={<QRCodeGenerator />} />
       </Route>

@@ -548,14 +548,16 @@ export default function Portfolio({
         jsonLd={homepageSchema}
       />
 
-      {/* Header & Splash Screen Overlay */}
-      <PortfolioHeader
-        splashActive={splashActive}
-        splashFade={splashFade}
-        heroRevealed={heroRevealed}
-        isBannerDark={isBannerDark}
-        onOpenContact={openContactModal}
-      />
+      {/* Header & Splash Screen Overlay (Hidden in Visual Builder mode so it doesn't obstruct canvas/topbar) */}
+      {!isBuilderMode && (
+        <PortfolioHeader
+          splashActive={splashActive}
+          splashFade={splashFade}
+          heroRevealed={heroRevealed}
+          isBannerDark={isBannerDark}
+          onOpenContact={openContactModal}
+        />
+      )}
 
       {/* Hero Section */}
       {renderSectionWrapper('hero', 'Hero Canvas', (sec) => (
@@ -565,6 +567,7 @@ export default function Portfolio({
           aiActive={aiActive}
           setAiActive={setAiActive}
           sectionData={sec}
+          isBuilderMode={isBuilderMode}
         />
       ))}
 

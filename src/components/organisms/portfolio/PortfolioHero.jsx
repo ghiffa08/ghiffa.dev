@@ -3,7 +3,7 @@ import { CursorBadge } from '../../atoms/CursorBadge';
 import { DraggableItem } from '../../atoms/DraggableItem';
 import { smoothCosine, quadBezier, cursorConfigs } from '../../../utils/portfolioMath';
 
-export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiActive, sectionData }) {
+export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiActive, sectionData, isBuilderMode = false }) {
   const heroTitle = sectionData?.title || 'ghiffa.dev';
   const content = sectionData?.content || {};
   const aiActiveRef = useRef(aiActive);
@@ -218,7 +218,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
   }, []);
 
   return (
-    <section className="relative w-full h-screen min-h-[600px] sm:min-h-[700px] pt-[64px] sm:pt-[72px] bg-architectural-dots overflow-hidden select-none">
+    <section className={`relative w-full h-screen min-h-[600px] sm:min-h-[700px] ${isBuilderMode ? 'pt-0' : 'pt-[64px] sm:pt-[72px]'} bg-architectural-dots overflow-hidden select-none`}>
       {/* Edge-to-Edge Full Viewport Interactive Canvas */}
       <div id="hero-canvas" className="relative w-full h-full will-change-transform overflow-hidden max-w-full">
         {/* 1. CENTER: Giant "ghiffa.dev" (Figma Canvas Selection with Skillstreak Orange Accent & Layer Badge) */}

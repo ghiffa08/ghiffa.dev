@@ -23,14 +23,26 @@ import {
   Sparkles,
   Layers,
   Settings,
-  Maximize2
+  Maximize2,
+  Layout,
+  ScrollText,
+  Cpu,
+  User,
+  Milestone,
+  Award,
+  Briefcase,
+  Zap,
+  BookOpen,
+  Camera,
+  MessageSquare,
+  PanelBottom
 } from 'lucide-react';
 
 const SECTION_CONFIGS = [
   {
     id: 'hero',
     name: 'Hero Canvas',
-    icon: '🏠',
+    icon: Layout,
     description: 'Header, main display title, and floating social & tech widgets',
     fields: [
       { key: 'title', label: 'Main Display Title', type: 'text', placeholder: 'ghiffa.dev' },
@@ -45,7 +57,7 @@ const SECTION_CONFIGS = [
   {
     id: 'sticky_text',
     name: 'Sticky Scroll Headline',
-    icon: '📜',
+    icon: ScrollText,
     description: 'Word-by-word reveal text triggered on scroll',
     fields: [
       { key: 'title', label: 'Main Headline Sentence', type: 'textarea', placeholder: 'Building the bridge between bits and atoms for companies, governments, and organizations.' },
@@ -55,7 +67,7 @@ const SECTION_CONFIGS = [
   {
     id: 'services',
     name: 'Capabilities & Services',
-    icon: '⚙️',
+    icon: Cpu,
     description: '3 Service cards: Mobile Apps, Web Development, and IoT Hardware',
     fields: [
       { key: 'card1_title', label: 'Card 1 (Mobile) Title', type: 'text', parent: 'content', placeholder: 'Mobile app services' },
@@ -72,7 +84,7 @@ const SECTION_CONFIGS = [
   {
     id: 'about',
     name: 'About Me',
-    icon: '👤',
+    icon: User,
     description: 'Cutout showcase, education titles, and availability status badge',
     fields: [
       { key: 'title', label: 'Section Header Title', type: 'text', placeholder: 'about me' },
@@ -84,7 +96,7 @@ const SECTION_CONFIGS = [
   {
     id: 'journey',
     name: 'Professional Journey',
-    icon: '🗺️',
+    icon: Milestone,
     description: 'Career roadmap and professional experience timeline',
     fields: [
       { key: 'title', label: 'Display Title', type: 'text', placeholder: 'professional journey' }
@@ -93,7 +105,7 @@ const SECTION_CONFIGS = [
   {
     id: 'certifications',
     name: 'Certifications & HAKI',
-    icon: '🏆',
+    icon: Award,
     description: 'Bento grid showing verified credentials and copyrights',
     fields: [
       { key: 'title', label: 'Section Heading', type: 'text', placeholder: 'Credentials & Achievements' }
@@ -102,7 +114,7 @@ const SECTION_CONFIGS = [
   {
     id: 'works',
     name: 'Selected Works',
-    icon: '💼',
+    icon: Briefcase,
     description: 'Draggable project showcase carousel',
     fields: [
       { key: 'title', label: 'Section Title', type: 'text', placeholder: 'selected works' },
@@ -112,7 +124,7 @@ const SECTION_CONFIGS = [
   {
     id: 'skillstreak',
     name: 'Skillstreak Platform Banner',
-    icon: '⚡',
+    icon: Zap,
     description: 'Interactive MacBook frame showcasing skillstreak.id',
     fields: [
       { key: 'title', label: 'Banner Brand Title', type: 'text', placeholder: 'skillstreak.id' },
@@ -125,7 +137,7 @@ const SECTION_CONFIGS = [
   {
     id: 'articles',
     name: 'Selected Articles',
-    icon: '📝',
+    icon: BookOpen,
     description: 'Featured technical insights and publication carousel',
     fields: [
       { key: 'title', label: 'Section Title', type: 'text', placeholder: 'selected articles' },
@@ -135,7 +147,7 @@ const SECTION_CONFIGS = [
   {
     id: 'instagram',
     name: 'Instagram Journal',
-    icon: '📸',
+    icon: Camera,
     description: 'Social photo feed grid & account link',
     fields: [
       { key: 'title', label: 'Section Title', type: 'text', placeholder: 'instagram posts' },
@@ -145,7 +157,7 @@ const SECTION_CONFIGS = [
   {
     id: 'cta',
     name: 'Communication Matters CTA',
-    icon: '💬',
+    icon: MessageSquare,
     description: 'End-of-page contact inquiry trigger',
     fields: [
       { key: 'title', label: 'Main Headline', type: 'text', placeholder: 'communication matters' },
@@ -157,7 +169,7 @@ const SECTION_CONFIGS = [
   {
     id: 'footer',
     name: 'Portfolio Footer',
-    icon: '⚓',
+    icon: PanelBottom,
     description: 'Copyright, location, and bottom navigation credits',
     fields: [
       { key: 'title', label: 'Footer Brand Title', type: 'text', placeholder: 'ghiffa.dev' },
@@ -426,6 +438,7 @@ export default function VisualBuilder() {
               {/* Sections Accordion List */}
               <div className="flex-1 overflow-y-auto divide-y divide-[#27272A]/80 no-scrollbar">
                 {filteredConfigs.map((cfg) => {
+                  const Icon = cfg.icon;
                   const sectionData = sections[cfg.id] || DEFAULT_LANDING_SECTIONS[cfg.id] || {};
                   const isExpanded = activeSectionId === cfg.id;
                   const isActive = sectionData.is_active !== false;
@@ -441,7 +454,9 @@ export default function VisualBuilder() {
                         className="px-4 py-3 flex items-center justify-between cursor-pointer group"
                       >
                         <div className="flex items-center gap-2.5 min-w-0">
-                          <span className="text-base shrink-0">{cfg.icon}</span>
+                          <div className="w-7 h-7 rounded-lg bg-[#27272A] border border-[#3F3F46]/50 flex items-center justify-center shrink-0 text-[#E24B88] group-hover:bg-[#E24B88] group-hover:text-white transition-colors">
+                            <Icon size={14} />
+                          </div>
                           <div className="min-w-0">
                             <div className="text-xs font-bold text-white group-hover:text-[#E24B88] transition-colors truncate">
                               {cfg.name}

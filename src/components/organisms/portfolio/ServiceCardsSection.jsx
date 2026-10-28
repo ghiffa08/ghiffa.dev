@@ -5,7 +5,8 @@ import { ErrorBoundary } from '../../atoms/ErrorBoundary';
 
 const PcbViewer3D = lazy(() => import('./PcbViewer3D'));
 
-export function ServiceCardsSection() {
+export function ServiceCardsSection({ sectionData }) {
+  const content = sectionData?.content || {};
   return (
     <section id="services" className="relative w-full min-h-screen bg-white flex flex-col justify-center items-center py-12 lg:py-20 px-4 sm:px-8 lg:px-16 overflow-hidden">
       <div className="w-full max-w-[1400px] mx-auto">
@@ -15,10 +16,10 @@ export function ServiceCardsSection() {
             <div className="bg-skillstreak-orange-grid rounded-3xl p-6 sm:p-10 lg:p-12 pb-0 sm:pb-0 lg:pb-0 text-white min-h-[480px] sm:min-h-[540px] lg:min-h-[560px] xl:min-h-[590px] flex flex-col justify-between relative overflow-hidden group shadow-lg">
               <div className="relative z-10">
                 <h3 className="text-2xl sm:text-[28px] lg:text-[32px] xl:text-[36px] font-semibold leading-[1.12] tracking-tight mb-3 sm:mb-5">
-                  Mobile app<br />services
+                  {content.card1_title || 'Mobile app services'}
                 </h3>
                 <p className="text-white/85 text-[14px] sm:text-[15px] xl:text-[15.5px] leading-relaxed max-w-[340px]">
-                  Crafting intuitive, responsive, and high-performance mobile applications across iOS &amp; Android tailored to elevate your user experience.
+                  {content.card1_desc || 'Crafting intuitive, responsive, and high-performance mobile applications across iOS & Android tailored to elevate your user experience.'}
                 </p>
               </div>
 
@@ -35,7 +36,7 @@ export function ServiceCardsSection() {
               </div>
             </div>
             <p className="text-[12.5px] sm:text-[13px] text-gray-500 mt-3 sm:mt-4 leading-relaxed pr-2">
-              From mobile UI design to scalable cross-platform application deployment.
+              {content.card1_footer || 'From mobile UI design to scalable cross-platform application deployment.'}
             </p>
           </ScrollReveal>
 
@@ -44,10 +45,10 @@ export function ServiceCardsSection() {
             <div className="bg-skillstreak-orange-grid rounded-3xl p-6 sm:p-10 lg:p-12 pb-0 sm:pb-0 lg:pb-0 text-white min-h-[480px] sm:min-h-[540px] lg:min-h-[560px] xl:min-h-[590px] flex flex-col justify-between relative overflow-hidden group shadow-lg">
               <div className="relative z-10">
                 <h3 className="text-2xl sm:text-[28px] lg:text-[32px] xl:text-[36px] font-semibold leading-[1.12] tracking-tight mb-3 sm:mb-5">
-                  Web development<br />services
+                  {content.card2_title || 'Web development services'}
                 </h3>
                 <p className="text-white/85 text-[14px] sm:text-[15px] xl:text-[15.5px] leading-relaxed max-w-[340px]">
-                  Specializing in modern, fully self-manageable websites and web applications built on cutting-edge stacks for top performance, speed, and security.
+                  {content.card2_desc || 'Specializing in modern, fully self-manageable websites and web applications built on cutting-edge stacks for top performance, speed, and security.'}
                 </p>
               </div>
 
@@ -64,7 +65,7 @@ export function ServiceCardsSection() {
               </div>
             </div>
             <p className="text-[12.5px] sm:text-[13px] text-gray-500 mt-3 sm:mt-4 leading-relaxed pr-2">
-              Fullstack web architecture tailored to each client following international standards.
+              {content.card2_footer || 'Fullstack web architecture tailored to each client following international standards.'}
             </p>
           </ScrollReveal>
 
@@ -73,10 +74,10 @@ export function ServiceCardsSection() {
             <div className="bg-skillstreak-orange-grid rounded-3xl p-6 sm:p-10 lg:p-12 pb-0 sm:pb-0 lg:pb-0 text-white min-h-[480px] sm:min-h-[540px] lg:min-h-[560px] xl:min-h-[590px] flex flex-col justify-between relative overflow-hidden group shadow-lg">
               <div className="relative z-10">
                 <h3 className="text-2xl sm:text-[28px] lg:text-[32px] xl:text-[36px] font-semibold leading-[1.12] tracking-tight mb-3 sm:mb-5">
-                  IoT &amp; hardware<br />services
+                  {content.card3_title || 'IoT & hardware services'}
                 </h3>
                 <p className="text-white/85 text-[14px] sm:text-[15px] xl:text-[15.5px] leading-relaxed max-w-[340px]">
-                  We take care of all technical aspects: custom PCB schematic &amp; layout design, embedded IoT firmware, sensor telemetry, and continuous support.
+                  {content.card3_desc || 'We take care of all technical aspects: custom PCB schematic & layout design, embedded IoT firmware, sensor telemetry, and continuous support.'}
                 </p>
               </div>
 
@@ -100,7 +101,7 @@ export function ServiceCardsSection() {
               </ErrorBoundary>
             </div>
             <p className="text-[12.5px] sm:text-[13px] text-gray-500 mt-3 sm:mt-4 leading-relaxed pr-2">
-              Bridging hardware and software from prototype to reliable physical production.
+              {content.card3_footer || 'Bridging hardware and software from prototype to reliable physical production.'}
             </p>
           </ScrollReveal>
         </div>

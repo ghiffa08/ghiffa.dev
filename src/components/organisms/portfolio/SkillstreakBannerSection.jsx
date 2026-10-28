@@ -1,7 +1,13 @@
 import React from 'react';
 import { ScrollReveal } from '../../atoms/ScrollReveal';
 
-export function SkillstreakBannerSection({ bannerRef, isBannerDark }) {
+export function SkillstreakBannerSection({ bannerRef, isBannerDark, sectionData }) {
+  const title = sectionData?.title || 'skillstreak.id';
+  const heading = sectionData?.content?.heading || 'The fastest path from zero to deployable engineer, built like a game and engineered for the real world.';
+  const desc = sectionData?.content?.desc || 'Most developers quit because learning feels like a grind with no visible progress. skillstreak.id changes the feedback loop with XP rewards, daily streak accountability, and real-time code evaluations.';
+  const ctaUrl = sectionData?.content?.cta_url || 'https://skillstreak.id';
+  const ctaText = sectionData?.content?.cta_text || 'Get Early Access';
+
   return (
     <section
       ref={bannerRef}
@@ -32,29 +38,29 @@ export function SkillstreakBannerSection({ bannerRef, isBannerDark }) {
                 <span className="absolute top-1/2 -right-1 -translate-y-1/2 w-1.5 h-1.5 bg-gray-800 border border-white rounded-[1px]" />
 
                 <h2 className="text-[28px] min-[360px]:text-[34px] sm:text-[46px] lg:text-[50px] font-bold tracking-tight text-[#111111] leading-none">
-                  skillstreak.id
+                  {title}
                 </h2>
               </div>
 
               {/* Primary bold lead text */}
               <p className="text-[#18181B] text-[15px] sm:text-[18px] font-medium leading-[1.48] mt-5 sm:mt-6 max-w-[430px]">
-                The fastest path from zero to deployable engineer, built like a game and engineered for the real world.
+                {heading}
               </p>
 
               {/* Secondary muted text */}
               <p className="text-[#666666] text-[12.5px] sm:text-[13.5px] leading-[1.6] mt-3.5 sm:mt-4 max-w-[400px]">
-                Most developers quit because learning feels like a grind with no visible progress. skillstreak.id changes the feedback loop with XP rewards, daily streak accountability, and real-time code evaluations.
+                {desc}
               </p>
 
               {/* Fiery Skillstreak Orange Pill CTA Button */}
               <div className="mt-6 sm:mt-8">
                 <a
-                  href="https://skillstreak.id"
+                  href={ctaUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-block bg-[#FF5500] hover:bg-[#E64D00] text-white text-[13.5px] sm:text-[14px] font-semibold px-7 sm:px-8 py-3 sm:py-3.5 rounded-full shadow-lg shadow-orange-600/25 transition-all duration-200 active:scale-95 cursor-pointer"
                 >
-                  Get Early Access
+                  {ctaText}
                 </a>
               </div>
             </div>

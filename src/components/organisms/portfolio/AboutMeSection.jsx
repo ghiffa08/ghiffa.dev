@@ -40,10 +40,15 @@ const formatInstitution = (rawInst, rawTitle, t) => {
   return rawInst.replace(/\buniversitas kuningan\b/gi, 'Universitas Kuningan');
 };
 
-export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList = [] }) {
+export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList = [], sectionData }) {
   const { t } = useTranslation();
   const headerRef = useRef(null);
   const isHeaderInView = useInView(headerRef, { once: true, margin: '-60px 0px -40px 0px' });
+
+  const sectionTitle = sectionData?.title || 'about me';
+  const educationTitle = sectionData?.content?.education_title || 'Education';
+  const languagesTitle = sectionData?.content?.languages_title || 'Languages & Specialization';
+  const statusBadge = sectionData?.content?.status_badge || 'Available for Full-Time & Contracts';
 
   return (
     <section id="about" className="relative py-20 sm:py-28 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto">
@@ -165,10 +170,10 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
             {/* Selection highlight box with text */}
             <div className="bg-[#FFF2EB] border-y border-[#FF5500]/30 px-5 sm:px-7 py-2 sm:py-2.5 flex items-center whitespace-nowrap">
               <h2
-                aria-label="about me"
+                aria-label={sectionTitle}
                 className="text-3xl sm:text-4xl lg:text-[46px] font-bold tracking-tight text-[#141414] lowercase leading-none whitespace-nowrap flex items-center"
               >
-                <TypewriterText text="about me" trigger={isHeaderInView} delay={650} speed={90} />
+                <TypewriterText text={sectionTitle} trigger={isHeaderInView} delay={650} speed={90} />
               </h2>
             </div>
 
@@ -193,7 +198,7 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
           {/* EDUCATION */}
           <div className="pt-2">
             <h3 className="text-[15px] sm:text-[16px] font-bold text-gray-900 tracking-tight mb-4 flex items-center gap-2">
-              <span>Education</span>
+              <span>{educationTitle}</span>
             </h3>
             <div className="space-y-3.5">
               {educationList.map((edu, idx) => (
@@ -222,7 +227,7 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
           {/* LANGUAGES & SPECIALIZATION */}
           <div className="pt-2 space-y-2.5 sm:space-y-3">
             <h3 className="text-[15px] sm:text-[16px] font-bold text-gray-900 tracking-tight flex items-center gap-2">
-              <span>Languages &amp; Specialization</span>
+              <span>{languagesTitle}</span>
             </h3>
 
             {/* Languages Row */}
@@ -240,7 +245,7 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
             <div className="pt-0.5">
               <div className="relative inline-flex items-center gap-2 bg-white text-gray-800 text-[12px] sm:text-[12.5px] font-medium px-4 py-2 rounded-2xl border border-gray-200/90 shadow-2xs hover:border-gray-300 transition-colors select-none">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span>Available for Full-Time &amp; Contracts</span>
+                <span>{statusBadge}</span>
               </div>
             </div>
           </div>

@@ -1,6 +1,11 @@
 import React, { useEffect } from 'react';
 
-export function StickyScrollText() {
+export function StickyScrollText({ sectionData }) {
+  const headlineText = sectionData?.content?.headline || sectionData?.title || 'Building the bridge between bits and atoms for companies, governments, and organizations.';
+  const subtitleText = sectionData?.content?.subtitle || sectionData?.subtitle || 'Following our goal of making the internet a better place.';
+
+  const headlineWords = headlineText.split(/\s+/).filter(Boolean);
+  const subtitleWords = subtitleText.split(/\s+/).filter(Boolean);
   // Word-by-Word Scroll Reveal Animation (Phase 1: Headline -> Phase 2: Subtitle)
   useEffect(() => {
     let ticking = false;
@@ -74,32 +79,20 @@ export function StickyScrollText() {
         <div className="max-w-[960px] mx-auto text-center relative z-10">
           {/* Main Animated Headline: ALL words start in faded gray (#ECEEEF) */}
           <h2 id="animated-scroll-title" className="text-[28px] min-[360px]:text-[34px] min-[420px]:text-[40px] sm:text-[56px] md:text-[68px] lg:text-[76px] font-bold tracking-[-0.035em] leading-[1.1]">
-            <span className="reveal-word">Building</span>{' '}
-            <span className="reveal-word">the</span>{' '}
-            <span className="reveal-word">bridge</span>{' '}
-            <span className="reveal-word">between</span>{' '}
-            <span className="reveal-word">bits</span>{' '}
-            <span className="reveal-word">and</span>{' '}
-            <span className="reveal-word">atoms</span>{' '}
-            <span className="reveal-word">for</span>{' '}
-            <span className="reveal-word">companies,</span>{' '}
-            <span className="reveal-word">governments,</span>{' '}
-            <span className="reveal-word">and</span>{' '}
-            <span className="reveal-word">organizations.</span>
+            {headlineWords.map((word, idx) => (
+              <React.Fragment key={idx}>
+                <span className="reveal-word">{word}</span>{' '}
+              </React.Fragment>
+            ))}
           </h2>
 
           {/* Subtext Below Headline */}
           <p id="animated-scroll-subtitle" className="mt-6 sm:mt-10 text-[16px] sm:text-[22px] font-semibold tracking-[-0.015em] leading-[1.35] max-w-[520px] mx-auto">
-            <span className="reveal-subword">Following</span>{' '}
-            <span className="reveal-subword">our</span>{' '}
-            <span className="reveal-subword">goal</span>{' '}
-            <span className="reveal-subword">of</span>{' '}
-            <span className="reveal-subword">making</span>{' '}
-            <span className="reveal-subword">the</span>{' '}
-            <span className="reveal-subword">internet</span>{' '}
-            <span className="reveal-subword">a</span>{' '}
-            <span className="reveal-subword">better</span>{' '}
-            <span className="reveal-subword">place.</span>
+            {subtitleWords.map((word, idx) => (
+              <React.Fragment key={idx}>
+                <span className="reveal-subword">{word}</span>{' '}
+              </React.Fragment>
+            ))}
           </p>
         </div>
       </div>

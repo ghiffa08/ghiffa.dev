@@ -3,7 +3,9 @@ import { CursorBadge } from '../../atoms/CursorBadge';
 import { DraggableItem } from '../../atoms/DraggableItem';
 import { smoothCosine, quadBezier, cursorConfigs } from '../../../utils/portfolioMath';
 
-export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiActive }) {
+export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiActive, sectionData }) {
+  const heroTitle = sectionData?.title || 'ghiffa.dev';
+  const content = sectionData?.content || {};
   const aiActiveRef = useRef(aiActive);
 
   useEffect(() => {
@@ -243,7 +245,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
                 title="Click to toggle canvas items"
                 onClick={() => setHeroRevealed((prev) => !prev)}
               >
-                ghiffa.dev
+                {heroTitle}
               </h1>
             </div>
           </div>
@@ -258,7 +260,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
           {/* Top Center: AI Mode Toggle Pill */}
           <DraggableItem className="absolute top-[12%] sm:top-[21.5%] left-1/2 -translate-x-1/2 z-30 bg-white rounded-full px-3.5 py-1.5 sm:px-4 sm:py-2 soft-card-shadow border border-gray-100/90 flex items-center gap-2.5 sm:gap-3 select-none">
             <span className={`text-[11px] sm:text-[12px] font-medium transition-colors duration-300 ${aiActive ? 'text-[#FF5500] font-semibold' : 'text-gray-800'}`}>
-              {aiActive ? 'AI Mode' : 'AI Mode'}
+              {content.ai_mode_label || 'AI Mode'}
             </span>
             <button
               onClick={() => setAiActive(!aiActive)}
@@ -397,7 +399,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
                   <span className="text-gray-500 font-mono text-[9px] sm:text-[10px] hidden min-[360px]:inline">just now</span>
                 </div>
                 <div className="text-[10px] sm:text-[12px] text-gray-800 mt-0.5 leading-snug block group-hover:text-black transition-colors whitespace-nowrap">
-                  <span className="hidden sm:inline">Drop a message at </span><span className="font-semibold text-gray-900 underline decoration-gray-300 underline-offset-2">hello@ghiffa.dev</span>
+                  <span className="hidden sm:inline">{content.email_label || 'Drop a message at'} </span><span className="font-semibold text-gray-900 underline decoration-gray-300 underline-offset-2">hello@ghiffa.dev</span>
                 </div>
               </div>
             </a>
@@ -423,7 +425,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
                   <span className="text-gray-500 font-mono text-[9px] sm:text-[10px] hidden min-[360px]:inline">just now</span>
                 </div>
                 <div className="text-[10px] sm:text-[12px] text-gray-800 mt-0.5 leading-snug block group-hover:text-black transition-colors whitespace-nowrap">
-                  <span className="hidden sm:inline">Connect on LinkedIn </span><span className="font-semibold text-gray-900 underline decoration-gray-300 underline-offset-2">Haikal Jibran</span>
+                  <span className="hidden sm:inline">{content.linkedin_label || 'Connect on LinkedIn'} </span><span className="font-semibold text-gray-900 underline decoration-gray-300 underline-offset-2">Haikal Jibran</span>
                 </div>
               </div>
             </a>
@@ -505,7 +507,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
                   <span className="text-gray-500 font-mono text-[9px] sm:text-[10px] hidden min-[360px]:inline">just now</span>
                 </div>
                 <div className="text-[10px] sm:text-[12px] text-gray-800 mt-0.5 leading-snug block group-hover:text-black transition-colors whitespace-nowrap">
-                  <span className="hidden sm:inline">Connect on Instagram </span><span className="font-semibold text-gray-900 underline decoration-gray-300 underline-offset-2">@haikaljibraan</span>
+                  <span className="hidden sm:inline">{content.instagram_label || 'Connect on Instagram'} </span><span className="font-semibold text-gray-900 underline decoration-gray-300 underline-offset-2">@haikaljibraan</span>
                 </div>
               </div>
             </a>
@@ -533,7 +535,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
                   <span className="text-gray-500 font-mono text-[9px] sm:text-[10px] hidden min-[360px]:inline">just now</span>
                 </div>
                 <div className="text-[10px] sm:text-[12px] text-gray-800 mt-0.5 leading-snug block group-hover:text-black transition-colors whitespace-nowrap">
-                  <span className="hidden sm:inline">Gamified platform </span><span className="font-semibold text-[#FF5500] underline decoration-orange-300 underline-offset-2">skillstreak.id</span>
+                  <span className="hidden sm:inline">{content.skillstreak_label || 'Gamified platform'} </span><span className="font-semibold text-[#FF5500] underline decoration-orange-300 underline-offset-2">skillstreak.id</span>
                 </div>
               </div>
             </a>

@@ -4,17 +4,22 @@ import { ArrowUpRight } from 'lucide-react';
 import { ScrollReveal } from '../../atoms/ScrollReveal';
 import { TypewriterText } from '../../atoms/TypewriterText';
 
-export function CommunicationCtaSection({ emailAddress }) {
+export function CommunicationCtaSection({ emailAddress, sectionData }) {
   const email = emailAddress || 'hello@ghiffa.dev';
   const ctaHighlightRef = useRef(null);
   const isCtaInView = useInView(ctaHighlightRef, { once: true, margin: '-60px 0px -40px 0px' });
+
+  const rawTitle = sectionData?.title || 'communication matters';
+  const highlightText = sectionData?.content?.highlight_text || 'to start good things/';
+  const subtitle = sectionData?.content?.subtitle || "I'm currently available for freelance worldwide and full-time engineering roles. Feel free to contact me if you want to collaborate on future projects or have a chat.";
+  const buttonText = sectionData?.content?.button_text || "Let's Connect With Me";
 
   return (
     <section id="contact" className="relative py-24 sm:py-36 px-4 sm:px-8 lg:px-16 max-w-[1360px] mx-auto overflow-hidden">
       <ScrollReveal delay={0.05} y={32} className="flex flex-col items-center text-center">
         {/* Display Headline with Signature Figma Selection Highlight */}
         <h2 className="text-3xl min-[400px]:text-4xl sm:text-6xl md:text-7xl lg:text-[82px] xl:text-[92px] font-bold tracking-tight text-[#141414] leading-[0.98] lowercase select-none max-w-5xl">
-          communication matters
+          {rawTitle}
           <span className="block mt-2 sm:mt-3">
             <span
               ref={ctaHighlightRef}
@@ -28,7 +33,7 @@ export function CommunicationCtaSection({ emailAddress }) {
 
               {/* Typing Animated Text */}
               <TypewriterText
-                text="to start good things/"
+                text={highlightText}
                 trigger={isCtaInView}
                 delay={450}
                 speed={70}
@@ -47,7 +52,7 @@ export function CommunicationCtaSection({ emailAddress }) {
 
         {/* Good Communication Descriptive Paragraph */}
         <p className="text-gray-600 text-sm sm:text-base lg:text-[17px] max-w-xl mx-auto leading-relaxed mt-6 sm:mt-8 font-normal">
-          I&apos;m currently available for freelance worldwide and full-time engineering roles. Feel free to contact me if you want to collaborate on future projects or have a chat.
+          {subtitle}
         </p>
 
         {/* Single Action Button linking directly to email */}
@@ -56,7 +61,7 @@ export function CommunicationCtaSection({ emailAddress }) {
             href={`mailto:${email}`}
             className="group inline-flex items-center justify-center gap-2.5 bg-[#FF5500] hover:bg-[#E04B00] text-white font-semibold text-sm sm:text-[15px] px-8 sm:px-9 py-3.5 sm:py-4 rounded-full shadow-lg shadow-orange-600/25 transition-all duration-200 active:scale-95 cursor-pointer"
           >
-            <span>Let&apos;s Connect With Me</span>
+            <span>{buttonText}</span>
             <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </a>
         </div>

@@ -2,9 +2,14 @@ import React from 'react';
 import { ArrowUpRight, ArrowRight, ArrowUp } from 'lucide-react';
 import { ScrollReveal } from '../../atoms/ScrollReveal';
 
-export function PortfolioFooter({ emailAddress, onOpenContact }) {
+export function PortfolioFooter({ emailAddress, onOpenContact, sectionData }) {
   const email = emailAddress || 'hello@ghiffa.dev';
   const currentYear = new Date().getFullYear();
+
+  const footerTitle = sectionData?.title || 'ghiffa.dev';
+  const footerDesc = sectionData?.content?.desc || 'Crafting robust web applications, responsive digital products, and connected IoT systems from Kuningan, West Java.';
+  const location = sectionData?.content?.location || 'Kuningan, West Java, ID';
+  const copyright = sectionData?.content?.copyright || 'Haikal Jibran Al-Ghiffarry';
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -41,7 +46,7 @@ export function PortfolioFooter({ emailAddress, onOpenContact }) {
                   }}
                   className="text-2xl sm:text-3xl font-bold tracking-tight text-[#111111] hover:opacity-80 transition-opacity select-none"
                 >
-                  ghiffa.dev
+                  {footerTitle}
                 </a>
                 <span className="font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 font-medium select-none">
                   v2.0
@@ -53,7 +58,7 @@ export function PortfolioFooter({ emailAddress, onOpenContact }) {
               </p>
 
               <p className="text-xs sm:text-[13px] text-gray-500 leading-relaxed max-w-md font-normal">
-                Crafting robust web applications, responsive digital products, and connected IoT systems from Kuningan, West Java.
+                {footerDesc}
               </p>
 
             </div>
@@ -124,13 +129,13 @@ export function PortfolioFooter({ emailAddress, onOpenContact }) {
           {/* Bottom Bar: Copyright, Location, Back to Top */}
           <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-gray-500">
             <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 text-center sm:text-left">
-              <span>&copy; {currentYear} Haikal Jibran Al-Ghiffarry.</span>
+              <span>&copy; {currentYear} {copyright}.</span>
               <span className="hidden sm:inline text-gray-300">&middot;</span>
               <span>All rights reserved.</span>
             </div>
 
             <div className="flex items-center gap-4 text-center">
-              <span className="text-gray-400">Kuningan, West Java, ID</span>
+              <span className="text-gray-400">{location}</span>
               <span className="text-gray-300">&middot;</span>
               <button
                 onClick={scrollToTop}

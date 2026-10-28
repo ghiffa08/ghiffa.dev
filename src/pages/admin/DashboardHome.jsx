@@ -16,7 +16,8 @@ import {
   RefreshCw,
   FileText,
   Mail,
-  MessageSquare
+  MessageSquare,
+  Sparkles
 } from 'lucide-react';
 
 export default function DashboardHome() {
@@ -122,6 +123,14 @@ export default function DashboardHome() {
   }, []);
 
   const apps = [
+    {
+      name: 'Visual Builder (Elementor CMS)',
+      description: 'Live visual editor for landing page sections, copy, headlines, and responsive layout.',
+      icon: Sparkles,
+      path: '/admin/builder',
+      status: 'active',
+      color: 'bg-pink-50 text-[#E24B88]'
+    },
     {
       name: 'Portfolio CMS',
       description: 'Manage your website content, experiences, and projects.',

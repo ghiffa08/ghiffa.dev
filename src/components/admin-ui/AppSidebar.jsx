@@ -11,11 +11,13 @@ import {
   Link as LinkIcon,
   FileText,
   Mail,
-  MessageSquare
+  MessageSquare,
+  Sparkles
 } from 'lucide-react';
 
 const navItems = [
   { name: 'Dashboard', path: '/admin/panel/dashboard', icon: LayoutDashboard },
+  { name: 'Visual Builder', path: '/admin/builder', icon: Sparkles },
   { name: 'Messages', path: '/admin/panel/messages', icon: Mail },
   { name: 'Settings', path: '/admin/panel/settings', icon: Settings },
   { name: 'Personal Info', path: '/admin/panel/personal', icon: User },

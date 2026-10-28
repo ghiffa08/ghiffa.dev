@@ -5,8 +5,11 @@ import { ScrollReveal } from '../../atoms/ScrollReveal';
 
 export function SelectedWorksSection({
   projectsList,
-  isBannerDark
+  isBannerDark,
+  sectionData
 }) {
+  const sectionTitle = sectionData?.title || 'selected works';
+  const ctaText = sectionData?.content?.cta_text || 'Explore all works →';
   const worksCarouselRef = useRef(null);
   const isDraggingWorksRef = useRef(false);
   const startXWorksRef = useRef(0);
@@ -69,7 +72,7 @@ export function SelectedWorksSection({
           <div>
             <div className="text-xs font-mono uppercase tracking-widest text-[#FF5500] font-semibold mb-1" />
             <h2 className={`text-2xl sm:text-[38px] font-bold tracking-tight transition-colors duration-700 ${isBannerDark ? 'text-black' : 'text-[#141414]'}`}>
-              selected works
+              {sectionTitle}
             </h2>
           </div>
           <div className="flex items-center gap-3">
@@ -106,7 +109,7 @@ export function SelectedWorksSection({
                   : 'text-gray-600 hover:text-black border-gray-200 hover:border-gray-300'
                 }`}
             >
-              Explore all works →
+              {ctaText}
             </Link>
           </div>
         </div>

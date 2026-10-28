@@ -43,8 +43,9 @@ const formatPeriod = (period) => {
     .replace(/\bagu\b/gi, 'Aug');
 };
 
-export function ProfessionalJourneySection({ experiencesList }) {
+export function ProfessionalJourneySection({ experiencesList, sectionData }) {
   const { t } = useTranslation();
+  const sectionTitle = sectionData?.title || 'professional journey';
 
   return (
     <section id="journey" className="relative py-20 sm:py-28 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto border-t border-gray-100">
@@ -53,7 +54,7 @@ export function ProfessionalJourneySection({ experiencesList }) {
       {/* Section Header: Full-width display title matching reference */}
       <ScrollReveal delay={0.05} y={30} className="mb-14 sm:mb-20">
         <h2 className="text-4xl min-[400px]:text-5xl sm:text-7xl md:text-8xl lg:text-[110px] xl:text-[124px] 2xl:text-[130px] lg:whitespace-nowrap font-bold text-[#141414] tracking-tight sm:tracking-tighter leading-[0.88] lowercase select-none">
-          professional journey
+          {sectionTitle}
         </h2>
       </ScrollReveal>
 

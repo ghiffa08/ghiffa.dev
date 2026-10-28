@@ -26,6 +26,7 @@ const ArticlesPage = lazy(() => import('./pages/ArticlesPage'));
 const ArticleDetailPage = lazy(() => import('./pages/ArticleDetailPage'));
 const WorksPage = lazy(() => import('./pages/WorksPage'));
 const ProjectDetailPage = lazy(() => import('./pages/ProjectDetailPage'));
+const VisualBuilder = lazy(() => import('./pages/admin/VisualBuilder'));
 
 // Brand Splash Screen matching identical hero coordinates down to the subpixel
 const BrandSplashScreen = () => (
@@ -91,7 +92,14 @@ export default function App() {
           <Route path="messages" element={<MessagesManager />} />
           <Route path="url-shortener" element={<URLShortenerManager />} />
           <Route path="qr-generator" element={<QRCodeGenerator />} />
+          <Route path="builder" element={<VisualBuilder />} />
         </Route>
+
+        <Route path="/admin/builder" element={
+          <Suspense fallback={<AdminLoader />}>
+            <VisualBuilder />
+          </Suspense>
+        } />
 
         {/* All other routes redirect to maintenance page */}
         <Route path="*" element={<MaintenancePage />} />
@@ -158,7 +166,14 @@ export default function App() {
         <Route path="messages" element={<MessagesManager />} />
         <Route path="url-shortener" element={<URLShortenerManager />} />
         <Route path="qr-generator" element={<QRCodeGenerator />} />
+        <Route path="builder" element={<VisualBuilder />} />
       </Route>
+
+      <Route path="/admin/builder" element={
+        <Suspense fallback={<AdminLoader />}>
+          <VisualBuilder />
+        </Suspense>
+      } />
     </Routes>
   );
 }

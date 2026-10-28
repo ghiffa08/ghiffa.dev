@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useSupabaseSingle, useSupabaseList } from '../hooks/useSupabaseData';
 import { ContactRepository } from '../repositories/ContactRepository';
+import { LandingContentRepository, DEFAULT_LANDING_SECTIONS } from '../repositories/LandingContentRepository';
 import { SEO } from '../components/atoms/SEO';
 import {
   PortfolioHeader,
@@ -112,7 +113,24 @@ const fallbackArticles = [
   }
 ];
 
-export default function Portfolio() {
+export default function Portfolio({
+  overrideSections = null,
+  isBuilderMode = false,
+  activeSectionId = null,
+  onSelectSection = null
+}) {
+  const [dbSections, setDbSections] = useState(DEFAULT_LANDING_SECTIONS);
+
+  useEffect(() => {
+    if (!overrideSections) {
+      LandingContentRepository.getAllSections().then((data) => {
+        if (data) setDbSections(data);
+      });
+    }
+  }, [overrideSections]);
+
+  const sections = overrideSections || dbSections;
+
   // Supabase Data Queries
   const { data: info } = useSupabaseSingle('personal_info');
   const { data: supabaseProjects } = useSupabaseList('projects');
@@ -474,6 +492,49 @@ export default function Portfolio() {
     ]
   }), [fullName, avatarImage]);
 
+  const renderSectionWrapper = (id, label, component) => {
+    const sectionData = sections[id] || DEFAULT_LANDING_SECTIONS[id];
+    if (sectionData?.is_active === false && !isBuilderMode) return null;
+
+    if (!isBuilderMode) {
+      return component(sectionData);
+    }
+
+    const isActive = activeSectionId === id;
+
+    return (
+      <div
+        key={id}
+        id={`builder-section-${id}`}
+        onClick={(e) => {
+          e.stopPropagation();
+          if (onSelectSection) onSelectSection(id);
+        }}
+        className={`relative transition-all duration-200 group cursor-pointer ${
+          isActive
+            ? 'outline-4 outline-[#0D99FF] -outline-offset-4 ring-4 ring-[#0D99FF]/30 z-30'
+            : 'hover:outline-2 hover:outline-[#0D99FF]/80 hover:-outline-offset-2'
+        } ${sectionData?.is_active === false ? 'opacity-40 grayscale-[40%]' : ''}`}
+      >
+        {/* Elementor Edit Tag Handle */}
+        <div
+          className={`absolute top-3 left-4 z-50 flex items-center gap-2 px-3 py-1.5 rounded-md text-[11px] font-mono font-bold tracking-wider uppercase shadow-xl transition-all ${
+            isActive
+              ? 'bg-[#0D99FF] text-white scale-105'
+              : 'bg-[#18181B]/90 text-white/90 group-hover:bg-[#0D99FF] group-hover:text-white'
+          }`}
+        >
+          <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+          <span>Edit: {label || id}</span>
+          {sectionData?.is_active === false && (
+            <span className="text-[9px] bg-red-600 px-1.5 py-0.5 rounded text-white font-bold ml-1">HIDDEN</span>
+          )}
+        </div>
+        {component(sectionData)}
+      </div>
+    );
+  };
+
   return (
     <div
       className={`min-h-screen font-sans antialiased selection:bg-[#FF5500] selection:text-white transition-colors duration-700 ease-in-out ${
@@ -497,69 +558,107 @@ export default function Portfolio() {
       />
 
       {/* Hero Section */}
-      <PortfolioHero
-        heroRevealed={heroRevealed}
-        setHeroRevealed={setHeroRevealed}
-        aiActive={aiActive}
-        setAiActive={setAiActive}
-      />
+      {renderSectionWrapper('hero', 'Hero Canvas', (sec) => (
+        <PortfolioHero
+          heroRevealed={heroRevealed}
+          setHeroRevealed={setHeroRevealed}
+          aiActive={aiActive}
+          setAiActive={setAiActive}
+          sectionData={sec}
+        />
+      ))}
 
       {/* Sticky Scroll Text Section */}
-      <StickyScrollText />
+      {renderSectionWrapper('sticky_text', 'Sticky Scroll Headline', (sec) => (
+        <StickyScrollText sectionData={sec} />
+      ))}
 
       {/* Services Section */}
-      <ServiceCardsSection />
+      {renderSectionWrapper('services', 'Capabilities & Services', (sec) => (
+        <ServiceCardsSection sectionData={sec} />
+      ))}
 
       {/* About Me Section */}
-      <AboutMeSection
-        avatarImage={avatarImage}
-        fullName={fullName}
-        aboutBio={aboutBio}
-        educationList={educationList}
-      />
+      {renderSectionWrapper('about', 'About Me', (sec) => (
+        <AboutMeSection
+          avatarImage={avatarImage}
+          fullName={fullName}
+          aboutBio={aboutBio}
+          educationList={educationList}
+          sectionData={sec}
+        />
+      ))}
 
       {/* Professional Journey Timeline Section */}
-      <ProfessionalJourneySection experiencesList={experiencesList} />
+      {renderSectionWrapper('journey', 'Professional Journey', (sec) => (
+        <ProfessionalJourneySection
+          experiencesList={experiencesList}
+          sectionData={sec}
+        />
+      ))}
 
       {/* Certifications Bento Grid Section */}
-      <CertificationsSection
-        bentoCertificates={bentoCertificates}
-        onSelectCert={setCertModalItem}
-      />
+      {renderSectionWrapper('certifications', 'Certifications & HAKI', (sec) => (
+        <CertificationsSection
+          bentoCertificates={bentoCertificates}
+          onSelectCert={setCertModalItem}
+          sectionData={sec}
+        />
+      ))}
 
       {/* Selected Works Draggable Carousel Section */}
-      <SelectedWorksSection
-        projectsList={projectsList}
-        isBannerDark={isBannerDark}
-        onOpenContact={openContactModal}
-      />
+      {renderSectionWrapper('works', 'Selected Works', (sec) => (
+        <SelectedWorksSection
+          projectsList={projectsList}
+          isBannerDark={isBannerDark}
+          onOpenContact={openContactModal}
+          sectionData={sec}
+        />
+      ))}
 
       {/* Skillstreak Banner Section */}
-      <SkillstreakBannerSection
-        bannerRef={bannerRef}
-        isBannerDark={isBannerDark}
-      />
+      {renderSectionWrapper('skillstreak', 'Skillstreak Platform Banner', (sec) => (
+        <SkillstreakBannerSection
+          bannerRef={bannerRef}
+          isBannerDark={isBannerDark}
+          sectionData={sec}
+        />
+      ))}
 
-      {/* Selected Articles Draggable Carousel Section (Right Below Banner Gambar 1) */}
-      <SelectedArticlesSection
-        articlesList={articlesList}
-        isBannerDark={isBannerDark}
-      />
+      {/* Selected Articles Draggable Carousel Section */}
+      {renderSectionWrapper('articles', 'Selected Articles', (sec) => (
+        <SelectedArticlesSection
+          articlesList={articlesList}
+          isBannerDark={isBannerDark}
+          sectionData={sec}
+        />
+      ))}
 
       {/* Instagram Posts Section */}
-      <InstagramPostsSection isBannerDark={isBannerDark} />
+      {renderSectionWrapper('instagram', 'Instagram Journal', (sec) => (
+        <InstagramPostsSection
+          isBannerDark={isBannerDark}
+          sectionData={sec}
+        />
+      ))}
 
       {/* Communication Matters CTA Section */}
-      <CommunicationCtaSection
-        emailAddress={emailAddress}
-        onOpenContact={openContactModal}
-      />
+      {renderSectionWrapper('cta', 'Communication CTA', (sec) => (
+        <CommunicationCtaSection
+          emailAddress={emailAddress}
+          onOpenContact={openContactModal}
+          sectionData={sec}
+        />
+      ))}
 
       {/* Footer */}
-      <PortfolioFooter
-        emailAddress={emailAddress}
-        onOpenContact={openContactModal}
-      />
+      {renderSectionWrapper('footer', 'Footer', (sec) => (
+        <PortfolioFooter
+          emailAddress={emailAddress}
+          onOpenContact={openContactModal}
+          sectionData={sec}
+        />
+      ))}
 
       {/* Contact Modal */}
       <ContactModal

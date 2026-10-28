@@ -5,7 +5,11 @@ import { ScrollReveal } from '../../atoms/ScrollReveal';
 
 const POSTS_PER_PAGE = 6;
 
-export function InstagramPostsSection({ isBannerDark }) {
+export function InstagramPostsSection({ isBannerDark, sectionData }) {
+  const sectionTitle = sectionData?.title || 'instagram posts';
+  const handle = sectionData?.content?.handle || '@haikaljibraan';
+  const cleanHandle = handle.replace('@', '');
+
   const { data: posts, isLoading, error } = useInstagramFeed();
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -35,13 +39,13 @@ export function InstagramPostsSection({ isBannerDark }) {
         <div className="flex items-center justify-between mb-8 sm:mb-10">
           <div>
             <h2 className={`text-2xl sm:text-[38px] font-bold tracking-tight transition-colors duration-700 ${isBannerDark ? 'text-black' : 'text-[#141414]'}`}>
-              instagram posts
+              {sectionTitle}
             </h2>
           </div>
 
           <div className="flex items-center gap-3">
             <a
-              href="https://instagram.com/haikaljibraan"
+              href={`https://instagram.com/${cleanHandle}`}
               target="_blank"
               rel="noopener noreferrer"
               className={`group text-xs font-medium border px-4 py-2 rounded-full transition-colors duration-500 inline-flex items-center gap-1.5 cursor-pointer shadow-2xs ${
@@ -50,7 +54,7 @@ export function InstagramPostsSection({ isBannerDark }) {
                   : 'text-gray-600 hover:text-black border-gray-200 hover:border-gray-300'
               }`}
             >
-              <span>@haikaljibraan</span>
+              <span>{handle}</span>
               <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
           </div>

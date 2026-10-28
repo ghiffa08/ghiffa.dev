@@ -52,7 +52,7 @@ const FIGMA_THEMES = [
   },
 ];
 
-export function CertificationsSection({ bentoCertificates, onSelectCert }) {
+export function CertificationsSection({ bentoCertificates, onSelectCert, sectionData }) {
   const [showAllCerts, setShowAllCerts] = useState(false);
 
   const renderCertCard = (cert, idx = 0) => {

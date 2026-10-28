@@ -142,9 +142,16 @@ export default function WorksPage() {
               </div>
             </div>
 
-            {/* Category Filter Pills */}
+            {/* Category Filter Pills (Horizontal scrollable on mobile, wrapping on desktop) */}
             {categories.length > 2 && (
-              <div className="flex flex-wrap items-center gap-2 pt-1 select-none">
+              <div
+                className="flex items-center gap-2 pt-1 select-none overflow-x-auto scrollbar-none pb-2 -mx-4 sm:mx-0 px-4 sm:px-0 flex-nowrap sm:flex-wrap touch-pan-x"
+                style={{
+                  scrollbarWidth: 'none',
+                  msOverflowStyle: 'none',
+                  WebkitOverflowScrolling: 'touch'
+                }}
+              >
                 {categories.map((cat) => {
                   const isActive = selectedCategory === cat;
                   return (
@@ -152,7 +159,7 @@ export default function WorksPage() {
                       key={cat}
                       type="button"
                       onClick={() => setSelectedCategory(cat)}
-                      className={`text-xs font-mono font-medium px-4 py-1.5 rounded-full border transition-all cursor-pointer ${
+                      className={`text-xs font-mono font-medium px-4 min-h-[40px] shrink-0 rounded-full border transition-all cursor-pointer flex items-center justify-center whitespace-nowrap active:scale-95 ${
                         isActive
                           ? 'bg-[#141414] text-white border-[#141414] shadow-xs'
                           : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400 hover:text-black'
@@ -206,6 +213,8 @@ export default function WorksPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
             {filtered.map((proj, idx) => {
               const projImg =
+                proj.thumbnail_url ||
+                proj.thumbnail ||
                 proj.image_url ||
                 (Array.isArray(proj.image_urls) && proj.image_urls.length > 0
                   ? proj.image_urls[0]
@@ -219,7 +228,7 @@ export default function WorksPage() {
                     className="group flex flex-col cursor-pointer select-none"
                   >
                     {/* Visual Cover (4:3 aspect ratio, rounded-2xl) */}
-                    <div className="aspect-[4/3] rounded-2xl overflow-hidden mb-4 relative bg-[#F4F4F5] shadow-xs border border-black/5">
+                    <div className="aspect-[4/3] rounded-2xl overflow-hidden mb-4 relative bg-[#18181B] shadow-xs border border-black/5 flex items-center justify-center">
                       {projImg ? (
                         <img
                           src={projImg}
@@ -228,13 +237,22 @@ export default function WorksPage() {
                           className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out"
                           onError={(e) => {
                             e.currentTarget.style.display = 'none';
+                            const fallback = e.currentTarget.nextElementSibling;
+                            if (fallback) fallback.style.display = 'flex';
                           }}
                         />
-                      ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-neutral-800 to-neutral-950 flex items-center justify-center text-white/40 font-mono text-xs uppercase tracking-wider">
-                          ghiffa.dev work
-                        </div>
-                      )}
+                      ) : null}
+                      <div
+                        style={{ display: projImg ? 'none' : 'flex' }}
+                        className="w-full h-full bg-gradient-to-br from-neutral-800 to-neutral-950 flex flex-col items-center justify-center p-6 text-center text-white/70 select-none"
+                      >
+                        <span className="font-mono text-[10px] uppercase tracking-widest text-[#FF5500] font-semibold mb-1">
+                          {proj.category || 'PROJECT'}
+                        </span>
+                        <span className="text-sm sm:text-base font-bold text-white max-w-[200px] line-clamp-2">
+                          {proj.title}
+                        </span>
+                      </div>
 
                       {/* Floating Category Tag */}
                       {proj.category && (

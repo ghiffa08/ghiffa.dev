@@ -115,7 +115,14 @@ export const ArticleRepository = {
    */
   async incrementClaps(id, amount = 1) {
     try {
-      // Fetch current claps
+      // 1. Try atomic PostgreSQL RPC first to prevent race conditions and egress bloat
+      const { error: rpcError } = await supabase.rpc('increment_article_claps', {
+        article_id: id,
+        amount
+      });
+      if (!rpcError) return true;
+
+      // 2. Fallback to select + update if RPC is not yet registered in database
       const { data: current } = await supabase
         .from('articles')
         .select('claps_count')

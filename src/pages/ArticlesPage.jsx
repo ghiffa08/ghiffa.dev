@@ -6,6 +6,7 @@ import { useSupabaseSingle } from '../hooks/useSupabaseData';
 import { SEO } from '../components/atoms/SEO';
 import { ScrollReveal } from '../components/atoms/ScrollReveal';
 import { ArticlesHeader, PortfolioFooter } from '../components/organisms/portfolio';
+import { formatReadTime } from '../utils/formatReadTime';
 
 /**
  * Format ISO timestamp into clean editorial format (e.g., "12 OKT 2024").
@@ -188,7 +189,7 @@ export default function ArticlesPage() {
                       {article.read_time && (
                         <>
                           <span className="text-gray-300">&middot;</span>
-                          <span>{article.read_time}</span>
+                          <span>{formatReadTime(article.read_time)}</span>
                         </>
                       )}
                     </div>

@@ -258,17 +258,18 @@ export default function Portfolio() {
         name: formData.name,
         email: formData.email,
         message: formData.message,
-        topic: modalTopic || 'General Inquiry'
+        topic: modalTopic || 'General Inquiry',
+        honeypot: formData.honeypot
       });
 
       setFormSent(true);
       setTimeout(() => {
         closeContactModal();
-        setFormData({ name: '', email: '', message: '' });
+        setFormData({ name: '', email: '', message: '', honeypot: '' });
       }, 1800);
     } catch (err) {
       console.error('Failed to submit contact message:', err);
-      setContactErrorMessage('Failed to send message. Please try again or reach out directly.');
+      setContactErrorMessage(err.message || 'Failed to send message. Please try again or reach out directly.');
     } finally {
       setIsSubmittingContact(false);
     }

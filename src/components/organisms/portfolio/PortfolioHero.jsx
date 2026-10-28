@@ -218,9 +218,9 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
   return (
     <section className="relative w-full h-screen min-h-[600px] sm:min-h-[700px] pt-[64px] sm:pt-[72px] bg-architectural-dots overflow-hidden select-none">
       {/* Edge-to-Edge Full Viewport Interactive Canvas */}
-      <div id="hero-canvas" className="relative w-full h-full will-change-transform">
+      <div id="hero-canvas" className="relative w-full h-full will-change-transform overflow-hidden max-w-full">
         {/* 1. CENTER: Giant "ghiffa.dev" (Figma Canvas Selection with Skillstreak Orange Accent & Layer Badge) */}
-        <div className="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 px-2 sm:px-4 w-full max-w-[96vw] sm:max-w-none flex justify-center">
+        <div className="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 px-2 sm:px-4 w-full max-w-[96vw] sm:max-w-none flex justify-center pointer-events-auto">
           <div id="hero-title-inner" className="will-change-transform">
             <div
               id="hero-bbox"
@@ -252,7 +252,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
         {/* 2. SURROUNDING WORKSPACE ITEMS (Hidden on refresh, reveals smoothly) */}
         <div
           id="hero-workspace-items"
-          className={`absolute inset-0 transition-all duration-1000 ease-out will-change-transform ${heroRevealed ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-[0.98] pointer-events-none'
+          className={`absolute inset-0 transition-all duration-1000 ease-out will-change-transform overflow-hidden max-w-full ${heroRevealed ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-[0.98] pointer-events-none'
             }`}
         >
           {/* Top Center: AI Mode Toggle Pill */}
@@ -379,45 +379,54 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
           {/* 5. FLOATING SOCIAL CARDS & BUBBLES (Staggered rhythmic placement on mobile) */}
 
           {/* Top-Left: Email hello@ghiffa.dev */}
-          <DraggableItem className="flex absolute top-[21%] sm:top-[14%] left-[4%] sm:left-[4%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start gap-2 sm:gap-3 hover:border-gray-200 transition-colors group">
-            <div className="w-5.5 h-5.5 sm:w-7 sm:h-7 rounded-full bg-[#EA4335] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
-              <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <rect width="20" height="16" x="2" y="4" rx="2" />
-                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-              </svg>
-            </div>
-            <div className="min-w-0">
-              <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px]">
-                <span className="font-semibold text-gray-900">Email</span>
-                <span className="text-gray-500 font-mono text-[9px] sm:text-[10px] hidden min-[360px]:inline">just now</span>
+          <DraggableItem className="flex absolute top-[21%] sm:top-[14%] left-[4%] sm:left-[4%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start hover:border-gray-200 transition-colors group">
+            <a
+              href="mailto:hello@ghiffa.dev"
+              className="flex items-start gap-2 sm:gap-3 w-full cursor-pointer no-underline"
+              aria-label="Send email to hello@ghiffa.dev"
+            >
+              <div className="w-5.5 h-5.5 sm:w-7 sm:h-7 rounded-full bg-[#EA4335] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
+                <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect width="20" height="16" x="2" y="4" rx="2" />
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                </svg>
               </div>
-              <a href="mailto:hello@ghiffa.dev" className="text-[10px] sm:text-[12px] text-gray-800 mt-0.5 leading-snug block hover:text-black transition-colors whitespace-nowrap">
-                <span className="hidden sm:inline">Drop a message at </span><span className="font-semibold text-gray-900 underline decoration-gray-300 underline-offset-2">hello@ghiffa.dev</span>
-              </a>
-            </div>
+              <div className="min-w-0">
+                <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px]">
+                  <span className="font-semibold text-gray-900">Email</span>
+                  <span className="text-gray-500 font-mono text-[9px] sm:text-[10px] hidden min-[360px]:inline">just now</span>
+                </div>
+                <div className="text-[10px] sm:text-[12px] text-gray-800 mt-0.5 leading-snug block group-hover:text-black transition-colors whitespace-nowrap">
+                  <span className="hidden sm:inline">Drop a message at </span><span className="font-semibold text-gray-900 underline decoration-gray-300 underline-offset-2">hello@ghiffa.dev</span>
+                </div>
+              </div>
+            </a>
           </DraggableItem>
 
           {/* Bottom-Left: LinkedIn Haikal Jibran */}
-          <DraggableItem className="flex absolute top-[57%] sm:top-[62%] left-[4%] sm:left-[6%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start gap-2 sm:gap-3 hover:border-gray-200 transition-colors group">
-            <div className="w-5.5 h-5.5 sm:w-7 sm:h-7 rounded-full bg-[#0A66C2] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
-              <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-white" viewBox="0 0 24 24">
-                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-              </svg>
-            </div>
-            <div className="min-w-0">
-              <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px]">
-                <span className="font-semibold text-gray-900">LinkedIn</span>
-                <span className="text-gray-500 font-mono text-[9px] sm:text-[10px] hidden min-[360px]:inline">just now</span>
+          <DraggableItem className="flex absolute top-[57%] sm:top-[62%] left-[4%] sm:left-[6%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start hover:border-gray-200 transition-colors group">
+            <a
+              href="https://www.linkedin.com/in/haikal-jibran-al-ghiffarry?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-start gap-2 sm:gap-3 w-full cursor-pointer no-underline"
+              aria-label="LinkedIn profile Haikal Jibran"
+            >
+              <div className="w-5.5 h-5.5 sm:w-7 sm:h-7 rounded-full bg-[#0A66C2] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
+                <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-white" viewBox="0 0 24 24">
+                  <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                </svg>
               </div>
-              <a
-                href="https://www.linkedin.com/in/haikal-jibran-al-ghiffarry?utm_source=share_via&utm_content=profile&utm_medium=member_android"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[10px] sm:text-[12px] text-gray-800 mt-0.5 leading-snug block hover:text-black transition-colors whitespace-nowrap"
-              >
-                <span className="hidden sm:inline">Connect on LinkedIn </span><span className="font-semibold text-gray-900 underline decoration-gray-300 underline-offset-2">Haikal Jibran</span>
-              </a>
-            </div>
+              <div className="min-w-0">
+                <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px]">
+                  <span className="font-semibold text-gray-900">LinkedIn</span>
+                  <span className="text-gray-500 font-mono text-[9px] sm:text-[10px] hidden min-[360px]:inline">just now</span>
+                </div>
+                <div className="text-[10px] sm:text-[12px] text-gray-800 mt-0.5 leading-snug block group-hover:text-black transition-colors whitespace-nowrap">
+                  <span className="hidden sm:inline">Connect on LinkedIn </span><span className="font-semibold text-gray-900 underline decoration-gray-300 underline-offset-2">Haikal Jibran</span>
+                </div>
+              </div>
+            </a>
           </DraggableItem>
 
           {/* Top-Right: GitHub Contributions Heatmap Card (Desktop Only) */}
@@ -477,51 +486,57 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
           </DraggableItem>
 
           {/* Mid-Right: Instagram @haikaljibraan */}
-          <DraggableItem className="flex absolute top-[31%] sm:top-[38%] right-[4%] sm:right-[5%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start gap-2 sm:gap-3 hover:border-gray-200 transition-colors group">
-            <div className="w-5.5 h-5.5 sm:w-7 sm:h-7 rounded-full bg-gradient-to-tr from-[#FD1D1D] via-[#E1306C] to-[#C13584] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
-              <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-white" viewBox="0 0 24 24">
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-              </svg>
-            </div>
-            <div className="min-w-0">
-              <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px]">
-                <span className="font-semibold text-gray-900">Instagram</span>
-                <span className="text-gray-500 font-mono text-[9px] sm:text-[10px] hidden min-[360px]:inline">just now</span>
+          <DraggableItem className="flex absolute top-[31%] sm:top-[38%] right-[4%] sm:right-[5%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start hover:border-gray-200 transition-colors group">
+            <a
+              href="https://instagram.com/haikaljibraan"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-start gap-2 sm:gap-3 w-full cursor-pointer no-underline"
+              aria-label="Instagram profile @haikaljibraan"
+            >
+              <div className="w-5.5 h-5.5 sm:w-7 sm:h-7 rounded-full bg-gradient-to-tr from-[#FD1D1D] via-[#E1306C] to-[#C13584] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
+                <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-white" viewBox="0 0 24 24">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                </svg>
               </div>
-              <a
-                href="https://instagram.com/haikaljibraan"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[10px] sm:text-[12px] text-gray-800 mt-0.5 leading-snug block hover:text-black transition-colors whitespace-nowrap"
-              >
-                <span className="hidden sm:inline">Connect on Instagram </span><span className="font-semibold text-gray-900 underline decoration-gray-300 underline-offset-2">@haikaljibraan</span>
-              </a>
-            </div>
+              <div className="min-w-0">
+                <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px]">
+                  <span className="font-semibold text-gray-900">Instagram</span>
+                  <span className="text-gray-500 font-mono text-[9px] sm:text-[10px] hidden min-[360px]:inline">just now</span>
+                </div>
+                <div className="text-[10px] sm:text-[12px] text-gray-800 mt-0.5 leading-snug block group-hover:text-black transition-colors whitespace-nowrap">
+                  <span className="hidden sm:inline">Connect on Instagram </span><span className="font-semibold text-gray-900 underline decoration-gray-300 underline-offset-2">@haikaljibraan</span>
+                </div>
+              </div>
+            </a>
           </DraggableItem>
 
           {/* Bottom-Right: Web skillstreak.id */}
-          <DraggableItem className="flex absolute top-[68%] sm:top-[62%] right-[4%] sm:right-[6%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start gap-2 sm:gap-3 hover:border-gray-200 transition-colors group">
-            <div className="w-5.5 h-5.5 sm:w-7 sm:h-7 rounded-full bg-gradient-to-tr from-[#FF4500] via-[#FF5500] to-[#FFA116] flex items-center justify-center shrink-0 mt-0.5 shadow-xs shadow-orange-500/20">
-              <img
-                src="/skillstreak-white.svg"
-                alt="Skillstreak"
-                className="w-3.5 h-3.5 sm:w-4 sm:h-4 object-contain select-none pointer-events-none"
-              />
-            </div>
-            <div className="min-w-0">
-              <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px]">
-                <span className="font-semibold text-gray-900">Skillstreak</span>
-                <span className="text-gray-500 font-mono text-[9px] sm:text-[10px] hidden min-[360px]:inline">just now</span>
+          <DraggableItem className="flex absolute top-[68%] sm:top-[62%] right-[4%] sm:right-[6%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start hover:border-gray-200 transition-colors group">
+            <a
+              href="https://skillstreak.id"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-start gap-2 sm:gap-3 w-full cursor-pointer no-underline"
+              aria-label="Visit skillstreak.id"
+            >
+              <div className="w-5.5 h-5.5 sm:w-7 sm:h-7 rounded-full bg-gradient-to-tr from-[#FF4500] via-[#FF5500] to-[#FFA116] flex items-center justify-center shrink-0 mt-0.5 shadow-xs shadow-orange-500/20">
+                <img
+                  src="/skillstreak-white.svg"
+                  alt="Skillstreak"
+                  className="w-3.5 h-3.5 sm:w-4 sm:h-4 object-contain select-none pointer-events-none"
+                />
               </div>
-              <a
-                href="https://skillstreak.id"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[10px] sm:text-[12px] text-gray-800 mt-0.5 leading-snug block hover:text-black transition-colors whitespace-nowrap"
-              >
-                <span className="hidden sm:inline">Gamified platform </span><span className="font-semibold text-[#FF5500] underline decoration-orange-300 underline-offset-2">skillstreak.id</span>
-              </a>
-            </div>
+              <div className="min-w-0">
+                <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px]">
+                  <span className="font-semibold text-gray-900">Skillstreak</span>
+                  <span className="text-gray-500 font-mono text-[9px] sm:text-[10px] hidden min-[360px]:inline">just now</span>
+                </div>
+                <div className="text-[10px] sm:text-[12px] text-gray-800 mt-0.5 leading-snug block group-hover:text-black transition-colors whitespace-nowrap">
+                  <span className="hidden sm:inline">Gamified platform </span><span className="font-semibold text-[#FF5500] underline decoration-orange-300 underline-offset-2">skillstreak.id</span>
+                </div>
+              </div>
+            </a>
           </DraggableItem>
 
           {/* Bottom-Center: GitHub ghiffa08 */}

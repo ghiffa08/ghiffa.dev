@@ -1,7 +1,51 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { ScrollReveal } from '../../atoms/ScrollReveal';
+import { slugify } from '../../../utils/slugify';
+
+const formatExperienceRole = (exp, t) => {
+  if (!exp) return '';
+  const rawRole = exp.role || exp.position || '';
+  const companySlug = slugify(exp.company || '');
+  const roleSlug = slugify(rawRole);
+  const key = `experience.${companySlug}.${roleSlug}.role`;
+  if (t) {
+    const val = t(key, '');
+    if (val && val !== key) return val;
+  }
+  return rawRole;
+};
+
+const formatExperienceDesc = (exp, t) => {
+  if (!exp) return '';
+  const rawDesc = exp.description || '';
+  const companySlug = slugify(exp.company || '');
+  const rawRole = exp.role || exp.position || '';
+  const roleSlug = slugify(rawRole);
+  const key = `experience.${companySlug}.${roleSlug}.description`;
+  if (t) {
+    const val = t(key, '');
+    if (val && val !== key) return val;
+  }
+  return rawDesc;
+};
+
+const formatPeriod = (period) => {
+  if (!period) return '';
+  return period
+    .replace(/\bsekarang\b/gi, 'Present')
+    .replace(/\bokt\b/gi, 'Oct')
+    .replace(/\bfeb\b/gi, 'Feb')
+    .replace(/\bmei\b/gi, 'May')
+    .replace(/\bjun\b/gi, 'Jun')
+    .replace(/\bdes\b/gi, 'Dec')
+    .replace(/\bsep\b/gi, 'Sep')
+    .replace(/\bagu\b/gi, 'Aug');
+};
 
 export function ProfessionalJourneySection({ experiencesList }) {
+  const { t } = useTranslation();
+
   return (
     <section id="journey" className="relative py-20 sm:py-28 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto border-t border-gray-100">
       <div id="experience" className="absolute -top-24" />
@@ -33,7 +77,7 @@ export function ProfessionalJourneySection({ experiencesList }) {
                 </span>
                 <div>
                   <span className="text-xs sm:text-[13px] font-mono font-medium text-gray-600 block">
-                    {exp.period || '2023 - Present'}
+                    {formatPeriod(exp.period) || '2023 - Present'}
                   </span>
                   {exp.location && (
                     <span className="text-[12px] text-gray-400 font-normal block mt-0.5">
@@ -46,7 +90,7 @@ export function ProfessionalJourneySection({ experiencesList }) {
               {/* Column 2: Role & Company */}
               <div className="md:col-span-4">
                 <h3 className="text-xl sm:text-2xl font-bold text-[#141414] group-hover:text-[#FF5500] transition-colors leading-snug">
-                  {exp.role || exp.position}
+                  {formatExperienceRole(exp, t)}
                 </h3>
                 <div className="text-sm sm:text-base font-semibold text-gray-700 mt-1.5 flex items-center gap-2">
                   <span>{exp.company}</span>
@@ -56,7 +100,7 @@ export function ProfessionalJourneySection({ experiencesList }) {
               {/* Column 3: Description & Tech Stack */}
               <div className="md:col-span-5 space-y-3">
                 <p className="text-sm sm:text-[15px] text-gray-600 leading-relaxed font-normal">
-                  {exp.description}
+                  {formatExperienceDesc(exp, t)}
                 </p>
 
                 {exp.skills && Array.isArray(exp.skills) && exp.skills.length > 0 && (

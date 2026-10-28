@@ -18,21 +18,21 @@ export function ContactModal({
       onClick={onClose}
     >
       <div
-        className="bg-white border border-gray-200 rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative"
+        className="bg-white border border-gray-200 rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative max-h-[85vh] overflow-y-auto overscroll-contain"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           onClick={onClose}
           type="button"
           aria-label="Close modal"
-          className="absolute top-5 right-5 text-gray-400 hover:text-black p-1 cursor-pointer transition-colors"
+          className="absolute top-4 right-4 text-gray-400 hover:text-black w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full hover:bg-gray-100 cursor-pointer transition-colors"
         >
-          ✕
+          <span className="text-lg leading-none">✕</span>
         </button>
         <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">
           ghiffa.dev
         </div>
-        <h3 className="text-2xl font-bold text-[#111111] mb-2">
+        <h3 className="text-2xl font-bold text-[#111111] mb-2 pr-8">
           Let&apos;s build a project together
         </h3>
         <p className="text-xs text-gray-500 mb-6">
@@ -46,6 +46,17 @@ export function ContactModal({
         )}
 
         <form onSubmit={onSubmit} className="space-y-4">
+          {/* Honeypot field for bot spam protection */}
+          <div className="opacity-0 absolute -left-[9999px] pointer-events-none -z-10" aria-hidden="true">
+            <input
+              type="text"
+              name="company_website_url"
+              tabIndex={-1}
+              autoComplete="off"
+              value={formData.honeypot || ''}
+              onChange={(e) => setFormData({ ...formData, honeypot: e.target.value })}
+            />
+          </div>
           <div>
             <label className="block text-xs font-medium text-gray-700 mb-1">Name</label>
             <input

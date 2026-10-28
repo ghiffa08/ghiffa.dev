@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import { ScrollReveal } from '../../atoms/ScrollReveal';
 import { PcbSkeleton } from '../../atoms/PcbSkeleton';
+import { ErrorBoundary } from '../../atoms/ErrorBoundary';
 
 const PcbViewer3D = lazy(() => import('./PcbViewer3D'));
 
@@ -80,15 +81,23 @@ export function ServiceCardsSection() {
               </div>
 
               {/* Interactive 3D Custom PCB Showcase */}
-              <Suspense
+              <ErrorBoundary
                 fallback={
                   <div className="relative w-full h-[220px] sm:h-[250px] xl:h-[270px] mt-2 sm:mt-3 -translate-y-2 sm:-translate-y-3 flex items-center justify-center">
                     <PcbSkeleton />
                   </div>
                 }
               >
-                <PcbViewer3D />
-              </Suspense>
+                <Suspense
+                  fallback={
+                    <div className="relative w-full h-[220px] sm:h-[250px] xl:h-[270px] mt-2 sm:mt-3 -translate-y-2 sm:-translate-y-3 flex items-center justify-center">
+                      <PcbSkeleton />
+                    </div>
+                  }
+                >
+                  <PcbViewer3D />
+                </Suspense>
+              </ErrorBoundary>
             </div>
             <p className="text-[12.5px] sm:text-[13px] text-gray-500 mt-3 sm:mt-4 leading-relaxed pr-2">
               Bridging hardware and software from prototype to reliable physical production.

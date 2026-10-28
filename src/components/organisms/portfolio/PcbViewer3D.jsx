@@ -5,6 +5,19 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
 import { PcbSkeleton } from '../../atoms/PcbSkeleton';
 
+function checkWebGLSupport() {
+  try {
+    if (typeof window === 'undefined') return false;
+    const canvas = document.createElement('canvas');
+    return Boolean(
+      window.WebGLRenderingContext &&
+        (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
+    );
+  } catch {
+    return false;
+  }
+}
+
 /**
  * 3D Custom PCB Hardware Showcase.
  * Loads the user's exported PCB model, properly centers and scales it,
@@ -14,6 +27,7 @@ export function PcbViewer3D() {
   const containerRef = useRef(null);
   const [loading, setLoading] = useState(true);
   const [inView, setInView] = useState(() => typeof window !== 'undefined' && !('IntersectionObserver' in window));
+  const [hasWebGL, setHasWebGL] = useState(() => checkWebGLSupport());
 
   useEffect(() => {
     const el = containerRef.current;
@@ -33,7 +47,7 @@ export function PcbViewer3D() {
   }, [inView]);
 
   useEffect(() => {
-    if (!inView) return;
+    if (!inView || !hasWebGL) return;
     const container = containerRef.current;
     if (!container) return;
 
@@ -48,11 +62,18 @@ export function PcbViewer3D() {
     camera.lookAt(0, 0, 0);
 
     // ─── RENDERER ─────────────────────────────────────────────────────
-    const renderer = new THREE.WebGLRenderer({
-      alpha: true,
-      antialias: true,
-      powerPreference: 'high-performance'
-    });
+    let renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({
+        alpha: true,
+        antialias: true,
+        powerPreference: 'high-performance'
+      });
+    } catch (e) {
+      console.warn('WebGLRenderer context creation failed:', e);
+      setHasWebGL(false);
+      return;
+    }
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -202,6 +223,14 @@ export function PcbViewer3D() {
       }
     };
   }, [inView]);
+
+  if (hasWebGL === false) {
+    return (
+      <div className="relative w-full h-[220px] sm:h-[250px] xl:h-[270px] mt-2 sm:mt-3 -translate-y-2 sm:-translate-y-3 flex items-center justify-center select-none">
+        <PcbSkeleton />
+      </div>
+    );
+  }
 
   return (
     <div className="relative w-full h-[220px] sm:h-[250px] xl:h-[270px] mt-2 sm:mt-3 -translate-y-2 sm:-translate-y-3 flex items-center justify-center select-none">

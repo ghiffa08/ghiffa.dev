@@ -129,7 +129,11 @@ export function SelectedWorksSection({
           }}
         >
         {projectsList.map((proj, idx) => {
-          const projImg = proj.image_url || (Array.isArray(proj.image_urls) && proj.image_urls.length > 0 ? proj.image_urls[0] : null);
+          const projImg =
+            proj.thumbnail_url ||
+            proj.thumbnail ||
+            proj.image_url ||
+            (Array.isArray(proj.image_urls) && proj.image_urls.length > 0 ? proj.image_urls[0] : null);
           const projectSlug = proj.slug || slugify(proj.title);
 
           return (
@@ -145,7 +149,7 @@ export function SelectedWorksSection({
             >
               <article className="w-full flex flex-col select-none">
                 {/* Clean Card Visual (Tall 4:3 aspect ratio, rounded-2xl) */}
-                <div className="aspect-[4/3] rounded-2xl overflow-hidden mb-5 relative bg-[#F4F4F5] shadow-xs border border-black/5 select-none pointer-events-none">
+                <div className="aspect-[4/3] rounded-2xl overflow-hidden mb-5 relative bg-[#18181B] shadow-xs border border-black/5 select-none pointer-events-none flex items-center justify-center">
                   {projImg ? (
                     <img
                       src={projImg}
@@ -154,11 +158,22 @@ export function SelectedWorksSection({
                       className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out pointer-events-none"
                       onError={(e) => {
                         e.currentTarget.style.display = 'none';
+                        const fallback = e.currentTarget.nextElementSibling;
+                        if (fallback) fallback.style.display = 'flex';
                       }}
                     />
-                  ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-amber-500 to-[#FF5500]" />
-                  )}
+                  ) : null}
+                  <div
+                    style={{ display: projImg ? 'none' : 'flex' }}
+                    className="w-full h-full bg-gradient-to-br from-neutral-800 to-neutral-950 flex flex-col items-center justify-center p-6 text-center text-white/70 select-none"
+                  >
+                    <span className="font-mono text-[10px] uppercase tracking-widest text-[#FF5500] font-semibold mb-1">
+                      {proj.category || 'PROJECT'}
+                    </span>
+                    <span className="text-base sm:text-lg font-bold text-white max-w-[220px] line-clamp-2">
+                      {proj.title}
+                    </span>
+                  </div>
                 </div>
 
                 {/* Title */}

@@ -25,12 +25,17 @@ export const ProjectRepository = {
     }
     
     // Ensure backward compatibility on the fly
-    return (data || []).map(p => ({
-      ...p,
-      image_urls: Array.isArray(p.image_urls) && p.image_urls.length > 0 
+    return (data || []).map(p => {
+      const allUrls = Array.isArray(p.image_urls) && p.image_urls.length > 0 
         ? p.image_urls 
-        : (p.image_url ? [p.image_url] : [])
-    }));
+        : (p.image_url ? [p.image_url] : []);
+      const thumbnail = p.thumbnail_url || p.thumbnail || p.image_url || allUrls[0] || '';
+      return {
+        ...p,
+        thumbnail_url: thumbnail,
+        image_urls: allUrls
+      };
+    });
   },
 
   /**

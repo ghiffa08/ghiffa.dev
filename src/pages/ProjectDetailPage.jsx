@@ -118,7 +118,7 @@ export default function ProjectDetailPage() {
 
   const allImages = Array.isArray(project.image_urls) && project.image_urls.length > 0
     ? project.image_urls
-    : (project.image_url ? [project.image_url] : []);
+    : (project.thumbnail_url ? [project.thumbnail_url] : (project.thumbnail ? [project.thumbnail] : (project.image_url ? [project.image_url] : [])));
 
   const techStackList = Array.isArray(project.tech_stack)
     ? project.tech_stack.map((t) => String(t).trim()).filter(Boolean)

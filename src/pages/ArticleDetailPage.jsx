@@ -32,6 +32,7 @@ import { useSupabaseSingle } from '../hooks/useSupabaseData';
 import { SEO } from '../components/atoms/SEO';
 import { ScrollReveal } from '../components/atoms/ScrollReveal';
 import { ArticlesHeader, PortfolioFooter } from '../components/organisms/portfolio';
+import { formatReadTime } from '../utils/formatReadTime';
 
 /**
  * Custom Clapping Hands Icon matching Medium's signature look
@@ -206,6 +207,8 @@ export default function ArticleDetailPage() {
   const [myClaps, setMyClaps] = useState(0);
   const [clapBubbles, setClapBubbles] = useState([]);
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const pendingClapsRef = useRef(0);
+  const clapTimerRef = useRef(null);
 
   // Responses / Comments State
   const [showResponsesDrawer, setShowResponsesDrawer] = useState(false);
@@ -688,12 +691,22 @@ export default function ArticleDetailPage() {
       setClapBubbles(prev => prev.filter(b => b.id !== id));
     }, 1000);
 
-    try {
-      localStorage.setItem(`ghiffa_claps_${article.id}`, nextMyClaps.toString());
-      await ArticleRepository.incrementClaps(article.id, 1);
-    } catch {
-      // non-fatal
-    }
+    localStorage.setItem(`ghiffa_claps_${article.id}`, nextMyClaps.toString());
+
+    // Debounce mutation to Supabase by 1000ms to batch rapid claps into 1 request
+    pendingClapsRef.current += 1;
+    if (clapTimerRef.current) clearTimeout(clapTimerRef.current);
+    clapTimerRef.current = setTimeout(async () => {
+      const amountToSend = pendingClapsRef.current;
+      pendingClapsRef.current = 0;
+      if (amountToSend > 0) {
+        try {
+          await ArticleRepository.incrementClaps(article.id, amountToSend);
+        } catch {
+          // non-fatal
+        }
+      }
+    }, 1000);
   };
 
   // Bookmark / Save handler
@@ -988,7 +1001,7 @@ export default function ArticleDetailPage() {
                     </a>
                   </div>
                   <div className="flex items-center gap-2 text-xs text-gray-500 font-mono mt-0.5">
-                    <span>{article.read_time || '4 min read'}</span>
+                    <span>{formatReadTime(article.read_time)}</span>
                     <span>&middot;</span>
                     <time dateTime={article.published_at}>
                       {formatDateLong(article.published_at)}

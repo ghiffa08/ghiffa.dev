@@ -46,9 +46,11 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
   const isHeaderInView = useInView(headerRef, { once: true, margin: '-60px 0px -40px 0px' });
 
   const sectionTitle = sectionData?.title || 'about me';
+  const customBio = sectionData?.content?.bio;
   const educationTitle = sectionData?.content?.education_title || 'Education';
   const languagesTitle = sectionData?.content?.languages_title || 'Languages & Specialization';
   const statusBadge = sectionData?.content?.status_badge || 'Available for Full-Time & Contracts';
+  const effectiveBio = customBio || aboutBio;
 
   return (
     <section id="about" className="relative py-20 sm:py-28 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto">
@@ -160,7 +162,12 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
         {/* RIGHT COLUMN: Selection Highlight Header, Bio, Education, Languages */}
         <ScrollReveal delay={0.25} y={36} className="lg:col-span-7 flex flex-col justify-center space-y-7 sm:space-y-8">
           {/* SELECTION-HIGHLIGHTED HEADER */}
-          <div ref={headerRef} className="inline-flex items-center relative select-none self-start">
+          <div
+            ref={headerRef}
+            data-builder-field="title"
+            data-builder-label="About Heading"
+            className="inline-flex items-center relative select-none self-start"
+          >
             {/* Left selection handle with top circle pin */}
             <div className="absolute -left-[2px] top-0 bottom-0 flex flex-col items-center">
               <div className="w-2.5 h-2.5 rounded-full bg-[#FF5500] ring-2 ring-white -translate-y-1/2" />
@@ -185,9 +192,13 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
           </div>
 
           {/* Bio Narrative Paragraph */}
-          <div className="text-[14.5px] sm:text-[15.5px] text-gray-600 leading-relaxed space-y-3 font-normal max-w-2xl text-justify [&>p]:leading-relaxed [&>p]:text-justify [&>strong]:text-gray-900 [&>strong]:font-semibold">
-            {aboutBio ? (
-              <ReactMarkdown>{aboutBio}</ReactMarkdown>
+          <div
+            data-builder-field="bio"
+            data-builder-label="Bio Narrative Paragraph"
+            className="text-[14.5px] sm:text-[15.5px] text-gray-600 leading-relaxed space-y-3 font-normal max-w-2xl text-justify [&>p]:leading-relaxed [&>p]:text-justify [&>strong]:text-gray-900 [&>strong]:font-semibold"
+          >
+            {effectiveBio ? (
+              <ReactMarkdown>{effectiveBio}</ReactMarkdown>
             ) : (
               <p>
                 As a Fullstack Web Developer and IoT Engineer, I design end-to-end technological solutions from the ground up. My technical scope encompasses scalable cloud architectures, high-performance web applications, edge computing, LoRa network telemetry, and custom PCB hardware design.
@@ -197,7 +208,11 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
 
           {/* EDUCATION */}
           <div className="pt-2">
-            <h3 className="text-[15px] sm:text-[16px] font-bold text-gray-900 tracking-tight mb-4 flex items-center gap-2">
+            <h3
+              data-builder-field="education_title"
+              data-builder-label="Education Heading"
+              className="text-[15px] sm:text-[16px] font-bold text-gray-900 tracking-tight mb-4 flex items-center gap-2"
+            >
               <span>{educationTitle}</span>
             </h3>
             <div className="space-y-3.5">
@@ -226,7 +241,11 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
 
           {/* LANGUAGES & SPECIALIZATION */}
           <div className="pt-2 space-y-2.5 sm:space-y-3">
-            <h3 className="text-[15px] sm:text-[16px] font-bold text-gray-900 tracking-tight flex items-center gap-2">
+            <h3
+              data-builder-field="languages_title"
+              data-builder-label="Languages Heading"
+              className="text-[15px] sm:text-[16px] font-bold text-gray-900 tracking-tight flex items-center gap-2"
+            >
               <span>{languagesTitle}</span>
             </h3>
 
@@ -243,7 +262,11 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
 
             {/* Availability Badge Row */}
             <div className="pt-0.5">
-              <div className="relative inline-flex items-center gap-2 bg-white text-gray-800 text-[12px] sm:text-[12.5px] font-medium px-4 py-2 rounded-2xl border border-gray-200/90 shadow-2xs hover:border-gray-300 transition-colors select-none">
+              <div
+                data-builder-field="status_badge"
+                data-builder-label="Availability Badge"
+                className="relative inline-flex items-center gap-2 bg-white text-gray-800 text-[12px] sm:text-[12.5px] font-medium px-4 py-2 rounded-2xl border border-gray-200/90 shadow-2xs hover:border-gray-300 transition-colors select-none"
+              >
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                 <span>{statusBadge}</span>
               </div>

@@ -242,3 +242,22 @@ VALUES (
     'https://github.com/ghiffa',
     '+6285156958580'
 );
+
+-- ==========================================
+-- 16. Create Landing Sections Table (PortoBuilder CMS)
+-- ==========================================
+CREATE TABLE IF NOT EXISTS public.landing_sections (
+    id TEXT PRIMARY KEY,
+    title TEXT,
+    subtitle TEXT,
+    content JSONB NOT NULL DEFAULT '{}'::jsonb,
+    is_active BOOLEAN NOT NULL DEFAULT true,
+    order_index INT DEFAULT 0,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+ALTER TABLE public.landing_sections ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Public can view landing_sections" ON public.landing_sections FOR SELECT USING (true);
+CREATE POLICY "Enable all access for landing_sections" ON public.landing_sections FOR ALL USING (true) WITH CHECK (true);
+

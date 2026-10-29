@@ -8,8 +8,14 @@ export function PortfolioFooter({ emailAddress, onOpenContact, sectionData }) {
 
   const footerTitle = sectionData?.title || 'ghiffa.dev';
   const footerDesc = sectionData?.content?.desc || 'Crafting robust web applications, responsive digital products, and connected IoT systems from Kuningan, West Java.';
-  const location = sectionData?.content?.location || 'Kuningan, West Java, ID';
-  const copyright = sectionData?.content?.copyright || 'Haikal Jibran Al-Ghiffarry';
+  const locationText = (typeof sectionData?.content?.location === 'string' && sectionData.content.location) || 'Kuningan, West Java, ID';
+  const rawCopyright = sectionData?.content?.copyright || 'Haikal Jibran Al-Ghiffarry';
+  // Strip duplicate copyright symbols, trailing 'all rights reserved', and trailing dots
+  const cleanCopyright = rawCopyright
+    .replace(/^©\s*/i, '')
+    .replace(/\s*all rights reserved\.?/gi, '')
+    .replace(/\.+$/, '')
+    .trim() || 'Haikal Jibran Al-Ghiffarry';
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -40,6 +46,8 @@ export function PortfolioFooter({ emailAddress, onOpenContact, sectionData }) {
               <div className="flex items-center gap-3">
                 <a
                   href="#"
+                  data-builder-field="title"
+                  data-builder-label="Footer Brand Name"
                   onClick={(e) => {
                     e.preventDefault();
                     scrollToTop();
@@ -103,10 +111,12 @@ export function PortfolioFooter({ emailAddress, onOpenContact, sectionData }) {
                 ))}
                 <li>
                   <a
-                    href={`mailto:${email}`}
+                    href={`mailto:${sectionData?.content?.email || email}`}
+                    data-builder-field="email"
+                    data-builder-label="Footer Contact Email"
                     className="group inline-flex items-center gap-1.5 text-gray-600 hover:text-black font-medium transition-colors"
                   >
-                    <span>Email Me</span>
+                    <span>Email Me ({sectionData?.content?.email || email})</span>
                     <ArrowUpRight className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#FF5500] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
                   </a>
                 </li>
@@ -128,14 +138,24 @@ export function PortfolioFooter({ emailAddress, onOpenContact, sectionData }) {
 
           {/* Bottom Bar: Copyright, Location, Back to Top */}
           <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-gray-500">
-            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 text-center sm:text-left">
-              <span>&copy; {currentYear} {copyright}.</span>
+            <div
+              data-builder-field="copyright"
+              data-builder-label="Copyright Notice"
+              className="flex flex-wrap items-center justify-center sm:justify-start gap-2 text-center sm:text-left"
+            >
+              <span>&copy; {currentYear} {cleanCopyright}.</span>
               <span className="hidden sm:inline text-gray-300">&middot;</span>
               <span>All rights reserved.</span>
             </div>
 
             <div className="flex items-center gap-4 text-center">
-              <span className="text-gray-400">{location}</span>
+              <span
+                data-builder-field="location"
+                data-builder-label="Footer Location"
+                className="text-gray-400"
+              >
+                {locationText}
+              </span>
               <span className="text-gray-300">&middot;</span>
               <button
                 onClick={scrollToTop}

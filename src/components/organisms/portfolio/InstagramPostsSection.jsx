@@ -38,7 +38,11 @@ export function InstagramPostsSection({ isBannerDark, sectionData }) {
       <ScrollReveal delay={0.05} y={28}>
         <div className="flex items-center justify-between mb-8 sm:mb-10">
           <div>
-            <h2 className={`text-2xl sm:text-[38px] font-bold tracking-tight transition-colors duration-700 ${isBannerDark ? 'text-black' : 'text-[#141414]'}`}>
+            <h2
+              data-builder-field="title"
+              data-builder-label="Instagram Section Title"
+              className={`text-2xl sm:text-[38px] font-bold tracking-tight transition-colors duration-700 ${isBannerDark ? 'text-black' : 'text-[#141414]'}`}
+            >
               {sectionTitle}
             </h2>
           </div>
@@ -48,6 +52,8 @@ export function InstagramPostsSection({ isBannerDark, sectionData }) {
               href={`https://instagram.com/${cleanHandle}`}
               target="_blank"
               rel="noopener noreferrer"
+              data-builder-field="handle"
+              data-builder-label="Instagram Handle Badge"
               className={`group text-xs font-medium border px-4 py-2 rounded-full transition-colors duration-500 inline-flex items-center gap-1.5 cursor-pointer shadow-2xs ${
                 isBannerDark
                   ? 'bg-white text-black border-black/20 hover:bg-black hover:text-white'

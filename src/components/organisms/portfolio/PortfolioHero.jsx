@@ -64,6 +64,13 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
     updateDimensions();
     window.addEventListener('resize', updateDimensions, { passive: true });
 
+    let resizeObserver;
+    const heroCanvasEl = document.getElementById('hero-canvas');
+    if (heroCanvasEl && typeof ResizeObserver !== 'undefined') {
+      resizeObserver = new ResizeObserver(updateDimensions);
+      resizeObserver.observe(heroCanvasEl);
+    }
+
     function animateCursors(now) {
       const w = cachedW;
       const h = cachedH;
@@ -161,6 +168,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
       clearTimeout(startTimer);
       cancelAnimationFrame(animId);
       window.removeEventListener('resize', updateDimensions);
+      if (resizeObserver) resizeObserver.disconnect();
     };
   }, []);
 
@@ -172,8 +180,9 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
     const heroGrid = document.getElementById('hero-canvas');
 
     const updateHeroScroll = () => {
-      const scrollY = window.scrollY;
-      const vh = window.innerHeight;
+      const builderScrollEl = document.getElementById('builder-canvas-scroll');
+      const scrollY = builderScrollEl ? builderScrollEl.scrollTop : window.scrollY;
+      const vh = builderScrollEl ? builderScrollEl.clientHeight : window.innerHeight;
 
       if (scrollY <= vh * 1.3) {
         const progress = Math.min(1, Math.max(0, scrollY / (vh || 1)));
@@ -211,10 +220,10 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
       }
     };
 
-    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('scroll', onScroll, { passive: true, capture: true });
     updateHeroScroll();
 
-    return () => window.removeEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll, { capture: true });
   }, []);
 
   return (
@@ -226,24 +235,32 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
           <div id="hero-title-inner" className="will-change-transform">
             <div
               id="hero-bbox"
-              className={`px-3 min-[400px]:px-6 sm:px-12 pt-2 sm:pt-4 pb-2.5 sm:pb-6 overflow-visible transition-all duration-700 ease-out relative ${heroRevealed ? 'figma-bbox' : 'border border-transparent'
+              data-builder-field="title"
+              data-builder-label="Main Display Title"
+              className={`px-3 min-[400px]:px-6 sm:px-12 pt-2 sm:pt-4 pb-2.5 sm:pb-6 overflow-visible transition-all duration-700 ease-out relative ${(heroRevealed || isBuilderMode) ? 'figma-bbox' : 'border border-transparent'
                 }`}
             >
               {/* 8 Figma Selection Handles with Skillstreak Orange stroke */}
-              <span className={`figma-handle -top-1 -left-1 transition-all duration-500 ${heroRevealed ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`} />
-              <span className={`figma-handle -top-1 left-1/2 -translate-x-1/2 transition-all duration-500 ${heroRevealed ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`} />
-              <span className={`figma-handle -top-1 -right-1 transition-all duration-500 ${heroRevealed ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`} />
-              <span className={`figma-handle top-1/2 -translate-y-1/2 -left-1 transition-all duration-500 ${heroRevealed ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`} />
-              <span className={`figma-handle top-1/2 -translate-y-1/2 -right-1 transition-all duration-500 ${heroRevealed ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`} />
-              <span className={`figma-handle -bottom-1 -left-1 transition-all duration-500 ${heroRevealed ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`} />
-              <span className={`figma-handle -bottom-1 left-1/2 -translate-x-1/2 transition-all duration-500 ${heroRevealed ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`} />
-              <span className={`figma-handle -bottom-1 -right-1 transition-all duration-500 ${heroRevealed ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`} />
+              <span className={`figma-handle -top-1 -left-1 transition-all duration-500 ${(heroRevealed || isBuilderMode) ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`} />
+              <span className={`figma-handle -top-1 left-1/2 -translate-x-1/2 transition-all duration-500 ${(heroRevealed || isBuilderMode) ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`} />
+              <span className={`figma-handle -top-1 -right-1 transition-all duration-500 ${(heroRevealed || isBuilderMode) ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`} />
+              <span className={`figma-handle top-1/2 -translate-y-1/2 -left-1 transition-all duration-500 ${(heroRevealed || isBuilderMode) ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`} />
+              <span className={`figma-handle top-1/2 -translate-y-1/2 -right-1 transition-all duration-500 ${(heroRevealed || isBuilderMode) ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`} />
+              <span className={`figma-handle -bottom-1 -left-1 transition-all duration-500 ${(heroRevealed || isBuilderMode) ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`} />
+              <span className={`figma-handle -bottom-1 left-1/2 -translate-x-1/2 transition-all duration-500 ${(heroRevealed || isBuilderMode) ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`} />
+              <span className={`figma-handle -bottom-1 -right-1 transition-all duration-500 ${(heroRevealed || isBuilderMode) ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`} />
 
               <h1
                 id="hero-title"
-                className="text-[34px] min-[360px]:text-[40px] min-[400px]:text-[48px] sm:text-[84px] md:text-[112px] lg:text-[138px] font-bold tracking-[-0.04em] leading-[1.08] text-[#141414] select-none whitespace-nowrap block pb-1 sm:pb-2 cursor-pointer"
-                title="Click to toggle canvas items"
-                onClick={() => setHeroRevealed((prev) => !prev)}
+                className={`text-[34px] min-[360px]:text-[40px] min-[400px]:text-[48px] sm:text-[84px] md:text-[104px] ${
+                  isBuilderMode ? 'lg:text-[108px] xl:text-[132px]' : 'lg:text-[138px]'
+                } font-bold tracking-[-0.04em] leading-[1.08] text-[#141414] select-none whitespace-nowrap block pb-1 sm:pb-2 cursor-pointer`}
+                title={isBuilderMode ? 'Click to edit Hero Title' : 'Click to toggle canvas items'}
+                onClick={() => {
+                  if (!isBuilderMode) {
+                    setHeroRevealed((prev) => !prev);
+                  }
+                }}
               >
                 {heroTitle}
               </h1>
@@ -254,11 +271,15 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
         {/* 2. SURROUNDING WORKSPACE ITEMS (Hidden on refresh, reveals smoothly) */}
         <div
           id="hero-workspace-items"
-          className={`absolute inset-0 transition-all duration-1000 ease-out will-change-transform overflow-hidden max-w-full ${heroRevealed ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-[0.98] pointer-events-none'
+          className={`absolute inset-0 transition-all duration-1000 ease-out will-change-transform overflow-hidden max-w-full ${(heroRevealed || isBuilderMode) ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-[0.98] pointer-events-none'
             }`}
         >
           {/* Top Center: AI Mode Toggle Pill */}
-          <DraggableItem className="absolute top-[12%] sm:top-[21.5%] left-1/2 -translate-x-1/2 z-30 bg-white rounded-full px-3.5 py-1.5 sm:px-4 sm:py-2 soft-card-shadow border border-gray-100/90 flex items-center gap-2.5 sm:gap-3 select-none">
+          <DraggableItem
+            data-builder-field="ai_mode_label"
+            data-builder-label="AI Mode Toggle"
+            className="absolute top-[12%] sm:top-[21.5%] left-1/2 -translate-x-1/2 z-30 bg-white rounded-full px-3.5 py-1.5 sm:px-4 sm:py-2 soft-card-shadow border border-gray-100/90 flex items-center gap-2.5 sm:gap-3 select-none"
+          >
             <span className={`text-[11px] sm:text-[12px] font-medium transition-colors duration-300 ${aiActive ? 'text-[#FF5500] font-semibold' : 'text-gray-800'}`}>
               {content.ai_mode_label || 'AI Mode'}
             </span>
@@ -381,11 +402,16 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
           {/* 5. FLOATING SOCIAL CARDS & BUBBLES (Staggered rhythmic placement on mobile) */}
 
           {/* Top-Left: Email hello@ghiffa.dev */}
-          <DraggableItem className="flex absolute top-[21%] sm:top-[14%] left-[4%] sm:left-[4%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start hover:border-gray-200 transition-colors group">
+          <DraggableItem
+            data-builder-field="email_url"
+            data-builder-label="Email Bubble"
+            className="flex absolute top-[21%] sm:top-[14%] left-[4%] sm:left-[4%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start hover:border-gray-200 transition-colors group"
+          >
             <a
-              href="mailto:hello@ghiffa.dev"
+              href={content.email_url || 'mailto:hello@ghiffa.dev'}
+              onClick={(e) => { if (isBuilderMode) e.preventDefault(); }}
               className="flex items-start gap-2 sm:gap-3 w-full cursor-pointer no-underline"
-              aria-label="Send email to hello@ghiffa.dev"
+              aria-label={`Send email to ${content.email_value || 'hello@ghiffa.dev'}`}
             >
               <div className="w-5.5 h-5.5 sm:w-7 sm:h-7 rounded-full bg-[#EA4335] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
                 <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -399,20 +425,26 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
                   <span className="text-gray-500 font-mono text-[9px] sm:text-[10px] hidden min-[360px]:inline">just now</span>
                 </div>
                 <div className="text-[10px] sm:text-[12px] text-gray-800 mt-0.5 leading-snug block group-hover:text-black transition-colors whitespace-nowrap">
-                  <span className="hidden sm:inline">{content.email_label || 'Drop a message at'} </span><span className="font-semibold text-gray-900 underline decoration-gray-300 underline-offset-2">hello@ghiffa.dev</span>
+                  <span className="hidden sm:inline">{content.email_label || 'Drop a message at'} </span>
+                  <span className="font-semibold text-gray-900 underline decoration-gray-300 underline-offset-2">{content.email_value || 'hello@ghiffa.dev'}</span>
                 </div>
               </div>
             </a>
           </DraggableItem>
 
           {/* Bottom-Left: LinkedIn Haikal Jibran */}
-          <DraggableItem className="flex absolute top-[57%] sm:top-[62%] left-[4%] sm:left-[6%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start hover:border-gray-200 transition-colors group">
+          <DraggableItem
+            data-builder-field="linkedin_url"
+            data-builder-label="LinkedIn Bubble"
+            className="flex absolute top-[57%] sm:top-[62%] left-[4%] sm:left-[6%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start hover:border-gray-200 transition-colors group"
+          >
             <a
-              href="https://www.linkedin.com/in/haikal-jibran-al-ghiffarry?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+              href={content.linkedin_url || 'https://www.linkedin.com/in/haikal-jibran-al-ghiffarry/'}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={(e) => { if (isBuilderMode) e.preventDefault(); }}
               className="flex items-start gap-2 sm:gap-3 w-full cursor-pointer no-underline"
-              aria-label="LinkedIn profile Haikal Jibran"
+              aria-label={`LinkedIn profile ${content.linkedin_value || 'Haikal Jibran'}`}
             >
               <div className="w-5.5 h-5.5 sm:w-7 sm:h-7 rounded-full bg-[#0A66C2] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
                 <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-white" viewBox="0 0 24 24">
@@ -425,14 +457,19 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
                   <span className="text-gray-500 font-mono text-[9px] sm:text-[10px] hidden min-[360px]:inline">just now</span>
                 </div>
                 <div className="text-[10px] sm:text-[12px] text-gray-800 mt-0.5 leading-snug block group-hover:text-black transition-colors whitespace-nowrap">
-                  <span className="hidden sm:inline">{content.linkedin_label || 'Connect on LinkedIn'} </span><span className="font-semibold text-gray-900 underline decoration-gray-300 underline-offset-2">Haikal Jibran</span>
+                  <span className="hidden sm:inline">{content.linkedin_label || 'Connect on LinkedIn'} </span>
+                  <span className="font-semibold text-gray-900 underline decoration-gray-300 underline-offset-2">{content.linkedin_value || 'Haikal Jibran'}</span>
                 </div>
               </div>
             </a>
           </DraggableItem>
 
           {/* Top-Right: GitHub Contributions Heatmap Card (Desktop Only) */}
-          <DraggableItem className="hidden lg:block absolute top-[11%] right-[3%] z-10 w-[275px] bg-white p-3.5 rounded-2xl border border-gray-200/90 soft-card-shadow -rotate-[3deg] text-gray-900 group">
+          <DraggableItem
+            data-builder-field="github_url"
+            data-builder-label="GitHub Heatmap Card"
+            className="hidden lg:block absolute top-[11%] right-[3%] z-10 w-[275px] bg-white p-3.5 rounded-2xl border border-gray-200/90 soft-card-shadow -rotate-[3deg] text-gray-900 group"
+          >
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
                 <div className="w-6 h-6 rounded-full bg-[#18181B] text-white flex items-center justify-center shrink-0 shadow-xs">
@@ -442,12 +479,13 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
                 </div>
                 <div>
                   <a
-                    href="https://github.com/ghiffa08"
+                    href={content.github_url || 'https://github.com/ghiffa08'}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={(e) => { if (isBuilderMode) e.preventDefault(); }}
                     className="text-[12px] font-bold text-gray-900 tracking-tight hover:underline flex items-center gap-1 leading-none"
                   >
-                    ghiffa08
+                    {content.github_value || 'ghiffa08'}
                   </a>
                   <span className="text-[9px] text-gray-400 font-mono">github.com</span>
                 </div>
@@ -455,7 +493,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
             </div>
 
             <div className="flex items-baseline gap-1.5 mt-2">
-              <span className="text-[18px] font-bold tracking-tight text-gray-950 font-mono">4,622+</span>
+              <span className="text-[18px] font-bold tracking-tight text-gray-950 font-mono">{content.github_contributions || '4,622+'}</span>
               <span className="text-[10px] text-gray-500 font-medium">contributions in 2026</span>
             </div>
 
@@ -466,7 +504,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
                 className="w-full h-auto select-none pointer-events-none"
                 loading="eager"
                 onError={(e) => {
-                  e.target.src = 'https://ghchart.rshah.org/22c55e/ghiffa08';
+                  e.target.src = `https://ghchart.rshah.org/22c55e/${content.github_value || 'ghiffa08'}`;
                 }}
               />
             </div>
@@ -488,13 +526,18 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
           </DraggableItem>
 
           {/* Mid-Right: Instagram @haikaljibraan */}
-          <DraggableItem className="flex absolute top-[31%] sm:top-[38%] right-[4%] sm:right-[5%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start hover:border-gray-200 transition-colors group">
+          <DraggableItem
+            data-builder-field="instagram_url"
+            data-builder-label="Instagram Bubble"
+            className="flex absolute top-[31%] sm:top-[38%] right-[4%] sm:right-[5%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start hover:border-gray-200 transition-colors group"
+          >
             <a
-              href="https://instagram.com/haikaljibraan"
+              href={content.instagram_url || 'https://instagram.com/haikaljibraan'}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={(e) => { if (isBuilderMode) e.preventDefault(); }}
               className="flex items-start gap-2 sm:gap-3 w-full cursor-pointer no-underline"
-              aria-label="Instagram profile @haikaljibraan"
+              aria-label={`Instagram profile ${content.instagram_value || '@haikaljibraan'}`}
             >
               <div className="w-5.5 h-5.5 sm:w-7 sm:h-7 rounded-full bg-gradient-to-tr from-[#FD1D1D] via-[#E1306C] to-[#C13584] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
                 <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-white" viewBox="0 0 24 24">
@@ -507,20 +550,26 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
                   <span className="text-gray-500 font-mono text-[9px] sm:text-[10px] hidden min-[360px]:inline">just now</span>
                 </div>
                 <div className="text-[10px] sm:text-[12px] text-gray-800 mt-0.5 leading-snug block group-hover:text-black transition-colors whitespace-nowrap">
-                  <span className="hidden sm:inline">{content.instagram_label || 'Connect on Instagram'} </span><span className="font-semibold text-gray-900 underline decoration-gray-300 underline-offset-2">@haikaljibraan</span>
+                  <span className="hidden sm:inline">{content.instagram_label || 'Connect on Instagram'} </span>
+                  <span className="font-semibold text-gray-900 underline decoration-gray-300 underline-offset-2">{content.instagram_value || '@haikaljibraan'}</span>
                 </div>
               </div>
             </a>
           </DraggableItem>
 
           {/* Bottom-Right: Web skillstreak.id */}
-          <DraggableItem className="flex absolute top-[68%] sm:top-[62%] right-[4%] sm:right-[6%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start hover:border-gray-200 transition-colors group">
+          <DraggableItem
+            data-builder-field="skillstreak_url"
+            data-builder-label="Skillstreak Bubble"
+            className="flex absolute top-[68%] sm:top-[62%] right-[4%] sm:right-[6%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start hover:border-gray-200 transition-colors group"
+          >
             <a
-              href="https://skillstreak.id"
+              href={content.skillstreak_url || 'https://skillstreak.id'}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={(e) => { if (isBuilderMode) e.preventDefault(); }}
               className="flex items-start gap-2 sm:gap-3 w-full cursor-pointer no-underline"
-              aria-label="Visit skillstreak.id"
+              aria-label={`Visit ${content.skillstreak_value || 'skillstreak.id'}`}
             >
               <div className="w-5.5 h-5.5 sm:w-7 sm:h-7 rounded-full bg-gradient-to-tr from-[#FF4500] via-[#FF5500] to-[#FFA116] flex items-center justify-center shrink-0 mt-0.5 shadow-xs shadow-orange-500/20">
                 <img
@@ -535,14 +584,19 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
                   <span className="text-gray-500 font-mono text-[9px] sm:text-[10px] hidden min-[360px]:inline">just now</span>
                 </div>
                 <div className="text-[10px] sm:text-[12px] text-gray-800 mt-0.5 leading-snug block group-hover:text-black transition-colors whitespace-nowrap">
-                  <span className="hidden sm:inline">{content.skillstreak_label || 'Gamified platform'} </span><span className="font-semibold text-[#FF5500] underline decoration-orange-300 underline-offset-2">skillstreak.id</span>
+                  <span className="hidden sm:inline">{content.skillstreak_label || 'Gamified platform'} </span>
+                  <span className="font-semibold text-[#FF5500] underline decoration-orange-300 underline-offset-2">{content.skillstreak_value || 'skillstreak.id'}</span>
                 </div>
               </div>
             </a>
           </DraggableItem>
 
           {/* Bottom-Center: GitHub ghiffa08 */}
-          <DraggableItem className="flex absolute top-[79%] sm:top-[69%] left-1/2 -translate-x-1/2 sm:translate-x-0 sm:left-[40%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-3 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-center sm:items-start gap-2 sm:gap-3 hover:border-gray-200 transition-colors group">
+          <DraggableItem
+            data-builder-field="github_value"
+            data-builder-label="GitHub Bubble"
+            className="flex absolute top-[79%] sm:top-[69%] left-1/2 -translate-x-1/2 sm:translate-x-0 sm:left-[40%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-3 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-center sm:items-start gap-2 sm:gap-3 hover:border-gray-200 transition-colors group"
+          >
             <div className="w-5.5 h-5.5 sm:w-7 sm:h-7 rounded-full bg-[#18181B] text-white flex items-center justify-center shrink-0 shadow-xs">
               <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-white" viewBox="0 0 24 24">
                 <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
@@ -554,12 +608,14 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
                 <span className="text-gray-500 font-mono text-[9px] sm:text-[10px] hidden min-[360px]:inline">just now</span>
               </div>
               <a
-                href="https://github.com/ghiffa08"
+                href={content.github_url || 'https://github.com/ghiffa08'}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={(e) => { if (isBuilderMode) e.preventDefault(); }}
                 className="text-[10px] sm:text-[12px] text-gray-800 mt-0.5 leading-snug block hover:text-black transition-colors whitespace-nowrap"
               >
-                <span className="hidden sm:inline">Repositories at </span><span className="font-semibold text-gray-900 underline decoration-gray-300 underline-offset-2">ghiffa08</span>
+                <span className="hidden sm:inline">{content.github_label || 'Repositories at'} </span>
+                <span className="font-semibold text-gray-900 underline decoration-gray-300 underline-offset-2">{content.github_value || 'ghiffa08'}</span>
               </a>
             </div>
           </DraggableItem>

@@ -11,17 +11,31 @@ export const DEFAULT_LANDING_SECTIONS = {
       tagline: 'Building the bridge between bits and atoms.',
       ai_mode_label: 'AI Mode',
       email_label: 'Drop a message at',
+      email_value: 'hello@ghiffa.dev',
+      email_url: 'mailto:hello@ghiffa.dev',
       linkedin_label: 'Connect on LinkedIn',
+      linkedin_value: 'Haikal Jibran',
+      linkedin_url: 'https://www.linkedin.com/in/haikal-jibran-al-ghiffarry?utm_source=share_via&utm_content=profile&utm_medium=member_android',
       instagram_label: 'Connect on Instagram',
-      skillstreak_label: 'Gamified platform'
+      instagram_value: '@haikaljibraan',
+      instagram_url: 'https://instagram.com/haikaljibraan',
+      skillstreak_label: 'Gamified platform',
+      skillstreak_value: 'skillstreak.id',
+      skillstreak_url: 'https://skillstreak.id',
+      github_label: 'Repositories at',
+      github_value: 'ghiffa08',
+      github_url: 'https://github.com/ghiffa08',
+      github_contributions: '4,622+'
     }
   },
   sticky_text: {
     id: 'sticky_text',
-    title: 'Precision and Passion',
-    subtitle: 'Tagline',
+    title: 'Building the bridge between bits and atoms for companies, governments, and organizations.',
+    subtitle: 'Following our goal of making the internet a better place.',
     is_active: true,
     content: {
+      headline: 'Building the bridge between bits and atoms for companies, governments, and organizations.',
+      subtitle: 'Following our goal of making the internet a better place.',
       text_line_1: 'Building scalable web architectures',
       text_line_2: 'Designing custom IoT hardware',
       text_line_3: 'Bridging bits and atoms'
@@ -35,10 +49,10 @@ export const DEFAULT_LANDING_SECTIONS = {
     content: {
       card1_title: 'Mobile app services',
       card1_desc: 'Crafting intuitive, responsive, and high-performance mobile applications across iOS & Android tailored to elevate your user experience.',
-      card1_footer: 'Native & cross-platform performance engineered with precision.',
+      card1_footer: 'From mobile UI design to scalable cross-platform application deployment.',
       card2_title: 'Web development services',
-      card2_desc: 'Engineering modern, ultra-fast web architectures from bespoke frontends to scalable enterprise backends.',
-      card2_footer: 'Architected with modern standards for exceptional speed and SEO.',
+      card2_desc: 'Specializing in modern, fully self-manageable websites and web applications built on cutting-edge stacks for top performance, speed, and security.',
+      card2_footer: 'Fullstack web architecture tailored to each client following international standards.',
       card3_title: 'IoT & hardware services',
       card3_desc: 'We take care of all technical aspects: custom PCB schematic & layout design, embedded IoT firmware, sensor telemetry, and continuous support.',
       card3_footer: 'Bridging hardware and software from prototype to reliable physical production.'
@@ -88,9 +102,9 @@ export const DEFAULT_LANDING_SECTIONS = {
     subtitle: 'FEATURED PLATFORM',
     is_active: true,
     content: {
-      heading: 'Master coding with real-time feedback and gamified progression.',
-      desc: 'Level up your engineering skills through interactive bite-sized challenges, automated test suites, and developer streaks.',
-      cta_text: 'Launch Skillstreak →',
+      heading: 'The fastest path from zero to deployable engineer, built like a game and engineered for the real world.',
+      desc: 'Most developers quit because learning feels like a grind with no visible progress. skillstreak.id changes the feedback loop with XP rewards, daily streak accountability, and real-time code evaluations.',
+      cta_text: 'Get Early Access',
       cta_url: 'https://skillstreak.id'
     }
   },
@@ -105,7 +119,7 @@ export const DEFAULT_LANDING_SECTIONS = {
   },
   instagram: {
     id: 'instagram',
-    title: 'instagram journal',
+    title: 'instagram posts',
     subtitle: 'Social Feed',
     is_active: true,
     content: {
@@ -115,13 +129,14 @@ export const DEFAULT_LANDING_SECTIONS = {
   },
   cta: {
     id: 'cta',
-    title: 'Communication matters to start good things/',
+    title: 'communication matters',
     subtitle: 'Contact Inquiry',
     is_active: true,
     content: {
-      subtitle: "Let's build a project together.",
-      button_text: 'Start a conversation',
-      call_text: "Leave us a message and we'll schedule a call."
+      highlight_text: 'to start good things/',
+      subtitle: "I'm currently available for freelance worldwide and full-time engineering roles. Feel free to contact me if you want to collaborate on future projects or have a chat.",
+      button_text: "Let's Connect With Me",
+      button_url: 'mailto:hello@ghiffa.dev'
     }
   },
   footer: {
@@ -130,8 +145,9 @@ export const DEFAULT_LANDING_SECTIONS = {
     subtitle: 'Footer',
     is_active: true,
     content: {
-      copyright: '© Haikal Jibran Al-Ghiffarry. All rights reserved.',
-      location: 'Kuningan, Jawa Barat, Indonesia',
+      desc: 'Crafting robust web applications, responsive digital products, and connected IoT systems from Kuningan, West Java.',
+      copyright: 'Haikal Jibran Al-Ghiffarry',
+      location: 'Kuningan, West Java, ID',
       email: 'hello@ghiffa.dev'
     }
   }
@@ -170,12 +186,33 @@ export const LandingContentRepository = {
       }
     }
 
-    // Merge into dictionary: DEFAULT -> LOCAL -> REMOTE
-    const result = { ...DEFAULT_LANDING_SECTIONS };
+    // Merge into dictionary: DEFAULT -> LOCAL -> REMOTE (Supabase is authoritative!)
+    const result = JSON.parse(JSON.stringify(DEFAULT_LANDING_SECTIONS));
 
-    // Apply local storage if any
+    // Apply local storage if any, EXCEPT if it contains deprecated slang/placeholder strings
+    const DEPRECATED_STRINGS = [
+      'got a cool idea?',
+      'make it happen/',
+      'Hit Me Up',
+      'Punya ide project seru',
+      'Bikin aplikasi mobile yang sat-set',
+      'Mobile App Development',
+      'Fullstack Web Systems',
+      'IoT & Hardware Systems',
+      'Master coding with real-time feedback',
+      'Launch Skillstreak',
+      'Open for Tech Collabs',
+      'instagram journal',
+      'Kuningan, Jawa Barat, Indonesia',
+      'Precision Web Architecture'
+    ];
+    const hasDeprecatedString = (obj) => {
+      const raw = JSON.stringify(obj || '');
+      return DEPRECATED_STRINGS.some((s) => raw.includes(s));
+    };
+
     Object.keys(localCache).forEach((key) => {
-      if (result[key]) {
+      if (result[key] && !hasDeprecatedString(localCache[key])) {
         result[key] = {
           ...result[key],
           ...localCache[key],
@@ -184,7 +221,7 @@ export const LandingContentRepository = {
       }
     });
 
-    // Apply remote data if available
+    // Apply remote Supabase data if available (authoritative source of truth)
     if (remoteData) {
       remoteData.forEach((item) => {
         const key = item.id;
@@ -198,6 +235,15 @@ export const LandingContentRepository = {
           result[key] = item;
         }
       });
+
+      // Sync clean merged state back to localStorage so stale caches are purged
+      if (typeof window !== 'undefined' && window.localStorage) {
+        try {
+          localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(result));
+        } catch {
+          // ignore
+        }
+      }
     }
 
     return result;

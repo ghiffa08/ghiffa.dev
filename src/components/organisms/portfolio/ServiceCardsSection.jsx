@@ -13,12 +13,24 @@ export function ServiceCardsSection({ sectionData }) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-7 items-stretch">
           {/* Service Card 1 - Mobile Services */}
           <ScrollReveal delay={0.1} y={40} className="flex flex-col h-full">
-            <div className="bg-skillstreak-orange-grid rounded-3xl p-6 sm:p-10 lg:p-12 pb-0 sm:pb-0 lg:pb-0 text-white min-h-[480px] sm:min-h-[540px] lg:min-h-[560px] xl:min-h-[590px] flex flex-col justify-between relative overflow-hidden group shadow-lg">
+            <div
+              data-builder-field="card1_title"
+              data-builder-label="Card 1: Mobile App"
+              className="bg-skillstreak-orange-grid rounded-3xl p-6 sm:p-10 lg:p-12 pb-0 sm:pb-0 lg:pb-0 text-white min-h-[480px] sm:min-h-[540px] lg:min-h-[560px] xl:min-h-[590px] flex flex-col justify-between relative overflow-hidden group shadow-lg"
+            >
               <div className="relative z-10">
-                <h3 className="text-2xl sm:text-[28px] lg:text-[32px] xl:text-[36px] font-semibold leading-[1.12] tracking-tight mb-3 sm:mb-5">
+                <h3
+                  data-builder-field="card1_title"
+                  data-builder-label="Card 1 Title"
+                  className="text-2xl sm:text-[28px] lg:text-[32px] xl:text-[36px] font-semibold leading-[1.12] tracking-tight mb-3 sm:mb-5"
+                >
                   {content.card1_title || 'Mobile app services'}
                 </h3>
-                <p className="text-white/85 text-[14px] sm:text-[15px] xl:text-[15.5px] leading-relaxed max-w-[340px]">
+                <p
+                  data-builder-field="card1_desc"
+                  data-builder-label="Card 1 Description"
+                  className="text-white/85 text-[14px] sm:text-[15px] xl:text-[15.5px] leading-relaxed max-w-[340px]"
+                >
                   {content.card1_desc || 'Crafting intuitive, responsive, and high-performance mobile applications across iOS & Android tailored to elevate your user experience.'}
                 </p>
               </div>
@@ -35,19 +47,35 @@ export function ServiceCardsSection({ sectionData }) {
                 </div>
               </div>
             </div>
-            <p className="text-[12.5px] sm:text-[13px] text-gray-500 mt-3 sm:mt-4 leading-relaxed pr-2">
+            <p
+              data-builder-field="card1_footer"
+              data-builder-label="Card 1 Footer"
+              className="text-[12.5px] sm:text-[13px] text-gray-500 mt-3 sm:mt-4 leading-relaxed pr-2"
+            >
               {content.card1_footer || 'From mobile UI design to scalable cross-platform application deployment.'}
             </p>
           </ScrollReveal>
 
           {/* Service Card 2 - Web Development Services */}
           <ScrollReveal delay={0.25} y={40} className="flex flex-col h-full">
-            <div className="bg-skillstreak-orange-grid rounded-3xl p-6 sm:p-10 lg:p-12 pb-0 sm:pb-0 lg:pb-0 text-white min-h-[480px] sm:min-h-[540px] lg:min-h-[560px] xl:min-h-[590px] flex flex-col justify-between relative overflow-hidden group shadow-lg">
+            <div
+              data-builder-field="card2_title"
+              data-builder-label="Card 2: Web Systems"
+              className="bg-skillstreak-orange-grid rounded-3xl p-6 sm:p-10 lg:p-12 pb-0 sm:pb-0 lg:pb-0 text-white min-h-[480px] sm:min-h-[540px] lg:min-h-[560px] xl:min-h-[590px] flex flex-col justify-between relative overflow-hidden group shadow-lg"
+            >
               <div className="relative z-10">
-                <h3 className="text-2xl sm:text-[28px] lg:text-[32px] xl:text-[36px] font-semibold leading-[1.12] tracking-tight mb-3 sm:mb-5">
+                <h3
+                  data-builder-field="card2_title"
+                  data-builder-label="Card 2 Title"
+                  className="text-2xl sm:text-[28px] lg:text-[32px] xl:text-[36px] font-semibold leading-[1.12] tracking-tight mb-3 sm:mb-5"
+                >
                   {content.card2_title || 'Web development services'}
                 </h3>
-                <p className="text-white/85 text-[14px] sm:text-[15px] xl:text-[15.5px] leading-relaxed max-w-[340px]">
+                <p
+                  data-builder-field="card2_desc"
+                  data-builder-label="Card 2 Description"
+                  className="text-white/85 text-[14px] sm:text-[15px] xl:text-[15.5px] leading-relaxed max-w-[340px]"
+                >
                   {content.card2_desc || 'Specializing in modern, fully self-manageable websites and web applications built on cutting-edge stacks for top performance, speed, and security.'}
                 </p>
               </div>
@@ -64,19 +92,35 @@ export function ServiceCardsSection({ sectionData }) {
                 </div>
               </div>
             </div>
-            <p className="text-[12.5px] sm:text-[13px] text-gray-500 mt-3 sm:mt-4 leading-relaxed pr-2">
+            <p
+              data-builder-field="card2_footer"
+              data-builder-label="Card 2 Footer"
+              className="text-[12.5px] sm:text-[13px] text-gray-500 mt-3 sm:mt-4 leading-relaxed pr-2"
+            >
               {content.card2_footer || 'Fullstack web architecture tailored to each client following international standards.'}
             </p>
           </ScrollReveal>
 
           {/* Service Card 3 - IoT & Hardware Services */}
           <ScrollReveal delay={0.4} y={40} className="flex flex-col h-full">
-            <div className="bg-skillstreak-orange-grid rounded-3xl p-6 sm:p-10 lg:p-12 pb-0 sm:pb-0 lg:pb-0 text-white min-h-[480px] sm:min-h-[540px] lg:min-h-[560px] xl:min-h-[590px] flex flex-col justify-between relative overflow-hidden group shadow-lg">
+            <div
+              data-builder-field="card3_title"
+              data-builder-label="Card 3: IoT & Hardware"
+              className="bg-skillstreak-orange-grid rounded-3xl p-6 sm:p-10 lg:p-12 pb-0 sm:pb-0 lg:pb-0 text-white min-h-[480px] sm:min-h-[540px] lg:min-h-[560px] xl:min-h-[590px] flex flex-col justify-between relative overflow-hidden group shadow-lg"
+            >
               <div className="relative z-10">
-                <h3 className="text-2xl sm:text-[28px] lg:text-[32px] xl:text-[36px] font-semibold leading-[1.12] tracking-tight mb-3 sm:mb-5">
+                <h3
+                  data-builder-field="card3_title"
+                  data-builder-label="Card 3 Title"
+                  className="text-2xl sm:text-[28px] lg:text-[32px] xl:text-[36px] font-semibold leading-[1.12] tracking-tight mb-3 sm:mb-5"
+                >
                   {content.card3_title || 'IoT & hardware services'}
                 </h3>
-                <p className="text-white/85 text-[14px] sm:text-[15px] xl:text-[15.5px] leading-relaxed max-w-[340px]">
+                <p
+                  data-builder-field="card3_desc"
+                  data-builder-label="Card 3 Description"
+                  className="text-white/85 text-[14px] sm:text-[15px] xl:text-[15.5px] leading-relaxed max-w-[340px]"
+                >
                   {content.card3_desc || 'We take care of all technical aspects: custom PCB schematic & layout design, embedded IoT firmware, sensor telemetry, and continuous support.'}
                 </p>
               </div>
@@ -100,7 +144,11 @@ export function ServiceCardsSection({ sectionData }) {
                 </Suspense>
               </ErrorBoundary>
             </div>
-            <p className="text-[12.5px] sm:text-[13px] text-gray-500 mt-3 sm:mt-4 leading-relaxed pr-2">
+            <p
+              data-builder-field="card3_footer"
+              data-builder-label="Card 3 Footer"
+              className="text-[12.5px] sm:text-[13px] text-gray-500 mt-3 sm:mt-4 leading-relaxed pr-2"
+            >
               {content.card3_footer || 'Bridging hardware and software from prototype to reliable physical production.'}
             </p>
           </ScrollReveal>

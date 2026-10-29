@@ -37,18 +37,30 @@ export function SkillstreakBannerSection({ bannerRef, isBannerDark, sectionData 
                 <span className="absolute top-1/2 -left-1 -translate-y-1/2 w-1.5 h-1.5 bg-gray-800 border border-white rounded-[1px]" />
                 <span className="absolute top-1/2 -right-1 -translate-y-1/2 w-1.5 h-1.5 bg-gray-800 border border-white rounded-[1px]" />
 
-                <h2 className="text-[28px] min-[360px]:text-[34px] sm:text-[46px] lg:text-[50px] font-bold tracking-tight text-[#111111] leading-none">
+                <h2
+                  data-builder-field="title"
+                  data-builder-label="Skillstreak Brand Title"
+                  className="text-[28px] min-[360px]:text-[34px] sm:text-[46px] lg:text-[50px] font-bold tracking-tight text-[#111111] leading-none"
+                >
                   {title}
                 </h2>
               </div>
 
               {/* Primary bold lead text */}
-              <p className="text-[#18181B] text-[15px] sm:text-[18px] font-medium leading-[1.48] mt-5 sm:mt-6 max-w-[430px]">
+              <p
+                data-builder-field="heading"
+                data-builder-label="Skillstreak Value Proposition"
+                className="text-[#18181B] text-[15px] sm:text-[18px] font-medium leading-[1.48] mt-5 sm:mt-6 max-w-[430px]"
+              >
                 {heading}
               </p>
 
               {/* Secondary muted text */}
-              <p className="text-[#666666] text-[12.5px] sm:text-[13.5px] leading-[1.6] mt-3.5 sm:mt-4 max-w-[400px]">
+              <p
+                data-builder-field="desc"
+                data-builder-label="Skillstreak Description"
+                className="text-[#666666] text-[12.5px] sm:text-[13.5px] leading-[1.6] mt-3.5 sm:mt-4 max-w-[400px]"
+              >
                 {desc}
               </p>
 
@@ -58,6 +70,8 @@ export function SkillstreakBannerSection({ bannerRef, isBannerDark, sectionData 
                   href={ctaUrl}
                   target="_blank"
                   rel="noopener noreferrer"
+                  data-builder-field="cta_text"
+                  data-builder-label="Skillstreak CTA Button"
                   className="inline-block bg-[#FF5500] hover:bg-[#E64D00] text-white text-[13.5px] sm:text-[14px] font-semibold px-7 sm:px-8 py-3 sm:py-3.5 rounded-full shadow-lg shadow-orange-600/25 transition-all duration-200 active:scale-95 cursor-pointer"
                 >
                   {ctaText}

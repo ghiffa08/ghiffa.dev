@@ -273,6 +273,54 @@ body {
   scrollbar-color: #111111 #FAFAFA;
 }
 
+/* Elementor Visual Builder Dark Scrollbar */
+.builder-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.builder-scrollbar::-webkit-scrollbar-track {
+  background: #18181B;
+}
+.builder-scrollbar::-webkit-scrollbar-thumb {
+  background: #3F3F46;
+  border-radius: 9999px;
+}
+.builder-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #0D99FF;
+}
+.builder-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #3F3F46 #18181B;
+}
+
+/* Scoped Overrides for Mobile Simulator Canvas (390px) */
+.builder-preview-mobile h1,
+.builder-preview-mobile h2 {
+  font-size: 1.85rem !important;
+  line-height: 1.15 !important;
+}
+
+.builder-preview-mobile #contact h2 {
+  font-size: 1.65rem !important;
+  line-height: 1.15 !important;
+}
+
+.builder-preview-mobile #contact .whitespace-nowrap {
+  font-size: 1.15rem !important;
+  max-width: 290px !important;
+  overflow: hidden !important;
+}
+
+.builder-preview-mobile #contact p {
+  font-size: 0.8rem !important;
+  margin-top: 0.75rem !important;
+}
+
+.builder-preview-mobile #contact a {
+  font-size: 0.75rem !important;
+  padding: 0.65rem 1.25rem !important;
+}
+
 /* Monochromatic & Sharp React Quill Overrides */
 .ql-toolbar.ql-snow {
   border: 1px solid #E5E5E5 !important;
@@ -693,3 +741,54 @@ body {
     transform: translateX(100%);
   }
 }
+
+/* ==========================================
+   PORTOBUILDER ELEMENTOR WIDGET SELECTION
+   ========================================== */
+.builder-canvas-mode [data-builder-field]:not(.absolute):not(.fixed):not(.sticky) {
+  position: relative;
+}
+
+.builder-canvas-mode [data-builder-field] {
+  cursor: pointer !important;
+  transition: outline 0.15s ease, box-shadow 0.15s ease;
+}
+
+.builder-canvas-mode [data-builder-field]:hover {
+  outline: 1.5px dashed #0D99FF !important;
+  outline-offset: 4px;
+}
+
+.builder-canvas-mode [data-builder-field].builder-widget-active {
+  outline: 2px solid #9747FF !important;
+  outline-offset: 4px;
+  box-shadow: 0 0 0 4px rgba(151, 71, 255, 0.16) !important;
+}
+
+.builder-canvas-mode [data-builder-field][data-builder-label]:hover::after,
+.builder-canvas-mode [data-builder-field][data-builder-label].builder-widget-active::after {
+  content: attr(data-builder-label);
+  position: absolute;
+  top: -22px;
+  right: 0;
+  background: #0D99FF;
+  color: #ffffff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+  z-index: 60;
+  pointer-events: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
+  text-transform: none;
+  line-height: 1.3;
+}
+
+.builder-canvas-mode [data-builder-field][data-builder-label].builder-widget-active::after {
+  background: #9747FF;
+}
+
+

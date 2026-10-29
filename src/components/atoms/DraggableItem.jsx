@@ -7,31 +7,42 @@ export function DraggableItem({ children, className = '', title = '', ...props }
   const ref = useRef(null);
 
   const onPointerDown = (e) => {
-    if (e.target.tagName.toLowerCase() === 'button' || e.target.closest('button') || e.target.closest('a')) return;
+    if (e.target.tagName.toLowerCase() === 'button' || e.target.closest('button')) return;
     const el = ref.current;
     if (!el) return;
-    el.setPointerCapture(e.pointerId);
 
     const style = window.getComputedStyle(el);
     const matrix = new DOMMatrixReadOnly(style.transform);
     const initialX = matrix.m41;
     const initialY = matrix.m42;
+    const downX = e.clientX;
+    const downY = e.clientY;
     const startX = e.clientX - initialX;
     const startY = e.clientY - initialY;
+    let isDragging = false;
 
     const onPointerMove = (ev) => {
+      if (!isDragging) {
+        if (Math.hypot(ev.clientX - downX, ev.clientY - downY) < 4) return;
+        isDragging = true;
+        try {
+          el.setPointerCapture(e.pointerId);
+        } catch {
+          // ignore
+        }
+      }
       const currentX = ev.clientX - startX;
       const currentY = ev.clientY - startY;
       el.style.transform = `translate(${currentX}px, ${currentY}px)`;
     };
 
     const onPointerUp = () => {
-      el.removeEventListener('pointermove', onPointerMove);
-      el.removeEventListener('pointerup', onPointerUp);
+      window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('pointerup', onPointerUp);
     };
 
-    el.addEventListener('pointermove', onPointerMove);
-    el.addEventListener('pointerup', onPointerUp);
+    window.addEventListener('pointermove', onPointerMove);
+    window.addEventListener('pointerup', onPointerUp);
   };
 
   return (

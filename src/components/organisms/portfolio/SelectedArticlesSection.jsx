@@ -71,7 +71,11 @@ export function SelectedArticlesSection({
         <div className="flex items-center justify-between mb-8 sm:mb-10">
           <div>
             <div className="text-xs font-mono uppercase tracking-widest text-[#FF5500] font-semibold mb-1" />
-            <h2 className={`text-2xl sm:text-[38px] font-bold tracking-tight transition-colors duration-700 ${isBannerDark ? 'text-black' : 'text-[#141414]'}`}>
+            <h2
+              data-builder-field="title"
+              data-builder-label="Articles Section Title"
+              className={`text-2xl sm:text-[38px] font-bold tracking-tight transition-colors duration-700 ${isBannerDark ? 'text-black' : 'text-[#141414]'}`}
+            >
               {sectionTitle}
             </h2>
           </div>
@@ -106,6 +110,8 @@ export function SelectedArticlesSection({
 
             <Link
               to="/articles"
+              data-builder-field="cta_text"
+              data-builder-label="Explore Articles Button"
               className={`text-xs font-medium border px-4 py-2 rounded-full transition-colors duration-500 hidden sm:inline-block cursor-pointer shadow-2xs ${
                 isBannerDark
                   ? 'bg-white text-black border-black/20 hover:bg-black hover:text-white'

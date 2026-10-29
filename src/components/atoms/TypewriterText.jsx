@@ -15,9 +15,15 @@ export function TypewriterText({
 }) {
   const [displayText, setDisplayText] = useState('');
   const [showCursor, setShowCursor] = useState(true);
+  const hasTypedOnceRef = React.useRef(false);
 
   useEffect(() => {
     if (!trigger) return;
+
+    if (hasTypedOnceRef.current) {
+      setDisplayText(text);
+      return;
+    }
 
     let timeoutId = null;
     let intervalId = null;
@@ -32,6 +38,7 @@ export function TypewriterText({
 
         if (currentIndex >= text.length) {
           clearInterval(intervalId);
+          hasTypedOnceRef.current = true;
           if (fadeCursorAfterMs > 0) {
             cursorTimeoutId = setTimeout(() => {
               setShowCursor(false);

@@ -116,7 +116,9 @@ const fallbackArticles = [
 export default function Portfolio({
   overrideSections = null,
   isBuilderMode = false,
+  showBuilderNavbar = false,
   activeSectionId = null,
+  activeFieldKey = null,
   onSelectSection = null
 }) {
   const [dbSections, setDbSections] = useState(DEFAULT_LANDING_SECTIONS);
@@ -199,7 +201,8 @@ export default function Portfolio({
     const handleBannerScroll = () => {
       if (!bannerRef.current) return;
       const rect = bannerRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
+      const builderScrollEl = document.getElementById('builder-canvas-scroll');
+      const windowHeight = builderScrollEl ? builderScrollEl.clientHeight : window.innerHeight;
 
       // When the banner enters the central focal reading range of the viewport
       const isInFocalRange = rect.top < windowHeight * 0.55 && rect.bottom > windowHeight * 0.25;
@@ -214,13 +217,13 @@ export default function Portfolio({
       });
     };
 
-    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('scroll', onScroll, { passive: true, capture: true });
     window.addEventListener('resize', onScroll, { passive: true });
     handleBannerScroll();
 
     return () => {
       if (rafId) cancelAnimationFrame(rafId);
-      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('scroll', onScroll, { capture: true });
       window.removeEventListener('resize', onScroll);
     };
   }, []);
@@ -492,42 +495,222 @@ export default function Portfolio({
     ]
   }), [fullName, avatarImage]);
 
+  // Highlight active widget on canvas when activeSectionId or activeFieldKey changes
+  useEffect(() => {
+    if (!isBuilderMode) return;
+    document.querySelectorAll('.builder-widget-active').forEach((el) => {
+      el.classList.remove('builder-widget-active');
+    });
+    if (activeSectionId && activeFieldKey) {
+      const target = document.querySelector(
+        `[data-section-scope="${activeSectionId}"] [data-builder-field="${activeFieldKey}"]`
+      );
+      if (target) {
+        target.classList.add('builder-widget-active');
+      }
+    }
+  }, [isBuilderMode, activeSectionId, activeFieldKey, sections]);
+
+  const buildSectionDynamicCss = (id, sectionData) => {
+    const style = sectionData?.content?._style || {};
+    const elementStyles = sectionData?.content?._elementStyles || {};
+    const rules = [];
+    const scope = `[data-section-scope="${id}"]`;
+
+    // Section container styles
+    const containerProps = [];
+    if (style.backgroundColor) {
+      containerProps.push(`background-color: ${style.backgroundColor} !important;`);
+    }
+    if (style.paddingTop !== undefined && style.paddingTop !== '') {
+      containerProps.push(`padding-top: ${style.paddingTop}px !important;`);
+    }
+    if (style.paddingBottom !== undefined && style.paddingBottom !== '') {
+      containerProps.push(`padding-bottom: ${style.paddingBottom}px !important;`);
+    }
+    if (style.paddingLeft !== undefined && style.paddingLeft !== '') {
+      containerProps.push(`padding-left: ${style.paddingLeft}px !important;`);
+    }
+    if (style.paddingRight !== undefined && style.paddingRight !== '') {
+      containerProps.push(`padding-right: ${style.paddingRight}px !important;`);
+    }
+    if (style.marginTop !== undefined && style.marginTop !== '') {
+      containerProps.push(`margin-top: ${style.marginTop}px !important;`);
+    }
+    if (style.marginBottom !== undefined && style.marginBottom !== '') {
+      containerProps.push(`margin-bottom: ${style.marginBottom}px !important;`);
+    }
+    if (style.opacity !== undefined && style.opacity !== '' && Number(style.opacity) < 100) {
+      containerProps.push(`opacity: ${(Number(style.opacity) / 100).toFixed(2)} !important;`);
+    }
+    if (containerProps.length > 0) {
+      rules.push(`${scope} > section, ${scope} > footer { ${containerProps.join(' ')} }`);
+    }
+
+    // Typography & Text Alignment
+    if (style.textAlign) {
+      const align = style.textAlign;
+      const marginRule =
+        align === 'center'
+          ? 'margin-left: auto !important; margin-right: auto !important;'
+          : align === 'left'
+          ? 'margin-left: 0 !important; margin-right: auto !important;'
+          : align === 'right'
+          ? 'margin-left: auto !important; margin-right: 0 !important;'
+          : '';
+      rules.push(`${scope} h1, ${scope} h2, ${scope} h3, ${scope} p { text-align: ${align} !important; ${marginRule} }`);
+    }
+
+    const headingProps = [];
+    if (style.titleFontSize) headingProps.push(`font-size: ${style.titleFontSize}px !important;`);
+    if (style.fontWeight) headingProps.push(`font-weight: ${style.fontWeight} !important;`);
+    if (style.textTransform) headingProps.push(`text-transform: ${style.textTransform} !important;`);
+    if (style.lineHeight) headingProps.push(`line-height: ${style.lineHeight} !important;`);
+    if (style.letterSpacing !== undefined && style.letterSpacing !== '') {
+      headingProps.push(`letter-spacing: ${style.letterSpacing}px !important;`);
+    }
+    if (style.titleColor) headingProps.push(`color: ${style.titleColor} !important;`);
+
+    if (headingProps.length > 0) {
+      rules.push(`${scope} h1, ${scope} h2 { ${headingProps.join(' ')} }`);
+      if (style.titleColor) {
+        rules.push(`${scope} .reveal-word.active, ${scope} .reveal-word { color: ${style.titleColor} !important; }`);
+      }
+    }
+
+    const bodyProps = [];
+    if (style.subtitleFontSize) bodyProps.push(`font-size: ${style.subtitleFontSize}px !important;`);
+    if (style.textColor) bodyProps.push(`color: ${style.textColor} !important;`);
+    if (style.lineHeight) bodyProps.push(`line-height: ${style.lineHeight} !important;`);
+    if (bodyProps.length > 0) {
+      rules.push(`${scope} p { ${bodyProps.join(' ')} }`);
+      if (style.textColor) {
+        rules.push(`${scope} .reveal-subword.active, ${scope} .reveal-subword { color: ${style.textColor} !important; }`);
+      }
+    }
+
+    // Per-Element / Per-Widget Style Overrides
+    Object.entries(elementStyles).forEach(([fieldKey, elStyle]) => {
+      if (!elStyle) return;
+      const elProps = [];
+      if (elStyle.textAlign) elProps.push(`text-align: ${elStyle.textAlign} !important;`);
+      if (elStyle.fontSize) elProps.push(`font-size: ${elStyle.fontSize}px !important;`);
+      if (elStyle.fontWeight) elProps.push(`font-weight: ${elStyle.fontWeight} !important;`);
+      if (elStyle.textTransform) elProps.push(`text-transform: ${elStyle.textTransform} !important;`);
+      if (elStyle.lineHeight) elProps.push(`line-height: ${elStyle.lineHeight} !important;`);
+      if (elStyle.letterSpacing !== undefined && elStyle.letterSpacing !== '') {
+        elProps.push(`letter-spacing: ${elStyle.letterSpacing}px !important;`);
+      }
+      if (elStyle.color) elProps.push(`color: ${elStyle.color} !important;`);
+      if (elStyle.backgroundColor) elProps.push(`background-color: ${elStyle.backgroundColor} !important;`);
+      if (elStyle.borderRadius !== undefined && elStyle.borderRadius !== '') {
+        elProps.push(`border-radius: ${elStyle.borderRadius}px !important;`);
+      }
+      if (elProps.length > 0) {
+        rules.push(`${scope} [data-builder-field="${fieldKey}"] { ${elProps.join(' ')} }`);
+      }
+    });
+
+    return rules.join('\n');
+  };
+
   const renderSectionWrapper = (id, label, component) => {
     const sectionData = sections[id] || DEFAULT_LANDING_SECTIONS[id];
     if (sectionData?.is_active === false && !isBuilderMode) return null;
 
+    const styleConfig = sectionData?.content?._style || {};
+    const dynamicCss = buildSectionDynamicCss(id, sectionData);
+    const customClass = styleConfig.customClass || '';
+    const customId = styleConfig.customId || undefined;
+
+    // Responsive visibility classes
+    const visibilityClasses = [
+      styleConfig.hideDesktop ? 'lg:hidden' : '',
+      styleConfig.hideTablet ? 'md:max-lg:hidden' : '',
+      styleConfig.hideMobile ? 'max-md:hidden' : ''
+    ].filter(Boolean).join(' ');
+
     if (!isBuilderMode) {
-      return component(sectionData);
+      return (
+        <div
+          key={id}
+          id={customId}
+          data-section-scope={id}
+          className={`${visibilityClasses} ${customClass}`.trim() || undefined}
+        >
+          {dynamicCss && <style>{dynamicCss}</style>}
+          {component(sectionData)}
+        </div>
+      );
     }
 
     const isActive = activeSectionId === id;
+
+    const handleCanvasClick = (e) => {
+      e.stopPropagation();
+      // Prevent links inside canvas from navigating away during builder editing
+      const anchor = e.target.closest('a');
+      if (anchor) {
+        e.preventDefault();
+      }
+
+      // Detect clicked widget / component field
+      const fieldEl = e.target.closest('[data-builder-field]');
+      let detectedFieldKey = null;
+      let detectedFieldLabel = null;
+
+      if (fieldEl) {
+        detectedFieldKey = fieldEl.getAttribute('data-builder-field');
+        detectedFieldLabel = fieldEl.getAttribute('data-builder-label') || detectedFieldKey;
+      } else if (e.target.closest('h1, h2')) {
+        detectedFieldKey = 'title';
+        detectedFieldLabel = 'Section Heading';
+      } else if (e.target.closest('h3')) {
+        detectedFieldKey = 'title';
+        detectedFieldLabel = 'Subheading';
+      } else if (e.target.closest('p')) {
+        detectedFieldKey = 'subtitle';
+        detectedFieldLabel = 'Paragraph Text';
+      } else if (anchor || e.target.closest('button')) {
+        detectedFieldKey = 'cta_text';
+        detectedFieldLabel = 'Action Button / Link';
+      }
+
+      if (onSelectSection) {
+        onSelectSection(id, detectedFieldKey, detectedFieldLabel);
+      }
+    };
 
     return (
       <div
         key={id}
         id={`builder-section-${id}`}
-        onClick={(e) => {
-          e.stopPropagation();
-          if (onSelectSection) onSelectSection(id);
-        }}
+        data-section-scope={id}
+        onClick={handleCanvasClick}
         className={`relative transition-all duration-200 group cursor-pointer ${
           isActive
-            ? 'outline-4 outline-[#0D99FF] -outline-offset-4 ring-4 ring-[#0D99FF]/30 z-30'
-            : 'hover:outline-2 hover:outline-[#0D99FF]/80 hover:-outline-offset-2'
-        } ${sectionData?.is_active === false ? 'opacity-40 grayscale-[40%]' : ''}`}
+            ? 'outline-2 outline-[#0D99FF] -outline-offset-2 z-30'
+            : 'hover:outline-1 hover:outline-[#0D99FF]/70 hover:-outline-offset-1'
+        } ${sectionData?.is_active === false ? 'opacity-40 grayscale-[40%]' : ''} ${customClass}`}
       >
-        {/* Elementor Edit Tag Handle */}
+        {dynamicCss && <style>{dynamicCss}</style>}
+        {/* Elementor Edit Tag Handle (Centered top pill, pointer-events-none so it never blocks canvas items) */}
         <div
-          className={`absolute top-3 left-4 z-50 flex items-center gap-2 px-3 py-1.5 rounded-md text-[11px] font-mono font-bold tracking-wider uppercase shadow-xl transition-all ${
+          className={`absolute top-2 left-1/2 -translate-x-1/2 z-50 pointer-events-none flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-mono font-bold tracking-wider uppercase shadow-lg transition-all ${
             isActive
-              ? 'bg-[#0D99FF] text-white scale-105'
-              : 'bg-[#18181B]/90 text-white/90 group-hover:bg-[#0D99FF] group-hover:text-white'
+              ? 'bg-[#0D99FF] text-white opacity-100'
+              : 'bg-[#18181B]/85 text-white/90 opacity-0 group-hover:opacity-100 group-hover:bg-[#0D99FF] group-hover:text-white'
           }`}
         >
-          <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-          <span>Edit: {label || id}</span>
+          <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+          <span>{label || id}</span>
+          {isActive && activeFieldKey && (
+            <span className="text-[9px] bg-[#9747FF] px-1.5 py-0.5 rounded-full text-white font-semibold ml-0.5">
+              {activeFieldKey}
+            </span>
+          )}
           {sectionData?.is_active === false && (
-            <span className="text-[9px] bg-red-600 px-1.5 py-0.5 rounded text-white font-bold ml-1">HIDDEN</span>
+            <span className="text-[9px] bg-red-600 px-1.5 py-0.5 rounded-full text-white font-bold ml-0.5">HIDDEN</span>
           )}
         </div>
         {component(sectionData)}
@@ -539,7 +722,7 @@ export default function Portfolio({
     <div
       className={`min-h-screen font-sans antialiased selection:bg-[#FF5500] selection:text-white transition-colors duration-700 ease-in-out ${
         isBannerDark ? 'bg-[#F8A065] text-[#111111]' : 'bg-white text-[#111111]'
-      } ${aiActive ? 'ai-mode-active' : ''}`}
+      } ${aiActive ? 'ai-mode-active' : ''} ${isBuilderMode ? 'builder-canvas-mode' : ''}`}
     >
       <SEO
         title="Haikal Jibran Al-Ghiffarry | Portofolio &amp; Resume"
@@ -548,15 +731,17 @@ export default function Portfolio({
         jsonLd={homepageSchema}
       />
 
-      {/* Header & Splash Screen Overlay (Hidden in Visual Builder mode so it doesn't obstruct canvas/topbar) */}
-      {!isBuilderMode && (
-        <PortfolioHeader
-          splashActive={splashActive}
-          splashFade={splashFade}
-          heroRevealed={heroRevealed}
-          isBannerDark={isBannerDark}
-          onOpenContact={openContactModal}
-        />
+      {/* Header & Splash Screen Overlay (Hidden by default in Visual Builder mode unless toggled on) */}
+      {(!isBuilderMode || showBuilderNavbar) && (
+        <div className={isBuilderMode ? 'sticky top-0 z-40 [&_header]:!relative [&_header]:!top-0' : ''}>
+          <PortfolioHeader
+            splashActive={isBuilderMode ? false : splashActive}
+            splashFade={isBuilderMode ? true : splashFade}
+            heroRevealed={heroRevealed}
+            isBannerDark={isBannerDark}
+            onOpenContact={openContactModal}
+          />
+        </div>
       )}
 
       {/* Hero Section */}

@@ -53,7 +53,11 @@ export function ProfessionalJourneySection({ experiencesList, sectionData }) {
 
       {/* Section Header: Full-width display title matching reference */}
       <ScrollReveal delay={0.05} y={30} className="mb-14 sm:mb-20">
-        <h2 className="text-4xl min-[400px]:text-5xl sm:text-7xl md:text-8xl lg:text-[110px] xl:text-[124px] 2xl:text-[130px] lg:whitespace-nowrap font-bold text-[#141414] tracking-tight sm:tracking-tighter leading-[0.88] lowercase select-none">
+        <h2
+          data-builder-field="title"
+          data-builder-label="Journey Section Title"
+          className="text-4xl min-[400px]:text-5xl sm:text-7xl md:text-8xl lg:text-[110px] xl:text-[124px] 2xl:text-[130px] lg:whitespace-nowrap font-bold text-[#141414] tracking-tight sm:tracking-tighter leading-[0.88] lowercase select-none"
+        >
           {sectionTitle}
         </h2>
       </ScrollReveal>

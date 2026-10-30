@@ -2,6 +2,8 @@ import React, { useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { slugify } from '../../../utils/slugify';
 import { ScrollReveal } from '../../atoms/ScrollReveal';
+import { getOptimizedImageUrl } from '../../../utils/cloudinary';
+
 export const SelectedArticlesSection = React.memo(function SelectedArticlesSection({
   articlesList,
   sectionData
@@ -184,7 +186,8 @@ export const SelectedArticlesSection = React.memo(function SelectedArticlesSecti
           }}
         >
         {articlesList.map((article, idx) => {
-          const articleImg = article.cover_image || article.image_url;
+          const rawArticleImg = article.cover_image || article.image_url;
+          const articleImg = getOptimizedImageUrl(rawArticleImg, { width: 800 });
           const articleSlug = article.slug || (article.title ? slugify(article.title) : '');
           const isExternal = !article.slug && article.link && article.link.startsWith('http');
           const targetUrl = isExternal ? article.link : (articleSlug ? `/article/${articleSlug}` : '/articles');

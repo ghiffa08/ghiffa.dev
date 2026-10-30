@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { slugify } from '../../../utils/slugify';
 import { ScrollReveal } from '../../atoms/ScrollReveal';
 import { RefineImage } from '../../RefineImage';
+import { getOptimizedImageUrl } from '../../../utils/cloudinary';
 
 export const SelectedWorksSection = React.memo(function SelectedWorksSection({
   projectsList,
@@ -196,11 +197,12 @@ export const SelectedWorksSection = React.memo(function SelectedWorksSection({
           }}
         >
         {projectsList.map((proj, idx) => {
-          const projImg =
+          const rawProjImg =
             proj.thumbnail_url ||
             proj.thumbnail ||
             proj.image_url ||
             (Array.isArray(proj.image_urls) && proj.image_urls.length > 0 ? proj.image_urls[0] : null);
+          const projImg = getOptimizedImageUrl(rawProjImg, { width: 800 });
           const projectSlug = proj.slug || slugify(proj.title);
 
           return (

@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { ScrollReveal } from '../../atoms/ScrollReveal';
 import { RefineImage } from '../../RefineImage';
+import { getOptimizedImageUrl } from '../../../utils/cloudinary';
 
 const FIGMA_THEMES = [
   {
@@ -142,7 +143,7 @@ export const CertificationsSection = React.memo(function CertificationsSection({
       >
         {/* Full Sharp Uncropped Certificate Image with RefineFrame Loader */}
         <RefineImage
-          src={cert.image}
+          src={getOptimizedImageUrl(cert.image, { width: 700 })}
           alt={cert.title}
           aspectRatio="auto"
           background="transparent"

@@ -5,24 +5,67 @@ import { EducationRepository } from '../repositories/EducationRepository';
 import { SettingsRepository } from '../repositories/SettingsRepository';
 import { ArticleRepository } from '../repositories/ArticleRepository';
 
-// Fetcher routing the query through the respective Repository pattern methods
-const repositoryFetcher = async ({ table }) => {
+const CACHE_PREFIX = 'ghiffa_swr_cache_';
+const CACHE_TTL_MS = 15 * 60 * 1000; // 15 minutes fresh cache
+
+// Fetcher routing the query through the respective Repository pattern methods with localStorage persistence
+const repositoryFetcher = async (keyObj) => {
+  const table = typeof keyObj === 'string' ? keyObj : keyObj.table;
+  const cacheKey = `${CACHE_PREFIX}${JSON.stringify(keyObj)}`;
+
+  // 1. Try reading from localStorage if still within TTL
+  if (typeof window !== 'undefined' && window.localStorage) {
+    try {
+      const cached = localStorage.getItem(cacheKey);
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Date.now() - parsed.timestamp < CACHE_TTL_MS) {
+          return parsed.data;
+        }
+      }
+    } catch {
+      // ignore read error
+    }
+  }
+
+  // 2. Fetch fresh data from Supabase
+  let data;
   switch (table) {
     case 'projects':
-      return ProjectRepository.getAllProjects();
+      data = await ProjectRepository.getAllProjects();
+      break;
     case 'experiences':
-      return ExperienceRepository.getAllExperiences();
+      data = await ExperienceRepository.getAllExperiences();
+      break;
     case 'qualifications':
-      return EducationRepository.getAllEducation();
+      data = await EducationRepository.getAllEducation();
+      break;
     case 'general_settings':
-      return SettingsRepository.getSettings();
+      data = await SettingsRepository.getSettings();
+      break;
     case 'personal_info':
-      return SettingsRepository.getPersonalInfo();
+      data = await SettingsRepository.getPersonalInfo();
+      break;
     case 'articles':
-      return ArticleRepository.getAllArticles();
+      data = await ArticleRepository.getAllArticles();
+      break;
     default:
       throw new Error(`Repository mapping not found for table/domain: ${table}`);
   }
+
+  // 3. Save to localStorage with timestamp to avoid repeated Supabase egress on page refresh
+  if (typeof window !== 'undefined' && window.localStorage && data) {
+    try {
+      localStorage.setItem(cacheKey, JSON.stringify({
+        data,
+        timestamp: Date.now()
+      }));
+    } catch {
+      // localStorage may be full or disabled, gracefully continue
+    }
+  }
+
+  return data;
 };
 
 /**
@@ -36,7 +79,7 @@ export function useSupabaseSingle(table) {
       revalidateIfStale: false,
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
-      dedupingInterval: 300000, // 5 minutes cache deduping
+      dedupingInterval: 900000, // 15 minutes in-memory deduping
     }
   );
 
@@ -51,8 +94,6 @@ export function useSupabaseSingle(table) {
  * Hook for fetching multiple records (like Experiences, Projects, Education) via Repositories
  */
 export function useSupabaseList(table, options = {}) {
-  // SWR key format is kept same to match cache signatures if any, 
-  // but under the hood it routes through the repositories
   const key = {
     table,
     order: options.order,
@@ -66,7 +107,7 @@ export function useSupabaseList(table, options = {}) {
       revalidateIfStale: false,
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
-      dedupingInterval: 300000, // 5 minutes cache deduping
+      dedupingInterval: 900000, // 15 minutes in-memory deduping
     }
   );
 

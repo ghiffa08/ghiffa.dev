@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { RefineImage } from '../../RefineImage';
+import { getOptimizedImageUrl } from '../../../utils/cloudinary';
 
 export function CertificateModal({ item, onClose }) {
   // Close on Escape key
@@ -66,7 +67,7 @@ export function CertificateModal({ item, onClose }) {
         {/* Clean Image Viewport */}
         <div className="p-4 sm:p-6 overflow-y-auto flex-1 bg-[#F9FAFB] flex items-center justify-center">
           <RefineImage
-            src={item.image}
+            src={getOptimizedImageUrl(item.image, { width: 1200 })}
             alt={item.title}
             aspectRatio="auto"
             radius={12}

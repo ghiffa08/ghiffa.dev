@@ -5,7 +5,7 @@ import { ScrollReveal } from '../../atoms/ScrollReveal';
 
 const POSTS_PER_PAGE = 6;
 
-export function InstagramPostsSection({ isBannerDark, sectionData }) {
+export const InstagramPostsSection = React.memo(function InstagramPostsSection({ sectionData }) {
   const sectionTitle = sectionData?.title || 'instagram posts';
   const handle = sectionData?.content?.handle || '@haikaljibraan';
   const cleanHandle = handle.replace('@', '');
@@ -31,7 +31,7 @@ export function InstagramPostsSection({ isBannerDark, sectionData }) {
   };
 
   return (
-    <section id="instagram-feed" className="relative py-14 sm:py-20 px-4 sm:px-8 lg:px-16 max-w-[1360px] mx-auto overflow-hidden transition-colors duration-700 ease-in-out">
+    <section id="instagram-feed" className="relative py-14 sm:py-20 px-4 sm:px-8 lg:px-16 max-w-[1360px] mx-auto overflow-hidden">
       <div id="instagram" className="absolute -top-24" />
 
       {/* Header without // VISUAL JOURNAL */}
@@ -41,7 +41,7 @@ export function InstagramPostsSection({ isBannerDark, sectionData }) {
             <h2
               data-builder-field="title"
               data-builder-label="Instagram Section Title"
-              className={`text-2xl sm:text-[38px] font-bold tracking-tight transition-colors duration-700 ${isBannerDark ? 'text-black' : 'text-[#141414]'}`}
+              className="text-2xl sm:text-[38px] font-bold tracking-tight text-[#141414]"
             >
               {sectionTitle}
             </h2>
@@ -54,11 +54,7 @@ export function InstagramPostsSection({ isBannerDark, sectionData }) {
               rel="noopener noreferrer"
               data-builder-field="handle"
               data-builder-label="Instagram Handle Badge"
-              className={`group text-xs font-medium border px-4 py-2 rounded-full transition-colors duration-500 inline-flex items-center gap-1.5 cursor-pointer shadow-2xs ${
-                isBannerDark
-                  ? 'bg-white text-black border-black/20 hover:bg-black hover:text-white'
-                  : 'text-gray-600 hover:text-black border-gray-200 hover:border-gray-300'
-              }`}
+              className="group text-xs font-medium border px-4 py-2 rounded-full transition-colors duration-300 inline-flex items-center gap-1.5 cursor-pointer shadow-xs text-gray-700 hover:text-black border-gray-200 hover:border-gray-400 bg-white"
             >
               <span>{handle}</span>
               <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -99,40 +95,33 @@ export function InstagramPostsSection({ isBannerDark, sectionData }) {
                       }
                     }}
                   >
-                    {/* Clean Card Visual: Original uncropped aspect ratio without badges */}
-                    <div className="rounded-2xl overflow-hidden mb-4 relative bg-[#F4F4F5] shadow-xs border border-black/5 select-none pointer-events-none">
+                    {/* Clean Card Visual: Consistent 4:5 vertical ratio, 100% full image, borderless */}
+                    <div className="aspect-[4/5] w-full rounded-2xl overflow-hidden mb-4 relative bg-[#18181B] shadow-md select-none pointer-events-none border-0">
                       {imgSrc ? (
                         <img
                           src={imgSrc}
                           alt={post.caption || 'Instagram Post'}
                           loading="lazy"
-                          className="w-full h-auto block object-cover group-hover:scale-[1.02] transition-transform duration-500 ease-out pointer-events-none"
+                          decoding="async"
+                          className="w-full h-full block object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out pointer-events-none"
                           onError={(e) => {
                             e.currentTarget.style.display = 'none';
                           }}
                         />
                       ) : (
-                        <div className="w-full aspect-square bg-gradient-to-br from-pink-500 via-rose-500 to-amber-500 flex items-center justify-center text-white font-mono text-xs">
+                        <div className="w-full h-full bg-gradient-to-br from-pink-500 via-rose-500 to-amber-500 flex items-center justify-center text-white font-mono text-xs">
                           Instagram Post
                         </div>
                       )}
                     </div>
 
                     {/* Caption Title */}
-                    <h3 className={`text-[17px] sm:text-[18px] lg:text-[19px] font-semibold leading-[1.35] mb-2 transition-colors duration-500 line-clamp-2 ${
-                      isBannerDark
-                        ? 'text-black group-hover:text-black/75'
-                        : 'text-[#141414] group-hover:text-[#FF5500]'
-                    }`}>
+                    <h3 className="text-[17px] sm:text-[18px] lg:text-[19px] font-semibold leading-[1.35] mb-2 text-[#141414] group-hover:text-[#FF5500] transition-colors duration-300 line-clamp-2">
                       {post.caption ? post.caption.split('\n')[0] : 'Instagram Update'}
                     </h3>
 
                     {/* Caption Snippet */}
-                    <p className={`text-[13px] sm:text-[13.5px] leading-[1.6] line-clamp-2 font-normal transition-colors duration-500 ${
-                      isBannerDark
-                        ? 'text-neutral-900 font-medium'
-                        : 'text-[#71717A]'
-                    }`}>
+                    <p className="text-[13px] sm:text-[13.5px] leading-[1.6] line-clamp-2 font-normal text-[#71717A] mb-1">
                       {post.caption || 'View full post and discussion on Instagram.'}
                     </p>
                   </article>
@@ -189,4 +178,4 @@ export function InstagramPostsSection({ isBannerDark, sectionData }) {
       )}
     </section>
   );
-}
+});

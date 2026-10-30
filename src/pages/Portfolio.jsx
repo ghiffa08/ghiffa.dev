@@ -196,39 +196,31 @@ export default function Portfolio({
   const bannerRef = useRef(null);
 
   useEffect(() => {
-    let rafId = null;
+    const bannerEl = bannerRef.current;
+    if (!bannerEl) return;
 
-    const handleBannerScroll = () => {
-      if (!bannerRef.current) return;
-      const rect = bannerRef.current.getBoundingClientRect();
-      const builderScrollEl = document.getElementById('builder-canvas-scroll');
-      const windowHeight = builderScrollEl ? builderScrollEl.clientHeight : window.innerHeight;
+    // Support visual builder mode container or normal viewport
+    const builderScrollEl = document.getElementById('builder-canvas-scroll');
+    const root = builderScrollEl || null;
 
-      // When the banner enters the central focal reading range of the viewport
-      const isInFocalRange = rect.top < windowHeight * 0.55 && rect.bottom > windowHeight * 0.25;
-      setIsBannerDark((prev) => (prev !== isInFocalRange ? isInFocalRange : prev));
-    };
+    // Detect when the banner enters focal center reading zone (-20% top, -25% bottom)
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsBannerDark(entry.isIntersecting);
+      },
+      {
+        root,
+        rootMargin: '-20% 0px -25% 0px',
+        threshold: 0.05
+      }
+    );
 
-    const onScroll = () => {
-      if (rafId) return;
-      rafId = requestAnimationFrame(() => {
-        handleBannerScroll();
-        rafId = null;
-      });
-    };
-
-    window.addEventListener('scroll', onScroll, { passive: true, capture: true });
-    window.addEventListener('resize', onScroll, { passive: true });
-    handleBannerScroll();
-
-    return () => {
-      if (rafId) cancelAnimationFrame(rafId);
-      window.removeEventListener('scroll', onScroll, { capture: true });
-      window.removeEventListener('resize', onScroll);
-    };
-  }, []);
+    observer.observe(bannerEl);
+    return () => observer.disconnect();
+  }, [isBuilderMode]);
 
   useEffect(() => {
+    document.body.style.transition = 'background-color 700ms cubic-bezier(0.16, 1, 0.3, 1)';
     if (isBannerDark) {
       document.body.style.backgroundColor = '#F8A065';
     } else {
@@ -720,7 +712,7 @@ export default function Portfolio({
 
   return (
     <div
-      className={`min-h-screen font-sans antialiased selection:bg-[#FF5500] selection:text-white transition-colors duration-700 ease-in-out ${
+      className={`min-h-screen font-sans antialiased selection:bg-[#FF5500] selection:text-white transition-colors duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
         isBannerDark ? 'bg-[#F8A065] text-[#111111]' : 'bg-white text-[#111111]'
       } ${aiActive ? 'ai-mode-active' : ''} ${isBuilderMode ? 'builder-canvas-mode' : ''}`}
     >
@@ -817,7 +809,6 @@ export default function Portfolio({
       {renderSectionWrapper('articles', 'Selected Articles', (sec) => (
         <SelectedArticlesSection
           articlesList={articlesList}
-          isBannerDark={isBannerDark}
           sectionData={sec}
         />
       ))}
@@ -825,7 +816,6 @@ export default function Portfolio({
       {/* Instagram Posts Section */}
       {renderSectionWrapper('instagram', 'Instagram Journal', (sec) => (
         <InstagramPostsSection
-          isBannerDark={isBannerDark}
           sectionData={sec}
         />
       ))}

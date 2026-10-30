@@ -43,7 +43,7 @@ const formatPeriod = (period) => {
     .replace(/\bagu\b/gi, 'Aug');
 };
 
-export function ProfessionalJourneySection({ experiencesList, sectionData }) {
+export const ProfessionalJourneySection = React.memo(function ProfessionalJourneySection({ experiencesList, sectionData }) {
   const { t } = useTranslation();
   const sectionTitle = sectionData?.title || 'professional journey';
 
@@ -128,4 +128,4 @@ export function ProfessionalJourneySection({ experiencesList, sectionData }) {
       </div>
     </section>
   );
-}
+});

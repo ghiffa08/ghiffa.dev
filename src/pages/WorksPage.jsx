@@ -7,6 +7,7 @@ import { SEO } from '../components/atoms/SEO';
 import { ScrollReveal } from '../components/atoms/ScrollReveal';
 import { slugify } from '../utils/slugify';
 import { WorksHeader, PortfolioFooter } from '../components/organisms/portfolio';
+import { RefineImage } from '../components/RefineImage';
 
 const parseTechStack = (tech) => {
   if (!tech) return [];
@@ -227,32 +228,27 @@ export default function WorksPage() {
                     to={`/project/${projectSlug}`}
                     className="group flex flex-col cursor-pointer select-none"
                   >
-                    {/* Visual Cover (4:3 aspect ratio, rounded-2xl) */}
-                    <div className="aspect-[4/3] rounded-2xl overflow-hidden mb-4 relative bg-[#18181B] shadow-xs border border-black/5 flex items-center justify-center">
+                    {/* Visual Cover (4:3 aspect ratio, rounded-2xl, borderless) */}
+                    <div className="aspect-[4/3] rounded-2xl overflow-hidden mb-4 relative bg-[#18181B] shadow-md flex items-center justify-center">
                       {projImg ? (
-                        <img
+                        <RefineImage
                           src={projImg}
                           alt={proj.title}
-                          loading="lazy"
-                          className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out"
-                          onError={(e) => {
-                            e.currentTarget.style.display = 'none';
-                            const fallback = e.currentTarget.nextElementSibling;
-                            if (fallback) fallback.style.display = 'flex';
-                          }}
+                          aspectRatio="4 / 3"
+                          radius={16}
+                          className="w-full h-full"
+                          imgClassName="group-hover:scale-[1.03] transition-transform duration-500 ease-out"
                         />
-                      ) : null}
-                      <div
-                        style={{ display: projImg ? 'none' : 'flex' }}
-                        className="w-full h-full bg-gradient-to-br from-neutral-800 to-neutral-950 flex flex-col items-center justify-center p-6 text-center text-white/70 select-none"
-                      >
-                        <span className="font-mono text-[10px] uppercase tracking-widest text-[#FF5500] font-semibold mb-1">
-                          {proj.category || 'PROJECT'}
-                        </span>
-                        <span className="text-sm sm:text-base font-bold text-white max-w-[200px] line-clamp-2">
-                          {proj.title}
-                        </span>
-                      </div>
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-neutral-800 to-neutral-950 flex flex-col items-center justify-center p-6 text-center text-white/70 select-none">
+                          <span className="font-mono text-[10px] uppercase tracking-widest text-[#FF5500] font-semibold mb-1">
+                            {proj.category || 'PROJECT'}
+                          </span>
+                          <span className="text-sm sm:text-base font-bold text-white max-w-[200px] line-clamp-2">
+                            {proj.title}
+                          </span>
+                        </div>
+                      )}
 
                       {/* Floating Category Tag */}
                       {proj.category && (

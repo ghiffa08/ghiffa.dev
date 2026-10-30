@@ -4,6 +4,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
 import { PcbSkeleton } from '../../atoms/PcbSkeleton';
+import { RefineFrame } from '../../RefineFrame';
 
 function checkWebGLSupport() {
   try {
@@ -226,28 +227,58 @@ export function PcbViewer3D() {
 
   if (hasWebGL === false) {
     return (
-      <div className="relative w-full h-[220px] sm:h-[250px] xl:h-[270px] mt-2 sm:mt-3 -translate-y-2 sm:-translate-y-3 flex items-center justify-center select-none">
-        <PcbSkeleton />
-      </div>
+      <RefineFrame
+        status="error"
+        aspectRatio="auto"
+        width="100%"
+        radius={16}
+        background="transparent"
+        color="#ef4444"
+        showStatus={true}
+        labels={{ error: 'WebGL Unavailable' }}
+        className="relative w-full h-[220px] sm:h-[250px] xl:h-[270px] mt-2 sm:mt-3 -translate-y-2 sm:-translate-y-3 flex items-center justify-center select-none"
+      >
+        <div className="w-full h-full flex items-center justify-center">
+          <PcbSkeleton />
+        </div>
+      </RefineFrame>
     );
   }
 
   return (
-    <div className="relative w-full h-[220px] sm:h-[250px] xl:h-[270px] mt-2 sm:mt-3 -translate-y-2 sm:-translate-y-3 flex items-center justify-center select-none">
-      {/* 3D Canvas with drag-to-rotate cursor */}
-      <div
-        ref={containerRef}
-        className={`w-full h-full cursor-grab active:cursor-grabbing transition-all duration-700 ease-out group-hover:-translate-y-2 ${loading ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'}`}
-        style={{ touchAction: 'pan-y' }}
-      />
+    <RefineFrame
+      status={loading ? 'generating' : 'complete'}
+      aspectRatio="auto"
+      width="100%"
+      radius={16}
+      background="transparent"
+      color="#10b981"
+      sweep={true}
+      showStatus={true}
+      hideAfter={1400}
+      labels={{
+        generating: 'Loading 3D Hardware...',
+        refining: 'Synthesizing Mesh...',
+        complete: '3D PCB Ready'
+      }}
+      className="relative w-full h-[220px] sm:h-[250px] xl:h-[270px] mt-2 sm:mt-3 -translate-y-2 sm:-translate-y-3 flex items-center justify-center select-none"
+    >
+      <div className="relative w-full h-full flex items-center justify-center">
+        {/* 3D Canvas with drag-to-rotate cursor */}
+        <div
+          ref={containerRef}
+          className={`w-full h-full cursor-grab active:cursor-grabbing transition-all duration-700 ease-out group-hover:-translate-y-2 ${loading ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'}`}
+          style={{ touchAction: 'pan-y' }}
+        />
 
-      {/* PCB Hardware Skeleton Loader (No spinner) */}
-      {loading && (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-500">
-          <PcbSkeleton />
-        </div>
-      )}
-    </div>
+        {/* PCB Hardware Skeleton Loader (No spinner) */}
+        {loading && (
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-500">
+            <PcbSkeleton />
+          </div>
+        )}
+      </div>
+    </RefineFrame>
   );
 }
 

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { RefineImage } from '../../RefineImage';
 
 export function CertificateModal({ item, onClose }) {
   // Close on Escape key
@@ -64,10 +65,13 @@ export function CertificateModal({ item, onClose }) {
 
         {/* Clean Image Viewport */}
         <div className="p-4 sm:p-6 overflow-y-auto flex-1 bg-[#F9FAFB] flex items-center justify-center">
-          <img
+          <RefineImage
             src={item.image}
             alt={item.title}
-            className="max-h-[80vh] w-auto max-w-full object-contain rounded-xl shadow-xs bg-white select-none"
+            aspectRatio="auto"
+            radius={12}
+            className="max-h-[80vh] w-auto max-w-full select-none"
+            imgClassName="max-h-[80vh] w-auto max-w-full object-contain rounded-xl shadow-xs bg-white select-none"
           />
         </div>
       </div>

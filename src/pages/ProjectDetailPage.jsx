@@ -21,6 +21,7 @@ import { SEO } from '../components/atoms/SEO';
 import { ScrollReveal } from '../components/atoms/ScrollReveal';
 import { slugify } from '../utils/slugify';
 import { WorksHeader, PortfolioFooter } from '../components/organisms/portfolio';
+import { RefineImage } from '../components/RefineImage';
 
 export default function ProjectDetailPage() {
   const { slug } = useParams();
@@ -273,10 +274,13 @@ export default function ProjectDetailPage() {
             <ScrollReveal delay={0.1} y={24}>
               {/* Main Active Preview */}
               <div className="aspect-[16/10] sm:aspect-[16/9] rounded-2xl sm:rounded-3xl overflow-hidden bg-gray-100 border border-black/5 shadow-xs mb-4">
-                <img
+                <RefineImage
                   src={allImages[activeImageIndex]}
                   alt={`${project.title} Preview ${activeImageIndex + 1}`}
-                  className="w-full h-full object-cover transition-all duration-500"
+                  aspectRatio="16 / 9"
+                  radius={24}
+                  className="w-full h-full"
+                  imgClassName="transition-all duration-500"
                 />
               </div>
 
@@ -294,10 +298,13 @@ export default function ProjectDetailPage() {
                           : 'border-transparent opacity-60 hover:opacity-100'
                       }`}
                     >
-                      <img
+                      <RefineImage
                         src={img}
                         alt={`Thumbnail ${i + 1}`}
-                        className="w-full h-full object-cover"
+                        aspectRatio="16 / 10"
+                        radius={10}
+                        showStatus={false}
+                        className="w-full h-full"
                       />
                     </button>
                   ))}
@@ -379,10 +386,13 @@ export default function ProjectDetailPage() {
                     >
                       <div className="aspect-[4/3] rounded-xl overflow-hidden bg-gray-100 mb-4 border border-black/5">
                         {otherImg ? (
-                          <img
+                          <RefineImage
                             src={otherImg}
                             alt={otherProj.title}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            aspectRatio="4 / 3"
+                            radius={12}
+                            className="w-full h-full"
+                            imgClassName="group-hover:scale-105 transition-transform duration-500"
                           />
                         ) : (
                           <div className="w-full h-full bg-neutral-900 flex items-center justify-center text-white/30 font-mono text-xs">

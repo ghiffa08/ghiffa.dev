@@ -32,6 +32,7 @@ import { useSupabaseSingle } from '../hooks/useSupabaseData';
 import { SEO } from '../components/atoms/SEO';
 import { ScrollReveal } from '../components/atoms/ScrollReveal';
 import { ArticlesHeader, PortfolioFooter } from '../components/organisms/portfolio';
+import { RefineImage } from '../components/RefineImage';
 import { formatReadTime } from '../utils/formatReadTime';
 
 /**
@@ -575,22 +576,39 @@ export default function ArticleDetailPage() {
     }
   };
 
-  // Scroll tracking for reading progress and sticky bar
+  // Scroll tracking for reading progress and sticky bar (throttled via RAF to eliminate scroll jank)
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = docHeight > 0 ? (scrollY / docHeight) * 100 : 0;
-      setReadingProgress(Math.min(100, Math.max(0, progress)));
+    let rafId = null;
+    let lastProgress = -1;
 
-      if (topActionBarRef.current) {
-        const topBarRect = topActionBarRef.current.getBoundingClientRect();
-        setShowStickyBar(topBarRect.bottom < 0);
-      }
+    const handleScroll = () => {
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        const scrollY = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const rawProgress = docHeight > 0 ? (scrollY / docHeight) * 100 : 0;
+        const progress = Math.min(100, Math.max(0, Math.round(rawProgress)));
+
+        if (Math.abs(progress - lastProgress) >= 1) {
+          lastProgress = progress;
+          setReadingProgress(progress);
+        }
+
+        if (topActionBarRef.current) {
+          const topBarRect = topActionBarRef.current.getBoundingClientRect();
+          const shouldShow = topBarRect.bottom < 0;
+          setShowStickyBar((prev) => (prev !== shouldShow ? shouldShow : prev));
+        }
+
+        rafId = null;
+      });
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   // Fetch Article, Saved State, Claps, and Responses
@@ -1132,13 +1150,15 @@ export default function ArticleDetailPage() {
         {article.cover_image && (
           <div className="max-w-[920px] mx-auto px-4 sm:px-8 mb-10 sm:mb-14">
             <ScrollReveal delay={0.1} y={20}>
-              <div className="rounded-2xl sm:rounded-3xl overflow-hidden bg-gray-50 border border-black/5 shadow-xs">
-                <img
+              <div className="rounded-2xl sm:rounded-3xl overflow-hidden bg-[#18181B] border border-black/5 shadow-xs">
+                <RefineImage
                   src={article.cover_image}
                   alt={article.title}
-                  loading="eager"
-                  decoding="async"
-                  className="w-full max-h-[620px] object-cover sm:object-center"
+                  aspectRatio="16 / 9"
+                  radius={24}
+                  priority={true}
+                  className="w-full max-h-[620px]"
+                  imgClassName="max-h-[620px] object-cover sm:object-center"
                 />
               </div>
             </ScrollReveal>
@@ -1151,7 +1171,20 @@ export default function ArticleDetailPage() {
             {processedContent.isHtml ? (
               <div dangerouslySetInnerHTML={{ __html: processedContent.content }} />
             ) : (
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  img: ({ node, ...props }) => (
+                    <RefineImage
+                      src={props.src}
+                      alt={props.alt || ''}
+                      aspectRatio="16 / 9"
+                      radius={16}
+                      className="my-6 rounded-2xl overflow-hidden shadow-xs border border-gray-100"
+                    />
+                  )
+                }}
+              >
                 {processedContent.content}
               </ReactMarkdown>
             )}
@@ -1286,10 +1319,13 @@ export default function ArticleDetailPage() {
                   >
                     <div className="aspect-[4/3] rounded-xl overflow-hidden bg-gray-100 mb-4 border border-black/5">
                       {otherArticle.cover_image ? (
-                        <img
+                        <RefineImage
                           src={otherArticle.cover_image}
                           alt={otherArticle.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          aspectRatio="4 / 3"
+                          radius={12}
+                          className="w-full h-full"
+                          imgClassName="group-hover:scale-105 transition-transform duration-500"
                         />
                       ) : (
                         <div className="w-full h-full bg-neutral-900 flex items-center justify-center text-white/30 font-mono text-xs">

@@ -1,11 +1,9 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { slugify } from '../../../utils/slugify';
 import { ScrollReveal } from '../../atoms/ScrollReveal';
-
-export function SelectedArticlesSection({
+export const SelectedArticlesSection = React.memo(function SelectedArticlesSection({
   articlesList,
-  isBannerDark,
   sectionData
 }) {
   const sectionTitle = sectionData?.title || 'selected articles';
@@ -14,43 +12,99 @@ export function SelectedArticlesSection({
   const isDraggingRef = useRef(false);
   const startXRef = useRef(0);
   const scrollLeftRef = useRef(0);
+  const lastXRef = useRef(0);
+  const velocityRef = useRef(0);
   const hasDraggedRef = useRef(false);
-  const rafDragRef = useRef(null);
+  const rafMomentumRef = useRef(null);
+
+  // Smooth mouse-wheel horizontal scrolling
+  useEffect(() => {
+    const el = articlesCarouselRef.current;
+    if (!el) return;
+
+    const onWheel = (e) => {
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+      const maxScroll = el.scrollWidth - el.clientWidth;
+      if (maxScroll <= 0) return;
+
+      const canScrollRight = e.deltaY > 0 && el.scrollLeft < maxScroll - 1;
+      const canScrollLeft = e.deltaY < 0 && el.scrollLeft > 1;
+
+      if (canScrollRight || canScrollLeft) {
+        e.preventDefault();
+        el.scrollLeft += e.deltaY * 1.35;
+      }
+    };
+
+    el.addEventListener('wheel', onWheel, { passive: false });
+    return () => el.removeEventListener('wheel', onWheel);
+  }, []);
 
   const handlePointerDown = (e) => {
     if (e.button !== 0 || !articlesCarouselRef.current) return;
+    if (rafMomentumRef.current) {
+      cancelAnimationFrame(rafMomentumRef.current);
+      rafMomentumRef.current = null;
+    }
     isDraggingRef.current = true;
     hasDraggedRef.current = false;
     startXRef.current = e.clientX;
+    lastXRef.current = e.clientX;
+    velocityRef.current = 0;
     scrollLeftRef.current = articlesCarouselRef.current.scrollLeft;
+    articlesCarouselRef.current.style.scrollSnapType = 'none';
+    articlesCarouselRef.current.style.scrollBehavior = 'auto';
+
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch {}
   };
 
   const handlePointerMove = (e) => {
     if (!isDraggingRef.current || !articlesCarouselRef.current) return;
-    const walk = e.clientX - startXRef.current;
-    if (Math.abs(walk) > 8) {
+    const walk = (e.clientX - startXRef.current) * 1.35;
+    if (Math.abs(walk) > 4) {
       hasDraggedRef.current = true;
     }
-
-    if (!rafDragRef.current) {
-      rafDragRef.current = requestAnimationFrame(() => {
-        if (articlesCarouselRef.current) {
-          articlesCarouselRef.current.scrollLeft = scrollLeftRef.current - walk;
-        }
-        rafDragRef.current = null;
-      });
-    }
+    velocityRef.current = (e.clientX - lastXRef.current) * 1.2;
+    lastXRef.current = e.clientX;
+    articlesCarouselRef.current.scrollLeft = scrollLeftRef.current - walk;
   };
 
-  const handlePointerUp = () => {
+  const handlePointerUp = (e) => {
+    if (!isDraggingRef.current || !articlesCarouselRef.current) return;
     isDraggingRef.current = false;
-    if (rafDragRef.current) {
-      cancelAnimationFrame(rafDragRef.current);
-      rafDragRef.current = null;
+
+    try {
+      if (e.currentTarget.hasPointerCapture(e.pointerId)) {
+        e.currentTarget.releasePointerCapture(e.pointerId);
+      }
+    } catch {}
+
+    // Fluid inertia release
+    let v = velocityRef.current * 1.6;
+    const decay = () => {
+      if (Math.abs(v) > 0.5 && articlesCarouselRef.current) {
+        articlesCarouselRef.current.scrollLeft -= v;
+        v *= 0.93; // smooth exponential decay
+        rafMomentumRef.current = requestAnimationFrame(decay);
+      } else {
+        if (articlesCarouselRef.current) {
+          articlesCarouselRef.current.style.scrollSnapType = 'x proximity';
+        }
+        rafMomentumRef.current = null;
+      }
+    };
+
+    if (Math.abs(v) > 1) {
+      rafMomentumRef.current = requestAnimationFrame(decay);
+    } else if (articlesCarouselRef.current) {
+      articlesCarouselRef.current.style.scrollSnapType = 'x proximity';
     }
+
     setTimeout(() => {
       hasDraggedRef.current = false;
-    }, 100);
+    }, 120);
   };
 
   const scrollArticlesCarousel = (direction) => {
@@ -63,18 +117,18 @@ export function SelectedArticlesSection({
   };
 
   return (
-    <section id="articles" className="relative py-14 sm:py-20 px-4 sm:px-8 lg:px-16 max-w-[1360px] mx-auto overflow-hidden transition-colors duration-700 ease-in-out">
+    <section id="articles" className="relative py-14 sm:py-20 px-4 sm:px-8 lg:px-16 max-w-[1360px] mx-auto overflow-hidden">
       <div id="insights" className="absolute -top-24" />
       <div id="blog" className="absolute -top-24" />
 
-      <ScrollReveal margin="250px 0px 50px 0px" duration={0.3} delay={0} y={12}>
+      <ScrollReveal delay={0.05} y={24}>
         <div className="flex items-center justify-between mb-8 sm:mb-10">
           <div>
             <div className="text-xs font-mono uppercase tracking-widest text-[#FF5500] font-semibold mb-1" />
             <h2
               data-builder-field="title"
               data-builder-label="Articles Section Title"
-              className={`text-2xl sm:text-[38px] font-bold tracking-tight transition-colors duration-700 ${isBannerDark ? 'text-black' : 'text-[#141414]'}`}
+              className="text-2xl sm:text-[38px] font-bold tracking-tight text-[#141414]"
             >
               {sectionTitle}
             </h2>
@@ -86,11 +140,7 @@ export function SelectedArticlesSection({
                 type="button"
                 onClick={() => scrollArticlesCarousel('left')}
                 aria-label="Previous article"
-                className={`w-9 h-9 rounded-full border bg-white flex items-center justify-center transition-all cursor-pointer shadow-2xs active:scale-95 ${
-                  isBannerDark
-                    ? 'border-black/20 text-black hover:bg-black hover:text-white'
-                    : 'border-gray-200 hover:border-gray-900 text-gray-700 hover:text-black'
-                }`}
+                className="w-9 h-9 rounded-full bg-white flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-95 text-gray-700 hover:text-black hover:bg-gray-100"
               >
                 <span className="text-base leading-none">←</span>
               </button>
@@ -98,11 +148,7 @@ export function SelectedArticlesSection({
                 type="button"
                 onClick={() => scrollArticlesCarousel('right')}
                 aria-label="Next article"
-                className={`w-9 h-9 rounded-full border bg-white flex items-center justify-center transition-all cursor-pointer shadow-2xs active:scale-95 ${
-                  isBannerDark
-                    ? 'border-black/20 text-black hover:bg-black hover:text-white'
-                    : 'border-gray-200 hover:border-gray-900 text-gray-700 hover:text-black'
-                }`}
+                className="w-9 h-9 rounded-full bg-white flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-95 text-gray-700 hover:text-black hover:bg-gray-100"
               >
                 <span className="text-base leading-none">→</span>
               </button>
@@ -112,11 +158,7 @@ export function SelectedArticlesSection({
               to="/articles"
               data-builder-field="cta_text"
               data-builder-label="Explore Articles Button"
-              className={`text-xs font-medium border px-4 py-2 rounded-full transition-colors duration-500 hidden sm:inline-block cursor-pointer shadow-2xs ${
-                isBannerDark
-                  ? 'bg-white text-black border-black/20 hover:bg-black hover:text-white'
-                  : 'text-gray-600 hover:text-black border-gray-200 hover:border-gray-300'
-              }`}
+              className="text-xs font-medium px-4 py-2 rounded-full transition-colors duration-300 hidden sm:inline-block cursor-pointer shadow-xs text-gray-600 hover:text-black hover:bg-gray-100 bg-white"
             >
               {ctaText}
             </Link>
@@ -124,20 +166,21 @@ export function SelectedArticlesSection({
         </div>
       </ScrollReveal>
 
-      {/* Draggable Carousel */}
-      <ScrollReveal margin="350px 0px 50px 0px" duration={0.3} delay={0} y={16}>
+      {/* Draggable Smooth Carousel */}
+      <ScrollReveal delay={0.15} y={32}>
         <div
           ref={articlesCarouselRef}
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
-          className="flex gap-6 lg:gap-8 overflow-x-auto scrollbar-none cursor-grab active:cursor-grabbing select-none pb-4 -mx-4 sm:-mx-8 lg:-mx-16 px-4 sm:px-8 lg:px-16 touch-pan-y"
+          className="flex gap-6 lg:gap-8 overflow-x-auto scrollbar-none cursor-grab active:cursor-grabbing select-none pb-4 -mx-4 sm:-mx-8 lg:-mx-16 px-4 sm:px-8 lg:px-16 touch-pan-y scroll-smooth"
           style={{
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
             WebkitOverflowScrolling: 'touch',
-            overscrollBehaviorX: 'contain'
+            overscrollBehaviorX: 'contain',
+            scrollSnapType: 'x proximity'
           }}
         >
         {articlesList.map((article, idx) => {
@@ -148,16 +191,16 @@ export function SelectedArticlesSection({
 
           const cardContent = (
             <article className="w-full flex flex-col select-none">
-              {/* Clean Card Visual (Tall 4:3 aspect ratio matching Selected Works) */}
-              <div className="aspect-[4/3] rounded-2xl overflow-hidden mb-5 relative bg-[#F4F4F5] shadow-xs border border-black/5 select-none pointer-events-none">
+              {/* Clean Card Visual (Tall 4:3 aspect ratio matching Selected Works, 100% full image, borderless) */}
+              <div className="aspect-[4/3] w-full rounded-2xl overflow-hidden mb-5 relative bg-[#18181B] shadow-md select-none pointer-events-none border-0">
                 {articleImg ? (
                   <img
                     src={articleImg}
                     alt={article.title}
                     draggable={false}
-                    loading="eager"
+                    loading="lazy"
                     decoding="async"
-                    className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out pointer-events-none"
+                    className="w-full h-full block object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out pointer-events-none"
                     onError={(e) => {
                       e.currentTarget.style.display = 'none';
                     }}
@@ -170,20 +213,12 @@ export function SelectedArticlesSection({
               </div>
 
               {/* Title */}
-              <h3 className={`text-[19px] sm:text-[20px] lg:text-[21px] font-semibold leading-[1.3] mb-2.5 transition-colors duration-500 line-clamp-2 ${
-                isBannerDark
-                  ? 'text-black group-hover:text-black/75'
-                  : 'text-[#141414] group-hover:text-[#FF5500]'
-              }`}>
+              <h3 className="text-[19px] sm:text-[20px] lg:text-[21px] font-semibold leading-[1.3] mb-2.5 transition-colors duration-300 text-[#141414] group-hover:text-[#FF5500] line-clamp-2">
                 {article.title}
               </h3>
 
               {/* Description */}
-              <p className={`text-[13px] sm:text-[13.5px] leading-[1.6] line-clamp-3 font-normal transition-colors duration-500 ${
-                isBannerDark
-                  ? 'text-neutral-900 font-medium'
-                  : 'text-[#71717A]'
-              }`}>
+              <p className="text-[13px] sm:text-[13.5px] leading-[1.6] line-clamp-3 font-normal text-[#71717A]">
                 {article.description}
               </p>
             </article>
@@ -196,7 +231,7 @@ export function SelectedArticlesSection({
                 href={targetUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-[85vw] sm:w-[380px] md:w-[410px] lg:w-[430px] shrink-0 group cursor-pointer flex flex-col select-none no-underline"
+                className="w-[85vw] sm:w-[380px] md:w-[410px] lg:w-[430px] shrink-0 snap-start group cursor-pointer flex flex-col select-none no-underline"
                 onClick={(e) => {
                   if (hasDraggedRef.current) {
                     e.preventDefault();
@@ -212,7 +247,7 @@ export function SelectedArticlesSection({
             <Link
               key={article.id || idx}
               to={targetUrl}
-              className="w-[85vw] sm:w-[380px] md:w-[410px] lg:w-[430px] shrink-0 group cursor-pointer flex flex-col select-none no-underline"
+              className="w-[85vw] sm:w-[380px] md:w-[410px] lg:w-[430px] shrink-0 snap-start group cursor-pointer flex flex-col select-none no-underline"
               onClick={(e) => {
                 if (hasDraggedRef.current) {
                   e.preventDefault();
@@ -227,4 +262,4 @@ export function SelectedArticlesSection({
       </ScrollReveal>
     </section>
   );
-}
+});

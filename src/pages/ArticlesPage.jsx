@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, X, ArrowUpRight, BookOpen } from 'lucide-react';
 import { ArticleRepository } from '../repositories/ArticleRepository';
@@ -6,6 +6,7 @@ import { useSupabaseSingle } from '../hooks/useSupabaseData';
 import { SEO } from '../components/atoms/SEO';
 import { ScrollReveal } from '../components/atoms/ScrollReveal';
 import { ArticlesHeader, PortfolioFooter } from '../components/organisms/portfolio';
+import { RefineImage } from '../components/RefineImage';
 import { formatReadTime } from '../utils/formatReadTime';
 
 /**
@@ -48,15 +49,16 @@ export default function ArticlesPage() {
     fetchArticles();
   }, []);
 
-  // Filter articles by search query
-  const filtered = articles.filter((article) => {
-    if (!searchQuery.trim()) return true;
+  // Filter articles by search query (memoized to avoid recalculation on unrelated state updates)
+  const filtered = useMemo(() => {
+    if (!searchQuery.trim()) return articles;
     const q = searchQuery.toLowerCase();
-    return (
-      article.title?.toLowerCase().includes(q) ||
-      article.description?.toLowerCase().includes(q)
+    return articles.filter(
+      (article) =>
+        article.title?.toLowerCase().includes(q) ||
+        article.description?.toLowerCase().includes(q)
     );
-  });
+  }, [articles, searchQuery]);
 
   return (
     <div className="min-h-screen bg-white text-[#141414] flex flex-col selection:bg-[#FF5500] selection:text-white">
@@ -167,14 +169,16 @@ export default function ArticlesPage() {
                     to={`/article/${article.slug}`}
                     className="group flex flex-col cursor-pointer select-none"
                   >
-                    {/* Visual Cover (matching Selected Works & Selected Articles) */}
-                    <div className="aspect-[4/3] rounded-2xl overflow-hidden mb-4 relative bg-[#F4F4F5] shadow-xs border border-black/5">
+                    {/* Visual Cover (matching Selected Works & Selected Articles, borderless) */}
+                    <div className="aspect-[4/3] rounded-2xl overflow-hidden mb-4 relative bg-[#18181B] shadow-md">
                       {articleImg ? (
-                        <img
+                        <RefineImage
                           src={articleImg}
                           alt={article.title}
-                          loading="lazy"
-                          className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out"
+                          aspectRatio="4 / 3"
+                          radius={16}
+                          className="w-full h-full"
+                          imgClassName="group-hover:scale-[1.03] transition-transform duration-500 ease-out"
                         />
                       ) : (
                         <div className="w-full h-full bg-gradient-to-br from-neutral-800 to-neutral-950 flex items-center justify-center text-white/40 font-mono text-xs uppercase tracking-wider">

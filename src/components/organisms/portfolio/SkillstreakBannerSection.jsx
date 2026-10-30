@@ -1,7 +1,8 @@
 import React from 'react';
 import { ScrollReveal } from '../../atoms/ScrollReveal';
+import { RefineImage } from '../../RefineImage';
 
-export function SkillstreakBannerSection({ bannerRef, isBannerDark, sectionData }) {
+export const SkillstreakBannerSection = React.memo(function SkillstreakBannerSection({ bannerRef, isBannerDark, sectionData }) {
   const title = sectionData?.title || 'skillstreak.id';
   const heading = sectionData?.content?.heading || 'The fastest path from zero to deployable engineer, built like a game and engineered for the real world.';
   const desc = sectionData?.content?.desc || 'Most developers quit because learning feels like a grind with no visible progress. skillstreak.id changes the feedback loop with XP rewards, daily streak accountability, and real-time code evaluations.';
@@ -12,7 +13,7 @@ export function SkillstreakBannerSection({ bannerRef, isBannerDark, sectionData 
     <section
       ref={bannerRef}
       id="skillstreak-banner"
-      className={`min-h-screen w-full flex flex-col justify-center items-center px-4 sm:px-8 lg:px-12 py-12 relative z-10 transition-colors duration-700 ease-in-out select-none ${
+      className={`min-h-screen w-full flex flex-col justify-center items-center px-4 sm:px-8 lg:px-12 py-12 relative z-10 transition-colors duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] select-none ${
         isBannerDark ? 'bg-[#F8A065]' : 'bg-white'
       }`}
     >
@@ -95,16 +96,14 @@ export function SkillstreakBannerSection({ bannerRef, isBannerDark, sectionData 
                     className="w-full rounded-[6px] sm:rounded-[8px] overflow-hidden relative shadow-inner bg-[#141416]"
                     style={{ aspectRatio: '16/10' }}
                   >
-                    <img
+                    <RefineImage
                       src="/skillstreak-dekstop.webp"
+                      fallbackSrc="/skillstreak-dekstop.png"
                       alt="Skillstreak Desktop Platform"
-                      className="w-full h-full object-cover object-top select-none pointer-events-none"
-                      loading="lazy"
-                      decoding="async"
-                      onError={(e) => {
-                        e.currentTarget.onerror = null;
-                        e.currentTarget.src = '/skillstreak-dekstop.png';
-                      }}
+                      aspectRatio="16 / 10"
+                      radius={8}
+                      className="w-full h-full"
+                      imgClassName="object-cover object-top select-none pointer-events-none"
                     />
                   </div>
                 </div>
@@ -129,4 +128,4 @@ export function SkillstreakBannerSection({ bannerRef, isBannerDark, sectionData 
       </div>
     </section>
   );
-}
+});

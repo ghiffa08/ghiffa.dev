@@ -1,9 +1,10 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { slugify } from '../../../utils/slugify';
 import { ScrollReveal } from '../../atoms/ScrollReveal';
+import { RefineImage } from '../../RefineImage';
 
-export function SelectedWorksSection({
+export const SelectedWorksSection = React.memo(function SelectedWorksSection({
   projectsList,
   isBannerDark,
   sectionData
@@ -14,43 +15,99 @@ export function SelectedWorksSection({
   const isDraggingWorksRef = useRef(false);
   const startXWorksRef = useRef(0);
   const scrollLeftWorksRef = useRef(0);
+  const lastXWorksRef = useRef(0);
+  const velocityWorksRef = useRef(0);
   const hasDraggedWorksRef = useRef(false);
-  const rafDragRef = useRef(null);
+  const rafMomentumRef = useRef(null);
+
+  // Smooth mouse-wheel horizontal scrolling
+  useEffect(() => {
+    const el = worksCarouselRef.current;
+    if (!el) return;
+
+    const onWheel = (e) => {
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+      const maxScroll = el.scrollWidth - el.clientWidth;
+      if (maxScroll <= 0) return;
+
+      const canScrollRight = e.deltaY > 0 && el.scrollLeft < maxScroll - 1;
+      const canScrollLeft = e.deltaY < 0 && el.scrollLeft > 1;
+
+      if (canScrollRight || canScrollLeft) {
+        e.preventDefault();
+        el.scrollLeft += e.deltaY * 1.35;
+      }
+    };
+
+    el.addEventListener('wheel', onWheel, { passive: false });
+    return () => el.removeEventListener('wheel', onWheel);
+  }, []);
 
   const handleWorksPointerDown = (e) => {
     if (e.button !== 0 || !worksCarouselRef.current) return;
+    if (rafMomentumRef.current) {
+      cancelAnimationFrame(rafMomentumRef.current);
+      rafMomentumRef.current = null;
+    }
     isDraggingWorksRef.current = true;
     hasDraggedWorksRef.current = false;
     startXWorksRef.current = e.clientX;
+    lastXWorksRef.current = e.clientX;
+    velocityWorksRef.current = 0;
     scrollLeftWorksRef.current = worksCarouselRef.current.scrollLeft;
+    worksCarouselRef.current.style.scrollSnapType = 'none';
+    worksCarouselRef.current.style.scrollBehavior = 'auto';
+
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch {}
   };
 
   const handleWorksPointerMove = (e) => {
     if (!isDraggingWorksRef.current || !worksCarouselRef.current) return;
-    const walk = e.clientX - startXWorksRef.current;
-    if (Math.abs(walk) > 8) {
+    const walk = (e.clientX - startXWorksRef.current) * 1.35;
+    if (Math.abs(walk) > 4) {
       hasDraggedWorksRef.current = true;
     }
-
-    if (!rafDragRef.current) {
-      rafDragRef.current = requestAnimationFrame(() => {
-        if (worksCarouselRef.current) {
-          worksCarouselRef.current.scrollLeft = scrollLeftWorksRef.current - walk;
-        }
-        rafDragRef.current = null;
-      });
-    }
+    velocityWorksRef.current = (e.clientX - lastXWorksRef.current) * 1.2;
+    lastXWorksRef.current = e.clientX;
+    worksCarouselRef.current.scrollLeft = scrollLeftWorksRef.current - walk;
   };
 
-  const handleWorksPointerUp = () => {
+  const handleWorksPointerUp = (e) => {
+    if (!isDraggingWorksRef.current || !worksCarouselRef.current) return;
     isDraggingWorksRef.current = false;
-    if (rafDragRef.current) {
-      cancelAnimationFrame(rafDragRef.current);
-      rafDragRef.current = null;
+
+    try {
+      if (e.currentTarget.hasPointerCapture(e.pointerId)) {
+        e.currentTarget.releasePointerCapture(e.pointerId);
+      }
+    } catch {}
+
+    // Fluid inertia release
+    let v = velocityWorksRef.current * 1.6;
+    const decay = () => {
+      if (Math.abs(v) > 0.5 && worksCarouselRef.current) {
+        worksCarouselRef.current.scrollLeft -= v;
+        v *= 0.93; // smooth exponential decay
+        rafMomentumRef.current = requestAnimationFrame(decay);
+      } else {
+        if (worksCarouselRef.current) {
+          worksCarouselRef.current.style.scrollSnapType = 'x proximity';
+        }
+        rafMomentumRef.current = null;
+      }
+    };
+
+    if (Math.abs(v) > 1) {
+      rafMomentumRef.current = requestAnimationFrame(decay);
+    } else if (worksCarouselRef.current) {
+      worksCarouselRef.current.style.scrollSnapType = 'x proximity';
     }
+
     setTimeout(() => {
       hasDraggedWorksRef.current = false;
-    }, 100);
+    }, 120);
   };
 
   const scrollWorksCarousel = (direction) => {
@@ -86,9 +143,9 @@ export function SelectedWorksSection({
                 type="button"
                 onClick={() => scrollWorksCarousel('left')}
                 aria-label="Previous project"
-                className={`w-9 h-9 rounded-full border bg-white flex items-center justify-center transition-all cursor-pointer shadow-2xs active:scale-95 ${isBannerDark
-                    ? 'border-black/20 text-black hover:bg-black hover:text-white'
-                    : 'border-gray-200 hover:border-gray-900 text-gray-700 hover:text-black'
+                className={`w-9 h-9 rounded-full bg-white flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-95 ${isBannerDark
+                    ? 'text-black hover:bg-black hover:text-white'
+                    : 'text-gray-700 hover:text-black hover:bg-gray-100'
                   }`}
               >
                 <span className="text-base leading-none">←</span>
@@ -97,9 +154,9 @@ export function SelectedWorksSection({
                 type="button"
                 onClick={() => scrollWorksCarousel('right')}
                 aria-label="Next project"
-                className={`w-9 h-9 rounded-full border bg-white flex items-center justify-center transition-all cursor-pointer shadow-2xs active:scale-95 ${isBannerDark
-                    ? 'border-black/20 text-black hover:bg-black hover:text-white'
-                    : 'border-gray-200 hover:border-gray-900 text-gray-700 hover:text-black'
+                className={`w-9 h-9 rounded-full bg-white flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-95 ${isBannerDark
+                    ? 'text-black hover:bg-black hover:text-white'
+                    : 'text-gray-700 hover:text-black hover:bg-gray-100'
                   }`}
               >
                 <span className="text-base leading-none">→</span>
@@ -110,9 +167,9 @@ export function SelectedWorksSection({
               to="/works"
               data-builder-field="cta_text"
               data-builder-label="Explore Works Button"
-              className={`text-xs font-medium border px-4 py-2 rounded-full transition-colors duration-500 hidden sm:inline-block cursor-pointer shadow-2xs ${isBannerDark
-                  ? 'bg-white text-black border-black/20 hover:bg-black hover:text-white'
-                  : 'text-gray-600 hover:text-black border-gray-200 hover:border-gray-300'
+              className={`text-xs font-medium px-4 py-2 rounded-full transition-colors duration-500 hidden sm:inline-block cursor-pointer shadow-xs ${isBannerDark
+                  ? 'bg-white text-black hover:bg-black hover:text-white'
+                  : 'text-gray-600 hover:text-black hover:bg-gray-100'
                 }`}
             >
               {ctaText}
@@ -121,7 +178,7 @@ export function SelectedWorksSection({
         </div>
       </ScrollReveal>
 
-      {/* Draggable Carousel */}
+      {/* Draggable Smooth Carousel */}
       <ScrollReveal delay={0.15} y={32}>
         <div
           ref={worksCarouselRef}
@@ -129,12 +186,13 @@ export function SelectedWorksSection({
           onPointerMove={handleWorksPointerMove}
           onPointerUp={handleWorksPointerUp}
           onPointerCancel={handleWorksPointerUp}
-          className="flex gap-6 lg:gap-8 overflow-x-auto scrollbar-none cursor-grab active:cursor-grabbing select-none pb-4 -mx-4 sm:-mx-8 lg:-mx-16 px-4 sm:px-8 lg:px-16 touch-pan-y"
+          className="flex gap-6 lg:gap-8 overflow-x-auto scrollbar-none cursor-grab active:cursor-grabbing select-none pb-4 -mx-4 sm:-mx-8 lg:-mx-16 px-4 sm:px-8 lg:px-16 touch-pan-y scroll-smooth"
           style={{
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
             WebkitOverflowScrolling: 'touch',
-            overscrollBehaviorX: 'contain'
+            overscrollBehaviorX: 'contain',
+            scrollSnapType: 'x proximity'
           }}
         >
         {projectsList.map((proj, idx) => {
@@ -149,7 +207,7 @@ export function SelectedWorksSection({
             <Link
               key={proj.id || idx}
               to={`/project/${projectSlug}`}
-              className="w-[85vw] sm:w-[380px] md:w-[410px] lg:w-[430px] shrink-0 group cursor-pointer flex flex-col select-none no-underline"
+              className="w-[85vw] sm:w-[380px] md:w-[410px] lg:w-[430px] shrink-0 snap-start group cursor-pointer flex flex-col select-none no-underline"
               onClick={(e) => {
                 if (hasDraggedWorksRef.current) {
                   e.preventDefault();
@@ -157,32 +215,29 @@ export function SelectedWorksSection({
               }}
             >
               <article className="w-full flex flex-col select-none">
-                {/* Clean Card Visual (Tall 4:3 aspect ratio, rounded-2xl) */}
-                <div className="aspect-[4/3] rounded-2xl overflow-hidden mb-5 relative bg-[#18181B] shadow-xs border border-black/5 select-none pointer-events-none flex items-center justify-center">
+                {/* Clean Card Visual (Tall 4:3 aspect ratio, rounded-2xl, 100% full image, borderless) */}
+                <div className="aspect-[4/3] w-full rounded-2xl overflow-hidden mb-5 relative bg-[#18181B] shadow-md select-none pointer-events-none border-0">
                   {projImg ? (
-                    <img
+                    <RefineImage
                       src={projImg}
                       alt={proj.title}
+                      aspectRatio="4 / 3"
+                      width="100%"
+                      radius={16}
                       draggable={false}
-                      className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out pointer-events-none"
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none';
-                        const fallback = e.currentTarget.nextElementSibling;
-                        if (fallback) fallback.style.display = 'flex';
-                      }}
+                      className="w-full h-full block"
+                      imgClassName="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out pointer-events-none"
                     />
-                  ) : null}
-                  <div
-                    style={{ display: projImg ? 'none' : 'flex' }}
-                    className="w-full h-full bg-gradient-to-br from-neutral-800 to-neutral-950 flex flex-col items-center justify-center p-6 text-center text-white/70 select-none"
-                  >
-                    <span className="font-mono text-[10px] uppercase tracking-widest text-[#FF5500] font-semibold mb-1">
-                      {proj.category || 'PROJECT'}
-                    </span>
-                    <span className="text-base sm:text-lg font-bold text-white max-w-[220px] line-clamp-2">
-                      {proj.title}
-                    </span>
-                  </div>
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-neutral-800 to-neutral-950 flex flex-col items-center justify-center p-6 text-center text-white/70 select-none">
+                      <span className="font-mono text-[10px] uppercase tracking-widest text-[#FF5500] font-semibold mb-1">
+                        {proj.category || 'PROJECT'}
+                      </span>
+                      <span className="text-base sm:text-lg font-bold text-white max-w-[220px] line-clamp-2">
+                        {proj.title}
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 {/* Title */}
@@ -208,4 +263,4 @@ export function SelectedWorksSection({
       </ScrollReveal>
     </section>
   );
-}
+});

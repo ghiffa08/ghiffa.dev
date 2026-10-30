@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { ScrollReveal } from '../../atoms/ScrollReveal';
+import { RefineImage } from '../../RefineImage';
 
 const FIGMA_THEMES = [
   {
@@ -52,8 +53,82 @@ const FIGMA_THEMES = [
   },
 ];
 
-export function CertificationsSection({ bentoCertificates, onSelectCert, sectionData }) {
+const isPortraitCert = (cert) => {
+  if (!cert) return false;
+  if (cert.orientation === 'portrait') return true;
+  if (cert.orientation === 'landscape') return false;
+  const t = (cert.title || '').toLowerCase();
+  const img = (cert.image || '').toLowerCase();
+  if (
+    img.includes('f2p9oyiqe0hvurgsevhx') || // Pilmapres (Mahasiswa Berprestasi)
+    img.includes('dbbffblvvangiizxkudh') || // BNSP (Junior Web Developer)
+    img.includes('qx9gf4vizsixumclht13') || // HAKI Ciptaan
+    img.includes('hm8tuornm6btvrvexk1v')    // Junior Web Programmer
+  ) {
+    return true;
+  }
+  if (
+    t.includes('mahasiswa berprestasi') ||
+    t.includes('pilmapres') ||
+    (t.includes('bnsp') && !t.includes('vsga')) ||
+    t.includes('ciptaan') ||
+    t.includes('haki') ||
+    (t.includes('programmer') && !t.includes('developer'))
+  ) {
+    return true;
+  }
+  return false;
+};
+
+export const CertificationsSection = React.memo(function CertificationsSection({ bentoCertificates, onSelectCert, sectionData }) {
   const [showAllCerts, setShowAllCerts] = useState(false);
+
+  // Robust Bento layout: Tall (portrait) certificates on the sides, 2 stacked landscapes in the middle
+  const { row1, row2, remainingCerts } = useMemo(() => {
+    const list = Array.isArray(bentoCertificates) ? [...bentoCertificates] : [];
+    const portraits = [];
+    const landscapes = [];
+
+    list.forEach((c) => {
+      if (isPortraitCert(c)) {
+        portraits.push(c);
+      } else {
+        landscapes.push(c);
+      }
+    });
+
+    // Row 1:
+    // Left: Pilmapres (Portrait)
+    // Middle: Business Plan (Landscape) & Mathematics (Landscape)
+    // Right: BNSP (Portrait)
+    const r1Left = portraits[0] || landscapes.shift();
+    const r1Mid1 = landscapes[0];
+    const r1Mid2 = landscapes[1];
+    const r1Right = portraits[1] || landscapes[2];
+
+    // Row 2:
+    // Left: Junior Web Programmer (Portrait)
+    // Middle: Peringkat 1 UKK (Landscape) & Astra Vocapreneur (Landscape)
+    // Right: HAKI Ciptaan (Portrait)
+    const r2Left = portraits[3] || portraits[2] || landscapes[4];
+    const r2Mid1 = landscapes[2];
+    const r2Mid2 = landscapes[3];
+    const r2Right = portraits[2] || portraits[3] || landscapes[5];
+
+    const usedIds = new Set(
+      [r1Left, r1Mid1, r1Mid2, r1Right, r2Left, r2Mid1, r2Mid2, r2Right]
+        .filter(Boolean)
+        .map((c) => c.id)
+    );
+
+    const remaining = list.filter((c) => !usedIds.has(c.id));
+
+    return {
+      row1: { left: r1Left, midTop: r1Mid1, midBottom: r1Mid2, right: r1Right },
+      row2: { left: r2Left, midTop: r2Mid1, midBottom: r2Mid2, right: r2Right },
+      remainingCerts: remaining,
+    };
+  }, [bentoCertificates]);
 
   const renderCertCard = (cert, idx = 0) => {
     if (!cert) return null;
@@ -65,12 +140,15 @@ export function CertificationsSection({ bentoCertificates, onSelectCert, section
         onClick={() => onSelectCert(cert)}
         className={`group relative rounded-2xl overflow-hidden bg-white border border-gray-200/90 ${theme.hoverBorder} hover:ring-2 ${theme.hoverRing} shadow-[0_4px_22px_rgba(0,0,0,0.06)] ${theme.shadow} transition-all duration-300 hover:-translate-y-1.5 cursor-pointer select-none`}
       >
-        {/* Full Sharp Uncropped Certificate Image */}
-        <img
+        {/* Full Sharp Uncropped Certificate Image with RefineFrame Loader */}
+        <RefineImage
           src={cert.image}
           alt={cert.title}
-          className="w-full h-auto block select-none transition-transform duration-500 group-hover:scale-[1.012]"
-          loading="lazy"
+          aspectRatio="auto"
+          background="transparent"
+          radius={0}
+          className="w-full h-auto block select-none"
+          imgClassName="w-full h-auto block select-none transition-transform duration-500 group-hover:scale-[1.012]"
         />
 
         {/* Figma Community File Card Hover Overlay (Light Theme + Multicolor) */}
@@ -132,52 +210,52 @@ export function CertificationsSection({ bentoCertificates, onSelectCert, section
 
       {/* 3-Column Bento Grid: Dynamic 8 Initial / All Database Certificates */}
       <div className="space-y-7 sm:space-y-9">
-        {/* Row 1: Left Portrait (0), Middle 2 Landscapes (1 & 3), Right Portrait (2) */}
+        {/* Row 1: Left Portrait, Middle 2 Landscapes, Right Portrait */}
         <ScrollReveal delay={0.05} y={32}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 sm:gap-9 items-stretch">
             {/* Left: Pilmapres (Portrait) */}
             <div className="flex flex-col">
-              {renderCertCard(bentoCertificates[0], 0)}
+              {renderCertCard(row1.left, 0)}
             </div>
 
             {/* Middle: 2 Landscapes (Height matches 1 portrait) */}
             <div className="flex flex-col justify-between gap-4 sm:gap-5 h-full">
-              {renderCertCard(bentoCertificates[1], 1)}
-              {renderCertCard(bentoCertificates[3], 2)}
+              {renderCertCard(row1.midTop, 1)}
+              {renderCertCard(row1.midBottom, 2)}
             </div>
 
             {/* Right: BNSP (Portrait) */}
             <div className="flex flex-col">
-              {renderCertCard(bentoCertificates[2], 3)}
+              {renderCertCard(row1.right, 3)}
             </div>
           </div>
         </ScrollReveal>
 
-        {/* Row 2: Left Portrait (5), Middle 2 Landscapes (6 & 7), Right Portrait (4) */}
+        {/* Row 2: Left Portrait, Middle 2 Landscapes, Right Portrait */}
         <ScrollReveal delay={0.15} y={32}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 sm:gap-9 items-stretch">
-            {/* Left: Cakrawala (Portrait) */}
+            {/* Left: Cakrawala / Junior Web Programmer (Portrait) */}
             <div className="flex flex-col">
-              {renderCertCard(bentoCertificates[5], 4)}
+              {renderCertCard(row2.left, 4)}
             </div>
 
             {/* Middle: 2 Landscapes (Height matches 1 portrait) */}
             <div className="flex flex-col justify-between gap-4 sm:gap-5 h-full">
-              {renderCertCard(bentoCertificates[6], 5)}
-              {renderCertCard(bentoCertificates[7], 6)}
+              {renderCertCard(row2.midTop, 5)}
+              {renderCertCard(row2.midBottom, 6)}
             </div>
 
             {/* Right: HAKI Ciptaan (Portrait) */}
             <div className="flex flex-col">
-              {renderCertCard(bentoCertificates[4], 7)}
+              {renderCertCard(row2.right, 7)}
             </div>
           </div>
         </ScrollReveal>
 
         {/* Show All: Additional certificates from database */}
-        {showAllCerts && bentoCertificates.length > 8 && (
+        {showAllCerts && remainingCerts.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 sm:gap-9 items-start pt-2">
-            {bentoCertificates.slice(8).map((cert, i) => (
+            {remainingCerts.map((cert, i) => (
               <div key={cert.id} className="flex flex-col">
                 {renderCertCard(cert, 8 + i)}
               </div>
@@ -187,7 +265,7 @@ export function CertificationsSection({ bentoCertificates, onSelectCert, section
       </div>
 
       {/* Show All / Show Less Button */}
-      {bentoCertificates.length > 8 && (
+      {remainingCerts.length > 0 && (
         <div className="mt-12 flex justify-center">
           <button
             onClick={() => setShowAllCerts(!showAllCerts)}
@@ -207,4 +285,4 @@ export function CertificationsSection({ bentoCertificates, onSelectCert, section
       )}
     </section>
   );
-}
+});

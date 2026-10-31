@@ -47,34 +47,7 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
   const containerRef = useRef(null);
   const isHeaderInView = useInView(headerRef, { once: true, margin: '-60px 0px -40px 0px' });
 
-  // Strictly toggle Lanyard canvas visibility so it ONLY exists when in About section
-  React.useEffect(() => {
-    let rafId = 0;
-    const updateVisibility = () => {
-      cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(() => {
-        const section = document.getElementById('about');
-        if (!section || !containerRef.current) return;
-        const rect = section.getBoundingClientRect();
-        // Strictly show Lanyard ONLY when section about is in viewport
-        const inView = rect.top < window.innerHeight && rect.bottom > 0;
-        if (!inView) {
-          containerRef.current.style.opacity = '0';
-          containerRef.current.style.visibility = 'hidden';
-          return;
-        }
-        containerRef.current.style.opacity = '1';
-        containerRef.current.style.visibility = 'visible';
-      });
-    };
-    window.addEventListener('scroll', updateVisibility, { passive: true });
-    updateVisibility();
-    return () => {
-      cancelAnimationFrame(rafId);
-      window.removeEventListener('scroll', updateVisibility);
-    };
-  }, []);
-
+  // Keep Lanyard container clean and positioned at -top-20 so anchor sits behind navbar
   const sectionTitle = sectionData?.title || 'about me';
   const customBio = sectionData?.content?.bio;
   const educationTitle = sectionData?.content?.education_title || 'Education';
@@ -90,8 +63,7 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
       {/* 3D LANYARD INTERACTIVE CANVAS LAYER (Anchor permanently behind navbar, elastic stretch on scroll up, physical drop on enter) */}
       <div
         ref={containerRef}
-        style={{ opacity: 0, visibility: 'hidden' }}
-        className="absolute -top-36 sm:-top-44 inset-x-0 bottom-0 z-0 overflow-visible pointer-events-none"
+        className="absolute -top-20 sm:-top-20 inset-x-0 bottom-0 z-0 overflow-visible pointer-events-none"
       >
         <Lanyard
           frontImage="/id-card-front.png"
@@ -104,7 +76,7 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
           strapWidth={0.65}
           size={w => (w >= 1024 ? 0.46 : 0.35)}
           anchor={w => (w >= 1024 ? 0.208 : 0.5)}
-          strapLength={w => (w >= 1024 ? 0.36 : 0.20)}
+          strapLength={w => (w >= 1024 ? 0.60 : 0.40)}
           cornerRadius={0.3}
           intro={true}
           gravity={1.2}

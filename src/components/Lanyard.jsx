@@ -1192,6 +1192,9 @@ const Lanyard = ({
         const ease = p * p * p;
         const targetY = (sim.baseAnchorY ?? 4) + 12;
         sim.body.position.y = slingshotStartY + (targetY - slingshotStartY) * ease;
+        sim.body.position.x = sim.baseAnchorX ?? 0;
+        sim.body.position.z = 0;
+        sim.body.quaternion.identity();
         sim.body.velocity.set(0, 25 * ease, 0);
 
         // Smoothly pull strap nodes upward with card
@@ -1199,6 +1202,7 @@ const Lanyard = ({
           const nodeTargetY = mix(sim.anchor.y, sim.body.position.y, i / JOINTS);
           sim.nodes[i].y = mix(sim.nodes[i].y, nodeTargetY, 0.4);
           sim.nodes[i].x = mix(sim.nodes[i].x, sim.anchor.x, 0.25);
+          sim.nodes[i].z = 0;
         }
 
         if (p >= 1) {
@@ -1210,10 +1214,11 @@ const Lanyard = ({
         const hideY = (sim.baseAnchorY ?? 4) + 12;
         sim.anchor.y = hideY;
         sim.nodes[0].copy(sim.anchor);
-        sim.body.position.y = hideY;
+        sim.body.position.set(sim.baseAnchorX ?? 0, hideY, 0);
+        sim.body.quaternion.identity();
         sim.body.velocity.set(0, 0, 0);
         for (let i = 1; i <= JOINTS; i++) {
-          sim.nodes[i].y = hideY;
+          sim.nodes[i].set(sim.baseAnchorX ?? 0, hideY, 0);
           sim.velocities[i].set(0, 0, 0);
         }
       } else if (pull > 0 && sim.baseAnchorY !== undefined && !sim.grab) {
@@ -1227,7 +1232,8 @@ const Lanyard = ({
 
         // Hold card firmly in place without spring fighting ("idcard diam di tempat")
         if (sim.restBodyY !== undefined) {
-          sim.body.position.y = sim.restBodyY;
+          sim.body.position.set(sim.baseAnchorX ?? 0, sim.restBodyY, 0);
+          sim.body.quaternion.identity();
           sim.body.velocity.set(0, 0, 0);
           sim.body.angular.set(0, 0, 0);
         }

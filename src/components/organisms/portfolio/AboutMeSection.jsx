@@ -47,37 +47,31 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
   const containerRef = useRef(null);
   const isHeaderInView = useInView(headerRef, { once: true, margin: '-60px 0px -40px 0px' });
 
-  // Dynamically pin top of Lanyard container behind navbar ONLY when in About section
+  // Strictly toggle Lanyard canvas visibility so it ONLY exists when in About section
   React.useEffect(() => {
     let rafId = 0;
-    const updateContainerTop = () => {
+    const updateVisibility = () => {
       cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame(() => {
         const section = document.getElementById('about');
         if (!section || !containerRef.current) return;
         const rect = section.getBoundingClientRect();
-        // Strictly show Lanyard ONLY when section about is in/near viewport
+        // Strictly show Lanyard ONLY when section about is in viewport
         const inView = rect.top < window.innerHeight && rect.bottom > 0;
-        const baseTop = window.innerWidth >= 640 ? 112 : 80;
         if (!inView) {
-          containerRef.current.style.top = `-${baseTop}px`;
           containerRef.current.style.opacity = '0';
           containerRef.current.style.visibility = 'hidden';
           return;
         }
-        const navbarH = window.innerWidth >= 640 ? 72 : 64;
-        const rawPull = Math.max(0, rect.top - navbarH);
-        const pull = Math.min(200, rawPull);
-        containerRef.current.style.top = `-${baseTop + pull}px`;
         containerRef.current.style.opacity = '1';
         containerRef.current.style.visibility = 'visible';
       });
     };
-    window.addEventListener('scroll', updateContainerTop, { passive: true });
-    updateContainerTop();
+    window.addEventListener('scroll', updateVisibility, { passive: true });
+    updateVisibility();
     return () => {
       cancelAnimationFrame(rafId);
-      window.removeEventListener('scroll', updateContainerTop);
+      window.removeEventListener('scroll', updateVisibility);
     };
   }, []);
 
@@ -97,7 +91,7 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
       <div
         ref={containerRef}
         style={{ opacity: 0, visibility: 'hidden' }}
-        className="absolute -top-20 sm:-top-28 inset-x-0 bottom-0 z-0 overflow-visible pointer-events-none"
+        className="absolute -top-36 sm:-top-44 inset-x-0 bottom-0 z-0 overflow-visible pointer-events-none"
       >
         <Lanyard
           frontImage="/id-card-front.png"
@@ -108,9 +102,9 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
           metal="silver"
           strapColor="#18181B"
           strapWidth={0.65}
-          size={w => (w >= 1024 ? 0.52 : 0.36)}
-          anchor={w => (w >= 1024 ? 0.25 : 0.5)}
-          strapLength={w => (w >= 1024 ? 0.34 : 0.16)}
+          size={w => (w >= 1024 ? 0.46 : 0.35)}
+          anchor={w => (w >= 1024 ? 0.208 : 0.5)}
+          strapLength={w => (w >= 1024 ? 0.36 : 0.20)}
           cornerRadius={0.3}
           intro={true}
           gravity={1.2}

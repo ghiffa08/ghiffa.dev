@@ -58,17 +58,18 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
       {/* 3D LANYARD INTERACTIVE CANVAS LAYER (Spans entire section background, hangs from top navbar, slides under text) */}
       <div className="absolute inset-0 z-0 overflow-visible pointer-events-none">
         <Lanyard
-          frontImage="/id-card-front.svg"
-          backImage="/badge-back.png"
-          strapImage="/lanyard-strap.png"
+          frontImage="/id-card-front.png"
+          backImage="/id-card-back.png"
+          strapImage="/id-card-strap.png"
           cardColor="#ffffff"
           finish="glossy"
           metal="silver"
           strapColor="#18181B"
-          strapWidth={0.72}
-          size={0.52}
+          strapWidth={0.65}
+          size={0.58}
           anchor={w => (w >= 1024 ? 0.208 : 0.5)}
-          strapLength={0.36}
+          strapLength={0.4}
+          cornerRadius={0.3}
           intro={true}
           gravity={1.2}
           damping={0.65}

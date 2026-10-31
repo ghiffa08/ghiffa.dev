@@ -956,14 +956,23 @@ const Lanyard = ({
           ? s.anchor
           : (ANCHORS[s.anchor] ?? 0.5));
       const anchorX = (anchorRatio - 0.5) * viewWidth;
-      const anchorY = viewHeight / 2 + 0.35;
       const rawStrap = typeof s.strapLength === 'function' ? s.strapLength(view.width) : s.strapLength;
       const strapLengthVal = clamp(typeof rawStrap === 'number' ? rawStrap : 0.4, 0, 1);
       const isMobile = view.width < 1024;
+
+      // Determine container offset from #about top (container has -top-80 = -320px)
+      const containerTopOffset = Math.abs(container.offsetTop) || (isMobile ? 320 : 256);
+      const navbarH = window.innerWidth >= 640 ? 72 : 64;
+      const navAnchorScreenY = navbarH * 0.45;
+      // Distance in CSS pixels from top of canvas down to navbar anchor when #about is at navbar:
+      const navDistPxBase = containerTopOffset - (navbarH - navAnchorScreenY);
+      const navDistUnitsBase = navDistPxBase * (viewHeight / Math.max(1, view.height));
+      const anchorY = (viewHeight / 2) - navDistUnitsBase;
+
       const strapDrop = isMobile
-        ? layout.height * mix(0.22, 0.42, strapLengthVal)
+        ? layout.height * mix(0.18, 0.36, strapLengthVal)
         : viewHeight * mix(0.16, 0.56, strapLengthVal);
-      const cardTop = viewHeight / 2 - strapDrop;
+      const cardTop = anchorY - strapDrop;
       const hangTop = cardTop + (layout.hangY - layout.height / 2);
       sim.anchor.set(anchorX, anchorY, 0);
       sim.baseAnchorX = anchorX;
@@ -1205,10 +1214,14 @@ const Lanyard = ({
       // Scroll Stretch & Slingshot Mechanics (ONLY active when user is in About)
       const section = container.closest('section') || container;
       const sectionRect = section.getBoundingClientRect();
+      const isMobile = window.innerWidth < 1024;
       const navbarH = window.innerWidth >= 640 ? 72 : 64;
       const enterThreshold = navbarH + 45;
-      const snapThreshold = window.innerWidth >= 1024 ? 210 : 150;
-      const deadband = 35;
+      const snapThreshold = isMobile ? 95 : 200;
+      const deadband = isMobile ? 12 : 30;
+
+      // Keep canvas pointer events completely disabled when parked or slingshotting
+      canvas.style.pointerEvents = (hasEnteredAbout && !hasSnapped && !isSlingshotting) ? 'auto' : 'none';
 
       // Check if user has entered About from above
       if (sectionRect.top <= enterThreshold && sectionRect.bottom > 0) {
@@ -1237,11 +1250,30 @@ const Lanyard = ({
         sim.anchor.y = hideY;
         sim.nodes[0].copy(sim.anchor);
         sim.body.position.set(sim.baseAnchorX ?? 0, hideY, 0);
+        for (let i = 1; i <= JOINTS; i++) {
+          sim.nodes[i].set(sim.baseAnchorX ?? 0, hideY, 0);
+        }
+        render();
         return;
       }
 
       const rawPull = hasEnteredAbout ? Math.max(0, sectionRect.top - (navbarH + deadband)) : 0;
       const pull = Math.min(snapThreshold + 40, rawPull);
+
+      // If user pulled far into Services past snapThreshold + 60, immediately park safely
+      if (rawPull > snapThreshold + 60 && !isSlingshotting) {
+        hasSnapped = true;
+        hasEnteredAbout = false;
+        const hideY = (sim.baseAnchorY ?? 4) + 12;
+        sim.anchor.y = hideY;
+        sim.nodes[0].copy(sim.anchor);
+        sim.body.position.set(sim.baseAnchorX ?? 0, hideY, 0);
+        for (let i = 1; i <= JOINTS; i++) {
+          sim.nodes[i].set(sim.baseAnchorX ?? 0, hideY, 0);
+        }
+        render();
+        return;
+      }
 
       if (isSlingshotting) {
         if (sim.baseRest) sim.rest = sim.baseRest;
@@ -1269,6 +1301,14 @@ const Lanyard = ({
           isSlingshotting = false;
           hasSnapped = true;
           hasEnteredAbout = false;
+          const hideY = (sim.baseAnchorY ?? 4) + 12;
+          sim.anchor.y = hideY;
+          sim.nodes[0].copy(sim.anchor);
+          sim.body.position.set(sim.baseAnchorX ?? 0, hideY, 0);
+          for (let i = 1; i <= JOINTS; i++) {
+            sim.nodes[i].set(sim.baseAnchorX ?? 0, hideY, 0);
+          }
+          render();
         }
       } else if (hasSnapped) {
         // While snapped, hold card and nodes well above canvas (hidden behind navbar)
@@ -1285,7 +1325,8 @@ const Lanyard = ({
       } else if (!hasSnapped && sim.baseAnchorY !== undefined) {
         const vHeight = sim.viewHeight || (layout.height / 0.58);
         const extraY = pull > 0 ? pull * (vHeight / Math.max(1, view.height)) : 0;
-        sim.anchor.y = sim.baseAnchorY + extraY;
+        // Keep anchor locked behind navbar during stretch, strictly within canvas top boundary
+        sim.anchor.y = Math.min(vHeight / 2 - 0.04, sim.baseAnchorY + extraY);
         sim.nodes[0].copy(sim.anchor);
 
         if (pull > 0 && !sim.grab && sim.restBodyY !== undefined) {
@@ -1329,12 +1370,13 @@ const Lanyard = ({
         placeHanging(sim, layout, false);
       }
       render();
+      const inView = sectionRect.bottom > -100 && sectionRect.top < window.innerHeight + 300;
       const resting = sim.calm > 1.2 && !sim.grab && !sim.scrollGrab && current.breeze === 0 && pull === 0 && !hasSnapped && !isSlingshotting;
-      if (visible && !resting) raf = requestAnimationFrame(tick);
+      if (inView && !resting) raf = requestAnimationFrame(tick);
     };
 
     const start = () => {
-      if (raf || !visible || !alive) return;
+      if (raf || !alive) return;
       sim.calm = 0;
       last = performance.now();
       raf = requestAnimationFrame(tick);
@@ -1448,7 +1490,7 @@ const Lanyard = ({
       if (visible) {
         start();
       }
-    });
+    }, { rootMargin: '400px 0px 400px 0px' });
     intersectionObserver.observe(container);
 
     const onScroll = () => {
@@ -1470,6 +1512,7 @@ const Lanyard = ({
             sim.anchor.set(sim.baseAnchorX, sim.baseAnchorY, 0);
           }
           placeHanging(sim, layout, true);
+          render();
           start();
           return;
         }
@@ -1480,9 +1523,21 @@ const Lanyard = ({
         return;
       }
 
-      const snapThreshold = window.innerWidth >= 1024 ? 210 : 150;
-      const deadband = 35;
-      const pull = Math.max(0, sectionRect.top - (navbarH + deadband));
+      const isMobile = window.innerWidth < 1024;
+      const snapThreshold = isMobile ? 95 : 200;
+      const deadband = isMobile ? 12 : 30;
+      const pull = hasEnteredAbout ? Math.max(0, sectionRect.top - (navbarH + deadband)) : 0;
+
+      if (pull > snapThreshold + 60 && !isSlingshotting) {
+        // User scrolled far into Services: immediately park
+        hasSnapped = true;
+        hasEnteredAbout = false;
+        const hideY = (sim.baseAnchorY ?? 4) + 12;
+        sim.anchor.y = hideY;
+        sim.nodes[0].copy(sim.anchor);
+        sim.body.position.set(sim.baseAnchorX ?? 0, hideY, 0);
+        return;
+      }
 
       if (pull >= snapThreshold && !isSlingshotting && !hasSnapped && hasEnteredAbout) {
         // Trigger smooth slingshot release!

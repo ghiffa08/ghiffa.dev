@@ -4,7 +4,6 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
 import { PcbSkeleton } from '../../atoms/PcbSkeleton';
-import { RefineFrame } from '../../RefineFrame';
 
 function checkWebGLSupport() {
   try {
@@ -27,25 +26,8 @@ function checkWebGLSupport() {
 export function PcbViewer3D() {
   const containerRef = useRef(null);
   const [loading, setLoading] = useState(true);
-  const [inView, setInView] = useState(() => typeof window !== 'undefined' && !('IntersectionObserver' in window));
+  const [inView, setInView] = useState(true);
   const [hasWebGL, setHasWebGL] = useState(() => checkWebGLSupport());
-
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el || inView) return;
-    if (!('IntersectionObserver' in window)) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setInView(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: '300px' }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [inView]);
 
   useEffect(() => {
     if (!inView || !hasWebGL) return;
@@ -227,58 +209,28 @@ export function PcbViewer3D() {
 
   if (hasWebGL === false) {
     return (
-      <RefineFrame
-        status="error"
-        aspectRatio="auto"
-        width="100%"
-        radius={16}
-        background="transparent"
-        color="#ef4444"
-        showStatus={true}
-        labels={{ error: 'WebGL Unavailable' }}
-        className="relative w-full h-[220px] sm:h-[250px] xl:h-[270px] mt-2 sm:mt-3 -translate-y-2 sm:-translate-y-3 flex items-center justify-center select-none"
-      >
-        <div className="w-full h-full flex items-center justify-center">
-          <PcbSkeleton />
-        </div>
-      </RefineFrame>
+      <div className="relative w-full h-[220px] sm:h-[250px] xl:h-[270px] mt-2 sm:mt-3 -translate-y-2 sm:-translate-y-3 flex items-center justify-center select-none">
+        <PcbSkeleton />
+      </div>
     );
   }
 
   return (
-    <RefineFrame
-      status={loading ? 'generating' : 'complete'}
-      aspectRatio="auto"
-      width="100%"
-      radius={16}
-      background="transparent"
-      color="#10b981"
-      sweep={true}
-      showStatus={true}
-      hideAfter={1400}
-      labels={{
-        generating: 'Loading 3D Hardware...',
-        refining: 'Synthesizing Mesh...',
-        complete: '3D PCB Ready'
-      }}
-      className="relative w-full h-[220px] sm:h-[250px] xl:h-[270px] mt-2 sm:mt-3 -translate-y-2 sm:-translate-y-3 flex items-center justify-center select-none"
-    >
-      <div className="relative w-full h-full flex items-center justify-center">
-        {/* 3D Canvas with drag-to-rotate cursor */}
-        <div
-          ref={containerRef}
-          className={`w-full h-full cursor-grab active:cursor-grabbing transition-all duration-700 ease-out group-hover:-translate-y-2 ${loading ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'}`}
-          style={{ touchAction: 'pan-y' }}
-        />
+    <div className="relative w-full h-[220px] sm:h-[250px] xl:h-[270px] mt-2 sm:mt-3 -translate-y-2 sm:-translate-y-3 flex items-center justify-center select-none">
+      {/* 3D Canvas with drag-to-rotate cursor */}
+      <div
+        ref={containerRef}
+        className={`w-full h-full cursor-grab active:cursor-grabbing transition-all duration-700 ease-out group-hover:-translate-y-2 ${loading ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'}`}
+        style={{ touchAction: 'pan-y' }}
+      />
 
-        {/* PCB Hardware Skeleton Loader (No spinner) */}
-        {loading && (
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-500">
-            <PcbSkeleton />
-          </div>
-        )}
-      </div>
-    </RefineFrame>
+      {/* PCB Hardware Skeleton Loader (No spinner) */}
+      {loading && (
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-500">
+          <PcbSkeleton />
+        </div>
+      )}
+    </div>
   );
 }
 

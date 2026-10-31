@@ -63,7 +63,7 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
       {/* 3D LANYARD INTERACTIVE CANVAS LAYER (Anchor permanently behind navbar, elastic stretch on scroll up, physical drop on enter) */}
       <div
         ref={containerRef}
-        className="absolute -top-14 sm:-top-20 inset-x-0 bottom-0 z-0 overflow-visible pointer-events-none"
+        className="absolute -top-80 sm:-top-80 lg:-top-64 inset-x-0 bottom-0 z-0 overflow-visible pointer-events-none"
       >
         <Lanyard
           frontImage="/id-card-front.png"

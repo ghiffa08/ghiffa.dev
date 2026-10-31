@@ -573,11 +573,10 @@ const placeHanging = (sim, layout, intro) => {
   nodes[0].copy(anchor);
   for (let i = 1; i <= JOINTS; i++) {
     nodes[i].copy(nodes[i - 1]);
-    if (intro) nodes[i].x += sim.rest;
+    if (intro) nodes[i].y -= sim.rest * 0.08;
     else nodes[i].y -= sim.rest;
   }
   body.quaternion.identity();
-  if (intro) body.quaternion.setFromAxisAngle(new THREE.Vector3(0, 0, 1), Math.PI / 2);
   body.hang.set(0, layout.hangY, 0);
   const offset = scratch.a.copy(body.hang).applyQuaternion(body.quaternion);
   body.position.copy(nodes[JOINTS]).sub(offset);
@@ -926,7 +925,12 @@ const Lanyard = ({
       foilUniforms.foilKey.value.set(-2.5, 4, 6).normalize().transformDirection(camera.matrixWorldInverse);
       foilUniforms.foilFill.value.set(3, -1, 4).normalize().transformDirection(camera.matrixWorldInverse);
       foilUniforms.foilTop.value.set(0.5, 4.5, 8).normalize().transformDirection(camera.matrixWorldInverse);
-      const anchorX = ((ANCHORS[s.anchor] ?? 0.5) - 0.5) * viewWidth;
+      const anchorRatio = typeof s.anchor === 'function'
+        ? s.anchor(view.width)
+        : (typeof s.anchor === 'number'
+          ? s.anchor
+          : (ANCHORS[s.anchor] ?? 0.5));
+      const anchorX = (anchorRatio - 0.5) * viewWidth;
       const anchorY = viewHeight / 2 + 0.2;
       const cardTop = viewHeight / 2 - viewHeight * mix(0.12, 0.42, clamp(s.strapLength, 0, 1));
       const hangTop = cardTop + (layout.hangY - layout.height / 2);
@@ -954,7 +958,8 @@ const Lanyard = ({
         ring.position.set(0, layout.ringY, 0);
         applied.framingKey = '';
       }
-      const framingKey = `${layoutKey}|${s.size}|${s.anchor}|${s.strapLength}|${view.width}|${view.height}`;
+      const anchorVal = typeof s.anchor === 'function' ? s.anchor(view.width) : s.anchor;
+      const framingKey = `${layoutKey}|${s.size}|${anchorVal}|${s.strapLength}|${view.width}|${view.height}`;
       if (framingKey !== applied.framingKey) {
         frameView();
         if (!placed) {
@@ -1254,9 +1259,16 @@ const Lanyard = ({
 
     const resizeObserver = new ResizeObserver(resize);
     resizeObserver.observe(container);
+    let hasDropped = false;
     const intersectionObserver = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
-      if (visible) start();
+      if (visible) {
+        if (!hasDropped && settingsRef.current.intro && !reducedMotion) {
+          hasDropped = true;
+          placeHanging(sim, layout, true);
+        }
+        start();
+      }
     });
     intersectionObserver.observe(container);
     const onVisibility = () => {

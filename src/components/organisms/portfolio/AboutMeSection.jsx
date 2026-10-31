@@ -54,33 +54,43 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
   const effectiveBio = customBio || aboutBio;
 
   return (
-    <section id="about" className="relative py-20 sm:py-28 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto">
+    <section id="about" className="relative scroll-mt-20 py-20 sm:py-28 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto overflow-visible">
+      {/* 3D LANYARD INTERACTIVE CANVAS LAYER (Spans entire section background, hangs from top navbar, slides under text) */}
+      <div className="absolute inset-0 z-0 overflow-visible pointer-events-none">
+        <Lanyard
+          frontImage="/badge-front.png"
+          backImage="/badge-back.png"
+          strapImage="/lanyard-strap.png"
+          cardColor="#ffffff"
+          finish="glossy"
+          metal="silver"
+          strapColor="#18181B"
+          strapWidth={0.72}
+          size={0.52}
+          anchor={w => (w >= 1024 ? 0.208 : 0.5)}
+          strapLength={0.36}
+          intro={true}
+          gravity={1.2}
+          damping={0.65}
+          elasticity={0.45}
+          breeze={0.16}
+          interactive={true}
+          className="w-full h-full pointer-events-auto"
+        />
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start sm:items-center">
-        {/* LEFT COLUMN: Interactive 3D Lanyard ID Badge + Floating Tech Dock */}
-        <ScrollReveal delay={0.1} y={36} className="lg:col-span-5 flex flex-col items-center justify-end relative self-stretch">
-          {/* 3D Interactive Lanyard ID Badge */}
-          <div className="relative w-full h-[500px] sm:h-[580px] lg:h-[640px] flex items-center justify-center">
-            <Lanyard
-              frontImage="/badge-front.png"
-              backImage="/badge-back.png"
-              strapImage="/lanyard-strap.png"
-              cardColor="#ffffff"
-              finish="glossy"
-              metal="silver"
-              strapColor="#18181B"
-              strapWidth={0.72}
-              size={0.55}
-              intro={false}
-              gravity={1.1}
-              damping={0.6}
-              elasticity={0.5}
-              breeze={0.18}
-              interactive={true}
-            />
-          </div>
+        {/* LEFT COLUMN: Spacer + Floating Tech Dock */}
+        <ScrollReveal
+          delay={0.1}
+          y={36}
+          className="lg:col-span-5 flex flex-col items-center justify-end relative self-stretch min-h-[500px] sm:min-h-[580px] lg:min-h-[640px] pointer-events-none"
+        >
+          {/* Spacer so the card in Layer 0 is unobstructed and directly interactive */}
+          <div className="flex-1 w-full" />
 
           {/* FLOATING TECH DOCK (All Official Tech Brand Logos) */}
-          <div className="-mt-5 sm:-mt-7 relative z-10 bg-white/95 backdrop-blur-md border border-gray-200/90 shadow-[0_10px_35px_rgba(0,0,0,0.08)] rounded-full px-4 sm:px-5 py-2.5 flex items-center justify-center gap-3 sm:gap-3.5 select-none hover:shadow-lg transition-shadow">
+          <div className="-mt-5 sm:-mt-7 relative z-10 bg-white/95 backdrop-blur-md border border-gray-200/90 shadow-[0_10px_35px_rgba(0,0,0,0.08)] rounded-full px-4 sm:px-5 py-2.5 flex items-center justify-center gap-3 sm:gap-3.5 select-none hover:shadow-lg transition-shadow pointer-events-auto">
             {/* React */}
             <div className="hover:scale-115 transition-transform cursor-pointer" title="React">
               <svg className="w-5 h-5 text-[#00D8FE]" viewBox="-11.5 -10.23174 23 20.46348" fill="currentColor">
@@ -167,7 +177,11 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
         </ScrollReveal>
 
         {/* RIGHT COLUMN: Selection Highlight Header, Bio, Education, Languages */}
-        <ScrollReveal delay={0.25} y={36} className="lg:col-span-7 flex flex-col justify-center space-y-7 sm:space-y-8">
+        <ScrollReveal
+          delay={0.25}
+          y={36}
+          className="lg:col-span-7 flex flex-col justify-center space-y-7 sm:space-y-8 relative z-10 pointer-events-auto"
+        >
           {/* SELECTION-HIGHLIGHTED HEADER */}
           <div
             ref={headerRef}

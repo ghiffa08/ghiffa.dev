@@ -417,9 +417,11 @@ const buildWeaveTexture = () => {
 };
 
 const drawFitted = (ctx, image, width, height, fit) => {
-  const scale = (fit === 'contain' ? Math.min : Math.max)(width / image.width, height / image.height);
-  const w = image.width * scale;
-  const h = image.height * scale;
+  const imgW = image.naturalWidth || image.width || width;
+  const imgH = image.naturalHeight || image.height || height;
+  const scale = (fit === 'contain' ? Math.min : Math.max)(width / Math.max(1, imgW), height / Math.max(1, imgH));
+  const w = imgW * scale;
+  const h = imgH * scale;
   ctx.drawImage(image, (width - w) / 2, (height - h) / 2, w, h);
 };
 

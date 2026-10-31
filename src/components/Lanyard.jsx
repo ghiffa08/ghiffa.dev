@@ -915,7 +915,9 @@ const Lanyard = ({
     const frameView = () => {
       const s = settingsRef.current;
       const aspect = view.width / view.height;
-      let viewHeight = layout.height / clamp(s.size, 0.15, 0.9);
+      const rawSize = typeof s.size === 'function' ? s.size(view.width) : s.size;
+      const sizeVal = clamp(typeof rawSize === 'number' ? rawSize : 0.58, 0.15, 0.9);
+      let viewHeight = layout.height / sizeVal;
       const minimumWidth = layout.width / 0.52;
       if (viewHeight * aspect < minimumWidth) viewHeight = minimumWidth / aspect;
       const viewWidth = viewHeight * aspect;
@@ -933,8 +935,10 @@ const Lanyard = ({
           ? s.anchor
           : (ANCHORS[s.anchor] ?? 0.5));
       const anchorX = (anchorRatio - 0.5) * viewWidth;
-      const anchorY = viewHeight / 2 + 0.2;
-      const cardTop = viewHeight / 2 - viewHeight * mix(0.12, 0.42, clamp(s.strapLength, 0, 1));
+      const anchorY = viewHeight / 2 + 0.35;
+      const rawStrap = typeof s.strapLength === 'function' ? s.strapLength(view.width) : s.strapLength;
+      const strapLengthVal = clamp(typeof rawStrap === 'number' ? rawStrap : 0.4, 0, 1);
+      const cardTop = viewHeight / 2 - viewHeight * mix(0.12, 0.42, strapLengthVal);
       const hangTop = cardTop + (layout.hangY - layout.height / 2);
       sim.anchor.set(anchorX, anchorY, 0);
       configureSimulation(sim, layout, anchorY - hangTop);
@@ -961,7 +965,9 @@ const Lanyard = ({
         applied.framingKey = '';
       }
       const anchorVal = typeof s.anchor === 'function' ? s.anchor(view.width) : s.anchor;
-      const framingKey = `${layoutKey}|${s.size}|${anchorVal}|${s.strapLength}|${view.width}|${view.height}`;
+      const sizeValKey = typeof s.size === 'function' ? s.size(view.width) : s.size;
+      const strapValKey = typeof s.strapLength === 'function' ? s.strapLength(view.width) : s.strapLength;
+      const framingKey = `${layoutKey}|${sizeValKey}|${anchorVal}|${strapValKey}|${view.width}|${view.height}`;
       if (framingKey !== applied.framingKey) {
         frameView();
         if (!placed) {

@@ -1145,6 +1145,7 @@ const Lanyard = ({
       };
     };
 
+    let hasEnteredAbout = false;
     let hasSnapped = false;
     let isStretching = false;
     let isSlingshotting = false;
@@ -1160,14 +1161,30 @@ const Lanyard = ({
       time += dt;
       const current = physics();
 
-      // Scroll Stretch & Slingshot Mechanics
+      // Scroll Stretch & Slingshot Mechanics (ONLY active when user is in or near About)
       const section = container.closest('section') || container;
-      const sectionTop = section.getBoundingClientRect().top;
+      const sectionRect = section.getBoundingClientRect();
+      const inView = sectionRect.top < window.innerHeight && sectionRect.bottom > 0;
+
+      if (inView) {
+        hasEnteredAbout = true;
+      } else if (sectionRect.top >= window.innerHeight) {
+        // Far above in Hero / Services: keep completely dormant
+        hasEnteredAbout = false;
+        hasSnapped = false;
+        isSlingshotting = false;
+        isStretching = false;
+        return;
+      }
+
       const navbarH = window.innerWidth >= 640 ? 72 : 64;
-      const pull = Math.max(0, sectionTop - navbarH);
+      const rawPull = hasEnteredAbout ? Math.max(0, sectionRect.top - navbarH) : 0;
+      const pull = Math.min(200, rawPull);
       const snapThreshold = window.innerWidth >= 1024 ? 160 : 100;
 
-      if (isSlingshotting) {
+      if (!hasEnteredAbout) {
+        return;
+      } else if (isSlingshotting) {
         sim.calm = 0;
         const elapsed = performance.now() - slingshotStart;
         const p = Math.min(1, elapsed / SLINGSHOT_DURATION);
@@ -1362,14 +1379,10 @@ const Lanyard = ({
       if (visible) {
         if (!hasDropped && settingsRef.current.intro && !reducedMotion) {
           hasDropped = true;
+          hasEnteredAbout = true;
           placeHanging(sim, layout, true);
         }
         start();
-      } else {
-        const rect = container.getBoundingClientRect();
-        if (rect.top > 0) {
-          hasSnapped = true;
-        }
       }
     });
     intersectionObserver.observe(container);
@@ -1377,32 +1390,42 @@ const Lanyard = ({
     const onScroll = () => {
       if (!alive) return;
       const section = container.closest('section') || container;
-      const sectionTop = section.getBoundingClientRect().top;
-      const navbarH = window.innerWidth >= 640 ? 72 : 64;
-      const pull = Math.max(0, sectionTop - navbarH);
+      const sectionRect = section.getBoundingClientRect();
+      const inView = sectionRect.top <= window.innerHeight * 0.85 && sectionRect.bottom >= 0;
 
-      if (pull > 5) {
-        if (!hasSnapped) {
-          isStretching = true;
-          start();
-        }
-      } else {
-        // Returned to Section About!
-        if (hasSnapped || isSlingshotting) {
+      if (!inView) {
+        if (sectionRect.top > window.innerHeight) {
+          // Far above in Hero / Services: keep clean, no slingshotting outside About
+          hasEnteredAbout = false;
           hasSnapped = false;
           isSlingshotting = false;
+          isStretching = false;
+        }
+        return;
+      }
+
+      hasEnteredAbout = true;
+      const navbarH = window.innerWidth >= 640 ? 72 : 64;
+      const pull = Math.max(0, sectionRect.top - navbarH);
+      const snapThreshold = window.innerWidth >= 1024 ? 160 : 100;
+
+      if (hasSnapped || isSlingshotting) {
+        // Returning down to About: drop card from navbar and restore normal pose
+        if (pull < snapThreshold - 25) {
+          hasSnapped = false;
+          isSlingshotting = false;
+          isStretching = false;
           if (sim.baseAnchorX !== undefined && sim.baseAnchorY !== undefined) {
             sim.anchor.set(sim.baseAnchorX, sim.baseAnchorY, 0);
           }
           placeHanging(sim, layout, true);
           start();
-        } else if (isStretching) {
-          isStretching = false;
-          if (sim.baseAnchorX !== undefined && sim.baseAnchorY !== undefined) {
-            sim.anchor.set(sim.baseAnchorX, sim.baseAnchorY, 0);
-          }
-          start();
         }
+      } else if (pull > 5) {
+        isStretching = true;
+        start();
+      } else {
+        isStretching = false;
       }
     };
     window.addEventListener('scroll', onScroll, { passive: true });

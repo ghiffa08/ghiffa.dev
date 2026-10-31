@@ -47,7 +47,7 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
   const containerRef = useRef(null);
   const isHeaderInView = useInView(headerRef, { once: true, margin: '-60px 0px -40px 0px' });
 
-  // Dynamically pin top of Lanyard container behind navbar so anchor NEVER shows below navbar when scrolling up
+  // Dynamically pin top of Lanyard container behind navbar ONLY when in About section
   React.useEffect(() => {
     let rafId = 0;
     const updateContainerTop = () => {
@@ -55,10 +55,22 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
       rafId = requestAnimationFrame(() => {
         const section = document.getElementById('about');
         if (!section || !containerRef.current) return;
-        const navbarH = window.innerWidth >= 640 ? 72 : 64;
-        const pull = Math.max(0, section.getBoundingClientRect().top - navbarH);
+        const rect = section.getBoundingClientRect();
+        // Strictly show Lanyard ONLY when section about is in/near viewport
+        const inView = rect.top < window.innerHeight && rect.bottom > 0;
         const baseTop = window.innerWidth >= 640 ? 112 : 80;
+        if (!inView) {
+          containerRef.current.style.top = `-${baseTop}px`;
+          containerRef.current.style.opacity = '0';
+          containerRef.current.style.visibility = 'hidden';
+          return;
+        }
+        const navbarH = window.innerWidth >= 640 ? 72 : 64;
+        const rawPull = Math.max(0, rect.top - navbarH);
+        const pull = Math.min(200, rawPull);
         containerRef.current.style.top = `-${baseTop + pull}px`;
+        containerRef.current.style.opacity = '1';
+        containerRef.current.style.visibility = 'visible';
       });
     };
     window.addEventListener('scroll', updateContainerTop, { passive: true });
@@ -84,6 +96,7 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
       {/* 3D LANYARD INTERACTIVE CANVAS LAYER (Anchor permanently behind navbar, elastic stretch on scroll up, physical drop on enter) */}
       <div
         ref={containerRef}
+        style={{ opacity: 0, visibility: 'hidden' }}
         className="absolute -top-20 sm:-top-28 inset-x-0 bottom-0 z-0 overflow-visible pointer-events-none"
       >
         <Lanyard

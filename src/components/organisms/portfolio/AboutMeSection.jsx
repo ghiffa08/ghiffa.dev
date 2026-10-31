@@ -58,12 +58,12 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
   return (
     <section
       id="about"
-      className="relative scroll-mt-20 py-20 sm:py-28 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto overflow-visible"
+      className="relative scroll-mt-20 py-14 sm:py-28 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto overflow-visible"
     >
       {/* 3D LANYARD INTERACTIVE CANVAS LAYER (Anchor permanently behind navbar, elastic stretch on scroll up, physical drop on enter) */}
       <div
         ref={containerRef}
-        className="absolute -top-20 sm:-top-20 inset-x-0 bottom-0 z-0 overflow-visible pointer-events-none"
+        className="absolute -top-14 sm:-top-20 inset-x-0 bottom-0 z-0 overflow-visible pointer-events-none"
       >
         <Lanyard
           frontImage="/id-card-front.png"
@@ -74,9 +74,9 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
           metal="silver"
           strapColor="#18181B"
           strapWidth={0.65}
-          size={w => (w >= 1024 ? 0.46 : 0.32)}
+          size={w => (w >= 1024 ? 0.46 : 0.33)}
           anchor={w => (w >= 1024 ? 0.208 : 0.5)}
-          strapLength={w => (w >= 1024 ? 0.60 : 0.20)}
+          strapLength={w => (w >= 1024 ? 0.60 : 0.28)}
           cornerRadius={0.3}
           intro={true}
           gravity={1.2}
@@ -88,12 +88,12 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start sm:items-center">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 lg:gap-16 items-start sm:items-center">
         {/* LEFT COLUMN: Spacer (Full height for 3D Lanyard Card) */}
         <ScrollReveal
           delay={0.1}
           y={36}
-          className="lg:col-span-5 flex flex-col items-center justify-end relative self-stretch min-h-[380px] sm:min-h-[440px] lg:min-h-[640px] pointer-events-none"
+          className="lg:col-span-5 flex flex-col items-center justify-end relative self-stretch min-h-[300px] sm:min-h-[380px] lg:min-h-[640px] pointer-events-none"
         >
           {/* Spacer so the card in Layer 0 is unobstructed and directly interactive */}
           <div className="flex-1 w-full" />

@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { ScrollReveal } from '../../atoms/ScrollReveal';
 import { TypewriterText } from '../../atoms/TypewriterText';
 import { slugify } from '../../../utils/slugify';
+import Lanyard from '../../Lanyard';
 
 const titleTranslations = {
   'teknik informatika': 'Informatics Engineering',
@@ -55,20 +56,25 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
   return (
     <section id="about" className="relative py-20 sm:py-28 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start sm:items-center">
-        {/* LEFT COLUMN: Uncropped Full-Height Person Cutout + Floating Tech Dock (No Background) */}
+        {/* LEFT COLUMN: Interactive 3D Lanyard ID Badge + Floating Tech Dock */}
         <ScrollReveal delay={0.1} y={36} className="lg:col-span-5 flex flex-col items-center justify-end relative self-stretch">
-          {/* Person Cutout: Full height, uncropped, zero background */}
-          <div className="relative flex items-end justify-center w-full flex-1">
-            <img
-              src={avatarImage}
-              alt={fullName}
-              className="w-auto h-auto max-h-[520px] sm:max-h-[600px] lg:max-h-[680px] xl:max-h-[740px] object-contain object-bottom select-none pointer-events-none drop-shadow-xs transition-transform duration-500 hover:scale-[1.01]"
-              loading="lazy"
-              decoding="async"
-              onError={(e) => {
-                e.currentTarget.onerror = null;
-                e.currentTarget.src = '/ghiffa.svg';
-              }}
+          {/* 3D Interactive Lanyard ID Badge */}
+          <div className="relative w-full h-[500px] sm:h-[580px] lg:h-[640px] flex items-center justify-center">
+            <Lanyard
+              frontImage="/badge-front.png"
+              backImage="/badge-back.png"
+              strapImage="/lanyard-strap.png"
+              cardColor="#ffffff"
+              finish="glossy"
+              metal="silver"
+              strapColor="#18181B"
+              strapWidth={0.7}
+              size={0.65}
+              gravity={1}
+              damping={0.5}
+              elasticity={0.5}
+              breeze={0.35}
+              interactive={true}
             />
           </div>
 

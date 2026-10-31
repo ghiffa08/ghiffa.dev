@@ -68,12 +68,13 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
               finish="glossy"
               metal="silver"
               strapColor="#18181B"
-              strapWidth={0.7}
-              size={0.65}
-              gravity={1}
-              damping={0.5}
+              strapWidth={0.72}
+              size={0.55}
+              intro={false}
+              gravity={1.1}
+              damping={0.6}
               elasticity={0.5}
-              breeze={0.35}
+              breeze={0.18}
               interactive={true}
             />
           </div>

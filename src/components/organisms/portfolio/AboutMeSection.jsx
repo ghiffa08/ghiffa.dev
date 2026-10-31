@@ -74,9 +74,9 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
           metal="silver"
           strapColor="#18181B"
           strapWidth={0.65}
-          size={w => (w >= 1024 ? 0.46 : 0.35)}
+          size={w => (w >= 1024 ? 0.46 : 0.32)}
           anchor={w => (w >= 1024 ? 0.208 : 0.5)}
-          strapLength={w => (w >= 1024 ? 0.60 : 0.40)}
+          strapLength={w => (w >= 1024 ? 0.60 : 0.20)}
           cornerRadius={0.3}
           intro={true}
           gravity={1.2}
@@ -93,7 +93,7 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
         <ScrollReveal
           delay={0.1}
           y={36}
-          className="lg:col-span-5 flex flex-col items-center justify-end relative self-stretch min-h-[460px] sm:min-h-[520px] lg:min-h-[640px] pointer-events-none"
+          className="lg:col-span-5 flex flex-col items-center justify-end relative self-stretch min-h-[380px] sm:min-h-[440px] lg:min-h-[640px] pointer-events-none"
         >
           {/* Spacer so the card in Layer 0 is unobstructed and directly interactive */}
           <div className="flex-1 w-full" />

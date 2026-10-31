@@ -44,7 +44,30 @@ const formatInstitution = (rawInst, rawTitle, t) => {
 export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList = [], sectionData }) {
   const { t } = useTranslation();
   const headerRef = useRef(null);
+  const containerRef = useRef(null);
   const isHeaderInView = useInView(headerRef, { once: true, margin: '-60px 0px -40px 0px' });
+
+  // Dynamically pin top of Lanyard container behind navbar so anchor NEVER shows below navbar when scrolling up
+  React.useEffect(() => {
+    let rafId = 0;
+    const updateContainerTop = () => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        const section = document.getElementById('about');
+        if (!section || !containerRef.current) return;
+        const navbarH = window.innerWidth >= 640 ? 72 : 64;
+        const pull = Math.max(0, section.getBoundingClientRect().top - navbarH);
+        const baseTop = window.innerWidth >= 640 ? 112 : 80;
+        containerRef.current.style.top = `-${baseTop + pull}px`;
+      });
+    };
+    window.addEventListener('scroll', updateContainerTop, { passive: true });
+    updateContainerTop();
+    return () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener('scroll', updateContainerTop);
+    };
+  }, []);
 
   const sectionTitle = sectionData?.title || 'about me';
   const customBio = sectionData?.content?.bio;
@@ -54,9 +77,15 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
   const effectiveBio = customBio || aboutBio;
 
   return (
-    <section id="about" className="relative scroll-mt-20 py-20 sm:py-28 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto overflow-visible">
-      {/* 3D LANYARD INTERACTIVE CANVAS LAYER (Hangs from behind navbar, responsive for mobile & desktop) */}
-      <div className="absolute -top-20 sm:-top-28 inset-x-0 bottom-0 z-0 overflow-visible pointer-events-none">
+    <section
+      id="about"
+      className="relative scroll-mt-20 py-20 sm:py-28 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto overflow-visible"
+    >
+      {/* 3D LANYARD INTERACTIVE CANVAS LAYER (Anchor permanently behind navbar, elastic stretch on scroll up, physical drop on enter) */}
+      <div
+        ref={containerRef}
+        className="absolute -top-20 sm:-top-28 inset-x-0 bottom-0 z-0 overflow-visible pointer-events-none"
+      >
         <Lanyard
           frontImage="/id-card-front.png"
           backImage="/id-card-back.png"
@@ -66,9 +95,9 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
           metal="silver"
           strapColor="#18181B"
           strapWidth={0.65}
-          size={w => (w >= 1024 ? 0.58 : 0.38)}
-          anchor={w => (w >= 1024 ? 0.208 : 0.5)}
-          strapLength={w => (w >= 1024 ? 0.38 : 0.32)}
+          size={w => (w >= 1024 ? 0.52 : 0.36)}
+          anchor={w => (w >= 1024 ? 0.25 : 0.5)}
+          strapLength={w => (w >= 1024 ? 0.34 : 0.16)}
           cornerRadius={0.3}
           intro={true}
           gravity={1.2}

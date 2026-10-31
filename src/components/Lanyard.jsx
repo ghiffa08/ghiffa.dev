@@ -941,6 +941,10 @@ const Lanyard = ({
       const cardTop = viewHeight / 2 - viewHeight * mix(0.12, 0.42, strapLengthVal);
       const hangTop = cardTop + (layout.hangY - layout.height / 2);
       sim.anchor.set(anchorX, anchorY, 0);
+      sim.baseAnchorX = anchorX;
+      sim.baseAnchorY = anchorY;
+      sim.viewHeight = viewHeight;
+      sim.restBodyY = hangTop - layout.hangY;
       configureSimulation(sim, layout, anchorY - hangTop);
       sim.nodes[0].copy(sim.anchor);
       sim.previous[0].copy(sim.anchor);
@@ -1141,6 +1145,13 @@ const Lanyard = ({
       };
     };
 
+    let hasSnapped = false;
+    let isStretching = false;
+    let isSlingshotting = false;
+    let slingshotStart = 0;
+    let slingshotStartY = 0;
+    const SLINGSHOT_DURATION = 350; // ms
+
     const tick = now => {
       raf = 0;
       if (!alive) return;
@@ -1148,14 +1159,92 @@ const Lanyard = ({
       last = now;
       time += dt;
       const current = physics();
-      stepSimulation(sim, dt, current, time);
+
+      // Scroll Stretch & Slingshot Mechanics
+      const section = container.closest('section') || container;
+      const sectionTop = section.getBoundingClientRect().top;
+      const navbarH = window.innerWidth >= 640 ? 72 : 64;
+      const pull = Math.max(0, sectionTop - navbarH);
+      const snapThreshold = window.innerWidth >= 1024 ? 160 : 100;
+
+      if (isSlingshotting) {
+        sim.calm = 0;
+        const elapsed = performance.now() - slingshotStart;
+        const p = Math.min(1, elapsed / SLINGSHOT_DURATION);
+        // Smooth cubic ease-in: starts loaded, smoothly accelerates upward into navbar
+        const ease = p * p * p;
+        const targetY = (sim.baseAnchorY ?? 4) + 12;
+        sim.body.position.y = slingshotStartY + (targetY - slingshotStartY) * ease;
+        sim.body.velocity.set(0, 25 * ease, 0);
+
+        // Smoothly pull strap nodes upward with card
+        for (let i = 1; i <= JOINTS; i++) {
+          const nodeTargetY = mix(sim.anchor.y, sim.body.position.y, i / JOINTS);
+          sim.nodes[i].y = mix(sim.nodes[i].y, nodeTargetY, 0.4);
+          sim.nodes[i].x = mix(sim.nodes[i].x, sim.anchor.x, 0.25);
+        }
+
+        if (p >= 1) {
+          isSlingshotting = false;
+          hasSnapped = true;
+        }
+      } else if (hasSnapped) {
+        // While snapped, hold card and nodes well above canvas (hidden behind navbar)
+        const hideY = (sim.baseAnchorY ?? 4) + 12;
+        sim.anchor.y = hideY;
+        sim.nodes[0].copy(sim.anchor);
+        sim.body.position.y = hideY;
+        sim.body.velocity.set(0, 0, 0);
+        for (let i = 1; i <= JOINTS; i++) {
+          sim.nodes[i].y = hideY;
+          sim.velocities[i].set(0, 0, 0);
+        }
+      } else if (pull > 0 && sim.baseAnchorY !== undefined && !sim.grab) {
+        // Active stretching when scrolling up:
+        // Anchor extends upward, card stays locked in place, strap stretches taut cleanly with NO jitter!
+        sim.calm = 0;
+        const vHeight = sim.viewHeight || (layout.height / 0.58);
+        const extraY = pull * (vHeight / Math.max(1, view.height));
+        sim.anchor.y = sim.baseAnchorY + extraY;
+        sim.nodes[0].copy(sim.anchor);
+
+        // Hold card firmly in place without spring fighting ("idcard diam di tempat")
+        if (sim.restBodyY !== undefined) {
+          sim.body.position.y = sim.restBodyY;
+          sim.body.velocity.set(0, 0, 0);
+          sim.body.angular.set(0, 0, 0);
+        }
+
+        // Interpolate strap nodes along the stretched line from anchor to card hang point:
+        const hangPoint = scratch.a.copy(sim.body.hang).applyQuaternion(sim.body.quaternion).add(sim.body.position);
+        for (let i = 1; i <= JOINTS; i++) {
+          sim.nodes[i].lerpVectors(sim.anchor, hangPoint, i / JOINTS);
+          sim.velocities[i].set(0, 0, 0);
+        }
+
+        if (pull >= snapThreshold && !isSlingshotting) {
+          // Trigger smooth slingshot release!
+          isSlingshotting = true;
+          slingshotStart = performance.now();
+          slingshotStartY = sim.body.position.y;
+        }
+      } else if (!hasSnapped && sim.baseAnchorY !== undefined) {
+        sim.anchor.y = sim.baseAnchorY;
+        sim.nodes[0].copy(sim.anchor);
+        stepSimulation(sim, dt, current, time);
+      }
+
+      if (pull > 0 || isSlingshotting || hasSnapped) {
+        // Skip default stepSimulation to avoid spring conflict during stretch/slingshot
+      }
+
       const body = sim.body;
       if (!Number.isFinite(body.position.x + body.position.y + body.position.z + body.quaternion.w)) {
         sim.grab = null;
         placeHanging(sim, layout, false);
       }
       render();
-      const resting = sim.calm > 1.2 && !sim.grab && current.breeze === 0;
+      const resting = sim.calm > 1.2 && !sim.grab && current.breeze === 0 && pull === 0 && !hasSnapped && !isSlingshotting;
       if (visible && !resting) raf = requestAnimationFrame(tick);
     };
 
@@ -1276,9 +1365,48 @@ const Lanyard = ({
           placeHanging(sim, layout, true);
         }
         start();
+      } else {
+        const rect = container.getBoundingClientRect();
+        if (rect.top > 0) {
+          hasSnapped = true;
+        }
       }
     });
     intersectionObserver.observe(container);
+
+    const onScroll = () => {
+      if (!alive) return;
+      const section = container.closest('section') || container;
+      const sectionTop = section.getBoundingClientRect().top;
+      const navbarH = window.innerWidth >= 640 ? 72 : 64;
+      const pull = Math.max(0, sectionTop - navbarH);
+
+      if (pull > 5) {
+        if (!hasSnapped) {
+          isStretching = true;
+          start();
+        }
+      } else {
+        // Returned to Section About!
+        if (hasSnapped || isSlingshotting) {
+          hasSnapped = false;
+          isSlingshotting = false;
+          if (sim.baseAnchorX !== undefined && sim.baseAnchorY !== undefined) {
+            sim.anchor.set(sim.baseAnchorX, sim.baseAnchorY, 0);
+          }
+          placeHanging(sim, layout, true);
+          start();
+        } else if (isStretching) {
+          isStretching = false;
+          if (sim.baseAnchorX !== undefined && sim.baseAnchorY !== undefined) {
+            sim.anchor.set(sim.baseAnchorX, sim.baseAnchorY, 0);
+          }
+          start();
+        }
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+
     const onVisibility = () => {
       if (!document.hidden) start();
     };
@@ -1293,6 +1421,7 @@ const Lanyard = ({
       applyRef.current = null;
       resizeObserver.disconnect();
       intersectionObserver.disconnect();
+      window.removeEventListener('scroll', onScroll);
       document.removeEventListener('visibilitychange', onVisibility);
       canvas.removeEventListener('pointerdown', onPointerDown);
       canvas.removeEventListener('pointermove', onPointerMove);

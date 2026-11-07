@@ -1023,14 +1023,14 @@ const Lanyard = ({
       const strapLengthVal = clamp(typeof rawStrap === 'number' ? rawStrap : 0.4, 0, 1);
 
       const pxToUnits = viewHeight / Math.max(1, view.height);
-      // Hanger slot is positioned ~36px from top of section on desktop, ~24px on mobile
-      const slotTopPx = isMobile ? 24 : 36;
+      // Hanger slot is positioned closer to top of section so strap has plenty of visible length
+      const slotTopPx = isMobile ? 12 : 14;
       const anchorY = (viewHeight / 2) - (slotTopPx * pxToUnits);
 
-      // Strap drop from slot down to clamp:
+      // Strap drop from slot down to clamp (longer strap to match reference picture):
       const targetStrapDropPx = isMobile
-        ? mix(75, 115, strapLengthVal)
-        : mix(115, 165, strapLengthVal);
+        ? mix(95, 145, strapLengthVal)
+        : mix(145, 205, strapLengthVal);
       const strapDrop = targetStrapDropPx * pxToUnits;
 
       const cardTop = anchorY - strapDrop;

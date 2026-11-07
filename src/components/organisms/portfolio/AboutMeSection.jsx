@@ -76,7 +76,7 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
           strapWidth={0.65}
           size={w => (w >= 1024 ? 0.46 : 0.35)}
           anchor={w => (w >= 1024 ? 0.29 : 0.5)}
-          strapLength={w => (w >= 1024 ? 0.50 : 0.28)}
+          strapLength={w => (w >= 1024 ? 0.60 : 0.35)}
           cornerRadius={0.3}
           intro={true}
           gravity={1.2}

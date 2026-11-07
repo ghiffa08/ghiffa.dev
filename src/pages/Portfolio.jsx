@@ -697,7 +697,7 @@ export default function Portfolio({
           <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
           <span>{label || id}</span>
           {isActive && activeFieldKey && (
-            <span className="text-[9px] bg-[#9747FF] px-1.5 py-0.5 rounded-full text-white font-semibold ml-0.5">
+            <span className="text-[9px] bg-[#0D99FF] px-1.5 py-0.5 rounded-full text-white font-semibold ml-0.5">
               {activeFieldKey}
             </span>
           )}

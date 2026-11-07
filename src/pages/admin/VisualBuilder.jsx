@@ -119,7 +119,7 @@ const SECTION_CONFIGS = [
     id: 'sticky_text',
     name: 'Sticky Scroll Headline',
     icon: ScrollText,
-    color: '#9747FF', // Figma Component Purple
+    color: '#0D99FF', // Figma Component Purple
     description: 'Word-by-word reveal text triggered on scroll',
     fields: [
       { key: 'title', label: 'Main Headline Sentence', type: 'textarea', group: 'Scroll Reveal Copy', placeholder: 'Building the bridge between bits and atoms for companies, governments, and organizations.' },
@@ -130,7 +130,7 @@ const SECTION_CONFIGS = [
     id: 'services',
     name: 'Capabilities & Services',
     icon: Cpu,
-    color: '#10B981', // Figma Emerald Green (Ghiffa Tech Lead)
+    color: '#0D99FF', // Figma Emerald Green (Ghiffa Tech Lead)
     description: '3 Service cards: Mobile Apps, Web Development, and IoT Hardware',
     fields: [
       { key: 'card1_title', label: 'Card 1 (Mobile) Title', type: 'text', parent: 'content', group: 'Card 1: Mobile App', placeholder: 'Mobile app services' },
@@ -503,20 +503,15 @@ export default function VisualBuilder() {
           </Link>
 
           <div className="flex items-center gap-2.5">
-            <div className="flex items-center -space-x-1">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#0D99FF] ring-2 ring-[#18181B]" title="Figma Blue" />
-              <span className="w-2.5 h-2.5 rounded-full bg-[#10B981] ring-2 ring-[#18181B]" title="Figma Green" />
-              <span className="w-2.5 h-2.5 rounded-full bg-[#F59E0B] ring-2 ring-[#18181B]" title="Figma Amber" />
-              <span className="w-2.5 h-2.5 rounded-full bg-[#9747FF] ring-2 ring-[#18181B]" title="Figma Purple" />
-            </div>
+            <span className="w-2.5 h-2.5 rounded-full bg-[#0D99FF] ring-2 ring-[#0D99FF]/30" title="Figma Style" />
             <span className="font-bold text-sm tracking-tight text-white flex items-center gap-1.5 font-mono">
-              <span className="bg-gradient-to-r from-white via-gray-100 to-gray-300 bg-clip-text text-transparent">PORTOBUILDER</span>
+              <span>PORTOBUILDER</span>
               <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#27272A] text-[#0D99FF] font-semibold border border-[#0D99FF]/30">v2.0</span>
             </span>
           </div>
 
           <div className="hidden lg:flex items-center gap-2 pl-4 border-l border-[#27272A] text-xs text-gray-400">
-            <MousePointerClick size={13} className="text-[#9747FF]" />
+            <MousePointerClick size={13} className="text-[#0D99FF]" />
             <span>Click any element on canvas to inspect &amp; style</span>
           </div>
         </div>
@@ -568,7 +563,7 @@ export default function VisualBuilder() {
             onClick={() => setShowNavbar(!showNavbar)}
             className={`hidden md:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-mono border transition-all cursor-pointer ${
               showNavbar
-                ? 'bg-[#10B981]/15 text-[#10B981] border-[#10B981]/40'
+                ? 'bg-[#0D99FF]/15 text-[#0D99FF] border-[#0D99FF]/40'
                 : 'bg-[#27272A]/70 text-gray-400 hover:text-white border-[#3F3F46]/50'
             }`}
             title="Show or hide the portfolio navbar inside the preview canvas"
@@ -583,7 +578,7 @@ export default function VisualBuilder() {
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className={`hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-mono border transition-all cursor-pointer ${
               !sidebarOpen
-                ? 'bg-[#9747FF]/20 text-[#C084FC] border-[#9747FF]/40'
+                ? 'bg-[#0D99FF]/15 text-[#0D99FF] border-[#0D99FF]/40'
                 : 'bg-[#27272A]/70 text-gray-400 hover:text-white border-[#3F3F46]/50'
             }`}
             title={sidebarOpen ? 'Expand canvas to 100% full width' : 'Show Elementor Inspector'}
@@ -596,8 +591,8 @@ export default function VisualBuilder() {
         {/* Right: Actions */}
         <div className="flex items-center gap-2">
           {hasUnsavedChanges && (
-            <span className="hidden xl:inline text-[11px] text-amber-400 font-mono flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping" />
+            <span className="hidden xl:inline text-[11px] text-[#0D99FF] font-mono flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#0D99FF] animate-ping" />
               Unsaved changes
             </span>
           )}
@@ -625,7 +620,7 @@ export default function VisualBuilder() {
           <button
             onClick={handleSaveAndPublish}
             disabled={isSaving}
-            className="flex items-center gap-2 bg-gradient-to-r from-[#0D99FF] via-[#7B61FF] to-[#9747FF] hover:opacity-95 text-white text-xs font-bold px-4 py-2 rounded-xl shadow-lg shadow-[#0D99FF]/25 transition-all active:scale-95 disabled:opacity-50 cursor-pointer"
+            className="flex items-center gap-2 bg-[#0D99FF] hover:bg-[#008AE6] text-white text-xs font-bold px-4 py-2 rounded-xl shadow-md shadow-[#0D99FF]/20 transition-all active:scale-95 disabled:opacity-50 cursor-pointer"
           >
             <Save size={15} className={isSaving ? 'animate-spin' : ''} />
             <span>{isSaving ? 'Publishing...' : 'Save & Publish'}</span>
@@ -650,8 +645,8 @@ export default function VisualBuilder() {
                     <Layers size={14} className="text-[#0D99FF]" />
                     Elementor Inspector ({SECTION_CONFIGS.length})
                   </span>
-                  <span className="text-[10px] text-emerald-400 font-mono flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="text-[10px] text-[#0D99FF] font-mono flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#0D99FF] animate-pulse" />
                     Canvas Sync
                   </span>
                 </div>
@@ -676,7 +671,7 @@ export default function VisualBuilder() {
                   const sectionData = sections[cfg.id] || DEFAULT_LANDING_SECTIONS[cfg.id] || {};
                   const isExpanded = activeSectionId === cfg.id;
                   const isActive = sectionData.is_active !== false;
-                  const figmaColor = cfg.color || '#0D99FF';
+                  const figmaColor = '#0D99FF';
 
                   // Group fields by `field.group` for clean Elementor-like subsections
                   const groupedFields = cfg.fields.reduce((acc, field) => {
@@ -715,9 +710,9 @@ export default function VisualBuilder() {
                           <div
                             className="w-7 h-7 rounded-lg border flex items-center justify-center shrink-0 transition-all duration-200"
                             style={{
-                              backgroundColor: isExpanded ? `${figmaColor}25` : '#27272A',
-                              borderColor: isExpanded ? `${figmaColor}80` : '#3F3F4680',
-                              color: figmaColor
+                              backgroundColor: isExpanded ? `${figmaColor}20` : '#27272A',
+                              borderColor: isExpanded ? `${figmaColor}50` : '#3F3F4650',
+                              color: isExpanded ? figmaColor : '#A1A1AA'
                             }}
                           >
                             <Icon size={14} />
@@ -743,7 +738,7 @@ export default function VisualBuilder() {
                             type="button"
                             onClick={(e) => toggleSectionActive(cfg.id, e)}
                             className={`p-1.5 rounded-md hover:bg-white/10 transition-colors ${
-                              isActive ? 'text-emerald-400' : 'text-gray-600'
+                              isActive ? 'text-gray-300 hover:text-white' : 'text-gray-600'
                             }`}
                             title={isActive ? 'Section visible on homepage' : 'Section hidden'}
                           >
@@ -773,11 +768,11 @@ export default function VisualBuilder() {
                         <div className="bg-[#161619] border-t border-[#27272A]/60 flex flex-col">
                           {/* Active Selected Widget Banner (when clicked on canvas) */}
                           {activeFieldKey && (
-                            <div className="mx-3 mt-2.5 px-3 py-2 rounded-lg bg-[#9747FF]/15 border border-[#9747FF]/40 flex items-center justify-between gap-2">
+                            <div className="mx-3 mt-2.5 px-3 py-2 rounded-lg bg-[#0D99FF]/15 border border-[#0D99FF]/40 flex items-center justify-between gap-2">
                               <div className="flex items-center gap-2 min-w-0">
-                                <span className="w-2 h-2 rounded-full bg-[#9747FF] animate-ping shrink-0" />
+                                <span className="w-2 h-2 rounded-full bg-[#0D99FF] animate-ping shrink-0" />
                                 <div className="truncate">
-                                  <span className="text-[10px] font-mono uppercase tracking-wider text-[#C084FC] block leading-none">
+                                  <span className="text-[10px] font-mono uppercase tracking-wider text-[#0D99FF] block leading-none">
                                     Selected on Canvas
                                   </span>
                                   <span className="text-xs font-bold text-white truncate block mt-0.5">
@@ -819,7 +814,7 @@ export default function VisualBuilder() {
                               onClick={() => setInspectorTab('style')}
                               className={`flex flex-col items-center justify-center py-2.5 gap-1 text-[11px] font-mono font-semibold border-b-2 transition-all cursor-pointer ${
                                 inspectorTab === 'style'
-                                  ? 'border-[#9747FF] text-[#C084FC] bg-[#202024]'
+                                  ? 'border-[#0D99FF] text-[#0D99FF] bg-[#202024]'
                                   : 'border-transparent text-gray-400 hover:text-gray-200 hover:bg-white/5'
                               }`}
                             >
@@ -831,7 +826,7 @@ export default function VisualBuilder() {
                               onClick={() => setInspectorTab('advanced')}
                               className={`flex flex-col items-center justify-center py-2.5 gap-1 text-[11px] font-mono font-semibold border-b-2 transition-all cursor-pointer ${
                                 inspectorTab === 'advanced'
-                                  ? 'border-[#10B981] text-[#10B981] bg-[#202024]'
+                                  ? 'border-[#0D99FF] text-[#0D99FF] bg-[#202024]'
                                   : 'border-transparent text-gray-400 hover:text-gray-200 hover:bg-white/5'
                               }`}
                             >
@@ -873,7 +868,7 @@ export default function VisualBuilder() {
                                           id={`builder-field-${cfg.id}-${field.key}`}
                                           className={`space-y-1 p-2 rounded-lg transition-all ${
                                             highlighted
-                                              ? 'bg-[#9747FF]/12 ring-1 ring-[#9747FF]/50'
+                                              ? 'bg-[#0D99FF]/12 ring-1 ring-[#0D99FF]/50'
                                               : 'hover:bg-white/[0.02]'
                                           }`}
                                         >
@@ -968,7 +963,7 @@ export default function VisualBuilder() {
                                         onClick={() => setStyleScope('element')}
                                         className={`px-2 py-1.5 rounded text-[11px] font-mono font-semibold truncate transition-all cursor-pointer ${
                                           styleScope === 'element'
-                                            ? 'bg-[#9747FF] text-white'
+                                            ? 'bg-[#0D99FF] text-white'
                                             : 'text-gray-400 hover:text-white bg-[#18181B]'
                                         }`}
                                         title={activeFieldLabel || activeFieldKey}
@@ -983,7 +978,7 @@ export default function VisualBuilder() {
                                 <div className="space-y-1.5">
                                   <div className="flex items-center justify-between">
                                     <label className="text-[11px] font-mono font-semibold text-gray-300 flex items-center gap-1.5">
-                                      <AlignLeft size={12} className="text-[#9747FF]" />
+                                      <AlignLeft size={12} className="text-[#0D99FF]" />
                                       Text Alignment (Perataan Teks)
                                     </label>
                                     {currentStyleObj.textAlign && (
@@ -1026,7 +1021,7 @@ export default function VisualBuilder() {
                                           }
                                           className={`flex items-center justify-center py-1.5 rounded-md transition-all cursor-pointer ${
                                             active
-                                              ? 'bg-[#9747FF] text-white shadow-sm'
+                                              ? 'bg-[#0D99FF] text-white shadow-sm'
                                               : 'text-gray-400 hover:text-white hover:bg-white/5'
                                           }`}
                                           title={`Align ${alignOpt.label}`}
@@ -1040,7 +1035,7 @@ export default function VisualBuilder() {
 
                                 {/* 2. TYPOGRAPHY SIZING & WEIGHT */}
                                 <div className="space-y-3 pt-3 border-t border-[#27272A]/70">
-                                  <div className="flex items-center gap-1.5 text-[10px] font-mono font-bold uppercase tracking-wider text-[#9747FF]">
+                                  <div className="flex items-center gap-1.5 text-[10px] font-mono font-bold uppercase tracking-wider text-[#0D99FF]">
                                     <Type size={12} />
                                     <span>Typography</span>
                                   </div>
@@ -1051,7 +1046,7 @@ export default function VisualBuilder() {
                                       <span className="text-gray-300">
                                         {isElementStyleMode ? 'Widget Font Size' : 'Heading Font Size'}
                                       </span>
-                                      <span className="text-[#C084FC]">
+                                      <span className="text-[#0D99FF]">
                                         {(isElementStyleMode ? currentStyleObj.fontSize : currentStyleObj.titleFontSize)
                                           ? `${isElementStyleMode ? currentStyleObj.fontSize : currentStyleObj.titleFontSize}px`
                                           : 'Default'}
@@ -1075,7 +1070,7 @@ export default function VisualBuilder() {
                                             isElementStyleMode ? activeFieldKey : null
                                           )
                                         }
-                                        className="flex-1 accent-[#9747FF] cursor-pointer"
+                                        className="flex-1 accent-[#0D99FF] cursor-pointer"
                                       />
                                       <input
                                         type="number"
@@ -1105,7 +1100,7 @@ export default function VisualBuilder() {
                                     <div className="space-y-1">
                                       <div className="flex items-center justify-between text-[11px] font-mono">
                                         <span className="text-gray-300">Body / Subtitle Size</span>
-                                        <span className="text-[#C084FC]">
+                                        <span className="text-[#0D99FF]">
                                           {currentStyleObj.subtitleFontSize
                                             ? `${currentStyleObj.subtitleFontSize}px`
                                             : 'Default'}
@@ -1120,7 +1115,7 @@ export default function VisualBuilder() {
                                           onChange={(e) =>
                                             handleStyleChange(cfg.id, 'subtitleFontSize', e.target.value)
                                           }
-                                          className="flex-1 accent-[#9747FF] cursor-pointer"
+                                          className="flex-1 accent-[#0D99FF] cursor-pointer"
                                         />
                                         <input
                                           type="number"
@@ -1153,7 +1148,7 @@ export default function VisualBuilder() {
                                             isElementStyleMode ? activeFieldKey : null
                                           )
                                         }
-                                        className="w-full bg-[#111113] border border-[#27272A] rounded-lg px-2 py-1.5 text-xs text-white font-mono focus:outline-none focus:border-[#9747FF]"
+                                        className="w-full bg-[#111113] border border-[#27272A] rounded-lg px-2 py-1.5 text-xs text-white font-mono focus:outline-none focus:border-[#0D99FF]"
                                       >
                                         <option value="">Default</option>
                                         <option value="300">300 Light</option>
@@ -1180,7 +1175,7 @@ export default function VisualBuilder() {
                                             isElementStyleMode ? activeFieldKey : null
                                           )
                                         }
-                                        className="w-full bg-[#111113] border border-[#27272A] rounded-lg px-2 py-1.5 text-xs text-white font-mono focus:outline-none focus:border-[#9747FF]"
+                                        className="w-full bg-[#111113] border border-[#27272A] rounded-lg px-2 py-1.5 text-xs text-white font-mono focus:outline-none focus:border-[#0D99FF]"
                                       >
                                         <option value="">Default</option>
                                         <option value="none">None</option>
@@ -1196,7 +1191,7 @@ export default function VisualBuilder() {
                                     <div className="space-y-1">
                                       <div className="flex justify-between text-[10px] font-mono text-gray-400">
                                         <span>Line Height</span>
-                                        <span className="text-[#C084FC]">{currentStyleObj.lineHeight || 'Auto'}</span>
+                                        <span className="text-[#0D99FF]">{currentStyleObj.lineHeight || 'Auto'}</span>
                                       </div>
                                       <input
                                         type="range"
@@ -1212,14 +1207,14 @@ export default function VisualBuilder() {
                                             isElementStyleMode ? activeFieldKey : null
                                           )
                                         }
-                                        className="w-full accent-[#9747FF] cursor-pointer"
+                                        className="w-full accent-[#0D99FF] cursor-pointer"
                                       />
                                     </div>
 
                                     <div className="space-y-1">
                                       <div className="flex justify-between text-[10px] font-mono text-gray-400">
                                         <span>Letter Space</span>
-                                        <span className="text-[#C084FC]">
+                                        <span className="text-[#0D99FF]">
                                           {currentStyleObj.letterSpacing !== undefined && currentStyleObj.letterSpacing !== ''
                                             ? `${currentStyleObj.letterSpacing}px`
                                             : 'Auto'}
@@ -1239,7 +1234,7 @@ export default function VisualBuilder() {
                                             isElementStyleMode ? activeFieldKey : null
                                           )
                                         }
-                                        className="w-full accent-[#9747FF] cursor-pointer"
+                                        className="w-full accent-[#0D99FF] cursor-pointer"
                                       />
                                     </div>
                                   </div>
@@ -1247,7 +1242,7 @@ export default function VisualBuilder() {
 
                                 {/* 3. COLORS & SWATCHES */}
                                 <div className="space-y-3 pt-3 border-t border-[#27272A]/70">
-                                  <div className="flex items-center gap-1.5 text-[10px] font-mono font-bold uppercase tracking-wider text-[#9747FF]">
+                                  <div className="flex items-center gap-1.5 text-[10px] font-mono font-bold uppercase tracking-wider text-[#0D99FF]">
                                     <Palette size={12} />
                                     <span>Colors &amp; Theme Swatches</span>
                                   </div>
@@ -1412,7 +1407,7 @@ export default function VisualBuilder() {
                                       onClick={() => setPaddingLinked(!paddingLinked)}
                                       className={`p-1 rounded flex items-center gap-1 text-[10px] font-mono cursor-pointer ${
                                         paddingLinked
-                                          ? 'bg-[#10B981]/20 text-[#10B981] border border-[#10B981]/40'
+                                          ? 'bg-[#0D99FF]/20 text-[#0D99FF] border border-[#0D99FF]/40'
                                           : 'bg-[#27272A] text-gray-400'
                                       }`}
                                       title="Link padding values together"
@@ -1444,7 +1439,7 @@ export default function VisualBuilder() {
                                               handleStyleChange(cfg.id, dim.key, val);
                                             }
                                           }}
-                                          className="w-full bg-[#111113] border border-[#27272A] rounded-lg py-1.5 text-xs text-white font-mono text-center focus:outline-none focus:border-[#10B981]"
+                                          className="w-full bg-[#111113] border border-[#27272A] rounded-lg py-1.5 text-xs text-white font-mono text-center focus:outline-none focus:border-[#0D99FF]"
                                         />
                                         <span className="text-[9px] font-mono text-gray-500 mt-0.5 block">
                                           {dim.label}
@@ -1487,7 +1482,7 @@ export default function VisualBuilder() {
                                 <div className="space-y-1 pt-2 border-t border-[#27272A]/70">
                                   <div className="flex justify-between text-[11px] font-mono">
                                     <span className="text-gray-300">Section Opacity</span>
-                                    <span className="text-[#10B981]">{sectionLevelStyle.opacity ?? 100}%</span>
+                                    <span className="text-[#0D99FF]">{sectionLevelStyle.opacity ?? 100}%</span>
                                   </div>
                                   <input
                                     type="range"
@@ -1495,13 +1490,13 @@ export default function VisualBuilder() {
                                     max="100"
                                     value={sectionLevelStyle.opacity ?? 100}
                                     onChange={(e) => handleStyleChange(cfg.id, 'opacity', e.target.value)}
-                                    className="w-full accent-[#10B981] cursor-pointer"
+                                    className="w-full accent-[#0D99FF] cursor-pointer"
                                   />
                                 </div>
 
                                 {/* 4. RESPONSIVE VISIBILITY */}
                                 <div className="space-y-2 pt-2 border-t border-[#27272A]/70">
-                                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#10B981] block">
+                                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#0D99FF] block">
                                     Responsive Visibility
                                   </span>
                                   {[
@@ -1518,7 +1513,7 @@ export default function VisualBuilder() {
                                         type="checkbox"
                                         checked={Boolean(sectionLevelStyle[vis.key])}
                                         onChange={(e) => handleStyleChange(cfg.id, vis.key, e.target.checked)}
-                                        className="accent-[#10B981] w-4 h-4 rounded cursor-pointer"
+                                        className="accent-[#0D99FF] w-4 h-4 rounded cursor-pointer"
                                       />
                                     </label>
                                   ))}
@@ -1526,7 +1521,7 @@ export default function VisualBuilder() {
 
                                 {/* 5. CUSTOM CSS ID & CLASS */}
                                 <div className="space-y-2 pt-2 border-t border-[#27272A]/70">
-                                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#10B981] block">
+                                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#0D99FF] block">
                                     Attributes
                                   </span>
                                   <input

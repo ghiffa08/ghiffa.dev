@@ -1009,9 +1009,10 @@ const Lanyard = ({
       const strapLengthVal = clamp(typeof rawStrap === 'number' ? rawStrap : 0.4, 0, 1);
 
       const pxToUnits = viewHeight / Math.max(1, view.height);
-      // Hanger clamp + top eyelet sit cleanly near the top of the section
-      const slotTopPx = isMobile ? 22 : 24;
-      const anchorY = (viewHeight / 2) - (slotTopPx * pxToUnits);
+      // Exact 3D world height of top clamp + top eyelet ring + clearance so the circle is never clipped
+      const topHardwareUnits = CLAMP_BODY / 2 + EYELET_RADIUS * 2 + 0.045;
+      const topMarginUnits = (isMobile ? 8 : 12) * pxToUnits;
+      const anchorY = (viewHeight / 2) - topHardwareUnits - topMarginUnits;
 
       // Strap drop from slot down to clamp (longer strap to match reference picture):
       const targetStrapDropPx = isMobile

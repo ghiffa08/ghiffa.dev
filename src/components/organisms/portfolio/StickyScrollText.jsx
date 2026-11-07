@@ -88,13 +88,13 @@ export function StickyScrollText({ sectionData }) {
   return (
     <section id="scroll-text-track" className="relative h-[260vh] bg-white">
       <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center px-4 sm:px-6">
-        <div className="max-w-[960px] mx-auto text-center relative z-10">
-          {/* Main Animated Headline: ALL words start in faded gray (#ECEEEF) */}
+        <div className="max-w-[1280px] w-full mx-auto text-center relative z-10 px-4 sm:px-6">
+          {/* Main Animated Headline: ALL words start in faded gray (#D4D4D8), activating to deep ink */}
           <h2
             id="animated-scroll-title"
             data-builder-field="title"
             data-builder-label="Main Headline Sentence"
-            className="text-[28px] min-[360px]:text-[34px] min-[420px]:text-[40px] sm:text-[56px] md:text-[68px] lg:text-[76px] font-bold tracking-[-0.035em] leading-[1.1]"
+            className="text-[28px] min-[360px]:text-[34px] min-[420px]:text-[40px] sm:text-[56px] md:text-[68px] lg:text-[76px] font-bold tracking-[-0.035em] leading-[1.12] max-w-[1200px] mx-auto [text-wrap:balance]"
           >
             {headlineWords.map((word, idx) => (
               <React.Fragment key={idx}>
@@ -103,12 +103,12 @@ export function StickyScrollText({ sectionData }) {
             ))}
           </h2>
 
-          {/* Subtext Below Headline */}
+          {/* Subtext Below Headline: Single clean line on desktop */}
           <p
             id="animated-scroll-subtitle"
             data-builder-field="subtitle"
             data-builder-label="Subtext Sentence"
-            className="mt-6 sm:mt-10 text-[16px] sm:text-[22px] font-semibold tracking-[-0.015em] leading-[1.35] max-w-[520px] mx-auto"
+            className="mt-6 sm:mt-10 text-[16px] sm:text-[20px] md:text-[22px] font-medium tracking-[-0.015em] leading-[1.4] max-w-none text-center mx-auto whitespace-normal sm:whitespace-nowrap"
           >
             {subtitleWords.map((word, idx) => (
               <React.Fragment key={idx}>

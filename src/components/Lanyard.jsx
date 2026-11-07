@@ -279,38 +279,20 @@ const buildClampGeometry = width => {
 };
 
 const buildHangerBracketGeometry = width => {
-  const shape = new THREE.Shape();
-  const w = Math.max(0.38, width * 1.3);
-  const h = 0.085;
-  const radius = 0.025;
-  traceRoundedRect(shape, -w / 2, -h / 2, w, h, radius);
-
-  // Inner slot hole through which the strap passes
-  const slotW = width * 1.05;
-  const slotH = 0.032;
-  const slotHole = new THREE.Path();
-  traceRoundedRect(slotHole, -slotW / 2, -slotH / 2, slotW, slotH, 0.012);
-  shape.holes.push(slotHole);
-
-  const geometry = new THREE.ExtrudeGeometry(shape, {
-    depth: 0.02,
-    bevelEnabled: true,
-    bevelThickness: 0.006,
-    bevelSize: 0.006,
-    bevelSegments: 4,
-    curveSegments: 10
-  });
-  geometry.translate(0, 0, -0.01);
-  return geometry;
+  return buildClampGeometry(width);
 };
 
 const buildHangerBackplateGeometry = width => {
   const shape = new THREE.Shape();
-  const w = width * 1.12;
-  const h = 0.038;
-  traceRoundedRect(shape, -w / 2, -h / 2, w, h, 0.014);
-  const geometry = new THREE.ShapeGeometry(shape, 8);
-  geometry.translate(0, 0, -0.018);
+  const w = width * 1.04;
+  const h = 0.026;
+  traceRoundedRect(shape, -w / 2, -h / 2, w, h, 0.01);
+  const geometry = new THREE.ExtrudeGeometry(shape, {
+    depth: 0.026,
+    bevelEnabled: false,
+    curveSegments: 8
+  });
+  geometry.translate(0, -CLAMP_BODY / 2 + 0.006, -0.013);
   return geometry;
 };
 
@@ -911,23 +893,27 @@ const Lanyard = ({
     clampGroup.add(clampMesh, eyelet);
     scene.add(clampGroup);
 
-    // 3D Figma-style ultra-clean mounting slot & hanger fixture
+    // 3D natural top capitan & hanger fixture matching bottom clamp
     const hangerGroup = new THREE.Group();
     const hangerBracketMesh = new THREE.Mesh(buildHangerBracketGeometry(STRAP_WIDTH), metalMaterial);
     const hangerBackMaterial = new THREE.MeshBasicMaterial({ color: 0x09090b });
     const hangerBackMesh = new THREE.Mesh(buildHangerBackplateGeometry(STRAP_WIDTH), hangerBackMaterial);
 
-    const pegGeom = new THREE.CylinderGeometry(0.032, 0.032, 0.022, 32);
+    const topEyeletY = CLAMP_BODY / 2 + EYELET_RADIUS - 0.006;
+    const topEyelet = new THREE.Mesh(new THREE.TorusGeometry(EYELET_RADIUS, 0.0105, 14, 40), metalMaterial);
+    topEyelet.position.y = topEyeletY;
+
+    const pegGeom = new THREE.CylinderGeometry(0.024, 0.024, 0.028, 32);
     pegGeom.rotateX(Math.PI / 2);
-    pegGeom.translate(0, 0.065, 0);
+    pegGeom.translate(0, topEyeletY, -0.004);
     const pegMesh = new THREE.Mesh(pegGeom, metalMaterial);
 
-    const pinAccentGeom = new THREE.CircleGeometry(0.016, 32);
-    pinAccentGeom.translate(0, 0.065, 0.012);
+    const pinAccentGeom = new THREE.CircleGeometry(0.013, 32);
+    pinAccentGeom.translate(0, topEyeletY, 0.011);
     const pinAccentMaterial = new THREE.MeshBasicMaterial({ color: 0xff5500 });
     const pinAccentMesh = new THREE.Mesh(pinAccentGeom, pinAccentMaterial);
 
-    hangerGroup.add(hangerBracketMesh, hangerBackMesh, pegMesh, pinAccentMesh);
+    hangerGroup.add(hangerBracketMesh, hangerBackMesh, topEyelet, pegMesh, pinAccentMesh);
     scene.add(hangerGroup);
 
     const sim = createSimulation();
@@ -1023,8 +1009,8 @@ const Lanyard = ({
       const strapLengthVal = clamp(typeof rawStrap === 'number' ? rawStrap : 0.4, 0, 1);
 
       const pxToUnits = viewHeight / Math.max(1, view.height);
-      // Hanger slot is positioned closer to top of section so strap has plenty of visible length
-      const slotTopPx = isMobile ? 12 : 14;
+      // Hanger clamp + top eyelet sit cleanly near the top of the section
+      const slotTopPx = isMobile ? 22 : 24;
       const anchorY = (viewHeight / 2) - (slotTopPx * pxToUnits);
 
       // Strap drop from slot down to clamp (longer strap to match reference picture):
@@ -1178,8 +1164,6 @@ const Lanyard = ({
       mouth.copy(hang).addScaledVector(axis, reach);
       tuck.copy(hang).addScaledVector(axis, EYELET_RADIUS + CLAMP_BODY * 0.35);
       controls.length = 0;
-      work.slotTuck.set(sim.anchor.x, sim.anchor.y + 0.08, -0.016);
-      controls.push(work.slotTuck);
       for (let i = 0; i <= guide; i++) controls.push(sim.nodes[i]);
       controls.push(mouth, tuck);
       curve.updateArcLengths();
@@ -1233,6 +1217,14 @@ const Lanyard = ({
       work.basis.makeBasis(across, axis, facing);
       clampGroup.quaternion.setFromRotationMatrix(work.basis);
       clampGroup.position.copy(hang);
+
+      if (hangerBracketMesh && hangerBackMesh) {
+        const topDx = sim.nodes[2].x - sim.nodes[0].x;
+        const topDy = sim.nodes[2].y - sim.nodes[0].y;
+        const topAngle = clamp(Math.atan2(topDx, Math.max(0.001, -topDy)) * 0.85, -0.65, 0.65);
+        hangerBracketMesh.rotation.z = topAngle;
+        hangerBackMesh.rotation.z = topAngle;
+      }
     };
 
     const render = () => {
@@ -1474,6 +1466,7 @@ const Lanyard = ({
         band,
         hangerBracketMesh,
         hangerBackMesh,
+        topEyelet,
         pegMesh,
         pinAccentMesh
       ].forEach(mesh => mesh?.geometry?.dispose());

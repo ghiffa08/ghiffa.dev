@@ -12,41 +12,10 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
     aiActiveRef.current = aiActive;
   }, [aiActive]);
 
-  // Smooth 60fps Organic Multiplayer Cursors with realistic purposeful travel
+  // Smooth 60fps Organic Multiplayer Cursors with Figma Drag-Select Card Spawn Choreography
   useEffect(() => {
     let animId;
-    const agents = cursorConfigs
-      .map((cfg, idx) => {
-        const el = document.getElementById(cfg.id);
-        const container = document.getElementById(cfg.containerId);
-        if (!el || !container) return null;
-
-        const startWp = cfg.waypoints[0];
-        const nextWp = cfg.waypoints[1];
-        const midX = (startWp.x + nextWp.x) / 2 + (Math.random() - 0.5) * 0.04;
-        const midY = (startWp.y + nextWp.y) / 2 + (Math.random() - 0.5) * 0.04;
-
-        return {
-          el,
-          container,
-          waypoints: cfg.waypoints,
-          wpIndex: 1,
-          fromX: startWp.x,
-          fromY: startWp.y,
-          toX: nextWp.x,
-          toY: nextWp.y,
-          ctrlX: midX,
-          ctrlY: midY,
-          currX: startWp.x,
-          currY: startWp.y,
-          state: 'moving',
-          stateStartTime: performance.now() + idx * 300,
-          moveDuration: 1300 + Math.random() * 400,
-          pauseDuration: 1400 + Math.random() * 1000,
-          seed: idx * 1.7 + Math.random() * 5
-        };
-      })
-      .filter(Boolean);
+    let toolTimers = [];
 
     let cachedW = window.innerWidth;
     let cachedH = window.innerHeight;
@@ -71,6 +40,159 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
       resizeObserver.observe(heroCanvasEl);
     }
 
+    // If heroRevealed is false and not in builder mode, hide cards and reset selection boxes
+    if (!heroRevealed && !isBuilderMode) {
+      cursorConfigs.forEach((cfg) => {
+        const cardEl = document.getElementById(cfg.targetCardId);
+        const selectEl = document.getElementById(`select-${cfg.targetCardId}`);
+        if (cardEl) {
+          cardEl.style.opacity = '0';
+          cardEl.style.scale = '0.92';
+          cardEl.style.filter = 'blur(4px)';
+        }
+        if (selectEl) {
+          selectEl.style.opacity = '0';
+        }
+      });
+      document.querySelectorAll('[data-hero-tool-icon="true"]').forEach((iconEl) => {
+        iconEl.style.opacity = '0';
+        iconEl.style.scale = '0.84';
+      });
+      return () => {
+        window.removeEventListener('resize', updateDimensions);
+        if (resizeObserver) resizeObserver.disconnect();
+      };
+    }
+
+    let agents = [];
+
+    function initAgents() {
+      updateDimensions();
+      const now = performance.now();
+      const container = document.getElementById('hero-canvas');
+      const pRect = container ? container.getBoundingClientRect() : { left: 0, top: 0, width: cachedW, height: cachedH };
+
+      // Staggered reveal for floating tool icons (VS Code, Figma, Next.js, TypeScript, React)
+      const toolIcons = document.querySelectorAll('[data-hero-tool-icon="true"]');
+      toolIcons.forEach((iconEl, i) => {
+        if (isBuilderMode) {
+          iconEl.style.opacity = '1';
+          iconEl.style.scale = '1';
+          return;
+        }
+        iconEl.style.transition = 'none';
+        iconEl.style.opacity = '0';
+        iconEl.style.scale = '0.84';
+        const timer = setTimeout(() => {
+          iconEl.style.transition = 'opacity 460ms cubic-bezier(0.22, 1, 0.36, 1), scale 520ms cubic-bezier(0.34, 1.56, 0.64, 1)';
+          iconEl.style.opacity = '1';
+          iconEl.style.scale = '1';
+        }, 320 + i * 110);
+        toolTimers.push(timer);
+      });
+
+      agents = cursorConfigs
+        .map((cfg, idx) => {
+          const el = document.getElementById(cfg.id);
+          const cont = document.getElementById(cfg.containerId);
+          if (!el || !cont) return null;
+
+          const cardEl = cfg.targetCardId ? document.getElementById(cfg.targetCardId) : null;
+          const selectEl = cfg.targetCardId ? document.getElementById(`select-${cfg.targetCardId}`) : null;
+          const dimEl = cfg.targetCardId ? document.getElementById(`dim-${cfg.targetCardId}`) : null;
+
+          const startWp = cfg.waypoints[0];
+          const nextWp = cfg.waypoints[1];
+          const midX = (startWp.x + nextWp.x) / 2 + (Math.random() - 0.5) * 0.04;
+          const midY = (startWp.y + nextWp.y) / 2 + (Math.random() - 0.5) * 0.04;
+
+          const cardW = cardEl ? cardEl.offsetWidth : 0;
+          const cardH = cardEl ? cardEl.offsetHeight : 0;
+          const hasVisibleCard = !isBuilderMode && cardEl && cardW > 4 && cardH > 4;
+
+          let cardLeft = 0;
+          let cardTop = 0;
+          let approachFromPx = startWp.x * cachedW;
+          let approachFromPy = startWp.y * cachedH;
+
+          if (hasVisibleCard) {
+            const cRect = cardEl.getBoundingClientRect();
+            const centerX = (cRect.left - pRect.left) + cRect.width / 2;
+            const centerY = (cRect.top - pRect.top) + cRect.height / 2;
+            cardLeft = centerX - cardW / 2;
+            cardTop = centerY - cardH / 2;
+
+            approachFromPx = Math.max(12, Math.min(cachedW - 90, cardLeft - 48 + (idx % 2 === 0 ? -16 : 24)));
+            approachFromPy = Math.max(12, Math.min(cachedH - 40, cardTop - 38));
+
+            // Prepare card in hidden pre-select state
+            cardEl.style.transition = 'none';
+            cardEl.style.opacity = '0';
+            cardEl.style.scale = '0.92';
+            cardEl.style.filter = 'blur(4px)';
+            requestAnimationFrame(() => {
+              if (cardEl) {
+                cardEl.style.transition =
+                  'opacity 420ms cubic-bezier(0.22, 1, 0.36, 1), scale 460ms cubic-bezier(0.34, 1.56, 0.64, 1), filter 420ms ease-out';
+              }
+            });
+
+            if (selectEl) {
+              selectEl.style.opacity = '0';
+              selectEl.style.transform = `translate3d(${cardLeft.toFixed(1)}px, ${cardTop.toFixed(1)}px, 0)`;
+              selectEl.style.width = '0px';
+              selectEl.style.height = '0px';
+            }
+
+            // Ensure cursor is visible while drawing its card (even on smaller screens)
+            el.style.display = 'block';
+            el.style.opacity = '0';
+            el.style.transform = `translate3d(${approachFromPx.toFixed(2)}px, ${approachFromPy.toFixed(2)}px, 0)`;
+          } else if (cardEl) {
+            cardEl.style.opacity = '1';
+            cardEl.style.scale = '1';
+            cardEl.style.filter = 'blur(0px)';
+          }
+
+          return {
+            id: cfg.id,
+            color: cfg.color || '#FF5500',
+            el,
+            container: cont,
+            cardEl,
+            selectEl,
+            dimEl,
+            hasVisibleCard,
+            cardLeft,
+            cardTop,
+            cardW,
+            cardH,
+            approachFromPx,
+            approachFromPy,
+            approachDuration: 360,
+            selectDuration: 600,
+            holdDuration: 380,
+            cardRevealed: false,
+            waypoints: cfg.waypoints,
+            wpIndex: 1,
+            fromX: startWp.x,
+            fromY: startWp.y,
+            toX: nextWp.x,
+            toY: nextWp.y,
+            ctrlX: midX,
+            ctrlY: midY,
+            currX: startWp.x,
+            currY: startWp.y,
+            state: hasVisibleCard ? 'approaching' : 'moving',
+            stateStartTime: now + (cfg.spawnDelay ?? idx * 110),
+            moveDuration: 1300 + Math.random() * 400,
+            pauseDuration: 1400 + Math.random() * 1000,
+            seed: idx * 1.7 + Math.random() * 5
+          };
+        })
+        .filter(Boolean);
+    }
+
     function animateCursors(now) {
       const w = cachedW;
       const h = cachedH;
@@ -84,16 +206,138 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
       const clampY = (y) => Math.max(minY, Math.min(maxY, y * h));
 
       agents.forEach((agent) => {
-
         if (now < agent.stateStartTime) {
-          const px = clampX(agent.currX);
-          const py = clampY(agent.currY);
-          agent.el.style.transform = `translate3d(${px.toFixed(2)}px, ${py.toFixed(2)}px, 0)`;
+          if (agent.state === 'approaching') {
+            agent.el.style.transform = `translate3d(${agent.approachFromPx.toFixed(2)}px, ${agent.approachFromPy.toFixed(2)}px, 0)`;
+          } else {
+            const px = clampX(agent.currX);
+            const py = clampY(agent.currY);
+            agent.el.style.transform = `translate3d(${px.toFixed(2)}px, ${py.toFixed(2)}px, 0)`;
+          }
           return;
         }
 
         const elapsed = now - agent.stateStartTime;
 
+        // PHASE 1: Cursor approaches top-left corner of its assigned social card/badge
+        if (agent.state === 'approaching') {
+          const rawT = Math.min(1, elapsed / agent.approachDuration);
+          const easedT = smoothCosine(rawT);
+          const px = agent.approachFromPx + (agent.cardLeft - agent.approachFromPx) * easedT;
+          const py = agent.approachFromPy + (agent.cardTop - agent.approachFromPy) * easedT;
+
+          agent.el.style.opacity = Math.min(1, rawT * 2.2).toFixed(2);
+          agent.el.style.transform = `translate3d(${px.toFixed(2)}px, ${py.toFixed(2)}px, 0)`;
+
+          if (rawT >= 1) {
+            agent.state = 'dragging_select';
+            agent.stateStartTime = now;
+            if (agent.selectEl) {
+              agent.selectEl.style.opacity = '1';
+              agent.selectEl.style.backgroundColor = `${agent.color}18`;
+              agent.selectEl.style.transform = `translate3d(${agent.cardLeft.toFixed(1)}px, ${agent.cardTop.toFixed(1)}px, 0)`;
+              agent.selectEl.style.width = '4px';
+              agent.selectEl.style.height = '4px';
+            }
+          }
+          return;
+        }
+
+        // PHASE 2: Cursor drag-selects Figma marquee box across the card & spawns the badge
+        if (agent.state === 'dragging_select') {
+          const rawT = Math.min(1, elapsed / agent.selectDuration);
+          const easedT = smoothCosine(rawT);
+          const currW = Math.max(6, agent.cardW * easedT);
+          const currH = Math.max(6, agent.cardH * easedT);
+
+          const px = Math.min(w - 24, agent.cardLeft + currW);
+          const py = Math.min(h - 18, agent.cardTop + currH);
+          agent.el.style.opacity = '1';
+          agent.el.style.transform = `translate3d(${px.toFixed(2)}px, ${py.toFixed(2)}px, 0)`;
+
+          if (agent.selectEl) {
+            agent.selectEl.style.width = `${currW.toFixed(1)}px`;
+            agent.selectEl.style.height = `${currH.toFixed(1)}px`;
+          }
+          if (agent.dimEl) {
+            agent.dimEl.textContent = `${Math.round(currW)} × ${Math.round(currH)}`;
+          }
+
+          if (easedT >= 0.54 && !agent.cardRevealed) {
+            agent.cardRevealed = true;
+            if (agent.cardEl) {
+              agent.cardEl.style.opacity = '1';
+              agent.cardEl.style.scale = '1';
+              agent.cardEl.style.filter = 'blur(0px)';
+            }
+            if (agent.selectEl) {
+              agent.selectEl.style.backgroundColor = `${agent.color}08`;
+            }
+          }
+
+          if (rawT >= 1) {
+            agent.state = 'holding_select';
+            agent.stateStartTime = now;
+            if (agent.cardEl && !agent.cardRevealed) {
+              agent.cardRevealed = true;
+              agent.cardEl.style.opacity = '1';
+              agent.cardEl.style.scale = '1';
+              agent.cardEl.style.filter = 'blur(0px)';
+            }
+          }
+          return;
+        }
+
+        // PHASE 3: Brief Figma selection frame hold, then release & glide into workspace roaming
+        if (agent.state === 'holding_select') {
+          const rawT = Math.min(1, elapsed / agent.holdDuration);
+          const fidgetT = elapsed * 0.004 + agent.seed;
+          const px = Math.min(w - 24, agent.cardLeft + agent.cardW + Math.sin(fidgetT) * 1.5);
+          const py = Math.min(h - 18, agent.cardTop + agent.cardH + Math.cos(fidgetT) * 1.5);
+          agent.el.style.transform = `translate3d(${px.toFixed(2)}px, ${py.toFixed(2)}px, 0)`;
+
+          if (agent.selectEl) {
+            const fadeT = Math.max(0, (rawT - 0.35) / 0.65);
+            agent.selectEl.style.opacity = (1 - smoothCosine(fadeT)).toFixed(2);
+          }
+
+          if (isMobile && agent.id !== 'cursor-director' && rawT > 0.5) {
+            const cursorFade = 1 - (rawT - 0.5) / 0.5;
+            agent.el.style.opacity = Math.max(0, cursorFade).toFixed(2);
+          }
+
+          if (rawT >= 1) {
+            if (agent.selectEl) {
+              agent.selectEl.style.opacity = '0';
+            }
+            if (isMobile && agent.id !== 'cursor-director') {
+              agent.el.style.display = '';
+              agent.el.style.opacity = '';
+            } else {
+              agent.el.style.opacity = '1';
+            }
+
+            const endNormX = Math.max(0.04, Math.min(0.94, (agent.cardLeft + agent.cardW) / Math.max(1, w)));
+            const endNormY = Math.max(0.08, Math.min(0.92, (agent.cardTop + agent.cardH) / Math.max(1, h)));
+            const targetWp = agent.waypoints[0];
+
+            agent.fromX = endNormX;
+            agent.fromY = endNormY;
+            agent.toX = targetWp.x;
+            agent.toY = targetWp.y;
+            agent.currX = endNormX;
+            agent.currY = endNormY;
+            agent.ctrlX = (endNormX + targetWp.x) / 2 + (Math.random() - 0.5) * 0.06;
+            agent.ctrlY = (endNormY + targetWp.y) / 2 + (Math.random() - 0.5) * 0.06;
+            agent.wpIndex = 0;
+            agent.state = 'moving';
+            agent.stateStartTime = now;
+            agent.moveDuration = 1250 + Math.random() * 400;
+          }
+          return;
+        }
+
+        // PHASE 4: Continuous organic multiplayer roaming
         if (agent.state === 'moving') {
           const rawT = Math.min(1, elapsed / agent.moveDuration);
           const easedT = smoothCosine(rawT);
@@ -161,16 +405,18 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
     }
 
     let startTimer = setTimeout(() => {
+      initAgents();
       animId = requestAnimationFrame(animateCursors);
-    }, 120);
+    }, 80);
 
     return () => {
       clearTimeout(startTimer);
+      toolTimers.forEach(clearTimeout);
       cancelAnimationFrame(animId);
       window.removeEventListener('resize', updateDimensions);
       if (resizeObserver) resizeObserver.disconnect();
     };
-  }, []);
+  }, [heroRevealed, isBuilderMode]);
 
   // Parallax Scroll Animation for Hero Components (Floating upwards on scroll)
   useEffect(() => {
@@ -268,16 +514,56 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
           </div>
         </div>
 
-        {/* 2. SURROUNDING WORKSPACE ITEMS (Hidden on refresh, reveals smoothly) */}
+        {/* 2. SURROUNDING WORKSPACE ITEMS (Collaborative Figma Drag-Select Reveal) */}
         <div
           id="hero-workspace-items"
-          className={`absolute inset-0 transition-all duration-1000 ease-out will-change-transform overflow-hidden max-w-full ${(heroRevealed || isBuilderMode) ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-[0.98] pointer-events-none'
+          className={`absolute inset-0 transition-all duration-700 ease-out will-change-transform overflow-hidden max-w-full ${(heroRevealed || isBuilderMode) ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-[0.98] pointer-events-none'
             }`}
         >
+          {/* Figma Live Selection Marquee Overlays (Driven at 60fps by each collaborative cursor) */}
+          {cursorConfigs.map((cfg) => (
+            <div
+              key={`select-${cfg.id}`}
+              id={`select-${cfg.targetCardId}`}
+              className="pointer-events-none absolute top-0 left-0 z-35 opacity-0 rounded-[4px]"
+              style={{
+                border: `1.5px solid ${cfg.color}`,
+                backgroundColor: `${cfg.color}14`,
+                willChange: 'transform, width, height, opacity'
+              }}
+            >
+              <span
+                className="absolute -top-1 -left-1 w-2 h-2 bg-white border-[1.5px]"
+                style={{ borderColor: cfg.color }}
+              />
+              <span
+                className="absolute -top-1 -right-1 w-2 h-2 bg-white border-[1.5px]"
+                style={{ borderColor: cfg.color }}
+              />
+              <span
+                className="absolute -bottom-1 -left-1 w-2 h-2 bg-white border-[1.5px]"
+                style={{ borderColor: cfg.color }}
+              />
+              <span
+                className="absolute -bottom-1 -right-1 w-2 h-2 bg-white border-[1.5px]"
+                style={{ borderColor: cfg.color }}
+              />
+              <div
+                id={`dim-${cfg.targetCardId}`}
+                className="absolute -bottom-5 left-1/2 -translate-x-1/2 px-1.5 py-[1px] rounded-[3px] text-[9px] font-mono font-semibold text-white whitespace-nowrap shadow-xs leading-tight"
+                style={{ backgroundColor: cfg.color }}
+              >
+                0 × 0
+              </div>
+            </div>
+          ))}
+
           {/* Top Center: AI Mode Toggle Pill */}
           <DraggableItem
+            id="hero-card-ai"
             data-builder-field="ai_mode_label"
             data-builder-label="AI Mode Toggle"
+            style={!isBuilderMode ? { opacity: 0, scale: '0.92', filter: 'blur(4px)' } : undefined}
             className="absolute top-[12%] sm:top-[21.5%] left-1/2 -translate-x-1/2 z-30 bg-white rounded-full px-3.5 py-1.5 sm:px-4 sm:py-2 soft-card-shadow border border-gray-100/90 flex items-center gap-2.5 sm:gap-3 select-none"
           >
             <span className={`text-[11px] sm:text-[12px] font-medium transition-colors duration-300 ${aiActive ? 'text-[#FF5500] font-semibold' : 'text-gray-800'}`}>
@@ -296,7 +582,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
             </button>
           </DraggableItem>
 
-          {/* 3. LIVE ROAMING MULTIPLAYER CURSOR (1 primary cursor on mobile, full team on tablet/desktop) */}
+          {/* 3. LIVE ROAMING MULTIPLAYER CURSOR (Collaboratively spawns cards then roams) */}
 
           {/* Ghiffa (Tech Lead - Green) -> Hermes Agent */}
           <div id="cursor-director" className="live-cursor block">
@@ -357,14 +643,24 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
           {/* 4. FLOATING TOOL ICONS (Desktop / Tablet interactive elements) */}
 
           {/* VS Code Icon */}
-          <DraggableItem className="hidden sm:flex absolute top-[28%] left-[19%] z-20 w-12 h-12 rounded-2xl bg-white soft-card-shadow border border-gray-100 items-center justify-center group" title="VS Code">
+          <DraggableItem
+            data-hero-tool-icon="true"
+            style={!isBuilderMode ? { opacity: 0, scale: '0.84' } : undefined}
+            className="hidden sm:flex absolute top-[28%] left-[19%] z-20 w-12 h-12 rounded-2xl bg-white soft-card-shadow border border-gray-100 items-center justify-center group"
+            title="VS Code"
+          >
             <svg className="w-6 h-6 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none">
               <path d="M17.5 2L7.2 11.4L3.2 8.3L1.5 9.2V14.8L3.2 15.7L7.2 12.6L17.5 22L22.5 19.9V4.1L17.5 2ZM17.5 17.2L10.8 12L17.5 6.8V17.2Z" fill="#007ACC" />
             </svg>
           </DraggableItem>
 
           {/* Figma Icon */}
-          <DraggableItem className="hidden sm:flex absolute top-[46%] left-[7%] z-20 w-12 h-12 rounded-2xl bg-white soft-card-shadow border border-gray-100 items-center justify-center group" title="Figma">
+          <DraggableItem
+            data-hero-tool-icon="true"
+            style={!isBuilderMode ? { opacity: 0, scale: '0.84' } : undefined}
+            className="hidden sm:flex absolute top-[46%] left-[7%] z-20 w-12 h-12 rounded-2xl bg-white soft-card-shadow border border-gray-100 items-center justify-center group"
+            title="Figma"
+          >
             <svg className="w-5 h-5 group-hover:scale-110 transition-transform" viewBox="0 0 38 57" fill="none">
               <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE" />
               <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83" />
@@ -375,12 +671,22 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
           </DraggableItem>
 
           {/* Next.js Icon */}
-          <DraggableItem className="hidden sm:flex absolute top-[78%] left-[16%] z-20 w-12 h-12 rounded-2xl bg-white soft-card-shadow border border-gray-100 items-center justify-center group" title="Next.js">
+          <DraggableItem
+            data-hero-tool-icon="true"
+            style={!isBuilderMode ? { opacity: 0, scale: '0.84' } : undefined}
+            className="hidden sm:flex absolute top-[78%] left-[16%] z-20 w-12 h-12 rounded-2xl bg-white soft-card-shadow border border-gray-100 items-center justify-center group"
+            title="Next.js"
+          >
             <div className="w-6 h-6 rounded-full bg-black text-white flex items-center justify-center font-bold text-[12px] tracking-tighter group-hover:scale-110 transition-transform">N</div>
           </DraggableItem>
 
           {/* TypeScript Icon */}
-          <DraggableItem className="hidden sm:flex absolute top-[82%] left-[48%] z-20 w-12 h-12 rounded-2xl bg-white soft-card-shadow border border-gray-100 items-center justify-center group" title="TypeScript">
+          <DraggableItem
+            data-hero-tool-icon="true"
+            style={!isBuilderMode ? { opacity: 0, scale: '0.84' } : undefined}
+            className="hidden sm:flex absolute top-[82%] left-[48%] z-20 w-12 h-12 rounded-2xl bg-white soft-card-shadow border border-gray-100 items-center justify-center group"
+            title="TypeScript"
+          >
             <svg className="w-6 h-6 rounded-md shadow-2xs group-hover:scale-110 transition-transform" viewBox="0 0 128 128">
               <rect width="128" height="128" fill="#3178C6" rx="16" />
               <path d="M57.6 74.4h-14v39.2h-13.6v-39.2h-14v-11.8h41.6v11.8zm23.2 27.6c3.2 2.2 7.2 3.6 11.6 3.6 6.2 0 9.8-3 9.8-7.6 0-5-4.2-6.8-11.4-9.8-10.4-4.4-15.6-9.6-15.6-18.8 0-10.8 8.6-18.4 22.8-18.4 6.8 0 12.6 1.8 16.8 4.8l-4.4 10.8c-3.6-2.2-8.2-3.6-12.4-3.6-5.8 0-8.8 2.8-8.8 6.6 0 4.6 3.8 6.4 11 9.4 11.2 4.6 16.2 10.2 16.2 19.4 0 11.4-8.8 19-24.2 19-7.8 0-15-2.2-19.6-6.2l4.2-11z" fill="#FFFFFF" />
@@ -388,7 +694,12 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
           </DraggableItem>
 
           {/* React Icon */}
-          <DraggableItem className="hidden sm:flex absolute top-[15%] right-[26%] z-20 w-12 h-12 rounded-2xl bg-white soft-card-shadow border border-gray-100 items-center justify-center group" title="React">
+          <DraggableItem
+            data-hero-tool-icon="true"
+            style={!isBuilderMode ? { opacity: 0, scale: '0.84' } : undefined}
+            className="hidden sm:flex absolute top-[15%] right-[26%] z-20 w-12 h-12 rounded-2xl bg-white soft-card-shadow border border-gray-100 items-center justify-center group"
+            title="React"
+          >
             <svg className="w-7 h-7 text-[#00D8FE] transition-transform duration-700 group-hover:rotate-180" viewBox="-11.5 -10.23174 23 20.46348" fill="currentColor">
               <circle cx="0" cy="0" r="2.05" fill="#00D8FE" />
               <g stroke="#00D8FE" strokeWidth="1" fill="none">
@@ -399,12 +710,14 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
             </svg>
           </DraggableItem>
 
-          {/* 5. FLOATING SOCIAL CARDS & BUBBLES (Staggered rhythmic placement on mobile) */}
+          {/* 5. FLOATING SOCIAL CARDS & BUBBLES (Collaboratively drawn by Figma cursors) */}
 
           {/* Top-Left: Email hello@ghiffa.dev */}
           <DraggableItem
+            id="hero-card-email"
             data-builder-field="email_url"
             data-builder-label="Email Bubble"
+            style={!isBuilderMode ? { opacity: 0, scale: '0.92', filter: 'blur(4px)' } : undefined}
             className="flex absolute top-[21%] sm:top-[14%] left-[4%] sm:left-[4%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start hover:border-gray-200 transition-colors group"
           >
             <a
@@ -434,8 +747,10 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
 
           {/* Bottom-Left: LinkedIn Haikal Jibran */}
           <DraggableItem
+            id="hero-card-linkedin"
             data-builder-field="linkedin_url"
             data-builder-label="LinkedIn Bubble"
+            style={!isBuilderMode ? { opacity: 0, scale: '0.92', filter: 'blur(4px)' } : undefined}
             className="flex absolute top-[57%] sm:top-[62%] left-[4%] sm:left-[6%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start hover:border-gray-200 transition-colors group"
           >
             <a
@@ -466,8 +781,10 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
 
           {/* Top-Right: GitHub Contributions Heatmap Card (Desktop Only) */}
           <DraggableItem
+            id="hero-card-github-heatmap"
             data-builder-field="github_url"
             data-builder-label="GitHub Heatmap Card"
+            style={!isBuilderMode ? { opacity: 0, scale: '0.92', filter: 'blur(4px)' } : undefined}
             className="hidden lg:block absolute top-[11%] right-[3%] z-10 w-[275px] bg-white p-3.5 rounded-2xl border border-gray-200/90 soft-card-shadow -rotate-[3deg] text-gray-900 group"
           >
             <div className="flex items-center justify-between mb-2">
@@ -527,8 +844,10 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
 
           {/* Mid-Right: Instagram @haikaljibraan */}
           <DraggableItem
+            id="hero-card-instagram"
             data-builder-field="instagram_url"
             data-builder-label="Instagram Bubble"
+            style={!isBuilderMode ? { opacity: 0, scale: '0.92', filter: 'blur(4px)' } : undefined}
             className="flex absolute top-[31%] sm:top-[38%] right-[4%] sm:right-[5%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start hover:border-gray-200 transition-colors group"
           >
             <a
@@ -559,8 +878,10 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
 
           {/* Bottom-Right: Web skillstreak.id */}
           <DraggableItem
+            id="hero-card-skillstreak"
             data-builder-field="skillstreak_url"
             data-builder-label="Skillstreak Bubble"
+            style={!isBuilderMode ? { opacity: 0, scale: '0.92', filter: 'blur(4px)' } : undefined}
             className="flex absolute top-[68%] sm:top-[62%] right-[4%] sm:right-[6%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start hover:border-gray-200 transition-colors group"
           >
             <a
@@ -593,8 +914,10 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
 
           {/* Bottom-Center: GitHub ghiffa08 */}
           <DraggableItem
+            id="hero-card-github-bubble"
             data-builder-field="github_value"
             data-builder-label="GitHub Bubble"
+            style={!isBuilderMode ? { opacity: 0, scale: '0.92', filter: 'blur(4px)' } : undefined}
             className="flex absolute top-[79%] sm:top-[69%] left-1/2 -translate-x-1/2 sm:translate-x-0 sm:left-[40%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-3 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-center sm:items-start gap-2 sm:gap-3 hover:border-gray-200 transition-colors group"
           >
             <div className="w-5.5 h-5.5 sm:w-7 sm:h-7 rounded-full bg-[#18181B] text-white flex items-center justify-center shrink-0 shadow-xs">

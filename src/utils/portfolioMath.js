@@ -11,10 +11,13 @@ export function quadBezier(t, p0, p1, p2) {
 }
 
 export const cursorConfigs = [
-  // 1. Ghiffa Tech Lead (Emerald Green) - Roams open upper-center corridor above ghiffa.dev
+  // 1. Ghiffa Tech Lead (Emerald Green) - Selects AI Mode pill then roams upper-center corridor
   {
     id: 'cursor-director',
     containerId: 'hero-canvas',
+    targetCardId: 'hero-card-ai',
+    color: '#10B981',
+    spawnDelay: 60,
     waypoints: [
       { x: 0.32, y: 0.18 },
       { x: 0.45, y: 0.14 },
@@ -22,10 +25,13 @@ export const cursorConfigs = [
       { x: 0.26, y: 0.21 }
     ]
   },
-  // 2. Project Manager Luffy (Forest Emerald) - Roams open corridor left of GitHub card & below React
+  // 2. Project Manager Luffy (Forest Emerald) - Selects GitHub Heatmap card then roams upper-right
   {
     id: 'cursor-pm',
     containerId: 'hero-canvas',
+    targetCardId: 'hero-card-github-heatmap',
+    color: '#059669',
+    spawnDelay: 180,
     waypoints: [
       { x: 0.66, y: 0.18 },
       { x: 0.74, y: 0.27 },
@@ -33,10 +39,13 @@ export const cursorConfigs = [
       { x: 0.60, y: 0.22 }
     ]
   },
-  // 3. CI/CD Bot (Emerald Green) - Roams open mid-left corridor between Figma and LinkedIn
+  // 3. CI/CD Bot (Emerald Green) - Selects LinkedIn card then roams mid-left corridor
   {
     id: 'cursor-dev-cyan',
     containerId: 'hero-canvas',
+    targetCardId: 'hero-card-linkedin',
+    color: '#10B981',
+    spawnDelay: 320,
     waypoints: [
       { x: 0.15, y: 0.44 },
       { x: 0.25, y: 0.52 },
@@ -44,10 +53,13 @@ export const cursorConfigs = [
       { x: 0.13, y: 0.54 }
     ]
   },
-  // 4. Code Reviewer (Amber Yellow) - Roams lower-right channel below ghiffa.dev and left of skillstreak
+  // 4. Code Reviewer (Amber Yellow) - Selects Skillstreak card then roams lower-right channel
   {
     id: 'cursor-dev-yellow',
     containerId: 'hero-canvas',
+    targetCardId: 'hero-card-skillstreak',
+    color: '#F59E0B',
+    spawnDelay: 440,
     waypoints: [
       { x: 0.62, y: 0.62 },
       { x: 0.72, y: 0.72 },
@@ -55,10 +67,13 @@ export const cursorConfigs = [
       { x: 0.57, y: 0.66 }
     ]
   },
-  // 5. Design QA (Pink) - Roams upper-left channel between Email, VS Code, and Figma
+  // 5. Design QA (Pink) - Selects Email card then roams upper-left channel
   {
     id: 'cursor-ux',
     containerId: 'hero-canvas',
+    targetCardId: 'hero-card-email',
+    color: '#EC4899',
+    spawnDelay: 120,
     waypoints: [
       { x: 0.08, y: 0.26 },
       { x: 0.15, y: 0.36 },
@@ -66,10 +81,13 @@ export const cursorConfigs = [
       { x: 0.14, y: 0.22 }
     ]
   },
-  // 6. Client Review (Orange) - Roams mid-right channel between Instagram and skillstreak
+  // 6. Client Review (Orange) - Selects Instagram card then roams mid-right channel
   {
     id: 'cursor-client',
     containerId: 'hero-canvas',
+    targetCardId: 'hero-card-instagram',
+    color: '#F97316',
+    spawnDelay: 250,
     waypoints: [
       { x: 0.72, y: 0.46 },
       { x: 0.79, y: 0.54 },
@@ -77,10 +95,13 @@ export const cursorConfigs = [
       { x: 0.68, y: 0.50 }
     ]
   },
-  // 7. UI & Motion (Dark Charcoal) - Roams lower-left channel below LinkedIn around Next.js icon
+  // 7. UI & Motion (Dark Charcoal) - Selects GitHub repositories bubble then roams lower-left channel
   {
     id: 'cursor-ui',
     containerId: 'hero-canvas',
+    targetCardId: 'hero-card-github-bubble',
+    color: '#18181B',
+    spawnDelay: 500,
     waypoints: [
       { x: 0.07, y: 0.80 },
       { x: 0.16, y: 0.88 },

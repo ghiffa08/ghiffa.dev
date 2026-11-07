@@ -24,35 +24,35 @@ import {
 // Fallback Experiences
 const fallbackExperiences = [
   {
-    id: "exp-1",
-    period: "OKT 2024 - FEB 2025",
-    role: "Web Developer",
-    company: "PT. Bengkel Aplikasi Nusantara",
-    description: "Mengembangkan modul aplikasi web dinamis sesuai kebutuhan spesifik klien perusahaan. Merancang dan mengoptimalkan API internal serta melakukan pemeliharaan database.",
+    id: "exp-0",
+    period: "Nov 2026 - Present",
+    role: "Technical Intern Staff",
+    company: "PT. BRIMO Technology, Inc. (Taiwan)",
+    description: "Contributing to technical engineering operations, software-hardware system integration, and the development of enterprise technology solutions.",
     order_index: 1
   },
   {
+    id: "exp-1",
+    period: "Oct 2024 - Feb 2025",
+    role: "Web Developer",
+    company: "PT. Bengkel Aplikasi Nusantara",
+    description: "Mengembangkan modul aplikasi web dinamis sesuai kebutuhan spesifik klien perusahaan. Merancang dan mengoptimalkan API internal serta melakukan pemeliharaan database.",
+    order_index: 2
+  },
+  {
     id: "exp-2",
-    period: "MEI 2024 - JUN 2024",
+    period: "May 2024 - Jun 2024",
     role: "Web Developer & System Designer",
     company: "LSP-P1 SMKN 2 Kuningan",
     description: "Merancang dan membangun aplikasi manajemen sertifikasi profesi online. Mengintegrasikan alur registrasi asesi, form pengisian asesmen mandiri, dan evaluasi portofolio.",
-    order_index: 2
+    order_index: 3
   },
   {
     id: "exp-3",
     period: "Sep 2023 - Dec 2023",
     role: "Website Developer",
     company: "PT BPR Raksa Wacana Agri Purnama",
-    description: "Location: Cilimus, Jawa Barat, Indonesia",
-    order_index: 3
-  },
-  {
-    id: "exp-4",
-    period: "Sep 2023",
-    role: "IT Support Specialist",
-    company: "PT BPR Raksa Wacana Agri Purnama",
-    description: "Maintained IT infrastructure and provided technical support to ensure operational stability across the banking environment.",
+    description: "Built banking digitization platforms for online account opening, credit applications, and deposit placements, along with an automated consumer credit eligibility analysis system.",
     order_index: 4
   }
 ];

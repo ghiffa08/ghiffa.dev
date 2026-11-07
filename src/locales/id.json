@@ -35,14 +35,20 @@
 
   "personal.role": "IoT Engineer & Full-stack Developer",
   "personal.headline": "Building the bridge between bits and atoms.",
+  "experience.pt-brimo-technology-inc-taiwan.technical-intern-staff.role": "Technical Intern Staff",
+  "experience.pt-brimo-technology-inc-taiwan.technical-intern-staff.description": "Berkontribusi dalam operasional teknis rekayasa, integrasi sistem perangkat lunak dan perangkat keras, serta pengembangan solusi teknologi perusahaan.",
+
   "experience.pt-bengkel-aplikasi-nusantara.web-developer.role": "Web Developer",
   "experience.pt-bengkel-aplikasi-nusantara.web-developer.description": "Mengembangkan modul aplikasi web dinamis sesuai kebutuhan spesifik klien perusahaan. Merancang dan mengoptimalkan API internal serta melakukan pemeliharaan database.",
   
   "experience.lsp-p1-smkn-2-kuningan.web-developer-system-designer.role": "Web Developer & System Designer",
   "experience.lsp-p1-smkn-2-kuningan.web-developer-system-designer.description": "Merancang dan membangun aplikasi manajemen sertifikasi profesi online. Mengintegrasikan alur registrasi asesi, form pengisian asesmen mandiri, dan evaluasi portofolio.",
   
+  "experience.pt-bpr-raksa-wacana-agri-purnama.website-developer.role": "Website Developer",
+  "experience.pt-bpr-raksa-wacana-agri-purnama.website-developer.description": "Membangun platform digitalisasi perbankan untuk pengajuan pembukaan rekening, kredit, dan deposito secara online, serta sistem analisis kelayakan kredit konsumtif.",
+
   "experience.pt-bpr-raksa-wacana-agri-purnama.web-developer-intern.role": "Web Developer Intern",
-  "experience.pt-bpr-raksa-wacana-agri-purnama.web-developer-intern.description": "Berkontribusi dalam digitalisasi sistem perbankan internal. Membangun fitur penanganan pengaduan nasabah, pengajuan kredit online, dan dasbor kelayakan kredit.",
+  "experience.pt-bpr-raksa-wacana-agri-purnama.web-developer-intern.description": "Membangun platform digitalisasi perbankan untuk pengajuan pembukaan rekening, kredit, dan deposito secara online, serta sistem analisis kelayakan kredit konsumtif.",
 
   "education.teknik-informatika.title": "Teknik Informatika",
   "education.teknik-informatika.institution": "Universitas kuningan",

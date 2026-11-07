@@ -5,7 +5,7 @@ import { EducationRepository } from '../repositories/EducationRepository';
 import { SettingsRepository } from '../repositories/SettingsRepository';
 import { ArticleRepository } from '../repositories/ArticleRepository';
 
-const CACHE_PREFIX = 'ghiffa_swr_cache_';
+const CACHE_PREFIX = 'ghiffa_swr_cache_v2_';
 const CACHE_TTL_MS = 15 * 60 * 1000; // 15 minutes fresh cache
 
 // Fetcher routing the query through the respective Repository pattern methods with localStorage persistence

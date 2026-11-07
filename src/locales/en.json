@@ -35,14 +35,20 @@
 
   "personal.role": "IoT Engineer & Full-stack Developer",
   "personal.headline": "Building the bridge between bits and atoms.",
+  "experience.pt-brimo-technology-inc-taiwan.technical-intern-staff.role": "Technical Intern Staff",
+  "experience.pt-brimo-technology-inc-taiwan.technical-intern-staff.description": "Contributing to technical engineering operations, software-hardware system integration, and the development of enterprise technology solutions.",
+
   "experience.pt-bengkel-aplikasi-nusantara.web-developer.role": "Web Developer",
   "experience.pt-bengkel-aplikasi-nusantara.web-developer.description": "Developing dynamic web application modules according to clients' specific business needs. Designing and optimizing internal APIs as well as maintaining databases.",
   
   "experience.lsp-p1-smkn-2-kuningan.web-developer-system-designer.role": "Web Developer & System Designer",
   "experience.lsp-p1-smkn-2-kuningan.web-developer-system-designer.description": "Designing and building an online professional certification management application. Integrating test-taker registration flows, self-assessment forms, and portfolio evaluation.",
   
+  "experience.pt-bpr-raksa-wacana-agri-purnama.website-developer.role": "Website Developer",
+  "experience.pt-bpr-raksa-wacana-agri-purnama.website-developer.description": "Built banking digitization platforms for online account opening, credit applications, and deposit placements, along with an automated consumer credit eligibility analysis system.",
+
   "experience.pt-bpr-raksa-wacana-agri-purnama.web-developer-intern.role": "Web Developer Intern",
-  "experience.pt-bpr-raksa-wacana-agri-purnama.web-developer-intern.description": "Contributing to the digitization of the internal banking system. Built features for customer complaint handling, online credit submission, and credit eligibility dashboard.",
+  "experience.pt-bpr-raksa-wacana-agri-purnama.web-developer-intern.description": "Built banking digitization platforms for online account opening, credit applications, and deposit placements, along with an automated consumer credit eligibility analysis system.",
 
   "education.teknik-informatika.title": "Informatics Engineering",
   "education.teknik-informatika.institution": "Universitas Kuningan",

@@ -505,7 +505,7 @@ export default function VisualBuilder() {
           <div className="flex items-center gap-2.5">
             <span className="w-2.5 h-2.5 rounded-full bg-[#0D99FF] ring-2 ring-[#0D99FF]/30" title="Figma Style" />
             <span className="font-bold text-sm tracking-tight text-white flex items-center gap-1.5 font-mono">
-              <span>PORTOBUILDER</span>
+              <span>HaiCMS</span>
               <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#27272A] text-[#0D99FF] font-semibold border border-[#0D99FF]/30">v2.0</span>
             </span>
           </div>

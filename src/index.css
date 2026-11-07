@@ -294,10 +294,79 @@ body {
 }
 
 /* Scoped Overrides for Mobile Simulator Canvas (390px) */
-.builder-preview-mobile h1,
+.builder-preview-mobile {
+  min-height: 844px;
+}
+
+.builder-preview-mobile #hero-bbox {
+  padding: 6px 12px !important;
+}
+
+.builder-preview-mobile #hero-title,
+.builder-preview-mobile h1 {
+  font-size: 38px !important;
+  line-height: 1.1 !important;
+}
+
 .builder-preview-mobile h2 {
   font-size: 1.85rem !important;
   line-height: 1.15 !important;
+}
+
+/* Hide desktop-only cards and tool icons on mobile simulator */
+.builder-preview-mobile #hero-card-github-heatmap {
+  display: none !important;
+}
+
+.builder-preview-mobile [data-hero-tool-icon="true"] {
+  display: none !important;
+}
+
+.builder-preview-mobile #cursor-dev-cyan,
+.builder-preview-mobile #cursor-ui,
+.builder-preview-mobile #cursor-ux,
+.builder-preview-mobile #cursor-pm,
+.builder-preview-mobile #cursor-client,
+.builder-preview-mobile #cursor-dev-yellow {
+  display: none !important;
+}
+
+/* Precise vertical spacing in mobile simulator */
+.builder-preview-mobile #hero-card-ai {
+  top: 10% !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+}
+
+.builder-preview-mobile #hero-card-email {
+  top: 18% !important;
+  left: 4% !important;
+  right: auto !important;
+}
+
+.builder-preview-mobile #hero-card-instagram {
+  top: 28% !important;
+  right: 4% !important;
+  left: auto !important;
+}
+
+.builder-preview-mobile #hero-card-linkedin {
+  top: 60% !important;
+  left: 4% !important;
+  right: auto !important;
+}
+
+.builder-preview-mobile #hero-card-skillstreak {
+  top: 71% !important;
+  right: 4% !important;
+  left: auto !important;
+}
+
+.builder-preview-mobile #hero-card-github-bubble {
+  top: 83% !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  right: auto !important;
 }
 
 .builder-preview-mobile #contact h2 {
@@ -319,6 +388,56 @@ body {
 .builder-preview-mobile #contact a {
   font-size: 0.75rem !important;
   padding: 0.65rem 1.25rem !important;
+}
+
+/* Scoped Overrides for Tablet Simulator Canvas (768px) */
+.builder-preview-tablet {
+  min-height: 1024px;
+}
+
+.builder-preview-tablet #hero-title {
+  font-size: 68px !important;
+  line-height: 1.1 !important;
+}
+
+.builder-preview-tablet #hero-card-github-heatmap {
+  display: none !important;
+}
+
+.builder-preview-tablet #cursor-pm {
+  display: none !important;
+}
+
+.builder-preview-tablet #hero-card-ai {
+  top: 13% !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+}
+
+.builder-preview-tablet #hero-card-email {
+  top: 12% !important;
+  left: 4% !important;
+}
+
+.builder-preview-tablet #hero-card-instagram {
+  top: 24% !important;
+  right: 4% !important;
+}
+
+.builder-preview-tablet #hero-card-linkedin {
+  top: 62% !important;
+  left: 5% !important;
+}
+
+.builder-preview-tablet #hero-card-skillstreak {
+  top: 65% !important;
+  right: 5% !important;
+}
+
+.builder-preview-tablet #hero-card-github-bubble {
+  top: 79% !important;
+  left: 36% !important;
+  transform: none !important;
 }
 
 /* Monochromatic & Sharp React Quill Overrides */

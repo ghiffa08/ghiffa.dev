@@ -98,6 +98,22 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
           if (!el || !cont) return null;
 
           const cardEl = cfg.targetCardId ? document.getElementById(cfg.targetCardId) : null;
+
+          // If either cursor or target card is hidden by responsive CSS, skip agent and ensure card is ready
+          if (window.getComputedStyle(el).display === 'none') {
+            if (cardEl) {
+              cardEl.style.opacity = '1';
+              cardEl.style.scale = '1';
+              cardEl.style.filter = 'blur(0px)';
+            }
+            return null;
+          }
+
+          if (cardEl && window.getComputedStyle(cardEl).display === 'none') {
+            el.style.display = 'none';
+            return null;
+          }
+
           const selectEl = cfg.targetCardId ? document.getElementById(`select-${cfg.targetCardId}`) : null;
           const dimEl = cfg.targetCardId ? document.getElementById(`dim-${cfg.targetCardId}`) : null;
 
@@ -144,7 +160,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
               selectEl.style.height = '0px';
             }
 
-            // Ensure cursor is visible while drawing its card (even on smaller screens)
+            // Ensure active cursor is positioned and visible
             el.style.display = 'block';
             el.style.opacity = '0';
             el.style.transform = `translate3d(${approachFromPx.toFixed(2)}px, ${approachFromPy.toFixed(2)}px, 0)`;
@@ -498,9 +514,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
 
               <h1
                 id="hero-title"
-                className={`text-[34px] min-[360px]:text-[40px] min-[400px]:text-[48px] sm:text-[84px] md:text-[104px] ${
-                  isBuilderMode ? 'lg:text-[108px] xl:text-[132px]' : 'lg:text-[138px]'
-                } font-bold tracking-[-0.04em] leading-[1.08] text-[#141414] select-none whitespace-nowrap block pb-1 sm:pb-2 cursor-pointer`}
+                className="text-[32px] min-[360px]:text-[38px] min-[420px]:text-[44px] sm:text-[54px] md:text-[68px] lg:text-[104px] xl:text-[132px] font-bold tracking-[-0.04em] leading-[1.08] text-[#141414] select-none whitespace-nowrap block pb-1 sm:pb-2 cursor-pointer"
                 title={isBuilderMode ? 'Click to edit Hero Title' : 'Click to toggle canvas items'}
                 onClick={() => {
                   if (!isBuilderMode) {
@@ -564,7 +578,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
             data-builder-field="ai_mode_label"
             data-builder-label="AI Mode Toggle"
             style={!isBuilderMode ? { opacity: 0, scale: '0.92', filter: 'blur(4px)' } : undefined}
-            className="absolute top-[12%] sm:top-[21.5%] left-1/2 -translate-x-1/2 z-30 bg-white rounded-full px-3.5 py-1.5 sm:px-4 sm:py-2 soft-card-shadow border border-gray-100/90 flex items-center gap-2.5 sm:gap-3 select-none"
+            className="absolute top-[10%] sm:top-[12%] md:top-[14%] lg:top-[21.5%] left-1/2 -translate-x-1/2 z-30 bg-white rounded-full px-3.5 py-1.5 sm:px-4 sm:py-2 soft-card-shadow border border-gray-100/90 flex items-center gap-2.5 sm:gap-3 select-none"
           >
             <span className={`text-[11px] sm:text-[12px] font-medium transition-colors duration-300 ${aiActive ? 'text-[#FF5500] font-semibold' : 'text-gray-800'}`}>
               {content.ai_mode_label || 'AI Mode'}
@@ -718,7 +732,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
             data-builder-field="email_url"
             data-builder-label="Email Bubble"
             style={!isBuilderMode ? { opacity: 0, scale: '0.92', filter: 'blur(4px)' } : undefined}
-            className="flex absolute top-[21%] sm:top-[14%] left-[4%] sm:left-[4%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start hover:border-gray-200 transition-colors group"
+            className="flex absolute top-[18%] sm:top-[12%] lg:top-[14%] left-[4%] sm:left-[5%] lg:left-[4%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start hover:border-gray-200 transition-colors group"
           >
             <a
               href={content.email_url || 'mailto:hello@ghiffa.dev'}
@@ -751,7 +765,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
             data-builder-field="linkedin_url"
             data-builder-label="LinkedIn Bubble"
             style={!isBuilderMode ? { opacity: 0, scale: '0.92', filter: 'blur(4px)' } : undefined}
-            className="flex absolute top-[57%] sm:top-[62%] left-[4%] sm:left-[6%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start hover:border-gray-200 transition-colors group"
+            className="flex absolute top-[60%] sm:top-[62%] left-[4%] sm:left-[5%] lg:left-[6%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start hover:border-gray-200 transition-colors group"
           >
             <a
               href={content.linkedin_url || 'https://www.linkedin.com/in/haikal-jibran-al-ghiffarry/'}
@@ -848,7 +862,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
             data-builder-field="instagram_url"
             data-builder-label="Instagram Bubble"
             style={!isBuilderMode ? { opacity: 0, scale: '0.92', filter: 'blur(4px)' } : undefined}
-            className="flex absolute top-[31%] sm:top-[38%] right-[4%] sm:right-[5%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start hover:border-gray-200 transition-colors group"
+            className="flex absolute top-[28%] sm:top-[24%] md:top-[26%] lg:top-[38%] right-[4%] sm:right-[5%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start hover:border-gray-200 transition-colors group"
           >
             <a
               href={content.instagram_url || 'https://instagram.com/haikaljibraan'}
@@ -882,7 +896,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
             data-builder-field="skillstreak_url"
             data-builder-label="Skillstreak Bubble"
             style={!isBuilderMode ? { opacity: 0, scale: '0.92', filter: 'blur(4px)' } : undefined}
-            className="flex absolute top-[68%] sm:top-[62%] right-[4%] sm:right-[6%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start hover:border-gray-200 transition-colors group"
+            className="flex absolute top-[71%] sm:top-[65%] right-[4%] sm:right-[5%] lg:right-[6%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-2.5 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-start hover:border-gray-200 transition-colors group"
           >
             <a
               href={content.skillstreak_url || 'https://skillstreak.id'}
@@ -918,7 +932,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
             data-builder-field="github_value"
             data-builder-label="GitHub Bubble"
             style={!isBuilderMode ? { opacity: 0, scale: '0.92', filter: 'blur(4px)' } : undefined}
-            className="flex absolute top-[79%] sm:top-[69%] left-1/2 -translate-x-1/2 sm:translate-x-0 sm:left-[40%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-3 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-center sm:items-start gap-2 sm:gap-3 hover:border-gray-200 transition-colors group"
+            className="flex absolute top-[83%] sm:top-[78%] md:top-[80%] lg:top-[69%] left-1/2 -translate-x-1/2 sm:translate-x-0 sm:left-[35%] md:left-[38%] lg:left-[40%] z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl rounded-bl-xs sm:rounded-bl-sm px-3 sm:px-4 py-1.5 sm:py-2.5 comment-shadow border border-gray-100 items-center sm:items-start gap-2 sm:gap-3 hover:border-gray-200 transition-colors group"
           >
             <div className="w-5.5 h-5.5 sm:w-7 sm:h-7 rounded-full bg-[#18181B] text-white flex items-center justify-center shrink-0 shadow-xs">
               <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-white" viewBox="0 0 24 24">

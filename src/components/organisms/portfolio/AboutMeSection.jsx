@@ -60,10 +60,10 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
       id="about"
       className="relative scroll-mt-20 py-14 sm:py-28 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto overflow-visible"
     >
-      {/* 3D LANYARD INTERACTIVE CANVAS LAYER (Anchor permanently behind navbar, elastic stretch on scroll up, physical drop on enter) */}
+      {/* 3D LANYARD INTERACTIVE CANVAS LAYER (Natural hanging from ultra-clean Figma hanger slot) */}
       <div
         ref={containerRef}
-        className="absolute -top-80 sm:-top-80 lg:-top-64 inset-x-0 bottom-0 z-0 overflow-visible pointer-events-none"
+        className="absolute inset-0 z-0 overflow-visible pointer-events-none"
       >
         <Lanyard
           frontImage="/id-card-front.png"
@@ -74,9 +74,9 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
           metal="silver"
           strapColor="#18181B"
           strapWidth={0.65}
-          size={w => (w >= 1024 ? 0.46 : 0.33)}
-          anchor={w => (w >= 1024 ? 0.208 : 0.5)}
-          strapLength={w => (w >= 1024 ? 0.60 : 0.28)}
+          size={w => (w >= 1024 ? 0.46 : 0.35)}
+          anchor={w => (w >= 1024 ? 0.29 : 0.5)}
+          strapLength={w => (w >= 1024 ? 0.50 : 0.28)}
           cornerRadius={0.3}
           intro={true}
           gravity={1.2}

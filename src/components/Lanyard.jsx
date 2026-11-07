@@ -282,6 +282,22 @@ const buildHangerBracketGeometry = width => {
   return buildClampGeometry(width);
 };
 
+const buildHangerStudGeometry = () => {
+  const shape = new THREE.Shape();
+  const r = EYELET_RADIUS * 0.36;
+  shape.absarc(0, 0, r, 0, Math.PI * 2, false);
+  const geometry = new THREE.ExtrudeGeometry(shape, {
+    depth: 0.02,
+    bevelEnabled: true,
+    bevelThickness: 0.014,
+    bevelSize: 0.014,
+    bevelSegments: 6,
+    curveSegments: 32
+  });
+  geometry.translate(0, 0, -0.01);
+  return geometry;
+};
+
 const buildHangerBackplateGeometry = width => {
   const shape = new THREE.Shape();
   const w = width * 1.04;
@@ -894,30 +910,26 @@ const Lanyard = ({
     scene.add(clampGroup);
 
     // 3D natural top capitan & hanger fixture matching bottom clamp
+    // Origin (0,0,0) of hangerGroup is the center of the 3D metallic round eyelet + stud,
+    // and the rectangular clamp hangs directly below it so they rotate together around the circle.
     const hangerGroup = new THREE.Group();
+    const topClampOffsetY = -(EYELET_RADIUS + CLAMP_BODY / 2 - 0.004);
     const hangerBracketMesh = new THREE.Mesh(buildHangerBracketGeometry(STRAP_WIDTH), metalMaterial);
+    hangerBracketMesh.position.y = topClampOffsetY;
     const hangerBackMaterial = new THREE.MeshBasicMaterial({ color: 0x09090b });
     const hangerBackMesh = new THREE.Mesh(buildHangerBackplateGeometry(STRAP_WIDTH), hangerBackMaterial);
+    hangerBackMesh.position.y = topClampOffsetY;
 
-    const topEyeletY = CLAMP_BODY / 2 + EYELET_RADIUS - 0.006;
-    const topEyelet = new THREE.Mesh(new THREE.TorusGeometry(EYELET_RADIUS, 0.0105, 14, 40), metalMaterial);
-    topEyelet.position.y = topEyeletY;
+    const topEyelet = new THREE.Mesh(new THREE.TorusGeometry(EYELET_RADIUS, 0.0105, 16, 48), metalMaterial);
+    const pegMesh = new THREE.Mesh(buildHangerStudGeometry(), metalMaterial);
 
-    const pegGeom = new THREE.CylinderGeometry(0.024, 0.024, 0.028, 32);
-    pegGeom.rotateX(Math.PI / 2);
-    pegGeom.translate(0, topEyeletY, -0.004);
-    const pegMesh = new THREE.Mesh(pegGeom, metalMaterial);
-
-    const pinAccentGeom = new THREE.CircleGeometry(0.013, 32);
-    pinAccentGeom.translate(0, topEyeletY, 0.011);
-    const pinAccentMaterial = new THREE.MeshBasicMaterial({ color: 0xff5500 });
-    const pinAccentMesh = new THREE.Mesh(pinAccentGeom, pinAccentMaterial);
-
-    hangerGroup.add(hangerBracketMesh, hangerBackMesh, topEyelet, pegMesh, pinAccentMesh);
+    hangerGroup.add(hangerBracketMesh, hangerBackMesh, topEyelet, pegMesh);
     scene.add(hangerGroup);
 
     const sim = createSimulation();
     const controls = [];
+    const topMouth = new THREE.Vector3();
+    const topTuck = new THREE.Vector3();
     const mouth = new THREE.Vector3();
     const tuck = new THREE.Vector3();
     const curve = new THREE.CatmullRomCurve3(controls, false, 'centripetal');
@@ -1009,16 +1021,16 @@ const Lanyard = ({
       const strapLengthVal = clamp(typeof rawStrap === 'number' ? rawStrap : 0.4, 0, 1);
 
       const pxToUnits = viewHeight / Math.max(1, view.height);
-      // Exact 3D world height of top clamp + top eyelet ring + clearance so the circle is never clipped
-      const topHardwareUnits = CLAMP_BODY / 2 + EYELET_RADIUS * 2 + 0.045;
+      // anchorY is the center of the top 3D metallic circle (topEyelet), with full clearance from top edge
+      const topHardwareUnits = EYELET_RADIUS + 0.045;
       const topMarginUnits = (isMobile ? 8 : 12) * pxToUnits;
       const anchorY = (viewHeight / 2) - topHardwareUnits - topMarginUnits;
 
-      // Strap drop from slot down to clamp (longer strap to match reference picture):
+      // Strap drop from top clamp down to bottom clamp (longer strap to match reference picture):
       const targetStrapDropPx = isMobile
         ? mix(95, 145, strapLengthVal)
         : mix(145, 205, strapLengthVal);
-      const strapDrop = targetStrapDropPx * pxToUnits;
+      const strapDrop = (targetStrapDropPx * pxToUnits) + EYELET_RADIUS + CLAMP_BODY / 2;
 
       const cardTop = anchorY - strapDrop;
       const hangTop = cardTop + (layout.hangY - layout.height / 2);
@@ -1148,25 +1160,44 @@ const Lanyard = ({
       toCamera: new THREE.Vector3(),
       basis: new THREE.Matrix4(),
       up: new THREE.Vector3(),
+      topUp: new THREE.Vector3(),
       across: new THREE.Vector3(),
       facing: new THREE.Vector3(),
+      start: new THREE.Vector3(),
       end: new THREE.Vector3(),
-      slotTuck: new THREE.Vector3()
+      mid: new THREE.Vector3()
     };
 
     const updateBand = () => {
       const hang = sim.nodes[JOINTS];
+      const topOrigin = sim.nodes[0];
       const reach = EYELET_RADIUS + CLAMP_BODY + 0.05;
+
+      const spanAxis = scratch.a.subVectors(topOrigin, hang);
+      if (spanAxis.lengthSq() < 1e-8) spanAxis.set(0, 1, 0);
+      spanAxis.normalize();
+
       let guide = JOINTS - 1;
       while (guide > 0 && sim.nodes[guide].distanceTo(hang) < reach * 1.1) guide--;
-      const axis = work.up.subVectors(sim.nodes[guide], hang);
-      if (axis.lengthSq() < 1e-8) axis.set(0, 1, 0).applyQuaternion(sim.body.quaternion);
-      axis.normalize();
+      const nodeBotAxis = scratch.b.subVectors(sim.nodes[guide], hang);
+      if (nodeBotAxis.lengthSq() < 1e-8) nodeBotAxis.copy(spanAxis);
+      else nodeBotAxis.normalize();
+
+      const axis = work.up.copy(nodeBotAxis).lerp(spanAxis, 0.5).normalize();
       mouth.copy(hang).addScaledVector(axis, reach);
       tuck.copy(hang).addScaledVector(axis, EYELET_RADIUS + CLAMP_BODY * 0.35);
+
+      const topAxis = work.topUp.subVectors(topOrigin, mouth);
+      if (topAxis.lengthSq() < 1e-8) topAxis.copy(spanAxis);
+      else topAxis.normalize();
+      topTuck.copy(topOrigin).addScaledVector(topAxis, -(EYELET_RADIUS + CLAMP_BODY * 0.35));
+      topMouth.copy(topOrigin).addScaledVector(topAxis, -reach);
+
+      const midNode = sim.nodes[Math.floor(JOINTS / 2)];
+      work.mid.lerpVectors(topMouth, mouth, 0.5).lerp(midNode, 0.12);
+
       controls.length = 0;
-      for (let i = 0; i <= guide; i++) controls.push(sim.nodes[i]);
-      controls.push(mouth, tuck);
+      controls.push(topTuck, topMouth, work.mid, mouth, tuck);
       curve.updateArcLengths();
       for (let i = 0; i < SAMPLES; i++) curve.getPointAt(i / (SAMPLES - 1), points[i]);
       const length = curve.getLength();
@@ -1192,6 +1223,7 @@ const Lanyard = ({
         facing.crossVectors(tangent, side);
         across.copy(side).multiplyScalar(Math.cos(angle)).addScaledVector(facing, Math.sin(angle));
         facing.crossVectors(tangent, across);
+        if (i === 0) work.start.copy(across);
         const p = points[i];
         const v = (1 - i / (SAMPLES - 1)) * repeats;
         for (let c = 0; c < columns; c++) {
@@ -1219,21 +1251,18 @@ const Lanyard = ({
       clampGroup.quaternion.setFromRotationMatrix(work.basis);
       clampGroup.position.copy(hang);
 
-      if (hangerBracketMesh && hangerBackMesh) {
-        const topDx = sim.nodes[2].x - sim.nodes[0].x;
-        const topDy = sim.nodes[2].y - sim.nodes[0].y;
-        const topAngle = clamp(Math.atan2(topDx, Math.max(0.001, -topDy)) * 0.85, -0.65, 0.65);
-        hangerBracketMesh.rotation.z = topAngle;
-        hangerBackMesh.rotation.z = topAngle;
+      if (hangerGroup) {
+        across.copy(work.start).addScaledVector(topAxis, -work.start.dot(topAxis)).normalize();
+        facing.crossVectors(across, topAxis).normalize();
+        work.basis.makeBasis(across, topAxis, facing);
+        hangerGroup.quaternion.setFromRotationMatrix(work.basis);
+        hangerGroup.position.copy(topOrigin);
       }
     };
 
     const render = () => {
       cardGroup.position.copy(sim.body.position);
       cardGroup.quaternion.copy(sim.body.quaternion);
-      if (hangerGroup) {
-        hangerGroup.position.set(sim.anchor.x, sim.anchor.y, 0);
-      }
       updateBand();
       renderer.render(scene, camera);
     };
@@ -1468,8 +1497,7 @@ const Lanyard = ({
         hangerBracketMesh,
         hangerBackMesh,
         topEyelet,
-        pegMesh,
-        pinAccentMesh
+        pegMesh
       ].forEach(mesh => mesh?.geometry?.dispose());
       [
         frontMaterial,
@@ -1477,8 +1505,7 @@ const Lanyard = ({
         edgeMaterial,
         metalMaterial,
         bandMaterial,
-        hangerBackMaterial,
-        pinAccentMaterial
+        hangerBackMaterial
       ].forEach(material => material?.dispose());
       [frontTexture, backTexture, strapTexture, grain, weave].forEach(texture => texture.dispose());
       environment.dispose();

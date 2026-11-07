@@ -489,14 +489,14 @@ export default function VisualBuilder() {
   };
 
   return (
-    <div className="h-screen w-screen flex flex-col bg-[#111113] text-[#E4E4E7] overflow-hidden select-none font-sans">
+    <div className="h-screen w-screen flex flex-col bg-[#F4F4F6] text-[#18181B] overflow-hidden select-none font-sans">
       {/* 1. ELEMENTOR TOP BAR */}
-      <header className="h-[56px] bg-[#18181B] border-b border-[#27272A] px-4 flex items-center justify-between z-40 shrink-0">
+      <header className="h-[56px] bg-white border-b border-gray-200 px-4 flex items-center justify-between z-40 shrink-0 shadow-xs">
         {/* Left: Back & Branding */}
         <div className="flex items-center gap-3">
           <Link
             to="/admin/panel/dashboard"
-            className="w-8 h-8 rounded-lg bg-[#27272A] hover:bg-[#3F3F46] text-gray-300 hover:text-white flex items-center justify-center transition-colors"
+            className="w-8 h-8 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-black flex items-center justify-center transition-colors border border-gray-200"
             title="Back to Admin Dashboard"
           >
             <ArrowLeft size={16} />
@@ -504,13 +504,13 @@ export default function VisualBuilder() {
 
           <div className="flex items-center gap-2.5">
             <span className="w-2.5 h-2.5 rounded-full bg-[#0D99FF] ring-2 ring-[#0D99FF]/30" title="Figma Style" />
-            <span className="font-bold text-sm tracking-tight text-white flex items-center gap-1.5 font-mono">
+            <span className="font-bold text-sm tracking-tight text-gray-900 flex items-center gap-1.5 font-mono">
               <span>HaiCMS</span>
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#27272A] text-[#0D99FF] font-semibold border border-[#0D99FF]/30">v2.0</span>
+              <span className="text-[10px] px-1.5 py-0.5 rounded bg-blue-50 text-[#0D99FF] font-semibold border border-[#0D99FF]/30">v2.0</span>
             </span>
           </div>
 
-          <div className="hidden lg:flex items-center gap-2 pl-4 border-l border-[#27272A] text-xs text-gray-400">
+          <div className="hidden lg:flex items-center gap-2 pl-4 border-l border-gray-200 text-xs text-gray-500">
             <MousePointerClick size={13} className="text-[#0D99FF]" />
             <span>Click any element on canvas to inspect &amp; style</span>
           </div>
@@ -518,13 +518,13 @@ export default function VisualBuilder() {
 
         {/* Center: Viewport & Canvas Controls */}
         <div className="flex items-center gap-2">
-          <div className="flex items-center bg-[#27272A]/70 p-1 rounded-xl border border-[#3F3F46]/50">
+          <div className="flex items-center bg-gray-100 p-1 rounded-xl border border-gray-200">
             <button
               onClick={() => setViewport('desktop')}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                 viewport === 'desktop'
-                  ? 'bg-[#0D99FF] text-white shadow-sm shadow-[#0D99FF]/20 font-semibold'
-                  : 'text-gray-400 hover:text-white hover:bg-white/5'
+                  ? 'bg-[#0D99FF] text-white shadow-xs font-semibold'
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-white/60'
               }`}
               title="Desktop Fullscreen (100%)"
             >
@@ -535,8 +535,8 @@ export default function VisualBuilder() {
               onClick={() => setViewport('tablet')}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                 viewport === 'tablet'
-                  ? 'bg-[#0D99FF] text-white shadow-sm shadow-[#0D99FF]/20 font-semibold'
-                  : 'text-gray-400 hover:text-white hover:bg-white/5'
+                  ? 'bg-[#0D99FF] text-white shadow-xs font-semibold'
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-white/60'
               }`}
               title="Tablet View (768px)"
             >
@@ -547,8 +547,8 @@ export default function VisualBuilder() {
               onClick={() => setViewport('mobile')}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                 viewport === 'mobile'
-                  ? 'bg-[#0D99FF] text-white shadow-sm shadow-[#0D99FF]/20 font-semibold'
-                  : 'text-gray-400 hover:text-white hover:bg-white/5'
+                  ? 'bg-[#0D99FF] text-white shadow-xs font-semibold'
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-white/60'
               }`}
               title="Mobile View (390px)"
             >
@@ -563,8 +563,8 @@ export default function VisualBuilder() {
             onClick={() => setShowNavbar(!showNavbar)}
             className={`hidden md:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-mono border transition-all cursor-pointer ${
               showNavbar
-                ? 'bg-[#0D99FF]/15 text-[#0D99FF] border-[#0D99FF]/40'
-                : 'bg-[#27272A]/70 text-gray-400 hover:text-white border-[#3F3F46]/50'
+                ? 'bg-[#0D99FF]/10 text-[#0D99FF] border-[#0D99FF]/30 font-semibold'
+                : 'bg-white text-gray-600 hover:text-gray-900 border-gray-200'
             }`}
             title="Show or hide the portfolio navbar inside the preview canvas"
           >
@@ -578,8 +578,8 @@ export default function VisualBuilder() {
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className={`hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-mono border transition-all cursor-pointer ${
               !sidebarOpen
-                ? 'bg-[#0D99FF]/15 text-[#0D99FF] border-[#0D99FF]/40'
-                : 'bg-[#27272A]/70 text-gray-400 hover:text-white border-[#3F3F46]/50'
+                ? 'bg-[#0D99FF]/10 text-[#0D99FF] border-[#0D99FF]/30 font-semibold'
+                : 'bg-white text-gray-600 hover:text-gray-900 border-gray-200'
             }`}
             title={sidebarOpen ? 'Expand canvas to 100% full width' : 'Show Elementor Inspector'}
           >
@@ -599,7 +599,7 @@ export default function VisualBuilder() {
 
           <button
             onClick={handleResetToDefaults}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-gray-300 hover:text-white hover:bg-[#27272A] transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-gray-600 hover:text-gray-950 hover:bg-gray-100 border border-transparent hover:border-gray-200 transition-colors cursor-pointer"
             title="Reset to default landing content"
           >
             <RotateCcw size={14} />
@@ -610,7 +610,7 @@ export default function VisualBuilder() {
             href="/"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-gray-300 hover:text-white hover:bg-[#27272A] transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-gray-600 hover:text-gray-950 hover:bg-gray-100 border border-transparent hover:border-gray-200 transition-colors"
             title="View public live site"
           >
             <ExternalLink size={14} />
@@ -632,16 +632,16 @@ export default function VisualBuilder() {
       <div className="flex-1 flex overflow-hidden relative">
         {/* LEFT DOCK (ELEMENTOR INSPECTOR) */}
         <aside
-          className={`h-full bg-[#18181B] border-r border-[#27272A] transition-all duration-300 flex flex-col z-30 shrink-0 ${
+          className={`h-full bg-white border-r border-gray-200 transition-all duration-300 flex flex-col z-30 shrink-0 shadow-sm ${
             sidebarOpen ? 'w-[360px]' : 'w-0'
           }`}
         >
           {sidebarOpen && (
             <>
               {/* Dock Header */}
-              <div className="p-3.5 border-b border-[#27272A] flex flex-col gap-2.5">
+              <div className="p-3.5 border-b border-gray-200 flex flex-col gap-2.5 bg-white">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-mono font-bold uppercase tracking-wider text-gray-300 flex items-center gap-2">
+                  <span className="text-xs font-mono font-bold uppercase tracking-wider text-gray-800 flex items-center gap-2">
                     <Layers size={14} className="text-[#0D99FF]" />
                     Elementor Inspector ({SECTION_CONFIGS.length})
                   </span>
@@ -659,13 +659,13 @@ export default function VisualBuilder() {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search sections, bubbles, links..."
-                    className="w-full bg-[#111113] border border-[#27272A] rounded-lg pl-9 pr-3 py-1.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-[#0D99FF] focus:ring-1 focus:ring-[#0D99FF]/30"
+                    className="w-full bg-gray-50 border border-gray-200 rounded-lg pl-9 pr-3 py-1.5 text-xs text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#0D99FF] focus:bg-white focus:ring-1 focus:ring-[#0D99FF]/30 transition-colors"
                   />
                 </div>
               </div>
 
               {/* Sections Accordion List */}
-              <div className="flex-1 overflow-y-auto divide-y divide-[#27272A]/80 builder-scrollbar pb-28">
+              <div className="flex-1 overflow-y-auto divide-y divide-gray-200/80 builder-scrollbar pb-28">
                 {filteredConfigs.map((cfg) => {
                   const Icon = cfg.icon;
                   const sectionData = sections[cfg.id] || DEFAULT_LANDING_SECTIONS[cfg.id] || {};
@@ -693,7 +693,7 @@ export default function VisualBuilder() {
                       key={cfg.id}
                       id={`sidebar-section-${cfg.id}`}
                       className={`transition-colors relative ${
-                        isExpanded ? 'bg-[#202024]' : 'hover:bg-[#1E1E22]'
+                        isExpanded ? 'bg-[#F8FAFC]' : 'hover:bg-gray-50'
                       }`}
                       style={{
                         borderLeft: isExpanded ? `3px solid ${figmaColor}` : '3px solid transparent'
@@ -703,16 +703,16 @@ export default function VisualBuilder() {
                       <div
                         onClick={() => scrollToSectionInCanvas(cfg.id)}
                         className={`px-4 py-3 flex items-center justify-between cursor-pointer group ${
-                          isExpanded ? 'sticky top-0 z-20 bg-[#202024] border-b border-[#27272A]/80 shadow-md' : ''
+                          isExpanded ? 'sticky top-0 z-20 bg-[#F8FAFC] border-b border-gray-200 shadow-xs' : ''
                         }`}
                       >
                         <div className="flex items-center gap-2.5 min-w-0">
                           <div
                             className="w-7 h-7 rounded-lg border flex items-center justify-center shrink-0 transition-all duration-200"
                             style={{
-                              backgroundColor: isExpanded ? `${figmaColor}20` : '#27272A',
-                              borderColor: isExpanded ? `${figmaColor}50` : '#3F3F4650',
-                              color: isExpanded ? figmaColor : '#A1A1AA'
+                              backgroundColor: isExpanded ? `${figmaColor}15` : '#F4F4F6',
+                              borderColor: isExpanded ? `${figmaColor}40` : '#E4E4E7',
+                              color: isExpanded ? figmaColor : '#71717A'
                             }}
                           >
                             <Icon size={14} />
@@ -721,7 +721,7 @@ export default function VisualBuilder() {
                             <div
                               className="text-xs font-bold transition-colors truncate"
                               style={{
-                                color: isExpanded ? figmaColor : '#FFFFFF'
+                                color: isExpanded ? figmaColor : '#18181B'
                               }}
                             >
                               {cfg.name}
@@ -737,8 +737,8 @@ export default function VisualBuilder() {
                           <button
                             type="button"
                             onClick={(e) => toggleSectionActive(cfg.id, e)}
-                            className={`p-1.5 rounded-md hover:bg-white/10 transition-colors ${
-                              isActive ? 'text-gray-300 hover:text-white' : 'text-gray-600'
+                            className={`p-1.5 rounded-md hover:bg-gray-100 transition-colors ${
+                              isActive ? 'text-gray-500 hover:text-gray-900' : 'text-gray-300 hover:text-gray-500'
                             }`}
                             title={isActive ? 'Section visible on homepage' : 'Section hidden'}
                           >
@@ -756,7 +756,7 @@ export default function VisualBuilder() {
                                 scrollToSectionInCanvas(cfg.id);
                               }
                             }}
-                            className="p-1.5 text-gray-400 group-hover:text-white"
+                            className="p-1.5 text-gray-400 group-hover:text-gray-700"
                           >
                             {isExpanded ? <ChevronDown size={15} /> : <ChevronRight size={15} />}
                           </button>
@@ -765,17 +765,17 @@ export default function VisualBuilder() {
 
                       {/* EXPANDED ELEMENTOR 3-TAB INSPECTOR (Content | Style | Advanced) */}
                       {isExpanded && (
-                        <div className="bg-[#161619] border-t border-[#27272A]/60 flex flex-col">
+                        <div className="bg-white border-t border-gray-200 flex flex-col">
                           {/* Active Selected Widget Banner (when clicked on canvas) */}
                           {activeFieldKey && (
-                            <div className="mx-3 mt-2.5 px-3 py-2 rounded-lg bg-[#0D99FF]/15 border border-[#0D99FF]/40 flex items-center justify-between gap-2">
+                            <div className="mx-3 mt-2.5 px-3 py-2 rounded-lg bg-blue-50/80 border border-blue-200 flex items-center justify-between gap-2">
                               <div className="flex items-center gap-2 min-w-0">
                                 <span className="w-2 h-2 rounded-full bg-[#0D99FF] animate-ping shrink-0" />
                                 <div className="truncate">
                                   <span className="text-[10px] font-mono uppercase tracking-wider text-[#0D99FF] block leading-none">
                                     Selected on Canvas
                                   </span>
-                                  <span className="text-xs font-bold text-white truncate block mt-0.5">
+                                  <span className="text-xs font-bold text-gray-900 truncate block mt-0.5">
                                     {activeFieldLabel || activeFieldKey}
                                   </span>
                                 </div>
@@ -787,7 +787,7 @@ export default function VisualBuilder() {
                                   setActiveFieldLabel(null);
                                   setStyleScope('section');
                                 }}
-                                className="p-1 rounded hover:bg-white/10 text-gray-400 hover:text-white shrink-0"
+                                className="p-1 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-700 shrink-0"
                                 title="Clear widget selection"
                               >
                                 <X size={13} />
@@ -796,14 +796,14 @@ export default function VisualBuilder() {
                           )}
 
                           {/* WORDPRESS ELEMENTOR 3-TAB SWITCHER */}
-                          <div className="grid grid-cols-3 border-b border-[#27272A] bg-[#18181B] mt-2">
+                          <div className="grid grid-cols-3 border-b border-gray-200 bg-gray-50 mt-2">
                             <button
                               type="button"
                               onClick={() => setInspectorTab('content')}
                               className={`flex flex-col items-center justify-center py-2.5 gap-1 text-[11px] font-mono font-semibold border-b-2 transition-all cursor-pointer ${
                                 inspectorTab === 'content'
-                                  ? 'border-[#0D99FF] text-[#0D99FF] bg-[#202024]'
-                                  : 'border-transparent text-gray-400 hover:text-gray-200 hover:bg-white/5'
+                                  ? 'border-[#0D99FF] text-[#0D99FF] bg-white font-bold'
+                                  : 'border-transparent text-gray-500 hover:text-gray-900 hover:bg-gray-100'
                               }`}
                             >
                               <Edit3 size={13} />
@@ -814,8 +814,8 @@ export default function VisualBuilder() {
                               onClick={() => setInspectorTab('style')}
                               className={`flex flex-col items-center justify-center py-2.5 gap-1 text-[11px] font-mono font-semibold border-b-2 transition-all cursor-pointer ${
                                 inspectorTab === 'style'
-                                  ? 'border-[#0D99FF] text-[#0D99FF] bg-[#202024]'
-                                  : 'border-transparent text-gray-400 hover:text-gray-200 hover:bg-white/5'
+                                  ? 'border-[#0D99FF] text-[#0D99FF] bg-white font-bold'
+                                  : 'border-transparent text-gray-500 hover:text-gray-900 hover:bg-gray-100'
                               }`}
                             >
                               <Palette size={13} />
@@ -826,8 +826,8 @@ export default function VisualBuilder() {
                               onClick={() => setInspectorTab('advanced')}
                               className={`flex flex-col items-center justify-center py-2.5 gap-1 text-[11px] font-mono font-semibold border-b-2 transition-all cursor-pointer ${
                                 inspectorTab === 'advanced'
-                                  ? 'border-[#0D99FF] text-[#0D99FF] bg-[#202024]'
-                                  : 'border-transparent text-gray-400 hover:text-gray-200 hover:bg-white/5'
+                                  ? 'border-[#0D99FF] text-[#0D99FF] bg-white font-bold'
+                                  : 'border-transparent text-gray-500 hover:text-gray-900 hover:bg-gray-100'
                               }`}
                             >
                               <SlidersHorizontal size={13} />
@@ -840,14 +840,14 @@ export default function VisualBuilder() {
                             {/* ================= TAB 1: CONTENT ================= */}
                             {inspectorTab === 'content' && (
                               <>
-                                <p className="text-[11px] text-gray-400 leading-relaxed italic">
+                                <p className="text-[11px] text-gray-500 leading-relaxed italic">
                                   {cfg.description}
                                 </p>
 
                                 {Object.entries(groupedFields).map(([groupName, groupFields]) => (
                                   <div
                                     key={groupName}
-                                    className="space-y-2.5 pt-2 first:pt-0 border-t border-[#27272A]/60 first:border-t-0"
+                                    className="space-y-2.5 pt-2 first:pt-0 border-t border-gray-200 first:border-t-0"
                                   >
                                     <div className="flex items-center justify-between">
                                       <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#0D99FF]">
@@ -868,11 +868,11 @@ export default function VisualBuilder() {
                                           id={`builder-field-${cfg.id}-${field.key}`}
                                           className={`space-y-1 p-2 rounded-lg transition-all ${
                                             highlighted
-                                              ? 'bg-[#0D99FF]/12 ring-1 ring-[#0D99FF]/50'
-                                              : 'hover:bg-white/[0.02]'
+                                              ? 'bg-blue-50/70 ring-1 ring-[#0D99FF]/40'
+                                              : 'hover:bg-gray-50/50'
                                           }`}
                                         >
-                                          <label className="flex items-center justify-between text-[11px] font-mono font-semibold text-gray-300">
+                                          <label className="flex items-center justify-between text-[11px] font-mono font-semibold text-gray-700">
                                             <span>{field.label}</span>
                                             {field.type === 'link' && (
                                               <span className="text-[9px] text-[#0D99FF] uppercase">URL / Link</span>
@@ -887,7 +887,7 @@ export default function VisualBuilder() {
                                                 handleFieldChange(cfg.id, field.key, e.target.value, isContentField)
                                               }
                                               placeholder={field.placeholder || ''}
-                                              className="w-full bg-[#111113] border border-[#27272A] rounded-lg p-2.5 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-[#0D99FF] focus:ring-1 focus:ring-[#0D99FF]/30 font-sans resize-y"
+                                              className="w-full bg-gray-50/70 border border-gray-200 rounded-lg p-2.5 text-xs text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#0D99FF] focus:bg-white focus:ring-1 focus:ring-[#0D99FF]/30 font-sans resize-y transition-colors"
                                             />
                                           ) : field.type === 'link' ? (
                                             <div className="flex items-center gap-1.5">
@@ -903,7 +903,7 @@ export default function VisualBuilder() {
                                                     handleFieldChange(cfg.id, field.key, e.target.value, isContentField)
                                                   }
                                                   placeholder={field.placeholder || 'https://...'}
-                                                  className="w-full bg-[#111113] border border-[#27272A] rounded-lg pl-8 pr-2.5 py-1.5 text-xs text-[#38BDF8] font-mono placeholder-gray-600 focus:outline-none focus:border-[#0D99FF] focus:ring-1 focus:ring-[#0D99FF]/30"
+                                                  className="w-full bg-gray-50/70 border border-gray-200 rounded-lg pl-8 pr-2.5 py-1.5 text-xs text-[#0D99FF] font-mono placeholder-gray-400 focus:outline-none focus:border-[#0D99FF] focus:bg-white focus:ring-1 focus:ring-[#0D99FF]/30 transition-colors"
                                                 />
                                               </div>
                                               {currentValue && (
@@ -911,7 +911,7 @@ export default function VisualBuilder() {
                                                   href={currentValue}
                                                   target="_blank"
                                                   rel="noopener noreferrer"
-                                                  className="p-1.5 rounded-lg bg-[#27272A] hover:bg-[#3F3F46] text-gray-300 hover:text-white transition-colors shrink-0"
+                                                  className="p-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-950 border border-gray-200 transition-colors shrink-0"
                                                   title="Test link in new tab"
                                                 >
                                                   <ExternalLink size={13} />
@@ -926,7 +926,7 @@ export default function VisualBuilder() {
                                                 handleFieldChange(cfg.id, field.key, e.target.value, isContentField)
                                               }
                                               placeholder={field.placeholder || ''}
-                                              className="w-full bg-[#111113] border border-[#27272A] rounded-lg px-2.5 py-1.5 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-[#0D99FF] focus:ring-1 focus:ring-[#0D99FF]/30 font-sans"
+                                              className="w-full bg-gray-50/70 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#0D99FF] focus:bg-white focus:ring-1 focus:ring-[#0D99FF]/30 font-sans transition-colors"
                                             />
                                           )}
                                         </div>
@@ -942,8 +942,8 @@ export default function VisualBuilder() {
                               <div className="space-y-4">
                                 {/* Scope Toggle if a widget is selected */}
                                 {activeFieldKey && (
-                                  <div className="p-2 bg-[#111113] rounded-lg border border-[#27272A] space-y-1.5">
-                                    <span className="text-[10px] font-mono uppercase tracking-wider text-gray-400 block">
+                                  <div className="p-2 bg-gray-50 rounded-lg border border-gray-200 space-y-1.5">
+                                    <span className="text-[10px] font-mono uppercase tracking-wider text-gray-500 block">
                                       Apply Style To:
                                     </span>
                                     <div className="grid grid-cols-2 gap-1">
@@ -952,8 +952,8 @@ export default function VisualBuilder() {
                                         onClick={() => setStyleScope('section')}
                                         className={`px-2 py-1.5 rounded text-[11px] font-mono font-semibold transition-all cursor-pointer ${
                                           styleScope === 'section'
-                                            ? 'bg-[#0D99FF] text-white'
-                                            : 'text-gray-400 hover:text-white bg-[#18181B]'
+                                            ? 'bg-[#0D99FF] text-white shadow-xs'
+                                            : 'text-gray-600 hover:text-gray-900 bg-white border border-gray-200'
                                         }`}
                                       >
                                         Entire Section
@@ -963,8 +963,8 @@ export default function VisualBuilder() {
                                         onClick={() => setStyleScope('element')}
                                         className={`px-2 py-1.5 rounded text-[11px] font-mono font-semibold truncate transition-all cursor-pointer ${
                                           styleScope === 'element'
-                                            ? 'bg-[#0D99FF] text-white'
-                                            : 'text-gray-400 hover:text-white bg-[#18181B]'
+                                            ? 'bg-[#0D99FF] text-white shadow-xs'
+                                            : 'text-gray-600 hover:text-gray-900 bg-white border border-gray-200'
                                         }`}
                                         title={activeFieldLabel || activeFieldKey}
                                       >
@@ -977,7 +977,7 @@ export default function VisualBuilder() {
                                 {/* 1. TEXT ALIGNMENT (Elementor 4-Icon Button Group) */}
                                 <div className="space-y-1.5">
                                   <div className="flex items-center justify-between">
-                                    <label className="text-[11px] font-mono font-semibold text-gray-300 flex items-center gap-1.5">
+                                    <label className="text-[11px] font-mono font-semibold text-gray-700 flex items-center gap-1.5">
                                       <AlignLeft size={12} className="text-[#0D99FF]" />
                                       Text Alignment (Perataan Teks)
                                     </label>
@@ -992,13 +992,13 @@ export default function VisualBuilder() {
                                             isElementStyleMode ? activeFieldKey : null
                                           )
                                         }
-                                        className="text-[10px] text-gray-500 hover:text-white font-mono"
+                                        className="text-[10px] text-gray-400 hover:text-red-500 font-mono transition-colors"
                                       >
                                         Reset
                                       </button>
                                     )}
                                   </div>
-                                  <div className="grid grid-cols-4 gap-1.5 bg-[#111113] p-1 rounded-lg border border-[#27272A]">
+                                  <div className="grid grid-cols-4 gap-1.5 bg-gray-50 p-1 rounded-lg border border-gray-200">
                                     {[
                                       { value: 'left', icon: AlignLeft, label: 'Left' },
                                       { value: 'center', icon: AlignCenter, label: 'Center' },
@@ -1021,8 +1021,8 @@ export default function VisualBuilder() {
                                           }
                                           className={`flex items-center justify-center py-1.5 rounded-md transition-all cursor-pointer ${
                                             active
-                                              ? 'bg-[#0D99FF] text-white shadow-sm'
-                                              : 'text-gray-400 hover:text-white hover:bg-white/5'
+                                              ? 'bg-[#0D99FF] text-white shadow-xs font-semibold'
+                                              : 'text-gray-500 hover:text-gray-900 hover:bg-white'
                                           }`}
                                           title={`Align ${alignOpt.label}`}
                                         >
@@ -1034,7 +1034,7 @@ export default function VisualBuilder() {
                                 </div>
 
                                 {/* 2. TYPOGRAPHY SIZING & WEIGHT */}
-                                <div className="space-y-3 pt-3 border-t border-[#27272A]/70">
+                                <div className="space-y-3 pt-3 border-t border-gray-200">
                                   <div className="flex items-center gap-1.5 text-[10px] font-mono font-bold uppercase tracking-wider text-[#0D99FF]">
                                     <Type size={12} />
                                     <span>Typography</span>
@@ -1043,7 +1043,7 @@ export default function VisualBuilder() {
                                   {/* Primary / Heading Font Size */}
                                   <div className="space-y-1">
                                     <div className="flex items-center justify-between text-[11px] font-mono">
-                                      <span className="text-gray-300">
+                                      <span className="text-gray-700">
                                         {isElementStyleMode ? 'Widget Font Size' : 'Heading Font Size'}
                                       </span>
                                       <span className="text-[#0D99FF]">
@@ -1090,7 +1090,7 @@ export default function VisualBuilder() {
                                             isElementStyleMode ? activeFieldKey : null
                                           )
                                         }
-                                        className="w-16 bg-[#111113] border border-[#27272A] rounded px-2 py-1 text-xs text-white font-mono text-center"
+                                        className="w-16 bg-gray-50 border border-gray-200 rounded px-2 py-1 text-xs text-gray-900 font-mono text-center focus:outline-none focus:border-[#0D99FF] focus:bg-white"
                                       />
                                     </div>
                                   </div>
@@ -1099,7 +1099,7 @@ export default function VisualBuilder() {
                                   {!isElementStyleMode && (
                                     <div className="space-y-1">
                                       <div className="flex items-center justify-between text-[11px] font-mono">
-                                        <span className="text-gray-300">Body / Subtitle Size</span>
+                                        <span className="text-gray-700">Body / Subtitle Size</span>
                                         <span className="text-[#0D99FF]">
                                           {currentStyleObj.subtitleFontSize
                                             ? `${currentStyleObj.subtitleFontSize}px`
@@ -1126,7 +1126,7 @@ export default function VisualBuilder() {
                                           onChange={(e) =>
                                             handleStyleChange(cfg.id, 'subtitleFontSize', e.target.value)
                                           }
-                                          className="w-16 bg-[#111113] border border-[#27272A] rounded px-2 py-1 text-xs text-white font-mono text-center"
+                                          className="w-16 bg-gray-50 border border-gray-200 rounded px-2 py-1 text-xs text-gray-900 font-mono text-center focus:outline-none focus:border-[#0D99FF] focus:bg-white"
                                         />
                                       </div>
                                     </div>
@@ -1135,7 +1135,7 @@ export default function VisualBuilder() {
                                   {/* Font Weight & Text Transform */}
                                   <div className="grid grid-cols-2 gap-2">
                                     <div className="space-y-1">
-                                      <label className="block text-[10px] font-mono text-gray-400">
+                                      <label className="block text-[10px] font-mono text-gray-500 font-medium">
                                         Font Weight
                                       </label>
                                       <select
@@ -1148,7 +1148,7 @@ export default function VisualBuilder() {
                                             isElementStyleMode ? activeFieldKey : null
                                           )
                                         }
-                                        className="w-full bg-[#111113] border border-[#27272A] rounded-lg px-2 py-1.5 text-xs text-white font-mono focus:outline-none focus:border-[#0D99FF]"
+                                        className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2 py-1.5 text-xs text-gray-900 font-mono focus:outline-none focus:border-[#0D99FF] focus:bg-white"
                                       >
                                         <option value="">Default</option>
                                         <option value="300">300 Light</option>
@@ -1162,7 +1162,7 @@ export default function VisualBuilder() {
                                     </div>
 
                                     <div className="space-y-1">
-                                      <label className="block text-[10px] font-mono text-gray-400">
+                                      <label className="block text-[10px] font-mono text-gray-500 font-medium">
                                         Transform
                                       </label>
                                       <select
@@ -1175,7 +1175,7 @@ export default function VisualBuilder() {
                                             isElementStyleMode ? activeFieldKey : null
                                           )
                                         }
-                                        className="w-full bg-[#111113] border border-[#27272A] rounded-lg px-2 py-1.5 text-xs text-white font-mono focus:outline-none focus:border-[#0D99FF]"
+                                        className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2 py-1.5 text-xs text-gray-900 font-mono focus:outline-none focus:border-[#0D99FF] focus:bg-white"
                                       >
                                         <option value="">Default</option>
                                         <option value="none">None</option>
@@ -1189,7 +1189,7 @@ export default function VisualBuilder() {
                                   {/* Line Height & Letter Spacing */}
                                   <div className="grid grid-cols-2 gap-2">
                                     <div className="space-y-1">
-                                      <div className="flex justify-between text-[10px] font-mono text-gray-400">
+                                      <div className="flex justify-between text-[10px] font-mono text-gray-500 font-medium">
                                         <span>Line Height</span>
                                         <span className="text-[#0D99FF]">{currentStyleObj.lineHeight || 'Auto'}</span>
                                       </div>
@@ -1212,7 +1212,7 @@ export default function VisualBuilder() {
                                     </div>
 
                                     <div className="space-y-1">
-                                      <div className="flex justify-between text-[10px] font-mono text-gray-400">
+                                      <div className="flex justify-between text-[10px] font-mono text-gray-500 font-medium">
                                         <span>Letter Space</span>
                                         <span className="text-[#0D99FF]">
                                           {currentStyleObj.letterSpacing !== undefined && currentStyleObj.letterSpacing !== ''
@@ -1241,7 +1241,7 @@ export default function VisualBuilder() {
                                 </div>
 
                                 {/* 3. COLORS & SWATCHES */}
-                                <div className="space-y-3 pt-3 border-t border-[#27272A]/70">
+                                <div className="space-y-3 pt-3 border-t border-gray-200">
                                   <div className="flex items-center gap-1.5 text-[10px] font-mono font-bold uppercase tracking-wider text-[#0D99FF]">
                                     <Palette size={12} />
                                     <span>Colors &amp; Theme Swatches</span>
@@ -1249,7 +1249,7 @@ export default function VisualBuilder() {
 
                                   {/* Primary / Heading Text Color */}
                                   <div className="space-y-1.5">
-                                    <label className="block text-[11px] font-mono text-gray-300">
+                                    <label className="block text-[11px] font-mono text-gray-700">
                                       {isElementStyleMode ? 'Widget Text Color' : 'Heading / Primary Color'}
                                     </label>
                                     <div className="flex items-center gap-2">
@@ -1267,7 +1267,7 @@ export default function VisualBuilder() {
                                             isElementStyleMode ? activeFieldKey : null
                                           )
                                         }
-                                        className="w-8 h-8 rounded cursor-pointer bg-transparent border border-[#3F3F46]"
+                                        className="w-8 h-8 rounded cursor-pointer bg-transparent border border-gray-300"
                                       />
                                       <input
                                         type="text"
@@ -1283,7 +1283,7 @@ export default function VisualBuilder() {
                                             isElementStyleMode ? activeFieldKey : null
                                           )
                                         }
-                                        className="flex-1 bg-[#111113] border border-[#27272A] rounded-lg px-2.5 py-1.5 text-xs font-mono text-white"
+                                        className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs font-mono text-gray-900 focus:outline-none focus:border-[#0D99FF] focus:bg-white"
                                       />
                                     </div>
                                     <div className="flex flex-wrap gap-1.5 pt-1">
@@ -1299,7 +1299,7 @@ export default function VisualBuilder() {
                                               isElementStyleMode ? activeFieldKey : null
                                             )
                                           }
-                                          className="w-5 h-5 rounded-md border border-white/20 transition-transform hover:scale-110 cursor-pointer"
+                                          className="w-5 h-5 rounded-md border border-gray-300 transition-transform hover:scale-110 cursor-pointer shadow-2xs"
                                           style={{ backgroundColor: swatch }}
                                           title={swatch}
                                         />
@@ -1310,7 +1310,7 @@ export default function VisualBuilder() {
                                   {/* Subtitle / Body Text Color (Section Mode) */}
                                   {!isElementStyleMode && (
                                     <div className="space-y-1.5 pt-2">
-                                      <label className="block text-[11px] font-mono text-gray-300">
+                                      <label className="block text-[11px] font-mono text-gray-700">
                                         Subtitle / Paragraph Color
                                       </label>
                                       <div className="flex items-center gap-2">
@@ -1320,7 +1320,7 @@ export default function VisualBuilder() {
                                           onChange={(e) =>
                                             handleStyleChange(cfg.id, 'textColor', e.target.value)
                                           }
-                                          className="w-8 h-8 rounded cursor-pointer bg-transparent border border-[#3F3F46]"
+                                          className="w-8 h-8 rounded cursor-pointer bg-transparent border border-gray-300"
                                         />
                                         <input
                                           type="text"
@@ -1329,7 +1329,7 @@ export default function VisualBuilder() {
                                           onChange={(e) =>
                                             handleStyleChange(cfg.id, 'textColor', e.target.value)
                                           }
-                                          className="flex-1 bg-[#111113] border border-[#27272A] rounded-lg px-2.5 py-1.5 text-xs font-mono text-white"
+                                          className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs font-mono text-gray-900 focus:outline-none focus:border-[#0D99FF] focus:bg-white"
                                         />
                                       </div>
                                     </div>
@@ -1337,7 +1337,7 @@ export default function VisualBuilder() {
 
                                   {/* Section / Widget Background Color */}
                                   <div className="space-y-1.5 pt-2">
-                                    <label className="block text-[11px] font-mono text-gray-300">
+                                    <label className="block text-[11px] font-mono text-gray-700">
                                       {isElementStyleMode ? 'Widget Background Color' : 'Section Background Color'}
                                     </label>
                                     <div className="flex items-center gap-2">
@@ -1352,7 +1352,7 @@ export default function VisualBuilder() {
                                             isElementStyleMode ? activeFieldKey : null
                                           )
                                         }
-                                        className="w-8 h-8 rounded cursor-pointer bg-transparent border border-[#3F3F46]"
+                                        className="w-8 h-8 rounded cursor-pointer bg-transparent border border-gray-300"
                                       />
                                       <input
                                         type="text"
@@ -1366,7 +1366,7 @@ export default function VisualBuilder() {
                                             isElementStyleMode ? activeFieldKey : null
                                           )
                                         }
-                                        className="flex-1 bg-[#111113] border border-[#27272A] rounded-lg px-2.5 py-1.5 text-xs font-mono text-white"
+                                        className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs font-mono text-gray-900 focus:outline-none focus:border-[#0D99FF] focus:bg-white"
                                       />
                                     </div>
                                     <div className="flex flex-wrap gap-1.5 pt-1">
@@ -1382,7 +1382,7 @@ export default function VisualBuilder() {
                                               isElementStyleMode ? activeFieldKey : null
                                             )
                                           }
-                                          className="w-5 h-5 rounded-md border border-white/20 transition-transform hover:scale-110 cursor-pointer"
+                                          className="w-5 h-5 rounded-md border border-gray-300 transition-transform hover:scale-110 cursor-pointer shadow-2xs"
                                           style={{ backgroundColor: swatch }}
                                           title={swatch}
                                         />
@@ -1399,7 +1399,7 @@ export default function VisualBuilder() {
                                 {/* 1. PADDING (Elementor 4-Way Linked Dimensions) */}
                                 <div className="space-y-2">
                                   <div className="flex items-center justify-between">
-                                    <span className="text-[11px] font-mono font-semibold text-gray-300">
+                                    <span className="text-[11px] font-mono font-semibold text-gray-700">
                                       Section Padding (px)
                                     </span>
                                     <button
@@ -1407,8 +1407,8 @@ export default function VisualBuilder() {
                                       onClick={() => setPaddingLinked(!paddingLinked)}
                                       className={`p-1 rounded flex items-center gap-1 text-[10px] font-mono cursor-pointer ${
                                         paddingLinked
-                                          ? 'bg-[#0D99FF]/20 text-[#0D99FF] border border-[#0D99FF]/40'
-                                          : 'bg-[#27272A] text-gray-400'
+                                          ? 'bg-blue-50 text-[#0D99FF] border border-blue-200 font-semibold'
+                                          : 'bg-gray-100 text-gray-600 border border-gray-200'
                                       }`}
                                       title="Link padding values together"
                                     >
@@ -1439,7 +1439,7 @@ export default function VisualBuilder() {
                                               handleStyleChange(cfg.id, dim.key, val);
                                             }
                                           }}
-                                          className="w-full bg-[#111113] border border-[#27272A] rounded-lg py-1.5 text-xs text-white font-mono text-center focus:outline-none focus:border-[#0D99FF]"
+                                          className="w-full bg-gray-50 border border-gray-200 rounded-lg py-1.5 text-xs text-gray-900 font-mono text-center focus:outline-none focus:border-[#0D99FF] focus:bg-white"
                                         />
                                         <span className="text-[9px] font-mono text-gray-500 mt-0.5 block">
                                           {dim.label}
@@ -1450,8 +1450,8 @@ export default function VisualBuilder() {
                                 </div>
 
                                 {/* 2. MARGIN TOP & BOTTOM */}
-                                <div className="space-y-2 pt-2 border-t border-[#27272A]/70">
-                                  <span className="text-[11px] font-mono font-semibold text-gray-300 block">
+                                <div className="space-y-2 pt-2 border-t border-gray-200">
+                                  <span className="text-[11px] font-mono font-semibold text-gray-700 block">
                                     Section Margin (px)
                                   </span>
                                   <div className="grid grid-cols-2 gap-2">
@@ -1461,7 +1461,7 @@ export default function VisualBuilder() {
                                         placeholder="Top (0)"
                                         value={sectionLevelStyle.marginTop ?? ''}
                                         onChange={(e) => handleStyleChange(cfg.id, 'marginTop', e.target.value)}
-                                        className="w-full bg-[#111113] border border-[#27272A] rounded-lg px-2.5 py-1.5 text-xs text-white font-mono"
+                                        className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-900 font-mono focus:outline-none focus:border-[#0D99FF] focus:bg-white"
                                       />
                                       <span className="text-[9px] font-mono text-gray-500 mt-0.5 block">MARGIN TOP</span>
                                     </div>
@@ -1471,7 +1471,7 @@ export default function VisualBuilder() {
                                         placeholder="Bottom (0)"
                                         value={sectionLevelStyle.marginBottom ?? ''}
                                         onChange={(e) => handleStyleChange(cfg.id, 'marginBottom', e.target.value)}
-                                        className="w-full bg-[#111113] border border-[#27272A] rounded-lg px-2.5 py-1.5 text-xs text-white font-mono"
+                                        className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-900 font-mono focus:outline-none focus:border-[#0D99FF] focus:bg-white"
                                       />
                                       <span className="text-[9px] font-mono text-gray-500 mt-0.5 block">MARGIN BOTTOM</span>
                                     </div>
@@ -1479,9 +1479,9 @@ export default function VisualBuilder() {
                                 </div>
 
                                 {/* 3. OPACITY */}
-                                <div className="space-y-1 pt-2 border-t border-[#27272A]/70">
+                                <div className="space-y-1 pt-2 border-t border-gray-200">
                                   <div className="flex justify-between text-[11px] font-mono">
-                                    <span className="text-gray-300">Section Opacity</span>
+                                    <span className="text-gray-700">Section Opacity</span>
                                     <span className="text-[#0D99FF]">{sectionLevelStyle.opacity ?? 100}%</span>
                                   </div>
                                   <input
@@ -1495,7 +1495,7 @@ export default function VisualBuilder() {
                                 </div>
 
                                 {/* 4. RESPONSIVE VISIBILITY */}
-                                <div className="space-y-2 pt-2 border-t border-[#27272A]/70">
+                                <div className="space-y-2 pt-2 border-t border-gray-200">
                                   <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#0D99FF] block">
                                     Responsive Visibility
                                   </span>
@@ -1506,7 +1506,7 @@ export default function VisualBuilder() {
                                   ].map((vis) => (
                                     <label
                                       key={vis.key}
-                                      className="flex items-center justify-between py-1 text-xs text-gray-300 cursor-pointer"
+                                      className="flex items-center justify-between py-1 text-xs text-gray-700 cursor-pointer"
                                     >
                                       <span>{vis.label}</span>
                                       <input
@@ -1520,7 +1520,7 @@ export default function VisualBuilder() {
                                 </div>
 
                                 {/* 5. CUSTOM CSS ID & CLASS */}
-                                <div className="space-y-2 pt-2 border-t border-[#27272A]/70">
+                                <div className="space-y-2 pt-2 border-t border-gray-200">
                                   <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#0D99FF] block">
                                     Attributes
                                   </span>
@@ -1529,14 +1529,14 @@ export default function VisualBuilder() {
                                     placeholder="Custom CSS ID"
                                     value={sectionLevelStyle.customId || ''}
                                     onChange={(e) => handleStyleChange(cfg.id, 'customId', e.target.value)}
-                                    className="w-full bg-[#111113] border border-[#27272A] rounded-lg px-2.5 py-1.5 text-xs text-white font-mono"
+                                    className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-900 font-mono focus:outline-none focus:border-[#0D99FF] focus:bg-white"
                                   />
                                   <input
                                     type="text"
                                     placeholder="Custom CSS Classes"
                                     value={sectionLevelStyle.customClass || ''}
                                     onChange={(e) => handleStyleChange(cfg.id, 'customClass', e.target.value)}
-                                    className="w-full bg-[#111113] border border-[#27272A] rounded-lg px-2.5 py-1.5 text-xs text-white font-mono"
+                                    className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-xs text-gray-900 font-mono focus:outline-none focus:border-[#0D99FF] focus:bg-white"
                                   />
                                 </div>
 
@@ -1545,7 +1545,7 @@ export default function VisualBuilder() {
                                   <button
                                     type="button"
                                     onClick={() => handleResetSectionStyles(cfg.id)}
-                                    className="w-full py-2 rounded-lg bg-[#27272A] hover:bg-red-950/60 hover:text-red-300 border border-[#3F3F46] text-xs font-mono font-semibold text-gray-300 transition-colors cursor-pointer flex items-center justify-center gap-1.5"
+                                    className="w-full py-2 rounded-lg bg-gray-100 hover:bg-red-50 hover:text-red-600 hover:border-red-200 border border-gray-200 text-xs font-mono font-semibold text-gray-700 transition-colors cursor-pointer flex items-center justify-center gap-1.5"
                                   >
                                     <RotateCcw size={12} />
                                     <span>Reset Section &amp; Widget Styles</span>
@@ -1567,7 +1567,7 @@ export default function VisualBuilder() {
         {/* SIDEBAR TOGGLE TAB */}
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="absolute top-3 z-40 bg-[#18181B] border border-l-0 border-[#27272A] text-gray-300 hover:text-white p-1.5 rounded-r-lg shadow-md transition-all cursor-pointer"
+          className="absolute top-3 z-40 bg-white border border-l-0 border-gray-200 text-gray-600 hover:text-gray-950 p-1.5 rounded-r-lg shadow-xs transition-all cursor-pointer"
           style={{ left: sidebarOpen ? '360px' : '0' }}
           title={sidebarOpen ? 'Collapse Left Dock' : 'Expand Left Dock'}
         >
@@ -1577,7 +1577,7 @@ export default function VisualBuilder() {
         {/* RIGHT PREVIEW CANVAS CONTAINER */}
         <main
           id="builder-canvas-scroll"
-          className={`flex-1 bg-[#09090B] overflow-y-auto overflow-x-hidden flex flex-col items-center relative ${
+          className={`flex-1 bg-[#EBECEF] overflow-y-auto overflow-x-hidden flex flex-col items-center relative ${
             viewport === 'desktop' ? 'p-0' : 'p-4 sm:p-6'
           }`}
         >
@@ -1587,16 +1587,16 @@ export default function VisualBuilder() {
               viewport === 'desktop'
                 ? 'w-full min-h-full'
                 : viewport === 'tablet'
-                ? 'w-[768px] max-w-full rounded-3xl border-8 border-[#27272A] shadow-[0_25px_60px_rgba(0,0,0,0.5)] my-4 overflow-hidden'
-                : 'w-[390px] max-w-full rounded-[44px] border-[10px] border-[#27272A] shadow-[0_25px_60px_rgba(0,0,0,0.6)] my-4 overflow-hidden'
+                ? 'w-[768px] max-w-full rounded-3xl border-8 border-[#D4D4D8] shadow-2xl my-4 overflow-hidden'
+                : 'w-[390px] max-w-full rounded-[44px] border-[10px] border-[#D4D4D8] shadow-2xl my-4 overflow-hidden'
             }`}
           >
             {/* Tablet / Mobile Speaker & Camera Notch Bar */}
             {viewport !== 'desktop' && (
-              <div className="w-full bg-[#27272A] py-1 flex items-center justify-center">
-                <div className="w-20 h-3 bg-black rounded-full flex items-center justify-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#18181B]" />
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#18181B]" />
+              <div className="w-full bg-[#E4E4E7] py-1 flex items-center justify-center">
+                <div className="w-20 h-3 bg-[#A1A1AA] rounded-full flex items-center justify-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#71717A]" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#71717A]" />
                 </div>
               </div>
             )}
@@ -1619,10 +1619,10 @@ export default function VisualBuilder() {
         <div
           className={`fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-4 py-3 rounded-xl shadow-2xl text-xs font-semibold tracking-wide border transition-all animate-bounce ${
             toastMessage.type === 'success'
-              ? 'bg-emerald-950 text-emerald-200 border-emerald-700/80'
+              ? 'bg-white text-emerald-700 border-emerald-200 shadow-xl'
               : toastMessage.type === 'error'
-              ? 'bg-red-950 text-red-200 border-red-700/80'
-              : 'bg-blue-950 text-blue-200 border-blue-700/80'
+              ? 'bg-white text-red-700 border-red-200 shadow-xl'
+              : 'bg-white text-blue-700 border-blue-200 shadow-xl'
           }`}
         >
           {toastMessage.type === 'success' ? (

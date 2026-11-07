@@ -273,16 +273,16 @@ body {
   scrollbar-color: #111111 #FAFAFA;
 }
 
-/* Elementor Visual Builder Dark Scrollbar */
+/* Elementor Visual Builder Light Scrollbar */
 .builder-scrollbar::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 .builder-scrollbar::-webkit-scrollbar-track {
-  background: #18181B;
+  background: transparent;
 }
 .builder-scrollbar::-webkit-scrollbar-thumb {
-  background: #3F3F46;
+  background: #D4D4D8;
   border-radius: 9999px;
 }
 .builder-scrollbar::-webkit-scrollbar-thumb:hover {
@@ -290,7 +290,7 @@ body {
 }
 .builder-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: #3F3F46 #18181B;
+  scrollbar-color: #D4D4D8 transparent;
 }
 
 /* Scoped Overrides for Mobile Simulator Canvas (390px) */

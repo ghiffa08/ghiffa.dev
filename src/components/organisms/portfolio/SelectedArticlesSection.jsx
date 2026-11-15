@@ -62,7 +62,9 @@ export const SelectedArticlesSection = React.memo(function SelectedArticlesSecti
 
     try {
       e.currentTarget.setPointerCapture(e.pointerId);
-    } catch {}
+    } catch {
+      // Ignore browsers that don't support pointer capture
+    }
   };
 
   const handlePointerMove = (e) => {
@@ -84,7 +86,9 @@ export const SelectedArticlesSection = React.memo(function SelectedArticlesSecti
       if (e.currentTarget.hasPointerCapture(e.pointerId)) {
         e.currentTarget.releasePointerCapture(e.pointerId);
       }
-    } catch {}
+    } catch {
+      // Ignore browsers that don't support pointer capture
+    }
 
     // Fluid inertia release for mouse
     let v = velocityRef.current * 1.6;
@@ -145,14 +149,16 @@ export const SelectedArticlesSection = React.memo(function SelectedArticlesSecti
   };
 
   return (
-    <section id="articles" className="relative py-14 sm:py-20 px-4 sm:px-8 lg:px-16 max-w-[1360px] mx-auto overflow-hidden">
+    <section id="articles" className="relative py-14 sm:py-20 px-4 sm:px-8 lg:px-12 max-w-[1280px] mx-auto overflow-hidden">
       <div id="insights" className="absolute -top-24" />
       <div id="blog" className="absolute -top-24" />
 
       <ScrollReveal delay={0.05} y={24}>
         <div className="flex items-center justify-between mb-8 sm:mb-10">
           <div>
-            <div className="text-xs font-mono uppercase tracking-widest text-[#FF5500] font-semibold mb-1" />
+            <span className="text-xs font-mono uppercase tracking-widest text-[#FF5500] font-semibold mb-1 block select-none">
+              // Writing &amp; Insights
+            </span>
             <h2
               data-builder-field="title"
               data-builder-label="Articles Section Title"

@@ -48,11 +48,14 @@ export const ProfessionalJourneySection = React.memo(function ProfessionalJourne
   const sectionTitle = sectionData?.title || 'professional journey';
 
   return (
-    <section id="journey" className="relative py-20 sm:py-28 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto border-t border-gray-100">
+    <section id="journey" className="relative py-20 sm:py-28 px-4 sm:px-8 lg:px-12 max-w-[1280px] mx-auto border-t border-gray-100">
       <div id="experience" className="absolute -top-24" />
 
       {/* Section Header: Full-width display title matching reference */}
       <ScrollReveal delay={0.05} y={30} className="mb-14 sm:mb-20">
+        <span className="text-xs font-mono uppercase tracking-widest text-[#FF5500] font-semibold mb-3 block select-none">
+          // Career &amp; Experience
+        </span>
         <h2
           data-builder-field="title"
           data-builder-label="Journey Section Title"

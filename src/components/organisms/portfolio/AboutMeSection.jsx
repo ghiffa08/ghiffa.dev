@@ -1,11 +1,12 @@
-import React, { useRef } from 'react';
+import React, { useRef, Suspense, lazy } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { useInView } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { ScrollReveal } from '../../atoms/ScrollReveal';
 import { TypewriterText } from '../../atoms/TypewriterText';
 import { slugify } from '../../../utils/slugify';
-import Lanyard from '../../Lanyard';
+
+const Lanyard = lazy(() => import('../../Lanyard'));
 
 const titleTranslations = {
   'teknik informatika': 'Informatics Engineering',
@@ -41,7 +42,7 @@ const formatInstitution = (rawInst, rawTitle, t) => {
   return rawInst.replace(/\buniversitas kuningan\b/gi, 'Universitas Kuningan');
 };
 
-export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList = [], sectionData }) {
+export function AboutMeSection({ _avatarImage, _fullName, aboutBio, educationList = [], sectionData }) {
   const { t } = useTranslation();
   const headerRef = useRef(null);
   const containerRef = useRef(null);
@@ -58,34 +59,36 @@ export function AboutMeSection({ avatarImage, fullName, aboutBio, educationList 
   return (
     <section
       id="about"
-      className="relative scroll-mt-20 py-14 sm:py-28 px-6 sm:px-12 lg:px-24 max-w-[1360px] mx-auto overflow-visible"
+      className="relative scroll-mt-20 py-14 sm:py-28 px-4 sm:px-8 lg:px-12 max-w-[1280px] mx-auto overflow-visible"
     >
       {/* 3D LANYARD INTERACTIVE CANVAS LAYER (Natural hanging from ultra-clean Figma hanger slot) */}
       <div
         ref={containerRef}
         className="absolute inset-0 z-0 overflow-visible pointer-events-none"
       >
-        <Lanyard
-          frontImage="/id-card-front.png"
-          backImage="/id-card-back.png"
-          strapImage="/id-card-strap.png"
-          cardColor="#ffffff"
-          finish="glossy"
-          metal="silver"
-          strapColor="#18181B"
-          strapWidth={0.65}
-          size={w => (w >= 1024 ? 0.46 : 0.35)}
-          anchor={w => (w >= 1024 ? 0.29 : 0.5)}
-          strapLength={w => (w >= 1024 ? 0.60 : 0.35)}
-          cornerRadius={0.3}
-          intro={true}
-          gravity={1.2}
-          damping={0.65}
-          elasticity={0.45}
-          breeze={0.16}
-          interactive={true}
-          className="w-full h-full pointer-events-auto"
-        />
+        <Suspense fallback={null}>
+          <Lanyard
+            frontImage="/id-card-front.png"
+            backImage="/id-card-back.png"
+            strapImage="/id-card-strap.png"
+            cardColor="#ffffff"
+            finish="glossy"
+            metal="silver"
+            strapColor="#18181B"
+            strapWidth={0.65}
+            size={w => (w >= 1024 ? 0.46 : 0.35)}
+            anchor={w => (w >= 1024 ? 0.29 : 0.5)}
+            strapLength={w => (w >= 1024 ? 0.60 : 0.35)}
+            cornerRadius={0.3}
+            intro={true}
+            gravity={1.2}
+            damping={0.65}
+            elasticity={0.45}
+            breeze={0.16}
+            interactive={true}
+            className="w-full h-full pointer-events-auto"
+          />
+        </Suspense>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 lg:gap-16 items-start sm:items-center">

@@ -31,13 +31,16 @@ export const InstagramPostsSection = React.memo(function InstagramPostsSection({
   };
 
   return (
-    <section id="instagram-feed" className="relative py-14 sm:py-20 px-4 sm:px-8 lg:px-16 max-w-[1360px] mx-auto overflow-hidden">
+    <section id="instagram-feed" className="relative py-14 sm:py-20 px-4 sm:px-8 lg:px-12 max-w-[1280px] mx-auto overflow-hidden">
       <div id="instagram" className="absolute -top-24" />
 
       {/* Header without // VISUAL JOURNAL */}
       <ScrollReveal delay={0.05} y={28}>
         <div className="flex items-center justify-between mb-8 sm:mb-10">
           <div>
+            <span className="text-xs font-mono uppercase tracking-widest text-[#FF5500] font-semibold mb-1 block select-none">
+              // Visual Logs &amp; Updates
+            </span>
             <h2
               data-builder-field="title"
               data-builder-label="Instagram Section Title"

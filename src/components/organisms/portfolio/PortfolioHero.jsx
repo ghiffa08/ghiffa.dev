@@ -34,10 +34,22 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
     window.addEventListener('resize', updateDimensions, { passive: true });
 
     let resizeObserver;
+    let isHeroInView = true;
+    let heroObserver;
     const heroCanvasEl = document.getElementById('hero-canvas');
     if (heroCanvasEl && typeof ResizeObserver !== 'undefined') {
       resizeObserver = new ResizeObserver(updateDimensions);
       resizeObserver.observe(heroCanvasEl);
+    }
+    if (heroCanvasEl && typeof IntersectionObserver !== 'undefined') {
+      heroObserver = new IntersectionObserver(([entry]) => {
+        const wasInView = isHeroInView;
+        isHeroInView = entry.isIntersecting;
+        if (!wasInView && isHeroInView) {
+          animId = requestAnimationFrame(animateCursors);
+        }
+      }, { rootMargin: '100px' });
+      heroObserver.observe(heroCanvasEl);
     }
 
     // If heroRevealed is false and not in builder mode, hide cards and reset selection boxes
@@ -417,12 +429,16 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
         agent.el.style.transform = `translate3d(${finalX.toFixed(2)}px, ${finalY.toFixed(2)}px, 0)`;
       });
 
-      animId = requestAnimationFrame(animateCursors);
+      if (isHeroInView) {
+        animId = requestAnimationFrame(animateCursors);
+      }
     }
 
     let startTimer = setTimeout(() => {
       initAgents();
-      animId = requestAnimationFrame(animateCursors);
+      if (isHeroInView) {
+        animId = requestAnimationFrame(animateCursors);
+      }
     }, 80);
 
     return () => {
@@ -431,6 +447,7 @@ export function PortfolioHero({ heroRevealed, setHeroRevealed, aiActive, setAiAc
       cancelAnimationFrame(animId);
       window.removeEventListener('resize', updateDimensions);
       if (resizeObserver) resizeObserver.disconnect();
+      if (heroObserver) heroObserver.disconnect();
     };
   }, [heroRevealed, isBuilderMode]);
 

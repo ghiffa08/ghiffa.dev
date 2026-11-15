@@ -26,12 +26,14 @@ function checkWebGLSupport() {
 export function PcbViewer3D() {
   const containerRef = useRef(null);
   const [loading, setLoading] = useState(true);
-  const inView = true;
+  const [inView, setInView] = useState(false);
   const [hasWebGL, setHasWebGL] = useState(() => checkWebGLSupport());
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   const controlsRef = useRef(null);
   const autoRotateRef = useRef(true);
   const rootGroupRef = useRef(null);
+  const isVisibleRef = useRef(false);
+  const resumeRef = useRef(null);
 
   useEffect(() => {
     // Detect mobile touch capability
@@ -39,6 +41,27 @@ export function PcbViewer3D() {
       typeof window !== 'undefined' &&
       ('ontouchstart' in window || navigator.maxTouchPoints > 0 || window.matchMedia('(pointer: coarse)').matches);
     setIsTouchDevice(touchCheck);
+
+    // Viewport intersection observer: only init and render when near/in view
+    const el = containerRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const visible = entry.isIntersecting;
+        isVisibleRef.current = visible;
+        if (visible) {
+          setInView(true);
+          if (resumeRef.current) {
+            resumeRef.current();
+          }
+        }
+      },
+      { rootMargin: '160px' }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
   }, []);
 
   // Touch devices: allow 1-finger vertical page scroll, 2-finger rotate, smooth auto-rotation
@@ -219,9 +242,14 @@ export function PcbViewer3D() {
     );
 
     // ─── RENDER LOOP WITH GRACEFUL AUTO-ROTATION ──────────────────────
-    let animId;
+    let animId = null;
+    let isRunning = false;
 
     const animate = () => {
+      if (!isVisibleRef.current || isDisposed) {
+        isRunning = false;
+        return;
+      }
       animId = requestAnimationFrame(animate);
 
       // Elegant gentle auto-rotation when idle
@@ -233,7 +261,17 @@ export function PcbViewer3D() {
       renderer.render(scene, camera);
     };
 
-    animate();
+    resumeRef.current = () => {
+      if (!isRunning && isVisibleRef.current && !isDisposed) {
+        isRunning = true;
+        animId = requestAnimationFrame(animate);
+      }
+    };
+
+    if (isVisibleRef.current) {
+      isRunning = true;
+      animate();
+    }
 
     // ─── RESIZE LISTENER ──────────────────────────────────────────────
     const handleResize = () => {

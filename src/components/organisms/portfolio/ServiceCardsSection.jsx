@@ -45,16 +45,21 @@ export function ServiceCardsSection({ sectionData }) {
     'relative h-full bg-skillstreak-orange-grid text-white rounded-3xl overflow-hidden group transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_14px_34px_-12px_rgba(255,85,0,0.35)]';
 
   return (
-    <section id="services" className="relative w-full bg-white py-16 lg:py-24 px-4 sm:px-8 lg:px-16 overflow-hidden">
-      <div className="w-full max-w-[1180px] mx-auto">
+    <section id="services" className="relative w-full bg-white py-16 lg:py-24 px-4 sm:px-8 lg:px-12 overflow-hidden">
+      <div className="w-full max-w-[1280px] mx-auto">
         <ScrollReveal delay={0.05} y={20}>
-          <h2
-            data-builder-field="heading"
-            data-builder-label="Services Heading"
-            className="text-center text-3xl sm:text-4xl lg:text-[44px] font-medium tracking-tight text-[#141414] mb-10 sm:mb-14"
-          >
-            {content.heading || 'Everything you need to ship.'}
-          </h2>
+          <div className="text-center mb-10 sm:mb-14">
+            <span className="text-xs font-mono uppercase tracking-widest text-[#FF5500] font-semibold mb-2 block select-none">
+              // Capabilities &amp; Services
+            </span>
+            <h2
+              data-builder-field="heading"
+              data-builder-label="Services Heading"
+              className="text-3xl sm:text-4xl lg:text-[44px] font-medium tracking-tight text-[#141414]"
+            >
+              {content.heading || 'Everything you need to ship.'}
+            </h2>
+          </div>
         </ScrollReveal>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:auto-rows-[minmax(300px,auto)]">
@@ -92,6 +97,8 @@ export function ServiceCardsSection({ sectionData }) {
                 <img
                   src="/mobile.svg"
                   alt="Mobile App Services Mockup"
+                  width="250"
+                  height="490"
                   className="w-[230px] sm:w-[250px] h-auto translate-y-[18%] drop-shadow-2xl select-none pointer-events-none transition-transform duration-500 ease-out group-hover:translate-y-[12%]"
                   loading="lazy"
                 />
@@ -126,6 +133,8 @@ export function ServiceCardsSection({ sectionData }) {
                 <img
                   src="/dekstop.svg"
                   alt="Web Development Services Desktop Mockup"
+                  width="330"
+                  height="210"
                   className="w-full max-w-[330px] h-auto translate-y-[14%] drop-shadow-2xl select-none pointer-events-none transition-transform duration-500 ease-out group-hover:translate-y-[8%]"
                   loading="lazy"
                 />

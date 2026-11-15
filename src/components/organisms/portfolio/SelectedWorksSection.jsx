@@ -223,7 +223,7 @@ export const SelectedWorksSection = React.memo(function SelectedWorksSection({
   projectsList = [],
   bentoCertificates = [],
   onSelectCert,
-  isBannerDark,
+  _isBannerDark,
   sectionData
 }) {
   const navigate = useNavigate();
@@ -254,7 +254,7 @@ export const SelectedWorksSection = React.memo(function SelectedWorksSection({
   return (
     <section
       id="works"
-      className="relative py-16 sm:py-24 px-4 sm:px-8 lg:px-16 max-w-[1280px] mx-auto overflow-visible transition-colors duration-700 ease-in-out"
+      className="relative py-16 sm:py-24 px-4 sm:px-8 lg:px-12 max-w-[1280px] mx-auto overflow-visible transition-colors duration-700 ease-in-out"
     >
       {/* Anchor targets so both #works and #certifications navbar links scroll here */}
       <div id="work" className="absolute -top-24" />
@@ -263,12 +263,13 @@ export const SelectedWorksSection = React.memo(function SelectedWorksSection({
       {/* Centered Section Title */}
       <ScrollReveal delay={0.05} y={20}>
         <div className="text-center mb-14 sm:mb-20">
+          <span className="text-xs font-mono uppercase tracking-widest text-[#FF5500] font-semibold mb-2 block select-none">
+            // Portfolio &amp; Credentials
+          </span>
           <h2
             data-builder-field="title"
             data-builder-label="Showcase Section Title"
-            className={`text-3xl sm:text-4xl lg:text-[42px] font-medium tracking-tight transition-colors duration-500 ${
-              isBannerDark ? 'text-black' : 'text-[#141414]'
-            }`}
+            className="text-3xl sm:text-4xl lg:text-[42px] font-medium tracking-tight text-[#141414]"
           >
             {headingText}
           </h2>

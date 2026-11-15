@@ -47,12 +47,8 @@ export function PortfolioHeader({
 
       {/* FULL-WIDTH HEADER WITH SEMANTIC NAVIGATION */}
       <header
-        className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b transition-all duration-700 ease-in-out ${
+        className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b bg-white/95 border-gray-100/80 text-[#111111] transition-all duration-700 ease-in-out ${
           heroRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-3 pointer-events-none'
-        } ${
-          isBannerDark
-            ? 'bg-[#F8A065]/85 border-black/10 text-[#111111]'
-            : 'bg-white/95 border-gray-100/80 text-[#111111]'
         }`}
       >
         <div className="w-full px-4 sm:px-16 lg:px-[12.8vw] h-[64px] sm:h-[72px] flex items-center justify-between">

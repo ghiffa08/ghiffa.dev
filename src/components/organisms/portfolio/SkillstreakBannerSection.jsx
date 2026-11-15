@@ -2,7 +2,7 @@ import React from 'react';
 import { ScrollReveal } from '../../atoms/ScrollReveal';
 import { RefineImage } from '../../RefineImage';
 
-export const SkillstreakBannerSection = React.memo(function SkillstreakBannerSection({ bannerRef, isBannerDark, sectionData }) {
+export const SkillstreakBannerSection = React.memo(function SkillstreakBannerSection({ bannerRef, _isBannerDark, sectionData }) {
   const title = sectionData?.title || 'skillstreak.id';
   const heading = sectionData?.content?.heading || 'The fastest path from zero to deployable engineer, built like a game and engineered for the real world.';
   const desc = sectionData?.content?.desc || 'Most developers quit because learning feels like a grind with no visible progress. skillstreak.id changes the feedback loop with XP rewards, daily streak accountability, and real-time code evaluations.';
@@ -13,14 +13,12 @@ export const SkillstreakBannerSection = React.memo(function SkillstreakBannerSec
     <section
       ref={bannerRef}
       id="skillstreak-banner"
-      className={`min-h-screen w-full flex flex-col justify-center items-center px-4 sm:px-8 lg:px-12 py-12 relative z-10 transition-colors duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] select-none ${
-        isBannerDark ? 'bg-[#F8A065]' : 'bg-white'
-      }`}
+      className="py-16 sm:py-24 lg:py-28 w-full flex flex-col justify-center items-center px-4 sm:px-8 lg:px-12 relative z-10 select-none bg-gradient-to-b from-white via-[#FFF9F5] to-white"
     >
-      <div className="w-full max-w-[1140px] mx-auto">
+      <div className="w-full max-w-[1280px] mx-auto">
         <ScrollReveal delay={0.05} y={36}>
           {/* Centered White Card (Clean, modern aesthetic on soft orange background) */}
-          <div className="relative rounded-[28px] sm:rounded-[36px] bg-white border border-black/[0.06] shadow-2xl shadow-orange-950/15 overflow-hidden min-h-[460px] lg:h-[530px] flex items-center">
+          <div className="relative rounded-3xl bg-white border border-black/[0.06] shadow-2xl shadow-orange-950/10 overflow-hidden min-h-[460px] lg:h-[530px] flex items-center">
           {/* Inner Grid: Left Content (52%) + Right Laptop (48%) */}
           <div className="w-full h-full grid grid-cols-1 lg:grid-cols-12 items-center relative z-10">
             {/* Left Column: Clean Typography, Figma selection box & Skillstreak Orange CTA */}

@@ -81,7 +81,7 @@ const isPortraitCert = (cert) => {
   return false;
 };
 
-export const CertificationsSection = React.memo(function CertificationsSection({ bentoCertificates, onSelectCert, sectionData }) {
+export const CertificationsSection = React.memo(function CertificationsSection({ bentoCertificates, onSelectCert, _sectionData }) {
   const [showAllCerts, setShowAllCerts] = useState(false);
 
   // Robust Bento layout: Tall (portrait) certificates on the sides, 2 stacked landscapes in the middle

@@ -219,16 +219,11 @@ export default function Portfolio({
   }, [isBuilderMode]);
 
   useEffect(() => {
-    document.body.style.transition = 'background-color 700ms cubic-bezier(0.16, 1, 0.3, 1)';
-    if (isBannerDark) {
-      document.body.style.backgroundColor = '#F8A065';
-    } else {
-      document.body.style.backgroundColor = '#ffffff';
-    }
+    document.body.style.backgroundColor = '#ffffff';
     return () => {
       document.body.style.backgroundColor = '';
     };
-  }, [isBannerDark]);
+  }, []);
 
   // Sync AI mode class to body
   useEffect(() => {
@@ -711,9 +706,9 @@ export default function Portfolio({
 
   return (
     <div
-      className={`min-h-screen font-sans antialiased selection:bg-[#FF5500] selection:text-white transition-colors duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-        isBannerDark ? 'bg-[#F8A065] text-[#111111]' : 'bg-white text-[#111111]'
-      } ${aiActive ? 'ai-mode-active' : ''} ${isBuilderMode ? 'builder-canvas-mode' : ''}`}
+      className={`min-h-screen font-sans antialiased selection:bg-[#FF5500] selection:text-white bg-white text-[#111111] ${
+        aiActive ? 'ai-mode-active' : ''
+      } ${isBuilderMode ? 'builder-canvas-mode' : ''}`}
     >
       <SEO
         title="Haikal Jibran Al-Ghiffarry | Portofolio &amp; Resume"

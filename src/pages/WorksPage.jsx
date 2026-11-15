@@ -146,11 +146,12 @@ export default function WorksPage() {
             {/* Category Filter Pills (Horizontal scrollable on mobile, wrapping on desktop) */}
             {categories.length > 2 && (
               <div
-                className="flex items-center gap-2 pt-1 select-none overflow-x-auto scrollbar-none pb-2 -mx-4 sm:mx-0 px-4 sm:px-0 flex-nowrap sm:flex-wrap touch-pan-x"
+                className="flex items-center gap-2 pt-1 select-none overflow-x-auto scrollbar-none pb-2 -mx-4 sm:mx-0 px-4 sm:px-0 flex-nowrap sm:flex-wrap touch-pan-x touch-pan-y"
                 style={{
                   scrollbarWidth: 'none',
                   msOverflowStyle: 'none',
-                  WebkitOverflowScrolling: 'touch'
+                  WebkitOverflowScrolling: 'touch',
+                  touchAction: 'pan-x pan-y'
                 }}
               >
                 {categories.map((cat) => {

@@ -131,6 +131,12 @@ export const SelectedWorksSection = React.memo(function SelectedWorksSection({
     }
   };
 
+  const handleTouchEnd = () => {
+    setTimeout(() => {
+      isTouchSwipingRef.current = false;
+    }, 150);
+  };
+
   const scrollWorksCarousel = (direction) => {
     if (!worksCarouselRef.current) return;
     const scrollAmount = worksCarouselRef.current.clientWidth * 0.75;
@@ -209,15 +215,18 @@ export const SelectedWorksSection = React.memo(function SelectedWorksSection({
           onPointerCancel={handleWorksPointerUp}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
-          className="flex gap-6 lg:gap-8 overflow-x-auto scrollbar-none cursor-grab active:cursor-grabbing select-none pb-4 -mx-4 sm:-mx-8 lg:-mx-16 px-4 sm:px-8 lg:px-16 touch-pan-y"
+          onTouchEnd={handleTouchEnd}
+          onTouchCancel={handleTouchEnd}
+          className="flex gap-6 lg:gap-8 overflow-x-auto scrollbar-none cursor-grab active:cursor-grabbing select-none pb-4 -mx-4 sm:-mx-8 lg:-mx-16 px-4 sm:px-8 lg:px-16 touch-pan-x touch-pan-y"
           style={{
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
             WebkitOverflowScrolling: 'touch',
             overscrollBehaviorX: 'contain',
-            scrollSnapType: 'x mandatory',
+            scrollSnapType: 'x proximity',
             scrollPaddingLeft: '1rem',
-            scrollPaddingRight: '1rem'
+            scrollPaddingRight: '1rem',
+            touchAction: 'pan-x pan-y'
           }}
         >
         {projectsList.map((proj, idx) => {
@@ -237,6 +246,7 @@ export const SelectedWorksSection = React.memo(function SelectedWorksSection({
               onClick={(e) => {
                 if (hasDraggedWorksRef.current || isTouchSwipingRef.current) {
                   e.preventDefault();
+                  e.stopPropagation();
                 }
               }}
             >

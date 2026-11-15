@@ -129,6 +129,12 @@ export const SelectedArticlesSection = React.memo(function SelectedArticlesSecti
     }
   };
 
+  const handleTouchEnd = () => {
+    setTimeout(() => {
+      isTouchSwipingRef.current = false;
+    }, 150);
+  };
+
   const scrollArticlesCarousel = (direction) => {
     if (!articlesCarouselRef.current) return;
     const scrollAmount = articlesCarouselRef.current.clientWidth * 0.75;
@@ -198,15 +204,18 @@ export const SelectedArticlesSection = React.memo(function SelectedArticlesSecti
           onPointerCancel={handlePointerUp}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
-          className="flex gap-6 lg:gap-8 overflow-x-auto scrollbar-none cursor-grab active:cursor-grabbing select-none pb-4 -mx-4 sm:-mx-8 lg:-mx-16 px-4 sm:px-8 lg:px-16 touch-pan-y"
+          onTouchEnd={handleTouchEnd}
+          onTouchCancel={handleTouchEnd}
+          className="flex gap-6 lg:gap-8 overflow-x-auto scrollbar-none cursor-grab active:cursor-grabbing select-none pb-4 -mx-4 sm:-mx-8 lg:-mx-16 px-4 sm:px-8 lg:px-16 touch-pan-x touch-pan-y"
           style={{
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
             WebkitOverflowScrolling: 'touch',
             overscrollBehaviorX: 'contain',
-            scrollSnapType: 'x mandatory',
+            scrollSnapType: 'x proximity',
             scrollPaddingLeft: '1rem',
-            scrollPaddingRight: '1rem'
+            scrollPaddingRight: '1rem',
+            touchAction: 'pan-x pan-y'
           }}
         >
         {articlesList.map((article, idx) => {
@@ -262,6 +271,7 @@ export const SelectedArticlesSection = React.memo(function SelectedArticlesSecti
                 onClick={(e) => {
                   if (hasDraggedRef.current || isTouchSwipingRef.current) {
                     e.preventDefault();
+                    e.stopPropagation();
                   }
                 }}
               >
@@ -278,6 +288,7 @@ export const SelectedArticlesSection = React.memo(function SelectedArticlesSecti
               onClick={(e) => {
                 if (hasDraggedRef.current || isTouchSwipingRef.current) {
                   e.preventDefault();
+                  e.stopPropagation();
                 }
               }}
             >

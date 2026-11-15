@@ -4,18 +4,26 @@ export function StickyScrollText({ sectionData }) {
   const rawHeadline = sectionData?.content?.headline || sectionData?.title;
   const rawSubtitle = sectionData?.content?.subtitle || sectionData?.subtitle;
 
+  const rawDefaultHeadline = 'Building the bridge between bits and atoms for companies, governments, and organizations.';
+  const rawDefaultSubtitle = 'Following our goal of making the internet a better place.';
+
   const headlineText =
     rawHeadline && !rawHeadline.toLowerCase().includes('precision') && !rawHeadline.toLowerCase().includes('attoms')
       ? rawHeadline
-      : 'Building the bridge between bits and atoms for companies, governments, and organizations.';
+      : rawDefaultHeadline;
 
   const subtitleText =
     rawSubtitle && rawSubtitle.trim().toLowerCase() !== 'tagline'
       ? rawSubtitle
-      : 'Following our goal of making the internet a better place.';
+      : rawDefaultSubtitle;
 
-  const headlineWords = headlineText.split(/\s+/).filter(Boolean);
-  const subtitleWords = subtitleText.split(/\s+/).filter(Boolean);
+  // Clean trailing spaces before punctuation (e.g. "companies ," -> "companies,")
+  const cleanHeadline = headlineText.replace(/\s+([,.:;?!])/g, '$1').trim();
+  const cleanSubtitle = subtitleText.replace(/\s+([,.:;?!])/g, '$1').trim();
+
+  const headlineWords = cleanHeadline.split(/\s+/).filter(Boolean);
+  const subtitleWords = cleanSubtitle.split(/\s+/).filter(Boolean);
+
   // Word-by-Word Scroll Reveal Animation (Phase 1: Headline -> Phase 2: Subtitle)
   useEffect(() => {
     let ticking = false;
@@ -83,18 +91,18 @@ export function StickyScrollText({ sectionData }) {
       window.removeEventListener('scroll', updateScrollTextReveal, { capture: true });
       window.removeEventListener('resize', updateScrollTextReveal);
     };
-  }, [headlineText, subtitleText]);
+  }, [cleanHeadline, cleanSubtitle]);
 
   return (
-    <section id="scroll-text-track" className="relative h-[260vh] bg-white">
-      <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center px-4 sm:px-6">
-        <div className="max-w-[1280px] w-full mx-auto text-center relative z-10 px-4 sm:px-6">
+    <section id="scroll-text-track" className="relative h-[160vh] sm:h-[210vh] lg:h-[260vh] bg-white">
+      <div className="sticky top-0 h-[100dvh] w-full flex flex-col items-center justify-center px-4 sm:px-6 pt-12 sm:pt-0">
+        <div className="max-w-[1280px] w-full mx-auto text-center relative z-10 px-3 sm:px-6">
           {/* Main Animated Headline: ALL words start in faded gray (#D4D4D8), activating to deep ink */}
           <h2
             id="animated-scroll-title"
             data-builder-field="title"
             data-builder-label="Main Headline Sentence"
-            className="text-[28px] min-[360px]:text-[34px] min-[420px]:text-[40px] sm:text-[56px] md:text-[68px] lg:text-[76px] font-bold tracking-[-0.035em] leading-[1.12] max-w-[1200px] mx-auto [text-wrap:balance]"
+            className="text-[21px] min-[360px]:text-[24px] min-[400px]:text-[27px] sm:text-[46px] md:text-[60px] lg:text-[72px] font-bold tracking-[-0.03em] leading-[1.26] sm:leading-[1.14] max-w-[1140px] mx-auto [text-wrap:balance]"
           >
             {headlineWords.map((word, idx) => (
               <React.Fragment key={idx}>
@@ -108,7 +116,7 @@ export function StickyScrollText({ sectionData }) {
             id="animated-scroll-subtitle"
             data-builder-field="subtitle"
             data-builder-label="Subtext Sentence"
-            className="mt-6 sm:mt-10 text-[16px] sm:text-[20px] md:text-[22px] font-medium tracking-[-0.015em] leading-[1.4] max-w-none text-center mx-auto whitespace-normal sm:whitespace-nowrap"
+            className="mt-4 sm:mt-8 text-[12.5px] min-[360px]:text-[13.5px] sm:text-[17px] md:text-[20px] font-medium tracking-[-0.015em] leading-[1.48] max-w-xs sm:max-w-none text-center mx-auto whitespace-normal sm:whitespace-nowrap text-[#52525B]"
           >
             {subtitleWords.map((word, idx) => (
               <React.Fragment key={idx}>

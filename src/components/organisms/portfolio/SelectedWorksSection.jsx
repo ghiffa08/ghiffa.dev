@@ -263,9 +263,6 @@ export const SelectedWorksSection = React.memo(function SelectedWorksSection({
       {/* Centered Section Title */}
       <ScrollReveal delay={0.05} y={20}>
         <div className="text-center mb-14 sm:mb-20">
-          <span className="text-xs font-mono uppercase tracking-widest text-[#FF5500] font-semibold mb-2 block select-none">
-            // Portfolio &amp; Credentials
-          </span>
           <h2
             data-builder-field="title"
             data-builder-label="Showcase Section Title"

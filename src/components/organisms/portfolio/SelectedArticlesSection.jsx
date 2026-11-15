@@ -156,9 +156,6 @@ export const SelectedArticlesSection = React.memo(function SelectedArticlesSecti
       <ScrollReveal delay={0.05} y={24}>
         <div className="flex items-center justify-between mb-8 sm:mb-10">
           <div>
-            <span className="text-xs font-mono uppercase tracking-widest text-[#FF5500] font-semibold mb-1 block select-none">
-              // Writing &amp; Insights
-            </span>
             <h2
               data-builder-field="title"
               data-builder-label="Articles Section Title"

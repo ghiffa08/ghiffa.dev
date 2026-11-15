@@ -38,9 +38,6 @@ export const InstagramPostsSection = React.memo(function InstagramPostsSection({
       <ScrollReveal delay={0.05} y={28}>
         <div className="flex items-center justify-between mb-8 sm:mb-10">
           <div>
-            <span className="text-xs font-mono uppercase tracking-widest text-[#FF5500] font-semibold mb-1 block select-none">
-              // Visual Logs &amp; Updates
-            </span>
             <h2
               data-builder-field="title"
               data-builder-label="Instagram Section Title"

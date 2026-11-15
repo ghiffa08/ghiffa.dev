@@ -26,9 +26,6 @@ export function CommunicationCtaSection({ emailAddress, sectionData }) {
   return (
     <section id="contact" className="relative py-16 sm:py-28 lg:py-36 px-4 sm:px-8 lg:px-12 max-w-[1280px] mx-auto overflow-hidden">
       <ScrollReveal delay={0.05} y={32} className="flex flex-col items-center text-center">
-        <span className="text-xs font-mono uppercase tracking-widest text-[#FF5500] font-semibold mb-3 block select-none">
-          // Get In Touch
-        </span>
         {/* Display Headline with Signature Selection Highlight */}
         <h2 className="text-2xl min-[360px]:text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[84px] font-bold tracking-tight text-[#141414] leading-[1.1] sm:leading-[0.98] lowercase select-none max-w-5xl px-2">
           <span

@@ -53,9 +53,6 @@ export const ProfessionalJourneySection = React.memo(function ProfessionalJourne
 
       {/* Section Header: Full-width display title matching reference */}
       <ScrollReveal delay={0.05} y={30} className="mb-14 sm:mb-20">
-        <span className="text-xs font-mono uppercase tracking-widest text-[#FF5500] font-semibold mb-3 block select-none">
-          // Career &amp; Experience
-        </span>
         <h2
           data-builder-field="title"
           data-builder-label="Journey Section Title"

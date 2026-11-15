@@ -2,157 +2,107 @@ import React from 'react';
 import { ArrowUp } from 'lucide-react';
 import { ScrollReveal } from '../../atoms/ScrollReveal';
 
-/* ─── Playful Die-Cut Vector Stickers Matching Reference ─────────────────── */
+/* ─── Programming Languages Die-Cut Vector Stickers ──────────────────────── */
 
-function StarSticker({ className = '' }) {
+// 1. React Sticker (Cyan atomic orbits on dark navy badge)
+function ReactSticker({ className = '' }) {
   return (
-    <div className={`filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.14)] hover:scale-110 transition-transform duration-300 cursor-pointer ${className}`}>
+    <div className={`filter drop-shadow-[0_12px_24px_rgba(180,50,0,0.22)] hover:scale-110 transition-transform duration-300 cursor-pointer ${className}`}>
+      <svg width="100%" height="100%" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* White vinyl die-cut border */}
+        <circle cx="50" cy="50" r="42" fill="white" stroke="white" strokeWidth="10" strokeLinejoin="round" />
+        {/* Dark Navy Badge Body */}
+        <circle cx="50" cy="50" r="40" fill="#20232A" />
+        {/* React Orbits */}
+        <ellipse cx="50" cy="50" rx="30" ry="11" stroke="#61DAFB" strokeWidth="3.5" fill="none" />
+        <ellipse cx="50" cy="50" rx="30" ry="11" transform="rotate(60 50 50)" stroke="#61DAFB" strokeWidth="3.5" fill="none" />
+        <ellipse cx="50" cy="50" rx="30" ry="11" transform="rotate(120 50 50)" stroke="#61DAFB" strokeWidth="3.5" fill="none" />
+        {/* React Nucleus */}
+        <circle cx="50" cy="50" r="5.5" fill="#61DAFB" />
+      </svg>
+    </div>
+  );
+}
+
+// 2. JavaScript Sticker (Iconic yellow square with black JS)
+function JavaScriptSticker({ className = '' }) {
+  return (
+    <div className={`filter drop-shadow-[0_12px_24px_rgba(180,50,0,0.22)] hover:scale-110 transition-transform duration-300 cursor-pointer ${className}`}>
       <svg width="100%" height="100%" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
         {/* White die-cut vinyl border */}
-        <path
-          d="M50 6 L62 33 L92 35 L69 56 L76 85 L50 71 L24 85 L31 56 L8 35 L38 33 Z"
-          fill="white"
-          stroke="white"
-          strokeWidth="12"
-          strokeLinejoin="round"
-        />
-        {/* Purple Star Body */}
-        <path
-          d="M50 8 L61 34 L90 36 L68 55 L74 83 L50 69 L26 83 L32 55 L10 36 L39 34 Z"
-          fill="#6366F1"
-        />
-        {/* Star highlight curve */}
-        <path
-          d="M50 14 L57 33 L35 33 Z"
-          fill="white"
-          opacity="0.3"
-        />
-        {/* Playful/Cool Eyes */}
-        <ellipse cx="40" cy="50" rx="5.5" ry="4" transform="rotate(-15 40 50)" fill="white" />
-        <ellipse cx="60" cy="50" rx="5.5" ry="4" transform="rotate(15 60 50)" fill="white" />
-        <circle cx="41" cy="50" r="2.5" fill="#1E1B4B" />
-        <circle cx="59" cy="50" r="2.5" fill="#1E1B4B" />
-        {/* Mischievous smile */}
-        <path d="M46 59 Q50 63 54 59" stroke="#1E1B4B" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+        <rect x="10" y="10" width="80" height="80" rx="20" fill="white" stroke="white" strokeWidth="12" strokeLinejoin="round" />
+        {/* JavaScript Yellow Body */}
+        <rect x="12" y="12" width="76" height="76" rx="16" fill="#F7DF1E" />
+        {/* J letter */}
+        <path d="M42 40 V60 C42 66 38 68 32 66 C28 64 26 60 26 60" stroke="#111111" strokeWidth="6.5" strokeLinecap="square" fill="none" />
+        {/* S letter */}
+        <path d="M68 44 C65 40 57 40 54 43 C50 48 68 50 68 59 C68 66 58 68 52 65 C48 62 46 58 46 58" stroke="#111111" strokeWidth="6.5" strokeLinecap="square" fill="none" />
       </svg>
     </div>
   );
 }
 
-function BerriesSticker({ className = '' }) {
+// 3. Python Sticker (Blue & Yellow intertwining snakes)
+function PythonSticker({ className = '' }) {
   return (
-    <div className={`filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.14)] hover:scale-110 transition-transform duration-300 cursor-pointer ${className}`}>
+    <div className={`filter drop-shadow-[0_12px_24px_rgba(180,50,0,0.22)] hover:scale-110 transition-transform duration-300 cursor-pointer ${className}`}>
       <svg width="100%" height="100%" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* White die-cut outline */}
+        {/* White die-cut vinyl outline */}
         <g stroke="white" strokeWidth="12" strokeLinejoin="round">
-          <circle cx="42" cy="58" r="26" fill="white" />
-          <circle cx="68" cy="62" r="20" fill="white" />
-          <ellipse cx="50" cy="30" rx="14" ry="8" transform="rotate(-20 50 30)" fill="white" />
+          <circle cx="50" cy="50" r="38" fill="white" />
         </g>
-        {/* Green leaf stem */}
-        <ellipse cx="50" cy="30" rx="14" ry="7" transform="rotate(-20 50 30)" fill="#10B981" />
-        {/* Blueberry */}
-        <circle cx="42" cy="58" r="24" fill="#3B82F6" />
-        <circle cx="36" cy="50" r="6" fill="#93C5FD" opacity="0.6" />
-        {/* Pink Raspberry / Berry */}
-        <circle cx="68" cy="62" r="18" fill="#F43F5E" />
-        <circle cx="64" cy="56" r="4.5" fill="#FDA4AF" opacity="0.6" />
+        {/* Dark circular sticker base */}
+        <circle cx="50" cy="50" r="38" fill="#182736" />
+        {/* Blue Top Snake */}
+        <path
+          d="M49 18 C33 18 34 25 34 25 L34 32 L49 32 L49 34 L28 34 C28 34 21 34 21 44 C21 53 27 53 27 53 L32 53 L32 46 C32 40 37 40 37 40 L52 40 C58 40 63 35 63 29 C63 23 58 18 49 18 Z M43 23 C45 23 46 24 46 26 C46 27 45 28 43 28 C42 28 41 27 41 26 C41 24 42 23 43 23 Z"
+          fill="#387EB8"
+        />
+        {/* Yellow Bottom Snake */}
+        <path
+          d="M51 82 C67 82 66 75 66 75 L66 68 L51 68 L51 66 L72 66 C72 66 79 66 79 56 C79 47 73 47 73 47 L68 47 L68 54 C68 60 63 60 63 60 L48 60 C42 60 37 65 37 71 C37 77 42 82 51 82 Z M57 77 C55 77 54 76 54 74 C54 73 55 72 57 72 C58 72 59 73 59 74 C59 76 58 77 57 77 Z"
+          fill="#FFE873"
+        />
       </svg>
     </div>
   );
 }
 
-function FlameSticker({ className = '' }) {
+// 4. TypeScript Sticker (Blue square badge with white TS)
+function TypeScriptSticker({ className = '' }) {
   return (
-    <div className={`filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.14)] hover:scale-110 transition-transform duration-300 cursor-pointer ${className}`}>
-      <svg width="100%" height="100%" viewBox="0 0 100 115" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* White vinyl border */}
-        <path
-          d="M50 8 C50 8 68 35 68 55 C68 62 65 68 62 73 C66 69 70 62 70 55 C70 47 66 38 66 38 C66 38 88 56 88 78 C88 98 71 110 50 110 C29 110 12 96 12 76 C12 52 35 34 38 18 C38 18 50 8 50 8 Z"
-          fill="white"
-          stroke="white"
-          strokeWidth="12"
-          strokeLinejoin="round"
-        />
-        {/* Orange Outer Flame */}
-        <path
-          d="M50 12 C50 12 66 37 66 55 C66 62 63 68 60 73 C64 69 68 62 68 55 C68 47 64 38 64 38 C64 38 84 56 84 76 C84 94 69 106 50 106 C31 106 16 93 16 74 C16 53 37 36 40 20 C40 20 50 12 50 12 Z"
-          fill="url(#outerFlameGrad)"
-        />
-        {/* Yellow Inner Flame */}
-        <path
-          d="M50 50 C50 50 60 66 60 78 C60 88 55 96 48 98 C52 94 54 88 54 82 C54 74 48 68 48 68 C48 68 40 76 40 84 C40 94 45 98 48 98 C38 97 32 89 32 80 C32 68 44 58 50 50 Z"
-          fill="#FDE047"
-        />
-        <defs>
-          <linearGradient id="outerFlameGrad" x1="50" y1="12" x2="50" y2="106" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#F97316" />
-            <stop offset="1" stopColor="#EF4444" />
-          </linearGradient>
-        </defs>
+    <div className={`filter drop-shadow-[0_12px_24px_rgba(180,50,0,0.22)] hover:scale-110 transition-transform duration-300 cursor-pointer ${className}`}>
+      <svg width="100%" height="100%" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* White die-cut vinyl border */}
+        <rect x="10" y="10" width="80" height="80" rx="20" fill="white" stroke="white" strokeWidth="12" strokeLinejoin="round" />
+        {/* TypeScript Blue Rounded Square */}
+        <rect x="12" y="12" width="76" height="76" rx="16" fill="#3178C6" />
+        {/* T letter */}
+        <path d="M30 40 H48 M39 40 V68" stroke="white" strokeWidth="6" strokeLinecap="square" />
+        {/* S letter */}
+        <path d="M68 44 C66 40 56 39 54 44 C52 49 67 51 67 58 C67 65 56 68 52 64" stroke="white" strokeWidth="6" strokeLinecap="square" fill="none" />
       </svg>
     </div>
   );
 }
 
-function FlowerBadgeSticker({ className = '' }) {
+// 5. Arduino / C++ Sticker (Teal circle with infinity and + - for hardware/IoT)
+function ArduinoSticker({ className = '' }) {
   return (
-    <div className={`filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.14)] hover:scale-110 transition-transform duration-300 cursor-pointer ${className}`}>
-      <svg width="100%" height="100%" viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* White vinyl border */}
-        <rect x="8" y="8" width="84" height="94" rx="22" fill="white" stroke="white" strokeWidth="12" strokeLinejoin="round" />
-        {/* Lime green badge background */}
-        <rect x="12" y="12" width="76" height="86" rx="18" fill="#D9F99D" />
-        {/* Stem */}
-        <path d="M50 78 C48 68 56 60 52 48" stroke="#166534" strokeWidth="5" strokeLinecap="round" fill="none" />
-        {/* Leaves */}
-        <path d="M50 64 C42 63 38 68 42 72 C46 72 49 68 50 64 Z" fill="#166534" />
-        {/* Petals */}
-        <circle cx="52" cy="38" r="8" fill="#166534" />
-        <circle cx="43" cy="32" r="7" fill="#166534" />
-        <circle cx="61" cy="32" r="7" fill="#166534" />
-        <circle cx="46" cy="22" r="7" fill="#166534" />
-        <circle cx="58" cy="22" r="7" fill="#166534" />
-        {/* Center */}
-        <circle cx="52" cy="30" r="5" fill="#FEF08A" />
-      </svg>
-    </div>
-  );
-}
-
-function CatSticker({ className = '' }) {
-  return (
-    <div className={`filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.14)] hover:scale-110 transition-transform duration-300 cursor-pointer ${className}`}>
-      <svg width="100%" height="100%" viewBox="0 0 110 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* White vinyl outline */}
-        <path
-          d="M24 38 L30 14 L48 26 C52 25 58 25 62 26 L80 14 L86 38 C94 48 94 62 86 74 C76 86 34 86 24 74 C16 62 16 48 24 38 Z"
-          fill="white"
-          stroke="white"
-          strokeWidth="12"
-          strokeLinejoin="round"
-        />
-        {/* Purple Cat Head */}
-        <path
-          d="M26 40 L32 18 L48 28 C52 27 58 27 62 28 L78 18 L84 40 C91 49 91 61 84 72 C74 83 36 83 26 72 C19 61 19 49 26 40 Z"
-          fill="#8B5CF6"
-        />
-        {/* Inner Ears */}
-        <polygon points="34,25 44,30 36,36" fill="#F472B6" />
-        <polygon points="76,25 74,36 66,30" fill="#F472B6" />
-        {/* Stylized Eyes */}
-        <ellipse cx="40" cy="52" rx="6" ry="4" transform="rotate(-10 40 52)" fill="white" />
-        <ellipse cx="70" cy="52" rx="6" ry="4" transform="rotate(10 70 52)" fill="white" />
-        <circle cx="42" cy="52" r="2.5" fill="#1E1B4B" />
-        <circle cx="68" cy="52" r="2.5" fill="#1E1B4B" />
-        {/* Nose & Mouth */}
-        <polygon points="53,60 57,60 55,63" fill="#F472B6" />
-        <path d="M51 64 Q55 67 59 64" stroke="#1E1B4B" strokeWidth="2" strokeLinecap="round" fill="none" />
-        {/* Whiskers */}
-        <line x1="26" y1="56" x2="16" y2="54" stroke="white" strokeWidth="2" strokeLinecap="round" />
-        <line x1="26" y1="62" x2="16" y2="64" stroke="white" strokeWidth="2" strokeLinecap="round" />
-        <line x1="84" y1="56" x2="94" y2="54" stroke="white" strokeWidth="2" strokeLinecap="round" />
-        <line x1="84" y1="62" x2="94" y2="64" stroke="white" strokeWidth="2" strokeLinecap="round" />
+    <div className={`filter drop-shadow-[0_12px_24px_rgba(180,50,0,0.22)] hover:scale-110 transition-transform duration-300 cursor-pointer ${className}`}>
+      <svg width="100%" height="100%" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* White die-cut vinyl border */}
+        <circle cx="50" cy="50" r="42" fill="white" stroke="white" strokeWidth="10" strokeLinejoin="round" />
+        {/* Arduino Teal Body */}
+        <circle cx="50" cy="50" r="40" fill="#00979D" />
+        {/* Infinity Loop */}
+        <circle cx="36" cy="50" r="14" stroke="white" strokeWidth="5.5" fill="none" />
+        <circle cx="64" cy="50" r="14" stroke="white" strokeWidth="5.5" fill="none" />
+        {/* Minus Sign in Left Loop */}
+        <line x1="31" y1="50" x2="41" y2="50" stroke="white" strokeWidth="4" strokeLinecap="round" />
+        {/* Plus Sign in Right Loop */}
+        <line x1="59" y1="50" x2="69" y2="50" stroke="white" strokeWidth="4" strokeLinecap="round" />
+        <line x1="64" y1="45" x2="64" y2="55" stroke="white" strokeWidth="4" strokeLinecap="round" />
       </svg>
     </div>
   );
@@ -205,9 +155,25 @@ export function PortfolioFooter({ emailAddress, onOpenContact, sectionData }) {
     <footer
       className="relative text-[#141414] overflow-hidden transition-colors"
       style={{
-        background: 'linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 22%, #B6DBFD 65%, #58B0F8 100%)'
+        background: 'linear-gradient(180deg, #FFFFFF 0%, #FFF9F5 15%, #FFF0E5 30%, #FFDECC 45%, #FFC2A0 60%, #FFA16F 75%, #FF7530 88%, #FF5500 100%)'
       }}
     >
+      {/* Subtle Fine Grain Noise Texture Overlay for Rich Poster Feel */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.035] mix-blend-overlay"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
+        }}
+      />
+
+      {/* Soft Bottom Radial Glow */}
+      <div
+        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[120%] h-[320px] pointer-events-none opacity-40 blur-2xl"
+        style={{
+          background: 'radial-gradient(ellipse at 50% 100%, #FF5500 0%, #FF8F50 40%, transparent 75%)'
+        }}
+      />
+
       <style>{`
         @keyframes floatSlow {
           0%, 100% { transform: translateY(0px) rotate(var(--rot, 0deg)); }
@@ -251,7 +217,7 @@ export function PortfolioFooter({ emailAddress, onOpenContact, sectionData }) {
               </div>
             </div>
 
-            {/* Right Side: 4 Clean Columns matching reference (PRODUCT, CONTRIBUTE, CONNECT, LEGAL) */}
+            {/* Right Side: 4 Clean Columns matching reference (PRODUCT, EXPERTISE, CONNECT, LEGAL) */}
             <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-4 gap-8 sm:gap-6 lg:gap-8">
               {/* Col 1: PRODUCT / PAGES */}
               <div className="space-y-3.5">
@@ -356,48 +322,53 @@ export function PortfolioFooter({ emailAddress, onOpenContact, sectionData }) {
         </ScrollReveal>
       </div>
 
-      {/* ─── Bottom Area: Giant Display Typography with 5 Die-Cut Stickers ─── */}
+      {/* ─── Bottom Area: Giant Display Typography with 5 Die-Cut Code Stickers ─── */}
       <div className="relative w-full pt-16 sm:pt-24 lg:pt-28 select-none">
-        {/* Floating Die-Cut Stickers Layer */}
+        {/* Floating Die-Cut Tech Stickers Layer */}
         <div className="relative max-w-[1360px] mx-auto px-4 sm:px-8 lg:px-16 pointer-events-auto h-0 z-10">
-          {/* Sticker 1: Purple Star (far left overlapping top of 'g') */}
+          {/* Sticker 1: React (far left overlapping top of 'g') */}
           <div
             className="absolute top-[-18px] sm:top-[-28px] lg:top-[-36px] left-[3%] sm:left-[5%] lg:left-[6%] animate-float-slow z-10"
             style={{ '--rot': '-14deg' }}
+            title="React.js"
           >
-            <StarSticker className="w-12 h-12 sm:w-16 sm:h-16 lg:w-22 lg:h-22" />
+            <ReactSticker className="w-12 h-12 sm:w-16 sm:h-16 lg:w-22 lg:h-22" />
           </div>
 
-          {/* Sticker 2: Berries (left-center overlapping 'h') */}
+          {/* Sticker 2: JavaScript (left-center overlapping 'h') */}
           <div
             className="absolute top-[6px] sm:top-[2px] lg:top-[-4px] left-[24%] sm:left-[26%] lg:left-[27%] animate-float-alt z-10"
             style={{ '--rot': '-6deg' }}
+            title="JavaScript"
           >
-            <BerriesSticker className="w-10 h-10 sm:w-14 sm:h-14 lg:w-18 lg:h-18" />
+            <JavaScriptSticker className="w-10 h-10 sm:w-14 sm:h-14 lg:w-18 lg:h-18" />
           </div>
 
-          {/* Sticker 3: Flame (center resting right on the 'i' dot) */}
+          {/* Sticker 3: Python (center resting right on the 'i' dot) */}
           <div
             className="absolute top-[-22px] sm:top-[-34px] lg:top-[-42px] left-[46%] sm:left-[47%] lg:left-[47.5%] animate-float-slow z-10"
             style={{ '--rot': '6deg' }}
+            title="Python"
           >
-            <FlameSticker className="w-11 h-11 sm:w-15 sm:h-15 lg:w-20 lg:h-20" />
+            <PythonSticker className="w-11 h-11 sm:w-15 sm:h-15 lg:w-20 lg:h-20" />
           </div>
 
-          {/* Sticker 4: Green Flower Badge (right-center overlapping 'f' / 'a') */}
+          {/* Sticker 4: TypeScript (right-center overlapping 'f' / 'a') */}
           <div
             className="absolute top-[-8px] sm:top-[-12px] lg:top-[-18px] right-[27%] sm:right-[26%] lg:right-[27%] animate-float-alt z-10"
             style={{ '--rot': '12deg' }}
+            title="TypeScript"
           >
-            <FlowerBadgeSticker className="w-10 h-10 sm:w-14 sm:h-14 lg:w-18 lg:h-18" />
+            <TypeScriptSticker className="w-10 h-10 sm:w-14 sm:h-14 lg:w-18 lg:h-18" />
           </div>
 
-          {/* Sticker 5: Purple Cat (far right floating above 'd' / 'v') */}
+          {/* Sticker 5: Arduino / C++ (far right floating above 'd' / 'v') */}
           <div
             className="absolute top-[-16px] sm:top-[-24px] lg:top-[-32px] right-[4%] sm:right-[6%] lg:right-[8%] animate-float-slow z-10"
             style={{ '--rot': '14deg' }}
+            title="C++ & Arduino Hardware"
           >
-            <CatSticker className="w-12 h-12 sm:w-18 sm:h-18 lg:w-24 lg:h-24" />
+            <ArduinoSticker className="w-12 h-12 sm:w-18 sm:h-18 lg:w-24 lg:h-24" />
           </div>
         </div>
 
@@ -406,7 +377,7 @@ export function PortfolioFooter({ emailAddress, onOpenContact, sectionData }) {
           <h1
             data-builder-field="title"
             data-builder-label="Footer Brand Title"
-            className="text-[15.5vw] sm:text-[16vw] lg:text-[16.5vw] font-black tracking-tighter leading-[0.78] text-white select-none whitespace-nowrap drop-shadow-[0_16px_36px_rgba(20,50,90,0.12)] transform translate-y-[10%]"
+            className="text-[15.5vw] sm:text-[16vw] lg:text-[16.5vw] font-black tracking-tighter leading-[0.78] text-white select-none whitespace-nowrap drop-shadow-[0_16px_36px_rgba(150,40,0,0.18)] transform translate-y-[10%]"
           >
             {footerTitle}
           </h1>

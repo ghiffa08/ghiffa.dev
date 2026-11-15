@@ -18,6 +18,8 @@ export const SelectedArticlesSection = React.memo(function SelectedArticlesSecti
   const velocityRef = useRef(0);
   const hasDraggedRef = useRef(false);
   const rafMomentumRef = useRef(null);
+  const touchStartXRef = useRef(0);
+  const isTouchSwipingRef = useRef(false);
 
   // Smooth mouse-wheel horizontal scrolling
   useEffect(() => {
@@ -43,7 +45,8 @@ export const SelectedArticlesSection = React.memo(function SelectedArticlesSecti
   }, []);
 
   const handlePointerDown = (e) => {
-    if (e.button !== 0 || !articlesCarouselRef.current) return;
+    // Only handle mouse drag. Native mobile touch-scrolling handles fingers with pan-y effortlessly!
+    if (e.pointerType !== 'mouse' || e.button !== 0 || !articlesCarouselRef.current) return;
     if (rafMomentumRef.current) {
       cancelAnimationFrame(rafMomentumRef.current);
       rafMomentumRef.current = null;
@@ -83,7 +86,7 @@ export const SelectedArticlesSection = React.memo(function SelectedArticlesSecti
       }
     } catch {}
 
-    // Fluid inertia release
+    // Fluid inertia release for mouse
     let v = velocityRef.current * 1.6;
     const decay = () => {
       if (Math.abs(v) > 0.5 && articlesCarouselRef.current) {
@@ -92,7 +95,7 @@ export const SelectedArticlesSection = React.memo(function SelectedArticlesSecti
         rafMomentumRef.current = requestAnimationFrame(decay);
       } else {
         if (articlesCarouselRef.current) {
-          articlesCarouselRef.current.style.scrollSnapType = 'x proximity';
+          articlesCarouselRef.current.style.scrollSnapType = 'x mandatory';
         }
         rafMomentumRef.current = null;
       }
@@ -101,12 +104,29 @@ export const SelectedArticlesSection = React.memo(function SelectedArticlesSecti
     if (Math.abs(v) > 1) {
       rafMomentumRef.current = requestAnimationFrame(decay);
     } else if (articlesCarouselRef.current) {
-      articlesCarouselRef.current.style.scrollSnapType = 'x proximity';
+      articlesCarouselRef.current.style.scrollSnapType = 'x mandatory';
     }
 
     setTimeout(() => {
       hasDraggedRef.current = false;
     }, 120);
+  };
+
+  // Touch handlers to detect finger swipe on mobile and avoid unintended link clicks
+  const handleTouchStart = (e) => {
+    if (e.touches && e.touches[0]) {
+      touchStartXRef.current = e.touches[0].clientX;
+      isTouchSwipingRef.current = false;
+    }
+  };
+
+  const handleTouchMove = (e) => {
+    if (e.touches && e.touches[0]) {
+      const diff = Math.abs(e.touches[0].clientX - touchStartXRef.current);
+      if (diff > 8) {
+        isTouchSwipingRef.current = true;
+      }
+    }
   };
 
   const scrollArticlesCarousel = (direction) => {
@@ -176,13 +196,17 @@ export const SelectedArticlesSection = React.memo(function SelectedArticlesSecti
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
-          className="flex gap-6 lg:gap-8 overflow-x-auto scrollbar-none cursor-grab active:cursor-grabbing select-none pb-4 -mx-4 sm:-mx-8 lg:-mx-16 px-4 sm:px-8 lg:px-16 touch-pan-y scroll-smooth"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          className="flex gap-6 lg:gap-8 overflow-x-auto scrollbar-none cursor-grab active:cursor-grabbing select-none pb-4 -mx-4 sm:-mx-8 lg:-mx-16 px-4 sm:px-8 lg:px-16 touch-pan-y"
           style={{
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
             WebkitOverflowScrolling: 'touch',
             overscrollBehaviorX: 'contain',
-            scrollSnapType: 'x proximity'
+            scrollSnapType: 'x mandatory',
+            scrollPaddingLeft: '1rem',
+            scrollPaddingRight: '1rem'
           }}
         >
         {articlesList.map((article, idx) => {
@@ -234,9 +258,9 @@ export const SelectedArticlesSection = React.memo(function SelectedArticlesSecti
                 href={targetUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-[85vw] sm:w-[380px] md:w-[410px] lg:w-[430px] shrink-0 snap-start group cursor-pointer flex flex-col select-none no-underline"
+                className="w-[82vw] sm:w-[380px] md:w-[410px] lg:w-[430px] shrink-0 snap-start group cursor-pointer flex flex-col select-none no-underline"
                 onClick={(e) => {
-                  if (hasDraggedRef.current) {
+                  if (hasDraggedRef.current || isTouchSwipingRef.current) {
                     e.preventDefault();
                   }
                 }}
@@ -250,9 +274,9 @@ export const SelectedArticlesSection = React.memo(function SelectedArticlesSecti
             <Link
               key={article.id || idx}
               to={targetUrl}
-              className="w-[85vw] sm:w-[380px] md:w-[410px] lg:w-[430px] shrink-0 snap-start group cursor-pointer flex flex-col select-none no-underline"
+              className="w-[82vw] sm:w-[380px] md:w-[410px] lg:w-[430px] shrink-0 snap-start group cursor-pointer flex flex-col select-none no-underline"
               onClick={(e) => {
-                if (hasDraggedRef.current) {
+                if (hasDraggedRef.current || isTouchSwipingRef.current) {
                   e.preventDefault();
                 }
               }}

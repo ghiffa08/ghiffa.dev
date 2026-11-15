@@ -20,6 +20,8 @@ export const SelectedWorksSection = React.memo(function SelectedWorksSection({
   const velocityWorksRef = useRef(0);
   const hasDraggedWorksRef = useRef(false);
   const rafMomentumRef = useRef(null);
+  const touchStartXRef = useRef(0);
+  const isTouchSwipingRef = useRef(false);
 
   // Smooth mouse-wheel horizontal scrolling
   useEffect(() => {
@@ -45,7 +47,8 @@ export const SelectedWorksSection = React.memo(function SelectedWorksSection({
   }, []);
 
   const handleWorksPointerDown = (e) => {
-    if (e.button !== 0 || !worksCarouselRef.current) return;
+    // Only handle mouse drag. Native mobile touch-scrolling handles fingers with pan-y effortlessly!
+    if (e.pointerType !== 'mouse' || e.button !== 0 || !worksCarouselRef.current) return;
     if (rafMomentumRef.current) {
       cancelAnimationFrame(rafMomentumRef.current);
       rafMomentumRef.current = null;
@@ -85,16 +88,16 @@ export const SelectedWorksSection = React.memo(function SelectedWorksSection({
       }
     } catch {}
 
-    // Fluid inertia release
+    // Fluid inertia release for mouse
     let v = velocityWorksRef.current * 1.6;
     const decay = () => {
       if (Math.abs(v) > 0.5 && worksCarouselRef.current) {
         worksCarouselRef.current.scrollLeft -= v;
-        v *= 0.93; // smooth exponential decay
+        v *= 0.93;
         rafMomentumRef.current = requestAnimationFrame(decay);
       } else {
         if (worksCarouselRef.current) {
-          worksCarouselRef.current.style.scrollSnapType = 'x proximity';
+          worksCarouselRef.current.style.scrollSnapType = 'x mandatory';
         }
         rafMomentumRef.current = null;
       }
@@ -103,12 +106,29 @@ export const SelectedWorksSection = React.memo(function SelectedWorksSection({
     if (Math.abs(v) > 1) {
       rafMomentumRef.current = requestAnimationFrame(decay);
     } else if (worksCarouselRef.current) {
-      worksCarouselRef.current.style.scrollSnapType = 'x proximity';
+      worksCarouselRef.current.style.scrollSnapType = 'x mandatory';
     }
 
     setTimeout(() => {
       hasDraggedWorksRef.current = false;
     }, 120);
+  };
+
+  // Touch handlers to detect finger swipe on mobile and avoid unintended link clicks
+  const handleTouchStart = (e) => {
+    if (e.touches && e.touches[0]) {
+      touchStartXRef.current = e.touches[0].clientX;
+      isTouchSwipingRef.current = false;
+    }
+  };
+
+  const handleTouchMove = (e) => {
+    if (e.touches && e.touches[0]) {
+      const diff = Math.abs(e.touches[0].clientX - touchStartXRef.current);
+      if (diff > 8) {
+        isTouchSwipingRef.current = true;
+      }
+    }
   };
 
   const scrollWorksCarousel = (direction) => {
@@ -187,13 +207,17 @@ export const SelectedWorksSection = React.memo(function SelectedWorksSection({
           onPointerMove={handleWorksPointerMove}
           onPointerUp={handleWorksPointerUp}
           onPointerCancel={handleWorksPointerUp}
-          className="flex gap-6 lg:gap-8 overflow-x-auto scrollbar-none cursor-grab active:cursor-grabbing select-none pb-4 -mx-4 sm:-mx-8 lg:-mx-16 px-4 sm:px-8 lg:px-16 touch-pan-y scroll-smooth"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          className="flex gap-6 lg:gap-8 overflow-x-auto scrollbar-none cursor-grab active:cursor-grabbing select-none pb-4 -mx-4 sm:-mx-8 lg:-mx-16 px-4 sm:px-8 lg:px-16 touch-pan-y"
           style={{
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
             WebkitOverflowScrolling: 'touch',
             overscrollBehaviorX: 'contain',
-            scrollSnapType: 'x proximity'
+            scrollSnapType: 'x mandatory',
+            scrollPaddingLeft: '1rem',
+            scrollPaddingRight: '1rem'
           }}
         >
         {projectsList.map((proj, idx) => {
@@ -209,9 +233,9 @@ export const SelectedWorksSection = React.memo(function SelectedWorksSection({
             <Link
               key={proj.id || idx}
               to={`/project/${projectSlug}`}
-              className="w-[85vw] sm:w-[380px] md:w-[410px] lg:w-[430px] shrink-0 snap-start group cursor-pointer flex flex-col select-none no-underline"
+              className="w-[82vw] sm:w-[380px] md:w-[410px] lg:w-[430px] shrink-0 snap-start group cursor-pointer flex flex-col select-none no-underline"
               onClick={(e) => {
-                if (hasDraggedWorksRef.current) {
+                if (hasDraggedWorksRef.current || isTouchSwipingRef.current) {
                   e.preventDefault();
                 }
               }}

@@ -28,6 +28,49 @@ export function PcbViewer3D() {
   const [loading, setLoading] = useState(true);
   const [inView, setInView] = useState(true);
   const [hasWebGL, setHasWebGL] = useState(() => checkWebGLSupport());
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [isInteractiveMode, setIsInteractiveMode] = useState(false);
+  const controlsRef = useRef(null);
+  const autoRotateRef = useRef(true);
+  const rootGroupRef = useRef(null);
+
+  useEffect(() => {
+    // Detect mobile touch capability
+    const touchCheck =
+      typeof window !== 'undefined' &&
+      ('ontouchstart' in window || navigator.maxTouchPoints > 0 || window.matchMedia('(pointer: coarse)').matches);
+    setIsTouchDevice(touchCheck);
+  }, []);
+
+  // Update controls touch mode based on interactive state
+  useEffect(() => {
+    const controls = controlsRef.current;
+    if (!controls) return;
+
+    if (isTouchDevice) {
+      if (isInteractiveMode) {
+        controls.touches = {
+          ONE: THREE.TOUCH.ROTATE,
+          TWO: THREE.TOUCH.DOLLY_PAN
+        };
+        if (controls.domElement) {
+          controls.domElement.style.touchAction = 'none';
+        }
+        autoRotateRef.current = false;
+      } else {
+        // Single touch -> pure native page scroll without hijacking
+        // Two fingers -> rotate
+        controls.touches = {
+          ONE: THREE.TOUCH.NONE,
+          TWO: THREE.TOUCH.ROTATE
+        };
+        if (controls.domElement) {
+          controls.domElement.style.touchAction = 'pan-y';
+        }
+        autoRotateRef.current = true;
+      }
+    }
+  }, [isInteractiveMode, isTouchDevice]);
 
   useEffect(() => {
     if (!inView || !hasWebGL) return;
@@ -40,7 +83,6 @@ export function PcbViewer3D() {
     // ─── SCENE & CAMERA ───────────────────────────────────────────────
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
-    // Camera positioned to view PCB with comfortable perspective
     camera.position.set(0, 2.4, 4.2);
     camera.lookAt(0, 0, 0);
 
@@ -63,18 +105,46 @@ export function PcbViewer3D() {
     renderer.toneMappingExposure = 1.1;
     container.appendChild(renderer.domElement);
 
-    // ─── ORBIT CONTROLS (DRAG TO ROTATE, STATIONARY BY DEFAULT) ───────
+    // CRITICAL: Ensure canvas allows native vertical scrolling on touch devices
+    renderer.domElement.style.touchAction = 'pan-y';
+
+    // ─── ORBIT CONTROLS ───────────────────────────────────────────────
     const controls = new OrbitControls(camera, renderer.domElement);
+    controlsRef.current = controls;
     controls.enableDamping = true;
     controls.dampingFactor = 0.08;
     controls.enableZoom = false; // Disable scroll zoom so page scroll works naturally
     controls.enablePan = false;  // Keep model centered
     controls.rotateSpeed = 0.85;
-    // Allow full 360-degree orbital rotation to inspect both top components and bottom logo uniku
     controls.minPolarAngle = 0.08;
     controls.maxPolarAngle = Math.PI - 0.08;
-    // Anchor target is locked precisely to the true geometric center of the PCB board
     controls.target.set(0, 0, 0);
+
+    const isTouch =
+      typeof window !== 'undefined' &&
+      ('ontouchstart' in window || navigator.maxTouchPoints > 0 || window.matchMedia('(pointer: coarse)').matches);
+
+    if (isTouch) {
+      // By default on mobile, single finger scrolls page smoothly without blocking
+      controls.touches = {
+        ONE: THREE.TOUCH.NONE,
+        TWO: THREE.TOUCH.ROTATE
+      };
+    }
+
+    // Pause auto-rotation when user is interacting via mouse/touch
+    controls.addEventListener('start', () => {
+      autoRotateRef.current = false;
+    });
+    controls.addEventListener('end', () => {
+      if (!isTouch) {
+        // Resume auto-rotation on desktop after a brief pause
+        setTimeout(() => {
+          autoRotateRef.current = true;
+        }, 1200);
+      }
+    });
+
     controls.update();
 
     // ─── LIGHTING ─────────────────────────────────────────────────────
@@ -93,19 +163,17 @@ export function PcbViewer3D() {
     rimLight.position.set(0, -3, -4);
     scene.add(rimLight);
 
-    // Bottom light so the underside (silkscreen & logo uniku) is well illuminated
     const bottomLight = new THREE.DirectionalLight(0xffffff, 1.4);
     bottomLight.position.set(0, -6, 0);
     scene.add(bottomLight);
 
     // ─── ROOT & INNER GROUPS ──────────────────────────────────────────
     const rootGroup = new THREE.Group();
-    // Default initial pose: tilt forward (0.48) and rotate diagonally (0.85) matching showcase screenshot
     rootGroup.rotation.x = 0.48;
     rootGroup.rotation.y = 0.85;
     scene.add(rootGroup);
+    rootGroupRef.current = rootGroup;
 
-    // Lay PCB flat (+Z up so components face upward)
     const innerGroup = new THREE.Group();
     innerGroup.rotation.x = -Math.PI / 2;
     rootGroup.add(innerGroup);
@@ -121,8 +189,6 @@ export function PcbViewer3D() {
         if (isDisposed) return;
         const model = gltf.scene;
 
-        // Find the actual PCB board substrate mesh (the largest flat mesh)
-        // so the anchor/pivot is locked precisely at the center of the board
         let boardMesh = null;
         let maxArea = 0;
         model.traverse((child) => {
@@ -142,15 +208,12 @@ export function PcbViewer3D() {
         const size = boardBox.getSize(new THREE.Vector3());
         const maxDim = Math.max(size.x, size.y);
 
-        // Optimal scale so all diagonal edges remain fully within bounds at any rotation angle
         const targetSize = 3.2;
         const scale = maxDim > 0 ? targetSize / maxDim : 1;
 
         model.scale.set(scale, scale, scale);
-        // Correct centering so the exact geometric center of the PCB board substrate sits at (0, 0, 0)
         model.position.set(-center.x * scale, -center.y * scale, -center.z * scale);
 
-        // Enhance materials
         model.traverse((child) => {
           if (child.isMesh && child.material) {
             child.material.roughness = Math.min(child.material.roughness ?? 0.5, 0.4);
@@ -169,12 +232,18 @@ export function PcbViewer3D() {
       }
     );
 
-    // ─── RENDER LOOP (STATIONARY UNLESS DRAGGED) ──────────────────────
+    // ─── RENDER LOOP WITH GRACEFUL AUTO-ROTATION ──────────────────────
     let animId;
 
     const animate = () => {
       animId = requestAnimationFrame(animate);
-      controls.update(); // Handles damping deceleration after dragging
+
+      // Elegant gentle auto-rotation when idle
+      if (autoRotateRef.current && rootGroupRef.current) {
+        rootGroupRef.current.rotation.y += 0.0035;
+      }
+
+      controls.update();
       renderer.render(scene, camera);
     };
 
@@ -217,17 +286,46 @@ export function PcbViewer3D() {
 
   return (
     <div className="relative w-full h-[220px] sm:h-[250px] xl:h-[270px] mt-2 sm:mt-3 -translate-y-2 sm:-translate-y-3 flex items-center justify-center select-none">
-      {/* 3D Canvas with drag-to-rotate cursor */}
+      {/* 3D Canvas */}
       <div
         ref={containerRef}
-        className={`w-full h-full cursor-grab active:cursor-grabbing transition-all duration-700 ease-out group-hover:-translate-y-2 ${loading ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'}`}
-        style={{ touchAction: 'pan-y' }}
+        className={`w-full h-full transition-all duration-700 ease-out group-hover:-translate-y-2 ${
+          isTouchDevice
+            ? isInteractiveMode
+              ? 'cursor-grab active:cursor-grabbing touch-none'
+              : 'touch-pan-y'
+            : 'cursor-grab active:cursor-grabbing'
+        } ${loading ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'}`}
+        style={{ touchAction: isInteractiveMode ? 'none' : 'pan-y' }}
       />
 
       {/* PCB Hardware Skeleton Loader (No spinner) */}
       {loading && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-500">
           <PcbSkeleton />
+        </div>
+      )}
+
+      {/* Mobile Interactive Touch Toggle Badge (Prevents touch-scroll lock, allows seamless 3D inspection when wanted) */}
+      {!loading && isTouchDevice && (
+        <div className="absolute bottom-1 right-2 z-20 flex items-center gap-1.5">
+          <button
+            type="button"
+            onClick={() => setIsInteractiveMode((prev) => !prev)}
+            className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-medium backdrop-blur-md transition-all shadow-md flex items-center gap-1.5 cursor-pointer select-none active:scale-95 ${
+              isInteractiveMode
+                ? 'bg-black/90 text-[#FF5500] border border-[#FF5500]/60 ring-2 ring-[#FF5500]/30'
+                : 'bg-white/90 text-gray-800 border border-white/60 hover:bg-white'
+            }`}
+            title={isInteractiveMode ? 'Lock 3D and restore smooth page scroll' : 'Enable 1-finger 3D model rotation'}
+          >
+            <span
+              className={`w-1.5 h-1.5 rounded-full ${
+                isInteractiveMode ? 'bg-[#FF5500] animate-pulse' : 'bg-emerald-500'
+              }`}
+            />
+            <span>{isInteractiveMode ? 'Rotate Active (Tap to Lock)' : '3D • Tap to Rotate'}</span>
+          </button>
         </div>
       )}
     </div>

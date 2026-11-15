@@ -10,7 +10,6 @@ import {
   ServiceCardsSection,
   AboutMeSection,
   ProfessionalJourneySection,
-  CertificationsSection,
   SelectedWorksSection,
   SkillstreakBannerSection,
   SelectedArticlesSection,
@@ -777,19 +776,12 @@ export default function Portfolio({
         />
       ))}
 
-      {/* Certifications Bento Grid Section */}
-      {renderSectionWrapper('certifications', 'Certifications & HAKI', (sec) => (
-        <CertificationsSection
-          bentoCertificates={bentoCertificates}
-          onSelectCert={setCertModalItem}
-          sectionData={sec}
-        />
-      ))}
-
-      {/* Selected Works Draggable Carousel Section */}
-      {renderSectionWrapper('works', 'Selected Works', (sec) => (
+      {/* Selected Works & Certifications 2-Folder Pocket Showcase */}
+      {renderSectionWrapper('works', 'Selected Works & Certifications', (sec) => (
         <SelectedWorksSection
           projectsList={projectsList}
+          bentoCertificates={bentoCertificates}
+          onSelectCert={setCertModalItem}
           isBannerDark={isBannerDark}
           onOpenContact={openContactModal}
           sectionData={sec}

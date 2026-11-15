@@ -26,10 +26,9 @@ function checkWebGLSupport() {
 export function PcbViewer3D() {
   const containerRef = useRef(null);
   const [loading, setLoading] = useState(true);
-  const [inView, setInView] = useState(true);
+  const inView = true;
   const [hasWebGL, setHasWebGL] = useState(() => checkWebGLSupport());
   const [isTouchDevice, setIsTouchDevice] = useState(false);
-  const [isInteractiveMode, setIsInteractiveMode] = useState(false);
   const controlsRef = useRef(null);
   const autoRotateRef = useRef(true);
   const rootGroupRef = useRef(null);
@@ -42,35 +41,22 @@ export function PcbViewer3D() {
     setIsTouchDevice(touchCheck);
   }, []);
 
-  // Update controls touch mode based on interactive state
+  // Touch devices: allow 1-finger vertical page scroll, 2-finger rotate, smooth auto-rotation
   useEffect(() => {
     const controls = controlsRef.current;
     if (!controls) return;
 
     if (isTouchDevice) {
-      if (isInteractiveMode) {
-        controls.touches = {
-          ONE: THREE.TOUCH.ROTATE,
-          TWO: THREE.TOUCH.DOLLY_PAN
-        };
-        if (controls.domElement) {
-          controls.domElement.style.touchAction = 'none';
-        }
-        autoRotateRef.current = false;
-      } else {
-        // Single touch -> pure native page scroll without hijacking
-        // Two fingers -> rotate
-        controls.touches = {
-          ONE: THREE.TOUCH.NONE,
-          TWO: THREE.TOUCH.ROTATE
-        };
-        if (controls.domElement) {
-          controls.domElement.style.touchAction = 'pan-y';
-        }
-        autoRotateRef.current = true;
+      controls.touches = {
+        ONE: THREE.TOUCH.NONE,
+        TWO: THREE.TOUCH.ROTATE
+      };
+      if (controls.domElement) {
+        controls.domElement.style.touchAction = 'pan-y';
       }
+      autoRotateRef.current = true;
     }
-  }, [isInteractiveMode, isTouchDevice]);
+  }, [isTouchDevice]);
 
   useEffect(() => {
     if (!inView || !hasWebGL) return;
@@ -274,7 +260,7 @@ export function PcbViewer3D() {
         container.removeChild(renderer.domElement);
       }
     };
-  }, [inView]);
+  }, [inView, hasWebGL]);
 
   if (hasWebGL === false) {
     return (
@@ -289,43 +275,16 @@ export function PcbViewer3D() {
       {/* 3D Canvas */}
       <div
         ref={containerRef}
-        className={`w-full h-full transition-all duration-700 ease-out group-hover:-translate-y-2 ${
-          isTouchDevice
-            ? isInteractiveMode
-              ? 'cursor-grab active:cursor-grabbing touch-none'
-              : 'touch-pan-y'
-            : 'cursor-grab active:cursor-grabbing'
-        } ${loading ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'}`}
-        style={{ touchAction: isInteractiveMode ? 'none' : 'pan-y' }}
+        className={`w-full h-full transition-all duration-700 ease-out group-hover:-translate-y-2 cursor-grab active:cursor-grabbing ${
+          loading ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'
+        }`}
+        style={{ touchAction: 'pan-y' }}
       />
 
       {/* PCB Hardware Skeleton Loader (No spinner) */}
       {loading && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-500">
           <PcbSkeleton />
-        </div>
-      )}
-
-      {/* Mobile Interactive Touch Toggle Badge (Prevents touch-scroll lock, allows seamless 3D inspection when wanted) */}
-      {!loading && isTouchDevice && (
-        <div className="absolute bottom-1 right-2 z-20 flex items-center gap-1.5">
-          <button
-            type="button"
-            onClick={() => setIsInteractiveMode((prev) => !prev)}
-            className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-medium backdrop-blur-md transition-all shadow-md flex items-center gap-1.5 cursor-pointer select-none active:scale-95 ${
-              isInteractiveMode
-                ? 'bg-black/90 text-[#FF5500] border border-[#FF5500]/60 ring-2 ring-[#FF5500]/30'
-                : 'bg-white/90 text-gray-800 border border-white/60 hover:bg-white'
-            }`}
-            title={isInteractiveMode ? 'Lock 3D and restore smooth page scroll' : 'Enable 1-finger 3D model rotation'}
-          >
-            <span
-              className={`w-1.5 h-1.5 rounded-full ${
-                isInteractiveMode ? 'bg-[#FF5500] animate-pulse' : 'bg-emerald-500'
-              }`}
-            />
-            <span>{isInteractiveMode ? 'Rotate Active (Tap to Lock)' : '3D • Tap to Rotate'}</span>
-          </button>
         </div>
       )}
     </div>

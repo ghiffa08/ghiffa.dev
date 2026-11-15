@@ -76,9 +76,9 @@ export function AboutMeSection({ _avatarImage, _fullName, aboutBio, educationLis
             metal="silver"
             strapColor="#18181B"
             strapWidth={0.65}
-            size={w => (w >= 1024 ? 0.46 : 0.35)}
+            size={w => (w >= 1024 ? 0.46 : w >= 640 ? 0.34 : 0.29)}
             anchor={w => (w >= 1024 ? 0.29 : 0.5)}
-            strapLength={w => (w >= 1024 ? 0.60 : 0.35)}
+            strapLength={w => (w >= 1024 ? 0.60 : w >= 640 ? 0.28 : 0.20)}
             cornerRadius={0.3}
             intro={true}
             gravity={1.2}
@@ -96,7 +96,7 @@ export function AboutMeSection({ _avatarImage, _fullName, aboutBio, educationLis
         <ScrollReveal
           delay={0.1}
           y={36}
-          className="lg:col-span-5 flex flex-col items-center justify-end relative self-stretch min-h-[300px] sm:min-h-[380px] lg:min-h-[640px] pointer-events-none"
+          className="lg:col-span-5 flex flex-col items-center justify-end relative self-stretch min-h-[440px] sm:min-h-[480px] lg:min-h-[640px] pointer-events-none"
         >
           {/* Spacer so the card in Layer 0 is unobstructed and directly interactive */}
           <div className="flex-1 w-full" />
@@ -212,7 +212,7 @@ export function AboutMeSection({ _avatarImage, _fullName, aboutBio, educationLis
               <div
                 data-builder-field="status_badge"
                 data-builder-label="Availability Badge"
-                className="relative inline-flex items-center gap-2 bg-white text-gray-800 text-[12px] sm:text-[12.5px] font-medium px-4 py-2 rounded-2xl border border-gray-200/90 shadow-2xs hover:border-gray-300 transition-colors select-none"
+                className="relative inline-flex items-center gap-2 bg-white text-gray-800 text-[12px] sm:text-[12.5px] font-medium px-4 py-2 rounded-2xl border border-gray-200/90 shadow-2xs hover:border-gray-300 transition-colors select-none max-w-full"
               >
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                 <span>{statusBadge}</span>

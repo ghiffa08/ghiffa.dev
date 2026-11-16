@@ -102,7 +102,7 @@ export default function WorksPage() {
             </div>
 
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#141414] leading-[1.05] mb-4">
-              works
+              Selected Works
             </h1>
 
             <p className="text-sm sm:text-base text-gray-600 leading-relaxed max-w-2xl font-normal">

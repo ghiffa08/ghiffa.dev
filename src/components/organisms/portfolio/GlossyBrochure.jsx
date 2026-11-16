@@ -39,7 +39,7 @@ export function GlossyBrochure({ project, image, accent = '#FF5500', className =
           )}
         </div>
 
-        {/* Ultra-clean editorial copy */}
+        {/* Ultra-clean modern brochure copy */}
         <div className="flex-1 flex flex-col justify-center px-3.5 text-left">
           <div className="w-5 h-px bg-[#111]/70 mb-2" />
           <p className="text-[10.5px] sm:text-[11.5px] font-medium leading-[1.2] tracking-[-0.01em] text-[#111] line-clamp-2">

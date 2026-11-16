@@ -60,7 +60,7 @@ export const DEFAULT_LANDING_SECTIONS = {
   },
   about: {
     id: 'about',
-    title: 'about me',
+    title: 'About Me',
     subtitle: 'Selection Highlight',
     is_active: true,
     content: {
@@ -71,7 +71,7 @@ export const DEFAULT_LANDING_SECTIONS = {
   },
   journey: {
     id: 'journey',
-    title: 'professional journey',
+    title: 'Professional Journey',
     subtitle: 'Experience',
     is_active: true,
     content: {
@@ -89,7 +89,7 @@ export const DEFAULT_LANDING_SECTIONS = {
   },
   works: {
     id: 'works',
-    title: 'selected works',
+    title: 'Selected Works',
     subtitle: 'Portfolio',
     is_active: true,
     content: {
@@ -110,7 +110,7 @@ export const DEFAULT_LANDING_SECTIONS = {
   },
   articles: {
     id: 'articles',
-    title: 'selected articles',
+    title: 'Selected Articles',
     subtitle: 'Journal',
     is_active: true,
     content: {
@@ -119,7 +119,7 @@ export const DEFAULT_LANDING_SECTIONS = {
   },
   instagram: {
     id: 'instagram',
-    title: 'instagram posts',
+    title: 'Instagram Journal',
     subtitle: 'Social Feed',
     is_active: true,
     content: {
@@ -129,7 +129,7 @@ export const DEFAULT_LANDING_SECTIONS = {
   },
   cta: {
     id: 'cta',
-    title: 'communication matters',
+    title: 'Communication Matters',
     subtitle: 'Contact Inquiry',
     is_active: true,
     content: {

@@ -6,7 +6,7 @@ import { ScrollReveal } from '../../atoms/ScrollReveal';
 const POSTS_PER_PAGE = 6;
 
 export const InstagramPostsSection = React.memo(function InstagramPostsSection({ sectionData }) {
-  const sectionTitle = sectionData?.title || 'instagram posts';
+  const sectionTitle = sectionData?.title || 'Instagram Journal';
   const handle = sectionData?.content?.handle || '@haikaljibraan';
   const cleanHandle = handle.replace('@', '');
 

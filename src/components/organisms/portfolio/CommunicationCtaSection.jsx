@@ -10,11 +10,11 @@ export function CommunicationCtaSection({ emailAddress, sectionData }) {
   const isCtaInView = useInView(ctaHighlightRef, { once: true, margin: '-60px 0px -40px 0px' });
 
   // Normalize titles to avoid repetition if saved with old duplicated strings
-  let rawTitle = sectionData?.title || 'communication matters';
+  let rawTitle = sectionData?.title || 'Communication Matters';
   let highlightText = sectionData?.content?.highlight_text || 'to start good things/';
 
   if (rawTitle.toLowerCase().includes('to start good things/')) {
-    rawTitle = 'communication matters';
+    rawTitle = 'Communication Matters';
     highlightText = 'to start good things/';
   }
 
@@ -27,7 +27,7 @@ export function CommunicationCtaSection({ emailAddress, sectionData }) {
     <section id="contact" className="relative py-16 sm:py-28 lg:py-36 px-4 sm:px-8 lg:px-12 max-w-[1280px] mx-auto overflow-hidden">
       <ScrollReveal delay={0.05} y={32} className="flex flex-col items-center text-center">
         {/* Display Headline with Signature Selection Highlight */}
-        <h2 className="text-2xl min-[360px]:text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[84px] font-bold tracking-tight text-[#141414] leading-[1.1] sm:leading-[0.98] lowercase select-none max-w-5xl px-2">
+        <h2 className="text-3xl min-[360px]:text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#141414] leading-[1.15] select-none max-w-4xl px-2">
           <span
             data-builder-field="title"
             data-builder-label="CTA Main Title"

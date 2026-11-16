@@ -5,23 +5,15 @@ import {
   Share2,
   Check,
   Copy,
-  Clock,
-  Calendar,
   X,
   MessageCircle,
   Bookmark,
   Play,
   Pause,
-  Square,
-  MoreHorizontal,
   Send,
-  ExternalLink,
   Volume2,
-  VolumeX,
   SkipBack,
   SkipForward,
-  Languages,
-  Sparkles,
   Trash2
 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
@@ -236,6 +228,7 @@ export default function ArticleDetailPage() {
   const [speechRate, setSpeechRate] = useState(1.0); // 0.85, 1.0, 1.25, 1.5
   const [speechLang, setSpeechLang] = useState('id-ID'); // 'id-ID' or 'en-US'
   const [availableVoices, setAvailableVoices] = useState([]);
+  const [totalChunksCount, setTotalChunksCount] = useState(1);
 
   const isMountedRef = useRef(true);
   const isPlayingRef = useRef(false);
@@ -479,6 +472,7 @@ export default function ArticleDetailPage() {
     // Start fresh
     const chunks = prepareSpeechChunks(article?.title, article?.description, processedContent.content);
     chunksRef.current = chunks;
+    setTotalChunksCount(chunks.length || 1);
     setAudioState('playing');
     isPlayingRef.current = true;
     consecutiveErrorsRef.current = 0;
@@ -921,7 +915,7 @@ export default function ArticleDetailPage() {
     ]
   };
 
-  const totalChunks = chunksRef.current.length || 1;
+  const totalChunks = totalChunksCount;
   const chunkProgressPercent = Math.round(((currentChunkIdx + 1) / totalChunks) * 100);
 
   return (
@@ -992,7 +986,7 @@ export default function ArticleDetailPage() {
 
               {/* Subtitle / Description */}
               {article.description && (
-                <p className="text-lg sm:text-xl text-gray-500 font-normal leading-relaxed mb-6 font-serif sm:font-sans">
+                <p className="text-lg sm:text-xl text-gray-500 font-normal leading-relaxed mb-6 font-sans">
                   {article.description}
                 </p>
               )}
@@ -1174,7 +1168,7 @@ export default function ArticleDetailPage() {
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 components={{
-                  img: ({ node, ...props }) => (
+                  img: ({ node: _node, ...props }) => (
                     <RefineImage
                       src={props.src}
                       alt={props.alt || ''}

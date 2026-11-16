@@ -45,24 +45,24 @@ const formatPeriod = (period) => {
 
 export const ProfessionalJourneySection = React.memo(function ProfessionalJourneySection({ experiencesList, sectionData }) {
   const { t } = useTranslation();
-  const sectionTitle = sectionData?.title || 'professional journey';
+  const sectionTitle = sectionData?.title || 'Professional Journey';
 
   return (
     <section id="journey" className="relative py-20 sm:py-28 px-4 sm:px-8 lg:px-12 max-w-[1280px] mx-auto border-t border-gray-100">
       <div id="experience" className="absolute -top-24" />
 
-      {/* Section Header: Full-width display title matching reference */}
-      <ScrollReveal delay={0.05} y={30} className="mb-14 sm:mb-20">
+      {/* Section Header: Modern Clean Title */}
+      <ScrollReveal delay={0.05} y={20} className="mb-10 sm:mb-14">
         <h2
           data-builder-field="title"
           data-builder-label="Journey Section Title"
-          className="text-4xl min-[400px]:text-5xl sm:text-7xl md:text-8xl lg:text-[110px] xl:text-[124px] 2xl:text-[130px] lg:whitespace-nowrap font-bold text-[#141414] tracking-tight sm:tracking-tighter leading-[0.88] lowercase select-none"
+          className="text-3xl sm:text-4xl lg:text-[44px] font-bold tracking-tight text-[#141414]"
         >
           {sectionTitle}
         </h2>
       </ScrollReveal>
 
-      {/* Clean Editorial Experience List (Non-card, consistent with theme) */}
+      {/* Clean Modern Experience List */}
       <div className="divide-y divide-gray-200/80">
         {experiencesList.map((exp, idx) => {
           const indexNumber = String(idx + 1).padStart(2, '0');

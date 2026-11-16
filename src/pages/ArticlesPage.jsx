@@ -10,7 +10,7 @@ import { RefineImage } from '../components/RefineImage';
 import { formatReadTime } from '../utils/formatReadTime';
 
 /**
- * Format ISO timestamp into clean editorial format (e.g., "12 OKT 2024").
+ * Format ISO timestamp into clean date format (e.g., "12 OKT 2024").
  */
 const formatDate = (timestamp) => {
   if (!timestamp) return '';
@@ -83,7 +83,7 @@ export default function ArticlesPage() {
             </div>
 
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#141414] leading-[1.05] mb-4">
-              articles
+              Articles
             </h1>
 
             <p className="text-sm sm:text-base text-gray-600 leading-relaxed max-w-2xl font-normal">
@@ -182,7 +182,7 @@ export default function ArticlesPage() {
                         />
                       ) : (
                         <div className="w-full h-full bg-gradient-to-br from-neutral-800 to-neutral-950 flex items-center justify-center text-white/40 font-mono text-xs uppercase tracking-wider">
-                          ghiffa.dev editorial
+                          ghiffa.dev articles
                         </div>
                       )}
                     </div>

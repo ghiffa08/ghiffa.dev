@@ -49,7 +49,7 @@ export function AboutMeSection({ _avatarImage, _fullName, aboutBio, educationLis
   const isHeaderInView = useInView(headerRef, { once: true, margin: '-60px 0px -40px 0px' });
 
   // Keep Lanyard container clean and positioned at -top-20 so anchor sits behind navbar
-  const sectionTitle = sectionData?.title || 'about me';
+  const sectionTitle = sectionData?.title || 'About Me';
   const customBio = sectionData?.content?.bio;
   const educationTitle = sectionData?.content?.education_title || 'Education';
   const languagesTitle = sectionData?.content?.languages_title || 'Languages & Specialization';
@@ -125,7 +125,7 @@ export function AboutMeSection({ _avatarImage, _fullName, aboutBio, educationLis
             <div className="bg-[#FFF2EB] border-y border-[#FF5500]/30 px-5 sm:px-7 py-2 sm:py-2.5 flex items-center whitespace-nowrap">
               <h2
                 aria-label={sectionTitle}
-                className="text-3xl sm:text-4xl lg:text-[46px] font-bold tracking-tight text-[#141414] lowercase leading-none whitespace-nowrap flex items-center"
+                className="text-3xl sm:text-4xl lg:text-[46px] font-bold tracking-tight text-[#141414] leading-none whitespace-nowrap flex items-center"
               >
                 <TypewriterText text={sectionTitle} trigger={isHeaderInView} delay={650} speed={90} />
               </h2>

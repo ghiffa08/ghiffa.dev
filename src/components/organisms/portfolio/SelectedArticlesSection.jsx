@@ -8,7 +8,7 @@ export const SelectedArticlesSection = React.memo(function SelectedArticlesSecti
   articlesList,
   sectionData
 }) {
-  const sectionTitle = sectionData?.title || 'selected articles';
+  const sectionTitle = sectionData?.title || 'Selected Articles';
   const ctaText = sectionData?.content?.cta_text || 'Explore all articles →';
   const articlesCarouselRef = useRef(null);
   const isDraggingRef = useRef(false);
@@ -246,7 +246,7 @@ export const SelectedArticlesSection = React.memo(function SelectedArticlesSecti
                   />
                 ) : (
                   <div className="w-full h-full bg-gradient-to-br from-neutral-800 to-neutral-950 flex items-center justify-center text-white/40 font-mono text-xs uppercase tracking-wider">
-                    ghiffa.dev editorial
+                    ghiffa.dev articles
                   </div>
                 )}
               </div>

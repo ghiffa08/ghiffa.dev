@@ -96,7 +96,7 @@ export function AboutMeSection({ _avatarImage, _fullName, aboutBio, educationLis
         <ScrollReveal
           delay={0.1}
           y={36}
-          className="lg:col-span-5 flex flex-col items-center justify-end relative self-stretch min-h-[440px] sm:min-h-[480px] lg:min-h-[640px] pointer-events-none"
+          className="lg:col-span-5 flex flex-col items-center justify-end relative self-stretch min-h-[365px] sm:min-h-[440px] lg:min-h-[640px] pointer-events-none"
         >
           {/* Spacer so the card in Layer 0 is unobstructed and directly interactive */}
           <div className="flex-1 w-full" />
@@ -140,9 +140,10 @@ export function AboutMeSection({ _avatarImage, _fullName, aboutBio, educationLis
 
           {/* Bio Narrative Paragraph */}
           <div
+            lang="en"
             data-builder-field="bio"
             data-builder-label="Bio Narrative Paragraph"
-            className="text-[14.5px] sm:text-[15.5px] text-gray-600 leading-relaxed space-y-3 font-normal max-w-2xl text-justify [&>p]:leading-relaxed [&>p]:text-justify [&>strong]:text-gray-900 [&>strong]:font-semibold"
+            className="text-[14px] sm:text-[15.5px] text-gray-600 leading-[1.7] sm:leading-relaxed space-y-3.5 font-normal max-w-2xl text-justify hyphens-auto [text-align-last:left] [text-justify:inter-word] tracking-[-0.01em] [&>p]:leading-[1.7] [&>p]:sm:leading-relaxed [&>p]:text-justify [&>p]:hyphens-auto [&>p]:[text-align-last:left] [&>strong]:text-gray-900 [&>strong]:font-semibold"
           >
             {effectiveBio ? (
               <ReactMarkdown>{effectiveBio}</ReactMarkdown>
